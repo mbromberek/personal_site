@@ -1,7 +1,8 @@
+# Custom imports
 from app import app
+from app.main import bp
 
-
-@app.route('/')
-@app.route('/index')
+@bp.route('/')
+@bp.route('/index')
 def index():
     return "Mike Bromberek Personal Website!"
