@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+    <h1>Hi, {{ user.displayname }}</h1>
+    <br>
+    <table class="table table-hover">
+        <tr>
+    {% for workout in workouts %}
+        {% include '_workout.html' %}
+    {% endfor %}
+        </tr>
+    </table>
+
+{% endblock %}
