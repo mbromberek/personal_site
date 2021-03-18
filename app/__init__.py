@@ -19,8 +19,6 @@ from flask_bootstrap import Bootstrap
 # Custom imports
 from config import Config
 
-app = Flask(__name__)
-
 bootstrap = Bootstrap()
 
 def create_app(config_class=Config):

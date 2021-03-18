@@ -11,7 +11,6 @@ from flask import render_template, flash, redirect, url_for, request, g, \
     jsonify, current_app
 
 # Custom imports
-from app import app
 from app.main import bp
 
 @bp.route('/')
