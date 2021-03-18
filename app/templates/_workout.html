@@ -1,12 +1,30 @@
-        <td width="70px">
-            {{ workout.type }}
-        </td>
-        <td>
-            {{ workout.duration }}
-        </td>
-        <td>
-            {{ workout.distance }}
-        </td>
-        <td>
-            {{ workout.pace }}
-        </td>
+        <tr>
+            <td>
+                Type
+            </td>
+            <td>
+                Duration
+            </td>
+            <td>
+                Distance
+            </td>
+            <td>
+                Pace
+            </td>
+        </tr>
+{% for workout in workouts %}
+        <tr>
+            <td width="70px">
+                {{ workout.type }}
+            </td>
+            <td>
+                {{ workout.duration }}
+            </td>
+            <td>
+                {{ workout.distance }}
+            </td>
+            <td>
+                {{ workout.pace }}
+            </td>
+        </tr>
+{% endfor %}

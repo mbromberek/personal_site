@@ -18,7 +18,7 @@ from app.main import bp
 @bp.route('/index')
 def index():
     user = {'displayname': 'Mike'}
-    workouts = [{'type':'Running', 'duration':'20m 56s', 'distance': '3.11', 'pace': '6m 44s'}]
+    workouts = [{'type':'Running', 'duration':'20m 56s', 'distance': '3.11', 'pace': '6m 44s'}, {'type':'Running', 'duration':'3h 35m 53s', 'distance': '26.2', 'pace': '8m 13s'}]
     result = '''
 <html>
     <head>

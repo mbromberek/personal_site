@@ -4,11 +4,7 @@
     <h1>Hi, {{ user.displayname }}</h1>
     <br>
     <table class="table table-hover">
-        <tr>
-    {% for workout in workouts %}
-        {% include '_workout.html' %}
-    {% endfor %}
-        </tr>
+    {% include '_workout.html' %}
     </table>
 
 {% endblock %}
