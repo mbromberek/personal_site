@@ -1,7 +1,7 @@
 {% extends 'bootstrap/base.html' %}
 
 {% block title %}
-    {% if title %}{{ title }} - Microblog{% else %}Welcome to Microblog{% endif %}
+    {% if title %}{{ title }} - Mike's Site{% else %}Mike's Site{% endif %}
 {% endblock %}
 
 {% block navbar %}
@@ -22,7 +22,7 @@
                 </ul>
                 <ul class="nav navbar-nav">
                     <li>
-                        <a href="{{ url_for('main.index') }}">
+                        <a href="{{ url_for('main.workouts') }}">
                             Workouts
                         </a>
                     </li>

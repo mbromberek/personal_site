@@ -19,14 +19,12 @@ from app.main import bp
 def index():
     user = {'displayname': 'Mike'}
     workouts = [{'type':'Running', 'duration':'20m 56s', 'distance': '3.11', 'pace': '6m 44s'}, {'type':'Running', 'duration':'3h 35m 53s', 'distance': '26.2', 'pace': '8m 13s'}]
-    result = '''
-<html>
-    <head>
-        <title>Home Page - Mike Bromberek</title>
-    </head>
-    <body>
-        <h1>Hello, ''' + user['displayname'] + '''!</h1>
-    </body>
-</html>'''
 
     return render_template('index.html', title='Home Page', user=user, workouts=workouts)
+
+@bp.route('/workouts')
+def workouts():
+    user = {'displayname': 'Mike'}
+    workouts = [{'type':'Running', 'duration':'20m 56s', 'distance': '3.11', 'pace': '6m 44s'}, {'type':'Running', 'duration':'3h 35m 53s', 'distance': '26.2', 'pace': '8m 13s'}]
+
+    return render_template('workouts.html', title='Workouts', user=user, workouts=workouts)
