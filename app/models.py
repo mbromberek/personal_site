@@ -8,9 +8,10 @@ All rights reserved.
 '''
 
 # First Party Classes
+from datetime import datetime, timedelta
 
 # Third party classes
-from flask_login import UserMixin
+# from flask_login import UserMixin
 
 # Custom Classes
 from app import db
@@ -19,7 +20,8 @@ from app import db
 '''
 Store database table structures and functions for the data
 '''
-class User(PaginatedAPIMixin, UserMixin, db.Model):
+# class User(PaginatedAPIMixin, UserMixin, db.Model):
+class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(120), index=True, unique=True)
     password_hash = db.Column(db.String(128))
@@ -37,14 +39,14 @@ class User(PaginatedAPIMixin, UserMixin, db.Model):
         return check_password_hash(self.password_hash, password)
 
 
-class Workout(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    wrkt_dttm = db.Column(db.DateTime, index=True)
-    type = db.Column(db.String(50))
-    dur_sec = db.Column(db.Integer(50))
-    body = db.Column(db.String(140))
-    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
-
-    def __repr__(self):
-        return '<Workout {}: {}>'.format(self.type, self.wrkt_dttm)
+# class Workout(db.Model):
+#     id = db.Column(db.Integer, primary_key=True)
+#     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+#     wrkt_dttm = db.Column(db.DateTime, index=True)
+#     type = db.Column(db.String(50))
+#     dur_sec = db.Column(db.Integer(50))
+#     body = db.Column(db.String(140))
+#     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+#
+#     def __repr__(self):
+#         return '<Workout {}: {}>'.format(self.type, self.wrkt_dttm)

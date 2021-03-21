@@ -6,6 +6,12 @@ Copyright (c) 2021, Mike Bromberek
 All rights reserved.
 '''
 
-from app import create_app
+# Custom classes
+from app import create_app, db
+from app.models import User
 
 app = create_app()
+
+@app.shell_context_processor
+def make_shell_context():
+    return {'db': db, 'User': User}
