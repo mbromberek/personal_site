@@ -1,3 +1,12 @@
+{#
+    BSD 3-Clause License
+    Copyright (c) 2021, Mike Bromberek
+    All rights reserved.
+
+Base HTML code for each web page
+
+#}
+
 {% extends 'bootstrap/base.html' %}
 
 {% block title %}
@@ -19,6 +28,9 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li><a href="{{ url_for('main.index') }}">Home</a></li>
+                </ul>
+                <ul class="nav navbar-nav">
+                    <li><a href="{{ url_for('auth.login') }}">Login</a></li>
                 </ul>
                 <ul class="nav navbar-nav">
                     <li>
