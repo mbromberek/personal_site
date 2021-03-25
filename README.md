@@ -22,12 +22,14 @@ deactivate
 workon personal_site
 python app.py
 workon #See all projects
+
 ```
 
 ## Run Flask server
 ```
-export FLASK_APP=site.py
-flask run
+$ export FLASK_APP=site.py
+$ flask run
+$ flask shell
 ```
 
 ## DB Upgrades and migrations

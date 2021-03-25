@@ -39,14 +39,60 @@ class User(db.Model):
         return check_password_hash(self.password_hash, password)
 
 
-# class Workout(db.Model):
-#     id = db.Column(db.Integer, primary_key=True)
-#     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-#     wrkt_dttm = db.Column(db.DateTime, index=True)
-#     type = db.Column(db.String(50))
-#     dur_sec = db.Column(db.Integer(50))
-#     body = db.Column(db.String(140))
-#     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
-#
-#     def __repr__(self):
-#         return '<Workout {}: {}>'.format(self.type, self.wrkt_dttm)
+class Workout(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    # Running | Cycling | Swimming | Indoor Running
+    type = db.Column(db.String(50), index=True, nullable=False)
+    wrkt_dttm = db.Column(db.DateTime, index=True, nullable=False)
+    dur_sec = db.Column(db.Integer())
+    dist_mi = db.Column(db.Numeric(8,2))
+    pace_sec = db.Column(db.Integer())
+    gear = db.Column(db.String(50))
+    clothes = db.Column(db.Text())
+    ele_up = db.Column(db.Numeric(8,2))
+    ele_down = db.Column(db.Numeric(8,2))
+    hr = db.Column(db.SmallInteger())
+    cal_burn = db.Column(db.Integer())
+
+    # Training | Easy | Long Run
+    category = db.Column(db.String(50))
+    location = db.Column(db.String(50))
+    # 800m repeats | hills
+    training_type = db.Column(db.String(50))
+
+    temp_strt = db.Column(db.Numeric(8,2))
+    temp_feels_like_strt = db.Column(db.Numeric(8,2))
+    wethr_cond_strt = db.Column(db.Numeric(8,2))
+    hmdty_strt = db.Column(db.Numeric(8,2))
+    wind_speed_strt = db.Column(db.Numeric(8,2))
+    wind_gust_strt = db.Column(db.Numeric(8,2))
+
+    temp_end = db.Column(db.Numeric(8,2))
+    temp_feels_like_end = db.Column(db.Numeric(8,2))
+    wethr_cond_end = db.Column(db.Numeric(8,2))
+    hmdty_end = db.Column(db.Numeric(8,2))
+    wind_speed_end = db.Column(db.Numeric(8,2))
+    wind_gust_end = db.Column(db.Numeric(8,2))
+
+    notes = db.Column(db.Text())
+
+    warm_up_tot_dist_mi = db.Column(db.Numeric(5,2))
+    warm_up_tot_tm_sec = db.Column(db.Integer())
+    warm_up_tot_pace_sec = db.Column(db.Integer())
+    cool_down_tot_dist_mi = db.Column(db.Numeric(5,2))
+    cool_down_tot_tm_sec = db.Column(db.Integer())
+    cool_down_tot_pace_sec = db.Column(db.Integer())
+    intrvl_tot_dist_mi = db.Column(db.Numeric(5,2))
+    intrvl_tot_tm_sec = db.Column(db.Integer())
+    intrvl_tot_pace_sec = db.Column(db.Integer())
+    intrvl_tot_ele_up = db.Column(db.Numeric(8,2))
+    intrvl_tot_ele_down = db.Column(db.Numeric(8,2))
+
+    isrt_ts = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+
+    def __repr__(self):
+        return '<Workout {}: {}>'.format(self.type, self.wrkt_dttm)
+
+
+# class Workout_Intervals(db.Model):
