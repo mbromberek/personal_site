@@ -27,7 +27,7 @@ workon #See all projects
 
 ## Run Flask server
 ```
-$ export FLASK_APP=site.py
+$ export FLASK_APP=p_site.py
 $ flask run
 $ flask shell
 ```
