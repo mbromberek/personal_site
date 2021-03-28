@@ -21,5 +21,5 @@ class WorkoutForm(FlaskForm):
     dttm = StringField('Date Time', validators=[DataRequired()])
     duration = StringField('Duration', validators=[DataRequired()])
     distance = StringField('Distance', validators=[DataRequired()])
-    notes = TextAreaField('Say something', validators=[DataRequired(), Length(min=0, max=500)])
+    notes = TextAreaField('Notes', validators=[DataRequired(), Length(min=0, max=500)])
     submit = SubmitField('Submit')
