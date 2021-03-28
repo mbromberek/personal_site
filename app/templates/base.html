@@ -26,23 +26,23 @@ Base HTML code for each web page
                 <a class="navbar-brand" href="{{ url_for('main.index') }}">Mike Bromberek Site</a>
             </div>
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav">
+                <ul class="nav navbar-nav navbar-left">
                     <li><a href="{{ url_for('main.index') }}">Home</a></li>
                 </ul>
-                <ul class="nav navbar-nav">
+                <ul class="nav navbar-nav navbar-left">
+                    <li>
+                        <a href="{{ url_for('main.workouts') }}">
+                            Workouts
+                        </a>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
                     <li>
                         {% if current_user.is_anonymous %}
                         <a href="{{ url_for('auth.login') }}">Login</a>
                         {% else %}
                         <a href="{{ url_for('auth.logout') }}">Logout</a>
                         {% endif %}
-                    </li>
-                </ul>
-                <ul class="nav navbar-nav">
-                    <li>
-                        <a href="{{ url_for('main.workouts') }}">
-                            Workouts
-                        </a>
                     </li>
                 </ul>
             </div>
