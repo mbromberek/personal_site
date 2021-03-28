@@ -9,6 +9,8 @@ All rights reserved.
 
 # First Party Classes
 from datetime import datetime, timedelta
+import math
+import re
 
 # Third party classes
 from flask_login import UserMixin
@@ -95,6 +97,37 @@ class Workout(db.Model):
     intrvl_tot_ele_down = db.Column(db.Numeric(8,2))
 
     isrt_ts = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+
+    @staticmethod
+    def sec_to_time(tm_sec):
+        '''
+        Convert passed in time from seconds to time string in format ##h ##m ##s 
+        '''
+        SECONDS_IN_HOUR = 3600
+        SECONDS_IN_MINUTE = 60
+        hours = math.floor(tm_sec / SECONDS_IN_HOUR)
+        minutes = math.floor((tm_sec % SECONDS_IN_HOUR) / SECONDS_IN_MINUTE)
+        seconds = (tm_sec % SECONDS_IN_HOUR) % SECONDS_IN_MINUTE
+
+        tm_str = str(hours) + 'h ' + str(minutes).zfill(2) + 'm ' + str(seconds).zfill(2) + 's'
+        return tm_str
+
+    @staticmethod
+    def time_to_sec(tm_str):
+        '''
+        Convert passed in time string from format ##h ##m ##s to seconds
+        '''
+        SECONDS_IN_HOUR = 3600
+        SECONDS_IN_MINUTE = 60
+
+        hours_sec = int(re.search('(\d*)h', tm_str).group(1))*SECONDS_IN_HOUR if re.search('(\d*)h', tm_str) else 0
+        minutes_sec = int(re.search('(\d*)m', tm_str).group(1))*SECONDS_IN_MINUTE if re.search('(\d*)m', tm_str) else 0
+        seconds = int(re.search('(\d*)s', tm_str).group(1)) if re.search('(\d*)s', tm_str) else 0
+
+        tm_sec = hours_sec + minutes_sec + seconds
+
+        return tm_sec
+
 
     def __repr__(self):
         return '<Workout {}: {}>'.format(self.type, self.wrkt_dttm)
