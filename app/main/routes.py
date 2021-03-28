@@ -9,19 +9,22 @@ All rights reserved.
 # Third party imports
 from flask import render_template, flash, redirect, url_for, request, g, \
     jsonify, current_app
+from flask_login import current_user, login_required
 
 # Custom imports
 from app.main import bp
 
 @bp.route('/')
 @bp.route('/index')
+@login_required
 def index():
-    user = {'displayname': 'Mike'}
+    # user = {'displayname': 'Mike'}
     workouts = [{'type':'Running', 'duration':'20m 56s', 'distance': '3.11', 'pace': '6m 44s'}, {'type':'Running', 'duration':'3h 35m 53s', 'distance': '26.2', 'pace': '8m 13s'}]
 
-    return render_template('index.html', title='Home Page', user=user, workouts=workouts)
+    return render_template('index.html', title='Home Page', workouts=workouts)
 
 @bp.route('/workouts')
+@login_required
 def workouts():
     user = {'displayname': 'Mike'}
     workouts = [{'type':'Running', 'duration':'20m 56s', 'distance': '3.11', 'pace': '6m 44s'}, {'type':'Running', 'duration':'3h 35m 53s', 'distance': '26.2', 'pace': '8m 13s'}]
