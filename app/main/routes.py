@@ -39,6 +39,7 @@ def workouts():
         print("redirect(url_for('main.edit_workout'))")
         return redirect(url_for('main.edit_workout'))
 
+    form.submit.label.text = 'New Workout'
     workouts = [{'type':'Running', 'duration':'20m 56s', 'distance': '3.11', 'pace': '6m 44s'}, {'type':'Running', 'duration':'3h 35m 53s', 'distance': '26.2', 'pace': '8m 13s'}]
 
     return render_template('workouts.html', title='Workouts', workouts=workouts, form=form)
@@ -46,10 +47,8 @@ def workouts():
 @bp.route('/edit_workout', methods=['GET','POST'])
 @login_required
 def edit_workout():
-    print("edit_workout")
     form = WorkoutForm()
     if form.validate_on_submit():
-        # wrkt_dttm=datetime.strptime(form.dttm.data, '%Y-%m-%d')
         duration = utils.time_str_to_sec(
             str(form.duration_h.data) + 'h ' +
             str(form.duration_m.data) + 'm ' +
