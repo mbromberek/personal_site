@@ -8,6 +8,8 @@ All rights reserved.
 
 # First party classes
 from datetime import datetime
+# from datetime import combine
+
 # Third party classes
 from flask import render_template, flash, redirect, url_for, request, g, \
     jsonify, current_app
@@ -18,6 +20,7 @@ from app.main import bp
 from app.main.forms import EmptyForm, WorkoutForm
 from app.models import User, Workout
 from app import db
+from app.utils import utils, const
 
 @bp.route('/')
 @bp.route('/index')
@@ -47,12 +50,22 @@ def edit_workout():
     form = WorkoutForm()
     if form.validate_on_submit():
         # wrkt_dttm=datetime.strptime(form.dttm.data, '%Y-%m-%d')
+        duration = utils.time_str_to_sec(
+            str(form.duration_h.data) + 'h ' +
+            str(form.duration_m.data) + 'm ' +
+            str(form.duration_s.data) + 's'
+        )
+        print("Duration: " + str(duration))
+        wrkt_dttm = datetime.combine(form.wrkt_dt.data, form.wrkt_tm.data)
+        print("wrkt_dt: " + str(form.wrkt_dt.data))
+        print("wrkt_tm: " + str(form.wrkt_tm.data))
+        print("wrkt_dttm: " + str(wrkt_dttm))
 
-        workout = Workout(author=current_user, type=form.type.data, dur_sec=form.duration.data, dist_mi=form.distance.data, notes=form.notes.data, wrkt_dttm=form.dttm.data)
+        workout = Workout(author=current_user, type=form.type.data, dur_sec=duration, dist_mi=form.distance.data, notes=form.notes.data, wrkt_dttm=wrkt_dttm)
         db.session.add(workout)
         db.session.commit()
         flash('Your workout has been created/updated')
-        return redirect(url_for('main.edit_workout'))
+        return redirect(url_for('main.workouts'))
     # elif request.method == 'GET':
     #     form.username.data = current_user.username
     #     form.about_me.data = current_user.about_me

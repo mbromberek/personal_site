@@ -33,5 +33,5 @@ class WorkoutForm(FlaskForm):
     duration_s = IntegerField('s ', widget=h5widgets.NumberInput(min=0,max=59))
 
     distance = DecimalField('Distance', validators=[DataRequired()], places=2, rounding=decimal.ROUND_UP)
-    notes = TextAreaField('Notes', validators=[DataRequired(), Length(min=1, max=500)])
+    notes = TextAreaField('Notes', validators=[Length(min=0, max=500)])
     submit = SubmitField('Submit')

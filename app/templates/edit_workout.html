@@ -46,7 +46,27 @@
                     {{ form.duration_s.label }}
                     <br>
                 </p>
-
+                <p>
+                    {{ form.distance.label }}<br>
+                    {{ form.distance(size=32) }}<br>
+                    {% for error in form.distance.errors %}
+                    <span style="color: red;">
+                        [{{ error }}]
+                    </span>
+                    {% endfor %}
+                </p>
+                <p>
+                    {{ form.notes.label }}<br>
+                    {{ form.notes(size=50) }}<br>
+                    {% for error in form.notes.errors %}
+                    <span style="color: red;">
+                        [{{ error }}]
+                    </span>
+                    {% endfor %}
+                </p>
+                <p>
+                    {{ form.submit() }}
+                </p>
             </form>
 
         </div>
