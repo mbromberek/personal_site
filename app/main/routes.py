@@ -46,9 +46,9 @@ def edit_workout():
     print("edit_workout")
     form = WorkoutForm()
     if form.validate_on_submit():
-        wrkt_dttm=datetime.strptime(form.dttm.data, '%Y-%m-%d')
+        # wrkt_dttm=datetime.strptime(form.dttm.data, '%Y-%m-%d')
 
-        workout = Workout(author=current_user, type=form.type.data, dur_sec=form.duration.data, dist_mi=form.distance.data, notes=form.notes.data, wrkt_dttm=wrkt_dttm)
+        workout = Workout(author=current_user, type=form.type.data, dur_sec=form.duration.data, dist_mi=form.distance.data, notes=form.notes.data, wrkt_dttm=form.dttm.data)
         db.session.add(workout)
         db.session.commit()
         flash('Your workout has been created/updated')

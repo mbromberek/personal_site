@@ -4,8 +4,51 @@
 {% block app_content %}
     <h1>Edit Workout</h1>
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-12">
+            {#
             {{ wtf.quick_form(form) }}
+            #}
+            <form action="" method="post">
+                {{ form.hidden_tag() }}
+                <p>
+                    {{ form.type.label }}<br>
+                    {{ form.type(size=32) }}<br>
+                    {% for error in form.type.errors %}
+                    <span style="color: red;">
+                        [{{ error }}]
+                    </span>
+                    {% endfor %}
+                </p>
+                <p>
+                    {{ form.wrkt_dt.label }} and {{ form.wrkt_tm.label }}<br>
+                    {{ form.wrkt_dt(size=15) }}
+                    {{ form.wrkt_tm(size=15) }}
+                    <br>
+                    {% for error in form.wrkt_dt.errors %}
+                    <span style="color: red;">
+                        [{{ error }}]
+                    </span>
+                    {% endfor %}
+                    {% for error in form.wrkt_tm.errors %}
+                    <span style="color: red;">
+                        [{{ error }}]
+                    </span>
+                    {% endfor %}
+                </p>
+                <p>
+                    <strong>Duration:</strong>
+                    <br>
+                    {{ form.duration_h(size=2) }}
+                    {{ form.duration_h.label }}
+                    {{ form.duration_m(size=2) }}
+                    {{ form.duration_m.label }}
+                    {{ form.duration_s(size=2) }}
+                    {{ form.duration_s.label }}
+                    <br>
+                </p>
+
+            </form>
+
         </div>
     </div>
 {% endblock %}
