@@ -3,13 +3,13 @@
                 Type
             </td>
             <td>
-                Duration
+                Date Time
             </td>
             <td>
                 Distance
             </td>
             <td>
-                Pace
+                Duration
             </td>
         </tr>
 {% for workout in workouts %}
@@ -18,13 +18,13 @@
                 {{ workout.type }}
             </td>
             <td>
-                {{ workout.duration }}
+                {{ workout.wrkt_dttm }}
             </td>
             <td>
-                {{ workout.distance }}
+                {{ workout.dist_mi }}
             </td>
             <td>
-                {{ workout.pace }}
+                {{ workout.dur_sec }}
             </td>
         </tr>
 {% endfor %}

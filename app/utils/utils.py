@@ -39,4 +39,13 @@ def time_str_to_sec(tm_str):
     return tm_sec
 
 def time_to_sec(h=0, m=0, s=0):
-    return 0
+    if h == '':
+        h=0
+    if m == '':
+        m=0
+    if s == '':
+        s=0
+    duration = time_str_to_sec(
+        str(h) + 'h ' + str(m) + 'm ' + str(s) + 's'
+    )
+    return duration
