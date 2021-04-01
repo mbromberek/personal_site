@@ -40,29 +40,27 @@ def workouts():
         return redirect(url_for('main.edit_workout'))
 
     form.submit.label.text = 'New Workout'
-    # workouts = [{'type':'Running', 'duration':'20m 56s', 'distance': '3.11', 'pace': '6m 44s'}, {'type':'Running', 'duration':'3h 35m 53s', 'distance': '26.2', 'pace': '8m 13s'}]
 
     page = request.args.get('page', 1, type=int)
-    workouts = Workout.query.order_by(Workout.wrkt_dttm.desc()).paginate(page, current_app.config['POSTS_PER_PAGE'], False)
-    next_url = flask.url_for('main.workouts', page=workouts.next_num) \
-        if workouts.has_next else None
-    prev_url = flask.url_for('main.workouts', page=workouts.prev_num) \
-        if workouts.has_prev else None
+    workoutPages = \
+        Workout.query.order_by(Workout.wrkt_dttm.desc()).paginate(page, current_app.config['POSTS_PER_PAGE'], False)
+    next_url = flask.url_for('main.workouts', page=workoutPages.next_num) \
+        if workoutPages.has_next else None
+    prev_url = flask.url_for('main.workouts', page=workoutPages.prev_num) \
+        if workoutPages.has_prev else None
 
-    return render_template('workouts.html', title='Workouts', workouts=workouts.items, form=form, next_url=next_url, prev_url=prev_url)
+    workouts = workoutPages.items
+    for workout in workouts:
+        workout.duration = utils.sec_to_time(workout.dur_sec)
+    return render_template('workouts.html', title='Workouts', workouts=workouts, form=form, next_url=next_url, prev_url=prev_url)
 
 @bp.route('/edit_workout', methods=['GET','POST'])
 @login_required
 def edit_workout():
-    print('edit_workout')
     form = WorkoutForm()
     if form.validate_on_submit():
         duration = utils.time_to_sec(form.duration_h.data, form.duration_m.data, form.duration_s.data)
-        print("Duration: " + str(duration))
         wrkt_dttm = datetime.combine(form.wrkt_dt.data, form.wrkt_tm.data)
-        print("wrkt_dt: " + str(form.wrkt_dt.data))
-        print("wrkt_tm: " + str(form.wrkt_tm.data))
-        print("wrkt_dttm: " + str(wrkt_dttm))
 
         workout = Workout(author=current_user, type=form.type.data, dur_sec=duration, dist_mi=form.distance.data, notes=form.notes.data, wrkt_dttm=wrkt_dttm)
         db.session.add(workout)
