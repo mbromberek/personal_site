@@ -3,3 +3,4 @@
 .DS_Store
 logs/*
 app.db
+DB_Setup.md
