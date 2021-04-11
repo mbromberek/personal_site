@@ -43,7 +43,7 @@ def workouts():
 
     page = request.args.get('page', 1, type=int)
     workoutPages = \
-        Workout.query.order_by(Workout.wrkt_dttm.desc()).paginate(page, current_app.config['POSTS_PER_PAGE'], False)
+        Workout.query.filter_by(user_id=current_user.id).order_by(Workout.wrkt_dttm.desc()).paginate(page, current_app.config['POSTS_PER_PAGE'], False)
     next_url = flask.url_for('main.workouts', page=workoutPages.next_num) \
         if workoutPages.has_next else None
     prev_url = flask.url_for('main.workouts', page=workoutPages.prev_num) \
