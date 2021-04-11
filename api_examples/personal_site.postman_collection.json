@@ -86,6 +86,46 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "get_workout",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{server}}/api/workout/1",
+					"protocol": "http",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"workout",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get_workouts",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{server}}/api/workouts/",
+					"protocol": "http",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"workouts",
+						""
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"auth": {
@@ -93,7 +133,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "58d0P+06Wy31t9ZjZXAJ72tgmIFkNoD2",
+				"value": "ZduFvZqGR8/LAHlLuAXnUcH9S/bXh6+Z",
 				"type": "string"
 			}
 		]

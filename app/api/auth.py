@@ -21,6 +21,7 @@ def basic_auth_error(status):
 
 @token_auth.verify_token
 def verify_token(token):
+    print("verify_token")
     return User.check_token(token) if token else None
 
 @token_auth.error_handler

@@ -168,7 +168,7 @@ class Workout(PaginatedAPIMixin, db.Model):
             'type': self.type,
             'wrkt_dttm': self.wrkt_dttm.isoformat() + 'Z',
             'dur_sec': self.dur_sec,
-            'dist_mi': self.dist_mi,
+            'dist_mi': str(self.dist_mi),
             'pace_sec': self.pace_sec,
             '_links':{
                 'self': url_for('api.get_workout', id=self.id)
