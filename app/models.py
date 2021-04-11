@@ -16,6 +16,7 @@ import re
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
+
 # Custom Classes
 from app import db, login
 
@@ -50,6 +51,7 @@ Store database table structures and functions for the data
 '''
 # class User(PaginatedAPIMixin, UserMixin, db.Model):
 class User(UserMixin, db.Model):
+    __table_args__ = {"schema": "fitness", 'comment':'Stores user login details'}
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(120), index=True, unique=True)
     password_hash = db.Column(db.String(128))
@@ -68,8 +70,9 @@ class User(UserMixin, db.Model):
 
 
 class Workout(db.Model):
+    __table_args__ = {"schema": "fitness", 'comment':'Store Workout data'}
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('fitness.user.id'))
     # Running | Cycling | Swimming | Indoor Running
     type = db.Column(db.String(50), index=True, nullable=False)
     wrkt_dttm = db.Column(db.DateTime, index=True, nullable=False)
