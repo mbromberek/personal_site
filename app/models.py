@@ -11,11 +11,13 @@ All rights reserved.
 from datetime import datetime, timedelta
 import math
 import re
+import os
+import base64
 
 # Third party classes
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
-
+from flask import url_for
 
 # Custom Classes
 from app import db, login
@@ -25,32 +27,32 @@ from app import db, login
 def load_user(id):
     return User.query.get(int(id))
 
-# class PaginatedAPIMixin(object):
-#     @staticmethod
-#     def to_collection_dict(query, page, per_page, endpoint, **kwargs):
-#         resources = query.paginate(page, per_page, False)
-#         data = {
-#             'items': [item.to_dict() for item in resources.items],
-#             '_meta': {
-#                 'page': page,
-#                 'per_page': per_page,
-#                 'total_pages': resources.pages,
-#                 'total_items': resources.total
-#             },
-#             '_links': {
-#                 'self': url_for(endpoint, page=page, per_page=per_page, **kwargs),
-#                 'next': url_for(endpoint, page=page +1, per_page=per_page, **kwargs) if resources.has_next else None,
-#                 'prev': url_for(endpoint, page=page -1, per_page=per_page, **kwargs) if resources.has_prev else None
-#             }
-#         }
-#         return data
-#
+class PaginatedAPIMixin(object):
+    @staticmethod
+    def to_collection_dict(query, page, per_page, endpoint, **kwargs):
+        resources = query.paginate(page, per_page, False)
+        data = {
+            'items': [item.to_dict() for item in resources.items],
+            '_meta': {
+                'page': page,
+                'per_page': per_page,
+                'total_pages': resources.pages,
+                'total_items': resources.total
+            },
+            '_links': {
+                'self': url_for(endpoint, page=page, per_page=per_page, **kwargs),
+                'next': url_for(endpoint, page=page +1, per_page=per_page, **kwargs) if resources.has_next else None,
+                'prev': url_for(endpoint, page=page -1, per_page=per_page, **kwargs) if resources.has_prev else None
+            }
+        }
+        return data
+
 
 '''
 Store database table structures and functions for the data
 '''
-# class User(PaginatedAPIMixin, UserMixin, db.Model):
-class User(UserMixin, db.Model):
+class User(PaginatedAPIMixin, UserMixin, db.Model):
+# class User(UserMixin, db.Model):
     __table_args__ = {"schema": "fitness", 'comment':'Stores user login details'}
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(120), index=True, unique=True)
@@ -58,6 +60,8 @@ class User(UserMixin, db.Model):
     displayname = db.Column(db.String(64))
     workouts = db.relationship('Workout', backref='author', lazy='dynamic')
     last_seen = db.Column(db.DateTime, default=datetime.utcnow)
+    token = db.Column(db.String(32), index=True, unique=True)
+    token_expiration = db.Column(db.DateTime)
 
     def __repr__(self):
         return '<User {}>'.format(self.email)
@@ -68,8 +72,40 @@ class User(UserMixin, db.Model):
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
 
+    def to_dict(self):
+        data = {
+            'id': self.id,
+            'email': self.email,
+            'displayname': self.displayname,
+            'last_seen': self.last_seen.isoformat() + 'Z',
+            '_links':{
+                'self': url_for('api.get_user', id=self.id)
+                # 'workouts': url_for('api.get_workouts', id=self.id)
+            }
+        }
+        return data
 
-class Workout(db.Model):
+    def get_token(self, expires_in=3600):
+        now = datetime.utcnow()
+        if self.token and self.token_expiration > now + timedelta(seconds=60):
+            return self.token
+        self.token = base64.b64encode(os.urandom(24)).decode('utf-8')
+        self.token_expiration = now + timedelta(seconds=expires_in)
+        db.session.add(self)
+        return self.token
+
+    def revoke_token(self):
+        self.token_expiration = datetime.utcnow() - timedelta(seconds=1)
+
+    @staticmethod
+    def check_token(token):
+        user = User.query.filter_by(token=token).first()
+        if user is None or user.token_expiration < datetime.utcnow():
+            return None
+        return user
+
+
+class Workout(PaginatedAPIMixin, db.Model):
     __table_args__ = {"schema": "fitness", 'comment':'Store Workout data'}
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('fitness.user.id'))
@@ -122,39 +158,23 @@ class Workout(db.Model):
 
     isrt_ts = db.Column(db.DateTime, index=True, default=datetime.utcnow)
 
-    # @staticmethod
-    # def sec_to_time(tm_sec):
-    #     '''
-    #     Convert passed in time from seconds to time string in format ##h ##m ##s
-    #     '''
-    #     SECONDS_IN_HOUR = 3600
-    #     SECONDS_IN_MINUTE = 60
-    #     hours = math.floor(tm_sec / SECONDS_IN_HOUR)
-    #     minutes = math.floor((tm_sec % SECONDS_IN_HOUR) / SECONDS_IN_MINUTE)
-    #     seconds = (tm_sec % SECONDS_IN_HOUR) % SECONDS_IN_MINUTE
-    #
-    #     tm_str = str(hours) + 'h ' + str(minutes).zfill(2) + 'm ' + str(seconds).zfill(2) + 's'
-    #     return tm_str
-    #
-    # @staticmethod
-    # def time_to_sec(tm_str):
-    #     '''
-    #     Convert passed in time string from format ##h ##m ##s to seconds
-    #     '''
-    #     SECONDS_IN_HOUR = 3600
-    #     SECONDS_IN_MINUTE = 60
-    #
-    #     hours_sec = int(re.search('(\d*)h', tm_str).group(1))*SECONDS_IN_HOUR if re.search('(\d*)h', tm_str) else 0
-    #     minutes_sec = int(re.search('(\d*)m', tm_str).group(1))*SECONDS_IN_MINUTE if re.search('(\d*)m', tm_str) else 0
-    #     seconds = int(re.search('(\d*)s', tm_str).group(1)) if re.search('(\d*)s', tm_str) else 0
-    #
-    #     tm_sec = hours_sec + minutes_sec + seconds
-    #
-    #     return tm_sec
-
-
     def __repr__(self):
         return '<Workout {}: {}>'.format(self.type, self.wrkt_dttm)
+
+    def to_dict(self):
+        data = {
+            'id': self.id,
+            'user_id': self.user_id,
+            'type': self.type,
+            'wrkt_dttm': self.wrkt_dttm.isoformat() + 'Z',
+            'dur_sec': self.dur_sec,
+            'dist_mi': self.dist_mi,
+            'pace_sec': self.pace_sec,
+            '_links':{
+                'self': url_for('api.get_workout', id=self.id)
+            }
+        }
+        return data
 
 
 # class Workout_Intervals(db.Model):
