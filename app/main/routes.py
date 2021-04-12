@@ -24,7 +24,7 @@ from app.utils import utils, const
 
 @bp.route('/')
 @bp.route('/index')
-@login_required
+# @login_required
 def index():
     # user = {'displayname': 'Mike'}
     workouts = [{'type':'Running', 'duration':'20m 56s', 'distance': '3.11', 'pace': '6m 44s'}, {'type':'Running', 'duration':'3h 35m 53s', 'distance': '26.2', 'pace': '8m 13s'}]
@@ -51,7 +51,8 @@ def workouts():
 
     workouts = workoutPages.items
     for workout in workouts:
-        workout.duration = utils.sec_to_time(workout.dur_sec)
+        workout.duration = workout.dur_str()
+        workout.pace = workout.pace_str()
     return render_template('workouts.html', title='Workouts', workouts=workouts, form=form, next_url=next_url, prev_url=prev_url)
 
 @bp.route('/edit_workout', methods=['GET','POST'])

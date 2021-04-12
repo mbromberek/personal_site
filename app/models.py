@@ -21,6 +21,7 @@ from flask import url_for
 
 # Custom Classes
 from app import db, login
+from app.utils import utils
 
 
 @login.user_loader
@@ -160,6 +161,14 @@ class Workout(PaginatedAPIMixin, db.Model):
 
     def __repr__(self):
         return '<Workout {}: {}>'.format(self.type, self.wrkt_dttm)
+
+    def pace_str(self):
+        if self.dist_mi == 0 or self.dur_sec == 0:
+            return 0
+        return utils.sec_to_time(math.floor(self.dur_sec / self.dist_mi), 'ms')
+
+    def dur_str(self):
+        return utils.sec_to_time(self.dur_sec)
 
     def to_dict(self):
         data = {

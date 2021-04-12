@@ -11,6 +11,9 @@
             <td>
                 Duration
             </td>
+            <td>
+                Pace
+            </td>
         </tr>
 {% for workout in workouts %}
         <tr>
@@ -25,6 +28,9 @@
             </td>
             <td>
                 {{ workout.duration }}
+            </td>
+            <td>
+                {{ workout.pace }}
             </td>
         </tr>
 {% endfor %}
