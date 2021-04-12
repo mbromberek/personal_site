@@ -18,11 +18,30 @@ def sec_to_time(tm_sec, format='hms'):
     '''
     Convert passed in time from seconds to time string in format ##h ##m ##s
     '''
-    hours = math.floor(tm_sec / SECONDS_IN_HOUR)
-    minutes = math.floor((tm_sec % SECONDS_IN_HOUR) / SECONDS_IN_MINUTE)
-    seconds = (tm_sec % SECONDS_IN_HOUR) % SECONDS_IN_MINUTE
+    if format == 'hms':
+        hours = math.floor(tm_sec / SECONDS_IN_HOUR)
+        minutes = math.floor((tm_sec % SECONDS_IN_HOUR) / SECONDS_IN_MINUTE)
+        seconds = (tm_sec % SECONDS_IN_HOUR) % SECONDS_IN_MINUTE
 
-    tm_str = str(hours) + 'h ' + str(minutes).zfill(2) + 'm ' + str(seconds).zfill(2) + 's'
+        tm_str = str(hours) + 'h ' + str(minutes).zfill(2) + 'm ' + str(seconds).zfill(2) + 's'
+    elif format == 'ms':
+        minutes = math.floor(tm_sec / SECONDS_IN_MINUTE)
+        seconds = (tm_sec % SECONDS_IN_HOUR) % SECONDS_IN_MINUTE
+
+        tm_str = str(minutes) + 'm ' + str(seconds).zfill(2) + 's'
+    if format == 'hms-auto':
+        hours = math.floor(tm_sec / SECONDS_IN_HOUR)
+        minutes = math.floor((tm_sec % SECONDS_IN_HOUR) / SECONDS_IN_MINUTE)
+        seconds = (tm_sec % SECONDS_IN_HOUR) % SECONDS_IN_MINUTE
+
+        tm_str = ''
+        if hours > 0:
+            tm_str = tm_str + str(hours) + 'h '
+        if hours > 0 or minutes > 0:
+            tm_str = tm_str + str(minutes).zfill(2) + 'm '
+        tm_str = tm_str + str(seconds).zfill(2) + 's'
+        # tm_str = str(hours) + 'h ' + str(minutes).zfill(2) + 'm ' + str(seconds).zfill(2) + 's'
+
     return tm_str
 
 def time_str_to_sec(tm_str):
