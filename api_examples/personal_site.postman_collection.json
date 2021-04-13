@@ -6,7 +6,7 @@
 	},
 	"item": [
 		{
-			"name": "getToken",
+			"name": "get_token",
 			"request": {
 				"auth": {
 					"type": "basic",
@@ -93,7 +93,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://{{server}}/api/workout/1",
+					"raw": "http://{{server}}/api/workout/4",
 					"protocol": "http",
 					"host": [
 						"{{server}}"
@@ -101,7 +101,35 @@
 					"path": [
 						"api",
 						"workout",
-						"1"
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create_workout",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"dist_mi\": \"6.02\",\n    \"dur_sec\": 3230,\n    \"type\": \"Running\",\n    \"wrkt_dttm\": \"2021-04-12T15:20:06Z\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{server}}/api/workout",
+					"protocol": "http",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"workout"
 					]
 				}
 			},
@@ -133,7 +161,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "ZduFvZqGR8/LAHlLuAXnUcH9S/bXh6+Z",
+				"value": "nA7vy9aMP690rW2nqwRckMOoWZrCWtue",
 				"type": "string"
 			}
 		]

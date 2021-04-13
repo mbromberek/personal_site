@@ -25,23 +25,30 @@ def get_workouts():
     data = User.to_collection_dict(user.workouts, page, per_page, 'api.get_workouts')
     return jsonify(data)
 
-# @bp.route('/users', methods=['POST'])
-# def create_user():
-#     data = request.get_json() or {}
-#     # Make sure the required fields are in the data dict
-#     if 'username' not in data or 'email' not in data or 'password' not in data:
-#         return bad_request('must include username, email, and password fields')
-#     if User.query.filter_by(username=data['username']).first():
-#         return bad_request('please use a different email address')
-#     user = User()
-#     user.from_dict(data, new_user=True)
-#     db.session.add(user)
-#     db.session.commit()
-#     response = jsonify(user.to_dict())
-#     response.status_code = 201
-#     response.headers['Location'] = url_for('api.get_user', id=user.id)
-#     return response
-#
+@bp.route('/workout', methods=['POST'])
+@token_auth.login_required
+def create_workout():
+    pass
+    current_user_id = token_auth.current_user().id
+    data = request.get_json() or {}
+    # Make sure the required fields are in the data dict
+    req_fields = ['type', 'wrkt_dttm', 'dur_sec', 'dist_mi']
+    for field in req_fields:
+        if field not in data:
+            return bad_request('must include ' + field + ' field')
+
+    # Should I check if a request for specified workt_dttm already exists?
+    # if User.query.filter_by(username=data['username']).first():
+    #     return bad_request('please use a different email address')
+    workout = Workout()
+    workout.from_dict(data, current_user_id)
+    db.session.add(workout)
+    db.session.commit()
+    response = jsonify(workout.to_dict())
+    response.status_code = 201
+    response.headers['Location'] = url_for('api.get_workout', id=workout.id)
+    return response
+
 # @bp.route('/users/<int:id>', methods=['PUT'])
 # @token_auth.login_required
 # def update_user(id):

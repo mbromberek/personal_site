@@ -170,7 +170,7 @@ class Workout(PaginatedAPIMixin, db.Model):
     def dur_str(self):
         return utils.sec_to_time(self.dur_sec)
 
-    def to_dict(self):
+    def to_dict(self, include_calc_fields=False):
         data = {
             'id': self.id,
             'user_id': self.user_id,
@@ -178,12 +178,22 @@ class Workout(PaginatedAPIMixin, db.Model):
             'wrkt_dttm': self.wrkt_dttm.isoformat() + 'Z',
             'dur_sec': self.dur_sec,
             'dist_mi': str(self.dist_mi),
-            'pace_sec': self.pace_sec,
+            'pace': self.pace_str(),
             '_links':{
                 'self': url_for('api.get_workout', id=self.id)
             }
         }
         return data
+
+    def from_dict(self, data, user_id):
+        setattr(self, 'user_id', user_id)
+        self.type = data['type']
+        # TODO need to validate date format
+        self.wrkt_dttm = datetime.strptime(data['wrkt_dttm'], '%Y-%m-%dT%H:%M:%SZ')
+        self.dur_sec = int(data['dur_sec'])
+        self.dist_mi = float(data['dist_mi'])
+
+        # setattr(self, field, data[field])
 
 
 # class Workout_Intervals(db.Model):
