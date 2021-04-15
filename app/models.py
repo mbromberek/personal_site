@@ -115,7 +115,7 @@ class Workout(PaginatedAPIMixin, db.Model):
     wrkt_dttm = db.Column(db.DateTime, index=True, nullable=False)
     dur_sec = db.Column(db.Integer())
     dist_mi = db.Column(db.Numeric(8,2))
-    pace_sec = db.Column(db.Integer())
+    pace_sec = db.Column(db.Integer())# replace with function
     gear = db.Column(db.String(50))
     clothes = db.Column(db.Text())
     ele_up = db.Column(db.Numeric(8,2))
@@ -131,14 +131,14 @@ class Workout(PaginatedAPIMixin, db.Model):
 
     temp_strt = db.Column(db.Numeric(8,2))
     temp_feels_like_strt = db.Column(db.Numeric(8,2))
-    wethr_cond_strt = db.Column(db.Numeric(8,2))
+    wethr_cond_strt = db.Column(db.String(50))
     hmdty_strt = db.Column(db.Numeric(8,2))
     wind_speed_strt = db.Column(db.Numeric(8,2))
     wind_gust_strt = db.Column(db.Numeric(8,2))
 
     temp_end = db.Column(db.Numeric(8,2))
     temp_feels_like_end = db.Column(db.Numeric(8,2))
-    wethr_cond_end = db.Column(db.Numeric(8,2))
+    wethr_cond_end = db.Column(db.String(50))
     hmdty_end = db.Column(db.Numeric(8,2))
     wind_speed_end = db.Column(db.Numeric(8,2))
     wind_gust_end = db.Column(db.Numeric(8,2))
@@ -147,28 +147,38 @@ class Workout(PaginatedAPIMixin, db.Model):
 
     warm_up_tot_dist_mi = db.Column(db.Numeric(5,2))
     warm_up_tot_tm_sec = db.Column(db.Integer())
-    warm_up_tot_pace_sec = db.Column(db.Integer())
+    warm_up_tot_pace_sec = db.Column(db.Integer())#replace with func
     cool_down_tot_dist_mi = db.Column(db.Numeric(5,2))
     cool_down_tot_tm_sec = db.Column(db.Integer())
-    cool_down_tot_pace_sec = db.Column(db.Integer())
+    cool_down_tot_pace_sec = db.Column(db.Integer())#replace
     intrvl_tot_dist_mi = db.Column(db.Numeric(5,2))
     intrvl_tot_tm_sec = db.Column(db.Integer())
-    intrvl_tot_pace_sec = db.Column(db.Integer())
+    intrvl_tot_pace_sec = db.Column(db.Integer())#replace
     intrvl_tot_ele_up = db.Column(db.Numeric(8,2))
     intrvl_tot_ele_down = db.Column(db.Numeric(8,2))
 
     isrt_ts = db.Column(db.DateTime, index=True, default=datetime.utcnow)
 
+    # workout_intervals = db.relationship('Workout_Interval', backref='author', lazy='dynamic')
+
     def __repr__(self):
         return '<Workout {}: {}>'.format(self.type, self.wrkt_dttm)
 
     def pace_str(self):
-        if self.dist_mi == 0 or self.dur_sec == 0:
-            return 0
-        return utils.sec_to_time(math.floor(self.dur_sec / self.dist_mi), 'ms')
+        # if self.dist_mi == 0 or self.dur_sec == 0:
+        #     return 0
+        # return utils.sec_to_time(math.floor(self.dur_sec / self.dist_mi), 'ms')
+        return utils.sec_to_time(utils.pace_calc(self.dist_mi, self.dur_sec), 'ms')
 
     def dur_str(self):
         return utils.sec_to_time(self.dur_sec)
+
+    def intrvl_pace_str(self):
+        return utils.sec_to_time(utils.pace_calc(self.intrvl_tot_dist_mi, self.intrvl_tot_tm_sec),'ms')
+    def cool_down_pace_str(self):
+        return utils.sec_to_time(utils.pace_calc(self.cool_down_tot_dist_mi, self.cool_down_tot_tm_sec),'ms')
+    def warm_up_pace_str(self):
+        return utils.sec_to_time(utils.pace_calc(self.warm_up_tot_dist_mi, self.warm_up_tot_tm_sec),'ms')
 
     def to_dict(self, include_calc_fields=False):
         data = {
@@ -179,6 +189,46 @@ class Workout(PaginatedAPIMixin, db.Model):
             'dur_sec': self.dur_sec,
             'dist_mi': str(self.dist_mi),
             'pace': self.pace_str(),
+            'gear': self.gear,
+            'clothes': self.clothes,
+            'ele_up': str(self.ele_up),
+            'ele_down': str(self.ele_down),
+            'hr': self.hr,
+            'cal_burn': self.cal_burn,
+            'category': self.category,
+            'location': self.location,
+            'training_type': self.training_type,
+            'weather_start': {
+                'temp': str(self.temp_strt),
+                'temp_feels_like': str(self.temp_feels_like_strt),
+                'wethr_cond': self.wethr_cond_strt,
+                'hmdty': str(self.hmdty_strt),
+                'wind_speed': str(self.wind_speed_strt),
+                'wind_gust': str(self.wind_gust_strt)
+            },
+            'weather_end': {
+                'temp': str(self.temp_strt),
+                'temp_feels_like': str(self.temp_feels_like_strt),
+                'wethr_cond': self.wethr_cond_strt,
+                'hmdty': str(self.hmdty_strt),
+                'wind_speed': str(self.wind_speed_strt),
+                'wind_gust': str(self.wind_gust_strt)
+            },
+            'notes': self.notes,
+
+            'warm_up_tot_dist_mi': str(self.warm_up_tot_dist_mi),
+            'warm_up_tot_tm_sec': str(self.warm_up_tot_tm_sec),
+            'warm_up_pace': self.warm_up_pace_str(),
+            'cool_down_tot_dist_mi': str(self.cool_down_tot_dist_mi),
+            'cool_down_tot_tm_sec': str(self.cool_down_tot_tm_sec),
+            'cool_down_pace': self.cool_down_pace_str(),
+            'intrvl_tot_dist_mi': str(self.intrvl_tot_dist_mi),
+            'intrvl_tot_tm_sec': str(self.intrvl_tot_tm_sec),
+            'intrvl_pace': self.intrvl_pace_str(),
+            'intrvl_tot_ele_up': str(self.intrvl_tot_ele_up),
+            'intrvl_tot_ele_down': str(self.intrvl_tot_ele_down),
+
+            'isrt_ts': self.isrt_ts.isoformat() + 'Z',
             '_links':{
                 'self': url_for('api.get_workout', id=self.id)
             }
@@ -186,6 +236,11 @@ class Workout(PaginatedAPIMixin, db.Model):
         return data
 
     def from_dict(self, data, user_id):
+
+        str_fields = ['gear', 'clothes', 'category', 'location', 'training_type', 'notes']
+        int_fields = ['hr','cal_burn','warm_up_tot_tm_sec', 'cool_down_tot_tm_sec', 'intrvl_tot_tm_sec']
+        float_fields = ['ele_up','ele_down','warm_up_tot_dist_mi','cool_down_tot_dist_mi','intrvl_tot_dist_mi','intrvl_tot_ele_up','intrvl_tot_ele_down']
+
         setattr(self, 'user_id', user_id)
         self.type = data['type']
         # TODO need to validate date format
@@ -193,7 +248,35 @@ class Workout(PaginatedAPIMixin, db.Model):
         self.dur_sec = int(data['dur_sec'])
         self.dist_mi = float(data['dist_mi'])
 
-        # setattr(self, field, data[field])
+        for field in str_fields:
+            if field in data:
+                setattr(self, field, data[field])
+
+        for field in int_fields:
+            if field in data:
+                setattr(self, field, int(data[field]))
+
+        for field in float_fields:
+            if field in data:
+                setattr(self, field, float(data[field]))
+
+        # Populate Weather data
+        wethr_float_fields = ['temp','temp_feels_like','hmdty', 'wind_speed','wind_gust']
+        wethr_str_fields = ['wethr_cond']
+        if 'wethr_start' in data:
+            wethr_data = data['wethr_start']
+            for field in wethr_float_fields:
+                setattr(self, field + '_strt', float(wethr_data[field]))
+            for field in wethr_str_fields:
+                setattr(self, field + '_strt', wethr_data[field])
+        if 'wethr_end' in data:
+            wethr_data = data['wethr_end']
+            for field in wethr_float_fields:
+                setattr(self, field + '_end', float(wethr_data[field]))
+            for field in wethr_str_fields:
+                setattr(self, field + '_end', wethr_data[field])
+
+
 
 
 # class Workout_Intervals(db.Model):

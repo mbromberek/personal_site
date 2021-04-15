@@ -68,3 +68,8 @@ def time_to_sec(h=0, m=0, s=0):
         str(h) + 'h ' + str(m) + 'm ' + str(s) + 's'
     )
     return duration
+
+def pace_calc(dist, dur_sec):
+    if dist == 0 or dur_sec == 0:
+        return 0
+    return math.floor(dur_sec / dist)
