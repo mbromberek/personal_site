@@ -1,0 +1,26 @@
+
+{% for workout in workouts %}
+        <!-- add hover effect -->
+        <div class="workout" id="wrkt{{ workout.id }}">
+            <div>
+                <span class="workout-header" style="vertical-align: text-top;display:inline-block">
+                    {{ workout.wrkt_dttm }}
+                    &nbsp;-&nbsp;
+                    {{ workout.type }}
+                </span>
+                <span class="workout-detail" style="text-align: right; display:inline-block;">
+                    {{ workout.category }}
+                    <br>
+                    {{ workout.training_type }}
+                </span>
+            </div>
+            <div class="workout-detail">
+                    {{ workout.dist_mi }} mi
+                    &nbsp;|&nbsp;
+                    {{ workout.duration }}
+                    &nbsp;|&nbsp;
+                    {{ workout.pace }} per mile
+            </div>
+        </div>
+        <br>
+{% endfor %}

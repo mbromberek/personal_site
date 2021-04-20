@@ -9,6 +9,15 @@ Base HTML code for each web page
 
 {% extends 'bootstrap/base.html' %}
 
+{% block head %}
+{{super()}}
+<link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+{% endblock %}
+
+{% block styles %}
+<link href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/workout.css') }}">
+{% endblock %}
 {% block title %}
     {% if title %}{{ title }} - Mike's Site{% else %}Mike's Site{% endif %}
 {% endblock %}
