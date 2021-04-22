@@ -165,9 +165,6 @@ class Workout(PaginatedAPIMixin, db.Model):
         return '<Workout {}: {}>'.format(self.type, self.wrkt_dttm)
 
     def pace_str(self):
-        # if self.dist_mi == 0 or self.dur_sec == 0:
-        #     return 0
-        # return utils.sec_to_time(math.floor(self.dur_sec / self.dist_mi), 'ms')
         return utils.sec_to_time(utils.pace_calc(self.dist_mi, self.dur_sec), 'ms')
 
     def dur_str(self):
@@ -277,6 +274,31 @@ class Workout(PaginatedAPIMixin, db.Model):
                 setattr(self, field + '_end', wethr_data[field])
 
 
+class Workout_Interval(db.Model):
+    # Constraint unique for id and interval_order
+    __table_args__ = {"schema": "fitness", 'comment':'Intervals for a workout'}
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('fitness.user.id'))
+    workout_id = db.Column(db.Integer, db.ForeignKey('fitness.workout.id'))
+    # pause | segment | mile | kilometer | custom
+    break_type = db.Column(db.String(50), nullable=True)
+    interval_order = db.Column(db.Integer(), nullable=False)
+    desc = db.Column(db.String(50), nullable=True)
+    dur_sec = db.Column(db.Integer(), nullable=False)
+    dist_mi = db.Column(db.Numeric(8,2), nullable=False)
+    hr = db.Column(db.SmallInteger())
+    ele_up = db.Column(db.Numeric(8,2))
+    ele_down = db.Column(db.Numeric(8,2))
+    notes = db.Column(db.Text())
+    isrt_ts = db.Column(db.DateTime, index=True, default=datetime.utcnow)
 
+    def __repr__(self):
+        return '<Workout {}: interval order {} for {}>'.format( self.workout_id, self.interval_order, self.desc)
 
-# class Workout_Intervals(db.Model):
+    def pace_str(self):
+        if self.dist_mi == 0 or self.dur_sec == 0:
+            return 0
+        return utils.sec_to_time(math.floor(self.dur_sec / self.dist_mi), 'ms')
+
+    def dur_str(self):
+        return utils.sec_to_time(self.dur_sec)
