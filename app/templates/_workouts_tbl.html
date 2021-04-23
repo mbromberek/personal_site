@@ -1,30 +1,58 @@
 {% for workout in workouts %}
-        <!-- TODO add hover effect -->
-        <table class="workout" id="wrkt{{ workout.id }}" >
-            <tr>
-                <td class="workout-header"  width="75%" rowspan="2">
-                    {{ workout.wrkt_dttm }}
-                    &nbsp;-&nbsp;
-                    {{ workout.type }}
-                </td>
-                <td class="workout-detail" style="text-align: right; " width="25%">
-                    {{ workout.category }}
-                </td>
-            </tr>
-            <tr>
-                <td class="workout-detail" style="text-align: right;">
-                    {{ workout.training_type }}
-                </td>
-            </tr>
-            <tr >
-                <td colspan=2 class="workout-detail" style="text-align: center;">
-                    {{ workout.dist_mi }} mi
-                    &nbsp;|&nbsp;
-                    {{ workout.duration }}
-                    &nbsp;|&nbsp;
-                    {{ workout.pace }} per mile
-                </td>
-            </tr>
-        </table>
+        <div class="workout" id="wrkt{{ workout.id }}">
+            <table width="100%">
+                <tr>
+                    <td class="workout-header"  width="75%" rowspan="2">
+                        {{ workout.wrkt_dttm }}
+                        &nbsp;-&nbsp;
+                        {{ workout.type }}
+                    </td>
+                    <td class="workout-detail" style="text-align: right; " width="25%">
+                        {{ workout.category }}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="workout-detail" style="text-align: right;">
+                        {{ workout.training_type }}
+                    </td>
+                </tr>
+            </table>
+            <table width="100%" style="text-align: center;">
+                <tr class="workout-detail">
+                    <td width="25%">
+                        &nbsp;
+                    </td>
+                    <td  class="workout-detail" >
+                        Distance
+                    </td>
+                    <td class="workout-detail" style="border-right: 1px gray solid; border-left: 1px gray solid">
+                        Duration
+                    </td>
+                    <td class="workout-detail">
+                        Pace
+                    </td>
+                    <td width="25%">
+                        &nbsp;
+                    </td>
+                </tr>
+                <tr class="workout-detail" >
+                    <td>
+                        &nbsp;
+                    </td>
+                    <td  class="workout-detail" >
+                        {{ workout.dist_mi }} mi
+                    </td>
+                    <td class="workout-detail" style="border-right: 1px gray solid; border-left: 1px gray solid">
+                        {{ workout.duration }}
+                    </td>
+                    <td class="workout-detail">
+                        {{ workout.pace }} per mile
+                    </td>
+                    <td>
+                        &nbsp;
+                    </td>
+                </tr>
+            </table>
+        </div>
         <br>
 {% endfor %}

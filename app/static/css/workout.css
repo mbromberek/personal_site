@@ -4,6 +4,10 @@
     box-shadow: 3px 3px 5px black;
     /*padding: 10px;*/
     border-radius: 20px;
+    padding-left:15px;
+    padding-right:15px;
+    padding-top:10px;
+    padding-bottom:10px;
 }
 .workout:hover {
     background-color: lightblue;
@@ -15,16 +19,16 @@
     font-size: 20pt;
     text-align: left;
     vertical-align: middle;
-    padding-left:10px;
-    padding-right:10px;
+    padding-left:0px;
+    padding-right:0px;
     padding-top:0px;
     padding-bottom:0px;
 }
 .workout-detail{
     font-weight:normal;
     font-size: 12pt;
-    padding-left:10px;
-    padding-right:10px;
-    padding-top:1px;
-    padding-bottom:1px;
+    padding-left:0px;
+    padding-right:0px;
+    padding-top:0px;
+    padding-bottom:0px;
 }
