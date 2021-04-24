@@ -37,5 +37,5 @@ a.workout_lnk{
 }
 a.workout_lnk:hover{
     text-decoration: underline;
-    color:blue;
+    color:darkred;
 }
