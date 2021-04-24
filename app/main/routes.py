@@ -62,6 +62,7 @@ def workouts():
 def edit_workout():
     logger.info('edit_workout')
     form = WorkoutForm()
+    title = 'Create Workout'
     if form.validate_on_submit():
         duration = utils.time_to_sec(form.duration_h.data, form.duration_m.data, form.duration_s.data)
         wrkt_dttm = datetime.combine(form.wrkt_dt.data, form.wrkt_tm.data)
@@ -72,13 +73,13 @@ def edit_workout():
         flash('Your workout has been created/updated')
         return redirect(url_for('main.workouts'))
     elif request.method == 'GET' and request.args.get('workout') != None:
-        logger.info(request.args.get('workout'))
         usr_id = current_user.id
         wrkt_id = request.args.get('workout')
-        logger.info("User: " + str(usr_id) + " workout: " + str(wrkt_id))
+        title = 'Edit Workout'
+        logger.info('Edit Workout: ' + str(wrkt_id)+' for user: '+str(usr_id))
         wrkt = Workout.query.filter_by(id=wrkt_id, user_id=usr_id).first_or_404(id)
         form.type.data = wrkt.type
         form.wrkt_dt.data = wrkt.wrkt_dttm
         form.wrkt_tm.data = wrkt.wrkt_dttm
 
-    return render_template('edit_workout.html', title='Edit Workout', form=form)
+    return render_template('edit_workout.html', title=title, form=form)
