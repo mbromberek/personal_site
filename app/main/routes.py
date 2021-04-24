@@ -39,7 +39,6 @@ def workouts():
     logger.info('workouts')
     form = EmptyForm()
     if form.validate_on_submit():
-        print("redirect(url_for('main.edit_workout'))")
         return redirect(url_for('main.edit_workout'))
 
     form.submit.label.text = 'New Workout'
@@ -72,7 +71,14 @@ def edit_workout():
         db.session.commit()
         flash('Your workout has been created/updated')
         return redirect(url_for('main.workouts'))
-    # elif request.method == 'GET':
-    #     form.username.data = current_user.username
-    #     form.about_me.data = current_user.about_me
+    elif request.method == 'GET' and request.args.get('workout') != None:
+        logger.info(request.args.get('workout'))
+        usr_id = current_user.id
+        wrkt_id = request.args.get('workout')
+        logger.info("User: " + str(usr_id) + " workout: " + str(wrkt_id))
+        wrkt = Workout.query.filter_by(id=wrkt_id, user_id=usr_id).first_or_404(id)
+        form.type.data = wrkt.type
+        form.wrkt_dt.data = wrkt.wrkt_dttm
+        form.wrkt_tm.data = wrkt.wrkt_dttm
+
     return render_template('edit_workout.html', title='Edit Workout', form=form)
