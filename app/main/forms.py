@@ -12,7 +12,7 @@ from datetime import datetime
 # Third party classes
 from flask import request
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, TextAreaField, DecimalField
+from wtforms import StringField, SubmitField, TextAreaField, DecimalField, HiddenField
 from wtforms.fields.html5 import DateField, TimeField, IntegerField
 from wtforms.validators import Length, NumberRange, InputRequired
 from wtforms.widgets import html5 as h5widgets
@@ -22,6 +22,7 @@ class EmptyForm(FlaskForm):
 
 
 class WorkoutForm(FlaskForm):
+    wrkt_id = HiddenField()
     type = StringField('Type', validators=[InputRequired()])
     # dttm = DateTimeField('Date Time', validators=[DataRequired()], format='%Y-%m-%d')
     wrkt_dt = DateField('Date', validators=[InputRequired()], format='%Y-%m-%d', default=datetime.now())

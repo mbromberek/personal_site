@@ -64,13 +64,24 @@ def edit_workout():
     form = WorkoutForm()
     title = 'Create Workout'
     if form.validate_on_submit():
-        duration = tm_conv.time_to_sec(form.duration_h.data, form.duration_m.data, form.duration_s.data)
-        wrkt_dttm = datetime.combine(form.wrkt_dt.data, form.wrkt_tm.data)
+        if form.wrkt_id.data == "":
+            duration = tm_conv.time_to_sec(form.duration_h.data, form.duration_m.data, form.duration_s.data)
+            wrkt_dttm = datetime.combine(form.wrkt_dt.data, form.wrkt_tm.data)
 
-        workout = Workout(author=current_user, type=form.type.data, dur_sec=duration, dist_mi=form.distance.data, notes=form.notes.data, wrkt_dttm=wrkt_dttm)
-        db.session.add(workout)
-        db.session.commit()
-        flash('Your workout has been created/updated')
+            workout = Workout(author=current_user, type=form.type.data, dur_sec=duration, dist_mi=form.distance.data, notes=form.notes.data, wrkt_dttm=wrkt_dttm)
+            db.session.add(workout)
+            db.session.commit()
+            flash('Workout has been created!')
+        else:
+            usr_id = current_user.id
+            wrkt_id = form.wrkt_id.data
+            wrkt = Workout.query.filter_by(id=wrkt_id, user_id=usr_id).first_or_404(id)
+            wrkt.dur_sec = tm_conv.time_to_sec(form.duration_h.data, form.duration_m.data, form.duration_s.data)
+            wrkt.type = form.type.data
+            wrkt.dist_mi = form.distance.data
+            wrkt.notes = form.notes.data
+            db.session.commit()
+            flash('Workout has been updated!')
         return redirect(url_for('main.workouts'))
     elif request.method == 'GET' and request.args.get('workout') != None:
         usr_id = current_user.id
@@ -84,6 +95,7 @@ def edit_workout():
         form.duration_h.data, form.duration_m.data, form.duration_s.data = tm_conv.split_sec_to_time(wrkt.dur_sec)
         form.distance.data = wrkt.dist_mi
         form.notes.data = wrkt.notes
+        form.wrkt_id.data = wrkt_id
 
 
     return render_template('edit_workout.html', title=title, form=form)
