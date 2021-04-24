@@ -21,11 +21,13 @@ from app.main.forms import EmptyForm, WorkoutForm
 from app.models import User, Workout
 from app import db
 from app.utils import utils, const
+from app import logger
 
 @bp.route('/')
 @bp.route('/index')
 # @login_required
 def index():
+    logger.info('index')
     # user = {'displayname': 'Mike'}
     workouts = [{'type':'Running', 'duration':'20m 56s', 'distance': '3.11', 'pace': '6m 44s'}, {'type':'Running', 'duration':'3h 35m 53s', 'distance': '26.2', 'pace': '8m 13s'}]
 
@@ -34,6 +36,7 @@ def index():
 @bp.route('/workouts', methods=['GET','POST'])
 @login_required
 def workouts():
+    logger.info('workouts')
     form = EmptyForm()
     if form.validate_on_submit():
         print("redirect(url_for('main.edit_workout'))")
@@ -58,6 +61,7 @@ def workouts():
 @bp.route('/edit_workout', methods=['GET','POST'])
 @login_required
 def edit_workout():
+    logger.info('edit_workout')
     form = WorkoutForm()
     if form.validate_on_submit():
         duration = utils.time_to_sec(form.duration_h.data, form.duration_m.data, form.duration_s.data)

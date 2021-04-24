@@ -7,10 +7,12 @@ from app.models import Workout, User
 from app.api import bp
 from app.api.auth import token_auth
 from app.api.errors import bad_request
+from app import logger
 
 @bp.route('/workout/<int:id>', methods=['GET'])
 @token_auth.login_required
 def get_workout(id):
+    logger.info('get_workout')
     current_user_id = token_auth.current_user().id
     return jsonify(Workout.query.filter_by(id=id, user_id=current_user_id).first_or_404(id).to_dict())
     # return jsonify(Workout.query.get_or_404(id).to_dict())
@@ -18,6 +20,7 @@ def get_workout(id):
 @bp.route('/workouts/', methods=['GET'])
 @token_auth.login_required
 def get_workouts():
+    logger.info('get_workouts')
     current_user_id = token_auth.current_user().id
     user = User.query.get_or_404(current_user_id)
     page = request.args.get('page', 1, type=int)
@@ -28,6 +31,7 @@ def get_workouts():
 @bp.route('/workout', methods=['POST'])
 @token_auth.login_required
 def create_workout():
+    logger.info('create_workout')
     pass
     current_user_id = token_auth.current_user().id
     data = request.get_json() or {}

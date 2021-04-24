@@ -9,6 +9,7 @@ All rights reserved.
 
 # First party classes
 import logging
+import logging.config
 from logging.handlers import SMTPHandler, RotatingFileHandler
 import os
 
@@ -29,6 +30,9 @@ login.login_view = 'auth.login'
 login.login_message = 'Please log in to access this page.'
 bootstrap = Bootstrap()
 
+logging.config.fileConfig('logging.conf')
+logger = logging.getLogger()
+
 def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(config_class)
@@ -37,7 +41,7 @@ def create_app(config_class=Config):
     migrate.init_app(app, db)
     bootstrap.init_app(app)
     login.init_app(app)
-    
+
     from app.auth import bp as auth_bp
     app.register_blueprint(auth_bp, url_prefix='/auth')
 
@@ -48,23 +52,23 @@ def create_app(config_class=Config):
     app.register_blueprint(api_bp, url_prefix='/api')
 
 
-    if app.config['LOG_TO_STDOUT']:
-        stream_handler = logging.StreamHandler()
-        stream_handler.setLevel(logging.INFO)
-        app.logger.addHandler(stream_handler)
-    else:
-        if not os.path.exists('logs'):
-            os.mkdir('logs')
-        file_handler = RotatingFileHandler('logs/personal_site.log',
-                                           maxBytes=10240, backupCount=10)
-        file_handler.setFormatter(logging.Formatter(
-            '%(asctime)s %(levelname)s: %(message)s '
-            '[in %(pathname)s:%(lineno)d]'))
-        file_handler.setLevel(logging.INFO)
-        app.logger.addHandler(file_handler)
-
-    app.logger.setLevel(logging.INFO)
-    app.logger.info('personal_site startup')
+    # if app.config['LOG_TO_STDOUT']:
+    #     stream_handler = logging.StreamHandler()
+    #     stream_handler.setLevel(logging.INFO)
+    #     app.logger.addHandler(stream_handler)
+    # else:
+    #     if not os.path.exists('logs'):
+    #         os.mkdir('logs')
+    #     file_handler = RotatingFileHandler('logs/personal_site.log',
+    #                                        maxBytes=10240, backupCount=10)
+    #     file_handler.setFormatter(logging.Formatter(
+    #         '%(asctime)s %(levelname)s: %(message)s '
+    #         '[in %(pathname)s:%(lineno)d]'))
+    #     file_handler.setLevel(logging.INFO)
+    #     app.logger.addHandler(file_handler)
+    #
+    # app.logger.setLevel(logging.INFO)
+    # app.logger.info('personal_site startup')
 
     return app
 
