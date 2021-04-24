@@ -82,6 +82,8 @@ def edit_workout():
         form.wrkt_dt.data = wrkt.wrkt_dttm
         form.wrkt_tm.data = wrkt.wrkt_dttm
         form.duration_h.data, form.duration_m.data, form.duration_s.data = tm_conv.split_sec_to_time(wrkt.dur_sec)
+        form.distance.data = wrkt.dist_mi
+        form.notes.data = wrkt.notes
 
 
     return render_template('edit_workout.html', title=title, form=form)
