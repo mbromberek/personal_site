@@ -21,7 +21,7 @@ from flask import url_for
 
 # Custom Classes
 from app import db, login
-from app.utils import utils
+from app.utils import tm_conv
 
 
 @login.user_loader
@@ -165,17 +165,17 @@ class Workout(PaginatedAPIMixin, db.Model):
         return '<Workout {}: {}>'.format(self.type, self.wrkt_dttm)
 
     def pace_str(self):
-        return utils.sec_to_time(utils.pace_calc(self.dist_mi, self.dur_sec), 'ms')
+        return tm_conv.sec_to_time(tm_conv.pace_calc(self.dist_mi, self.dur_sec), 'ms')
 
     def dur_str(self):
-        return utils.sec_to_time(self.dur_sec)
+        return tm_conv.sec_to_time(self.dur_sec)
 
     def intrvl_pace_str(self):
-        return utils.sec_to_time(utils.pace_calc(self.intrvl_tot_dist_mi, self.intrvl_tot_tm_sec),'ms')
+        return tm_conv.sec_to_time(tm_conv.pace_calc(self.intrvl_tot_dist_mi, self.intrvl_tot_tm_sec),'ms')
     def cool_down_pace_str(self):
-        return utils.sec_to_time(utils.pace_calc(self.cool_down_tot_dist_mi, self.cool_down_tot_tm_sec),'ms')
+        return tm_conv.sec_to_time(tm_conv.pace_calc(self.cool_down_tot_dist_mi, self.cool_down_tot_tm_sec),'ms')
     def warm_up_pace_str(self):
-        return utils.sec_to_time(utils.pace_calc(self.warm_up_tot_dist_mi, self.warm_up_tot_tm_sec),'ms')
+        return tm_conv.sec_to_time(tm_conv.pace_calc(self.warm_up_tot_dist_mi, self.warm_up_tot_tm_sec),'ms')
 
     def to_dict(self, include_calc_fields=False):
         data = {
@@ -298,7 +298,7 @@ class Workout_Interval(db.Model):
     def pace_str(self):
         if self.dist_mi == 0 or self.dur_sec == 0:
             return 0
-        return utils.sec_to_time(math.floor(self.dur_sec / self.dist_mi), 'ms')
+        return tm_conv.sec_to_time(math.floor(self.dur_sec / self.dist_mi), 'ms')
 
     def dur_str(self):
-        return utils.sec_to_time(self.dur_sec)
+        return tm_conv.sec_to_time(self.dur_sec)

@@ -20,7 +20,7 @@ from app.main import bp
 from app.main.forms import EmptyForm, WorkoutForm
 from app.models import User, Workout
 from app import db
-from app.utils import utils, const
+from app.utils import tm_conv, const
 from app import logger
 
 @bp.route('/')
@@ -64,7 +64,7 @@ def edit_workout():
     form = WorkoutForm()
     title = 'Create Workout'
     if form.validate_on_submit():
-        duration = utils.time_to_sec(form.duration_h.data, form.duration_m.data, form.duration_s.data)
+        duration = tm_conv.time_to_sec(form.duration_h.data, form.duration_m.data, form.duration_s.data)
         wrkt_dttm = datetime.combine(form.wrkt_dt.data, form.wrkt_tm.data)
 
         workout = Workout(author=current_user, type=form.type.data, dur_sec=duration, dist_mi=form.distance.data, notes=form.notes.data, wrkt_dttm=wrkt_dttm)
@@ -81,5 +81,7 @@ def edit_workout():
         form.type.data = wrkt.type
         form.wrkt_dt.data = wrkt.wrkt_dttm
         form.wrkt_tm.data = wrkt.wrkt_dttm
+        form.duration_h.data, form.duration_m.data, form.duration_s.data = tm_conv.split_sec_to_time(wrkt.dur_sec)
+
 
     return render_template('edit_workout.html', title=title, form=form)
