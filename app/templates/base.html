@@ -45,6 +45,13 @@ Base HTML code for each web page
                         </a>
                     </li>
                 </ul>
+                <ul class="nav navbar-nav navbar-left">
+                    <li>
+                        <a href="{{ url_for('main.testing') }}">
+                            Testing
+                        </a>
+                    </li>
+                </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li>
                         {% if current_user.is_anonymous %}

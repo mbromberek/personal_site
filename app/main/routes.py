@@ -100,3 +100,9 @@ def edit_workout():
         form.wrkt_id.data = wrkt_id
 
     return render_template('edit_workout.html', title=title, form=form)
+
+@bp.route('/testing', methods=['GET','POST'])
+def testing():
+    logger.info('testing')
+    title="Testing CSS Grid"
+    return render_template('testing.html', title=title)
