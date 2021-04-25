@@ -92,8 +92,22 @@ def edit_workout():
         wrkt.location = form.location.data
         wrkt.training_type = form.training_type.data
 
+        wrkt.temp_strt = form.temp_strt.data
+        wrkt.temp_feels_like_strt = form.temp_feels_like_strt.data
+        wrkt.wethr_cond_strt = form.wethr_cond_strt.data
+        wrkt.hmdty_strt = form.hmdty_strt.data
+        wrkt.wind_speed_strt = form.wind_speed_strt.data
+        wrkt.wind_gust_strt = form.wind_gust_strt.data
+
+        wrkt.temp_end = form.temp_end.data
+        wrkt.temp_feels_like_end = form.temp_feels_like_end.data
+        wrkt.wethr_cond_end = form.wethr_cond_end.data
+        wrkt.hmdty_end = form.hmdty_end.data
+        wrkt.wind_speed_end = form.wind_speed_end.data
+        wrkt.wind_gust_end = form.wind_gust_end.data
+
         if form.wrkt_id.data == "":
-            db.session.add(workout)
+            db.session.add(wrkt)
             db.session.commit()
             flash('Workout has been created!')
         else:
@@ -104,8 +118,8 @@ def edit_workout():
     elif request.method == 'GET' and request.args.get('workout') != None:
         usr_id = current_user.id
         wrkt_id = request.args.get('workout')
-        title = 'Edit Workout'
-        logger.info('Edit Workout: ' + str(wrkt_id)+' for user: '+str(usr_id))
+        title = 'Update Workout'
+        logger.info('Update Workout: ' + str(wrkt_id)+' for user: '+str(usr_id))
         wrkt = Workout.query.filter_by(id=wrkt_id, user_id=usr_id).first_or_404(id)
         form.type.data = wrkt.type
         form.wrkt_dt.data = wrkt.wrkt_dttm
@@ -124,6 +138,20 @@ def edit_workout():
         form.category.data = wrkt.category
         form.location.data = wrkt.location
         form.training_type.data = wrkt.training_type
+
+        form.temp_strt.data = wrkt.temp_strt
+        form.temp_feels_like_strt.data = wrkt.temp_feels_like_strt
+        form.wethr_cond_strt.data = wrkt.wethr_cond_strt
+        form.hmdty_strt.data = wrkt.hmdty_strt
+        form.wind_speed_strt.data = wrkt.wind_speed_strt
+        form.wind_gust_strt.data = wrkt.wind_gust_strt
+
+        form.temp_end.data = wrkt.temp_end
+        form.temp_feels_like_end.data = wrkt.temp_feels_like_end
+        form.wethr_cond_end.data = wrkt.wethr_cond_end
+        form.hmdty_end.data = wrkt.hmdty_end
+        form.wind_speed_end.data = wrkt.wind_speed_end
+        form.wind_gust_end.data = wrkt.wind_gust_end
 
     return render_template('edit_workout.html', title=title, form=form)
 

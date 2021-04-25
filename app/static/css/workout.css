@@ -46,3 +46,16 @@ a.workout_lnk:hover{
 .field_col{
     padding-left:20px;
 }
+
+fieldset.wrkt_det{
+    border: 1px solid gray;
+    padding: 0px 15px;
+}
+legend.wrkt_det{
+    padding: 0.5em 0.5em;
+    border: 0px solid green;
+    color: gray;
+    font-size: 90%;
+    text-align: right;
+    width:100px;
+}
