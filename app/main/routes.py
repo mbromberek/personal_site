@@ -64,6 +64,8 @@ def edit_workout():
     form = WorkoutForm()
     title = 'Create Workout'
     if form.validate_on_submit():
+        if form.cancel.data:
+            return redirect(url_for('main.workouts'))
         if form.wrkt_id.data == "":
             duration = tm_conv.time_to_sec(form.duration_h.data, form.duration_m.data, form.duration_s.data)
             wrkt_dttm = datetime.combine(form.wrkt_dt.data, form.wrkt_tm.data)
@@ -96,6 +98,5 @@ def edit_workout():
         form.distance.data = wrkt.dist_mi
         form.notes.data = wrkt.notes
         form.wrkt_id.data = wrkt_id
-
 
     return render_template('edit_workout.html', title=title, form=form)
