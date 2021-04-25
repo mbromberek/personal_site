@@ -61,29 +61,45 @@ def workouts():
 @login_required
 def edit_workout():
     logger.info('edit_workout')
+    logger.info('wrkt: ' + str(request.args.get('workout')))
     form = WorkoutForm()
     title = 'Create Workout'
+    if form.cancel.data:
+        return redirect(url_for('main.workouts'))
     if form.validate_on_submit():
-        if form.cancel.data:
-            return redirect(url_for('main.workouts'))
         if form.wrkt_id.data == "":
+            logger.info('new workout')
             duration = tm_conv.time_to_sec(form.duration_h.data, form.duration_m.data, form.duration_s.data)
             wrkt_dttm = datetime.combine(form.wrkt_dt.data, form.wrkt_tm.data)
+            wrkt = Workout(author=current_user, wrkt_dttm=wrkt_dttm)
+        else:
+            logger.info('update workout')
+            usr_id = current_user.id
+            wrkt_id = form.wrkt_id.data
+            wrkt = Workout.query.filter_by(id=wrkt_id, user_id=usr_id).first_or_404(id)
+        wrkt.dur_sec = tm_conv.time_to_sec(form.duration_h.data, form.duration_m.data, form.duration_s.data)
+        wrkt.type = form.type.data
+        wrkt.dist_mi = form.distance.data
+        wrkt.notes = form.notes.data
 
-            workout = Workout(author=current_user, type=form.type.data, dur_sec=duration, dist_mi=form.distance.data, notes=form.notes.data, wrkt_dttm=wrkt_dttm)
+        wrkt.gear = form.gear.data
+        wrkt.clothes = form.clothes.data
+        wrkt.ele_up = form.ele_up.data
+        wrkt.ele_down = form.ele_down.data
+        wrkt.hr = form.hr.data
+        wrkt.cal_burn = form.cal_burn.data
+        wrkt.category = form.category.data
+        wrkt.location = form.location.data
+        wrkt.training_type = form.training_type.data
+
+        if form.wrkt_id.data == "":
             db.session.add(workout)
             db.session.commit()
             flash('Workout has been created!')
         else:
-            usr_id = current_user.id
-            wrkt_id = form.wrkt_id.data
-            wrkt = Workout.query.filter_by(id=wrkt_id, user_id=usr_id).first_or_404(id)
-            wrkt.dur_sec = tm_conv.time_to_sec(form.duration_h.data, form.duration_m.data, form.duration_s.data)
-            wrkt.type = form.type.data
-            wrkt.dist_mi = form.distance.data
-            wrkt.notes = form.notes.data
             db.session.commit()
             flash('Workout has been updated!')
+
         return redirect(url_for('main.workouts'))
     elif request.method == 'GET' and request.args.get('workout') != None:
         usr_id = current_user.id
@@ -98,6 +114,16 @@ def edit_workout():
         form.distance.data = wrkt.dist_mi
         form.notes.data = wrkt.notes
         form.wrkt_id.data = wrkt_id
+
+        form.gear.data = wrkt.gear
+        form.clothes.data = wrkt.clothes
+        form.ele_up.data = wrkt.ele_up
+        form.ele_down.data = wrkt.ele_down
+        form.hr.data = wrkt.hr
+        form.cal_burn.data = wrkt.cal_burn
+        form.category.data = wrkt.category
+        form.location.data = wrkt.location
+        form.training_type.data = wrkt.training_type
 
     return render_template('edit_workout.html', title=title, form=form)
 

@@ -14,7 +14,7 @@ from flask import request
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, TextAreaField, DecimalField, HiddenField
 from wtforms.fields.html5 import DateField, TimeField, IntegerField
-from wtforms.validators import Length, NumberRange, InputRequired
+from wtforms.validators import Length, NumberRange, InputRequired, Optional
 from wtforms.widgets import html5 as h5widgets
 
 class EmptyForm(FlaskForm):
@@ -41,3 +41,13 @@ class WorkoutForm(FlaskForm):
     notes = TextAreaField('Notes', validators=[Length(min=0, max=500)])
     submit = SubmitField('Submit')
     cancel = SubmitField('Cancel')
+
+    gear = StringField('Gear')
+    clothes = StringField('Clothes')
+    ele_up = DecimalField('Elevation Up', validators=[Optional()], places=2, rounding=decimal.ROUND_UP)
+    ele_down = DecimalField('Elevation Down', validators=[Optional()], places=2, rounding=decimal.ROUND_UP)
+    hr = IntegerField('Heart Rate', validators=[Optional()])
+    cal_burn = IntegerField('Calories Burned', validators=[Optional()])
+    category = StringField('Category')
+    location = StringField('Location')
+    training_type = StringField('Training Type')

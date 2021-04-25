@@ -39,3 +39,10 @@ a.workout_lnk:hover{
     text-decoration: underline;
     color:darkred;
 }
+
+.field_row{
+    padding-bottom:20px;
+}
+.field_col{
+    padding-left:20px;
+}
