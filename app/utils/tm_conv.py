@@ -75,6 +75,8 @@ def pace_calc(dist, dur_sec):
     return math.floor(dur_sec / dist)
 
 def split_sec_to_time(tm_sec):
+    if tm_sec == '' or tm_sec == None:
+        tm_sec = 0
     hours = math.floor(tm_sec / SECONDS_IN_HOUR)
     minutes = math.floor((tm_sec % SECONDS_IN_HOUR) / SECONDS_IN_MINUTE)
     seconds = (tm_sec % SECONDS_IN_HOUR) % SECONDS_IN_MINUTE

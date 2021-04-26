@@ -65,3 +65,36 @@ class WorkoutForm(FlaskForm):
     hmdty_end = DecimalField('Percent Humidity', validators=[Optional()], places=2, rounding=decimal.ROUND_UP)
     wind_speed_end = DecimalField('Wind Speed', validators=[Optional()], places=2, rounding=decimal.ROUND_UP)
     wind_gust_end = DecimalField('Wind Gust', validators=[Optional()], places=2, rounding=decimal.ROUND_UP)
+
+    warm_up_dur_h = IntegerField('h ',
+        widget=h5widgets.NumberInput(min=0,max=29),
+        default=0, validators=[InputRequired()])
+    warm_up_dur_m = IntegerField('m ',
+        widget=h5widgets.NumberInput(min=0,max=59),
+        default=0, validators=[InputRequired()])
+    warm_up_dur_s = IntegerField('s ',
+        widget=h5widgets.NumberInput(min=0,max=59),
+        default=0, validators=[InputRequired()])
+    warm_up_tot_dist = DecimalField('Distance', validators=[InputRequired()], places=2, rounding=decimal.ROUND_UP)
+
+    cool_down_dur_h = IntegerField('h ',
+        widget=h5widgets.NumberInput(min=0,max=29),
+        default=0, validators=[InputRequired()])
+    cool_down_dur_m = IntegerField('m ',
+        widget=h5widgets.NumberInput(min=0,max=59),
+        default=0, validators=[InputRequired()])
+    cool_down_dur_s = IntegerField('s ',
+        widget=h5widgets.NumberInput(min=0,max=59),
+        default=0, validators=[InputRequired()])
+    cool_down_tot_dist = DecimalField('Distance', validators=[InputRequired()], places=2, rounding=decimal.ROUND_UP)
+
+    intrvl_dur_h = IntegerField('h ',
+        widget=h5widgets.NumberInput(min=0,max=29),
+        default=0, validators=[InputRequired()])
+    intrvl_dur_m = IntegerField('m ',
+        widget=h5widgets.NumberInput(min=0,max=59),
+        default=0, validators=[InputRequired()])
+    intrvl_dur_s = IntegerField('s ',
+        widget=h5widgets.NumberInput(min=0,max=59),
+        default=0, validators=[InputRequired()])
+    intrvl_tot_dist = DecimalField('Distance', validators=[InputRequired()], places=2, rounding=decimal.ROUND_UP)

@@ -106,6 +106,15 @@ def edit_workout():
         wrkt.wind_speed_end = form.wind_speed_end.data
         wrkt.wind_gust_end = form.wind_gust_end.data
 
+        wrkt.warm_up_tot_tm_sec = tm_conv.time_to_sec(form.warm_up_dur_h.data, form.warm_up_dur_m.data, form.warm_up_dur_s.data)
+        wrkt.warm_up_tot_dist_mi = form.warm_up_tot_dist.data
+
+        wrkt.cool_down_tot_tm_sec = tm_conv.time_to_sec(        form.cool_down_dur_h.data, form.cool_down_dur_m.data, form.cool_down_dur_s.data)
+        wrkt.cool_down_tot_dist_mi = form.cool_down_tot_dist.data
+
+        wrkt.intrvl_tot_tm_sec = tm_conv.time_to_sec(form.intrvl_dur_h.data, form.intrvl_dur_m.data, form.intrvl_dur_s.data)
+        wrkt.intrvl_tot_dist_mi = form.intrvl_tot_dist.data
+
         if form.wrkt_id.data == "":
             db.session.add(wrkt)
             db.session.commit()
@@ -152,6 +161,15 @@ def edit_workout():
         form.hmdty_end.data = wrkt.hmdty_end
         form.wind_speed_end.data = wrkt.wind_speed_end
         form.wind_gust_end.data = wrkt.wind_gust_end
+
+        form.warm_up_dur_h.data, form.warm_up_dur_m.data, form.warm_up_dur_s.data = tm_conv.split_sec_to_time(wrkt.warm_up_tot_tm_sec)
+        form.warm_up_tot_dist.data = wrkt.warm_up_tot_dist_mi
+
+        form.cool_down_dur_h.data, form.cool_down_dur_m.data, form.cool_down_dur_s.data = tm_conv.split_sec_to_time(wrkt.cool_down_tot_tm_sec)
+        form.cool_down_tot_dist.data = wrkt.cool_down_tot_dist_mi
+
+        form.intrvl_dur_h.data, form.intrvl_dur_m.data, form.intrvl_dur_s.data = tm_conv.split_sec_to_time(wrkt.intrvl_tot_tm_sec)
+        form.intrvl_tot_dist.data = wrkt.intrvl_tot_dist_mi
 
     return render_template('edit_workout.html', title=title, form=form)
 
