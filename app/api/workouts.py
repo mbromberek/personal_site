@@ -8,6 +8,7 @@ from app.api import bp
 from app.api.auth import token_auth
 from app.api.errors import bad_request
 from app import logger
+from app.utils import dt_conv
 
 @bp.route('/workout/<int:id>', methods=['GET'])
 @token_auth.login_required
@@ -52,6 +53,27 @@ def create_workout():
     response.status_code = 201
     response.headers['Location'] = url_for('api.get_workout', id=workout.id)
     return response
+
+@bp.route('/workouts/<dttm>', methods=['GET'])
+@token_auth.login_required
+def get_workouts_by_dttm(dttm):
+    logger.info('get_workouts_by_dttm')
+    current_user_id = token_auth.current_user().id
+    user = User.query.get_or_404(current_user_id)
+
+    wrkt_dt = dt_conv.get_date(dttm)
+    logger.info(str(wrkt_dt))
+    #TODO covert dttm to datetime type. Try to allow for just date or full date/time being passed
+    # Return an array of workouts, not sure how much of workout to return
+    return jsonify([{'Status':'Success'}]), 200
+
+@bp.route('/workout/<int:id>', methods=['PUT'])
+@token_auth.login_required
+def update_workout(id):
+    logger.info('update_workout')
+    current_user_id = token_auth.current_user().id
+    user = User.query.get_or_404(current_user_id)
+    pass
 
 # @bp.route('/users/<int:id>', methods=['PUT'])
 # @token_auth.login_required
