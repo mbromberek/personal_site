@@ -273,6 +273,11 @@ class Workout(PaginatedAPIMixin, db.Model):
             for field in wethr_str_fields:
                 setattr(self, field + '_end', wethr_data[field])
 
+    def update(self, updt_wrkt):
+        merge_fields = ['type', 'wrkt_dttm', 'dur_sec', 'dist_mi', 'gear', 'clothes', 'category', 'location', 'training_type', 'notes','hr','cal_burn','warm_up_tot_tm_sec', 'cool_down_tot_tm_sec', 'intrvl_tot_tm_sec','ele_up','ele_down','warm_up_tot_dist_mi','cool_down_tot_dist_mi','intrvl_tot_dist_mi','intrvl_tot_ele_up','intrvl_tot_ele_down']
+        for field in merge_fields:
+            if getattr(updt_wrkt, field) != None:
+                setattr(self, field, getattr(updt_wrkt, field))
 
 class Workout_Interval(db.Model):
     # Constraint unique for id and interval_order

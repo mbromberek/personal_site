@@ -93,7 +93,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://{{server}}/api/workout/4",
+					"raw": "http://{{server}}/api/workout/14",
 					"protocol": "http",
 					"host": [
 						"{{server}}"
@@ -101,7 +101,7 @@
 					"path": [
 						"api",
 						"workout",
-						"4"
+						"14"
 					]
 				}
 			},
@@ -114,7 +114,63 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"dist_mi\": \"6.02\",\n    \"dur_sec\": 3230,\n    \"type\": \"Running\",\n    \"wrkt_dttm\": \"2021-04-12T15:20:06Z\"\n}",
+					"raw": "{\n    \"dist_mi\": \"6.02\",\n    \"dur_sec\": 3230,\n    \"type\": \"Running\",\n    \"wrkt_dttm\": \"2021-04-12T15:21:07Z\",\n    \"gear\": \"dummy shoes\",\n    \"clothes\": \"Shorts, t-shirt\",\n    \"category\": \"Easy\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{server}}/api/workout",
+					"protocol": "http",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"workout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update_workout",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": 17,\n    \"dist_mi\": \"7.02\",\n    \"dur_sec\": 3230,\n    \"type\": \"Run\",\n    \"wrkt_dttm\": \"2021-04-26T15:21:08Z\",\n    \"gear\": \"Slime shoes\",\n    \"clothes\": \"Shorts, t-shirt\",\n    \"category\": \"Easy\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{server}}/api/workout",
+					"protocol": "http",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"workout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create_workout all fields",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"dist_mi\": \"15.02\",\n    \"dur_sec\": 7200,\n    \"type\": \"Running\",\n    \"wrkt_dttm\": \"2021-04-14T15:21:07Z\",\n    \"gear\": \"mizuno slime\",\n    \"clothes\": \"Shorts, t-shirt\",\n    \"category\": \"Long Run\",\n    \"notes\": \"Tired after run\",\n\n    \"cal_burn\": 640,\n    \"ele_down\": 160.80,\n    \"ele_up\": 216.50,\n    \"hr\": 100,\n    \"location\":\"RC Outfitters\",\n    \"wethr_end\": {\n        \"wethr_cond\": \"Clear\",\n        \"hmdty\": 0.83,\n        \"temp\": 19.18,\n        \"temp_feels_like\": 12.70,\n        \"wind_gust\": 5.95,\n        \"wind_speed\": 4.26\n    },\n    \"wethr_start\": {\n        \"wethr_cond\": \"Clear\",\n        \"hmdty\": 0.78,\n        \"temp\": 20.89,\n        \"temp_feels_like\": 17.95,\n        \"wind_gust\": 5.07,\n        \"wind_speed\": 3.57\n    }\n\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -154,6 +210,26 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "get_workout_by_dttm",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{server}}/api/workouts/2021-04-26T07:59:00Z",
+					"protocol": "http",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"workouts",
+						"2021-04-26T07:59:00Z"
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"auth": {
@@ -161,7 +237,12 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "nA7vy9aMP690rW2nqwRckMOoWZrCWtue",
+				"value": "{{token}}",
+				"type": "string"
+			},
+			{
+				"key": "password",
+				"value": "{{server}}",
 				"type": "string"
 			}
 		]
