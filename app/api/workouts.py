@@ -84,7 +84,7 @@ def update_workout():
     logger.info('update_workout')
     current_user_id = token_auth.current_user().id
     data = request.get_json() or {}
-    req_fields = ['id','type', 'wrkt_dttm', 'dur_sec', 'dist_mi']
+    req_fields = ['id']
     for field in req_fields:
         if field not in data:
             return bad_request('must include ' + field + ' field')

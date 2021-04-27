@@ -234,16 +234,14 @@ class Workout(PaginatedAPIMixin, db.Model):
 
     def from_dict(self, data, user_id):
 
-        str_fields = ['gear', 'clothes', 'category', 'location', 'training_type', 'notes']
-        int_fields = ['hr','cal_burn','warm_up_tot_tm_sec', 'cool_down_tot_tm_sec', 'intrvl_tot_tm_sec']
-        float_fields = ['ele_up','ele_down','warm_up_tot_dist_mi','cool_down_tot_dist_mi','intrvl_tot_dist_mi','intrvl_tot_ele_up','intrvl_tot_ele_down']
+        str_fields = ['type','gear', 'clothes', 'category', 'location', 'training_type', 'notes']
+        int_fields = ['dur_sec','hr','cal_burn','warm_up_tot_tm_sec', 'cool_down_tot_tm_sec', 'intrvl_tot_tm_sec']
+        float_fields = ['dist_mi','ele_up','ele_down','warm_up_tot_dist_mi','cool_down_tot_dist_mi','intrvl_tot_dist_mi','intrvl_tot_ele_up','intrvl_tot_ele_down']
 
         setattr(self, 'user_id', user_id)
-        self.type = data['type']
         # TODO need to validate date format
-        self.wrkt_dttm = datetime.strptime(data['wrkt_dttm'], '%Y-%m-%dT%H:%M:%SZ')
-        self.dur_sec = int(data['dur_sec'])
-        self.dist_mi = float(data['dist_mi'])
+        if 'wrkt_dttm' in data:
+            self.wrkt_dttm = datetime.strptime(data['wrkt_dttm'], '%Y-%m-%dT%H:%M:%SZ')
 
         for field in str_fields:
             if field in data:
