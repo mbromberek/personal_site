@@ -34,21 +34,25 @@ def get_workouts():
 def create_workout():
     logger.info('create_workout')
     current_user_id = token_auth.current_user().id
-    data = request.get_json() or {}
-    # Make sure the required fields are in the data dict
-    req_fields = ['type', 'wrkt_dttm', 'dur_sec', 'dist_mi']
-    for field in req_fields:
-        if field not in data:
-            return bad_request('must include ' + field + ' field')
+    dataLst = request.get_json() or [{}]
 
-    # Should I check if a request for specified workt_dttm already exists?
-    # if User.query.filter_by(username=data['username']).first():
-    #     return bad_request('please use a different email address')
-    workout = Workout()
-    workout.from_dict(data, current_user_id)
-    db.session.add(workout)
-    db.session.commit()
-    response = jsonify(workout.to_dict())
+    wrkt_list = []
+    for data in dataLst:
+        # Make sure the required fields are in the data dict
+        req_fields = ['type', 'wrkt_dttm', 'dur_sec', 'dist_mi']
+        for field in req_fields:
+            if field not in data:
+                return bad_request('must include ' + field + ' field')
+
+        # Should I check if a request for specified workt_dttm already exists?
+        # if User.query.filter_by(username=data['username']).first():
+        #     return bad_request('please use a different email address')
+        workout = Workout()
+        workout.from_dict(data, current_user_id)
+        db.session.add(workout)
+        db.session.commit()
+        wrkt_list.append(workout.to_dict())
+    response = jsonify(wrkt_list)
     response.status_code = 201
     response.headers['Location'] = url_for('api.get_workout', id=workout.id)
     return response
@@ -85,22 +89,26 @@ def update_workout():
     current_user_id = token_auth.current_user().id
     data = request.get_json() or {}
     req_fields = ['id']
-    for field in req_fields:
-        if field not in data:
-            return bad_request('must include ' + field + ' field')
-    wrkt_id = data['id']
-    passed_workout = Workout()
-    passed_workout.from_dict(data, current_user_id)
-    passed_workout.id = wrkt_id
-    logger.info('passed wrkt_id:' + str(wrkt_id))
-    orig_workout = Workout.query.filter_by(id=wrkt_id, user_id=current_user_id).first_or_404(wrkt_id)
-    logger.info(orig_workout)
-    orig_workout.update(passed_workout)
-    logger.info(passed_workout)
-    logger.info(orig_workout)
+    ret_data_lst = []
+    logger.info(data)
+    for wrkt_data in data:
+        for field in req_fields:
+            if field not in wrkt_data:
+                return bad_request('must include ' + field + ' field')
+        wrkt_id = wrkt_data['id']
+        passed_workout = Workout()
+        passed_workout.from_dict(wrkt_data, current_user_id)
+        passed_workout.id = wrkt_id
+        logger.info('passed wrkt_id:' + str(wrkt_id))
+        orig_workout = Workout.query.filter_by(id=wrkt_id, user_id=current_user_id).first_or_404(wrkt_id)
+        logger.info(orig_workout)
+        orig_workout.update(passed_workout)
+        logger.info(passed_workout)
+        logger.info(orig_workout)
+        ret_data_lst.append(orig_workout.to_dict())
 
-    db.session.commit()
-    response = jsonify(orig_workout.to_dict())
+        db.session.commit()
+    response = jsonify(ret_data_lst)
     response.status_code = 200
-    response.headers['Location'] = url_for('api.get_workout', id=orig_workout.id)
+    # response.headers['Location'] = url_for('api.get_workout', id=orig_workout.id)
     return response

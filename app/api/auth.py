@@ -4,6 +4,7 @@ from flask_httpauth import HTTPBasicAuth, HTTPTokenAuth
 # Customer classes
 from app.models import User
 from app.api.errors import error_response
+from app import logger
 
 basic_auth = HTTPBasicAuth()
 token_auth = HTTPTokenAuth()
@@ -21,7 +22,7 @@ def basic_auth_error(status):
 
 @token_auth.verify_token
 def verify_token(token):
-    print("verify_token")
+    logger.info("verify_token")
     return User.check_token(token) if token else None
 
 @token_auth.error_handler
