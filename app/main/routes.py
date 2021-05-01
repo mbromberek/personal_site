@@ -55,6 +55,10 @@ def workouts():
     for workout in workouts:
         workout.duration = workout.dur_str()
         workout.pace = workout.pace_str()
+        if workout.notes != None:
+            workout.notes_summary = workout.notes[:current_app.config['SIZE_NOTES_SUMMARY']] + '...' if len(workout.notes) > current_app.config['SIZE_NOTES_SUMMARY'] else workout.notes
+        else:
+            workout.notes_summary = ""
     return render_template('workouts.html', title='Workouts', workouts=workouts, form=form, next_url=next_url, prev_url=prev_url)
 
 @bp.route('/edit_workout', methods=['GET','POST'])

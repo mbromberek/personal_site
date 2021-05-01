@@ -16,7 +16,9 @@
                 </tr>
                 <tr>
                     <td class="workout-detail" style="text-align: right;">
+                        {% if workout.training_type != None %}
                         {{ workout.training_type }}
+                        {% endif %}
                     </td>
                 </tr>
             </table>
@@ -53,6 +55,36 @@
                     </td>
                     <td>
                         &nbsp;
+                    </td>
+                </tr>
+            </table>
+            <br>
+            <table width="100%" style="text-align: left; ">
+                <tr class="workout-detail">
+                    <td width="100%">
+                        Start: {{ workout.temp_strt }} degrees {{ workout.wethr_cond_strt }}, {{ workout.hmdty_strt }}, wind speed {{ workout.wind_speed_strt }} mph, wind gust {{ workout.wind_gust_strt }}, feels like {{ workout.temp_feels_like_strt }}.
+                    </td>
+                </tr>
+                <tr class="workout-detail">
+                    <td >
+                        End: {{ workout.temp_end }} degrees {{ workout.wethr_cond_end }}, {{ workout.hmdty_end }}, wind speed {{ workout.wind_speed_end }} mph, wind gust {{ workout.wind_gust_end }}, feels like {{ workout.temp_feels_like_end }}.
+                    </td>
+                </tr>
+            </table>
+            <table width="100%" style="text-align: left; ">
+                <tr class="workout-detail">
+                    <td width="65%" class="workout-detail">
+                        Wore: {{ workout.clothes }}
+                    </td>
+                    <td  class="workout-detail"  style="border-left: 1px gray solid; padding-left:10px">
+                        {{ workout.gear }}
+                    </td>
+                </tr>
+            </table>
+            <table width="100%" style="text-align: left;">
+                <tr class="workout-detail">
+                    <td width="100%">
+                        {{ workout.notes_summary }}
                     </td>
                 </tr>
             </table>

@@ -18,6 +18,7 @@ class Config(object):
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     POSTS_PER_PAGE = 10
+    SIZE_NOTES_SUMMARY = 210
     DEBUG = False
     # LOG_TO_STDOUT = os.environ.get('LOG_TO_STDOUT')
 
