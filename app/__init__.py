@@ -32,10 +32,12 @@ bootstrap = Bootstrap()
 
 logging.config.fileConfig('logging.conf')
 logger = logging.getLogger()
+basedir = os.path.abspath(os.path.dirname(__file__))
 
 def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(config_class)
+    app.config.from_pyfile(os.path.join(basedir, '..','instance','config.py'))
 
     db.init_app(app)
     migrate.init_app(app, db)

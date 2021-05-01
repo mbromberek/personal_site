@@ -1,4 +1,3 @@
-#! /Users/mikeyb/Applications/python3
 # -*- coding: utf-8 -*-
 
 '''
@@ -17,7 +16,7 @@ import base64
 # Third party classes
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask import url_for
+from flask import url_for, current_app
 
 # Custom Classes
 from app import db, login
@@ -86,7 +85,9 @@ class User(PaginatedAPIMixin, UserMixin, db.Model):
         }
         return data
 
-    def get_token(self, expires_in=3600):
+    def get_token(self, expires_in=-1):
+        if expires_in == -1:
+            expires_in = current_app.config['TOKEN_EXPIRES_AFTER']
         now = datetime.utcnow()
         if self.token and self.token_expiration > now + timedelta(seconds=60):
             return self.token

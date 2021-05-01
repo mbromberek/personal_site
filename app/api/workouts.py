@@ -1,3 +1,11 @@
+# -*- coding: utf-8 -*-
+
+'''
+BSD 3-Clause License
+Copyright (c) 2021, Mike Bromberek
+All rights reserved.
+'''
+
 # 3rd Party classes
 from flask import jsonify, request, url_for, abort
 
