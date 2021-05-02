@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block app_content %}
+    <h1>{{ workout.type }}, {{ workout.wrkt_dttm }}</h1>
+    <a class="workout_lnk" style="font-weight:normal;
+    font-size: 12pt;" href="{{ url_for('main.edit_workout', workout=workout.id) }}">
+        edit
+    </a>
+    <br>
+
+    <div class="form-inline field_row" style="width:600px">
+        <fieldset class="wrkt_det">
+            <legend class="wrkt_det">
+                Total
+            </legend>
+            <div class="form-inline field_row">
+
+    <table width="100%" style="text-align: center;">
+        <tr class="workout-detail">
+            <td width="25%">
+                &nbsp;
+            </td>
+            <td  class="workout-detail" width="100px">
+                Distance
+            </td>
+            <td class="workout-detail" width="100px" style="border-right: 1px gray solid; border-left: 1px gray solid">
+                Duration
+            </td>
+            <td class="workout-detail"  width="100px">
+                Pace
+            </td>
+            <td width="25%">
+                &nbsp;
+            </td>
+        </tr>
+        <tr class="workout-detail" >
+            <td>
+                &nbsp;
+            </td>
+            <td  class="workout-detail" >
+                {{ workout.dist_mi }} mi
+            </td>
+            <td class="workout-detail" style="border-right: 1px gray solid; border-left: 1px gray solid">
+                {{ workout.duration }}
+            </td>
+            <td class="workout-detail">
+                {{ workout.pace }} /mile
+            </td>
+            <td>
+                &nbsp;
+            </td>
+        </tr>
+    </table>
+    </fieldset>
+    </div>
+
+    <div class="form-inline field_row" style="width:600px">
+        <fieldset class="wrkt_det">
+            <legend class="wrkt_det">
+                Weather
+            </legend>
+            <div class="form-inline field_row">
+                <p>
+                    Start: {{ workout.temp_strt }} degrees {{ workout.wethr_cond_strt }}, {{ workout.hmdty_strt }}, wind speed {{ workout.wind_speed_strt }} mph, wind gust {{ workout.wind_gust_strt }}, feels like {{ workout.temp_feels_like_strt }}.
+                </p>
+                <p>
+                    End: {{ workout.temp_end }} degrees {{ workout.wethr_cond_end }}, {{ workout.hmdty_end }}, wind speed {{ workout.wind_speed_end }} mph, wind gust {{ workout.wind_gust_end }}, feels like {{ workout.temp_feels_like_end }}.
+                </p>
+            </div>
+        </fieldset>
+    </div>
+
+    {% if workout.intrvl_tot_dist_mi != None %}
+    <div class="form-inline field_row" style="width:600px">
+        <fieldset class="wrkt_det">
+            <legend class="wrkt_det">
+                Training Summary
+            </legend>
+            <div class="form-inline field_row">
+                <table width="100%" style="text-align: center;">
+                    <tr class="workout-detail">
+                        <td width="100px">
+                            &nbsp;
+                        </td>
+                        <td  class="workout-detail" width="100px">
+                            Distance
+                        </td>
+                        <td class="workout-detail" width="100px" style="border-right: 1px gray solid; border-left: 1px gray solid">
+                            Duration
+                        </td>
+                        <td class="workout-detail"  width="100px">
+                            Pace
+                        </td>
+                    </tr>
+                    <tr class="workout-detail" >
+                        <td>
+                            Warm Up:
+                        </td>
+                        <td  class="workout-detail" >
+                            {{ workout.warm_up_tot_dist_mi }} mi
+                        </td>
+                        <td class="workout-detail" style="border-right: 1px gray solid; border-left: 1px gray solid">
+                            {{ workout.warm_up_dur_str }}
+                        </td>
+                        <td class="workout-detail">
+                            {{ workout.warm_up_pace }} /mile
+                        </td>
+                    </tr>
+                    <tr class="workout-detail" >
+                        <td >
+                            Intervals:
+                        </td>
+                        <td  class="workout-detail" >
+                            {{ workout.intrvl_tot_dist_mi }} mi
+                        </td>
+                        <td class="workout-detail" style="border-right: 1px gray solid; border-left: 1px gray solid">
+                            {{ workout.intrvl_dur_str }}
+                        </td>
+                        <td class="workout-detail">
+                            {{ workout.intrvl_pace }} /mile
+                        </td>
+                    </tr>
+                    <tr class="workout-detail" >
+                        <td >
+                            Cool Down:
+                        </td>
+                        <td  class="workout-detail" >
+                            {{ workout.cool_down_tot_dist_mi }} mi
+                        </td>
+                        <td class="workout-detail" style="border-right: 1px gray solid; border-left: 1px gray solid">
+                            {{ workout.cool_down_dur_str }}
+                        </td>
+                        <td class="workout-detail">
+                            {{ workout.cool_down_pace }} /mile
+                        </td>
+                    </tr>
+
+                </table>
+            </div>
+        </fieldset>
+    </div>
+    {% endif %}
+
+{% endblock %}

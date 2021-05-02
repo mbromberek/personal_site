@@ -4,10 +4,15 @@
             <table width="100%">
                 <tr>
                     <td class="workout-header"  width="75%" rowspan="2">
-                        <a class="workout_lnk" href="{{ url_for('main.edit_workout', workout=workout.id) }}">
+                        <a class="workout_lnk" href="{{ url_for('main.workout', workout=workout.id) }}">
                             {{ workout.wrkt_dttm }}
                             &nbsp;-&nbsp;
                             {{ workout.type }}
+                        </a>
+                        &nbsp;
+                        <a class="workout_lnk" style="text-decoration:underline;font-weight:normal;
+                        font-size: 12pt;" href="{{ url_for('main.edit_workout', workout=workout.id) }}">
+                            (edit)
                         </a>
                     </td>
                     <td class="workout-detail" style="text-align: right; " width="25%">

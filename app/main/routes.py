@@ -55,6 +55,8 @@ def workouts():
     for workout in workouts:
         workout.duration = workout.dur_str()
         workout.pace = workout.pace_str()
+        if workout.clothes == None:
+            workout.clothes = ''
         if workout.notes != None:
             workout.notes_summary = workout.notes[:current_app.config['SIZE_NOTES_SUMMARY']] + '...' if len(workout.notes) > current_app.config['SIZE_NOTES_SUMMARY'] else workout.notes
         else:
@@ -182,3 +184,25 @@ def testing():
     logger.info('testing')
     title="Testing CSS Grid"
     return render_template('testing.html', title=title)
+
+
+@bp.route('/workout', methods=['GET'])
+@login_required
+def workout():
+    logger.info('workout')
+    usr_id = current_user.id
+    wrkt_id = request.args.get('workout')
+    logger.info('wrkt: ' + str(wrkt_id) + ' for user: ' + str(usr_id))
+    workout = Workout.query.filter_by(id=wrkt_id, user_id=usr_id).first_or_404(id)
+    workout.duration = workout.dur_str()
+    workout.intrvl_dur_str = workout.intrvl_dur_str()
+    workout.warm_up_dur_str = workout.warm_up_dur_str()
+    workout.cool_down_dur_str = workout.cool_down_dur_str()
+
+    workout.pace = workout.pace_str()
+    workout.warm_up_pace = workout.warm_up_pace_str()
+    workout.cool_down_pace = workout.cool_down_pace_str()
+    workout.intrvl_pace = workout.intrvl_pace_str()
+
+
+    return render_template('workout.html', workout=workout)
