@@ -2,11 +2,26 @@
 {% import 'bootstrap/wtf.html' as wtf %}
 
 {% block app_content %}
-    <h1>Hi, {{ current_user.displayname }}</h1>
-
-    <br>
-    <table class="table table-hover">
-    {% include '_workouts.html' %}
-    </table>
+    <div class="home_section home_section_1" style="border:3px solid blue; " >
+        <h2 class="home">About Me</h2>
+        <div class="home_section home_section_1" style="border:3px solid blue;width:100%; position:relative" >
+            <div style="border:3px solid red; width:400px">
+                Hi I am Mike Bromberek. I have worked at Caterpillar as an IT Analyst for 15 years.
+                <br>
+                I have been learning Python for the last few years.
+                <br>
+                I love running! My fastest Marathon time is 1h 20m 53s and I am currently training to run my 6th Marathon this fall.
+            </div>
+            <span style="position:absolute; right:5px; top:5px; width:300px; border:3px solid #73AD21;">
+                Image
+            </span>
+        </div>
+    </div>
+    <div class="home_section home_section_2">
+        <h2 class="home">Programming Skills</h2>
+        <p style="text-align:center;">
+            Java, SQL, Python, HTML, CSS
+        </p>
+    </div>
 
 {% endblock %}
