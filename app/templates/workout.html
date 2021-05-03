@@ -14,41 +14,34 @@
             <legend class="wrkt_det">
                 Total
             </legend>
-            <div class="form-inline field_row">
-
     <table width="100%" style="text-align: center;">
-        <tr class="workout-detail">
-            <td width="25%">
-                &nbsp;
-            </td>
+        <tr class="workout-detail" style="border-bottom: 1px gray solid;">
             <td  class="workout-detail" width="100px">
-                Distance
+                Distance <br>
+                {{ workout.dist_mi }} mi
             </td>
             <td class="workout-detail" width="100px" style="border-right: 1px gray solid; border-left: 1px gray solid">
-                Duration
+                Duration <br>
+                {{ workout.duration }}
             </td>
-            <td class="workout-detail"  width="100px">
-                Pace
-            </td>
-            <td width="25%">
-                &nbsp;
+            <td class="workout-detail"  width="100px" >
+                Pace <br>
+                {{ workout.pace }} /mile
             </td>
         </tr>
         <tr class="workout-detail" >
-            <td>
-                &nbsp;
-            </td>
             <td  class="workout-detail" >
-                {{ workout.dist_mi }} mi
+                Elevation<br>
+                {{ workout.ele_up }} &uarr;&nbsp;
+                {{ workout.ele_down }} &darr;
             </td>
             <td class="workout-detail" style="border-right: 1px gray solid; border-left: 1px gray solid">
-                {{ workout.duration }}
+                Calories<br>
+                {{ workout.cal_burn }}
             </td>
-            <td class="workout-detail">
-                {{ workout.pace }} /mile
-            </td>
-            <td>
-                &nbsp;
+            <td class="workout-detail" >
+                Heart Rate <br>
+                {{ workout.hr }}
             </td>
         </tr>
     </table>
@@ -62,10 +55,10 @@
             </legend>
             <div class="form-inline field_row">
                 <p>
-                    Start: {{ workout.temp_strt }} degrees {{ workout.wethr_cond_strt }}, {{ workout.hmdty_strt }}, wind speed {{ workout.wind_speed_strt }} mph, wind gust {{ workout.wind_gust_strt }}, feels like {{ workout.temp_feels_like_strt }}.
+                    Start: {{ workout.temp_strt }} degrees {{ workout.wethr_cond_strt }}, {{ workout.hmdty_strt }} percent humidity, wind speed {{ workout.wind_speed_strt }} mph, wind gust {{ workout.wind_gust_strt }}, feels like {{ workout.temp_feels_like_strt }}.
                 </p>
                 <p>
-                    End: {{ workout.temp_end }} degrees {{ workout.wethr_cond_end }}, {{ workout.hmdty_end }}, wind speed {{ workout.wind_speed_end }} mph, wind gust {{ workout.wind_gust_end }}, feels like {{ workout.temp_feels_like_end }}.
+                    End: {{ workout.temp_end }} degrees {{ workout.wethr_cond_end }}, {{ workout.hmdty_end }} percent humidity, wind speed {{ workout.wind_speed_end }} mph, wind gust {{ workout.wind_gust_end }}, feels like {{ workout.temp_feels_like_end }}.
                 </p>
             </div>
         </fieldset>

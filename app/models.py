@@ -169,7 +169,7 @@ class Workout(PaginatedAPIMixin, db.Model):
         return tm_conv.sec_to_time(tm_conv.pace_calc(self.dist_mi, self.dur_sec), 'ms')
 
     def dur_str(self):
-        return tm_conv.sec_to_time(self.intrvl_tot_tm_sec)
+        return tm_conv.sec_to_time(self.dur_sec)
     def intrvl_dur_str(self):
         return tm_conv.sec_to_time(self.intrvl_tot_tm_sec)
     def warm_up_dur_str(self):

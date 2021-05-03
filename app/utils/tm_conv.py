@@ -18,7 +18,10 @@ def sec_to_time(tm_sec, format='hms'):
     '''
     Convert passed in time from seconds to time string in format ##h ##m ##s
     '''
+    if tm_sec == None:
+        tm_sec = 0
     if format == 'hms':
+
         hours = math.floor(tm_sec / SECONDS_IN_HOUR)
         minutes = math.floor((tm_sec % SECONDS_IN_HOUR) / SECONDS_IN_MINUTE)
         seconds = (tm_sec % SECONDS_IN_HOUR) % SECONDS_IN_MINUTE
