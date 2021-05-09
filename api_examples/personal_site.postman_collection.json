@@ -49,6 +49,34 @@
 			"response": []
 		},
 		{
+			"name": "revoke_token",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{server}}/api/tokens",
+					"protocol": "http",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"tokens"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "get_users",
 			"request": {
 				"method": "GET",
@@ -114,7 +142,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"dist_mi\": \"6.02\",\n    \"dur_sec\": 3230,\n    \"type\": \"Running\",\n    \"wrkt_dttm\": \"2021-04-12T15:21:07Z\",\n    \"gear\": \"dummy shoes\",\n    \"clothes\": \"Shorts, t-shirt\",\n    \"category\": \"Easy\"\n}",
+					"raw": "[\n    {\n    \"dist_mi\": \"6.32\",\n    \"dur_sec\": 3330,\n    \"type\": \"Running\",\n    \"wrkt_dttm\": \"2021-04-27T07:21:08Z\",\n    \"gear\": \"dummy shoes\",\n    \"clothes\": \"Shorts, coat\",\n    \"category\": \"Easy\"\n    }\n]",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -142,7 +170,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"id\": 17,\n    \"dist_mi\": \"7.02\",\n    \"dur_sec\": 3230,\n    \"type\": \"Run\",\n    \"wrkt_dttm\": \"2021-04-26T15:21:08Z\",\n    \"gear\": \"Slime shoes\",\n    \"clothes\": \"Shorts, t-shirt\",\n    \"category\": \"Easy\"\n}",
+					"raw": "{\n    \"id\": 17,\n    \"dist_mi\": \"7.12\",\n    \"dur_sec\": 3230,\n    \"type\": \"Run\",\n    \"wrkt_dttmd\": \"2021-04-26T15:21:08Z\",\n    \"gear\": \"Slime shoes\",\n    \"clothes\": \"Shorts, t-shirt\",\n    \"category\": \"Easy\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -217,7 +245,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://{{server}}/api/workouts/2021-04-26T07:59:00Z",
+					"raw": "http://{{server}}/api/workouts/2021-04-26T15:21:08Z",
 					"protocol": "http",
 					"host": [
 						"{{server}}"
@@ -225,7 +253,7 @@
 					"path": [
 						"api",
 						"workouts",
-						"2021-04-26T07:59:00Z"
+						"2021-04-26T15:21:08Z"
 					]
 				}
 			},

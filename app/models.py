@@ -90,11 +90,11 @@ class User(PaginatedAPIMixin, UserMixin, db.Model):
             expires_in = current_app.config['TOKEN_EXPIRES_AFTER']
         now = datetime.utcnow()
         if self.token and self.token_expiration > now + timedelta(seconds=60):
-            return self.token
+            return self.token, self.token_expiration
         self.token = base64.b64encode(os.urandom(24)).decode('utf-8')
         self.token_expiration = now + timedelta(seconds=expires_in)
         db.session.add(self)
-        return self.token
+        return self.token, self.token_expiration
 
     def revoke_token(self):
         self.token_expiration = datetime.utcnow() - timedelta(seconds=1)

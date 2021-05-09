@@ -10,9 +10,9 @@ from app.api.auth import basic_auth, token_auth
 @basic_auth.login_required
 def get_token():
     print("get_token")
-    token = basic_auth.current_user().get_token()
+    token, expiration_dttm = basic_auth.current_user().get_token()
     db.session.commit()
-    return jsonify({'token': token})
+    return jsonify({'token': token, 'expiration_datetime':expiration_dttm})
 
 @bp.route('/tokens', methods=['DELETE'])
 @token_auth.login_required
