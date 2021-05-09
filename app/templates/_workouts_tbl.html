@@ -86,6 +86,7 @@
                     </td>
                 </tr>
             </table>
+            {% if workout.notes_summary != "" %}
             <table width="100%" style="text-align: left;">
                 <tr class="workout-detail">
                     <td width="100%">
@@ -93,6 +94,7 @@
                     </td>
                 </tr>
             </table>
+            {% endif %}
         </div>
         <br>
 {% endfor %}

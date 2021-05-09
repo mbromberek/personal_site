@@ -8,6 +8,15 @@
         edit
     </a>
     <br>
+    <div class="wrkt_type_description">
+        {{ workout.category }}
+        {% if workout.training_type != None %}
+        - {{ workout.training_type }}
+        {% endif %}
+        {% if workout.location != None %}
+        - {{workout.location}}
+        {% endif %}
+    </div>
 
     <div class="form-inline field_row" style="width:600px">
         <fieldset class="wrkt_det">
@@ -54,12 +63,9 @@
                 Weather
             </legend>
             <div class="form-inline field_row">
-                <p>
-                    Start: {{ workout.temp_strt }} degrees {{ workout.wethr_cond_strt }}, {{ workout.hmdty_strt }} percent humidity, wind speed {{ workout.wind_speed_strt }} mph, wind gust {{ workout.wind_gust_strt }}, feels like {{ workout.temp_feels_like_strt }}.
-                </p>
-                <p>
-                    End: {{ workout.temp_end }} degrees {{ workout.wethr_cond_end }}, {{ workout.hmdty_end }} percent humidity, wind speed {{ workout.wind_speed_end }} mph, wind gust {{ workout.wind_gust_end }}, feels like {{ workout.temp_feels_like_end }}.
-                </p>
+                Start: {{ workout.temp_strt }} degrees {{ workout.wethr_cond_strt }}, {{ workout.hmdty_strt }} percent humidity, wind speed {{ workout.wind_speed_strt }} mph, wind gust {{ workout.wind_gust_strt }}, feels like {{ workout.temp_feels_like_strt }}.
+                <br>
+                End: {{ workout.temp_end }} degrees {{ workout.wethr_cond_end }}, {{ workout.hmdty_end }} percent humidity, wind speed {{ workout.wind_speed_end }} mph, wind gust {{ workout.wind_gust_end }}, feels like {{ workout.temp_feels_like_end }}.
             </div>
         </fieldset>
     </div>
@@ -134,5 +140,44 @@
         </fieldset>
     </div>
     {% endif %}
+
+    <div class="form-inline field_row" style="width:600px">
+        <fieldset class="wrkt_det">
+            <legend class="wrkt_det">
+                Gear
+            </legend>
+            <div class="form-inline field_row">
+                Clothes: 
+                {% if workout.notes != None %}
+                    {{ workout.clothes }}
+                {% else %}
+                    &nbsp;
+                {% endif %}
+                <br>
+                {% if 'run' in workout.type.lower() %}
+                Shoes:
+                {% elif 'cycl' in workout.type.lower() %}
+                Bike:
+                {% endif %}
+                {{ workout.gear }}
+                <!-- TODO add insole or other related gear -->
+            </div>
+        </fieldset>
+    </div>
+
+    <div class="form-inline field_row" style="width:600px">
+        <fieldset class="wrkt_det">
+            <legend class="wrkt_det">
+                notes
+            </legend>
+            <div class="form-inline field_row">
+                {% if workout.notes != None %}
+                    {{ workout.notes }}
+                {% else %}
+                    &nbsp;
+                {% endif %}
+            </div>
+        </fieldset>
+    </div>
 
 {% endblock %}
