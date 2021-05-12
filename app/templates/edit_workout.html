@@ -20,19 +20,23 @@
                     </div>
                     <div class="form-group field_col">
                         {{ form.wrkt_dt.label }} and {{ form.wrkt_tm.label }}<br>
-                        {{ form.wrkt_dt(size=15) }}
-                        {{ form.wrkt_tm(size=15) }}
-                        <br>
-                        {% for error in form.wrkt_dt.errors %}
-                        <span style="color: red;">
-                            [{{ error }}]
-                        </span>
-                        {% endfor %}
-                        {% for error in form.wrkt_tm.errors %}
-                        <span style="color: red;">
-                            [{{ error }}]
-                        </span>
-                        {% endfor %}
+                        {% if title == 'Create Workout' %}
+                            {{ form.wrkt_dt(size=15) }}
+                            {{ form.wrkt_tm(size=15) }}
+                            <br>
+                            {% for error in form.wrkt_dt.errors %}
+                            <span style="color: red;">
+                                [{{ error }}]
+                            </span>
+                            {% endfor %}
+                            {% for error in form.wrkt_tm.errors %}
+                            <span style="color: red;">
+                                [{{ error }}]
+                            </span>
+                            {% endfor %}
+                        {% else %}
+                            {{ form.wrkt_dt.data }}
+                        {% endif %}
                     </div>
                 </div>
                 <div class="form-inline field_row">

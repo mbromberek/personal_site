@@ -27,6 +27,7 @@ class WorkoutForm(FlaskForm):
     # dttm = DateTimeField('Date Time', validators=[DataRequired()], format='%Y-%m-%d')
     wrkt_dt = DateField('Date', validators=[InputRequired()], format='%Y-%m-%d', default=datetime.now())
     wrkt_tm = TimeField('Time', format='%H:%M', default=datetime.now())
+    # , render_kw={'readonly':''}
     # wrkt_tm = TimeField('Time', format='%H:%M:%S', render_kw={"step": "1"})
 
     # duration = TimeField('Duration', format='%H:%M:%S')
