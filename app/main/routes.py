@@ -193,7 +193,7 @@ def workout():
     usr_id = current_user.id
     wrkt_id = request.args.get('workout')
     logger.info('wrkt: ' + str(wrkt_id) + ' for user: ' + str(usr_id))
-    workout = Workout.query.filter_by(id=wrkt_id, user_id=usr_id).first_or_404(id)
+    workout = Workout.query.filter_by(id=wrkt_id, user_id=usr_id).first_or_404(description="Workout not found for current user")
     workout.duration = workout.dur_str()
     workout.intrvl_dur_str = workout.intrvl_dur_str()
     workout.warm_up_dur_str = workout.warm_up_dur_str()
