@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-{% import 'bootstrap/wtf.html' as wtf %}
 
 {% block app_content %}
     <h1>{{ workout.type }}, {{ workout.wrkt_dttm }}</h1>
@@ -147,7 +146,7 @@
                 Gear
             </legend>
             <div class="form-inline field_row">
-                Clothes: 
+                Clothes:
                 {% if workout.notes != None %}
                     {{ workout.clothes }}
                 {% else %}
