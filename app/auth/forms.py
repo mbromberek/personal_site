@@ -11,7 +11,7 @@ All rights reserved.
 # Third party classes
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField
-from wtforms.validators import DataRequired, ValidationError, Email, EqualTo, Length
+from wtforms.validators import DataRequired, ValidationError, Email, EqualTo, Length, Regexp
 
 # Custom classes
 from app.models import User
@@ -25,9 +25,9 @@ class LoginForm(FlaskForm):
 class RegistrationForm(FlaskForm):
     displayname = StringField('Displayname', validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired(), Email()])
-    password = PasswordField('Password', validators=[DataRequired()])
+    password = PasswordField('Password', validators=[DataRequired(), Length(min=15, max=50), Regexp('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{10,}$', message='Password must contain a number, lower case letter, upper case letter, and symbol')])
     password2 = PasswordField(
-        'Repeat Password', validators=[DataRequired(), EqualTo('password')]
+        'Repeat Password', validators=[DataRequired(), EqualTo('password', message='Passwords must match')]
     )
     submit = SubmitField('Register')
 
