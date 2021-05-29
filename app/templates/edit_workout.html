@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block app_content %}
-    <h1>{{ title }}</h1>
+    <h1>{{ label_val.title }}</h1>
     <div class="row">
         <div class="col-md-12">
             <form action="" method="post">
@@ -18,8 +18,9 @@
                         {% endfor %}
                     </div>
                     <div class="form-group field_col">
-                        {{ form.wrkt_dt.label }} and {{ form.wrkt_tm.label }}<br>
-                        {% if title == 'Create Workout' %}
+                        {% if label_val.title == 'Create Workout' %}
+                            {{ form.wrkt_dt.label }} and {{ form.wrkt_tm.label }}
+                            <br>
                             {{ form.wrkt_dt(size=15) }}
                             {{ form.wrkt_tm(size=15) }}
                             <br>
@@ -34,7 +35,8 @@
                             </span>
                             {% endfor %}
                         {% else %}
-                            {{ form.wrkt_dt.data }}
+                            <strong>Date and Time</strong><br>
+                            {{ label_val.wrkt_dttm }}
                         {% endif %}
                     </div>
                 </div>

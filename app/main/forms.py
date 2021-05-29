@@ -17,6 +17,9 @@ from wtforms.fields.html5 import DateField, TimeField, IntegerField
 from wtforms.validators import Length, NumberRange, InputRequired, Optional
 from wtforms.widgets import html5 as h5widgets
 
+# Custom classes
+from app import logger
+
 class EmptyForm(FlaskForm):
     submit = SubmitField('Submit')
 
@@ -24,13 +27,9 @@ class EmptyForm(FlaskForm):
 class WorkoutForm(FlaskForm):
     wrkt_id = HiddenField()
     type = StringField('Type', validators=[InputRequired()])
-    # dttm = DateTimeField('Date Time', validators=[DataRequired()], format='%Y-%m-%d')
-    wrkt_dt = DateField('Date', validators=[InputRequired()], format='%Y-%m-%d', default=datetime.now())
+    wrkt_dt = DateField('Date', format='%Y-%m-%d', default=datetime.now(), validators=[InputRequired("Workout date is required")])
     wrkt_tm = TimeField('Time', format='%H:%M', default=datetime.now())
-    # , render_kw={'readonly':''}
-    # wrkt_tm = TimeField('Time', format='%H:%M:%S', render_kw={"step": "1"})
 
-    # duration = TimeField('Duration', format='%H:%M:%S')
     duration_h = IntegerField('h ', widget=h5widgets.NumberInput(min=0,max=29),
         default=0, validators=[InputRequired()])
     duration_m = IntegerField('m ', widget=h5widgets.NumberInput(min=0,max=59),

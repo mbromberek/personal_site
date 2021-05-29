@@ -29,9 +29,9 @@ from app import logger
 def index():
     logger.info('index')
     # user = {'displayname': 'Mike'}
-    workouts = [{'type':'Running', 'duration':'20m 56s', 'distance': '3.11', 'pace': '6m 44s'}, {'type':'Running', 'duration':'3h 35m 53s', 'distance': '26.2', 'pace': '8m 13s'}]
+    # workouts = [{'type':'Running', 'duration':'20m 56s', 'distance': '3.11', 'pace': '6m 44s'}, {'type':'Running', 'duration':'3h 35m 53s', 'distance': '26.2', 'pace': '8m 13s'}]
 
-    return render_template('index.html', title='Home Page', workouts=workouts)
+    return render_template('index.html', title='Home Page')
 
 @bp.route('/workouts', methods=['GET','POST'])
 @login_required
@@ -66,10 +66,16 @@ def workouts():
 @bp.route('/edit_workout', methods=['GET','POST'])
 @login_required
 def edit_workout():
-    logger.info('edit_workout')
-    logger.info('wrkt: ' + str(request.args.get('workout')))
+    logger.info('edit_workout: ' + str(request.args.get('workout')))
     form = WorkoutForm()
-    title = 'Create Workout'
+    label_val = {}
+
+    if request.args.get('workout') != None or form.wrkt_id.data != None:
+        label_val['title'] = 'Update Workout'
+        del form.wrkt_dt
+    else:
+        label_val['title'] = 'Create Workout'
+
     if form.cancel.data:
         return redirect(url_for('main.workouts'))
     if form.validate_on_submit():
@@ -133,12 +139,15 @@ def edit_workout():
     elif request.method == 'GET' and request.args.get('workout') != None:
         usr_id = current_user.id
         wrkt_id = request.args.get('workout')
-        title = 'Update Workout'
         logger.info('Update Workout: ' + str(wrkt_id)+' for user: '+str(usr_id))
-        wrkt = Workout.query.filter_by(id=wrkt_id, user_id=usr_id).first_or_404(id)
+
+        wrkt = Workout.query.filter_by(id=wrkt_id, \
+            user_id=usr_id).first_or_404(id)
         form.type.data = wrkt.type
-        form.wrkt_dt.data = wrkt.wrkt_dttm
+        label_val['wrkt_dttm'] = wrkt.wrkt_dttm
+
         form.wrkt_tm.data = wrkt.wrkt_dttm
+
         form.duration_h.data, form.duration_m.data, form.duration_s.data = tm_conv.split_sec_to_time(wrkt.dur_sec)
         form.distance.data = wrkt.dist_mi
         form.notes.data = wrkt.notes
@@ -176,8 +185,10 @@ def edit_workout():
 
         form.intrvl_dur_h.data, form.intrvl_dur_m.data, form.intrvl_dur_s.data = tm_conv.split_sec_to_time(wrkt.intrvl_tot_tm_sec)
         form.intrvl_tot_dist.data = wrkt.intrvl_tot_dist_mi
+    else:
+        logger.info('Create Workout')
 
-    return render_template('edit_workout.html', title=title, form=form)
+    return render_template('edit_workout.html', label_val=label_val, form=form)
 
 @bp.route('/testing', methods=['GET','POST'])
 def testing():
