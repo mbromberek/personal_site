@@ -70,11 +70,17 @@ def edit_workout():
     form = WorkoutForm()
     label_val = {}
 
-    if request.args.get('workout') != None or form.wrkt_id.data != None:
+    logger.debug("Request Method: " + request.method)
+    # logger.debug("Request Args workout: " + request.args.get('workout'))
+    logger.debug("Workout ID: " + str(form.wrkt_id.data))
+
+    if form.wrkt_id.data == None or form.wrkt_id.data == "":
+        logger.info('Create Workout')
+    else:
+        logger.info('Update Workout')
+        logger.info(form.wrkt_id.data)
         label_val['title'] = 'Update Workout'
         del form.wrkt_dt
-    else:
-        label_val['title'] = 'Create Workout'
 
     if form.cancel.data:
         return redirect(url_for('main.workouts'))
@@ -82,6 +88,8 @@ def edit_workout():
         if form.wrkt_id.data == "":
             logger.info('new workout')
             duration = tm_conv.time_to_sec(form.duration_h.data, form.duration_m.data, form.duration_s.data)
+            logger.info(form.wrkt_dt)
+            logger.info(form.wrkt_tm)
             wrkt_dttm = datetime.combine(form.wrkt_dt.data, form.wrkt_tm.data)
             wrkt = Workout(author=current_user, wrkt_dttm=wrkt_dttm)
         else:
@@ -141,6 +149,8 @@ def edit_workout():
         wrkt_id = request.args.get('workout')
         logger.info('Update Workout: ' + str(wrkt_id)+' for user: '+str(usr_id))
 
+        label_val['title'] = 'Update Workout'
+        del form.wrkt_dt
         wrkt = Workout.query.filter_by(id=wrkt_id, \
             user_id=usr_id).first_or_404(id)
         form.type.data = wrkt.type
@@ -187,6 +197,7 @@ def edit_workout():
         form.intrvl_tot_dist.data = wrkt.intrvl_tot_dist_mi
     else:
         logger.info('Create Workout')
+        label_val['title'] = 'Create Workout'
 
     return render_template('edit_workout.html', label_val=label_val, form=form)
 
