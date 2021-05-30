@@ -63,6 +63,9 @@ class User(PaginatedAPIMixin, UserMixin, db.Model):
     token = db.Column(db.String(32), index=True, unique=True)
     token_expiration = db.Column(db.DateTime)
 
+    last_failed_login_dttm = db.Column(db.DateTime)
+    failed_login_ct = db.Column(db.Integer, default=0)
+
     def __repr__(self):
         return '<User {}>'.format(self.email)
 
@@ -105,6 +108,34 @@ class User(PaginatedAPIMixin, UserMixin, db.Model):
         if user is None or user.token_expiration < datetime.utcnow():
             return None
         return user
+
+    def check_account_status(self):
+        # If last_failed_login_dttm has a value
+        #  and Has it been over 30 minutes since last failed login attempt
+        if self.last_failed_login_dttm and self.last_failed_login_dttm < \
+          datetime.utcnow() - timedelta(seconds=current_app.config['ACCOUNT_LOCK_TIME']):
+            return True
+        # Does user have under 3 failed login attempts
+        elif self.failed_login_ct < \
+          current_app.config['MAX_FAIL_PASSWORD_ATTEMPTS']:
+            return True
+        else:
+            return False
+
+    def updt_acct_stat(self, login_status):
+        if login_status:
+            self.failed_login_ct = 0
+        else:
+            # if this is the first failed attempt since account was unlocked set the failed_login_ct to 1
+            if self.last_failed_login_dttm != None and self.last_failed_login_dttm > \
+              datetime.utcnow() - timedelta(current_app.config['ACCOUNT_LOCK_TIME']) \
+              and self.failed_login_ct >=current_app.config['MAX_FAIL_PASSWORD_ATTEMPTS']:
+                self.failed_login_ct = 1
+            else:
+                self.failed_login_ct += 1
+            self.last_failed_login_dttm = datetime.utcnow()
+        db.session.commit()
+
 
 
 class Workout(PaginatedAPIMixin, db.Model):

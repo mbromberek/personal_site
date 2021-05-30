@@ -18,6 +18,7 @@ from app import db
 from app.auth import bp
 from app.auth.forms import LoginForm, RegistrationForm
 from app.models import User, Workout
+from app import logger
 
 
 @bp.route('/login', methods=['GET','POST'])
@@ -30,10 +31,25 @@ def login():
     if form.validate_on_submit():
         email = form.email.data.lower()
         user = User.query.filter_by(email=email).first()
-        if user is None or not user.check_password(form.password.data):
+        # if user is None or not user.check_password(form.password.data):
+        #     flash('Invalid email or password')
+        #     return redirect(url_for('auth.login'))
+        if user is None:
             flash('Invalid email or password')
+            logger.info('Invalid username: {}'.format(email))
             return redirect(url_for('auth.login'))
+        elif not user.check_account_status():
+            flash('Account is locked')
+            logger.info('Attempt login by locked account: {}'.format(email))
+            return redirect(url_for('auth.login'))
+        elif not user.check_password(form.password.data):
+            flash('Invalid email or password')
+            logger.info('Invalid password for: {}'.format(email))
+            user.updt_acct_stat(False)
+            return redirect(url_for('auth.login'))
+
         login_user(user, remember=form.remember_me.data)
+        user.updt_acct_stat(True)
         next_page = request.args.get('next')
         if not next_page or url_parse(next_page).netloc != '':
             next_page = url_for('main.index')
