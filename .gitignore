@@ -6,3 +6,4 @@ app.db
 DB_Setup.md
 logging.conf
 instance/config.py
+certs/
