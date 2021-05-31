@@ -40,3 +40,10 @@ $ flask shell
 flask db migrate -m "details"
 flask db upgrade
 ```
+
+## Setup on server
+```
+sudo supervisorctl status
+sudo supervisorctl stop p_site
+sudo supervisorctl start p_site
+```
