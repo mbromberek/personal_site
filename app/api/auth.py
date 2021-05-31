@@ -11,10 +11,20 @@ token_auth = HTTPTokenAuth()
 
 @basic_auth.verify_password
 def verify_password(email, password):
-    print("verify_password: " + email)
+    logger.info("verify_password: " + email)
     user = User.query.filter_by(email=email).first()
-    if user and user.check_password(password):
+
+    if user is None:
+        logger.info('Invalid username: {}'.format(email))
+    elif not user.check_account_status():
+        logger.info('Attempt login by locked account: {}'.format(email))
+    elif not user.check_password(password):
+        logger.info('Invalid password for: {}'.format(email))
+        user.updt_acct_stat(False)
+    else:
+        user.updt_acct_stat(True)
         return user
+
 
 @basic_auth.error_handler
 def basic_auth_error(status):
