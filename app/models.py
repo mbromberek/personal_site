@@ -190,8 +190,7 @@ class Workout(PaginatedAPIMixin, db.Model):
     intrvl_tot_ele_down = db.Column(db.Numeric(8,2))
 
     isrt_ts = db.Column(db.DateTime, index=True, default=datetime.utcnow)
-
-    # workout_intervals = db.relationship('Workout_Interval', backref='author', lazy='dynamic')
+    workout_intervals = db.relationship('Workout_interval', backref='author', lazy='dynamic')
 
     def __repr__(self):
         return '<Workout {}: {}>'.format(self.type, self.wrkt_dttm)
@@ -315,23 +314,23 @@ class Workout(PaginatedAPIMixin, db.Model):
             if getattr(updt_wrkt, field) != None:
                 setattr(self, field, getattr(updt_wrkt, field))
 
-class Workout_Interval(db.Model):
+class Workout_interval(db.Model):
     # Constraint unique for id and interval_order
     __table_args__ = {"schema": "fitness", 'comment':'Intervals for a workout'}
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('fitness.user.id'))
     workout_id = db.Column(db.Integer, db.ForeignKey('fitness.workout.id'))
     # pause | segment | mile | kilometer | custom
-    break_type = db.Column(db.String(50), nullable=True)
+    break_type = db.Column(db.String(50), nullable=False)
     interval_order = db.Column(db.Integer(), nullable=False)
-    desc = db.Column(db.String(50), nullable=True)
+    interval_desc = db.Column(db.String(50), nullable=True)
     dur_sec = db.Column(db.Integer(), nullable=False)
     dist_mi = db.Column(db.Numeric(8,2), nullable=False)
-    hr = db.Column(db.SmallInteger())
-    ele_up = db.Column(db.Numeric(8,2))
-    ele_down = db.Column(db.Numeric(8,2))
-    notes = db.Column(db.Text())
-    isrt_ts = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    hr = db.Column(db.SmallInteger(), nullable=True)
+    ele_up = db.Column(db.Numeric(8,2), nullable=True)
+    ele_down = db.Column(db.Numeric(8,2), nullable=True)
+    notes = db.Column(db.Text(), nullable=True)
+    isrt_ts = db.Column(db.DateTime, nullable=False, index=True, default=datetime.utcnow)
 
     def __repr__(self):
         return '<Workout {}: interval order {} for {}>'.format( self.workout_id, self.interval_order, self.desc)
@@ -343,3 +342,57 @@ class Workout_Interval(db.Model):
 
     def dur_str(self):
         return tm_conv.sec_to_time(self.dur_sec)
+
+    def from_dict(self, data, user_id, wrkt_id, break_type):
+        str_fields = ['notes', 'interval_desc']
+        int_fields = ['interval_order','dur_sec','hr']
+        float_fields = ['dist_mi','ele_up','ele_down']
+
+        setattr(self, 'user_id', user_id)
+        setattr(self, 'workout_id', wrkt_id)
+        setattr(self, 'break_type', break_type)
+
+        for field in str_fields:
+            if field in data:
+                setattr(self, field, data[field])
+
+        for field in int_fields:
+            if field in data:
+                setattr(self, field, int(data[field]))
+
+        for field in float_fields:
+            if field in data:
+                setattr(self, field, float(data[field]))
+
+    def to_dict(self, include_calc_fields=False):
+        data = {
+            'id': self.id,
+            'user_id': self.user_id,
+            'workout_id': self.workout_id,
+            'break_type': self.break_type,
+            'interval_order': self.interval_order,
+            'interval_desc': self.interval_desc,
+            'dur_sec': self.dur_sec,
+            'dist_mi': str(self.dist_mi),
+            'hr': str(self.hr),
+            'ele_up': str(self.ele_up),
+            'ele_down': str(self.ele_down),
+            'notes': self.notes,
+            'isrt_ts': self.isrt_ts.isoformat() + 'Z'
+        }
+        return data
+
+    @staticmethod
+    def from_intrvl_lst_dict(data, current_user_id, wrkt_id):
+        break_type = data['break_type']
+        interval_lst = data['intervals']
+        wrkt_intrvl_dict_list = []
+
+        for interval in interval_lst:
+            wrkt_intrvl = Workout_interval()
+            wrkt_intrvl.from_dict(interval, current_user_id, wrkt_id, break_type)
+            db.session.add(wrkt_intrvl)
+            db.session.commit()
+            wrkt_intrvl_dict_list.append(wrkt_intrvl.to_dict())
+
+        return wrkt_intrvl_dict_list
