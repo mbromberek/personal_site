@@ -33,8 +33,10 @@ def basic_auth_error(status):
 @token_auth.verify_token
 def verify_token(token):
     logger.info("verify_token")
+    # TODO Add log message when token verification fails
     return User.check_token(token) if token else None
 
 @token_auth.error_handler
 def token_auth_error(status):
+    logger.info('token_auth_error')
     return error_response(status)
