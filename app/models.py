@@ -335,6 +335,14 @@ class Workout_interval(db.Model):
     def __repr__(self):
         return '<Workout {}: interval order {} for {}>'.format( self.workout_id, self.interval_order, self.desc)
 
+    def __lt__(self, other):
+        if self.workout_id != other.workout_id:
+            return self.workout_id < other.workout_id
+        if self.break_type != other.break_type:
+            return self.break_type < other.break_type
+        return self.interval_order < other.interval_order
+
+
     def pace_str(self):
         if self.dist_mi == 0 or self.dur_sec == 0:
             return 0
@@ -383,6 +391,14 @@ class Workout_interval(db.Model):
         return data
 
     @staticmethod
+    def to_intrvl_lst_dict(wrkt_intrvl_lst):
+        wrkt_dict_intrvl_lst = []
+        for wrkt_inrvl in wrkt_intrvl_lst:
+            wrkt_dict_intrvl_lst.append(wrkt_inrvl.to_dict())
+        return wrkt_dict_intrvl_lst
+
+
+    @staticmethod
     def from_intrvl_lst_dict(data, current_user_id, wrkt_id):
         break_type = data['break_type']
         interval_lst = data['intervals']
@@ -392,7 +408,12 @@ class Workout_interval(db.Model):
             wrkt_intrvl = Workout_interval()
             wrkt_intrvl.from_dict(interval, current_user_id, wrkt_id, break_type)
             db.session.add(wrkt_intrvl)
-            db.session.commit()
-            wrkt_intrvl_dict_list.append(wrkt_intrvl.to_dict())
+
+        db.session.commit()
+        wrkt_intrvl_dict_list = \
+          Workout_interval.to_intrvl_lst_dict( \
+          Workout_interval.query.filter_by( \
+          workout_id=wrkt_id, user_id=current_user_id))
+        # wrkt_intrvl_dict_list.append(wrkt_intrvl.to_dict())
 
         return wrkt_intrvl_dict_list

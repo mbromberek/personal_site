@@ -23,7 +23,9 @@ from app.utils import dt_conv
 def get_workout_intervals(wrkt_id):
     logger.info('get_workout_intervals')
     current_user_id = token_auth.current_user().id
-    return jsonify(Workout_interval.query.filter_by(wrkt_id=wrkt_id, user_id=current_user_id).first_or_404(id).to_dict())
+    return jsonify(Workout_interval.to_intrvl_lst_dict( \
+      sorted(Workout_interval.query.filter_by( \
+      workout_id=wrkt_id, user_id=current_user_id))))
 
 
 @bp.route('/workout_intervals', methods=['POST'])
