@@ -308,6 +308,7 @@ class Workout(PaginatedAPIMixin, db.Model):
             for field in wethr_str_fields:
                 setattr(self, field + '_end', wethr_data[field])
 
+
     def update(self, updt_wrkt):
         merge_fields = ['type', 'wrkt_dttm', 'dur_sec', 'dist_mi', 'gear', 'clothes', 'category', 'location', 'training_type', 'notes','hr','cal_burn','warm_up_tot_tm_sec', 'cool_down_tot_tm_sec', 'intrvl_tot_tm_sec','ele_up','ele_down','warm_up_tot_dist_mi','cool_down_tot_dist_mi','intrvl_tot_dist_mi','intrvl_tot_ele_up','intrvl_tot_ele_down']
         for field in merge_fields:
@@ -333,7 +334,7 @@ class Workout_interval(db.Model):
     isrt_ts = db.Column(db.DateTime, nullable=False, index=True, default=datetime.utcnow)
 
     def __repr__(self):
-        return '<Workout {}: interval order {} for {}>'.format( self.workout_id, self.interval_order, self.desc)
+        return '<Workout {}: interval order {} for {}>'.format( self.workout_id, self.interval_order, self.break_type)
 
     def __lt__(self, other):
         if self.workout_id != other.workout_id:

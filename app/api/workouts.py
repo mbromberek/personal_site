@@ -11,7 +11,7 @@ from flask import jsonify, request, url_for, abort
 
 # Custom Classes
 from app import db
-from app.models import Workout, User
+from app.models import Workout, User, Workout_interval
 from app.api import bp
 from app.api.auth import token_auth
 from app.api.errors import bad_request
@@ -59,6 +59,21 @@ def create_workout():
         workout.from_dict(data, current_user_id)
         db.session.add(workout)
         db.session.commit()
+
+        if 'mile_splits' in data:
+            wrkt_intrvl = {
+                'break_type': 'mile',
+                'intervals': data['mile_splits']
+            }
+            Workout_interval.from_intrvl_lst_dict(wrkt_intrvl, current_user_id, workout.id)
+
+        if 'interval_splits' in data:
+            wrkt_intrvl = {
+                'break_type': 'segment',
+                'intervals': data['interval_splits']
+            }
+            Workout_interval.from_intrvl_lst_dict(wrkt_intrvl, current_user_id, workout.id)
+
         wrkt_list.append(workout.to_dict())
     response = jsonify(wrkt_list)
     response.status_code = 201
