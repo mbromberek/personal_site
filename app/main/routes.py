@@ -232,11 +232,15 @@ def workout():
     mile_intrvl_lst = []
     segment_intrvl_lst = []
     for intrvl in intvl_lst:
+        intrvl.duration = intrvl.dur_str()
+        intrvl.pace = intrvl.pace_str()
         if intrvl.break_type == 'mile':
-            intrvl.duration = intrvl.dur_str()
-            intrvl.pace = intrvl.pace_str()
             mile_intrvl_lst.append(intrvl)
         elif intrvl.break_type == 'segment':
+            if intrvl.interval_desc == None:
+                intrvl.det = intrvl.interval_order
+            else:
+                intrvl.det = intrvl.interval_desc
             segment_intrvl_lst.append(intrvl)
 
     return render_template('workout.html', workout=workout, \
