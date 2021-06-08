@@ -345,12 +345,11 @@ class Workout_interval(db.Model):
 
 
     def pace_str(self):
-        if self.dist_mi == 0 or self.dur_sec == 0:
-            return 0
-        return tm_conv.sec_to_time(math.floor(self.dur_sec / self.dist_mi), 'ms')
+        return tm_conv.sec_to_time(tm_conv.pace_calc(self.dist_mi, self.dur_sec), 'ms')
+
 
     def dur_str(self):
-        return tm_conv.sec_to_time(self.dur_sec)
+        return tm_conv.sec_to_time(self.dur_sec, 'ms')
 
     def from_dict(self, data, user_id, wrkt_id, break_type):
         str_fields = ['notes', 'interval_desc']
