@@ -179,4 +179,60 @@
         </fieldset>
     </div>
 
+    {% if mile_intrvl_lst|length >0 %}
+    <div class="form-inline field_row" style="width:600px">
+        Mile Splits<br>
+        <table>
+            <tr style="font-weight:bold">
+                <td class="workout-intrvl workout-intrvl-hdr">
+                    Mile
+                </td>
+                <td class="workout-intrvl workout-intrvl-hdr">
+                    Duration
+                </td>
+                <td class="workout-intrvl workout-intrvl-hdr">
+                    Distance
+                </td>
+                <td class="workout-intrvl workout-intrvl-hdr">
+                    Pace
+                </td>
+                <td class="workout-intrvl workout-intrvl-hdr">
+                    HR
+                </td>
+                <td class="workout-intrvl workout-intrvl-hdr">
+                    Ele Up
+                </td>
+                <td class="workout-intrvl workout-intrvl-hdr">
+                    Ele Down
+                </td>
+            </tr>
+        {% for intrvl in mile_intrvl_lst %}
+            <tr>
+                <td class="workout-intrvl">
+                    {{ intrvl.interval_order +1 }}
+                </td>
+                <td class="workout-intrvl">
+                    {{ intrvl.duration }}
+                </td>
+                <td class="workout-intrvl">
+                    {{ intrvl.dist_mi }}
+                </td>
+                <td class="workout-intrvl">
+                    {{ intrvl.pace }}
+                </td>
+                <td class="workout-intrvl">
+                    {{ intrvl.hr }}
+                </td>
+                <td class="workout-intrvl">
+                    {{ intrvl.ele_up }}
+                </td>
+                <td class="workout-intrvl">
+                    {{ intrvl.ele_down }}
+                </td>
+            </tr>
+        {% endfor %}
+        </table>
+    </div>
+    {% endif %}
+
 {% endblock %}

@@ -18,7 +18,7 @@ from flask_login import current_user, login_required
 # Custom classes
 from app.main import bp
 from app.main.forms import EmptyForm, WorkoutForm
-from app.models import User, Workout
+from app.models import User, Workout, Workout_interval
 from app import db
 from app.utils import tm_conv, const
 from app import logger
@@ -226,5 +226,18 @@ def workout():
     workout.cool_down_pace = workout.cool_down_pace_str()
     workout.intrvl_pace = workout.intrvl_pace_str()
 
+    intvl_lst = sorted(Workout_interval.query.filter_by( \
+      workout_id=wrkt_id, user_id=usr_id))
 
-    return render_template('workout.html', workout=workout)
+    mile_intrvl_lst = []
+    segment_intrvl_lst = []
+    for intrvl in intvl_lst:
+        if intrvl.break_type == 'mile':
+            intrvl.duration = intrvl.dur_str()
+            intrvl.pace = intrvl.pace_str()
+            mile_intrvl_lst.append(intrvl)
+        elif intrvl.break_type == 'segment':
+            segment_intrvl_lst.append(intrvl)
+
+    return render_template('workout.html', workout=workout, \
+      mile_intrvl_lst=mile_intrvl_lst, segment_intrvl_lst=segment_intrvl_lst)

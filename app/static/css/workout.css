@@ -31,6 +31,21 @@
     padding-bottom:0px;
 }
 
+td.workout-intrvl{
+    font-weight:normal;
+    font-size: 12pt;
+    text-align: center;
+    padding-left:4px;
+    padding-right:4px;
+    padding-top:1px;
+    padding-bottom:0px;
+    border: 1px black solid;
+}
+td.workout-intrvl-hdr{
+    font-weight:bold;
+    font-size: 12pt;
+}
+
 div.wrkt_type_description{
     font-weight:bold;
     font-size: 15pt;
