@@ -152,7 +152,7 @@ class Workout(PaginatedAPIMixin, db.Model):
     clothes = db.Column(db.Text())
     ele_up = db.Column(db.Numeric(8,2))
     ele_down = db.Column(db.Numeric(8,2))
-    hr = db.Column(db.SmallInteger())
+    hr = db.Column(db.Numeric(8,2))
     cal_burn = db.Column(db.Integer())
 
     # Training | Easy | Long Run
@@ -227,7 +227,7 @@ class Workout(PaginatedAPIMixin, db.Model):
             'clothes': self.clothes,
             'ele_up': str(self.ele_up),
             'ele_down': str(self.ele_down),
-            'hr': self.hr,
+            'hr': str(self.hr),
             'cal_burn': self.cal_burn,
             'category': self.category,
             'location': self.location,
@@ -327,7 +327,7 @@ class Workout_interval(db.Model):
     interval_desc = db.Column(db.String(50), nullable=True)
     dur_sec = db.Column(db.Integer(), nullable=False)
     dist_mi = db.Column(db.Numeric(8,2), nullable=False)
-    hr = db.Column(db.SmallInteger(), nullable=True)
+    hr = db.Column(db.Numeric(8,2), nullable=True)
     ele_up = db.Column(db.Numeric(8,2), nullable=True)
     ele_down = db.Column(db.Numeric(8,2), nullable=True)
     notes = db.Column(db.Text(), nullable=True)
@@ -417,3 +417,15 @@ class Workout_interval(db.Model):
         # wrkt_intrvl_dict_list.append(wrkt_intrvl.to_dict())
 
         return wrkt_intrvl_dict_list
+
+
+class Gear(db.Model):
+    __table_args__ = {"schema": "fitness", 'comment':'Details about workout gear: shoes, bike, insoles'}
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), index=True, nullable=False)
+    prchse_dt = db.Column(db.DateTime, nullable=False)
+    price = db.Column(db.Numeric(8,2))
+    retired = db.Column(db.Boolean, nullable=True, default=False)
+    type = db.Column(db.String(50), index=True, nullable=False)
+    company = db.Column(db.String(50))
+    isrt_ts = db.Column(db.DateTime, nullable=False, index=True, default=datetime.utcnow)
