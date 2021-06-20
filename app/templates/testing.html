@@ -4,16 +4,22 @@
 {% block app_content %}
 
 
-
-<form>
-<fieldset style="border: 1px solid gray">
-  <legend style="padding: 0.5em 0.5em; border: 0px solid green; color: gray;  font-size: 90%; text-align: right; width:100px;">Weather Start
-  </legend>
-  <table>
-    <tr><td>Username</td><td><input type="text"></td></tr>
-    <tr><td>Password</td><td><input type="text"></td></tr>
-  </table>
-</fieldset>
-</form>
+<div class="home_section_1" style="overflow:auto">
+    <h2 class="home">About Me</h2>
+    <div class="about_body">
+        <p>
+            Hi I am Mike Bromberek. I have worked at Caterpillar as an IT Analyst for 15 years.
+        </p>
+        <p>
+            I have been learning Python for the last few years.
+        </p>
+        <p>
+            I love running! My fastest Marathon time is 3 hours 20 minutes and 53 seconds and I am currently training to run my 6th Marathon this fall.
+        </p>
+    </div>
+    <div class="about_img" >
+        <img src="static/images/Whiskey_Daddle_Marathon_Race.jpeg" width="300px" height="384px" alt="Mike Running" />
+    </div>
+</div>
 
 {% endblock %}

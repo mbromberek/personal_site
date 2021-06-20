@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 
 {% block app_content %}
-    <div class="home_section home_section_1" style="border:3px solid blue; " >
-        <h2 class="home">About Me</h2>
-        <div class="home_section home_section_2" style="border:0px solid blue;width:100%; position:relative;height:400px;" >
+    <!--div class="home_section home_section_1" style="border:3px solid blue; " -->
+        <!-- <div class="home_section home_section_2" style="border:0px solid blue;width:100%; position:relative;height:400px;" >
+            <h2 class="home">About Me</h2>
             <div style="border:0px solid red; width:400px">
                 Hi I am Mike Bromberek. I have worked at Caterpillar as an IT Analyst for 15 years.
                 <br>
@@ -14,17 +14,57 @@
             <span style="position:absolute; right:0px; top:0px; width:300px; border:0px solid #73AD21;">
                 <img src="static/images/Whiskey_Daddle_Marathon_Race.jpeg" width="300px" height="384px" alt="Mike Running" />
             </span>
+        </div> -->
+    <!--/div-->
+    <div class="home_section home_section_1" style="overflow:auto">
+        <h2 class="home">About Me</h2>
+        <div class="about_body">
+            <p>
+                Hi I am Mike Bromberek. I have worked at Caterpillar as an IT Analyst for 15 years.
+            </p>
+            <p>
+                I have been learning Python for the last few years.
+            </p>
+            <p>
+                I love running! My fastest Marathon time is 3 hours 20 minutes and 53 seconds and I am currently training to run my 6th Marathon this fall.
+            </p>
+        </div>
+        <div class="about_img" >
+            <img src="static/images/Whiskey_Daddle_Marathon_Race.jpeg" width="300px" height="384px" alt="Mike Running" />
         </div>
     </div>
-    <div class="home_section home_section_1 ">
+
+
+    <div class="home_section home_section_2 "  style="overflow:auto; ">
         <h2 class="home">Programming Skills</h2>
-        <div class="form-inline field_row" style="width:1100px; text-align:center">
+        <div class="skills">
+        <div class="skills_item">
+            <img src="static/images/java-icon.png" width="85" height="85" alt="Java" title="Java">
+        </div>
+        <div class="skills_item">
+            <img src="static/images/Oracle-SQL-icon.png" width="85" height="85" alt="SQL" title="SQL">
+        </div>
+        <div class="skills_item">
+            Python
+            <br>
+            <img src="static/images/Python_icon.png" width="85" height="85" alt="Python" title="Python">
+        </div>
+        <div class="skills_item">
+            <img src="static/images/html-icon-512x512.png" width="85" height="85" alt="HTML" title="HTML">
+        </div>
+        <div class="skills_item">
+            <img src="static/images/flask-icon.png" width="85" height="85" alt="Python Flask" title="Python Flask">
+        </div>
+        </div>
+    </div>
+
+    <!-- <div class="home_section home_section_2 ">
+        <h2 class="home">Programming Skills</h2>
+        <div class="form-inline field_row" style="text-align:center">
             <div class="form-group" style="width:110px; text-align:center">
                 <img src="static/images/java-icon.png" width="85" height="85" alt="Java" title="Java">
             </div>
             <div class="form-group" style="width:110px; text-align:center">
-                SQL
-                <br>
                 <img src="static/images/Oracle-SQL-icon.png" width="85" height="85" alt="SQL" title="SQL">
             </div>
             <div class="form-group" style="width:110px; text-align:center" alt="Python" title="Python">
@@ -35,18 +75,14 @@
             <div class="form-group" style="width:110px; text-align:center">
                 <img src="static/images/html-icon-512x512.png" width="85" height="85" alt="HTML" title="HTML">
             </div>
-            <!--div class="form-group" style="width:110px; text-align:center">
-                CSS
-                <br>
-                <img src="static/images/css-xxl.png" width="85" height="85" alt="CSS" title="CSS">
-            </div-->
+
             <div class="form-group" style="width:110px; text-align:center">
                 <img src="static/images/flask-icon.png" width="85" height="85" alt="Python Flask" title="Python Flask">
             </div>
         </div>
-    </div>
+    </div> -->
 
-    <div class="home_section home_section_2 ">
+    <div class="home_section home_section_1 ">
         <h2 class="home">Workout Summaries</h2>
     </div>
 
