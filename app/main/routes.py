@@ -59,6 +59,7 @@ def workouts():
             workout.clothes = ''
         if workout.notes != None:
             workout.notes_summary = workout.notes[:current_app.config['SIZE_NOTES_SUMMARY']] + '...' if len(workout.notes) > current_app.config['SIZE_NOTES_SUMMARY'] else workout.notes
+            # workout.notes_summmary = workout.notes
         else:
             workout.notes_summary = ""
     return render_template('workouts.html', title='Workouts', workouts=workouts, form=form, next_url=next_url, prev_url=prev_url)

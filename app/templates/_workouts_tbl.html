@@ -67,12 +67,12 @@
             <table width="100%" style="text-align: left; ">
                 <tr class="workout-detail">
                     <td width="100%">
-                        Start: {{ workout.temp_strt }} degrees {{ workout.wethr_cond_strt }}, {{ workout.hmdty_strt|round|int  }}% humidity, wind speed {{ workout.wind_speed_strt }}mph, wind gust {{ workout.wind_gust_strt }}, feels like {{ workout.temp_feels_like_strt }}.
+                        Start: {{ workout.temp_strt }} degrees {{ workout.wethr_cond_strt }}, {{ workout.hmdty_strt|round|int }}% humidity, wind speed {{ workout.wind_speed_strt }}mph, wind gust {{ workout.wind_gust_strt }}, feels like {{ workout.temp_feels_like_strt }}.
                     </td>
                 </tr>
                 <tr class="workout-detail">
                     <td >
-                        End: {{ workout.temp_end }} degrees {{ workout.wethr_cond_end }}, {{ workout.hmdty_end|round|int  }}% humidity, wind speed {{ workout.wind_speed_end }}mph, wind gust {{ workout.wind_gust_end }}, feels like {{ workout.temp_feels_like_end }}.
+                        End: {{ workout.temp_end }} degrees {{ workout.wethr_cond_end }}, {{ workout.hmdty_end|round|int }}% humidity, wind speed {{ workout.wind_speed_end }}mph, wind gust {{ workout.wind_gust_end }}, feels like {{ workout.temp_feels_like_end }}.
                     </td>
                 </tr>
             </table>
@@ -90,6 +90,7 @@
             <table width="100%" style="text-align: left;">
                 <tr class="workout-detail">
                     <td width="100%">
+                        {# Notes: {{ workout.notes_summary|truncate(10) }} #}
                         Notes: {{ workout.notes_summary }}
                     </td>
                 </tr>
