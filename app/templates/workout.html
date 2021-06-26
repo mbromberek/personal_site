@@ -56,6 +56,7 @@
     </fieldset>
     </div>
 
+    {% if workout.temp_strt != None %}
     <div class="form-inline field_row" style="width:600px">
         <fieldset class="wrkt_det">
             <legend class="wrkt_det">
@@ -68,6 +69,7 @@
             </div>
         </fieldset>
     </div>
+    {% endif %}
 
     {% if workout.intrvl_tot_dist_mi != None %}
     <div class="form-inline field_row" style="width:600px">
