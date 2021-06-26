@@ -77,6 +77,7 @@ def edit_workout():
 
     if form.wrkt_id.data == None or form.wrkt_id.data == "":
         logger.info('Create Workout')
+        label_val['title'] = 'Create Workout'
     else:
         logger.info('Update Workout')
         logger.info(form.wrkt_id.data)
@@ -198,9 +199,9 @@ def edit_workout():
 
         form.intrvl_dur_h.data, form.intrvl_dur_m.data, form.intrvl_dur_s.data = tm_conv.split_sec_to_time(wrkt.intrvl_tot_tm_sec)
         form.intrvl_tot_dist.data = wrkt.intrvl_tot_dist_mi
-    else:
-        logger.debug('Create Workout')
-        label_val['title'] = 'Create Workout'
+    # else:
+        # logger.debug('Create Workout')
+        # label_val['title'] = 'Create Workout'
 
     return render_template('edit_workout.html', label_val=label_val, form=form)
 
