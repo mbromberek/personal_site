@@ -429,3 +429,13 @@ class Gear(db.Model):
     type = db.Column(db.String(50), index=True, nullable=False)
     company = db.Column(db.String(50))
     isrt_ts = db.Column(db.DateTime, nullable=False, index=True, default=datetime.utcnow)
+
+
+class Wrkt_sum(db.Model):
+    __table_args__ = {"schema": "fitness", 'comment':'summary of workouts by type and different date ranges'}
+    user_id = db.Column(db.Integer, primary_key=True)
+    type = db.Column(db.String(50), primary_key=True)
+    rng = db.Column(db.String(50), primary_key=True)
+    tot_sec = db.Column(db.Integer())
+    tot_dist = db.Column(db.Numeric(8,2))
+    nbr = db.Column(db.Integer())
