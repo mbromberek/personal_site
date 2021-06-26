@@ -171,7 +171,9 @@
             </legend>
             <div class="form-inline field_row">
                 {% if workout.notes != None %}
-                    {{ workout.notes }}
+                    {% autoescape false %}
+                    {{ workout.notes | replace('&','&#38;') | replace('<','&#60;') | replace('>','&#62;') | replace('"','&#34;') | replace('\'','&#39;') | replace('\n', '<br/>') }}
+                    {% endautoescape %}
                 {% else %}
                     &nbsp;
                 {% endif %}

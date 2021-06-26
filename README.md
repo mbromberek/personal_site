@@ -43,6 +43,9 @@ flask db upgrade
 
 ## Setup on server
 ```
+# Had to run this after server reboot to get working
+sudo service nginx reload
+
 sudo supervisorctl status
 sudo supervisorctl stop p_site
 sudo supervisorctl start p_site
