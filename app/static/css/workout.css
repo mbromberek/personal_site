@@ -95,6 +95,7 @@ div.home_section_2{
 }
 div.home_section{
     /* width:900px; */
+    width:100%;
     padding-top: 10px;
     padding-bottom: 20px;
     /* padding-left: 20px;
