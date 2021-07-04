@@ -20,6 +20,7 @@ mkvirtualenv personal_site
 pip install -r requirements.txt
 deactivate
 workon personal_site
+source personal_site/bin/activate
 python app.py
 workon #See all projects
 
