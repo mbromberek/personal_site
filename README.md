@@ -43,10 +43,13 @@ flask db upgrade
 
 ## Setup on server
 ```
+gunicorn -b localhost:8000 -w 4 p_site:app
+
 # Had to run this after server reboot to get working
 sudo service nginx reload
 
 sudo supervisorctl status
+sudo supervisorctl reload
 sudo supervisorctl stop p_site
 sudo supervisorctl start p_site
 ```
