@@ -9,6 +9,27 @@
     <br>
     {% endif %}
 
+    <form action="" method="post" role="form" class="form">
+        {{ form.hidden_tag() }}
+        <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups" style="padding-bottom: 25px;">
+          <div class="btn-group mr-2" role="group" aria-label="Type group">
+            {{ wtf.form_field(wrkt_filter_form.category_run_btn, class="btn btn-secondary") }}
+            {{ wtf.form_field(wrkt_filter_form.category_cycle_btn, class="btn btn-secondary") }}
+            {{ wtf.form_field(wrkt_filter_form.category_swim_btn, class="btn btn-secondary") }}
+          </div>
+          <div class="btn-group mr-2" role="group" aria-label="Category group">
+            <button type="button" class="btn btn-secondary">Training</button>
+            <button type="button" class="btn btn-secondary">Long Run</button>
+            <button type="button" class="btn btn-secondary">Easy</button>
+            <button type="button" class="btn btn-secondary">Race</button>
+          </div>
+          <div class="btn-group" role="group" aria-label="Third group">
+            <button type="button" class="btn btn-secondary">Outside</button>
+          </div>
+        </div>
+
+    </form>
+
     {% include '_workouts_tbl.html' %}
 
     <nav aria-label="...">

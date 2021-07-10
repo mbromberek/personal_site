@@ -23,6 +23,11 @@ from app import logger
 class EmptyForm(FlaskForm):
     submit = SubmitField('Submit')
 
+class WorkoutFilterForm(FlaskForm):
+    category_run_btn = SubmitField(label='Run')
+    category_cycle_btn = SubmitField(label='Cycle')
+    category_swim_btn = SubmitField(label='Swim')
+
 
 class WorkoutForm(FlaskForm):
     wrkt_id = HiddenField()

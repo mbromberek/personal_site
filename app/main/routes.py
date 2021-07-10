@@ -17,7 +17,7 @@ from flask_login import current_user, login_required
 
 # Custom classes
 from app.main import bp
-from app.main.forms import EmptyForm, WorkoutForm
+from app.main.forms import EmptyForm, WorkoutForm, WorkoutFilterForm
 from app.models import User, Workout, Workout_interval
 from app import db
 from app.utils import tm_conv, const
@@ -38,14 +38,33 @@ def index():
 def workouts():
     logger.info('workouts')
     form = EmptyForm()
-    if form.validate_on_submit():
+    wrkt_filter_form = WorkoutFilterForm()
+
+    type_filter = None
+    if wrkt_filter_form.category_run_btn.data:
+        type_filter = ['Running','Indoor Running']
+        # type_filter = 'Running'
+    elif wrkt_filter_form.category_cycle_btn.data:
+        type_filter = ['Cycling','Indoor Cycling']
+        # type_filter = 'Cycling'
+    elif wrkt_filter_form.category_swim_btn.data:
+        type_filter = ['Swimming','Indoor Swimming']
+
+    if form.validate_on_submit() and form.submit.data:
         return redirect(url_for('main.edit_workout'))
 
     form.submit.label.text = 'New Workout'
 
     page = request.args.get('page', 1, type=int)
-    workoutPages = \
-        Workout.query.filter_by(user_id=current_user.id).order_by(Workout.wrkt_dttm.desc()).paginate(page, current_app.config['POSTS_PER_PAGE'], False)
+    query = Workout.query.filter_by(user_id=current_user.id)
+    if type_filter != None:
+        query = query.filter(Workout.type.in_(type_filter))
+    workoutPages = query.order_by(Workout.wrkt_dttm.desc()).paginate(page, current_app.config['POSTS_PER_PAGE'], False)
+    # workoutPages = \
+    #     Workout.query.filter(\
+    #         Workout.user_id==current_user.id,\
+    #         Workout.type==type_filter
+    #         ).order_by(Workout.wrkt_dttm.desc()).paginate(page, current_app.config['POSTS_PER_PAGE'], False)
     next_url = url_for('main.workouts', page=workoutPages.next_num) \
         if workoutPages.has_next else None
     prev_url = url_for('main.workouts', page=workoutPages.prev_num) \
@@ -62,7 +81,7 @@ def workouts():
             # workout.notes_summmary = workout.notes
         else:
             workout.notes_summary = ""
-    return render_template('workouts.html', title='Workouts', workouts=workouts, form=form, next_url=next_url, prev_url=prev_url)
+    return render_template('workouts.html', title='Workouts', workouts=workouts, form=form, wrkt_filter_form=wrkt_filter_form, next_url=next_url, prev_url=prev_url)
 
 @bp.route('/edit_workout', methods=['GET','POST'])
 @login_required
