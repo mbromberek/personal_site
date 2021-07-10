@@ -40,24 +40,44 @@ def workouts():
     form = EmptyForm()
     wrkt_filter_form = WorkoutFilterForm()
 
-    type_filter = None
-    if wrkt_filter_form.category_run_btn.data:
-        type_filter = ['Running','Indoor Running']
-        # type_filter = 'Running'
-    elif wrkt_filter_form.category_cycle_btn.data:
-        type_filter = ['Cycling','Indoor Cycling']
-        # type_filter = 'Cycling'
-    elif wrkt_filter_form.category_swim_btn.data:
-        type_filter = ['Swimming','Indoor Swimming']
-
+    # if New Workout button was pressed
     if form.validate_on_submit() and form.submit.data:
         return redirect(url_for('main.edit_workout'))
-
     form.submit.label.text = 'New Workout'
 
-    page = request.args.get('page', 1, type=int)
+    page = request.args.get('page', default=1, type=int)
+    type = request.args.get('type', default='')
+
+    if wrkt_filter_form.category_run_btn.data:
+        return redirect(url_for('main.workouts', page=page, type='run'))
+        # type_filter = ['Running','Indoor Running']
+        # type_filter = 'Running'
+    elif wrkt_filter_form.category_cycle_btn.data:
+        return redirect(url_for('main.workouts', page=page, type='cycle'))
+        # type_filter = ['Cycling','Indoor Cycling']
+        # type_filter = 'Cycling'
+    elif wrkt_filter_form.category_swim_btn.data:
+        return redirect(url_for('main.workouts', page=page, type='swim'))
+        # type_filter = ['Swimming','Indoor Swimming']
+
+    type_filter = []
+    run_btn_class = 'btn btn-outline-secondary'
+    cycle_btn_class = 'btn btn-outline-secondary'
+    swim_btn_class = 'btn btn-outline-secondary'
+    if type == 'run':
+        type_filter.extend(['Running','Indoor Running'])
+        run_btn_class = 'btn btn-primary'
+    if type == 'cycle':
+        type_filter.extend(['Cycling','Indoor Cycling'])
+        cycle_btn_class = 'btn btn-primary'
+    if type == 'swim':
+        type_filter.extend(['Swimming','Indoor Swimming'])
+        swim_btn_class = 'btn btn-primary'
+
+    logger.info('type_filter ' + str(type_filter))
+
     query = Workout.query.filter_by(user_id=current_user.id)
-    if type_filter != None:
+    if len(type_filter) >0:
         query = query.filter(Workout.type.in_(type_filter))
     workoutPages = query.order_by(Workout.wrkt_dttm.desc()).paginate(page, current_app.config['POSTS_PER_PAGE'], False)
     # workoutPages = \
@@ -65,9 +85,9 @@ def workouts():
     #         Workout.user_id==current_user.id,\
     #         Workout.type==type_filter
     #         ).order_by(Workout.wrkt_dttm.desc()).paginate(page, current_app.config['POSTS_PER_PAGE'], False)
-    next_url = url_for('main.workouts', page=workoutPages.next_num) \
+    next_url = url_for('main.workouts', page=workoutPages.next_num, type=type) \
         if workoutPages.has_next else None
-    prev_url = url_for('main.workouts', page=workoutPages.prev_num) \
+    prev_url = url_for('main.workouts', page=workoutPages.prev_num, type=type) \
         if workoutPages.has_prev else None
 
     workouts = workoutPages.items
@@ -81,7 +101,7 @@ def workouts():
             # workout.notes_summmary = workout.notes
         else:
             workout.notes_summary = ""
-    return render_template('workouts.html', title='Workouts', workouts=workouts, form=form, wrkt_filter_form=wrkt_filter_form, next_url=next_url, prev_url=prev_url)
+    return render_template('workouts.html', title='Workouts', workouts=workouts, form=form, wrkt_filter_form=wrkt_filter_form, run_btn_class=run_btn_class, cycle_btn_class=cycle_btn_class, swim_btn_class=swim_btn_class, next_url=next_url, prev_url=prev_url)
 
 @bp.route('/edit_workout', methods=['GET','POST'])
 @login_required
