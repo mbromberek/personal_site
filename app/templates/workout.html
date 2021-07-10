@@ -63,9 +63,9 @@
                 Weather
             </legend>
             <div class="form-inline field_row">
-                Start: {{ workout.temp_strt }}&#176; {{ workout.wethr_cond_strt }}, {{ workout.hmdty_strt|round|int }}% humidity, wind speed {{ workout.wind_speed_strt }}mph, wind gust {{ workout.wind_gust_strt }}, feels like {{ workout.temp_feels_like_strt }}.
+                Start: {{ workout.temp_strt|round|int }}&#176; {{ workout.wethr_cond_strt }}, {{ workout.hmdty_strt|round|int }}% humidity, wind speed {{ workout.wind_speed_strt }}mph, wind gust {{ workout.wind_gust_strt }}, feels like {{ workout.temp_feels_like_strt|round|int }}.
                 <br>
-                End: {{ workout.temp_end }}&#176; {{ workout.wethr_cond_end }}, {{ workout.hmdty_end|round|int }}% humidity, wind speed {{ workout.wind_speed_end }}mph, wind gust {{ workout.wind_gust_end }}, feels like {{ workout.temp_feels_like_end }}.
+                End: {{ workout.temp_end|round|int }}&#176; {{ workout.wethr_cond_end }}, {{ workout.hmdty_end|round|int }}% humidity, wind speed {{ workout.wind_speed_end }}mph, wind gust {{ workout.wind_gust_end }}, feels like {{ workout.temp_feels_like_end|round|int }}.
             </div>
         </fieldset>
     </div>
