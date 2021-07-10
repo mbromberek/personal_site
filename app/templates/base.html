@@ -18,13 +18,14 @@ Base HTML code for each web page
 {% block styles %}
 <link href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/workout.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
 {% endblock %}
 {% block title %}
     {% if title %}{{ title }} - Mike's Site{% else %}Mike's Site{% endif %}
 {% endblock %}
 
 {% block navbar %}
-    <nav class="navbar navbar-default">
+    <nav class="navbar navbar-default" >
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
