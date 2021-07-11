@@ -67,6 +67,10 @@ def workouts():
     elif wrkt_filter_form.category_race_btn.data:
         return redirect(url_for('main.workouts', page=1, type=type, category='race'))
 
+    # Redirect if All button was pressed
+    if wrkt_filter_form.clear_filter_btn.data:
+        return redirect(url_for('main.workouts'))
+
     type_filter = []
     category_filter = []
     btn_classes = {}

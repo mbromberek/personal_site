@@ -24,10 +24,10 @@
                 {{ wtf.form_field(wrkt_filter_form.category_long_btn, class=btn_classes['long'] or 'btn btn-outline-secondary') }}
                 {{ wtf.form_field(wrkt_filter_form.category_easy_btn, class=btn_classes['easy'] or 'btn btn-outline-secondary') }}
                 {{ wtf.form_field(wrkt_filter_form.category_race_btn, class=btn_classes['race'] or 'btn btn-outline-secondary') }}
-          </div>
-          <div class="btn-group" role="group" aria-label="Third group">
-            <button type="button" class="btn btn-secondary">All</button>
-          </div>
+            </div>
+            <div class="btn-group" role="group" aria-label="Third group">
+                {{ wtf.form_field(wrkt_filter_form.clear_filter_btn, class='btn btn-outline-secondary') }}
+            </div>
         </div>
 
     </form>
