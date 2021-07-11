@@ -14,16 +14,16 @@
     <form action="" method="post" role="form" class="form">
         {{ form.hidden_tag() }}
         <div class="btn-toolbar pb-4" role="toolbar" aria-label="Toolbar with button groups" style="padding-bottom: 25px;">
-          <div class="btn-group mr-2" role="group" aria-label="Type group">
-            {{ wtf.form_field(wrkt_filter_form.category_run_btn, class=run_btn_class) }}
-            {{ wtf.form_field(wrkt_filter_form.category_cycle_btn, class=cycle_btn_class) }}
-            {{ wtf.form_field(wrkt_filter_form.category_swim_btn, class=swim_btn_class) }}
-          </div>
-          <div class="btn-group ml-2" role="group" aria-label="Category group">
-            <button type="button" class="btn btn-secondary">Training</button>
-            <button type="button" class="btn btn-secondary">Long Run</button>
-            <button type="button" class="btn btn-secondary">Easy</button>
-            <button type="button" class="btn btn-secondary">Race</button>
+            <div class="btn-group mr-2" role="group" aria-label="Type group">
+                {{ wtf.form_field(wrkt_filter_form.category_run_btn, class=btn_classes['run'] or 'btn btn-outline-secondary') }}
+                {{ wtf.form_field(wrkt_filter_form.category_cycle_btn, class=btn_classes['cycle'] or 'btn btn-outline-secondary') }}
+                {{ wtf.form_field(wrkt_filter_form.category_swim_btn, class=btn_classes['swim'] or 'btn btn-outline-secondary') }}
+            </div>
+            <div class="btn-group ml-2" role="group" aria-label="Category group">
+                {{ wtf.form_field(wrkt_filter_form.category_training_btn, class=btn_classes['training'] or 'btn btn-outline-secondary') }}
+                {{ wtf.form_field(wrkt_filter_form.category_long_btn, class=btn_classes['long'] or 'btn btn-outline-secondary') }}
+                {{ wtf.form_field(wrkt_filter_form.category_easy_btn, class=btn_classes['easy'] or 'btn btn-outline-secondary') }}
+                {{ wtf.form_field(wrkt_filter_form.category_race_btn, class=btn_classes['race'] or 'btn btn-outline-secondary') }}
           </div>
           <div class="btn-group" role="group" aria-label="Third group">
             <button type="button" class="btn btn-secondary">All</button>

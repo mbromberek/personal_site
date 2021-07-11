@@ -28,6 +28,11 @@ class WorkoutFilterForm(FlaskForm):
     category_cycle_btn = SubmitField(label='Cycle')
     category_swim_btn = SubmitField(label='Swim')
 
+    category_training_btn = SubmitField(label='Training')
+    category_long_btn = SubmitField(label='Long Run')
+    category_easy_btn = SubmitField(label='Easy')
+    category_race_btn = SubmitField(label='Race')
+
 
 class WorkoutForm(FlaskForm):
     wrkt_id = HiddenField()
