@@ -17,8 +17,8 @@
         {% endif %}
     </div>
 
-    <div class="form-inline field_row" style="width:600px">
-        <fieldset class="wrkt_det">
+    <div class="form-row" style="width:600px">
+        <fieldset class="wrkt_det pb-4">
             <legend class="wrkt_det">
                 Total
             </legend>
@@ -57,7 +57,7 @@
     </div>
 
     {% if workout.temp_strt != None %}
-    <div class="form-inline field_row" style="width:600px">
+    <div class="form-row" style="width:600px">
         <fieldset class="wrkt_det">
             <legend class="wrkt_det">
                 Weather
@@ -72,12 +72,12 @@
     {% endif %}
 
     {% if workout.intrvl_tot_dist_mi != None %}
-    <div class="form-inline field_row" style="width:600px">
+    <div class="form-row" style="width:600px">
         <fieldset class="wrkt_det">
             <legend class="wrkt_det">
                 Training Summary
             </legend>
-            <div class="form-inline field_row">
+            <div class="form-row">
                 <table width="100%" style="text-align: center;">
                     <tr class="workout-detail">
                         <td width="100px">
@@ -142,12 +142,12 @@
     </div>
     {% endif %}
 
-    <div class="form-inline field_row" style="width:600px">
+    <div class="form-row" style="width:600px">
         <fieldset class="wrkt_det">
             <legend class="wrkt_det">
                 Gear
             </legend>
-            <div class="form-inline field_row">
+            <div class="form-row">
                 Clothes:
                 {% if workout.notes != None %}
                     {{ workout.clothes }}
@@ -166,12 +166,12 @@
         </fieldset>
     </div>
 
-    <div class="form-inline field_row" style="width:600px">
+    <div class="form-row" style="width:600px">
         <fieldset class="wrkt_det">
             <legend class="wrkt_det">
                 notes
             </legend>
-            <div class="form-inline field_row">
+            <div>
                 {% if workout.notes != None %}
                     {% autoescape false %}
                     {{ workout.notes | replace('&','&#38;') | replace('<','&#60;') | replace('>','&#62;') | replace('"','&#34;') | replace('\'','&#39;') | replace('\n', '<br/>') }}
@@ -183,9 +183,9 @@
         </fieldset>
     </div>
 
-    <div class="form-inline field_row" style="width:1100px; vertical-align:top;">
+    <div class="form-row" style="width:1100px; vertical-align:top;">
         {% if segment_intrvl_lst|length >0 %}
-        <div class="form-group" style="width:500px; vertical-align:top;">
+        <div class="form-group mt-3 mr-2" style="width:500px; vertical-align:top;">
             Segment Splits<br>
             <table>
                 <tr style="font-weight:bold">
@@ -241,7 +241,7 @@
     {% endif %}
 
     {% if mile_intrvl_lst|length >0 %}
-    <div class="form-group" style="width:500px; vertical-align:top;">
+    <div class="form-group mt-3" style="width:500px; vertical-align:top;">
         Mile Splits<br>
         <table>
             <tr style="font-weight:bold">

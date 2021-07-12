@@ -81,6 +81,8 @@ label.workout_lbl{
 fieldset.wrkt_det{
     border: 1px solid gray;
     padding: 0px 15px;
+    padding-bottom: 15px;
+    width: 100%;
 }
 legend.wrkt_det{
     padding: 0.5em 0.5em;
