@@ -1,33 +1,28 @@
 {% extends "base.html" %}
-{% import 'bootstrap/wtf.html' as wtf %}
+{% from 'bootstrap/form.html' import render_form, render_field %}
 
 {% block app_content %}
-    <h1>Workouts for, {{ current_user.displayname }}</h1>
-    <br>
-    {% if form %}
-    {{ wtf.quick_form(form) }}
-    <br>
-    {% endif %}
-
-
-
     <form action="" method="post" role="form" class="form">
+        <h1>Workouts for, {{ current_user.displayname }}
+        {{ render_field(form.submit, class='btn btn-dark') }}
+        </h1>
+
         {{ form.hidden_tag() }}
-        <div class="btn-toolbar pb-4" role="toolbar" aria-label="Toolbar with button groups" style="padding-bottom: 25px;">
-            <div class="btn-group mr-2" role="group" aria-label="Type group">
-                {{ wtf.form_field(wrkt_filter_form.category_run_btn, class=btn_classes['run'] or 'btn btn-outline-secondary') }}
-                {{ wtf.form_field(wrkt_filter_form.category_cycle_btn, class=btn_classes['cycle'] or 'btn btn-outline-secondary') }}
-                {{ wtf.form_field(wrkt_filter_form.category_swim_btn, class=btn_classes['swim'] or 'btn btn-outline-secondary') }}
+        <div class="btn-toolbar pt-4 pb-4" role="toolbar" aria-label="Toolbar with button groups" style="padding-bottom: 25px;">
+            <div class="btn-group mr-4" role="group" aria-label="Type group">
+                {{ render_field(wrkt_filter_form.category_run_btn, class=btn_classes['run'] or 'btn btn-outline-dark') }}
+                {{ render_field(wrkt_filter_form.category_cycle_btn, class=btn_classes['cycle'] or 'btn btn-outline-dark') }}
+                {{ render_field(wrkt_filter_form.category_swim_btn, class=btn_classes['swim'] or 'btn btn-outline-dark') }}
             </div>
-            <div class="btn-group ml-2" role="group" aria-label="Category group">
-                {{ wtf.form_field(wrkt_filter_form.category_training_btn, class=btn_classes['training'] or 'btn btn-outline-secondary') }}
-                {{ wtf.form_field(wrkt_filter_form.category_long_btn, class=btn_classes['long'] or 'btn btn-outline-secondary') }}
-                {{ wtf.form_field(wrkt_filter_form.category_easy_btn, class=btn_classes['easy'] or 'btn btn-outline-secondary') }}
-                {{ wtf.form_field(wrkt_filter_form.category_race_btn, class=btn_classes['race'] or 'btn btn-outline-secondary') }}
+            <div class="btn-group mr-4" role="group" aria-label="Category group">
+                {{ render_field(wrkt_filter_form.category_training_btn, class=btn_classes['training'] or 'btn btn-outline-dark') }}
+                {{ render_field(wrkt_filter_form.category_long_btn, class=btn_classes['long'] or 'btn btn-outline-dark') }}
+                {{ render_field(wrkt_filter_form.category_easy_btn, class=btn_classes['easy'] or 'btn btn-outline-dark') }}
+                {{ render_field(wrkt_filter_form.category_race_btn, class=btn_classes['race'] or 'btn btn-outline-dark') }}
             </div>
             <div class="btn-group" role="group" aria-label="Third group">
-                {{ wtf.form_field(wrkt_filter_form.clear_filter_btn, class='btn btn-outline-secondary') }}
-                
+                {{ render_field(wrkt_filter_form.clear_filter_btn, class='btn btn-outline-dark') }}
+
             </div>
         </div>
 
@@ -35,15 +30,16 @@
 
     {% include '_workouts_tbl.html' %}
 
-    <nav aria-label="...">
-        <ul class="pager">
-            <li class="previous{% if not prev_url %} disabled {% endif %}">
-                <a href="{{ prev_url or '#' }}">
+
+    <nav aria-label="Workouts page navigation">
+        <ul class="pagination">
+            <li class="page-item {% if not prev_url %} disabled {% endif %}">
+                <a class='page-link' href="{{ prev_url or '#' }}">
                     <span aria-hidden="true">&larr;</span> Newer workouts
                 </a>
             </li>
-            <li class="next{% if not next_url %} disabled {% endif %}">
-                <a href="{{ next_url or '#' }}">
+            <li class="ml-auto page-item {% if not next_url %} disabled {% endif %}">
+                <a class='page-link' href="{{ next_url or '#' }}">
                     Older workouts <span aria-hidden="true">&rarr;</span>
                 </a>
             </li>

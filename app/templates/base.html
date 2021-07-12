@@ -7,65 +7,64 @@ Base HTML code for each web page
 
 #}
 
-{% extends 'bootstrap/base.html' %}
+<!doctype html>
+<html lang="en">
+    <head>
 
 {% block head %}
-{{super()}}
-<link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
- <meta name="viewport" content="width=device-width, initial-scale=1.0">
-{% endblock %}
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+    {% block styles %}
+        {{ bootstrap.load_css() }}
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/workout.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    {% endblock %}
 
-{% block styles %}
-<link href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/workout.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
-{% endblock %}
-{% block title %}
-    {% if title %}{{ title }} - Mike's Site{% else %}Mike's Site{% endif %}
-{% endblock %}
+    <title>
+        {% if title %}{{ title }} - Mike's Site{% else %}Mike's Site{% endif %}
+    </title>
 
+{% endblock %}
+</head>
+
+<body>
 {% block navbar %}
-    <nav class="navbar navbar-default" >
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="{{ url_for('main.index') }}">Mike Bromberek</a>
-            </div>
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                {% if current_user.is_anonymous %}
-                <ul class="nav navbar-nav navbar-right">
-                    <li>
-                        <a href="{{ url_for('auth.login') }}">Login</a>
-                    </li>
-                </ul>
-                {% else %}
-                <ul class="nav navbar-nav navbar-right">
-                    <li>
-                        <a href="{{ url_for('main.index') }}">About</a>
-                    </li>
-                    <li>
-                        <a href="{{ url_for('main.workouts') }}">
-                            Workouts
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ url_for('main.testing') }}">
-                            Testing
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ url_for('auth.logout') }}">Logout</a>
-                    </li>
-                </ul>
-                {% endif %}
-            </div>
-        </div>
-    </nav>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="{{ url_for('main.index') }}">Mike Bromberek</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto ">
+            {% if current_user.is_anonymous %}
+            <li class="nav-item active">
+                <a class="nav-link" href="{{ url_for('auth.login') }}">Login</a>
+            </li>
+            {% else %}
+            <li class="nav-item active">
+                <a class="nav-link" href="{{ url_for('main.index') }}">About</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="{{ url_for('main.workouts') }}">
+                    Workouts
+                </a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="{{ url_for('main.testing') }}">
+                    Testing
+                </a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="{{ url_for('auth.logout') }}">Logout</a>
+            </li>
+            {% endif %}
+        </ul>
+  </div>
+</nav>
+
 {% endblock %}
 
 {% block content %}
@@ -84,3 +83,11 @@ Base HTML code for each web page
         {% block app_content %}{% endblock %}
     </div>
 {% endblock %}
+
+{% block scripts %}
+    <!-- Optional JavaScript -->
+    {{ bootstrap.load_js() }}
+{% endblock %}
+
+</body>
+</html>
