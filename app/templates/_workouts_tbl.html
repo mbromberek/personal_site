@@ -68,7 +68,22 @@
                 {% if workout.temp_strt != None %}
                 <tr class="workout-detail">
                     <td width="100%">
-                        Start: {{ workout.temp_strt }}&#176; {{ workout.wethr_cond_strt }}, {{ workout.hmdty_strt|round|int }}% humidity, wind speed {{ workout.wind_speed_strt }}mph, wind gust {{ workout.wind_gust_strt }}, feels like {{ workout.temp_feels_like_strt }}.
+                        Start: {{ workout.temp_strt }}&#176;
+                        {% if workout.wethr_cond_strt %}
+                            {{ workout.wethr_cond_strt }},
+                        {% endif %}
+                        {% if workout.hmdty_strt %}
+                            {{ workout.hmdty_strt|round|int }}% humidity,
+                        {% endif %}
+                        {% if workout.wind_speed_strt %}
+                            wind speed {{ workout.wind_speed_strt }}mph,
+                        {% endif %}
+                        {% if workout.wind_gust_strt %}
+                            wind gust {{ workout.wind_gust_strt }},
+                        {% endif %}
+                        {% if workout.temp_feels_like_strt %}
+                            feels like {{ workout.temp_feels_like_strt }}.
+                        {% endif %}
                     </td>
                 </tr>
                 {% endif %}
