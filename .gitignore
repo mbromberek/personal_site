@@ -8,3 +8,4 @@ logging.conf
 instance/config.py
 certs/
 personal_site/
+app/static/images/pixel/
