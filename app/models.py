@@ -167,6 +167,7 @@ class Workout(PaginatedAPIMixin, db.Model):
     hmdty_strt = db.Column(db.Numeric(8,2))
     wind_speed_strt = db.Column(db.Numeric(8,2))
     wind_gust_strt = db.Column(db.Numeric(8,2))
+    dew_point_strt = db.Column(db.Numeric(8,2))
 
     temp_end = db.Column(db.Numeric(8,2))
     temp_feels_like_end = db.Column(db.Numeric(8,2))
@@ -174,6 +175,7 @@ class Workout(PaginatedAPIMixin, db.Model):
     hmdty_end = db.Column(db.Numeric(8,2))
     wind_speed_end = db.Column(db.Numeric(8,2))
     wind_gust_end = db.Column(db.Numeric(8,2))
+    dew_point_end = db.Column(db.Numeric(8,2))
 
     notes = db.Column(db.Text())
 
@@ -238,7 +240,8 @@ class Workout(PaginatedAPIMixin, db.Model):
                 'wethr_cond': self.wethr_cond_strt,
                 'hmdty': str(self.hmdty_strt),
                 'wind_speed': str(self.wind_speed_strt),
-                'wind_gust': str(self.wind_gust_strt)
+                'wind_gust': str(self.wind_gust_strt),
+                'dew_point' : str(self.dew_point_strt)
             },
             'weather_end': {
                 'temp': str(self.temp_strt),
@@ -246,7 +249,8 @@ class Workout(PaginatedAPIMixin, db.Model):
                 'wethr_cond': self.wethr_cond_strt,
                 'hmdty': str(self.hmdty_strt),
                 'wind_speed': str(self.wind_speed_strt),
-                'wind_gust': str(self.wind_gust_strt)
+                'wind_gust': str(self.wind_gust_strt),
+                'dew_point' : str(self.dew_point_end)
             },
             'notes': self.notes,
 
@@ -293,7 +297,7 @@ class Workout(PaginatedAPIMixin, db.Model):
                 setattr(self, field, float(data[field]))
 
         # Populate Weather data
-        wethr_float_fields = ['temp','temp_feels_like','hmdty', 'wind_speed','wind_gust']
+        wethr_float_fields = ['temp','temp_feels_like','hmdty', 'wind_speed','wind_gust','dew_point']
         wethr_str_fields = ['wethr_cond']
         if 'wethr_start' in data:
             wethr_data = data['wethr_start']
