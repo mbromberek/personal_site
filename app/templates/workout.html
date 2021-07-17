@@ -40,8 +40,8 @@
         <tr class="workout-detail" >
             <td  class="workout-detail" >
                 Elevation<br>
-                {{ workout.ele_up }} &uarr;&nbsp;
-                {{ workout.ele_down }} &darr;
+                {{ workout.ele_up|round|int }} &uarr;&nbsp;
+                {{ workout.ele_down|round|int }} &darr;
             </td>
             <td class="workout-detail" style="border-right: 1px gray solid; border-left: 1px gray solid">
                 Calories<br>
