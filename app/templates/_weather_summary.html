@@ -1,21 +1,54 @@
 <div >
-    Start: {{ workout.temp_strt|round|int }}&#176;
+    Start:
+    {% if workout.temp_strt %}
+        {{ workout.temp_strt|round|int }}&#176;
+    {% endif %}
     {% if workout.wethr_cond_strt %}
         {{ workout.wethr_cond_strt }},
+    {% else %}
+        ,
     {% endif %}
     {% if workout.hmdty_strt %}
         {{ workout.hmdty_strt|round|int }}% humidity,
+    {% endif %}
+    {% if workout.dew_point_strt %}
+        dew point {{ workout.dew_point_strt|round|int }}&#176;,
+    {% endif %}
+    {% if workout.temp_feels_like_strt %}
+        feels like {{ workout.temp_feels_like_strt|round|int }},
     {% endif %}
     {% if workout.wind_speed_strt %}
         wind speed {{ workout.wind_speed_strt }}mph,
     {% endif %}
     {% if workout.wind_gust_strt %}
-        wind gust {{ workout.wind_gust_strt }},
+        gust {{ workout.wind_gust_strt }}
     {% endif %}
-    {% if workout.temp_feels_like_strt %}
-        feels like {{ workout.temp_feels_like_strt|round|int }}.
-    {% endif %}
+    .
 </div>
 <div>
-    End: {{ workout.temp_end|round|int }}&#176; {{ workout.wethr_cond_end }}, {{ workout.hmdty_end|round|int }}% humidity, wind speed {{ workout.wind_speed_end }}mph, wind gust {{ workout.wind_gust_end }}, feels like {{ workout.temp_feels_like_end|round|int }}.
+    End:
+    {% if workout.temp_end %}
+        {{ workout.temp_end|round|int }}&#176;
+    {% endif %}
+    {% if workout.wethr_cond_end %}
+        {{ workout.wethr_cond_end }},
+    {% else %}
+        ,
+    {% endif %}
+    {% if workout.hmdty_end %}
+        {{ workout.hmdty_end|round|int }}% humidity,
+    {% endif %}
+    {% if workout.dew_point_end %}
+        dew point {{ workout.dew_point_end|round|int }}&#176;,
+    {% endif %}
+    {% if workout.temp_feels_like_end %}
+        feels like {{ workout.temp_feels_like_end|round|int }},
+    {% endif %}
+    {% if workout.wind_speed_end %}
+        wind speed {{ workout.wind_speed_end }}mph,
+    {% endif %}
+    {% if workout.wind_gust_end %}
+        gust {{ workout.wind_gust_end }},
+    {% endif %}
+    .
 </div>
