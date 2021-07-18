@@ -12,8 +12,8 @@ div.home_section_2{
 div.home_section{
     /* width:900px; */
     width:100%;
-    padding-top: 10px;
-    padding-bottom: 20px;
+    padding-top: 20px;
+    padding-bottom: 40px;
     padding-left: 20px;
     padding-right: 20px;
 }
@@ -43,6 +43,7 @@ h2.home{
     float: left;
     width: 60%;
     overflow: hidden;
+    margin-right: 30px;
     font-size:20px;
 }
 .about_img {
@@ -51,6 +52,42 @@ h2.home{
     padding: 10px 15px;
     margin-top: 7px;
 }
+
+.cat_body {
+    float: left;
+    width: 50%;
+    overflow: hidden;
+    font-size:20px;
+    border: 0px black solid;
+}
+.cat_img {
+    float: left;
+    width: 50%;
+    padding-top:10px;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 0px;
+    border: 0px red solid;
+}
+.cat_img_long {
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    border: 0px red solid;
+}
+.cat_img_left {
+    float: left;
+    max-width: 400px;
+    margin-left: 15px;
+    margin-right: 50px;
+    border: 0px red solid;
+}
+.cat_img_right {
+    float: left;
+    max-width: 400px;
+    border: 0px red solid;
+}
+
 
 .skills{
     max-width: 550px;
@@ -75,10 +112,18 @@ h2.home{
     .about_img {
         width: 100%;
     }
+    /* For tablets: */
+    .cat_body {
+        width: 80%;
+        padding: 0;
+    }
+    .cat_img {
+        width: 100%;
+    }
 }
 @media only screen and (max-width:500px) {
     /* For mobile phones: */
-    .menu, .about_body, .about_img {
+    .menu, .about_body, .about_img, .cat_body, .cat_img {
         width: 100%;
     }
     .skills{

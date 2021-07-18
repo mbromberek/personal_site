@@ -1,21 +1,6 @@
 {% extends "base.html" %}
 
 {% block app_content %}
-    <!--div class="home_section home_section_1" style="border:3px solid blue; " -->
-        <!-- <div class="home_section home_section_2" style="border:0px solid blue;width:100%; position:relative;height:400px;" >
-            <h2 class="home">About Me</h2>
-            <div style="border:0px solid red; width:400px">
-                Hi I am Mike Bromberek. I have worked at Caterpillar as an IT Analyst for 15 years.
-                <br>
-                I have been learning Python for the last few years.
-                <br><br>
-                I love running! My fastest Marathon time is 3 hours 20 minutes and 53 seconds and I am currently training to run my 6th Marathon this fall.
-            </div>
-            <span style="position:absolute; right:0px; top:0px; width:300px; border:0px solid #73AD21;">
-                <img src="static/images/Whiskey_Daddle_Marathon_Race.jpeg" width="300px" height="384px" alt="Mike Running" />
-            </span>
-        </div> -->
-    <!--/div-->
     <div class="home_section home_section_1" style="overflow:auto">
         <h2 class="home">About Me</h2>
         <div class="about_body">
@@ -31,12 +16,30 @@
         </div>
         <div class="about_img" >
             <img src="static/images/Whiskey_Daddle_Marathon_Race.jpeg" width="300px" height="384px" alt="Mike Running" />
-            <!--img src="static/images/Steamboat_finish_line_small.jpeg" width="237px" height="384px" alt="Mike Running" /-->
         </div>
     </div>
 
-    <div class="home_section home_section_2 ">
+    <div class="home_section home_section_2 " style="overflow:auto">
         <h2 class="home">My cat Pixel</h2>
+        <div class="cat_img" >
+            <img src="static/images/pixel/IMG_2581.jpeg" width="300px" height="384px" alt="Cat Pixel on Treadmill" />
+        </div>
+        <div class="cat_body">
+            <p>
+                Pixel took over my house in October 2016.
+            </p>
+            <p>
+                The vet said Pixels hips were out of alignment from an accident but had healed so he is not in pain but will not be able to jump as much. I figured that meant I would not have to worry about him jumping on tables and things, that lasted a week.
+            </p>
+        </div>
+    </div>
+    <div class="home_section home_section_2 " style="overflow:auto;padding-top:0px;">
+        <div class="cat_img_left">
+            <img src="static/images/pixel/Pixel_cat_on_bathroom_door_box.jpg" width="400px" height="400px" alt="Cat Pixel on door" />
+        </div>
+        <div class="cat_img_right">
+            <img src="static/images/pixel/Pixel_cat_new_feeder.jpg" width="400px" height="400px" alt="Cat Pixel eating feeder" />
+        </div>
     </div>
 
 
@@ -51,8 +54,8 @@
             <img src="static/images/Oracle-SQL-icon.png" width="85" height="85" alt="SQL" title="SQL">
         </div>
         <div class="skills_item">
-            Python
-            <br>
+            <!--Python
+            <br>-->
             <img src="static/images/Python_icon.png" width="85" height="85" alt="Python" title="Python">
         </div>
         <div class="skills_item">
