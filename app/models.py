@@ -302,15 +302,19 @@ class Workout(PaginatedAPIMixin, db.Model):
         if 'wethr_start' in data:
             wethr_data = data['wethr_start']
             for field in wethr_float_fields:
-                setattr(self, field + '_strt', float(wethr_data[field]))
+                if field in wethr_data:
+                    setattr(self, field + '_strt', float(wethr_data[field]))
             for field in wethr_str_fields:
-                setattr(self, field + '_strt', wethr_data[field])
+                if field in wethr_data:
+                    setattr(self, field + '_strt', wethr_data[field])
         if 'wethr_end' in data:
             wethr_data = data['wethr_end']
             for field in wethr_float_fields:
-                setattr(self, field + '_end', float(wethr_data[field]))
+                if field in wethr_data:
+                    setattr(self, field + '_end', float(wethr_data[field]))
             for field in wethr_str_fields:
-                setattr(self, field + '_end', wethr_data[field])
+                if field in wethr_data:
+                    setattr(self, field + '_end', wethr_data[field])
 
 
     def update(self, updt_wrkt):
