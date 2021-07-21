@@ -42,22 +42,22 @@ Base HTML code for each web page
             {% if current_user.is_anonymous %}
             <li class="nav-item active">
                 <a class="nav-link" href="https://www.strava.com/athletes/26482587" target="_blank">
-                    <img src="static/images/Strava-Icon.png" width="25" height="25" alt="Mike Strava Page" title="Mike Strava Page">
+                    <img src="{{ url_for('static', filename='images/Strava-Icon.png') }}" width="25" height="25" alt="Mike Strava Page" title="Mike Strava Page">
                 </a>
             </li>
             <li class="nav-item active">
                 <a class="nav-link" href="https://www.goodreads.com/review/list/15679231-mike?shelf=read&order=d&sort=date_read" target="_blank">
-                        <img src="static/images/goodreads-logo.png" width="25" height="25" alt="Mike Goodreads Page" title="Mike Goodreads Page">
+                        <img src="{{ url_for('static', filename='images/goodreads-logo.png') }}" width="25" height="25" alt="Mike Goodreads Page" title="Mike Goodreads Page">
                 </a>
             </li>
             <li class="nav-item active">
                 <a class="nav-link" href="https://www.linkedin.com/in/mike-bromberek/" target="_blank">
-                        <img src="static/images/Linkedin-Icon.png" width="25" height="25" alt="Mike Linkedin Page" title="Mike Linkedin Page">
+                        <img src="{{ url_for('static', filename='images/Linkedin-Icon.png') }}" width="25" height="25" alt="Mike Linkedin Page" title="Mike Linkedin Page">
                 </a>
             </li>
             <li class="nav-item active">
                 <a class="nav-link" href="https://github.com/mbromberek/" target="_blank">
-                    <img src="static/images/GitHub-Mark-32px.png" width="25" height="25" alt="Mike GitHub Page" title="Mike GitHub Page">
+                    <img src="{{ url_for('static', filename='images/GitHub-Mark-32px.png') }}" width="25" height="25" alt="Mike GitHub Page" title="Mike GitHub Page">
                 </a>
             </li>
             <li class="nav-item active">
