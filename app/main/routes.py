@@ -186,6 +186,7 @@ def edit_workout():
         wrkt.training_type = form.training_type.data
 
         wrkt.temp_strt = form.temp_strt.data
+        wrkt.dew_point_strt = form.dew_point_strt.data
         wrkt.temp_feels_like_strt = form.temp_feels_like_strt.data
         wrkt.wethr_cond_strt = form.wethr_cond_strt.data
         wrkt.hmdty_strt = form.hmdty_strt.data
@@ -193,6 +194,7 @@ def edit_workout():
         wrkt.wind_gust_strt = form.wind_gust_strt.data
 
         wrkt.temp_end = form.temp_end.data
+        wrkt.dew_point_end = form.dew_point_end.data
         wrkt.temp_feels_like_end = form.temp_feels_like_end.data
         wrkt.wethr_cond_end = form.wethr_cond_end.data
         wrkt.hmdty_end = form.hmdty_end.data
@@ -247,6 +249,7 @@ def edit_workout():
         form.training_type.data = wrkt.training_type
 
         form.temp_strt.data = wrkt.temp_strt
+        form.dew_point_strt.data = wrkt.dew_point_strt
         form.temp_feels_like_strt.data = wrkt.temp_feels_like_strt
         form.wethr_cond_strt.data = wrkt.wethr_cond_strt
         form.hmdty_strt.data = wrkt.hmdty_strt
@@ -254,6 +257,7 @@ def edit_workout():
         form.wind_gust_strt.data = wrkt.wind_gust_strt
 
         form.temp_end.data = wrkt.temp_end
+        form.dew_point_end.data = wrkt.dew_point_end
         form.temp_feels_like_end.data = wrkt.temp_feels_like_end
         form.wethr_cond_end.data = wrkt.wethr_cond_end
         form.hmdty_end.data = wrkt.hmdty_end

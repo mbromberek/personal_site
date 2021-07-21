@@ -65,6 +65,7 @@ class WorkoutForm(FlaskForm):
     training_type = StringField('Training Type')
 
     temp_strt = DecimalField('Temperature', validators=[Optional()], places=2, rounding=decimal.ROUND_UP)
+    dew_point_strt = DecimalField('Dew Point', validators=[Optional()], places=2, rounding=decimal.ROUND_UP)
     temp_feels_like_strt = DecimalField('Feels Like', validators=[Optional()], places=2, rounding=decimal.ROUND_UP)
     wethr_cond_strt = StringField('Condition')
     hmdty_strt = DecimalField('Percent Humidity', validators=[Optional()], places=2, rounding=decimal.ROUND_UP)
@@ -72,6 +73,7 @@ class WorkoutForm(FlaskForm):
     wind_gust_strt = DecimalField('Wind Gust', validators=[Optional()], places=2, rounding=decimal.ROUND_UP)
 
     temp_end = DecimalField('Temperature', validators=[Optional()], places=2, rounding=decimal.ROUND_UP)
+    dew_point_end = DecimalField('Dew Point', validators=[Optional()], places=2, rounding=decimal.ROUND_UP)
     temp_feels_like_end = DecimalField('Feels Like', validators=[Optional()], places=2, rounding=decimal.ROUND_UP)
     wethr_cond_end = StringField('Condition')
     hmdty_end = DecimalField('Percent Humidity', validators=[Optional()], places=2, rounding=decimal.ROUND_UP)
