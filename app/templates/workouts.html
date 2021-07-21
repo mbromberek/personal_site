@@ -3,9 +3,9 @@
 
 {% block app_content %}
     <form action="" method="post" role="form" class="form">
-        <h1>Workouts for, {{ current_user.displayname }}
+        <header class="workouts">{{ current_user.displayname }}&#39;s workouts 
         {{ render_field(form.submit, class='btn btn-dark') }}
-        </h1>
+        </header>
 
         {{ form.hidden_tag() }}
         <div class="btn-toolbar pt-4 pb-4" role="toolbar" aria-label="Toolbar with button groups" style="padding-bottom: 25px;">
@@ -28,7 +28,7 @@
 
     </form>
 
-    {% include '_workouts_tbl.html' %}
+    {% include '_workouts.html.j2' %}
 
 
     <nav aria-label="Workouts page navigation">

@@ -12,6 +12,15 @@
     cursor:pointer;
 }*/
 
+header.workouts{
+    font-weight:normal;
+    font-size: 30pt;
+    text-align: left;
+    vertical-align: middle;
+}
+
+
+
 .workout-header{
     font-weight:bold;
     font-size: 20pt;
