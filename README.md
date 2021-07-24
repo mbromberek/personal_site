@@ -29,7 +29,6 @@ workon #See all projects
 ## Run Flask server
 ```
 $ export FLASK_APP=p_site.py
-$ export DATABASE_URL=postgresql+psycopg2://p_site:<password>@localhost/mdb
 # to turn on debug mode
 $ export FLASK_ENV=development
 $ flask run
