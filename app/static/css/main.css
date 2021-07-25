@@ -55,14 +55,15 @@ h2.home{
 
 .cat_body {
     float: left;
-    width: 50%;
+    width: 320px;
     overflow: hidden;
     font-size:20px;
+    padding-top:10px;
     border: 0px black solid;
 }
 .cat_img {
     float: left;
-    width: 50%;
+    width: 550px;
     padding-top:10px;
     padding-left: 15px;
     padding-right: 15px;
@@ -79,7 +80,7 @@ h2.home{
     float: left;
     max-width: 400px;
     margin-left: 15px;
-    margin-right: 50px;
+    margin-right: 75px;
     border: 0px red solid;
 }
 .cat_img_right {
