@@ -18,10 +18,10 @@
         feels like {{ workout.temp_feels_like_strt|round|int }},
     {% endif %}
     {% if workout.wind_speed_strt %}
-        wind speed {{ workout.wind_speed_strt }}mph,
+        wind speed {{ workout.wind_speed_strt|round|int }}mph,
     {% endif %}
     {% if workout.wind_gust_strt %}
-        gust {{ workout.wind_gust_strt }}.
+        gust {{ workout.wind_gust_strt|round|int }}.
     {% endif %}
 </div>
 <div>
@@ -44,9 +44,9 @@
         feels like {{ workout.temp_feels_like_end|round|int }},
     {% endif %}
     {% if workout.wind_speed_end %}
-        wind speed {{ workout.wind_speed_end }}mph,
+        wind speed {{ workout.wind_speed_end|round|int }}mph,
     {% endif %}
     {% if workout.wind_gust_end %}
-        gust {{ workout.wind_gust_end }}.
+        gust {{ workout.wind_gust_end|round|int }}.
     {% endif %}
 </div>
