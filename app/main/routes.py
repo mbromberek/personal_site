@@ -51,15 +51,18 @@ def workouts():
     category = request.args.get('category', default='')
     strt_temp = request.args.get('temperature', default='', type=int)
     logger.info('strt_temp: ' + str(strt_temp))
-    if strt_temp != '':
-        strt_temp_min = strt_temp-5
-        strt_temp_max = strt_temp+5
+    # if strt_temp != '':
+    #     strt_temp_min = strt_temp-5
+    #     strt_temp_max = strt_temp+5
 
+    logger.info('strt_temp_search: ' + str(wrkt_filter_form.strt_temp_search.data))
     if wrkt_filter_form.strt_temp_search.data:
         url_change = True
         temperature = wrkt_filter_form.strt_temp_search.data
     else:
         temperature = strt_temp
+        # wrkt_filter_form.strt_temp_search.data = strt_temp
+    logger.info('temperature: ' + str(temperature))
 
     # Redirect if category button was pressed
     if wrkt_filter_form.category_run_btn.data:
@@ -130,12 +133,12 @@ def workouts():
     if len(category_filter) >0:
         query = query.filter(Workout.category.in_(category_filter))
 
-    if strt_temp != '':
-        query = query.filter(Workout.temp_strt >= strt_temp \
+    if temperature != '':
+        query = query.filter(Workout.temp_strt >= temperature \
         -current_app.config['TEMPERATURE_RANGE'])
-        query = query.filter(Workout.temp_strt <= strt_temp \
+        query = query.filter(Workout.temp_strt <= temperature \
         +current_app.config['TEMPERATURE_RANGE'])
-        wrkt_filter_form.strt_temp_search.data = strt_temp
+        wrkt_filter_form.strt_temp_search.data = temperature
 
     workoutPages = query.order_by(Workout.wrkt_dttm.desc()).paginate(page, current_app.config['POSTS_PER_PAGE'], False)
     next_url = url_for('main.workouts', page=workoutPages.next_num, type=type, category=category) \
