@@ -3,10 +3,12 @@
 
 {% block app_content %}
     <form action="" method="post" role="form" class="form">
-        <header class="workouts">{{ current_user.displayname }}&#39;s workouts 
+        <header class="workouts">{{ current_user.displayname }}&#39;s workouts
         {{ render_field(form.submit, class='btn btn-dark') }}
         </header>
-
+        {{ form.hidden_tag() }}
+    </form>
+    <form action="" method="post" role="form" class="form">
         {{ form.hidden_tag() }}
         <div class="btn-toolbar pt-4 pb-4" role="toolbar" aria-label="Toolbar with button groups" style="padding-bottom: 25px;">
             <div class="btn-group mr-4" role="group" aria-label="Type group">
@@ -25,7 +27,15 @@
 
             </div>
         </div>
-
+    </form>
+    <form action="" method="post" role="form" class="form">
+        {{ form.hidden_tag() }}
+        <!-- Search Fields -->
+        <div class="form-group has-search ">
+            <span class="fa fa-search form-control-feedback"></span>
+            {{ wrkt_filter_form.strt_temp_search.label }}:
+            {{ wrkt_filter_form.strt_temp_search(size=1) }}
+        </div>
     </form>
 
     {% include '_workouts.html.j2' %}

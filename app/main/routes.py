@@ -45,38 +45,57 @@ def workouts():
         return redirect(url_for('main.edit_workout'))
     form.submit.label.text = 'New Workout'
 
+    url_change = False
     page = request.args.get('page', default=1, type=int)
     type = request.args.get('type', default='')
     category = request.args.get('category', default='')
+    strt_temp = request.args.get('temperature', default='', type=int)
+    logger.info('strt_temp: ' + str(strt_temp))
+    if strt_temp != '':
+        strt_temp_min = strt_temp-5
+        strt_temp_max = strt_temp+5
+
+    if wrkt_filter_form.strt_temp_search.data:
+        url_change = True
+        temperature = wrkt_filter_form.strt_temp_search.data
+    else:
+        temperature = strt_temp
 
     # Redirect if category button was pressed
     if wrkt_filter_form.category_run_btn.data:
-        return redirect(url_for('main.workouts', page=1, type='run', category=category))
+        url_change = True
+        type = 'run'
     elif wrkt_filter_form.category_cycle_btn.data:
-        return redirect(url_for('main.workouts', page=1, type='cycle', category=category))
+        url_change = True
+        type = 'cycle'
     elif wrkt_filter_form.category_swim_btn.data:
-        return redirect(url_for('main.workouts', page=1, type='swim', category=category))
+        url_change = True
+        type='swim'
 
     # Redirect if type button was pressed
     if wrkt_filter_form.category_training_btn.data:
-        return redirect(url_for('main.workouts', page=1, type=type, category='training'))
+        url_change = True
+        category='training'
     elif wrkt_filter_form.category_long_btn.data:
-        return redirect(url_for('main.workouts', page=1, type=type, category='long'))
+        url_change = True
+        category = 'long'
     elif wrkt_filter_form.category_easy_btn.data:
-        return redirect(url_for('main.workouts', page=1, type=type, category='easy'))
+        url_change = True
+        category = 'easy'
     elif wrkt_filter_form.category_race_btn.data:
-        return redirect(url_for('main.workouts', page=1, type=type, category='race'))
+        url_change = True
+        category = 'race'
 
     # Redirect if All button was pressed
     if wrkt_filter_form.clear_filter_btn.data:
         return redirect(url_for('main.workouts'))
 
+    if url_change:
+        return redirect(url_for('main.workouts', page=1, type=type, category=category, temperature=temperature))
+
     type_filter = []
     category_filter = []
     btn_classes = {}
-    # btn_classes['run'] = 'btn btn-outline-secondary'
-    # btn_classes['cycle'] = 'btn btn-outline-secondary'
-    # btn_classes['swim'] = 'btn btn-outline-secondary'
     if type == 'run':
         type_filter.extend(['Running','Indoor Running'])
         # run_btn_class = 'btn btn-primary'
@@ -104,17 +123,21 @@ def workouts():
 
     logger.info('type_filter ' + str(type_filter))
 
+
     query = Workout.query.filter_by(user_id=current_user.id)
     if len(type_filter) >0:
         query = query.filter(Workout.type.in_(type_filter))
     if len(category_filter) >0:
         query = query.filter(Workout.category.in_(category_filter))
+
+    if strt_temp != '':
+        query = query.filter(Workout.temp_strt >= strt_temp \
+        -current_app.config['TEMPERATURE_RANGE'])
+        query = query.filter(Workout.temp_strt <= strt_temp \
+        +current_app.config['TEMPERATURE_RANGE'])
+        wrkt_filter_form.strt_temp_search.data = strt_temp
+
     workoutPages = query.order_by(Workout.wrkt_dttm.desc()).paginate(page, current_app.config['POSTS_PER_PAGE'], False)
-    # workoutPages = \
-    #     Workout.query.filter(\
-    #         Workout.user_id==current_user.id,\
-    #         Workout.type==type_filter
-    #         ).order_by(Workout.wrkt_dttm.desc()).paginate(page, current_app.config['POSTS_PER_PAGE'], False)
     next_url = url_for('main.workouts', page=workoutPages.next_num, type=type, category=category) \
         if workoutPages.has_next else None
     prev_url = url_for('main.workouts', page=workoutPages.prev_num, type=type, category=category) \
@@ -279,9 +302,11 @@ def edit_workout():
     return render_template('edit_workout.html', label_val=label_val, form=form)
 
 @bp.route('/testing', methods=['GET','POST'])
+@login_required
 def testing():
     logger.info('testing')
-    title="Testing CSS Grid"
+    title="Testing page"
+
     return render_template('testing.html', title=title)
 
 

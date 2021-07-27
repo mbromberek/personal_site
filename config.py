@@ -20,6 +20,7 @@ class Config(object):
     POSTS_PER_PAGE = 20
     SIZE_NOTES_SUMMARY = 200
     DEBUG = False
+    TEMPERATURE_RANGE = 5
     # LOG_TO_STDOUT = os.environ.get('LOG_TO_STDOUT')
 
     # SECRET_KEY = os.environ.get('SECRET_KEY') or 'you-will-never-guess'
