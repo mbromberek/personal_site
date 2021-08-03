@@ -1,3 +1,7 @@
+body {
+    padding-bottom: 50px;
+}
+
 div.home_section_1{
     background-color:white;
     /* background-color:lightblue; */
