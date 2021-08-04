@@ -4,7 +4,7 @@
 {% block app_content %}
     <form action="" method="post" role="form" class="form">
         <header class="workouts">{{ current_user.displayname }}&#39;s workouts
-        {{ render_field(form.submit, class='btn btn-dark') }}
+        {{ render_field(form.submit, class='btn btn-dark ') }}
         </header>
         {{ form.hidden_tag() }}
     </form>
@@ -29,12 +29,21 @@
         </div>
     </form>
     <form action="" method="post" role="form" class="form">
-        {{ form.hidden_tag() }}
-        <!-- Search Fields -->
-        <div class="form-group has-search ">
-            <span class="fa fa-search form-control-feedback"></span>
-            {{ wrkt_filter_form.strt_temp_search.label }}:
-            {{ wrkt_filter_form.strt_temp_search(size=3, style="border: 1px solid black;") }}
+        <div class="form-row">
+            {{ form.hidden_tag() }}
+            <!-- Search Fields -->
+            <div class="form-group ml-2 mr-4">
+                {{ wrkt_filter_form.submit_search_btn() }}
+            </div>
+            <div class="form-group mr-4">
+                {{ wrkt_filter_form.strt_temp_search.label }}:
+                {{ wrkt_filter_form.strt_temp_search(size=3, style="border: 1px solid black;") }}
+            </div>
+            <div class="form-group  mr-4">
+                {{ wrkt_filter_form.distance_search.label }}:
+                {{ wrkt_filter_form.distance_search(size=5, style="border: 1px solid black;") }}
+            </div>
+
         </div>
     </form>
 

@@ -20,7 +20,7 @@ from app.main import bp
 from app.main.forms import EmptyForm, WorkoutForm, WorkoutFilterForm
 from app.models import User, Workout, Workout_interval
 from app import db
-from app.utils import tm_conv, const
+from app.utils import tm_conv, const, nbrConv
 from app import logger
 
 @bp.route('/')
@@ -40,20 +40,22 @@ def workouts():
     form = EmptyForm()
     wrkt_filter_form = WorkoutFilterForm()
 
+    logger.debug('form.submit.data: ' + str(form.submit.data))
+    logger.debug('wrkt_filter_form.submit_search_btn.data: ' + str(wrkt_filter_form.submit_search_btn.data))
     # if New Workout button was pressed
     if form.validate_on_submit() and form.submit.data:
         return redirect(url_for('main.edit_workout'))
-    form.submit.label.text = 'New Workout'
+    form.submit.label.text = '+'
 
     url_change = False
     page = request.args.get('page', default=1, type=int)
     type = request.args.get('type', default='')
     category = request.args.get('category', default='')
     strt_temp = request.args.get('temperature', default='', type=int)
+    distance = request.args.get('distance', default='', type=str)
+    distance = round(float(distance),2) if nbrConv.isFloat(distance) else ''
+
     logger.info('strt_temp: ' + str(strt_temp))
-    # if strt_temp != '':
-    #     strt_temp_min = strt_temp-5
-    #     strt_temp_max = strt_temp+5
 
     logger.info('strt_temp_search: ' + str(wrkt_filter_form.strt_temp_search.data))
     if wrkt_filter_form.strt_temp_search.data:
@@ -61,8 +63,11 @@ def workouts():
         temperature = wrkt_filter_form.strt_temp_search.data
     else:
         temperature = strt_temp
-        # wrkt_filter_form.strt_temp_search.data = strt_temp
+
     logger.info('temperature: ' + str(temperature))
+    if wrkt_filter_form.distance_search.data:
+        url_change = True
+        distance = float(wrkt_filter_form.distance_search.data)
 
     # Redirect if category button was pressed
     if wrkt_filter_form.category_run_btn.data:
@@ -94,7 +99,7 @@ def workouts():
         return redirect(url_for('main.workouts'))
 
     if url_change:
-        return redirect(url_for('main.workouts', page=1, type=type, category=category, temperature=temperature))
+        return redirect(url_for('main.workouts', page=1, type=type, category=category, temperature=temperature, distance=distance))
 
     type_filter = []
     category_filter = []
@@ -139,6 +144,12 @@ def workouts():
         query = query.filter(Workout.temp_strt <= temperature \
         +current_app.config['TEMPERATURE_RANGE'])
         wrkt_filter_form.strt_temp_search.data = temperature
+    if distance != '':
+        query = query.filter(Workout.dist_mi >= distance \
+        *(1-current_app.config['DISTANCE_RANGE']))
+        query = query.filter(Workout.dist_mi <= distance \
+        *(1+current_app.config['DISTANCE_RANGE']))
+        wrkt_filter_form.distance_search.data = distance
 
     workoutPages = query.order_by(Workout.wrkt_dttm.desc()).paginate(page, current_app.config['POSTS_PER_PAGE'], False)
     next_url = url_for('main.workouts', page=workoutPages.next_num, type=type, category=category, temperature=temperature) \
