@@ -40,8 +40,12 @@
         <tr class="workout-detail" >
             <td  class="workout-detail" >
                 Elevation<br>
+                {% if workout.ele_up != None %}
                 {{ workout.ele_up|round|int }}&uarr;&nbsp;
+                {% endif %}
+                {% if workout.ele_down != None %}
                 {{ workout.ele_down|round|int }}&darr;
+                {% endif %}
             </td>
             <td class="workout-detail" style="border-right: 1px gray solid; border-left: 1px gray solid">
                 Calories<br>
