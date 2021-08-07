@@ -54,7 +54,7 @@ class WorkoutForm(FlaskForm):
         default=0, validators=[InputRequired()])
 
     distance = DecimalField('Distance', validators=[InputRequired()], places=2, rounding=decimal.ROUND_UP)
-    notes = TextAreaField('Notes', validators=[Length(min=0, max=500)])
+    notes = TextAreaField('Notes', validators=[Length(min=0, max=3000)])
     submit = SubmitField('Submit')
     cancel = SubmitField('Cancel')
 
