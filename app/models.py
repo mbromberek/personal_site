@@ -361,8 +361,8 @@ class Workout_interval(db.Model):
 
     def from_dict(self, data, user_id, wrkt_id, break_type):
         str_fields = ['notes', 'interval_desc']
-        int_fields = ['interval_order','dur_sec','hr']
-        float_fields = ['dist_mi','ele_up','ele_down']
+        int_fields = ['interval_order','dur_sec']
+        float_fields = ['dist_mi','ele_up','ele_down','hr']
 
         setattr(self, 'user_id', user_id)
         setattr(self, 'workout_id', wrkt_id)
