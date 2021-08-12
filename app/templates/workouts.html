@@ -47,8 +47,9 @@
         </div>
     </form>
 
+    {% for workout in workouts %}
     {% include '_workouts.html.j2' %}
-
+    {% endfor %}
 
     <nav aria-label="Workouts page navigation">
         <ul class="pagination">

@@ -1,4 +1,4 @@
-.workout {
+.workout_card {
     width: 800px;
     box-shadow: 3px 3px 5px black;
     border-radius: 20px;
@@ -18,8 +18,12 @@ header.workouts{
     text-align: left;
     vertical-align: middle;
 }
+header.workout{
+    font-weight:bold;
+    font-size: 20pt;
+    text-align: left;
 
-
+}
 
 .workout-header{
     font-weight:bold;
@@ -100,4 +104,16 @@ legend.wrkt_det{
     font-size: 90%;
     text-align: left;
     width:auto;
+}
+
+
+@media only screen and (max-width:500px) {
+    /* For mobile phones: */
+    header.workouts{
+        font-size: 10pt;
+    }
+    .workout_card{
+        width:100%;
+        
+    }
 }

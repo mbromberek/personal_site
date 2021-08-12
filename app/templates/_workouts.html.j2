@@ -1,6 +1,4 @@
-{% for workout in workouts %}
-        <!--div class="workout" id="wrkt{{ workout.id }}" onclick="location.href='{{ url_for('main.edit_workout', workout=workout.id) }}';"-->
-        <div class="workout" id="wrkt{{ workout.id }}">
+        <div class="workout_card" id="wrkt{{ workout.id }}">
             <table width="100%">
                 <tr>
                     <td class="workout-header"  width="75%" rowspan="2">
@@ -89,4 +87,3 @@
             {% endif %}
         </div>
         <br>
-{% endfor %}
