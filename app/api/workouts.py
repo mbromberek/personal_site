@@ -74,6 +74,13 @@ def create_workout():
             }
             Workout_interval.from_intrvl_lst_dict(wrkt_intrvl, current_user_id, workout.id)
 
+        if 'pause_splits' in data:
+            wrkt_intrvl = {
+                'break_type': 'resume',
+                'intervals': data['pause_splits']
+            }
+            Workout_interval.from_intrvl_lst_dict(wrkt_intrvl, current_user_id, workout.id)
+
         wrkt_list.append(workout.to_dict())
     response = jsonify(wrkt_list)
     response.status_code = 201
