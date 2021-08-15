@@ -34,6 +34,11 @@ header.workout{
     padding-right:0px;
     padding-top:0px;
     padding-bottom:0px;
+
+    float: left;
+    width: 80%;
+    overflow: hidden;
+    padding-right: 20px;
 }
 .workout-detail{
     font-weight:normal;
@@ -43,6 +48,35 @@ header.workout{
     padding-top:0px;
     padding-bottom:0px;
 }
+.workout-detail-type{
+    float: left;
+    width:20%;
+    text-align: right;
+}
+.workout-detail-type-items{
+
+}
+.workout-detail-measures{
+    float: left;
+    /* width:100px; */
+    text-align:center;
+    margin-left:5px;
+    margin-right:5px;
+    padding-right:10px;
+    border: 0px green solid;
+}
+.workout-detail-measures-section{
+    width:300px;
+    margin-left:250px;
+    margin-right:250px;
+}
+
+.workout-detail-shoe{
+    float:left;
+    border-left: 1px gray solid;
+    padding-left:10px;
+}
+
 
 td.workout-intrvl{
     font-weight:normal;
@@ -77,6 +111,12 @@ a.workout_lnk:hover{
     text-decoration: underline;
     color:darkred;
 }
+a.workout_edit_lnk{
+    color:black;
+    text-decoration: underline;
+    font-weight:normal;
+    font-size:12pt;
+}
 
 label.workout_lbl{
     font-weight:bold;
@@ -110,10 +150,42 @@ legend.wrkt_det{
 @media only screen and (max-width:500px) {
     /* For mobile phones: */
     header.workouts{
-        font-size: 10pt;
+        font-size: 13pt;
     }
     .workout_card{
         width:100%;
-        
+
+    }
+    .workout-header{
+        font-size: 13pt;
+        width:100%;
+    }
+    .workout-detail-type{
+        width:100%;
+        text-align: left;
+    }
+    .workout-detail-type-items{
+        float:left;
+        padding-right:3px;
+    }
+    a.workout_edit_lnk{
+        display:none;
+    }
+    .workout-detail-shoe{
+        display:none;
+    }
+    .workout-detail-measures-section{
+        margin-left:10px;
+        margin-right:10px;
+    }
+}
+
+@media screen and (min-width: 500px) and (max-width: 900px) {
+    .workout_card{
+        width:100%;
+    }
+    .workout-detail-measures-section{
+        margin-left:100px;
+        margin-right:100px;
     }
 }

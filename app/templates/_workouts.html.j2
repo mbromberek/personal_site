@@ -1,89 +1,63 @@
         <div class="workout_card" id="wrkt{{ workout.id }}">
-            <table width="100%">
-                <tr>
-                    <td class="workout-header"  width="75%" rowspan="2">
-                        <a class="workout_lnk" href="{{ url_for('main.workout', workout=workout.id) }}">
-                            {{ workout.wrkt_dttm }}
-                            &nbsp;-&nbsp;
-                            {{ workout.type }}
-                        </a>
-                        &nbsp;
-                        <a class="workout_lnk" style="text-decoration:underline;font-weight:normal;
-                        font-size: 12pt;" href="{{ url_for('main.edit_workout', workout=workout.id) }}">
-                            (edit)
-                        </a>
-                    </td>
-                    <td class="workout-detail" style="text-align: right; " width="25%">
+
+
+            <div style="overflow:auto">
+                <div class="workout-header" style="float: left; border:0px blue solid;">
+                    <a class="workout_lnk" href="{{ url_for('main.workout', workout=workout.id) }}">
+                        {{ workout.wrkt_dttm }}
+                        &nbsp;-&nbsp;
+                        {{ workout.type }}
+                    </a>
+                    &nbsp;
+                    <a class="workout_edit_lnk"  href="{{ url_for('main.edit_workout', workout=workout.id) }}">
+                        (edit)
+                    </a>
+                </div>
+                <div class="workout-detail workout-detail-type" style="border:0px red solid;">
+                    <div class="workout-detail-type-items">
                         {{ workout.category }}
-                    </td>
-                </tr>
-                <tr>
-                    <td class="workout-detail" style="text-align: right;">
-                        {% if workout.training_type != None %}
+                    </div>
+                    {% if workout.training_type != None %}
+                    <div class="workout-detail-type-items">
                         {{ workout.training_type }}
-                        {% endif %}
-                    </td>
-                </tr>
-            </table>
-            <table width="100%" style="text-align: center;">
-                <tr class="workout-detail">
-                    <td width="25%">
-                        &nbsp;
-                    </td>
-                    <td  class="workout-detail" width="100px">
-                        Distance
-                    </td>
-                    <td class="workout-detail" width="100px" style="border-right: 1px gray solid; border-left: 1px gray solid">
-                        Duration
-                    </td>
-                    <td class="workout-detail"  width="100px">
-                        Pace
-                    </td>
-                    <td width="25%">
-                        &nbsp;
-                    </td>
-                </tr>
-                <tr class="workout-detail" >
-                    <td>
-                        &nbsp;
-                    </td>
-                    <td  class="workout-detail" >
-                        {{ workout.dist_mi }} mi
-                    </td>
-                    <td class="workout-detail" style="border-right: 1px gray solid; border-left: 1px gray solid">
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div style="overflow:auto; width:100%;">
+                <div class="workout-detail-measures-section">
+                    <div class="workout-detail workout-detail-measures" style="border-right: 1px gray solid; ">
+                        Distance<br>
+                        {{ workout.dist_mi }}mi
+                    </div>
+                    <div class="workout-detail workout-detail-measures" style="border-right: 1px gray solid; ">
+                        Duration<br>
                         {{ workout.duration }}
-                    </td>
-                    <td class="workout-detail">
-                        {{ workout.pace }} /mile
-                    </td>
-                    <td>
-                        &nbsp;
-                    </td>
-                </tr>
-            </table>
-            <br>
+                    </div>
+                    <div class="workout-detail workout-detail-measures" >
+                        Pace<br>
+                        {{ workout.pace }} /mi
+                    </div>
+                </div>
+            </div>
 
             {% include '_weather_summary.html' %}
 
-            <table width="100%" style="text-align: left; ">
-                <tr class="workout-detail">
-                    <td width="65%" class="workout-detail">
-                        Wore: {{ workout.clothes }}
-                    </td>
-                    <td  class="workout-detail"  style="border-left: 1px gray solid; padding-left:10px">
-                        {{ workout.gear }}
-                    </td>
-                </tr>
-            </table>
+            <div style="overflow:auto; width:100%;">
+                <div class="workout-detail" style="float:left;width:65%;">
+                    Wore: {{ workout.clothes }}
+                </div>
+                <div class="workout-detail-shoe" >
+                    {{ workout.gear }}
+                </div>
+            </div>
+
             {% if workout.notes_summary != "" %}
-            <table width="100%" style="text-align: left;">
-                <tr class="workout-detail">
-                    <td width="100%">
-                        {# Notes: {{ workout.notes_summary|truncate(10) }} #}
-                        Notes: {{ workout.notes_summary }}
-                    </td>
-                </tr>
-            </table>
+            <div style="width:100%; text-align:left;">
+                {# Notes: {{ workout.notes_summary|truncate(10) }} #}
+                Notes: {{ workout.notes_summary }}
+            </div>
             {% endif %}
         </div>
         <br>
