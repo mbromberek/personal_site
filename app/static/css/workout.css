@@ -63,7 +63,6 @@ header.workout{
     margin-left:5px;
     margin-right:5px;
     padding-right:10px;
-    border: 0px green solid;
 }
 .workout-detail-measures-section{
     width:300px;
@@ -76,7 +75,28 @@ header.workout{
     border-left: 1px gray solid;
     padding-left:10px;
 }
+.workouts_weather{
+    /* border-top:1px gray solid; */
+    /* border-bottom:1px gray solid; */
+    /* margin-top:5px; */
+    /* margin-bottom:2px; */
+    padding-top:2px;
+    padding-bottom:2px;
+}
+.workouts_weather_detail{
+    float:left;
+}
 
+.workouts_detail_separators{
+    height:1px;
+    border-top:1px gray solid;
+    float:left;
+    margin-top:8px;
+    margin-bottom:8px;
+    width:50%;
+    margin-left:25%;
+    margin-right:25%;
+}
 
 td.workout-intrvl{
     font-weight:normal;
@@ -178,6 +198,16 @@ legend.wrkt_det{
         margin-left:10px;
         margin-right:10px;
     }
+    .hide_mobile{
+        display:none;
+    }
+    .workouts_detail_separators{
+        width:100%;
+        margin-left:0%;
+        margin-right:0%;
+        margin-top:4px;
+        margin-bottom:4px;
+    }
 }
 
 @media screen and (min-width: 500px) and (max-width: 900px) {
@@ -185,7 +215,14 @@ legend.wrkt_det{
         width:100%;
     }
     .workout-detail-measures-section{
-        margin-left:100px;
+        margin-left:200px;
         margin-right:100px;
+    }
+    .workouts_detail_separators{
+        width:60%;
+        margin-left:20%;
+        margin-right:20%;
+        margin-top:4px;
+        margin-bottom:4px;
     }
 }

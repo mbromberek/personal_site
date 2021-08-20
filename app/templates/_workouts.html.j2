@@ -25,13 +25,17 @@
                 </div>
             </div>
 
+            <div class="workouts_detail_separators">
+                &nbsp;
+            </div>
+
             <div style="overflow:auto; width:100%;">
                 <div class="workout-detail-measures-section">
-                    <div class="workout-detail workout-detail-measures" style="border-right: 1px gray solid; ">
+                    <div class="workout-detail workout-detail-measures" style="border-right: 1px black solid; ">
                         Distance<br>
                         {{ workout.dist_mi }}mi
                     </div>
-                    <div class="workout-detail workout-detail-measures" style="border-right: 1px gray solid; ">
+                    <div class="workout-detail workout-detail-measures" style="border-right: 1px black solid; ">
                         Duration<br>
                         {{ workout.duration }}
                     </div>
@@ -42,7 +46,129 @@
                 </div>
             </div>
 
+            <div class="workouts_detail_separators">
+                &nbsp;
+            </div>
+
+            <div class="workouts_weather">
+                <div style="overflow:auto; width:100%">
+                    <div class="workouts_weather_detail">
+                        Start:&nbsp;
+                    </div>
+                    {% if workout.temp_strt %}
+                    <div class="workouts_weather_detail">
+                        {{ workout.temp_strt|round|int }}&#176;
+                    </div>
+                    {% endif %}
+                    <div class="workouts_weather_detail">
+                    {% if workout.wethr_cond_strt %}
+                        &nbsp;{{ workout.wethr_cond_strt }}
+                    </div>
+                    {% endif %}
+                    {% if workout.hmdty_strt %}
+                    <div class="workouts_weather_detail">
+                        ,&nbsp;
+                    </div>
+                    <div class="workouts_weather_detail">
+                        {{ workout.hmdty_strt|round|int }}% humidity
+                    </div>
+                    {% endif %}
+                    {% if workout.dew_point_strt %}
+                    <div class="workouts_weather_detail hide_mobile">
+                        ,&nbsp;
+                    </div>
+                    <div class="workouts_weather_detail hide_mobile">
+                        dew point {{ workout.dew_point_strt|round|int }}&#176;
+                    </div>
+                    {% endif %}
+                    {% if workout.temp_feels_like_strt %}
+                    <div class="workouts_weather_detail">
+                        ,&nbsp;
+                    </div>
+                    <div class="workouts_weather_detail">
+                        feels {{ workout.temp_feels_like_strt|round|int }}
+                    </div>
+                    {% endif %}
+                    {% if workout.wind_speed_strt %}
+                    <div class="workouts_weather_detail hide_mobile">
+                        ,&nbsp;
+                    </div>
+                    <div class="workouts_weather_detail hide_mobile">
+                        wind speed {{ workout.wind_speed_strt|round|int }}mph
+                    </div>
+                    {% endif %}
+                    {% if workout.wind_gust_strt %}
+                    <div class="workouts_weather_detail hide_mobile">
+                        ,&nbsp;
+                    </div>
+                    <div class="workouts_weather_detail hide_mobile">
+                        gust {{ workout.wind_gust_strt|round|int }}.
+                    </div>
+                    {% endif %}
+                </div>
+                <div style="overflow:auto; width:100%">
+                    <div class="workouts_weather_detail">
+                        End:&nbsp;
+                    </div>
+                    {% if workout.temp_end %}
+                    <div class="workouts_weather_detail">
+                        {{ workout.temp_end|round|int }}&#176;
+                    </div>
+                    {% endif %}
+                    <div class="workouts_weather_detail">
+                    {% if workout.wethr_cond_end %}
+                        &nbsp;{{ workout.wethr_cond_end }}
+                    </div>
+                    {% endif %}
+                    {% if workout.hmdty_end %}
+                    <div class="workouts_weather_detail">
+                        ,&nbsp;
+                    </div>
+                    <div class="workouts_weather_detail">
+                        {{ workout.hmdty_end|round|int }}% humidity
+                    </div>
+                    {% endif %}
+                    {% if workout.dew_point_end %}
+                    <div class="workouts_weather_detail hide_mobile">
+                        ,&nbsp;
+                    </div>
+                    <div class="workouts_weather_detail hide_mobile">
+                        dew point {{ workout.dew_point_end|round|int }}&#176;
+                    </div>
+                    {% endif %}
+                    {% if workout.temp_feels_like_end %}
+                    <div class="workouts_weather_detail">
+                        ,&nbsp;
+                    </div>
+                    <div class="workouts_weather_detail">
+                        feels {{ workout.temp_feels_like_end|round|int }}
+                    </div>
+                    {% endif %}
+                    {% if workout.wind_speed_end %}
+                    <div class="workouts_weather_detail hide_mobile">
+                        ,&nbsp;
+                    </div>
+                    <div class="workouts_weather_detail hide_mobile">
+                        wind speed {{ workout.wind_speed_end|round|int }}mph
+                    </div>
+                    {% endif %}
+                    {% if workout.wind_gust_end %}
+                    <div class="workouts_weather_detail hide_mobile">
+                        ,&nbsp;
+                    </div>
+                    <div class="workouts_weather_detail hide_mobile">
+                        gust {{ workout.wind_gust_end|round|int }}.
+                    </div>
+                    {% endif %}
+                </div>
+                {#
             {% include '_weather_summary.html' %}
+            #}
+            </div>
+
+            <div class="workouts_detail_separators">
+                &nbsp;
+            </div>
 
             <div style="overflow:auto; width:100%;">
                 <div class="workout-detail" style="float:left;width:65%;">
