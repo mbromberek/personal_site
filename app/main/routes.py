@@ -361,3 +361,12 @@ def workout():
 
     return render_template('workout.html', workout=workout, \
       mile_intrvl_lst=mile_intrvl_lst, segment_intrvl_lst=segment_intrvl_lst)
+
+
+@bp.route('/dashboard', methods=['GET'])
+@login_required
+def dashboard():
+    logger.info('dashboard')
+    title="Dashboard"
+
+    return render_template('testing.html', title=title)
