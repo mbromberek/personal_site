@@ -60,8 +60,8 @@
                         {{ workout.temp_strt|round|int }}&#176;
                     </div>
                     {% endif %}
-                    <div class="workouts_weather_detail">
                     {% if workout.wethr_cond_strt %}
+                    <div class="workouts_weather_detail">
                         &nbsp;{{ workout.wethr_cond_strt }}
                     </div>
                     {% endif %}
@@ -115,8 +115,8 @@
                         {{ workout.temp_end|round|int }}&#176;
                     </div>
                     {% endif %}
-                    <div class="workouts_weather_detail">
                     {% if workout.wethr_cond_end %}
+                    <div class="workouts_weather_detail">
                         &nbsp;{{ workout.wethr_cond_end }}
                     </div>
                     {% endif %}
@@ -161,9 +161,6 @@
                     </div>
                     {% endif %}
                 </div>
-                {#
-            {% include '_weather_summary.html' %}
-            #}
             </div>
 
             <div class="workouts_detail_separators">
