@@ -430,13 +430,50 @@ class Workout_interval(db.Model):
 class Gear(db.Model):
     __table_args__ = {"schema": "fitness", 'comment':'Details about workout gear: shoes, bike, insoles'}
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50), index=True, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('fitness.user.id'))
+    nm = db.Column(db.String(50), index=True, nullable=False)
     prchse_dt = db.Column(db.DateTime, nullable=False)
     price = db.Column(db.Numeric(8,2))
     retired = db.Column(db.Boolean, nullable=True, default=False)
+    confirmed = db.Column(db.Boolean, nullable=True, default=False)
     type = db.Column(db.String(50), index=True, nullable=False)
     company = db.Column(db.String(50))
     isrt_ts = db.Column(db.DateTime, nullable=False, index=True, default=datetime.utcnow)
+
+    def __repr__(self):
+        return '<Gear {}: id {} type {}>'.format( self.nm, self.id, self.type)
+
+
+class Gear_relationship(db.Model):
+    __table_args__ = {"schema": "fitness", 'comment':'Connection between gear like which shoes are used which with insoles'}
+    primary_gear_id = db.Column(db.Integer, db.ForeignKey('fitness.gear.id'), primary_key=True)
+    secondary_gear_id = db.Column(db.Integer, db.ForeignKey('fitness.gear.id'), primary_key=True)
+    adjust_miles = db.Column(db.Numeric(8,2))
+    link_strt_dt = db.Column(db.DateTime)
+    isrt_ts = db.Column(db.DateTime, nullable=False, index=True, default=datetime.utcnow)
+
+    def __repr__(self):
+        return '<Primary {}: Secondary: {}>'.format( self.primary_gear_id, self.secondary_gear_id)
+
+class Gear_usage(db.Model):
+    __table_args__ = {"schema": "fitness", 'comment':'Gear usage'}
+    nm = db.Column(db.String(50), index=True, nullable=False)
+    usage_count = db.Column(db.Integer)
+    tot_dist = db.Column(db.Numeric(8,2))
+    tot_dur_sec = db.Column(db.Integer)
+    latest_workout = db.Column(db.DateTime)
+    first_workout = db.Column(db.DateTime)
+    prchse_dt = db.Column(db.DateTime)
+    price = db.Column(db.Numeric(8,2))
+    retired = db.Column(db.Boolean)
+    confirmed = db.Column(db.Boolean)
+    type = db.Column(db.String(50))
+    company = db.Column(db.String(50))
+    gear_id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer)
+
+    def __repr__(self):
+        return '<Gear {}: id {} type {}>'.format( self.nm, self.gear_id, self.type)
 
 
 class Wrkt_sum(db.Model):

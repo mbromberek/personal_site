@@ -18,7 +18,7 @@ from flask_login import current_user, login_required
 # Custom classes
 from app.main import bp
 from app.main.forms import EmptyForm, WorkoutForm, WorkoutFilterForm
-from app.models import User, Workout, Workout_interval
+from app.models import User, Workout, Workout_interval, Gear_usage
 from app import db
 from app.utils import tm_conv, const, nbrConv
 from app import logger
@@ -369,4 +369,6 @@ def dashboard():
     logger.info('dashboard')
     title="Dashboard"
 
-    return render_template('testing.html', title=title)
+    gear_lst = Gear_usage.query.filter_by(user_id=current_user.id, retired=False).order_by(Gear_usage.latest_workout.desc())
+
+    return render_template('dashboard.html', title=title, gear_lst=gear_lst)

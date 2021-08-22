@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% from 'bootstrap/form.html' import render_form, render_field %}
+
+{% block app_content %}
+
+<div style="overflow:auto; width:100%; margin-top:20px;">
+    <table class="gear_usage">
+        <tr class="gear_usage_hdr">
+            <td  class="gear_usage_hdr" colspan="4">
+                Gear Usage
+            </td>
+        </tr>
+        <tr class="gear_usage_hdr">
+            <td class="gear_usage_hdr">
+                Name
+            </td>
+            <td class="gear_usage_hdr">
+                Distance
+            </td>
+            <td class="gear_usage_hdr">
+                Used
+            </td>
+            <td class="gear_usage_hdr hide_mobile">
+                Last Used
+            </td>
+        </tr>
+        {% for gear in gear_lst %}
+        <tr >
+            <td class="gear_usage_dtl">
+                {{ gear.nm }}
+            </td>
+            <td class="gear_usage_dtl">
+                {{ gear.tot_dist }}
+            </td>
+            <td class="gear_usage_dtl">
+                {{ gear.usage_count }}
+            </td>
+            <td class="gear_usage_dtl hide_mobile">
+                {{ gear.latest_workout.strftime('%Y-%m-%d') }}
+            </td>
+
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+{% endblock %}

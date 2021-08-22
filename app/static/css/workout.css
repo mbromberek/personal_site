@@ -166,6 +166,36 @@ legend.wrkt_det{
     width:auto;
 }
 
+table.gear_usage{
+    border: 3px solid black;
+    /* margin-top: 5px;
+    margin-bottom: 5px; */
+    width: 500px;
+    /* margin-left: 5px;
+    margin-right: 5px; */
+}
+tr.gear_usage_hdr{
+    text-align:center;
+}
+td.gear_usage_hdr{
+    text-align:center;
+    border: 1px solid black;
+    font-weight:bold;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-left:3px;
+    padding-right:3px;
+
+}
+td.gear_usage_dtl{
+    border: 1px solid black;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-left:4px;
+    padding-right:2px;
+}
+
+
 
 @media only screen and (max-width:500px) {
     /* For mobile phones: */
@@ -208,7 +238,12 @@ legend.wrkt_det{
         margin-top:4px;
         margin-bottom:4px;
     }
+
+    table.gear_usage{
+        width:100%;
+    }
 }
+
 
 @media screen and (min-width: 500px) and (max-width: 900px) {
     .workout_card{
