@@ -4,7 +4,7 @@
             <div style="overflow:auto">
                 <div class="workout-header" style="float: left; border:0px blue solid;">
                     <a class="workout_lnk" href="{{ url_for('main.workout', workout=workout.id) }}">
-                        {{ workout.wrkt_dttm }}
+                        {{ workout.wrkt_dttm.strftime('%Y-%m-%d %H:%M') }}
                         &nbsp;-&nbsp;
                         {{ workout.type }}
                     </a>
