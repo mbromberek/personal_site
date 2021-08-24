@@ -7,7 +7,7 @@ All rights reserved.
 '''
 
 # First Party Classes
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 import math
 import re
 import os
@@ -491,7 +491,26 @@ class Gear_usage(db.Model):
     user_id = db.Column(db.Integer)
 
     def __repr__(self):
-        return '<Gear {}: id {} type {}>'.format( self.nm, self.gear_id, self.type)
+        return '<Gear {}: id {} dt {} retired {}>'.format( self.nm, self.gear_id, str(self.latest_workout), str(self.retired))
+
+    def __lt__(self, other):
+        if self.retired == False and other.retired == True:
+            return False
+        if self.retired == True and other.retired == False:
+            return True
+        self_dt = self.latest_workout if self.latest_workout else datetime.combine(self.prchse_dt,datetime.min.time())
+        other_dt = other.latest_workout if other.latest_workout else datetime.combine(other.prchse_dt,datetime.min.time())
+        return ((self_dt < other_dt))
+
+    def __gt__(self, other):
+        if self.retired == False and other.retired == True:
+            return True
+        if self.retired == True and other.retired == False:
+            return False
+        self_dt = self.latest_workout if self.latest_workout else datetime.combine(self.prchse_dt,datetime.min.time())
+        other_dt = other.latest_workout if other.latest_workout else datetime.combine(other.prchse_dt,datetime.min.time())
+        return ((self_dt > other_dt))
+
 
 
 class Wrkt_sum(db.Model):
