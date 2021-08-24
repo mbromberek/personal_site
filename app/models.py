@@ -149,6 +149,7 @@ class Workout(PaginatedAPIMixin, db.Model):
     dist_mi = db.Column(db.Numeric(8,2))
     pace_sec = db.Column(db.Integer())# replace with function
     gear = db.Column(db.String(50))
+    gear_id = db.Column(db.Integer, db.ForeignKey('fitness.gear.id'))
     clothes = db.Column(db.Text())
     ele_up = db.Column(db.Numeric(8,2))
     ele_down = db.Column(db.Numeric(8,2))
@@ -217,6 +218,7 @@ class Workout(PaginatedAPIMixin, db.Model):
         return tm_conv.sec_to_time(tm_conv.pace_calc(self.warm_up_tot_dist_mi, self.warm_up_tot_tm_sec),'ms')
 
     def to_dict(self, include_calc_fields=False):
+        gear_rec = Gear.query.filter_by(id=self.gear_id, user_id=self.user_id).first()
         data = {
             'id': self.id,
             'user_id': self.user_id,
@@ -225,7 +227,7 @@ class Workout(PaginatedAPIMixin, db.Model):
             'dur_sec': self.dur_sec,
             'dist_mi': str(self.dist_mi),
             'pace': self.pace_str(),
-            'gear': self.gear,
+            'gear': gear_rec.nm if gear_rec != None else None,
             'clothes': self.clothes,
             'ele_up': str(self.ele_up),
             'ele_down': str(self.ele_down),
@@ -296,6 +298,15 @@ class Workout(PaginatedAPIMixin, db.Model):
             if field in data:
                 setattr(self, field, float(data[field]))
 
+        if 'gear' in data:
+            self.gear_id = Gear.get_gear_id(data['gear'])
+            if self.gear_id is None:
+                # Create gear
+                new_gear = Gear(nm=data['gear'], type='Shoe', user_id=user_id)
+                db.session.add(new_gear)
+                db.session.commit()
+                self.gear_id = Gear.get_gear_id(data['gear'])
+
         # Populate Weather data
         wethr_float_fields = ['temp','temp_feels_like','hmdty', 'wind_speed','wind_gust','dew_point']
         wethr_str_fields = ['wethr_cond']
@@ -318,7 +329,7 @@ class Workout(PaginatedAPIMixin, db.Model):
 
 
     def update(self, updt_wrkt):
-        merge_fields = ['type', 'wrkt_dttm', 'dur_sec', 'dist_mi', 'gear', 'clothes', 'category', 'location', 'training_type', 'notes','hr','cal_burn','warm_up_tot_tm_sec', 'cool_down_tot_tm_sec', 'intrvl_tot_tm_sec','ele_up','ele_down','warm_up_tot_dist_mi','cool_down_tot_dist_mi','intrvl_tot_dist_mi','intrvl_tot_ele_up','intrvl_tot_ele_down']
+        merge_fields = ['type', 'wrkt_dttm', 'dur_sec', 'dist_mi', 'gear', 'clothes', 'category', 'location', 'training_type', 'notes','hr','cal_burn','warm_up_tot_tm_sec', 'cool_down_tot_tm_sec', 'intrvl_tot_tm_sec','ele_up','ele_down','warm_up_tot_dist_mi','cool_down_tot_dist_mi','intrvl_tot_dist_mi','intrvl_tot_ele_up','intrvl_tot_ele_down', 'gear_id']
         for field in merge_fields:
             if getattr(updt_wrkt, field) != None:
                 setattr(self, field, getattr(updt_wrkt, field))
@@ -432,7 +443,7 @@ class Gear(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('fitness.user.id'))
     nm = db.Column(db.String(50), index=True, nullable=False)
-    prchse_dt = db.Column(db.DateTime, nullable=False)
+    prchse_dt = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     price = db.Column(db.Numeric(8,2))
     retired = db.Column(db.Boolean, nullable=True, default=False)
     confirmed = db.Column(db.Boolean, nullable=True, default=False)
@@ -443,6 +454,12 @@ class Gear(db.Model):
     def __repr__(self):
         return '<Gear {}: id {} type {}>'.format( self.nm, self.id, self.type)
 
+    @staticmethod
+    def get_gear_id(gear_nm):
+        gear_rec = Gear.query.filter_by(nm=gear_nm).first()
+        if gear_rec is None:
+            return None
+        return gear_rec.id
 
 class Gear_relationship(db.Model):
     __table_args__ = {"schema": "fitness", 'comment':'Connection between gear like which shoes are used which with insoles'}
