@@ -10,8 +10,11 @@ pg_ctl -D /usr/local/var/postgres start && brew services start postgresql
 ```
 
 ### Access postgresql from terminal
+```
 % psql postgres
+% psql -d mdb #Access database mdb with current user
 \q # quits
+```
 
 ## Virtual Environment
 ### Create Virtual Environment and install libraries
@@ -33,12 +36,6 @@ $ export FLASK_APP=p_site.py
 $ export FLASK_ENV=development
 $ flask run
 $ flask shell
-```
-
-## DB Upgrades and migrations
-```
-flask db migrate -m "details"
-flask db upgrade
 ```
 
 ## Setup on server
