@@ -442,7 +442,8 @@ class Gear(db.Model):
     __table_args__ = {"schema": "fitness", 'comment':'Details about workout gear: shoes, bike, insoles'}
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('fitness.user.id'))
-    nm = db.Column(db.String(50), index=True, nullable=False)
+    nm = db.Column(db.String(50), index=True, nullable=False, unique=True)
+    workouts = db.relationship('Workout', backref='gear_det', lazy='dynamic')
     prchse_dt = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     price = db.Column(db.Numeric(8,2))
     retired = db.Column(db.Boolean, nullable=True, default=False)
