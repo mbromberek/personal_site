@@ -12,7 +12,7 @@ from datetime import datetime
 # Third party classes
 from flask import request
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, TextAreaField, DecimalField, HiddenField
+from wtforms import StringField, SubmitField, TextAreaField, DecimalField, HiddenField, SelectField
 from wtforms.fields.html5 import DateField, TimeField, IntegerField
 from wtforms.validators import Length, NumberRange, InputRequired, Optional
 from wtforms.widgets import html5 as h5widgets
@@ -58,7 +58,9 @@ class WorkoutForm(FlaskForm):
     submit = SubmitField('Submit')
     cancel = SubmitField('Cancel')
 
-    gear = StringField('Gear')
+    # gear = StringField('Gear')
+    gear_lst = SelectField('Gear', validate_choice=True, coerce=int)
+
     clothes = StringField('Clothes')
     ele_up = DecimalField('Elevation Up', validators=[Optional()], places=2, rounding=decimal.ROUND_UP)
     ele_down = DecimalField('Elevation Down', validators=[Optional()], places=2, rounding=decimal.ROUND_UP)

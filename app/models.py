@@ -148,7 +148,7 @@ class Workout(PaginatedAPIMixin, db.Model):
     dur_sec = db.Column(db.Integer())
     dist_mi = db.Column(db.Numeric(8,2))
     pace_sec = db.Column(db.Integer())# replace with function
-    gear = db.Column(db.String(50))
+    # gear = db.Column(db.String(50))
     gear_id = db.Column(db.Integer, db.ForeignKey('fitness.gear.id'))
     clothes = db.Column(db.Text())
     ele_up = db.Column(db.Numeric(8,2))
@@ -329,7 +329,7 @@ class Workout(PaginatedAPIMixin, db.Model):
 
 
     def update(self, updt_wrkt):
-        merge_fields = ['type', 'wrkt_dttm', 'dur_sec', 'dist_mi', 'gear', 'clothes', 'category', 'location', 'training_type', 'notes','hr','cal_burn','warm_up_tot_tm_sec', 'cool_down_tot_tm_sec', 'intrvl_tot_tm_sec','ele_up','ele_down','warm_up_tot_dist_mi','cool_down_tot_dist_mi','intrvl_tot_dist_mi','intrvl_tot_ele_up','intrvl_tot_ele_down', 'gear_id']
+        merge_fields = ['type', 'wrkt_dttm', 'dur_sec', 'dist_mi', 'clothes', 'category', 'location', 'training_type', 'notes','hr','cal_burn','warm_up_tot_tm_sec', 'cool_down_tot_tm_sec', 'intrvl_tot_tm_sec','ele_up','ele_down','warm_up_tot_dist_mi','cool_down_tot_dist_mi','intrvl_tot_dist_mi','intrvl_tot_ele_up','intrvl_tot_ele_down', 'gear_id']
         for field in merge_fields:
             if getattr(updt_wrkt, field) != None:
                 setattr(self, field, getattr(updt_wrkt, field))

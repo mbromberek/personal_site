@@ -175,6 +175,13 @@ def workouts():
 def edit_workout():
     logger.info('edit_workout: ' + str(request.args.get('workout')))
     form = WorkoutForm()
+
+    gear_lst = sorted(Gear_usage.query.filter_by(user_id=current_user.id), reverse=True)
+    gear_select_lst = []
+    for g in gear_lst:
+        gear_select_lst.append([g.gear_id, g.nm])
+    form.gear_lst.choices = gear_select_lst
+
     label_val = {}
 
     logger.debug("Request Method: " + request.method)
@@ -212,7 +219,8 @@ def edit_workout():
         wrkt.dist_mi = form.distance.data
         wrkt.notes = form.notes.data
 
-        wrkt.gear = form.gear.data
+        # wrkt.gear = form.gear.data
+        wrkt.gear_id = form.gear_lst.data
         wrkt.clothes = form.clothes.data
         wrkt.ele_up = form.ele_up.data
         wrkt.ele_down = form.ele_down.data
@@ -261,10 +269,16 @@ def edit_workout():
         wrkt_id = request.args.get('workout')
         logger.info('Update Workout: ' + str(wrkt_id)+' for user: '+str(usr_id))
 
+
         label_val['title'] = 'Update Workout'
         del form.wrkt_dt
         wrkt = Workout.query.filter_by(id=wrkt_id, \
             user_id=usr_id).first_or_404(id)
+
+        form.gear_lst.default = wrkt.gear_det.id
+        form.process() # Need to run after setting the default and needs to be before other fields are populated
+        # form.gear.data = wrkt.gear_det.nm
+
         form.type.data = wrkt.type
         label_val['wrkt_dttm'] = wrkt.wrkt_dttm
 
@@ -275,7 +289,6 @@ def edit_workout():
         form.notes.data = wrkt.notes
         form.wrkt_id.data = wrkt_id
 
-        form.gear.data = wrkt.gear
         form.clothes.data = wrkt.clothes
         form.ele_up.data = wrkt.ele_up
         form.ele_down.data = wrkt.ele_down
@@ -309,6 +322,7 @@ def edit_workout():
 
         form.intrvl_dur_h.data, form.intrvl_dur_m.data, form.intrvl_dur_s.data = tm_conv.split_sec_to_time(wrkt.intrvl_tot_tm_sec)
         form.intrvl_tot_dist.data = wrkt.intrvl_tot_dist_mi
+
     # else:
         # logger.debug('Create Workout')
         # label_val['title'] = 'Create Workout'
@@ -369,6 +383,7 @@ def dashboard():
     logger.info('dashboard')
     title="Dashboard"
 
-    gear_lst = Gear_usage.query.filter_by(user_id=current_user.id, retired=False).order_by(Gear_usage.latest_workout.desc())
+    # gear_lst = Gear_usage.query.filter_by(user_id=current_user.id, retired=False).order_by(Gear_usage.latest_workout.desc())
+    gear_lst = sorted(Gear_usage.query.filter_by(user_id=current_user.id, retired=False), reverse=True)
 
     return render_template('dashboard.html', title=title, gear_lst=gear_lst)
