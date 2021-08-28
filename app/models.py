@@ -521,3 +521,11 @@ class Wrkt_sum(db.Model):
     tot_sec = db.Column(db.Integer())
     tot_dist = db.Column(db.Numeric(8,2))
     nbr = db.Column(db.Integer())
+    oldest_workout = db.Column(db.DateTime)
+    newest_workout = db.Column(db.DateTime)
+
+    def __repr__(self):
+        return '<Wrkt_sum {}: type {}>'.format(self.rng, self.type)
+
+    def dur_str(self):
+        return tm_conv.sec_to_time(self.tot_sec, 'hms')

@@ -18,7 +18,7 @@ from flask_login import current_user, login_required
 # Custom classes
 from app.main import bp
 from app.main.forms import EmptyForm, WorkoutForm, WorkoutFilterForm
-from app.models import User, Workout, Workout_interval, Gear_usage
+from app.models import User, Workout, Workout_interval, Gear_usage, Wrkt_sum
 from app import db
 from app.utils import tm_conv, const, nbrConv
 from app import logger
@@ -383,7 +383,36 @@ def dashboard():
     logger.info('dashboard')
     title="Dashboard"
 
-    # gear_lst = Gear_usage.query.filter_by(user_id=current_user.id, retired=False).order_by(Gear_usage.latest_workout.desc())
     gear_lst = sorted(Gear_usage.query.filter_by(user_id=current_user.id, retired=False), reverse=True)
 
-    return render_template('dashboard.html', title=title, gear_lst=gear_lst)
+    wrkt_sum_results = Wrkt_sum.query.filter_by(user_id=current_user.id, type='Running')
+
+    wrkt_sum_lst = []
+    for wrkt_sum in wrkt_sum_results:
+        wrkt_sum.duration = wrkt_sum.dur_str()
+        i = getInsertPoint(wrkt_sum, wrkt_sum_lst)
+        wrkt_sum_lst.insert(i,wrkt_sum)
+        # wrkt_sum_lst.append(wrkt_sum)
+
+    return render_template('dashboard.html', title=title, gear_lst=gear_lst, wrkt_sum_lst=wrkt_sum_lst)
+
+def getInsertPoint(wrkt_sum, wrkt_sum_lst):
+    i=0
+    while i <len(wrkt_sum_lst):
+        if wrkt_sum_lst[i].rng == 'Past 7 days':
+            if wrkt_sum.rng == 'Current Week':
+                return i
+        elif wrkt_sum_lst[i].rng == 'Current Month':
+            if wrkt_sum.rng in ['Past 7 days','Current Week']:
+                return i
+        elif wrkt_sum_lst[i].rng == 'Past 30 days':
+            if wrkt_sum.rng in ['Past 7 days','Current Week','Current Month']:
+                return i
+        elif wrkt_sum_lst[i].rng == 'Current Year':
+            if wrkt_sum.rng in ['Past 7 days','Current Week','Current Month','Past 30 days']:
+                return i
+        elif wrkt_sum_lst[i].rng == 'Past 365 days':
+            if wrkt_sum.rng in ['Past 7 days','Current Week','Current Month','Past 30 days','Current Year']:
+                return i
+        i=i+1
+    return i

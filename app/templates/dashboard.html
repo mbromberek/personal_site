@@ -3,6 +3,7 @@
 
 {% block app_content %}
 
+{% if gear_lst %}
 <div style="overflow:auto; width:100%; margin-top:20px;">
     <table class="gear_usage">
         <tr class="gear_usage_hdr">
@@ -49,5 +50,55 @@
         {% endfor %}
     </table>
 </div>
+{% endif %}
+
+{% if wrkt_sum_lst %}
+<div style="overflow:auto; width:100%; margin-top:20px;">
+    <table class="gear_usage">
+        <tr class="gear_usage_hdr">
+            <td  class="gear_usage_hdr" colspan="5">
+                Running Mileage
+            </td>
+        </tr>
+        <tr class="gear_usage_hdr">
+            <td class="gear_usage_hdr">
+                Range
+            </td>
+            <td class="gear_usage_hdr">
+                Type
+            </td>
+            <td class="gear_usage_hdr">
+                Distance
+            </td>
+            <td class="gear_usage_hdr">
+                Duration
+            </td>
+            <td class="gear_usage_hdr hide_mobile">
+                Count
+            </td>
+        </tr>
+        {% for wrkt_sum in wrkt_sum_lst %}
+        <tr >
+            <td class="gear_usage_dtl">
+                {{ wrkt_sum.rng }}
+            </td>
+            <td class="gear_usage_dtl">
+                {{ wrkt_sum.type }}
+            </td>
+            <td class="gear_usage_dtl">
+                {{ wrkt_sum.tot_dist|round|int }}
+            </td>
+            <td class="gear_usage_dtl">
+                {{ wrkt_sum.duration }}
+            </td>
+            <td class="gear_usage_dtl hide_mobile">
+                {{ wrkt_sum.nbr }}
+            </td>
+
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endif %}
 
 {% endblock %}
