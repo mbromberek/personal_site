@@ -3,8 +3,10 @@
 
 {% block app_content %}
 
-{% if gear_lst %}
 <div style="overflow:auto; width:100%; margin-top:20px;">
+
+{% if gear_lst %}
+<div class="dashboard_widget" >
     <table class="gear_usage">
         <tr class="gear_usage_hdr">
             <td  class="gear_usage_hdr" colspan="4">
@@ -53,19 +55,16 @@
 {% endif %}
 
 {% if wrkt_sum_lst %}
-<div style="overflow:auto; width:100%; margin-top:20px;">
+<div class="dashboard_widget">
     <table class="gear_usage">
         <tr class="gear_usage_hdr">
-            <td  class="gear_usage_hdr" colspan="5">
+            <td  class="gear_usage_hdr" colspan="4">
                 Running Mileage
             </td>
         </tr>
         <tr class="gear_usage_hdr">
             <td class="gear_usage_hdr">
                 Range
-            </td>
-            <td class="gear_usage_hdr">
-                Type
             </td>
             <td class="gear_usage_hdr">
                 Distance
@@ -83,9 +82,6 @@
                 {{ wrkt_sum.rng }}
             </td>
             <td class="gear_usage_dtl">
-                {{ wrkt_sum.type }}
-            </td>
-            <td class="gear_usage_dtl">
                 {{ wrkt_sum.tot_dist|round|int }}
             </td>
             <td class="gear_usage_dtl">
@@ -100,5 +96,7 @@
     </table>
 </div>
 {% endif %}
+
+</div>
 
 {% endblock %}

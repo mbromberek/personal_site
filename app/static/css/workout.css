@@ -170,7 +170,7 @@ table.gear_usage{
     border: 3px solid black;
     /* margin-top: 5px;
     margin-bottom: 5px; */
-    width: 500px;
+    width: 100%;
     /* margin-left: 5px;
     margin-right: 5px; */
 }
@@ -193,6 +193,13 @@ td.gear_usage_dtl{
     padding-bottom: 2px;
     padding-left:4px;
     padding-right:2px;
+}
+.dashboard_widget{
+    float:left;
+    width:445px;
+    margin-right:20px;
+    margin-bottom:20px;
+
 }
 
 
@@ -241,6 +248,10 @@ td.gear_usage_dtl{
 
     table.gear_usage{
         width:100%;
+    }
+    .dashboard_widget{
+        width:100%;
+        margin-right:0px;
     }
 }
 
