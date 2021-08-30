@@ -6,95 +6,11 @@
 <div style="overflow:auto; width:100%; margin-top:20px;">
 
 {% if gear_lst %}
-<div class="dashboard_widget" >
-    <table class="gear_usage">
-        <tr class="gear_usage_hdr">
-            <td  class="gear_usage_hdr" colspan="4">
-                Gear Usage
-            </td>
-        </tr>
-        <tr class="gear_usage_hdr">
-            <td class="gear_usage_hdr">
-                Name
-            </td>
-            <td class="gear_usage_hdr">
-                Distance
-            </td>
-            <td class="gear_usage_hdr">
-                Used
-            </td>
-            <td class="gear_usage_hdr hide_mobile">
-                Last Used
-            </td>
-        </tr>
-        {% for gear in gear_lst %}
-        <tr >
-            <td class="gear_usage_dtl">
-                {{ gear.nm }}
-            </td>
-            <td class="gear_usage_dtl">
-                {% if gear.latest_workout %}
-                {{ gear.tot_dist }}
-                {% else %}
-                0
-                {% endif %}
-            </td>
-            <td class="gear_usage_dtl">
-                {{ gear.usage_count }}
-            </td>
-            <td class="gear_usage_dtl hide_mobile">
-                {% if gear.latest_workout %}
-                {{ gear.latest_workout.strftime('%Y-%m-%d') }}
-                {% endif %}
-            </td>
-
-        </tr>
-        {% endfor %}
-    </table>
-</div>
+{% include '_gear_usage_widget.html' %}
 {% endif %}
 
 {% if wrkt_sum_lst %}
-<div class="dashboard_widget">
-    <table class="gear_usage">
-        <tr class="gear_usage_hdr">
-            <td  class="gear_usage_hdr" colspan="4">
-                Running Mileage
-            </td>
-        </tr>
-        <tr class="gear_usage_hdr">
-            <td class="gear_usage_hdr">
-                Range
-            </td>
-            <td class="gear_usage_hdr">
-                Distance
-            </td>
-            <td class="gear_usage_hdr">
-                Duration
-            </td>
-            <td class="gear_usage_hdr hide_mobile">
-                Count
-            </td>
-        </tr>
-        {% for wrkt_sum in wrkt_sum_lst %}
-        <tr >
-            <td class="gear_usage_dtl">
-                {{ wrkt_sum.rng }}
-            </td>
-            <td class="gear_usage_dtl">
-                {{ wrkt_sum.tot_dist|round|int }}
-            </td>
-            <td class="gear_usage_dtl">
-                {{ wrkt_sum.duration }}
-            </td>
-            <td class="gear_usage_dtl hide_mobile">
-                {{ wrkt_sum.nbr }}
-            </td>
-
-        </tr>
-        {% endfor %}
-    </table>
-</div>
+{% include '_running_mileage_widget.html' %}
 {% endif %}
 
 </div>

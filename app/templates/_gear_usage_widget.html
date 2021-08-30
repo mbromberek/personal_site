@@ -1,0 +1,46 @@
+    <div class="dashboard_widget" >
+        <table class="gear_usage">
+            <tr class="gear_usage_hdr">
+                <td  class="gear_usage_hdr" colspan="4">
+                    Gear Usage
+                </td>
+            </tr>
+            <tr class="gear_usage_hdr">
+                <td class="gear_usage_hdr">
+                    Name
+                </td>
+                <td class="gear_usage_hdr">
+                    Distance
+                </td>
+                <td class="gear_usage_hdr">
+                    Used
+                </td>
+                <td class="gear_usage_hdr hide_mobile">
+                    Last Used
+                </td>
+            </tr>
+            {% for gear in gear_lst %}
+            <tr >
+                <td class="gear_usage_dtl">
+                    {{ gear.nm }}
+                </td>
+                <td class="gear_usage_dtl">
+                    {% if gear.latest_workout %}
+                    {{ gear.tot_dist }}
+                    {% else %}
+                    0
+                    {% endif %}
+                </td>
+                <td class="gear_usage_dtl">
+                    {{ gear.usage_count }}
+                </td>
+                <td class="gear_usage_dtl hide_mobile">
+                    {% if gear.latest_workout %}
+                    {{ gear.latest_workout.strftime('%Y-%m-%d') }}
+                    {% endif %}
+                </td>
+
+            </tr>
+            {% endfor %}
+        </table>
+    </div>

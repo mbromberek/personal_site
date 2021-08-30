@@ -1,0 +1,40 @@
+    <div class="dashboard_widget">
+        <table class="gear_usage">
+            <tr class="gear_usage_hdr">
+                <td  class="gear_usage_hdr" colspan="4">
+                    Running Mileage
+                </td>
+            </tr>
+            <tr class="gear_usage_hdr">
+                <td class="gear_usage_hdr">
+                    Range
+                </td>
+                <td class="gear_usage_hdr">
+                    Distance
+                </td>
+                <td class="gear_usage_hdr">
+                    Duration
+                </td>
+                <td class="gear_usage_hdr hide_mobile">
+                    Count
+                </td>
+            </tr>
+            {% for wrkt_sum in wrkt_sum_lst %}
+            <tr >
+                <td class="gear_usage_dtl">
+                    {{ wrkt_sum.rng }}
+                </td>
+                <td class="gear_usage_dtl">
+                    {{ wrkt_sum.tot_dist|round|int }}
+                </td>
+                <td class="gear_usage_dtl">
+                    {{ wrkt_sum.duration }}
+                </td>
+                <td class="gear_usage_dtl hide_mobile">
+                    {{ wrkt_sum.nbr }}
+                </td>
+
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
