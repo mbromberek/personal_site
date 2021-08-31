@@ -25,7 +25,7 @@
                     {{ wrkt_sum.rng }}
                 </td>
                 <td class="gear_usage_dtl">
-                    {{ wrkt_sum.tot_dist|round|int }}
+                    {{ '%0.1f' % wrkt_sum.tot_dist|float }}
                 </td>
                 <td class="gear_usage_dtl">
                     {{ wrkt_sum.duration }}
