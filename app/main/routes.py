@@ -329,14 +329,24 @@ def edit_workout():
 
     return render_template('edit_workout.html', label_val=label_val, form=form)
 
-@bp.route('/testing', methods=['GET','POST'])
+# @bp.route('/testing', methods=['GET','POST'])
+# @login_required
+# def testing():
+#     logger.info('testing')
+#     title="Testing page"
+#     form = EmptyForm()
+#
+#     return render_template('testing.html', title=title, form=form)
+
+@bp.route('/calculate', methods=['GET'])
 @login_required
-def testing():
-    logger.info('testing')
-    title="Testing page"
+def calculate():
+    logger.info('calculate')
+    title="Calculate Pace and Time"
+    form = EmptyForm()
 
-    return render_template('testing.html', title=title)
 
+    return render_template('calculate.html', title=title, form=form)
 
 @bp.route('/workout', methods=['GET'])
 @login_required

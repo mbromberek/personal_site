@@ -17,6 +17,7 @@ Base HTML code for each web page
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
     {% block styles %}
+        <script type="text/javascript" src="{{ url_for('static', filename='js/pace_calc.js') }}"></script>
         {{ bootstrap.load_css() }}
         <link rel="stylesheet" href="{{ url_for('static', filename='css/workout.css') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
@@ -76,8 +77,8 @@ Base HTML code for each web page
                 </a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link" href="{{ url_for('main.testing') }}">
-                    Testing
+                <a class="nav-link" href="{{ url_for('main.calculate') }}">
+                    Calculations
                 </a>
             </li>
             <li class="nav-item active">
