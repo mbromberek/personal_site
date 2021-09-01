@@ -1,4 +1,4 @@
---CREATE or replace VIEW fitness.wrkt_sum AS
+--CREATE or replace VIEW fitness.wrkt_sum AS  
 SELECT
   rng
   , CASE wrkt_sum.type
@@ -22,8 +22,8 @@ SELECT workout.user_id
    , min(workout.wrkt_dttm) as oldest_workout
    , max(workout.wrkt_dttm) as newest_workout
  FROM fitness.workout
- WHERE workout.wrkt_dttm::date >= date_trunc('week'::text, 'now'::date)
-   AND workout.wrkt_dttm::date < (date_trunc('week'::text, 'now'::date) + '1 weeks'::interval)
+ WHERE workout.wrkt_dttm::date >= date_trunc('week'::text, current_date)
+   AND workout.wrkt_dttm::date < (date_trunc('week'::text, current_date) + '1 weeks'::interval)
  GROUP BY workout.user_id, workout.type
 UNION ALL
  SELECT workout.user_id,
@@ -35,7 +35,7 @@ UNION ALL
    , min(workout.wrkt_dttm) as oldest_workout
    , max(workout.wrkt_dttm) as newest_workout
  FROM fitness.workout
- WHERE workout.wrkt_dttm::date > ('now'::date - '7 days'::interval)
+ WHERE workout.wrkt_dttm::date > (current_date - '7 days'::interval)
  GROUP BY workout.user_id, workout.type
 UNION ALL
  SELECT workout.user_id,
@@ -47,7 +47,7 @@ UNION ALL
    , min(workout.wrkt_dttm) as oldest_workout
    , max(workout.wrkt_dttm) as newest_workout
  FROM fitness.workout
- WHERE workout.wrkt_dttm::date > ('now'::date - 30)
+ WHERE workout.wrkt_dttm::date > (current_date - 30)
  GROUP BY workout.user_id, workout.type
 UNION ALL
  SELECT workout.user_id,
@@ -59,7 +59,7 @@ UNION ALL
    , min(workout.wrkt_dttm) as oldest_workout
    , max(workout.wrkt_dttm) as newest_workout
  FROM fitness.workout
- WHERE workout.wrkt_dttm::date >= date_trunc('month', 'now'::date)
+ WHERE workout.wrkt_dttm::date >= date_trunc('month', current_date)
  GROUP BY workout.user_id, workout.type
 
 UNION ALL
@@ -72,7 +72,7 @@ UNION ALL
    , min(workout.wrkt_dttm) as oldest_workout
    , max(workout.wrkt_dttm) as newest_workout
  FROM fitness.workout
- WHERE workout.wrkt_dttm::date > ('now'::date - 365)
+ WHERE workout.wrkt_dttm::date > (current_date - 365)
  GROUP BY workout.user_id, workout.type
 
 UNION ALL
@@ -85,7 +85,7 @@ UNION ALL
    , min(workout.wrkt_dttm) as oldest_workout
    , max(workout.wrkt_dttm) as newest_workout
  FROM fitness.workout
- WHERE workout.wrkt_dttm::date >= date_trunc('year', 'now'::date)
+ WHERE workout.wrkt_dttm::date >= date_trunc('year', current_date)
  GROUP BY workout.user_id, workout.type
 )wrkt_sum
 GROUP BY rng, wrkt_sum.user_id
