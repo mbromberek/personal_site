@@ -1,8 +1,21 @@
 function calcPace(){
+    var h = document.getElementById("cp_time_h").value;
+    if (h == '') {
+        h = 0;
+    }
+    var m = document.getElementById("cp_time_m").value;
+    if (m == '') {
+        m = 0;
+    }
+    var s = document.getElementById("cp_time_s").value;
+    if (s == '') {
+        s = 0;
+    }
+
     // alert('calculate pace');
     // alert(document.getElementById("distance").value);
     var dist = document.getElementById("cp_distance").value;
-    var time_sec = time_to_sec(document.getElementById("cp_time_h").value, document.getElementById("cp_time_m").value, document.getElementById("cp_time_s").value)
+    var time_sec = time_to_sec(h, m, s)
     console.log('Entered time seconds: ' + time_sec);
 
     var pace_sec = Math.round(time_sec / dist);
@@ -29,7 +42,15 @@ function sec_to_time_str(tot_sec, format){
 
 function calcTime(){
     var dist = document.getElementById("ct_distance").value;
-    var pace_sec = time_to_sec(0, document.getElementById("ct_pace_m").value, document.getElementById("ct_pace_s").value)
+    var m = document.getElementById("ct_pace_m").value;
+    if (m == '') {
+        m = 0;
+    }
+    var s = document.getElementById("ct_pace_s").value;
+    if (s == '') {
+        s = 0;
+    }
+    var pace_sec = time_to_sec(0, m, s)
     console.log('Entered pace seconds: ' + pace_sec);
 
     var time_sec = pace_sec * dist;
@@ -39,8 +60,17 @@ function calcTime(){
 }
 
 function calcPaceHeat(){
+    var m = document.getElementById("cpt_desired_pace_m").value;
+    if (m == '') {
+        m = 0;
+    }
+    var s = document.getElementById("cpt_desired_pace_s").value;
+    if (s == '') {
+        s = 0;
+    }
+
     //calculate pace normal way
-    pace_sec = time_to_sec(0, document.getElementById("cpt_desired_pace_m").value, document.getElementById("cpt_desired_pace_s").value);
+    pace_sec = time_to_sec(0, m, s);
 
     //if temp is <= 59 degrees fahrenheit then return pace with no adjustment
     if (document.getElementById("cpt_temperature").value <= 59){
