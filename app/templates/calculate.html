@@ -3,11 +3,11 @@
 
 {% block app_content %}
 
-<form action="" role="form" class="form" style="margin-top:15px;">
+<!-- TODO add popup about storing cookies on computer when clicked -->
+<!-- <form action="" role="form" class="form" style="margin-top:15px;">
     <input type="checkbox" id="save_cookie" name="save_cookie">
     <label>Remember calculations</label>
-    <!-- TODO add popup about storing cookies on computer when clicked -->
-</form>
+</form> -->
 
 <fieldset class="wrkt_det " style="margin-top:3px;">
     <legend class="wrkt_det">
@@ -19,21 +19,21 @@
                 {{ form.hidden_tag() }}
                 <div class="form-group" style="margin-right:25px;">
                     <label>Distance: </label><br>
-                    <input type="number" id="cp_distance" name="distance" size=2 step="0.01">
+                    <input class="calc_field_3" type="number" id="cp_distance" name="distance" step="0.01">
                 </div>
                 <div class="form-group">
                     <label>Time: </label><br>
-                    <input type="number" id="cp_time_h" name="time_h" size=1 min=0>
+                    <input class="calc_field_2" type="number" id="cp_time_h" name="time_h" min=0>
                     <label>h </label>
-                    <input type="number" id="cp_time_m" name="time_m" size=1 min=0>
+                    <input class="calc_field_2" type="number" id="cp_time_m" name="time_m" min=0>
                     <label>m </label>
-                    <input type="number" id="cp_time_s" name="time_s" size=1 min=0>
+                    <input class="calc_field_2" type="number" id="cp_time_s" name="time_s" min=0>
                     <label>s </label>
 
                 </div>
-                <div class="form-group ml-4 mr-2">
-                    <label>Pace: </label><br>
-                    <input type="text" id="cp_pace" name="pace" size=6 disabled>
+                <div class="form-group calc_result">
+                    <label>Pace: </label>
+                    <input class="calc_field_result" type="text" id="cp_pace" name="pace" disabled>
                 </div>
             </div>
             <div class="form-row" style="width:100%; ">
@@ -57,19 +57,19 @@
                 <!-- Search Fields -->
                 <div class="form-group" style="margin-right:25px;">
                     <label>Distance: </label><br>
-                    <input type="number" id="ct_distance" name="distance" size=3 step="0.01">
+                    <input class="calc_field_3" type="number" id="ct_distance" name="distance" step="0.01">
                 </div>
                 <div class="form-group mr-2">
                     <label>Pace: </label><br>
-                    <input type="number" id="ct_pace_m" name="pace_m" size=2 min=0>
+                    <input class="calc_field_2" type="number" id="ct_pace_m" name="pace_m" min=0>
                     <label>m </label>
-                    <input type="number" id="ct_pace_s" name="pace_s" size=2 min=0 max=59>
+                    <input class="calc_field_2" type="number" id="ct_pace_s" name="pace_s" min=0 max=59>
                     <label>s </label>
 
                 </div>
-                <div class="form-group ml-4 mr-2">
-                    <label>Time: </label><br>
-                    <input type="text" id="ct_time" name="time" size=8 disabled>
+                <div class="form-group calc_result">
+                    <label>Time: </label>
+                    <input class="calc_field_result" type="text" id="ct_time" name="time" size=8 disabled>
                 </div>
             </div>
             <div class="form-group" style="margin-left:5px;">
@@ -83,7 +83,7 @@
 
 <fieldset class="wrkt_det " style="margin-top:8px;">
     <legend class="wrkt_det">
-        Calculate adjusted pace based on desired pace and temperature
+        Calculate pace based on desired pace and temperature
     </legend>
     <div style="overflow:auto; width:100%; margin-top:20px;">
         <form action="JavaScript:calcPaceHeat()" method="post" role="form" class="form">
@@ -92,19 +92,19 @@
                 {{ form.hidden_tag() }}
                 <div class="form-group" style="margin-right:25px;">
                     <label>Temperature: </label><br>
-                    <input type="number" id="cpt_temperature" name="distance" size=3 step="1">
+                    <input class="calc_field_3" type="number" id="cpt_temperature" name="distance" step="1">
                 </div>
                 <div class="form-group mr-2">
                     <label>Pace: </label><br>
-                    <input type="number" id="cpt_desired_pace_m" name="pace_m" size=2 min=0>
+                    <input class="calc_field_2" type="number" id="cpt_desired_pace_m" name="pace_m" min=0>
                     <label>m </label>
-                    <input type="number" id="cpt_desired_pace_s" name="pace_s" size=2 min=0 max=59>
+                    <input class="calc_field_2" type="number" id="cpt_desired_pace_s" name="pace_s" min=0 max=59>
                     <label>s </label>
 
                 </div>
-                <div class="form-group ml-4 mr-2">
-                    <label>Adjusted Pace: </label><br>
-                    <input type="text" id="cpt_adjusted_pace" name="time" size=8 disabled>
+                <div class="form-group calc_result">
+                    <label>Adjusted Pace: </label>
+                    <input class="calc_field_result" type="text" id="cpt_adjusted_pace" name="time" disabled>
                 </div>
                 <!-- <div class="form-group ml-4 mr-2">
                     <label>Adjusted Time: </label><br>

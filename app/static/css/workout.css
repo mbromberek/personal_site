@@ -202,6 +202,23 @@ td.gear_usage_dtl{
 
 }
 
+.calc_result{
+    margin-left:50px;
+    width:115px;
+}
+.calc_field_3{
+    border: 1px solid black;
+    width: 60px;
+}
+.calc_field_2{
+    border: 1px solid black;
+    width: 50px;
+}
+.calc_field_result{
+    border: 1px solid black;
+    width: 90px;
+}
+
 
 
 @media only screen and (max-width:500px) {
@@ -253,6 +270,11 @@ td.gear_usage_dtl{
         width:100%;
         margin-right:0px;
     }
+    .calc_result{
+        margin-left:0px;
+        width:100%;
+    }
+
 }
 
 
