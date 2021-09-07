@@ -65,9 +65,9 @@ header.workout{
     padding-right:10px;
 }
 .workout-detail-measures-section{
-    width:300px;
-    margin-left:250px;
-    margin-right:250px;
+    width:310px;
+    margin-left:245px;
+    margin-right:245px;
 }
 
 .workout-detail-shoe{
@@ -249,8 +249,8 @@ td.gear_usage_dtl{
         display:none;
     }
     .workout-detail-measures-section{
-        margin-left:10px;
-        margin-right:10px;
+        margin-left:5px;
+        margin-right:5px;
     }
     .hide_mobile{
         display:none;
@@ -283,8 +283,8 @@ td.gear_usage_dtl{
         width:100%;
     }
     .workout-detail-measures-section{
-        margin-left:200px;
-        margin-right:100px;
+        margin-left:185px;
+        margin-right:89px;
     }
     .workouts_detail_separators{
         width:60%;
