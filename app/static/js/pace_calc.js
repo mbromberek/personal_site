@@ -34,7 +34,7 @@ Pace = Time in Seconds / Distance
 function calcPace(h, m, s, dist){
     var time_sec = time_to_sec(h, m, s)
     var pace_sec = Math.round(time_sec / dist);
-    return pace_sec
+    return pace_sec;
 }
 
 /*
@@ -42,7 +42,7 @@ Calculate Time using the distance and pace
 Converts the pace minutes and seconds to seconds and sums together
 Time = Pace in Seconds * Distance
 */
-function calcTime(){
+function calcTimeBtn(){
     var dist = document.getElementById("ct_distance").value;
     var m = document.getElementById("ct_pace_m").value;
     var s = document.getElementById("ct_pace_s").value;
@@ -52,13 +52,13 @@ function calcTime(){
         setCookie("calcTimeDistance", dist, cookieExpireDays);
     }
 
-    var pace_sec = time_to_sec(0, m, s)
-    // console.log('Entered pace seconds: ' + pace_sec);
+    document.getElementById("ct_time").value = sec_to_time_str(calcTime(0,m,s,dist));
+}
 
+function calcTime(h, m, s, dist){
+    var pace_sec = time_to_sec(h, m, s)
     var time_sec = pace_sec * dist;
-    // console.log('Calculated time seconds: ' + time_sec)
-    var time_str = sec_to_time_str(time_sec, 'hms')
-    document.getElementById("ct_time").value = time_str;
+    return time_sec;
 }
 
 /*
@@ -255,7 +255,6 @@ function getCalcPacePrevious(){
     document.getElementById("cp_distance").value = dist;
 
     if (dist != ''){
-        // calcPace();
         document.getElementById("cp_pace").value = sec_to_time_str(calcPace(h,m,s,dist));
     }
 }
@@ -274,7 +273,7 @@ function getCalcTimePrevious(){
     document.getElementById("ct_distance").value = dist;
 
     if (dist != ''){
-        calcTime();
+        document.getElementById("ct_time").value = sec_to_time_str(calcTime(0,m,s,dist));
     }
 }
 
