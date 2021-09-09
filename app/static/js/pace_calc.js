@@ -10,6 +10,7 @@ let cookieExpireDays = 30;
 
 /*
 Run when calculate button is pressed for getting pace
+Saves fields as cookies if they are populated and Remember Calculations is checked
 */
 function calcPaceBtn(){
     var h = document.getElementById("cp_time_h").value;
@@ -38,9 +39,8 @@ function calcPace(h, m, s, dist){
 }
 
 /*
-Calculate Time using the distance and pace
-Converts the pace minutes and seconds to seconds and sums together
-Time = Pace in Seconds * Distance
+Run when calculate button is pressed for getting time
+Saves fields as cookies if they are populated and Remember Calculations is checked
 */
 function calcTimeBtn(){
     var dist = document.getElementById("ct_distance").value;
@@ -55,6 +55,11 @@ function calcTimeBtn(){
     document.getElementById("ct_time").value = sec_to_time_str(calcTime(0,m,s,dist));
 }
 
+/*
+Calculate Time using the passed in pace times and distance
+Converts the pace hours minutes and seconds to seconds and sums together
+Time = Pace in Seconds * Distance
+*/
 function calcTime(h, m, s, dist){
     var pace_sec = time_to_sec(h, m, s)
     var time_sec = pace_sec * dist;
@@ -66,7 +71,7 @@ Calculate Adjusted Pace based on temperature and desired pace
 Converts the pace minutes and seconds to seconds and sums together
 Adjusted Pace = Pace in Seconds + ((temperature - 59) / 1.8) * 4.5)
 */
-function calcPaceHeat(){
+function calcPaceHeatBtn(){
     var m = document.getElementById("cpt_desired_pace_m").value;
     var s = document.getElementById("cpt_desired_pace_s").value;
     var temp = document.getElementById("cpt_temperature").value;
@@ -76,18 +81,22 @@ function calcPaceHeat(){
         setCookie("calcPaceAdjTemperature", temp, cookieExpireDays);
     }
 
+    document.getElementById("cpt_adjusted_pace").value = sec_to_time_str(calcPaceHeat(0, m, s, temp), 'ms');
+}
+
+function calcPaceHeat(h, m, s, temp){
     //calculate pace normal way
-    pace_sec = time_to_sec(0, m, s);
+    pace_sec = time_to_sec(h, m, s);
 
     //if temp is <= 59 degrees fahrenheit then return pace with no adjustment
     if (temp <= 59){
-        document.getElementById("cpt_adjusted_pace").value = sec_to_time_str(pace_sec, 'ms');
+        return pace_sec
     }else{
         //increase_per_mile_seconds = ( (temperature - 59) / 1.8) * 4.5
         increase_per_mile_seconds = ( (temp - 59) / 1.8) * 4.5
-        console.log('increase per mile seconds: ' + increase_per_mile_seconds)
-        document.getElementById("cpt_adjusted_pace").value = sec_to_time_str(pace_sec+increase_per_mile_seconds, 'ms');
+        return pace_sec+increase_per_mile_seconds
     }
+
 }
 
 /*
@@ -289,7 +298,7 @@ function getCalcAdjPacePrevious(){
     document.getElementById("cpt_desired_pace_s").value = s;
     document.getElementById("cpt_temperature").value = temp;
 
-    if (dist != ''){
-        calcPaceHeat();
+    if (temp != ''){
+        document.getElementById("cpt_adjusted_pace").value = sec_to_time_str(calcPaceHeat(0, m, s, temp), 'ms');
     }
 }
