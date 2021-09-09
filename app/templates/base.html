@@ -30,7 +30,7 @@ Base HTML code for each web page
 {% endblock %}
 </head>
 
-<body>
+<body {% if onLoad %} onLoad="{{ onLoad }}"{% endif %}>
 {% block navbar %}
     {#<nav class="navbar navbar-expand-lg navbar-dark " style="background-color:#43d9b8;">#}
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark" >

@@ -345,8 +345,10 @@ def calculate():
     title="Calculate Pace and Time"
     form = EmptyForm()
 
+    onLoad = 'reloadCalculationValues();'
 
-    return render_template('calculate.html', title=title, form=form)
+
+    return render_template('calculate.html', title=title, form=form, onLoad=onLoad)
 
 @bp.route('/workout', methods=['GET'])
 @login_required
