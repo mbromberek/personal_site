@@ -1,17 +1,17 @@
+//List of cookies being saved for different values
 let calculationCookieLst = [
     'calcPaceHours','calcPaceMinutes','calcPaceSeconds','calcPaceDistance',
     'calcTimeMinutes', 'calcTimeSeconds', 'calcTimeDistance',
     'calcPaceAdjMinutes', 'calcPaceAdjSeconds', 'calcPaceAdjTemperature'
 ];
 
-let cookieExpireDays = 7;
+//Number of days to save cookies for
+let cookieExpireDays = 30;
 
 /*
-Calculate Pace using the distance and time
-Converts hours, minutes, seconds to seconds and sums together
-Pace = Time in Seconds / Distance
+Run when calculate button is pressed for getting pace
 */
-function calcPace(){
+function calcPaceBtn(){
     var h = document.getElementById("cp_time_h").value;
     var m = document.getElementById("cp_time_m").value;
     var s = document.getElementById("cp_time_s").value;
@@ -23,13 +23,18 @@ function calcPace(){
         setCookie("calcPaceDistance", dist, cookieExpireDays);
     }
 
-    var time_sec = time_to_sec(h, m, s)
-    console.log('Entered time seconds: ' + time_sec);
+    document.getElementById("cp_pace").value = sec_to_time_str(calcPace(h,m,s,dist));
+}
 
+/*
+Calculate Pace using the passed in distance and time
+Converts hours, minutes, seconds to seconds and sums together
+Pace = Time in Seconds / Distance
+*/
+function calcPace(h, m, s, dist){
+    var time_sec = time_to_sec(h, m, s)
     var pace_sec = Math.round(time_sec / dist);
-    console.log('Calculated pace seconds: ' + pace_sec)
-    var pace_str = sec_to_time_str(pace_sec, 'ms')
-    document.getElementById("cp_pace").value = pace_str;
+    return pace_sec
 }
 
 /*
@@ -124,7 +129,9 @@ function sec_to_time_str(tot_sec, format){
     }
 }
 
-
+/*
+save cookie for passed in number of days
+*/
 function setCookie(cname, cvalue, exdays) {
   const d = new Date();
   d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
@@ -132,6 +139,9 @@ function setCookie(cname, cvalue, exdays) {
   document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/; Secure";
 }
 
+/*
+Gets passed in cookie
+*/
 function getCookie(cname) {
   let name = cname + "=";
   let ca = document.cookie.split(';');
@@ -147,7 +157,18 @@ function getCookie(cname) {
   return "";
 }
 
-function cookieChk(){
+/*
+Erase passed in cookie by setting expiration to the past
+*/
+function eraseCookie(cname){
+    // console.log('eraseCookie: ' + cname);
+    setCookie(cname,"",-1);
+}
+
+/*
+Run when the check box for remembering calculations in selected or unselected
+*/
+function cookieChkChange(){
     var cookieChkStatus = document.getElementById("save_cookie");
     console.log('cookieChk: ' + cookieChkStatus.checked);
 
@@ -162,6 +183,9 @@ function cookieChk(){
     }
 }
 
+/*
+Run when Remember Calculations check box is selected to save all current calcualtion values as cookies
+*/
 function saveAllCookieValues(){
     console.log('saveAllCookieValues');
     setCookie("rememberCalculations", true, cookieExpireDays);
@@ -191,6 +215,9 @@ function saveAllCookieValues(){
 
 }
 
+/*
+Run when Remember Calculations check box is un-selected to remove all current calcualtion value cookies. Does not affect the values on the web page.
+*/
 function eraseAllCookieValues(){
     console.log('eraseAllCookieValues');
     for (var i=0; i<calculationCookieLst.length; i++){
@@ -199,11 +226,9 @@ function eraseAllCookieValues(){
     eraseCookie("rememberCalculations");
 }
 
-function eraseCookie(cname){
-    console.log('eraseCookie: ' + cname);
-    setCookie(cname,"",-1);
-}
-
+/*
+Run on page loade. Checks if rememberCalculations cookie is set and if it is reads in cookies for each calculation and populates their values on the web page.
+*/
 function reloadCalculationValues(){
     var rememberCalc = getCookie("rememberCalculations");
     if (rememberCalc){
@@ -214,6 +239,9 @@ function reloadCalculationValues(){
     }
 }
 
+/*
+Get cookie values for Calculating pace, populates the web page fields, and calculates the pace.
+*/
 function getCalcPacePrevious(){
     h = getCookie("calcPaceHours");
     m = getCookie("calcPaceMinutes");
@@ -227,10 +255,14 @@ function getCalcPacePrevious(){
     document.getElementById("cp_distance").value = dist;
 
     if (dist != ''){
-        calcPace();
+        // calcPace();
+        document.getElementById("cp_pace").value = sec_to_time_str(calcPace(h,m,s,dist));
     }
 }
 
+/*
+Get cookie values for Calculating time, populates the web page fields, and calculates the time.
+*/
 function getCalcTimePrevious(){
     var m = getCookie("calcTimeMinutes");
     var s = getCookie("calcTimeSeconds");
@@ -246,6 +278,9 @@ function getCalcTimePrevious(){
     }
 }
 
+/*
+Get cookie values for Calculating adjusted pace, populates the web page fields, and calculates the adjusted pace.
+*/
 function getCalcAdjPacePrevious(){
     var m = getCookie("calcPaceAdjMinutes");
     var s = getCookie("calcPaceAdjSeconds");

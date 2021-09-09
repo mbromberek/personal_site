@@ -5,7 +5,7 @@
 
 <form action="" role="form" class="form" style="margin-top:15px;">
     <label>
-        <input type="checkbox" id="save_cookie" name="save_cookie" onclick="cookieChk()">
+        <input type="checkbox" id="save_cookie" name="save_cookie" onclick="cookieChkChange()">
         Remember calculations
     </label>
 </form>
@@ -15,7 +15,7 @@
         Calculate pace from distance and time
     </legend>
     <div style="overflow:auto; width:100%; margin-top:20px; padding-left:5px;">
-        <form action="JavaScript:calcPace()" method="post" role="form" class="form">
+        <form action="JavaScript:calcPaceBtn()" method="post" role="form" class="form">
             <div class="form-row " style="width:100%; ">
                 {{ form.hidden_tag() }}
                 <div class="form-group" style="margin-right:25px;">
