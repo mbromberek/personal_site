@@ -236,6 +236,12 @@ td.gear_usage_dtl{
     header.workouts{
         font-size: 13pt;
     }
+    header.workout{
+        font-size: 13pt;
+    }
+    div.wrkt_type_description{
+        font-size: 13pt;
+    }
     .workout_card{
         width:100%;
 
