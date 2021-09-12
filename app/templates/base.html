@@ -43,6 +43,11 @@ Base HTML code for each web page
         <ul class="navbar-nav ml-auto ">
             {% if current_user.is_anonymous %}
             <li class="nav-item active">
+                <a class="nav-link" href="{{ url_for('main.calculate') }}">
+                    Calculations
+                </a>
+            </li>
+            <li class="nav-item active">
                 <a class="nav-link" href="https://www.strava.com/athletes/26482587" target="_blank">
                     <img src="{{ url_for('static', filename='images/Strava-Icon.png') }}" width="25" height="25" alt="Mike Strava Page" title="Mike Strava Page">
                 </a>

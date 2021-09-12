@@ -339,7 +339,6 @@ def edit_workout():
 #     return render_template('testing.html', title=title, form=form)
 
 @bp.route('/calculate', methods=['GET'])
-@login_required
 def calculate():
     logger.info('calculate')
     title="Calculate Pace and Time"
