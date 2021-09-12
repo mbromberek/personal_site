@@ -67,7 +67,7 @@
                     <div class="form-group mr-4">
                         {{ form.clothes.label(class="workout_lbl") }}
                         <br>
-                        {{ form.clothes(size=50) }}<br>
+                        {{ form.clothes(size=30) }}<br>
                         {% for error in form.clothes.errors %}
                         <span style="color: red;">
                             [{{ error }}]
@@ -165,7 +165,7 @@
                 <div class="form-row">
                     <div class="form-group">
                         {{ form.notes.label(class="workout_lbl") }}<br>
-                        {{ form.notes(rows='4', cols='70') }}<br>
+                        {{ form.notes(class="wrkt_section_notes") }}<br>
                         {% for error in form.notes.errors %}
                         <span style="color: red;">
                             [{{ error }}]
@@ -174,32 +174,32 @@
                     </div>
                 </div>
 
-                <div class="form-row mb-4" style="width:600px">
+                <div class="form-row mb-4 wrkt_section">
                     <fieldset class="wrkt_det">
                         <legend class="wrkt_det">
                             Weather Start
                         </legend>
                         <div class="form-row">
-                            <div class="form-group mr-4 ml-4">
+                            <div class="form-group ml-4">
                                 {{ form.temp_strt.label(class="workout_lbl") }}
                                 <br>
-                                {{ form.temp_strt(size=10) }}<br>
+                                {{ form.temp_strt(size=5) }}<br>
                                 {% for error in form.temp_strt.errors %}
                                 <span style="color: red;">
                                     [{{ error }}]
                                 </span>
                                 {% endfor %}
                             </div>
-                            <div class="form-group mr-4">
+                            <div class="form-group ml-4">
                                 {{ form.temp_feels_like_strt.label(class="workout_lbl") }}<br>
-                                {{ form.temp_feels_like_strt(size=10) }}<br>
+                                {{ form.temp_feels_like_strt(size=5) }}<br>
                                 {% for error in form.temp_feels_like_strt.errors %}
                                 <span style="color: red;">
                                     [{{ error }}]
                                 </span>
                                 {% endfor %}
                             </div>
-                            <div class="form-group mr-4">
+                            <div class="form-group ml-4">
                                 {{ form.wethr_cond_strt.label(class="workout_lbl") }}<br>
                                 {{ form.wethr_cond_strt(size=15) }}<br>
                                 {% for error in form.wethr_cond_strt.errors %}
@@ -210,18 +210,18 @@
                             </div>
                         </div>
                         <div class="form-row">
-                            <div class="form-group mr-4 ml-4">
+                            <div class="form-group ml-4">
                                 {{ form.hmdty_strt.label(class="workout_lbl") }}<br>
-                                {{ form.hmdty_strt(size=10) }}<br>
+                                {{ form.hmdty_strt(size=5) }}<br>
                                 {% for error in form.hmdty_strt.errors %}
                                 <span style="color: red;">
                                     [{{ error }}]
                                 </span>
                                 {% endfor %}
                             </div>
-                            <div class="form-group mr-4">
+                            <div class="form-group ml-4">
                                 {{ form.dew_point_strt.label(class="workout_lbl") }}<br>
-                                {{ form.dew_point_strt(size=10) }}<br>
+                                {{ form.dew_point_strt(size=5) }}<br>
                                 {% for error in form.dew_point_strt.errors %}
                                 <span style="color: red;">
                                     [{{ error }}]
@@ -232,7 +232,7 @@
                         <div class="form-row">
                             <div class="form-group mr-4 ml-4">
                                 {{ form.wind_speed_strt.label(class="workout_lbl") }}<br>
-                                {{ form.wind_speed_strt(size=10) }}<br>
+                                {{ form.wind_speed_strt(size=5) }}<br>
                                 {% for error in form.wind_speed_strt.errors %}
                                 <span style="color: red;">
                                     [{{ error }}]
@@ -241,7 +241,7 @@
                             </div>
                             <div class="form-group mr-4">
                                 {{ form.wind_gust_strt.label(class="workout_lbl") }}<br>
-                                {{ form.wind_gust_strt(size=15) }}<br>
+                                {{ form.wind_gust_strt(size=5) }}<br>
                                 {% for error in form.wind_gust_strt.errors %}
                                 <span style="color: red;">
                                     [{{ error }}]
@@ -252,31 +252,31 @@
                     </fieldset>
                 </div>
 
-                <div class="form-row mb-4" style="width:600px">
+                <div class="form-row mb-4 wrkt_section">
                     <fieldset class="wrkt_det">
                       <legend class="wrkt_det">
                           Weather End
                       </legend>
                       <div class="form-row">
-                          <div class="form-group mr-4 ml-4">
+                          <div class="form-group ml-4">
                               {{ form.temp_end.label(class="workout_lbl") }}<br>
-                              {{ form.temp_end(size=10) }}<br>
+                              {{ form.temp_end(size=5) }}<br>
                               {% for error in form.temp_end.errors %}
                               <span style="color: red;">
                                   [{{ error }}]
                               </span>
                               {% endfor %}
                           </div>
-                          <div class="form-group mr-4">
+                          <div class="form-group ml-4">
                               {{ form.temp_feels_like_end.label(class="workout_lbl") }}<br>
-                              {{ form.temp_feels_like_end(size=10) }}<br>
+                              {{ form.temp_feels_like_end(size=5) }}<br>
                               {% for error in form.temp_feels_like_end.errors %}
                               <span style="color: red;">
                                   [{{ error }}]
                               </span>
                               {% endfor %}
                           </div>
-                          <div class="form-group mr-4">
+                          <div class="form-group ml-4">
                               {{ form.wethr_cond_end.label(class="workout_lbl") }}<br>
                               {{ form.wethr_cond_end(size=15) }}<br>
                               {% for error in form.wethr_cond_end.errors %}
@@ -289,7 +289,7 @@
                       <div class="form-row">
                           <div class="form-group mr-4 ml-4">
                               {{ form.hmdty_end.label(class="workout_lbl") }}<br>
-                              {{ form.hmdty_end(size=10) }}<br>
+                              {{ form.hmdty_end(size=5) }}<br>
                               {% for error in form.hmdty_end.errors %}
                               <span style="color: red;">
                                   [{{ error }}]
@@ -298,7 +298,7 @@
                           </div>
                           <div class="form-group mr-4">
                               {{ form.dew_point_end.label(class="workout_lbl") }}<br>
-                              {{ form.dew_point_end(size=10) }}<br>
+                              {{ form.dew_point_end(size=5) }}<br>
                               {% for error in form.dew_point_end.errors %}
                               <span style="color: red;">
                                   [{{ error }}]
@@ -309,7 +309,7 @@
                       <div class="form-row">
                           <div class="form-group mr-4 ml-4">
                               {{ form.wind_speed_end.label(class="workout_lbl") }}<br>
-                              {{ form.wind_speed_end(size=10) }}<br>
+                              {{ form.wind_speed_end(size=5) }}<br>
                               {% for error in form.wind_speed_end.errors %}
                               <span style="color: red;">
                                   [{{ error }}]
@@ -318,7 +318,7 @@
                           </div>
                           <div class="form-group mr-4">
                               {{ form.wind_gust_end.label(class="workout_lbl") }}<br>
-                              {{ form.wind_gust_end(size=15) }}<br>
+                              {{ form.wind_gust_end(size=5) }}<br>
                               {% for error in form.wind_gust_end.errors %}
                               <span style="color: red;">
                                   [{{ error }}]
@@ -329,7 +329,7 @@
                     </fieldset>
                 </div>
 
-                <div class="form-row mb-4" style="width:600px">
+                <div class="form-row mb-4 wrkt_section">
                     <fieldset class="wrkt_det">
                         <legend class="wrkt_det">
                             Warm Up
@@ -348,7 +348,7 @@
                             </div>
                             <div class="form-group mr-4">
                                 {{ form.warm_up_tot_dist.label(class="workout_lbl") }}<br>
-                                {{ form.warm_up_tot_dist(size=20) }}<br>
+                                {{ form.warm_up_tot_dist(size=10) }}<br>
                                 {% for error in form.warm_up_tot_dist.errors %}
                                 <span style="color: red;">
                                     [{{ error }}]
@@ -359,7 +359,7 @@
                     </<fieldset>
                 </div>
 
-                <div class="form-row mb-4" style="width:600px">
+                <div class="form-row mb-4 wrkt_section">
                     <fieldset class="wrkt_det">
                         <legend class="wrkt_det">
                             Intervals
@@ -378,7 +378,7 @@
                             </div>
                             <div class="form-group  mr-4">
                                 {{ form.intrvl_tot_dist.label(class="workout_lbl") }}<br>
-                                {{ form.intrvl_tot_dist(size=20) }}<br>
+                                {{ form.intrvl_tot_dist(size=10) }}<br>
                                 {% for error in form.intrvl_tot_dist.errors %}
                                 <span style="color: red;">
                                     [{{ error }}]
@@ -389,7 +389,7 @@
                     </<fieldset>
                 </div>
 
-                <div class="form-row mb-4" style="width:600px">
+                <div class="form-row mb-4 wrkt_section">
                     <fieldset class="wrkt_det">
                         <legend class="wrkt_det">
                             Cool Down
@@ -408,7 +408,7 @@
                             </div>
                             <div class="form-group mr-4">
                                 {{ form.cool_down_tot_dist.label(class="workout_lbl") }}<br>
-                                {{ form.cool_down_tot_dist(size=20) }}<br>
+                                {{ form.cool_down_tot_dist(size=10) }}<br>
                                 {% for error in form.cool_down_tot_dist.errors %}
                                 <span style="color: red;">
                                     [{{ error }}]

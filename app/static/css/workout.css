@@ -72,7 +72,7 @@ header.workout{
 
 .workout-detail-shoe{
     float:left;
-    border-left: 1px gray solid;
+    /* border-left: 1px gray solid; */
     padding-left:10px;
 }
 .workouts_weather{
@@ -173,7 +173,10 @@ legend.wrkt_det{
 .wrkt_section_splits{
     width: 1100px;
     vertical-align:top;
-
+}
+.wrkt_section_notes{
+    width:600px;
+    height:125px;
 }
 
 table.gear_usage{
@@ -296,6 +299,9 @@ td.gear_usage_dtl{
     }
     .wrkt_section_splits{
         width:100%;
+    }
+    .wrkt_section_notes{
+        width:150%;
     }
 }
 
