@@ -166,6 +166,16 @@ legend.wrkt_det{
     width:auto;
 }
 
+.wrkt_section{
+    width:600px;
+}
+
+.wrkt_section_splits{
+    width: 1100px;
+    vertical-align:top;
+
+}
+
 table.gear_usage{
     border: 3px solid black;
     /* margin-top: 5px;
@@ -275,6 +285,12 @@ td.gear_usage_dtl{
         width:100%;
     }
 
+    .wrkt_section{
+        width:100%;
+    }
+    .wrkt_section_splits{
+        width:100%;
+    }
 }
 
 
@@ -293,4 +309,9 @@ td.gear_usage_dtl{
         margin-top:4px;
         margin-bottom:4px;
     }
+
+    .wrkt_section_splits{
+        width:100%;
+    }
+
 }

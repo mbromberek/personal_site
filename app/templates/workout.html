@@ -21,7 +21,7 @@
         {% endif %}
     </div>
 
-    <div class="form-row" style="width:600px">
+    <div class="form-row wrkt_section" >
         <fieldset class="wrkt_det pb-4">
             <legend class="wrkt_det">
                 Total
@@ -65,7 +65,7 @@
     </div>
 
     {% if workout.temp_strt != None %}
-    <div class="form-row" style="width:600px">
+    <div class="form-row wrkt_section" >
         <fieldset class="wrkt_det">
             <legend class="wrkt_det">
                 Weather
@@ -76,7 +76,7 @@
     {% endif %}
 
     {% if workout.intrvl_tot_dist_mi != None %}
-    <div class="form-row" style="width:600px">
+    <div class="form-row wrkt_section">
         <fieldset class="wrkt_det">
             <legend class="wrkt_det">
                 Training Summary
@@ -146,7 +146,7 @@
     </div>
     {% endif %}
 
-    <div class="form-row" style="width:600px">
+    <div class="form-row wrkt_section" >
         <fieldset class="wrkt_det">
             <legend class="wrkt_det">
                 Gear
@@ -170,7 +170,7 @@
         </fieldset>
     </div>
 
-    <div class="form-row" style="width:600px">
+    <div class="form-row wrkt_section">
         <fieldset class="wrkt_det">
             <legend class="wrkt_det">
                 notes
@@ -187,7 +187,7 @@
         </fieldset>
     </div>
 
-    <div class="form-row" style="width:1100px; vertical-align:top;">
+    <div class="form-row wrkt_section_splits">
         {% if segment_intrvl_lst|length >0 %}
         <div class="form-group mt-3 mr-2" style="width:500px; vertical-align:top;">
             Segment Splits<br>
