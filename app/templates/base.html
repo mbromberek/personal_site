@@ -18,6 +18,7 @@ Base HTML code for each web page
     <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
     {% block styles %}
         <script type="text/javascript" src="{{ url_for('static', filename='js/pace_calc.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='js/workout_search.js') }}"></script>
         {{ bootstrap.load_css() }}
         <link rel="stylesheet" href="{{ url_for('static', filename='css/workout.css') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">

@@ -51,23 +51,10 @@ def workouts():
     page = request.args.get('page', default=1, type=int)
     type = request.args.get('type', default='')
     category = request.args.get('category', default='')
-    strt_temp = request.args.get('temperature', default='', type=int)
+    temperature = request.args.get('temperature', default='', type=int)
     distance = request.args.get('distance', default='', type=str)
     distance = round(float(distance),2) if nbrConv.isFloat(distance) else ''
-
-    logger.info('strt_temp: ' + str(strt_temp))
-
-    logger.info('strt_temp_search: ' + str(wrkt_filter_form.strt_temp_search.data))
-    if wrkt_filter_form.strt_temp_search.data:
-        url_change = True
-        temperature = wrkt_filter_form.strt_temp_search.data
-    else:
-        temperature = strt_temp
-
-    logger.info('temperature: ' + str(temperature))
-    if wrkt_filter_form.distance_search.data:
-        url_change = True
-        distance = float(wrkt_filter_form.distance_search.data)
+    txtSearch = request.args.get('text_search', default='', type=str)
 
     # Redirect if category button was pressed
     if wrkt_filter_form.category_run_btn.data:

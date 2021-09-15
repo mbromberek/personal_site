@@ -39,6 +39,8 @@ class WorkoutFilterForm(FlaskForm):
     distance_search = DecimalField('Distance', validators=[Optional()], places=2, rounding=decimal.ROUND_UP)
     submit_search_btn = SubmitField('🔎')
 
+    text_search = StringField('Text', validators=[Optional()])
+
 
 class WorkoutForm(FlaskForm):
     wrkt_id = HiddenField()
@@ -54,7 +56,7 @@ class WorkoutForm(FlaskForm):
         default=0, validators=[InputRequired()])
 
     distance = DecimalField('Distance', validators=[InputRequired()], places=2, rounding=decimal.ROUND_UP)
-    notes = TextAreaField('Notes', validators=[Length(min=0, max=3000)])
+    notes = TextAreaField('Notes', validators=[Length(min=0, max=30000)])
     submit = SubmitField('Submit')
     cancel = SubmitField('Cancel')
 
