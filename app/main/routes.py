@@ -86,7 +86,7 @@ def workouts():
         return redirect(url_for('main.workouts'))
 
     if url_change:
-        return redirect(url_for('main.workouts', page=1, type=type, category=category, temperature=temperature, distance=distance))
+        return redirect(url_for('main.workouts', page=1, type=type, category=category, temperature=temperature, distance=distance, text_search=txtSearch))
 
     type_filter = []
     category_filter = []
@@ -137,6 +137,11 @@ def workouts():
         query = query.filter(Workout.dist_mi <= distance \
         *(1+current_app.config['DISTANCE_RANGE']))
         wrkt_filter_form.distance_search.data = distance
+    if txtSearch != '':
+        # TODO search training_type or location
+        # query = query.filter(Workout.training_type == txtSearch)
+        query = query.filter(Workout.training_type.ilike('%'+txtSearch+'%'))
+        wrkt_filter_form.text_search.data = txtSearch
 
     workoutPages = query.order_by(Workout.wrkt_dttm.desc()).paginate(page, current_app.config['POSTS_PER_PAGE'], False)
     next_url = url_for('main.workouts', page=workoutPages.next_num, type=type, category=category, temperature=temperature, distance=distance) \
