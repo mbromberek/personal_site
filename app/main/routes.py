@@ -145,9 +145,9 @@ def workouts():
         wrkt_filter_form.text_search.data = txtSearch
 
     workoutPages = query.order_by(Workout.wrkt_dttm.desc()).paginate(page, current_app.config['POSTS_PER_PAGE'], False)
-    next_url = url_for('main.workouts', page=workoutPages.next_num, type=type, category=category, temperature=temperature, distance=distance) \
+    next_url = url_for('main.workouts', page=workoutPages.next_num, type=type, category=category, temperature=temperature, distance=distance, text_search=txtSearch) \
         if workoutPages.has_next else None
-    prev_url = url_for('main.workouts', page=workoutPages.prev_num, type=type, category=category, temperature=temperature, distance=distance) \
+    prev_url = url_for('main.workouts', page=workoutPages.prev_num, type=type, category=category, temperature=temperature, distance=distance, text_search=txtSearch) \
         if workoutPages.has_prev else None
 
     workouts = workoutPages.items
