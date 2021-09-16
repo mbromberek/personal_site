@@ -14,6 +14,7 @@ from datetime import datetime
 from flask import render_template, flash, redirect, url_for, request, g, \
     jsonify, current_app
 from flask_login import current_user, login_required
+from sqlalchemy import or_
 
 # Custom classes
 from app.main import bp
@@ -138,9 +139,9 @@ def workouts():
         *(1+current_app.config['DISTANCE_RANGE']))
         wrkt_filter_form.distance_search.data = distance
     if txtSearch != '':
-        # TODO search training_type or location
-        # query = query.filter(Workout.training_type == txtSearch)
-        query = query.filter(Workout.training_type.ilike('%'+txtSearch+'%'))
+        query = query.filter(
+            or_(Workout.training_type.ilike('%'+txtSearch+'%'), Workout.location.ilike('%'+txtSearch+'%'))
+        )
         wrkt_filter_form.text_search.data = txtSearch
 
     workoutPages = query.order_by(Workout.wrkt_dttm.desc()).paginate(page, current_app.config['POSTS_PER_PAGE'], False)
