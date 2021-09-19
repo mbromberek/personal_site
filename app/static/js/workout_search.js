@@ -73,3 +73,23 @@ function generateUrlParms(parmDict){
     }
     return parmStr;
 }
+
+/*
+Uses hardcoded URL paths so that could cause an issue instead of using
+url_for
+*/
+function hoverFilterToggle(element){
+    ele = document.getElementById("filter_toggle_img");
+    ele.setAttribute('src', '/static/images/icons8-filter-50-onhover.png');
+}
+/*
+*/
+function unHoverFilterToggle(element){
+    ele = document.getElementById("filter_toggle_img");
+    ele.setAttribute('src', '/static/images/icons8-filter-50.png');
+}
+/*
+*/
+function filterToggle(element){
+    console.log('filterToggle');
+}

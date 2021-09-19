@@ -3,10 +3,22 @@
 
 {% block app_content %}
     <form action="" method="post" role="form" class="form">
-        <header class="workouts">{{ current_user.displayname }}&#39;s workouts
-        {{ render_field(form.submit, class='btn btn-dark ') }}
-        </header>
-        {{ form.hidden_tag() }}
+        <div style="overflow:auto; ">
+            <header class="workouts" style="float: left;"">
+                {{ current_user.displayname }}&#39;s workouts
+            </header>
+            <div style="float: left;">
+                {{ render_field(form.submit, class='btn btn-dark ', style='font-size:20pt;height:40px;padding-top:0px;padding-bottom:0px;font-weight:bold;margin-top:15px;margin-left:20px;') }}
+            </div>
+            <div class="workout_filter_btn_container"
+                onmouseover="hoverFilterToggle(this);" onmouseout="unHoverFilterToggle(this);" onclick="filterToggle(this);">
+                <img id="filter_toggle_img"
+                    alt="Toggle Additional Filters"
+                    src="{{ url_for('static', filename='images/icons8-filter-50.png') }}" width='30px' height='30px'
+                >
+            </div>
+            {{ form.hidden_tag() }}
+        </div>
     </form>
     <form action="" method="post" role="form" class="form">
         {{ form.hidden_tag() }}

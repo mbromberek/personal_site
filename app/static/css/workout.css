@@ -25,6 +25,21 @@ header.workout{
 
 }
 
+div.workout_filter_btn_container{
+    float: left;
+    margin-top:15px;
+    margin-left:20px;
+    border:1px solid black;
+    padding-top:7px;
+    padding-right:5px;
+    padding-left:5px;
+    padding-bottom:7px;
+}
+.workout_filter_btn_container:hover{
+    cursor: pointer;
+    background-color: black
+}
+
 .workout-header{
     font-weight:bold;
     font-size: 20pt;
