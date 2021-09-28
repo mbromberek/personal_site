@@ -124,8 +124,10 @@ function filterToggleOld(element){
     console.log('end:' + isExpanded);
     shown.bs.collapse
 }
+/*
+Hides and shows the search area of workouts page
+*/
 function filterToggle(element){
-    // searchFields = document.getElementById("extra_filter_fields");
     ele = document.getElementById("show_hide_filter_btn");
     $('#extra_filter_fields').collapse('toggle')
         .on('shown.bs.collapse', function(){
