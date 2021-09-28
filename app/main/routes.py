@@ -49,6 +49,7 @@ def workouts():
     form.submit.label.text = '+'
 
     url_change = False
+    usingSearch = False
     page = request.args.get('page', default=1, type=int)
     type = request.args.get('type', default='')
     category = request.args.get('category', default='')
@@ -127,18 +128,21 @@ def workouts():
         query = query.filter(Workout.category.in_(category_filter))
 
     if temperature != '':
+        usingSearch = True
         query = query.filter(Workout.temp_strt >= temperature \
         -current_app.config['TEMPERATURE_RANGE'])
         query = query.filter(Workout.temp_strt <= temperature \
         +current_app.config['TEMPERATURE_RANGE'])
         wrkt_filter_form.strt_temp_search.data = temperature
     if distance != '':
+        usingSearch = True
         query = query.filter(Workout.dist_mi >= distance \
         *(1-current_app.config['DISTANCE_RANGE']))
         query = query.filter(Workout.dist_mi <= distance \
         *(1+current_app.config['DISTANCE_RANGE']))
         wrkt_filter_form.distance_search.data = distance
     if txtSearch != '':
+        usingSearch = True
         query = query.filter(
             or_(Workout.training_type.ilike('%'+txtSearch+'%'), Workout.location.ilike('%'+txtSearch+'%'))
         )
@@ -161,7 +165,7 @@ def workouts():
             # workout.notes_summmary = workout.notes
         else:
             workout.notes_summary = ""
-    return render_template('workouts.html', title='Workouts', workouts=workouts, form=form, wrkt_filter_form=wrkt_filter_form, btn_classes=btn_classes, next_url=next_url, prev_url=prev_url)
+    return render_template('workouts.html', title='Workouts', workouts=workouts, form=form, wrkt_filter_form=wrkt_filter_form, btn_classes=btn_classes, next_url=next_url, prev_url=prev_url, using_search=usingSearch)
 
 @bp.route('/edit_workout', methods=['GET','POST'])
 @login_required

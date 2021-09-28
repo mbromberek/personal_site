@@ -41,6 +41,8 @@ class WorkoutFilterForm(FlaskForm):
 
     text_search = StringField('Text', validators=[Optional()])
 
+    show_filter_btn = SubmitField(label='Show Filters')
+
 
 class WorkoutForm(FlaskForm):
     wrkt_id = HiddenField()

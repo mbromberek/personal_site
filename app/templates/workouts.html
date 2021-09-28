@@ -3,26 +3,39 @@
 
 {% block app_content %}
     <form action="" method="post" role="form" class="form">
-        <div style="overflow:auto; ">
+        <div style="overflow:auto; margin-top:5px; ">
             <header class="workouts" style="float: left;"">
                 {{ current_user.displayname }}&#39;s workouts
             </header>
-            <div style="float: left;">
-                {{ render_field(form.submit, class='btn btn-dark ', style='font-size:20pt;height:40px;padding-top:0px;padding-bottom:0px;font-weight:bold;margin-top:15px;margin-left:20px;') }}
+            <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups" style="padding-bottom: 25px;margin-top:15px;">
+                <div class="btn-group mr-4" role="group" aria-label="Type group">
+                    {{ render_field(form.submit, class='btn btn-dark ', style='font-size:20pt;height:40px;padding-top:0px;padding-bottom:0px;font-weight:bold;margin-left:20px;') }}
+                    <!-- <div class="workout_filter_btn_container"
+                        onmouseover="hoverFilterToggle(this);" onmouseout="unHoverFilterToggle(this);" onclick="filterToggle(this);">
+                        <img id="filter_toggle_img"
+                            alt="Toggle Additional Filters"
+                            src="{{ url_for('static', filename='images/icons8-filter-50.png') }}" width='20px' height='20px'
+                        >
+                    </div> -->
+                    <div class="btn-group" role="group" aria-label="Clear group" style="margin-left:20px;">
+                        <input type="button"
+                        class='btn btn-outline-dark workout_filter_btn_container',
+                        onclick="filterToggle(this);"
+                        value="{% if using_search %}Hide{% else %}Show{% endif %} Search" id="show_hide_filter_btn"
+                        />
+                    </div>
+
+                <div class="btn-group" role="group" aria-label="Clear group" style="margin-left:20px;">
+                    {{ render_field(wrkt_filter_form.clear_filter_btn, class='btn btn-outline-dark', style="height:40px;") }}
+                </div>
             </div>
-            <div class="workout_filter_btn_container"
-                onmouseover="hoverFilterToggle(this);" onmouseout="unHoverFilterToggle(this);" onclick="filterToggle(this);">
-                <img id="filter_toggle_img"
-                    alt="Toggle Additional Filters"
-                    src="{{ url_for('static', filename='images/icons8-filter-50.png') }}" width='30px' height='30px'
-                >
             </div>
             {{ form.hidden_tag() }}
         </div>
     </form>
     <form action="" method="post" role="form" class="form">
         {{ form.hidden_tag() }}
-        <div class="btn-toolbar pt-4 pb-4" role="toolbar" aria-label="Toolbar with button groups" style="padding-bottom: 25px;">
+        <div class="btn-toolbar pt-4 pb-4" role="toolbar" aria-label="Filter button groups" style="padding-bottom: 25px;">
             <div class="btn-group mr-4" role="group" aria-label="Type group">
                 {{ render_field(wrkt_filter_form.category_run_btn, class=btn_classes['run'] or 'btn btn-outline-dark') }}
                 {{ render_field(wrkt_filter_form.category_cycle_btn, class=btn_classes['cycle'] or 'btn btn-outline-dark') }}
@@ -34,29 +47,35 @@
                 {{ render_field(wrkt_filter_form.category_easy_btn, class=btn_classes['easy'] or 'btn btn-outline-dark') }}
                 {{ render_field(wrkt_filter_form.category_race_btn, class=btn_classes['race'] or 'btn btn-outline-dark') }}
             </div>
-            <div class="btn-group" role="group" aria-label="Third group">
-                {{ render_field(wrkt_filter_form.clear_filter_btn, class='btn btn-outline-dark') }}
-
-            </div>
         </div>
     </form>
     <form action="JavaScript:wrktSearchBtn()" method="post" role="form" class="form">
-        <div class="form-row ml-1 ">
-            {{ form.hidden_tag() }}
-            <!-- Search Fields -->
-            <div class="form-group mr-4">
-                {{ wrkt_filter_form.submit_search_btn() }}
+        <div class="collapse {% if using_search %}show{% endif %}" id="extra_filter_fields" >
+            <div class="form-row ml-1">
+                {{ form.hidden_tag() }}
+                <!-- Search Fields -->
+                <div class="form-group mr-4">
+                    {{ render_field(wrkt_filter_form.submit_search_btn, class='btn btn-dark ', style='font-size:15pt;height:33px;padding-top:0px;padding-bottom:0px;') }}
+                </div>
+                <div class="form-group  mr-4">
+                    {{ wrkt_filter_form.text_search(size=10, style="border: 1px solid black;", placeholder="Search..") }}
+                </div>
+                <div class="form-group mr-4">
+                    {{ wrkt_filter_form.strt_temp_search.label }}:
+                    {{ wrkt_filter_form.strt_temp_search(size=3, style="border: 1px solid black;") }}
+                </div>
+                <div class="form-group  mr-4">
+                    {{ wrkt_filter_form.distance_search.label }}:
+                    {{ wrkt_filter_form.distance_search(size=5, style="border: 1px solid black;") }}
+                </div>
             </div>
-            <div class="form-group  mr-4">
-                {{ wrkt_filter_form.text_search(size=10, style="border: 1px solid black;", placeholder="Search..") }}
-            </div>
-            <div class="form-group mr-4">
-                {{ wrkt_filter_form.strt_temp_search.label }}:
-                {{ wrkt_filter_form.strt_temp_search(size=3, style="border: 1px solid black;") }}
-            </div>
-            <div class="form-group  mr-4">
-                {{ wrkt_filter_form.distance_search.label }}:
-                {{ wrkt_filter_form.distance_search(size=5, style="border: 1px solid black;") }}
+            <div class="form-row ml-1" id="extra_filter_fields" >
+                <div class="form-group  mr-4">
+                    Distance Minumum
+                </div>
+                <div class="form-group  mr-4">
+                    Distance Maximum
+                </div>
             </div>
         </div>
     </form>

@@ -1,3 +1,5 @@
+let extraFiltersVisible = false;
+
 /*
 */
 function wrktSearchBtn(){
@@ -86,10 +88,52 @@ function hoverFilterToggle(element){
 */
 function unHoverFilterToggle(element){
     ele = document.getElementById("filter_toggle_img");
-    ele.setAttribute('src', '/static/images/icons8-filter-50.png');
+    if (extraFiltersVisible == true){
+        ele.setAttribute('src', '/static/images/icons8-filter-50-selected.png');
+    }else{
+        ele.setAttribute('src', '/static/images/icons8-filter-50.png');
+    }
 }
 /*
 */
-function filterToggle(element){
+function filterToggleOld(element){
     console.log('filterToggle');
+    ele = document.getElementById("show_hide_filter_btn");
+    extra_filter_fields = document.getElementById("extra_filter_fields");
+    // console.log(extra_filter_fields.getAttribute('class'))
+    searchFieldsClasses = extra_filter_fields.getAttribute('class')
+    // ele.style.display = 'block';
+    // $('.collapse').collapse('toggle');
+    // $('#extra_filter_fields').collapse('toggle');
+
+    // if (searchFieldsClasses.includes('collapse')){
+    var isExpanded = $('#extra_filter_fields').attr("aria-expanded");
+    console.log('Initial:' + isExpanded);
+    if (isExpanded){
+        extraFiltersVisible = true;
+        $('#extra_filter_fields').collapse('show');
+        ele.setAttribute('value', 'Hide Search');
+    }else{
+        extraFiltersVisible = false;
+        $('#extra_filter_fields').collapse('hide');
+        // ele.setAttribute('src', '/static/images/icons8-filter-50.png');
+        ele.setAttribute('value', 'Show Search');
+    }
+    // console.log(extraFiltersVisible);
+    // console.log(extra_filter_fields.getAttribute('class'))
+    console.log('end:' + isExpanded);
+    shown.bs.collapse
+}
+function filterToggle(element){
+    // searchFields = document.getElementById("extra_filter_fields");
+    ele = document.getElementById("show_hide_filter_btn");
+    $('#extra_filter_fields').collapse('toggle')
+        .on('shown.bs.collapse', function(){
+            // console.log('shown');
+            ele.setAttribute('value', 'Hide Search');
+        })
+        .on('hidden.bs.collapse', function(){
+            // console.log('hide');
+            ele.setAttribute('value', 'Show Search');
+        });
 }
