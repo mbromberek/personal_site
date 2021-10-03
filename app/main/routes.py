@@ -98,16 +98,19 @@ def workouts():
 
 
     if url_change:
-        if filterVal['strt_dt'] != '' and filterVal['strt_dt'] != None:
-            logger.debug(filterVal['strt_dt'])
+        if filterVal['strt_dt'] == '' or filterVal['strt_dt'] == None:
+            strt_dt_str = ''
+        elif isinstance(filterVal['strt_dt'], datetime):
             strt_dt_str = filterVal['strt_dt'].strftime('%Y-%m-%d')
         else:
-            strt_dt_str = ''
-        if filterVal['end_dt'] != '' and filterVal['end_dt'] != None:
-            logger.debug(filterVal['end_dt'])
+            strt_dt_str = filterVal['strt_dt']
+
+        if filterVal['end_dt'] == '' or filterVal['end_dt'] == None:
+            end_dt_str = ''
+        elif isinstance(filterVal['end_dt'], datetime):
             end_dt_str = filterVal['end_dt'].strftime('%Y-%m-%d')
         else:
-            end_dt_str = ''
+            end_dt_str = filterVal['end_dt']
 
         return redirect(url_for('main.workouts', page=1, type=filterVal['type'], category=filterVal['category'], temperature=filterVal['temperature'], distance=filterVal['distance'], text_search=filterVal['txt_search'], min_strt_temp=filterVal['min_strt_temp'], max_strt_temp=filterVal['max_strt_temp'], min_dist=filterVal['min_dist'], max_dist=filterVal['max_dist'],
         strt_dt=strt_dt_str,
