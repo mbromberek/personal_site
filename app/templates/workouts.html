@@ -35,12 +35,12 @@
 
         </div>
         <div class="btn-toolbar wrkts_filter_row" role="toolbar" aria-label="Filter button groups" >
-            <div class="btn-group mr-4" role="group" aria-label="Type group" >
+            <div class="btn-group mr-3" role="group" aria-label="Type group" >
                 {{ render_field(wrkt_filter_form.category_run_btn, class=btn_classes['run'] or 'btn btn-outline-dark') }}
                 {{ render_field(wrkt_filter_form.category_cycle_btn, class=btn_classes['cycle'] or 'btn btn-outline-dark') }}
                 {{ render_field(wrkt_filter_form.category_swim_btn, class=btn_classes['swim'] or 'btn btn-outline-dark') }}
             </div>
-            <div class="btn-group mr-4" role="group" aria-label="Category group" >
+            <div class="btn-group mr-3" role="group" aria-label="Category group" >
                 {{ render_field(wrkt_filter_form.category_training_btn, class=btn_classes['training'] or 'btn btn-outline-dark ') }}
                 {{ render_field(wrkt_filter_form.category_long_btn, class=btn_classes['long'] or 'btn btn-outline-dark') }}
                 {{ render_field(wrkt_filter_form.category_easy_btn, class=btn_classes['easy'] or 'btn btn-outline-dark') }}
@@ -50,7 +50,7 @@
             <div style="display:inline; padding-top:3px; ">
                 <div class=" wrkt_filter_field" style="display:inline;">
                     {{ wrkt_filter_form.strt_temp_search.label }}:
-                    {{ wrkt_filter_form.strt_temp_search(style="border: 1px solid black; width:30px;", inputmode="numeric", pattern="[0-9]*") }}
+                    {{ wrkt_filter_form.strt_temp_search(style="border: 1px solid black; width:40px;", inputmode="numeric", pattern="[0-9]*") }}
                 </div>
                 <div class=" wrkt_filter_field" style="display:inline;margin-right:0px;">
                     {{ wrkt_filter_form.distance_search.label }}:

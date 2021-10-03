@@ -369,9 +369,6 @@ td.gear_usage_dtl{
         margin-right:0px;
         margin-left:5px;
     }
-    .wrkts_hdr_row{
-
-    }
     .wrkts_search_field{
         top:0px;
         padding-top:0px;
@@ -407,6 +404,20 @@ td.gear_usage_dtl{
 
     .wrkt_section_splits{
         width:100%;
+    }
+    .wrkts_hdr_row{
+        width:100%;
+    }
+    .wrkts_hdr_btn{
+        margin-right:0px;
+        margin-left:5px;
+    }
+    .wrkts_filter_row{
+        width:100%;
+    }
+    .workouts{
+        font-size: 23pt;
+        /* display:inline-block; */
     }
 
 }

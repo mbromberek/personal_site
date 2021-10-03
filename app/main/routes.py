@@ -98,12 +98,12 @@ def workouts():
 
 
     if url_change:
-        if filterVal['strt_dt'] != '':
+        if filterVal['strt_dt'] != '' and filterVal['strt_dt'] == 'None':
             logger.debug(filterVal['strt_dt'])
             strt_dt_str = filterVal['strt_dt'].strftime('%Y-%m-%d')
         else:
             strt_dt_str = ''
-        if filterVal['end_dt'] != '':
+        if filterVal['end_dt'] != '' and filterVal['end_dt'] == 'None':
             logger.debug(filterVal['end_dt'])
             end_dt_str = filterVal['end_dt'].strftime('%Y-%m-%d')
         else:
