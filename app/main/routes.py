@@ -23,6 +23,7 @@ from app.models import User, Workout, Workout_interval, Gear_usage, Wrkt_sum
 from app import db
 from app.utils import tm_conv, const, nbrConv
 from app import logger
+from app.utils import dt_conv
 
 @bp.route('/')
 @bp.route('/index')
@@ -95,8 +96,22 @@ def workouts():
         logger.debug('Clear Pressed')
         return redirect(url_for('main.workouts'))
 
+
     if url_change:
-        return redirect(url_for('main.workouts', page=1, type=filterVal['type'], category=filterVal['category'], temperature=filterVal['temperature'], distance=filterVal['distance'], text_search=filterVal['txt_search'], min_strt_temp=filterVal['min_strt_temp'], max_strt_temp=filterVal['max_strt_temp'], min_dist=filterVal['min_dist'], max_dist=filterVal['max_dist']  ))
+        if filterVal['strt_dt'] != '':
+            logger.debug(filterVal['strt_dt'])
+            strt_dt_str = filterVal['strt_dt'].strftime('%Y-%m-%d')
+        else:
+            strt_dt_str = ''
+        if filterVal['end_dt'] != '':
+            logger.debug(filterVal['end_dt'])
+            end_dt_str = filterVal['end_dt'].strftime('%Y-%m-%d')
+        else:
+            end_dt_str = ''
+
+        return redirect(url_for('main.workouts', page=1, type=filterVal['type'], category=filterVal['category'], temperature=filterVal['temperature'], distance=filterVal['distance'], text_search=filterVal['txt_search'], min_strt_temp=filterVal['min_strt_temp'], max_strt_temp=filterVal['max_strt_temp'], min_dist=filterVal['min_dist'], max_dist=filterVal['max_dist'],
+        strt_dt=strt_dt_str,
+        end_dt=end_dt_str   ))
 
     type_filter = []
     category_filter = []
@@ -171,11 +186,30 @@ def workouts():
         usingSearch = True
         wrkt_filter_form.max_dist_srch.data = filterVal['max_dist']
         query = query.filter(Workout.dist_mi <= filterVal['max_dist'])
+    if filterVal['strt_dt'] != '':
+        usingSearch = True
+        try:
+            dt = dt_conv.get_date(filterVal['strt_dt'])
+            wrkt_filter_form.strt_dt_srch.data = dt
+            query = query.filter(Workout.wrkt_dttm >= dt)
+        except:
+            pass
+    if filterVal['end_dt'] != '':
+        usingSearch = True
+        try:
+            # Add last second of day so end date for workout will be returned regardless of time of day.
+            dt = dt_conv.get_date(filterVal['end_dt'] + 'T23:59:59Z')
+            wrkt_filter_form.end_dt_srch.data = dt
+            query = query.filter(Workout.wrkt_dttm <= dt)
+        except:
+            pass
 
     workoutPages = query.order_by(Workout.wrkt_dttm.desc()).paginate(filterVal['page'], current_app.config['POSTS_PER_PAGE'], False)
-    next_url = url_for('main.workouts', page=workoutPages.next_num, type=filterVal['type'], category=filterVal['category'], temperature=filterVal['temperature'], distance=filterVal['distance'], text_search=filterVal['txt_search'], min_strt_temp=filterVal['min_strt_temp'], max_strt_temp=filterVal['max_strt_temp'], min_dist=filterVal['min_dist'], max_dist=filterVal['max_dist'] ) \
+    next_url = url_for('main.workouts', page=workoutPages.next_num, type=filterVal['type'], category=filterVal['category'], temperature=filterVal['temperature'], distance=filterVal['distance'], text_search=filterVal['txt_search'], min_strt_temp=filterVal['min_strt_temp'], max_strt_temp=filterVal['max_strt_temp'], min_dist=filterVal['min_dist'], max_dist=filterVal['max_dist'], strt_dt=filterVal['strt_dt'],
+    end_dt=filterVal['end_dt'] ) \
         if workoutPages.has_next else None
-    prev_url = url_for('main.workouts', page=workoutPages.prev_num, type=filterVal['type'], category=filterVal['category'], temperature=filterVal['temperature'], distance=filterVal['distance'], text_search=filterVal['txt_search'], min_strt_temp=filterVal['min_strt_temp'], max_strt_temp=filterVal['max_strt_temp'], min_dist=filterVal['min_dist'], max_dist=filterVal['max_dist']) \
+    prev_url = url_for('main.workouts', page=workoutPages.prev_num, type=filterVal['type'], category=filterVal['category'], temperature=filterVal['temperature'], distance=filterVal['distance'], text_search=filterVal['txt_search'], min_strt_temp=filterVal['min_strt_temp'], max_strt_temp=filterVal['max_strt_temp'], min_dist=filterVal['min_dist'], max_dist=filterVal['max_dist'], strt_dt=filterVal['strt_dt'],
+    end_dt=filterVal['end_dt']) \
         if workoutPages.has_prev else None
 
     workouts = workoutPages.items
@@ -476,8 +510,8 @@ def getFilterValuesFromUrl():
     filterVal['distance'] = round(float(distance),2) if nbrConv.isFloat(distance) else ''
     filterVal['txt_search'] = request.args.get('text_search', default='', type=str)
 
-    # filterVal['strt_dt'] = request.args.get('strt_dt', default='', type=date)
-    # filterVal['end_dt'] = request.args.get('end_dt', default='', type=date)
+    filterVal['strt_dt'] = request.args.get('strt_dt', default='', type=str)
+    filterVal['end_dt'] = request.args.get('end_dt', default='', type=str)
 
     min_dist = request.args.get('min_dist', default='', type=str)
     filterVal['min_dist'] = round(float(min_dist),2) if nbrConv.isFloat(min_dist) else ''
