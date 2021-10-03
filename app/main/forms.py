@@ -23,6 +23,9 @@ from app import logger
 class EmptyForm(FlaskForm):
     submit = SubmitField('Submit')
 
+class WorkoutCreateBtnForm(FlaskForm):
+    workt_create_btn = SubmitField('+')
+
 class WorkoutFilterForm(FlaskForm):
     category_run_btn = SubmitField(label='Run')
     category_cycle_btn = SubmitField(label='Cycle')

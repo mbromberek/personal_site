@@ -52,6 +52,7 @@ header.workout{
     position:absolute;
     right:0;
     top:15px;
+    padding-top:3px;
 }
 div.workout_filter_btn_container{
     float: left;
@@ -373,6 +374,7 @@ td.gear_usage_dtl{
     }
     .wrkts_search_field{
         top:0px;
+        padding-top:0px;
     }
     .wrkts_hdr_row{
         width:100%;

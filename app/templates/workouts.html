@@ -2,15 +2,24 @@
 {% from 'bootstrap/form.html' import render_form, render_field %}
 
 {% block app_content %}
-    <form action="" method="post" role="form" class="form">
+    <form action="" method="post" role="form" class="form" id='wrkt_search_form'>
+        {{ form.hidden_tag() }}
         <div class="wrkts_hdr_row" >
+            <div class="btn-toolbar wrkts_search_field">
+                <!-- will go in top right of the div but is at the top of the div code so enter key uses the search button -->
+                {{ wrkt_filter_form.text_search(style="border: 1px solid black;height:30px;width:130px; ", placeholder="Search..") }}
+                {{ render_field(wrkt_filter_form.submit_search_btn, class='btn btn-dark ', style='font-size:12pt;height:30px;padding-top:0px;padding-bottom:0px;') }}
+            </div>
             <div class="workouts" >
                 {{ current_user.displayname }}&#39;s workouts
             </div>
             <span class="hide_desktop"><br></span>
             <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups" style="margin-top:15px;">
                 <div class="btn-group" role="group" aria-label="Type group">
-                    {{ render_field(form.submit, class='btn btn-outline-dark wrkts_hdr_btn', style='font-size:20pt;height:40px;padding-top:0px;padding-bottom:0px;font-weight:bold;') }}
+                    <!-- <form action="" method="post" role="form" class="form" > -->
+                    {{ render_field(form.workt_create_btn, class='btn btn-outline-dark wrkts_hdr_btn', style='font-size:20pt;height:40px;padding-top:0px;padding-bottom:0px;font-weight:bold;') }}
+
+                    <!-- </form> -->
                     <div class="btn-group wrkts_hdr_btn" role="group" aria-label="Show or Hide Search"">
                         <input type="button"
                         class='btn btn-outline-dark workout_filter_btn_container',
@@ -23,15 +32,8 @@
                     </div>
                 </div>
             </div>
-            <div class="btn-toolbar wrkts_search_field">
-                {{ wrkt_filter_form.text_search(style="border: 1px solid black;height:30px;width:130px; ", placeholder="Search..") }}
-                {{ render_field(wrkt_filter_form.submit_search_btn, class='btn btn-dark ', style='font-size:12pt;height:30px;padding-top:0px;padding-bottom:0px;') }}
-            </div>
-            {{ form.hidden_tag() }}
+
         </div>
-    </form>
-    <form action="" method="post" role="form" class="form">
-        {{ form.hidden_tag() }}
         <div class="btn-toolbar wrkts_filter_row" role="toolbar" aria-label="Filter button groups" >
             <div class="btn-group mr-4" role="group" aria-label="Type group" >
                 {{ render_field(wrkt_filter_form.category_run_btn, class=btn_classes['run'] or 'btn btn-outline-dark') }}
@@ -57,22 +59,7 @@
             </div>
         </div>
 
-    </form>
-    <form action="JavaScript:wrktSearchBtn()" method="post" role="form" class="form">
         <div class="collapse {% if using_search %}show{% endif %}" id="extra_filter_fields" >
-            <!-- {# <div class="form-row ml-1">
-                {{ form.hidden_tag() }}
-
-                <div class="form-group wrkt_filter_field">
-                    {{ wrkt_filter_form.strt_temp_search.label }}:
-                    {{ wrkt_filter_form.strt_temp_search(style="border: 1px solid black; width:30px;") }}
-                </div>
-                <div class="form-grou wrkt_filter_field">
-                    {{ wrkt_filter_form.distance_search.label }}:
-                    {{ wrkt_filter_form.distance_search(style="border: 1px solid black; width:50px") }}
-                </div>
-            </div>#} -->
-
             <div class="form-row ml-1" id="extra_filter_fields" >
                 <div class="form-group wrkt_filter_field">
                     {{ wrkt_filter_form.strt_dt_srch.label( class="wrkt_filter_label") }}

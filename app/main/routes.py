@@ -18,7 +18,7 @@ from sqlalchemy import or_
 
 # Custom classes
 from app.main import bp
-from app.main.forms import EmptyForm, WorkoutForm, WorkoutFilterForm
+from app.main.forms import EmptyForm, WorkoutCreateBtnForm, WorkoutForm, WorkoutFilterForm
 from app.models import User, Workout, Workout_interval, Gear_usage, Wrkt_sum
 from app import db
 from app.utils import tm_conv, const, nbrConv
@@ -38,83 +38,94 @@ def index():
 @login_required
 def workouts():
     logger.info('workouts')
-    form = EmptyForm()
+    wrktCreateBtn = WorkoutCreateBtnForm()
     wrkt_filter_form = WorkoutFilterForm()
 
-    logger.debug('form.submit.data: ' + str(form.submit.data))
-    logger.debug('wrkt_filter_form.submit_search_btn.data: ' + str(wrkt_filter_form.submit_search_btn.data))
+
+
+    # logger.debug('wrktCreateBtn.submit.data: ' + str(wrktCreateBtn.submit.data))
+    # logger.debug('wrkt_filter_form.submit_search_btn.data: ' + str(wrkt_filter_form.submit_search_btn.data))
     # if New Workout button was pressed
-    if form.validate_on_submit() and form.submit.data:
+    if wrktCreateBtn.validate_on_submit() and wrktCreateBtn.workt_create_btn.data:
+        logger.debug('Create Workout Pressed')
         return redirect(url_for('main.edit_workout'))
-    form.submit.label.text = '+'
 
     url_change = False
     usingSearch = False
-    page = request.args.get('page', default=1, type=int)
-    type = request.args.get('type', default='')
-    category = request.args.get('category', default='')
-    temperature = request.args.get('temperature', default='', type=int)
-    distance = request.args.get('distance', default='', type=str)
-    distance = round(float(distance),2) if nbrConv.isFloat(distance) else ''
-    txtSearch = request.args.get('text_search', default='', type=str)
+    filterValFromPost = {}
+    filterValFromUrl = {}
 
-    # Redirect if category button was pressed
-    if wrkt_filter_form.category_run_btn.data:
+    if wrkt_filter_form.submit_search_btn.data:
+        logger.debug('Search Submit Pressed')
+        usingSearch=True
         url_change = True
-        type = 'run'
-    elif wrkt_filter_form.category_cycle_btn.data:
-        url_change = True
-        type = 'cycle'
-    elif wrkt_filter_form.category_swim_btn.data:
-        url_change = True
-        type='swim'
+        filterValFromPost = getFilterValuesFromPost(wrkt_filter_form)
+        filterVal = filterValFromPost
+    else:
+        filterValFromUrl = getFilterValuesFromUrl()
+        filterVal = filterValFromUrl
 
     # Redirect if type button was pressed
+    if wrkt_filter_form.category_run_btn.data:
+        logger.debug('Run Type Pressed')
+        url_change = True
+        filterVal['type'] = 'run'
+    elif wrkt_filter_form.category_cycle_btn.data:
+        logger.debug('Cycle Type Pressed')
+        url_change = True
+        filterVal['type'] = 'cycle'
+    elif wrkt_filter_form.category_swim_btn.data:
+        logger.debug('Swim Type Pressed')
+        url_change = True
+        filterVal['type']='swim'
+
+    # Redirect if category button was pressed
     if wrkt_filter_form.category_training_btn.data:
         url_change = True
-        category='training'
+        filterVal['category']='training'
     elif wrkt_filter_form.category_long_btn.data:
         url_change = True
-        category = 'long'
+        filterVal['category'] = 'long'
     elif wrkt_filter_form.category_easy_btn.data:
         url_change = True
-        category = 'easy'
+        filterVal['category'] = 'easy'
     elif wrkt_filter_form.category_race_btn.data:
         url_change = True
-        category = 'race'
+        filterVal['category'] = 'race'
 
     # Redirect if All button was pressed
     if wrkt_filter_form.clear_filter_btn.data:
+        logger.debug('Clear Pressed')
         return redirect(url_for('main.workouts'))
 
     if url_change:
-        return redirect(url_for('main.workouts', page=1, type=type, category=category, temperature=temperature, distance=distance, text_search=txtSearch))
+        return redirect(url_for('main.workouts', page=1, type=filterVal['type'], category=filterVal['category'], temperature=filterVal['temperature'], distance=filterVal['distance'], text_search=filterVal['txt_search']))
 
     type_filter = []
     category_filter = []
     btn_classes = {}
-    if type == 'run':
+    if filterVal['type'] == 'run':
         type_filter.extend(['Running','Indoor Running'])
         # run_btn_class = 'btn btn-primary'
         btn_classes['run'] = 'btn btn-primary'
-    if type == 'cycle':
+    if filterVal['type'] == 'cycle':
         type_filter.extend(['Cycling','Indoor Cycling'])
         btn_classes['cycle'] = 'btn btn-primary'
-    if type == 'swim':
+    if filterVal['type'] == 'swim':
         type_filter.extend(['Swimming','Indoor Swimming'])
         btn_classes['swim'] = 'btn btn-primary'
 
-    if category == 'training':
+    if filterVal['category'] == 'training':
         category_filter.extend(['Training', 'Hard'])
         # run_btn_class = 'btn btn-primary'
         btn_classes['training'] = 'btn btn-primary'
-    if category == 'long':
+    if filterVal['category'] == 'long':
         category_filter.extend(['Long Run', 'Long'])
         btn_classes['long'] = 'btn btn-primary'
-    if category == 'easy':
+    if filterVal['category'] == 'easy':
         category_filter.extend(['Easy'])
         btn_classes['easy'] = 'btn btn-primary'
-    if category == 'race':
+    if filterVal['category'] == 'race':
         category_filter.extend(['Race', 'Virtual Race'])
         btn_classes['race'] = 'btn btn-primary'
 
@@ -127,31 +138,31 @@ def workouts():
     if len(category_filter) >0:
         query = query.filter(Workout.category.in_(category_filter))
 
-    if temperature != '':
+    if filterVal['temperature'] != '':
         usingSearch = True
-        query = query.filter(Workout.temp_strt >= temperature \
+        query = query.filter(Workout.temp_strt >= filterVal['temperature'] \
         -current_app.config['TEMPERATURE_RANGE'])
-        query = query.filter(Workout.temp_strt <= temperature \
+        query = query.filter(Workout.temp_strt <= filterVal['temperature'] \
         +current_app.config['TEMPERATURE_RANGE'])
-        wrkt_filter_form.strt_temp_search.data = temperature
-    if distance != '':
+        wrkt_filter_form.strt_temp_search.data = filterVal['temperature']
+    if filterVal['distance'] != '':
         usingSearch = True
-        query = query.filter(Workout.dist_mi >= distance \
+        query = query.filter(Workout.dist_mi >= filterVal['distance'] \
         *(1-current_app.config['DISTANCE_RANGE']))
-        query = query.filter(Workout.dist_mi <= distance \
+        query = query.filter(Workout.dist_mi <= filterVal['distance'] \
         *(1+current_app.config['DISTANCE_RANGE']))
-        wrkt_filter_form.distance_search.data = distance
-    if txtSearch != '':
+        wrkt_filter_form.distance_search.data = filterVal['distance']
+    if filterVal['txt_search'] != '':
         usingSearch = True
         query = query.filter(
-            or_(Workout.training_type.ilike('%'+txtSearch+'%'), Workout.location.ilike('%'+txtSearch+'%'))
+            or_(Workout.training_type.ilike('%'+filterVal['txt_search']+'%'), Workout.location.ilike('%'+filterVal['txt_search']+'%'))
         )
-        wrkt_filter_form.text_search.data = txtSearch
+        wrkt_filter_form.text_search.data = filterVal['txt_search']
 
-    workoutPages = query.order_by(Workout.wrkt_dttm.desc()).paginate(page, current_app.config['POSTS_PER_PAGE'], False)
-    next_url = url_for('main.workouts', page=workoutPages.next_num, type=type, category=category, temperature=temperature, distance=distance, text_search=txtSearch) \
+    workoutPages = query.order_by(Workout.wrkt_dttm.desc()).paginate(filterVal['page'], current_app.config['POSTS_PER_PAGE'], False)
+    next_url = url_for('main.workouts', page=workoutPages.next_num, type=filterVal['type'], category=filterVal['category'], temperature=filterVal['temperature'], distance=filterVal['distance'], text_search=filterVal['txt_search']) \
         if workoutPages.has_next else None
-    prev_url = url_for('main.workouts', page=workoutPages.prev_num, type=type, category=category, temperature=temperature, distance=distance, text_search=txtSearch) \
+    prev_url = url_for('main.workouts', page=workoutPages.prev_num, type=filterVal['type'], category=filterVal['category'], temperature=filterVal['temperature'], distance=filterVal['distance'], text_search=filterVal['txt_search']) \
         if workoutPages.has_prev else None
 
     workouts = workoutPages.items
@@ -165,7 +176,7 @@ def workouts():
             # workout.notes_summmary = workout.notes
         else:
             workout.notes_summary = ""
-    return render_template('workouts.html', title='Workouts', workouts=workouts, form=form, wrkt_filter_form=wrkt_filter_form, btn_classes=btn_classes, next_url=next_url, prev_url=prev_url, using_search=usingSearch)
+    return render_template('workouts.html', title='Workouts', workouts=workouts, form=wrktCreateBtn, wrkt_filter_form=wrkt_filter_form, btn_classes=btn_classes, next_url=next_url, prev_url=prev_url, using_search=usingSearch)
 
 @bp.route('/edit_workout', methods=['GET','POST'])
 @login_required
@@ -424,3 +435,34 @@ def getInsertPoint(wrkt_sum, wrkt_sum_lst):
                 return i
         i=i+1
     return i
+
+
+def getFilterValuesFromPost(form):
+    filterVal = {}
+    filterVal['temperature'] = form.strt_temp_search.data
+    filterVal['distance'] = form.distance_search.data
+    filterVal['txt_search'] = form.text_search.data
+    filterVal['show_filter'] = form.show_filter_btn.data
+    filterVal['strt_dt'] = form.strt_dt_srch.data
+    filterVal['end_dt'] = form.end_dt_srch.data
+    filterVal['min_dist'] = form.min_dist_srch.data
+    filterVal['max_dist'] = form.max_dist_srch.data
+    filterVal['min_strt_temp'] = form.min_strt_temp_srch.data
+    filterVal['max_strt_temp'] = form.max_strt_temp_srch.data
+    filterVal['type'] = ''
+    filterVal['category'] = ''
+
+    return filterVal
+
+def getFilterValuesFromUrl():
+    filterVal = {}
+
+    filterVal['page'] = request.args.get('page', default=1, type=int)
+    filterVal['type'] = request.args.get('type', default='')
+    filterVal['category'] = request.args.get('category', default='')
+    filterVal['temperature'] = request.args.get('temperature', default='', type=int)
+    distance = request.args.get('distance', default='', type=str)
+    filterVal['distance'] = round(float(distance),2) if nbrConv.isFloat(distance) else ''
+    filterVal['txt_search'] = request.args.get('text_search', default='', type=str)
+
+    return filterVal
