@@ -39,7 +39,7 @@ class WorkoutFilterForm(FlaskForm):
     clear_filter_btn = SubmitField(label='Clear Filter')
 
     strt_temp_search = DecimalField('Temperature', validators=[Optional()], places=0, rounding=decimal.ROUND_UP)
-    distance_search = DecimalField('Distance', validators=[Optional()], places=2, rounding=decimal.ROUND_UP)
+    distance_search = DecimalField('Distance', validators=[Optional()], places=0, rounding=decimal.ROUND_UP)
     submit_search_btn = SubmitField('🔎')
 
     text_search = StringField('Text', validators=[Optional()])
@@ -48,8 +48,8 @@ class WorkoutFilterForm(FlaskForm):
 
     strt_dt_srch = DateField('Start Dt:', format='%Y-%m-%d',validators=[Optional()])
     end_dt_srch = DateField('End Dt:', format='%Y-%m-%d',validators=[Optional()])
-    min_dist_srch = DecimalField('Min Dist:', validators=[Optional()], places=2, rounding=decimal.ROUND_UP)
-    max_dist_srch = DecimalField('Max Dist:', validators=[Optional()], places=2, rounding=decimal.ROUND_UP)
+    min_dist_srch = DecimalField('Min Dist:', validators=[Optional()], places=0, rounding=decimal.ROUND_UP)
+    max_dist_srch = DecimalField('Max Dist:', validators=[Optional()], places=0, rounding=decimal.ROUND_UP)
     min_strt_temp_srch = DecimalField('Min Temp:', validators=[Optional()], places=0, rounding=decimal.ROUND_UP)
     max_strt_temp_srch = DecimalField('Max Temp:', validators=[Optional()], places=0, rounding=decimal.ROUND_UP)
 
