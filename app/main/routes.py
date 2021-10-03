@@ -96,7 +96,7 @@ def workouts():
         return redirect(url_for('main.workouts'))
 
     if url_change:
-        return redirect(url_for('main.workouts', page=1, type=filterVal['type'], category=filterVal['category'], temperature=filterVal['temperature'], distance=filterVal['distance'], text_search=filterVal['txt_search']))
+        return redirect(url_for('main.workouts', page=1, type=filterVal['type'], category=filterVal['category'], temperature=filterVal['temperature'], distance=filterVal['distance'], text_search=filterVal['txt_search'], min_strt_temp=filterVal['min_strt_temp'], max_strt_temp=filterVal['max_strt_temp'], min_dist=filterVal['min_dist'], max_dist=filterVal['max_dist']  ))
 
     type_filter = []
     category_filter = []
@@ -136,30 +136,46 @@ def workouts():
         query = query.filter(Workout.category.in_(category_filter))
 
     if filterVal['temperature'] != '':
-        usingSearch = True
+        # usingSearch = True
         query = query.filter(Workout.temp_strt >= filterVal['temperature'] \
         -current_app.config['TEMPERATURE_RANGE'])
         query = query.filter(Workout.temp_strt <= filterVal['temperature'] \
         +current_app.config['TEMPERATURE_RANGE'])
         wrkt_filter_form.strt_temp_search.data = filterVal['temperature']
     if filterVal['distance'] != '':
-        usingSearch = True
+        # usingSearch = True
         query = query.filter(Workout.dist_mi >= filterVal['distance'] \
         *(1-current_app.config['DISTANCE_RANGE']))
         query = query.filter(Workout.dist_mi <= filterVal['distance'] \
         *(1+current_app.config['DISTANCE_RANGE']))
         wrkt_filter_form.distance_search.data = filterVal['distance']
     if filterVal['txt_search'] != '':
-        usingSearch = True
         query = query.filter(
             or_(Workout.training_type.ilike('%'+filterVal['txt_search']+'%'), Workout.location.ilike('%'+filterVal['txt_search']+'%'))
         )
         wrkt_filter_form.text_search.data = filterVal['txt_search']
 
+    if filterVal['min_strt_temp'] != '':
+        usingSearch = True
+        wrkt_filter_form.min_strt_temp_srch.data = filterVal['min_strt_temp']
+        query = query.filter(Workout.temp_strt >= filterVal['min_strt_temp'])
+    if filterVal['max_strt_temp'] != '':
+        usingSearch = True
+        wrkt_filter_form.max_strt_temp_srch.data = filterVal['max_strt_temp']
+        query = query.filter(Workout.temp_strt <= filterVal['max_strt_temp'])
+    if filterVal['min_dist'] != '':
+        usingSearch = True
+        wrkt_filter_form.min_dist_srch.data = filterVal['min_dist']
+        query = query.filter(Workout.dist_mi >= filterVal['min_dist'])
+    if filterVal['max_dist'] != '':
+        usingSearch = True
+        wrkt_filter_form.max_dist_srch.data = filterVal['max_dist']
+        query = query.filter(Workout.dist_mi <= filterVal['max_dist'])
+
     workoutPages = query.order_by(Workout.wrkt_dttm.desc()).paginate(filterVal['page'], current_app.config['POSTS_PER_PAGE'], False)
-    next_url = url_for('main.workouts', page=workoutPages.next_num, type=filterVal['type'], category=filterVal['category'], temperature=filterVal['temperature'], distance=filterVal['distance'], text_search=filterVal['txt_search']) \
+    next_url = url_for('main.workouts', page=workoutPages.next_num, type=filterVal['type'], category=filterVal['category'], temperature=filterVal['temperature'], distance=filterVal['distance'], text_search=filterVal['txt_search'], min_strt_temp=filterVal['min_strt_temp'], max_strt_temp=filterVal['max_strt_temp'], min_dist=filterVal['min_dist'], max_dist=filterVal['max_dist'] ) \
         if workoutPages.has_next else None
-    prev_url = url_for('main.workouts', page=workoutPages.prev_num, type=filterVal['type'], category=filterVal['category'], temperature=filterVal['temperature'], distance=filterVal['distance'], text_search=filterVal['txt_search']) \
+    prev_url = url_for('main.workouts', page=workoutPages.prev_num, type=filterVal['type'], category=filterVal['category'], temperature=filterVal['temperature'], distance=filterVal['distance'], text_search=filterVal['txt_search'], min_strt_temp=filterVal['min_strt_temp'], max_strt_temp=filterVal['max_strt_temp'], min_dist=filterVal['min_dist'], max_dist=filterVal['max_dist']) \
         if workoutPages.has_prev else None
 
     workouts = workoutPages.items
@@ -439,15 +455,12 @@ def getFilterValuesFromPost(form):
     filterVal['temperature'] = form.strt_temp_search.data
     filterVal['distance'] = form.distance_search.data
     filterVal['txt_search'] = form.text_search.data
-    filterVal['show_filter'] = form.show_filter_btn.data
     filterVal['strt_dt'] = form.strt_dt_srch.data
     filterVal['end_dt'] = form.end_dt_srch.data
     filterVal['min_dist'] = form.min_dist_srch.data
     filterVal['max_dist'] = form.max_dist_srch.data
     filterVal['min_strt_temp'] = form.min_strt_temp_srch.data
     filterVal['max_strt_temp'] = form.max_strt_temp_srch.data
-    filterVal['type'] = ''
-    filterVal['category'] = ''
 
     return filterVal
 
@@ -457,9 +470,21 @@ def getFilterValuesFromUrl():
     filterVal['page'] = request.args.get('page', default=1, type=int)
     filterVal['type'] = request.args.get('type', default='')
     filterVal['category'] = request.args.get('category', default='')
+
     filterVal['temperature'] = request.args.get('temperature', default='', type=int)
     distance = request.args.get('distance', default='', type=str)
     filterVal['distance'] = round(float(distance),2) if nbrConv.isFloat(distance) else ''
     filterVal['txt_search'] = request.args.get('text_search', default='', type=str)
+
+    # filterVal['strt_dt'] = request.args.get('strt_dt', default='', type=date)
+    # filterVal['end_dt'] = request.args.get('end_dt', default='', type=date)
+
+    min_dist = request.args.get('min_dist', default='', type=str)
+    filterVal['min_dist'] = round(float(min_dist),2) if nbrConv.isFloat(min_dist) else ''
+    max_dist = request.args.get('max_dist', default='', type=str)
+    filterVal['max_dist'] = round(float(max_dist),2) if nbrConv.isFloat(max_dist) else ''
+
+    filterVal['min_strt_temp'] = request.args.get('min_strt_temp', default='', type=int)
+    filterVal['max_strt_temp'] = request.args.get('max_strt_temp', default='', type=int)
 
     return filterVal
