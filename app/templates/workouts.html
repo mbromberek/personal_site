@@ -3,84 +3,102 @@
 
 {% block app_content %}
     <form action="" method="post" role="form" class="form">
-        <div style="overflow:auto; margin-top:5px; ">
-            <header class="workouts" style="float: left;"">
+        <div class="wrkts_hdr_row" >
+            <div class="workouts" >
                 {{ current_user.displayname }}&#39;s workouts
-            </header>
-            <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups" style="padding-bottom: 25px;margin-top:15px;">
-                <div class="btn-group mr-4" role="group" aria-label="Type group">
-                    {{ render_field(form.submit, class='btn btn-dark ', style='font-size:20pt;height:40px;padding-top:0px;padding-bottom:0px;font-weight:bold;margin-left:20px;') }}
-                    <!-- <div class="workout_filter_btn_container"
-                        onmouseover="hoverFilterToggle(this);" onmouseout="unHoverFilterToggle(this);" onclick="filterToggle(this);">
-                        <img id="filter_toggle_img"
-                            alt="Toggle Additional Filters"
-                            src="{{ url_for('static', filename='images/icons8-filter-50.png') }}" width='20px' height='20px'
-                        >
-                    </div> -->
-                    <div class="btn-group" role="group" aria-label="Clear group" style="margin-left:20px;">
+            </div>
+            <span class="hide_desktop"><br></span>
+            <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups" style="margin-top:15px;">
+                <div class="btn-group" role="group" aria-label="Type group">
+                    {{ render_field(form.submit, class='btn btn-outline-dark wrkts_hdr_btn', style='font-size:20pt;height:40px;padding-top:0px;padding-bottom:0px;font-weight:bold;') }}
+                    <div class="btn-group wrkts_hdr_btn" role="group" aria-label="Show or Hide Search"">
                         <input type="button"
                         class='btn btn-outline-dark workout_filter_btn_container',
                         onclick="filterToggle(this);"
                         value="{% if using_search %}Hide{% else %}Show{% endif %} Search" id="show_hide_filter_btn"
                         />
                     </div>
-
-                <div class="btn-group" role="group" aria-label="Clear group" style="margin-left:20px;">
-                    {{ render_field(wrkt_filter_form.clear_filter_btn, class='btn btn-outline-dark', style="height:40px;") }}
+                    <div class="btn-group wrkts_hdr_btn" role="group" aria-label="Clear group">
+                        {{ render_field(wrkt_filter_form.clear_filter_btn, class='btn btn-outline-dark', style="height:40px;") }}
+                    </div>
                 </div>
             </div>
+            <div class="btn-toolbar wrkts_search_field">
+                {{ wrkt_filter_form.text_search(style="border: 1px solid black;height:30px;width:130px; ", placeholder="Search..") }}
+                {{ render_field(wrkt_filter_form.submit_search_btn, class='btn btn-dark ', style='font-size:12pt;height:30px;padding-top:0px;padding-bottom:0px;') }}
             </div>
             {{ form.hidden_tag() }}
         </div>
     </form>
     <form action="" method="post" role="form" class="form">
         {{ form.hidden_tag() }}
-        <div class="btn-toolbar pt-4 pb-4" role="toolbar" aria-label="Filter button groups" style="padding-bottom: 25px;">
-            <div class="btn-group mr-4" role="group" aria-label="Type group">
+        <div class="btn-toolbar wrkts_filter_row" role="toolbar" aria-label="Filter button groups" >
+            <div class="btn-group mr-4" role="group" aria-label="Type group" >
                 {{ render_field(wrkt_filter_form.category_run_btn, class=btn_classes['run'] or 'btn btn-outline-dark') }}
                 {{ render_field(wrkt_filter_form.category_cycle_btn, class=btn_classes['cycle'] or 'btn btn-outline-dark') }}
                 {{ render_field(wrkt_filter_form.category_swim_btn, class=btn_classes['swim'] or 'btn btn-outline-dark') }}
             </div>
-            <div class="btn-group mr-4" role="group" aria-label="Category group">
-                {{ render_field(wrkt_filter_form.category_training_btn, class=btn_classes['training'] or 'btn btn-outline-dark') }}
+            <div class="btn-group mr-4" role="group" aria-label="Category group" >
+                {{ render_field(wrkt_filter_form.category_training_btn, class=btn_classes['training'] or 'btn btn-outline-dark ') }}
                 {{ render_field(wrkt_filter_form.category_long_btn, class=btn_classes['long'] or 'btn btn-outline-dark') }}
                 {{ render_field(wrkt_filter_form.category_easy_btn, class=btn_classes['easy'] or 'btn btn-outline-dark') }}
                 {{ render_field(wrkt_filter_form.category_race_btn, class=btn_classes['race'] or 'btn btn-outline-dark') }}
             </div>
+
+            <div style="display:inline; padding-top:3px; ">
+                <div class=" wrkt_filter_field" style="display:inline;">
+                    {{ wrkt_filter_form.strt_temp_search.label }}:
+                    {{ wrkt_filter_form.strt_temp_search(style="border: 1px solid black; width:30px;") }}
+                </div>
+                <div class=" wrkt_filter_field" style="display:inline;margin-right:0px;">
+                    {{ wrkt_filter_form.distance_search.label }}:
+                    {{ wrkt_filter_form.distance_search(style="border: 1px solid black; width:50px") }}
+                </div>
+            </div>
         </div>
+
     </form>
     <form action="JavaScript:wrktSearchBtn()" method="post" role="form" class="form">
         <div class="collapse {% if using_search %}show{% endif %}" id="extra_filter_fields" >
-            <div class="form-row ml-1">
+            <!-- {# <div class="form-row ml-1">
                 {{ form.hidden_tag() }}
-                <!-- Search Fields -->
-                <div class="form-group mr-4">
-                    {{ render_field(wrkt_filter_form.submit_search_btn, class='btn btn-dark ', style='font-size:15pt;height:33px;padding-top:0px;padding-bottom:0px;') }}
-                </div>
-                <div class="form-group  mr-4">
-                    {{ wrkt_filter_form.text_search(size=10, style="border: 1px solid black;", placeholder="Search..") }}
-                </div>
-                <div class="form-group mr-4">
+
+                <div class="form-group wrkt_filter_field">
                     {{ wrkt_filter_form.strt_temp_search.label }}:
-                    {{ wrkt_filter_form.strt_temp_search(size=3, style="border: 1px solid black;") }}
+                    {{ wrkt_filter_form.strt_temp_search(style="border: 1px solid black; width:30px;") }}
                 </div>
-                <div class="form-group  mr-4">
+                <div class="form-grou wrkt_filter_field">
                     {{ wrkt_filter_form.distance_search.label }}:
-                    {{ wrkt_filter_form.distance_search(size=5, style="border: 1px solid black;") }}
+                    {{ wrkt_filter_form.distance_search(style="border: 1px solid black; width:50px") }}
+                </div>
+            </div>#} -->
+
+            <div class="form-row ml-1" id="extra_filter_fields" >
+                <div class="form-group wrkt_filter_field">
+                    {{ wrkt_filter_form.strt_dt_srch.label( class="wrkt_filter_label") }}
+                    {{ wrkt_filter_form.strt_dt_srch(style="border: 1px solid black; width:130px;") }}
+                </div>
+                <div class="form-group wrkt_filter_field">
+                    {{ wrkt_filter_form.end_dt_srch.label( class="wrkt_filter_label") }}
+                    {{ wrkt_filter_form.end_dt_srch(style="border: 1px solid black; width:130px;") }}
                 </div>
             </div>
             <div class="form-row ml-1" id="extra_filter_fields" >
-                <div class="form-group  mr-5">
-                    Min Dist:
+                <div class="form-group wrkt_filter_field">
+                    {{ wrkt_filter_form.min_dist_srch.label( class="wrkt_filter_label") }}
+                    {{ wrkt_filter_form.min_dist_srch(style="border: 1px solid black; width:50px") }}
                 </div>
-                <div class="form-group  mr-5">
-                    Max Dist:
+                <div class="form-group wrkt_filter_field">
+                    {{ wrkt_filter_form.max_dist_srch.label( class="wrkt_filter_label") }}
+                    {{ wrkt_filter_form.max_dist_srch(style="border: 1px solid black; width:50px") }}
                 </div>
-                <div class="form-group  mr-5">
-                    Min Temp:
+                <div class="form-group wrkt_filter_field">
+                    {{ wrkt_filter_form.min_strt_temp_srch.label( class="wrkt_filter_label") }}
+                    {{ wrkt_filter_form.min_strt_temp_srch(style="border: 1px solid black; width:50px;") }}
                 </div>
-                <div class="form-group  mr-5">
-                    Max Temp:
+                <div class="form-group wrkt_filter_field">
+                    {{ wrkt_filter_form.max_strt_temp_srch.label( class="wrkt_filter_label") }}
+                    {{ wrkt_filter_form.max_strt_temp_srch(style="border: 1px solid black; width:50px;") }}
                 </div>
             </div>
         </div>

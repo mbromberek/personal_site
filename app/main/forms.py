@@ -43,6 +43,12 @@ class WorkoutFilterForm(FlaskForm):
 
     show_filter_btn = SubmitField(label='Show Filters')
 
+    strt_dt_srch = DateField('Start Dt:', format='%Y-%m-%d',validators=[Optional()])
+    end_dt_srch = DateField('End Dt:', format='%Y-%m-%d',validators=[Optional()])
+    min_dist_srch = DecimalField('Min Dist:', validators=[Optional()], places=2, rounding=decimal.ROUND_UP)
+    max_dist_srch = DecimalField('Max Dist:', validators=[Optional()], places=2, rounding=decimal.ROUND_UP)
+    min_strt_temp_srch = DecimalField('Min Temp:', validators=[Optional()], places=0, rounding=decimal.ROUND_UP)
+    max_strt_temp_srch = DecimalField('Max Temp:', validators=[Optional()], places=0, rounding=decimal.ROUND_UP)
 
 class WorkoutForm(FlaskForm):
     wrkt_id = HiddenField()

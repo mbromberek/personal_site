@@ -12,11 +12,12 @@
     cursor:pointer;
 }*/
 
-header.workouts{
+.workouts{
     font-weight:normal;
     font-size: 30pt;
     text-align: left;
     vertical-align: middle;
+    float: left;
 }
 header.workout{
     font-weight:bold;
@@ -24,7 +25,34 @@ header.workout{
     text-align: left;
 
 }
+.wrkts_hdr_row{
+    overflow:auto;
+    position:relative;
+    margin-top:15px;
+    padding-bottom: 25px;
+    width:800px;
+}
+.wrkts_filter_row{
+    padding-bottom: 25px;
+    margin-top:0px;
+    padding-top:0px;
+    width:800px;
+}
+.hide_desktop{
+    display:none;
+}
 
+.wrkt_filter_field{
+    margin-right:10px;
+}
+.wrkt_filter_label{
+
+}
+.wrkts_search_field{
+    position:absolute;
+    right:0;
+    top:15px;
+}
 div.workout_filter_btn_container{
     float: left;
     /* margin-top:15px; */
@@ -41,12 +69,16 @@ div.workout_filter_btn_container:hover{
 }
 
 input.workout_filter_btn_container{
-    margin-left:20px;
     height:40px;
     width:120px;
 }
 input.workout_filter_btn_container:hover{
     cursor: pointer;
+}
+.wrkts_hdr_btn{
+    margin-left:20px;
+    margin-right:20px;
+    /* border:1px solid red; */
 }
 
 .workout-header{
@@ -260,8 +292,10 @@ td.gear_usage_dtl{
 
 @media only screen and (max-width:500px) {
     /* For mobile phones: */
-    header.workouts{
+    .workouts{
         font-size: 13pt;
+        display:inline-block;
+
     }
     header.workout{
         font-size: 13pt;
@@ -298,6 +332,9 @@ td.gear_usage_dtl{
     .hide_mobile{
         display:none;
     }
+    .hide_desktop{
+        display:inline;
+    }
     .workouts_detail_separators{
         width:100%;
         margin-left:0%;
@@ -327,6 +364,26 @@ td.gear_usage_dtl{
     .wrkt_section_notes{
         width:150%;
     }
+    .wrkts_hdr_btn{
+        margin-right:0px;
+        margin-left:5px;
+    }
+    .wrkts_hdr_row{
+
+    }
+    .wrkts_search_field{
+        top:0px;
+    }
+    .wrkts_hdr_row{
+        width:100%;
+    }
+    .wrkts_filter_row{
+        width:100%;
+    }
+    .wrkt_filter_label{
+        width:80px;
+    }
+
 }
 
 
