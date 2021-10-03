@@ -98,12 +98,12 @@ def workouts():
 
 
     if url_change:
-        if filterVal['strt_dt'] != '' and filterVal['strt_dt'] == 'None':
+        if filterVal['strt_dt'] != '' and filterVal['strt_dt'] != None:
             logger.debug(filterVal['strt_dt'])
             strt_dt_str = filterVal['strt_dt'].strftime('%Y-%m-%d')
         else:
             strt_dt_str = ''
-        if filterVal['end_dt'] != '' and filterVal['end_dt'] == 'None':
+        if filterVal['end_dt'] != '' and filterVal['end_dt'] != None:
             logger.debug(filterVal['end_dt'])
             end_dt_str = filterVal['end_dt'].strftime('%Y-%m-%d')
         else:
@@ -490,6 +490,7 @@ def getFilterValuesFromPost(form):
     filterVal['distance'] = form.distance_search.data
     filterVal['txt_search'] = form.text_search.data
     filterVal['strt_dt'] = form.strt_dt_srch.data
+    logger.debug(str(filterVal['strt_dt']))
     filterVal['end_dt'] = form.end_dt_srch.data
     filterVal['min_dist'] = form.min_dist_srch.data
     filterVal['max_dist'] = form.max_dist_srch.data
