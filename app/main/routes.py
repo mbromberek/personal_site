@@ -41,19 +41,15 @@ def workouts():
     wrktCreateBtn = WorkoutCreateBtnForm()
     wrkt_filter_form = WorkoutFilterForm()
 
-
-
-    # logger.debug('wrktCreateBtn.submit.data: ' + str(wrktCreateBtn.submit.data))
-    # logger.debug('wrkt_filter_form.submit_search_btn.data: ' + str(wrkt_filter_form.submit_search_btn.data))
     # if New Workout button was pressed
-    if wrktCreateBtn.validate_on_submit() and wrktCreateBtn.workt_create_btn.data:
+    if wrktCreateBtn.workt_create_btn.data:
         logger.debug('Create Workout Pressed')
         return redirect(url_for('main.edit_workout'))
 
     url_change = False
     usingSearch = False
     filterValFromPost = {}
-    filterValFromUrl = {}
+    filterValFromUrl = getFilterValuesFromUrl()
 
     if wrkt_filter_form.submit_search_btn.data:
         logger.debug('Search Submit Pressed')
@@ -61,8 +57,9 @@ def workouts():
         url_change = True
         filterValFromPost = getFilterValuesFromPost(wrkt_filter_form)
         filterVal = filterValFromPost
+        filterVal['type'] = filterValFromUrl['type']
+        filterVal['category'] = filterValFromUrl['category']
     else:
-        filterValFromUrl = getFilterValuesFromUrl()
         filterVal = filterValFromUrl
 
     # Redirect if type button was pressed
