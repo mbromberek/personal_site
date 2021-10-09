@@ -153,12 +153,14 @@
             </legend>
             <div class="form-row">
                 Clothes:
+
                 {% if workout.notes != None %}
-                    {{ workout.clothes }}
+                    <span id='workout_clothes' >{{ workout.clothes }}</span>
                 {% else %}
                     &nbsp;
                 {% endif %}
-                <br>
+            </div>
+            <div class="form-row">
                 {% if 'run' in workout.type.lower() %}
                 Shoes:
                 {% elif 'cycl' in workout.type.lower() %}
@@ -177,9 +179,11 @@
             </legend>
             <div>
                 {% if workout.notes != None %}
+                    <span id='workout_notes' >
                     {% autoescape false %}
                     {{ workout.notes | replace('&','&#38;') | replace('<','&#60;') | replace('>','&#62;') | replace('"','&#34;') | replace('\'','&#39;') | replace('\n', '<br/>') }}
                     {% endautoescape %}
+                    </span>
                 {% else %}
                     &nbsp;
                 {% endif %}
@@ -301,5 +305,11 @@
     {% endif %}
 
 
+    </div>
+    <div>
+        <form action="JavaScript:copyNotes()" role="form" class="form" style="margin-top:15px;">
+            <input type="submit" value="Copy Notes +">
+
+        </form>
     </div>
 {% endblock %}

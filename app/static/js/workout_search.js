@@ -1,19 +1,3 @@
-// let extraFiltersVisible = false;
-// btnPress = '';
-//
-// function filterBtn(eleId){
-//     console.log("filterBtn: " + eleId);
-//     btnPress=eleId;
-//
-//     var urlOrig = window.location.href;
-//     var urlNoParm = urlOrig.split('?')[0];
-//     var urlParmDict = brkdUrlParms(urlOrig.split('?')[1]);
-//
-//     if (eleId == 'clear_filter_btn'){
-//         window.location.href = urlNoParm
-//     }
-// }
-
 /*
 */
 // function wrktSearchBtn(){
@@ -108,4 +92,45 @@ function filterToggle(element){
             // console.log('hide');
             ele.setAttribute('value', 'Show Search');
         });
+}
+
+function copyNotes(){
+    console.log("Copy Notes +");
+    var clothesEle = document.getElementById('workout_clothes');
+    var clothesVal = '';
+    if (clothesEle != null){
+        clothesVal = clothesEle.innerHTML;
+    }
+    console.log(clothesVal);
+
+    var notesEle = document.getElementById('workout_notes');
+    var notesVal = '';
+    if (notesEle != null){
+        notesVal = notesEle.innerHTML.replaceAll('\<br\>','\n').trim();
+    }
+    console.log(notesVal);
+
+    var wthrStrtEle = document.getElementById('workout_weather_start');
+    var wthrStrtVal = '';
+    if (wthrStrtEle != null){
+        // Convert 2 or more spaces between words into single space
+        wthrStrtVal = wthrStrtEle.innerHTML.replace(/\s{2,}/g,' ').trim();
+    }
+    console.log(wthrStrtVal);
+
+    var wthrEndEle = document.getElementById('workout_weather_end');
+    var wthrEndVal = '';
+    if (wthrEndEle != null){
+        wthrEndVal = wthrEndEle.innerHTML.replace(/\s{2,}/g,' ').trim();
+    }
+    console.log(wthrEndVal);
+
+    combinedNotes = wthrStrtVal + '\n' +
+        wthrEndVal + '\n' +
+        clothesVal + '\n' +
+        notesVal;
+    console.log(combinedNotes);
+
+    navigator.clipboard.writeText(combinedNotes);
+
 }

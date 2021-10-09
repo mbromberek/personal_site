@@ -1,4 +1,4 @@
-<div >
+<div id='workout_weather_start'>
     Start:
     {% if workout.temp_strt %}
         {{ workout.temp_strt|round|int }}&#176;
@@ -24,7 +24,7 @@
         gust {{ workout.wind_gust_strt|round|int }}.
     {% endif %}
 </div>
-<div>
+<div id='workout_weather_end'>
     End:
     {% if workout.temp_end %}
         {{ workout.temp_end|round|int }}&#176;
