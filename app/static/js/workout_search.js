@@ -101,14 +101,14 @@ function copyNotes(){
     if (clothesEle != null){
         clothesVal = clothesEle.innerHTML;
     }
-    console.log(clothesVal);
+    // console.log(clothesVal);
 
     var notesEle = document.getElementById('workout_notes');
     var notesVal = '';
     if (notesEle != null){
         notesVal = notesEle.innerHTML.replaceAll('\<br\>','\n').trim();
     }
-    console.log(notesVal);
+    // console.log(notesVal);
 
     var wthrStrtEle = document.getElementById('workout_weather_start');
     var wthrStrtVal = '';
@@ -116,20 +116,20 @@ function copyNotes(){
         // Convert 2 or more spaces between words into single space
         wthrStrtVal = wthrStrtEle.innerHTML.replace(/\s{2,}/g,' ').trim();
     }
-    console.log(wthrStrtVal);
+    // console.log(wthrStrtVal);
 
     var wthrEndEle = document.getElementById('workout_weather_end');
     var wthrEndVal = '';
     if (wthrEndEle != null){
         wthrEndVal = wthrEndEle.innerHTML.replace(/\s{2,}/g,' ').trim();
     }
-    console.log(wthrEndVal);
+    // console.log(wthrEndVal);
 
     combinedNotes = wthrStrtVal + '\n' +
         wthrEndVal + '\n' +
         clothesVal + '\n' +
         notesVal;
-    console.log(combinedNotes);
+    // console.log(combinedNotes);
 
     navigator.clipboard.writeText(combinedNotes);
 
