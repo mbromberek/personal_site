@@ -226,7 +226,7 @@ def workouts():
             # workout.notes_summmary = workout.notes
         else:
             workout.notes_summary = ""
-    return render_template('workouts.html', title='Workouts', workouts=workouts, form=wrktCreateBtn, wrkt_filter_form=wrkt_filter_form, btn_classes=btn_classes, next_url=next_url, prev_url=prev_url, using_search=usingSearch)
+    return render_template('workouts.html', title='Workouts', workouts=workouts, form=wrktCreateBtn, wrkt_filter_form=wrkt_filter_form, btn_classes=btn_classes, next_url=next_url, prev_url=prev_url, using_search=usingSearch, destPage='search')
 
 @bp.route('/edit_workout', methods=['GET','POST'])
 @login_required
@@ -385,7 +385,7 @@ def edit_workout():
         # logger.debug('Create Workout')
         # label_val['title'] = 'Create Workout'
 
-    return render_template('edit_workout.html', label_val=label_val, form=form)
+    return render_template('edit_workout.html', label_val=label_val, form=form, destPage = 'edit')
 
 # @bp.route('/testing', methods=['GET','POST'])
 # @login_required
@@ -443,7 +443,7 @@ def workout():
             segment_intrvl_lst.append(intrvl)
 
     return render_template('workout.html', workout=workout, \
-      mile_intrvl_lst=mile_intrvl_lst, segment_intrvl_lst=segment_intrvl_lst)
+      mile_intrvl_lst=mile_intrvl_lst, segment_intrvl_lst=segment_intrvl_lst, destPage = 'edit')
 
 
 @bp.route('/dashboard', methods=['GET'])
