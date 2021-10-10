@@ -134,3 +134,41 @@ function copyNotes(){
     navigator.clipboard.writeText(combinedNotes);
 
 }
+
+async function pasteNotes(){
+    console.log("Paste Notes");
+
+    var clothesEle = document.getElementById('clothes');
+    var notesEle = document.getElementById('notes');
+    const clothesPattern = /(Shorts|Tights)(.{0,125}?)(\.|\n)/g;
+
+
+    // navigator.clipboard.readText().then(text => clothesNotesTxt = text);
+    // clothesNotesTxt = document.execCommand("paste");
+    try {
+        const clothesNotesTxt = await navigator.clipboard.readText();
+        console.log('Pasted content: ', clothesNotesTxt);
+
+        // var matchClothes = re.search(clothesPattern,rec, flags=re.IGNORECASE)
+        var matchClothes = clothesNotesTxt.match(clothesPattern);
+        var clothesLen = 0;
+        console.log('match Clothes: ', matchClothes);
+
+        if (clothesEle != null && matchClothes.length >0){
+            clothesEle.value = matchClothes[0];
+            clothesLen = matchClothes[0].length;
+        }
+        if (notesEle != null){
+            if (notesEle.value == null || notesEle.value == ''){
+                notesEle.value = clothesNotesTxt.substr(clothesLen).trim() + '\n' + notesEle.value;
+            }else{
+                notesEle.value = clothesNotesTxt.substr(clothesLen).trim();
+            }
+        }
+
+
+    } catch (err) {
+      console.error('Failed to read clipboard contents: ', err);
+    }
+
+}
