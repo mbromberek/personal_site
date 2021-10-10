@@ -10,7 +10,7 @@ function copyNotes(){
     var notesEle = document.getElementById('workout_notes');
     var notesVal = '';
     if (notesEle != null){
-        notesVal = notesEle.innerHTML.replaceAll('\<br\>','').trim();
+        notesVal = notesEle.innerHTML.replaceAll('\<br\>','\n').trim();
     }
     // console.log(notesVal);
 
