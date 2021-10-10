@@ -64,9 +64,9 @@ async function pasteNotes(){
         }
         if (notesEle != null){
             if (notesEle.value == null || notesEle.value == ''){
-                notesEle.value = clothesNotesTxt.substr(clothesLen).trim() + '\n' + notesEle.value;
-            }else{
                 notesEle.value = clothesNotesTxt.substr(clothesLen).trim();
+            }else{
+                notesEle.value = clothesNotesTxt.substr(clothesLen).trim() + '\n' + notesEle.value;
             }
         }
 
