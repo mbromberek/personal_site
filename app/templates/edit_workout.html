@@ -2,10 +2,7 @@
 
 {% block app_content %}
     <h1>{{ label_val.title }}</h1>
-    <form action="JavaScript:pasteNotes()" role="form" class="form" style="margin-top:15px;">
-        <input type="submit" value="Paste Notes">
-    </form>
-    <div class="row">
+    <div class="row mb-5">
         <div class="col-md-12">
             <form action="" method="post">
                 {{ form.hidden_tag() }}
@@ -422,12 +419,15 @@
                     </<fieldset>
                 </div>
 
-                <div class="mb-5">
-                    {{ form.cancel(class='mr-3') }}
-                    {{ form.submit() }}
+                <div>
+                    {{ form.submit(class='mr-3') }}
+                    {{ form.cancel() }}
                 </div>
 
 
+            </form>
+            <form action="JavaScript:pasteNotes()" role="form" class="form" style="margin-top:15px;">
+                <input type="submit" value="Paste Notes">
             </form>
 
         </div>
