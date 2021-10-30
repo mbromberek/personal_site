@@ -18,7 +18,7 @@ from sqlalchemy import or_
 
 # Custom classes
 from app.main import bp
-from app.main.forms import EmptyForm, WorkoutCreateBtnForm, WorkoutForm, WorkoutFilterForm
+from app.main.forms import EmptyForm, WorkoutCreateBtnForm, WorkoutForm, WorkoutFilterForm, WorkoutIntervalForm
 from app.models import User, Workout, Workout_interval, Gear_usage, Wrkt_sum
 from app import db
 from app.utils import tm_conv, const, nbrConv
@@ -258,6 +258,9 @@ def edit_workout():
     if form.cancel.data:
         logger.debug('cancel')
         return redirect(url_for('main.workouts'))
+    if form.edit_interval.data:
+        logger.debug('edit_interval')
+        return redirect(url_for('main.edit_workout_interval', workout=form.wrkt_id.data))
     if form.validate_on_submit():
         logger.debug('validate_on_submit')
         if form.wrkt_id.data == "":
@@ -526,3 +529,17 @@ def getFilterValuesFromUrl():
     filterVal['max_strt_temp'] = request.args.get('max_strt_temp', default='', type=int)
 
     return filterVal
+
+@bp.route('/edit_workout_interval', methods=['GET','POST'])
+@login_required
+def edit_workout_interval():
+    logger.info('edit_workout_interval: ' + str(request.args.get('workout')))
+    form = WorkoutIntervalForm()
+    wrktDict = {}
+
+    if request.method == 'GET' and request.args.get('workout') != None:
+        usr_id = current_user.id
+        wrktDict['wrkt_id'] = request.args.get('workout')
+        logger.info('Update Workout: ' + str(wrktDict['wrkt_id'])+' for user: '+str(usr_id))
+
+    return render_template('edit_workout_interval.html', form=form, wrktDet=wrktDict)
