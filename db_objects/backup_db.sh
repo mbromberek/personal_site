@@ -1,4 +1,4 @@
-#!/usr/bin/env zsh
+#!/usr/bin/bash
 
 curr_date=$(date +%Y%m%d_%H%M%S)
 echo $curr_date
