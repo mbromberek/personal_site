@@ -19,14 +19,10 @@ pg_ctl -D /usr/local/var/postgres start && brew services start postgresql
 ## Virtual Environment
 ### Create Virtual Environment and install libraries
 ```
-mkvirtualenv personal_site
+python3 -m venv $HOME/.virtualenvironments/p_site
+source $HOME/.virtualenvironments/p_site/bin/activate
 pip install -r requirements.txt
 deactivate
-workon personal_site
-source personal_site/bin/activate
-python app.py
-workon #See all projects
-
 ```
 
 ## Run Flask server
