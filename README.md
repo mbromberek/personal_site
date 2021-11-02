@@ -27,6 +27,10 @@ source personal_site/bin/activate
 python app.py
 workon #See all projects
 
+python3 -m venv $HOME/.virtualenvironments/p_site
+source $HOME/.virtualenvironments/p_site/bin/activate
+pip install -r requirements.txt
+deactivate
 ```
 
 ## Run Flask server
