@@ -534,12 +534,14 @@ def getFilterValuesFromUrl():
 @login_required
 def edit_workout_interval():
     logger.info('edit_workout_interval: ' + str(request.args.get('workout')))
-    form = WorkoutIntervalForm()
     wrktDict = {}
+
+    form = WorkoutForm()
 
     if request.method == 'GET' and request.args.get('workout') != None:
         usr_id = current_user.id
         wrktDict['wrkt_id'] = request.args.get('workout')
+        form.wrkt_id.data = request.args.get('workout')
         logger.info('Update Workout: ' + str(wrktDict['wrkt_id'])+' for user: '+str(usr_id))
         # Get Workout Intervals for workout based on wrktDict['wrkt_id']
         #   Currently only get for break_type='segment' order by interval_order
@@ -547,9 +549,19 @@ def edit_workout_interval():
           workout_id=wrktDict['wrkt_id'], user_id=usr_id, break_type='segment'))
 
         segment_intrvl_lst = []
+        form.wrkt_intrvl_segment_form = []
         for intrvl in intvl_lst:
-            intrvl.duration = intrvl.dur_str()
-            intrvl.pace = intrvl.pace_str()
+            intrvl_form = WorkoutIntervalForm()
+            intrvl_form.interval_order.data = intrvl.interval_order
+            intrvl_form.interval_desc.data = intrvl.interval_desc
+            intrvl_form.dur_s.data = intrvl.dur_sec
+            intrvl_form.dist.data = intrvl.dist_mi
+            intrvl_form.hr.data = intrvl.hr
+            intrvl_form.ele_up.data = intrvl.ele_up
+            intrvl_form.ele_down.data = intrvl.ele_down
+            intrvl_form.notes.data = intrvl.notes
+            # intrvl.duration = intrvl.dur_str()
+            # intrvl.pace = intrvl.pace_str()
             # if intrvl.break_type == 'mile':
             #     mile_intrvl_lst.append(intrvl)
             # elif intrvl.break_type == 'segment':
@@ -557,9 +569,11 @@ def edit_workout_interval():
             #         intrvl.det = intrvl.interval_order
             #     else:
             #         intrvl.det = intrvl.interval_desc
-            segment_intrvl_lst.append(intrvl)
-
+            if intrvl.break_type == 'segment':
+                segment_intrvl_lst.append(intrvl_form)
+                form.wrkt_intrvl_segment_form.append(intrvl_form)
 
         # Create List of forms based on the intervals
+        wrktDict['segment_intrvl_lst'] = segment_intrvl_lst
 
     return render_template('edit_workout_interval.html', form=form, wrktDet=wrktDict)

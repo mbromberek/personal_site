@@ -8,6 +8,79 @@
                 {{ form.hidden_tag() }}
                 {{ wrktDet['wrkt_id'] }}
 
+                {% if wrktDet['segment_intrvl_lst']|length >0 %}
+                <div class="form-group mt-3 mr-2" style="width:800px; vertical-align:top;">
+                    Segment Splits<br>
+                    <table>
+                        <tr style="font-weight:bold">
+                            <td class="workout-intrvl workout-intrvl-hdr">
+                                Order
+                            </td>
+                            <td class="workout-intrvl workout-intrvl-hdr" style="width:100px;">
+                                Duration
+                            </td>
+                            <td class="workout-intrvl workout-intrvl-hdr">
+                                Dist<span class="hide_mobile">ance</span>
+                            </td>
+                            {#<td class="workout-intrvl workout-intrvl-hdr">
+                                Pace
+                            </td>#}
+                            <td class="workout-intrvl workout-intrvl-hdr">
+                                HR
+                            </td>
+                            <td class="workout-intrvl workout-intrvl-hdr ">
+                                Ele↑
+                            </td>
+                            <td class="workout-intrvl workout-intrvl-hdr ">
+                                Ele↓
+                            </td>
+                            <td class="workout-intrvl workout-intrvl-hdr ">
+                                Description
+                            </td>
+                        </tr>
+                    {% for intrvl in form.wrkt_intrvl_segment_form %}
+                        <tr>
+                            <td class="workout-intrvl">
+                                {{ intrvl.interval_order(size=1, disabled=True) }}
+                            </td>
+                            <td class="workout-intrvl" style="width:250px;">
+                                {{ intrvl.dur_h(size=2) }}h&nbsp;
+                                {{ intrvl.dur_m(size=2) }}m&nbsp;
+                                {{ intrvl.dur_s(size=2) }}s
+                            </td>
+                            <td class="workout-intrvl">
+                                {{ intrvl.dist(size=3) }}
+                            </td>
+                            {#<td class="workout-intrvl">
+                                {{ intrvl.pace }}
+                            </td>#}
+                            <td class="workout-intrvl">
+                                {{ intrvl.hr(size=3) }}
+                            </td>
+                            <td class="workout-intrvl ">
+                                {{ intrvl.ele_up(size=3) }}
+                            </td>
+                            <td class="workout-intrvl ">
+                                {{ intrvl.ele_down(size=3) }}
+                            </td>
+                            <td class="workout-intrvl ">
+                                {% if intrvl.interval_desc != None %}
+                                {{ intrvl.interval_desc(size=10) }}
+                                {% else %}
+                                &nbsp;
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </table>
+                </div>
+            {% endif %}
+
+                <div>
+                    {{ form.submit(class='mr-3') }}
+                    {{ form.cancel(class='mr-3') }}
+                </div>
+
 
             </form>
         </div>
