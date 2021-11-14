@@ -114,7 +114,7 @@
                     </div>
                     <div class="form-group mr-4">
                         {{ form.hr.label(class="workout_lbl") }}<br>
-                        {{ form.hr(size=5) }}<br>
+                        {{ form.hr(class="txt_field_size_3") }}<br>
                         {% for error in form.hr.errors %}
                         <span style="color: red;">
                             [{{ error }}]
@@ -123,7 +123,7 @@
                     </div>
                     <div class="form-group">
                         {{ form.cal_burn.label(class="workout_lbl") }}<br>
-                        {{ form.cal_burn(size=5) }}<br>
+                        {{ form.cal_burn(class="txt_field_size_5") }}<br>
                         {% for error in form.cal_burn.errors %}
                         <span style="color: red;">
                             [{{ error }}]

@@ -271,6 +271,7 @@ def edit_workout():
         wrkt = Workout.query.filter_by(id=wrkt_id, user_id = usr_id).one()
         db.session.delete(wrkt)
         db.session.commit()
+        flash("Workout Deleted")
         return redirect(url_for('main.workouts'))
     if form.validate_on_submit():
         logger.debug('validate_on_submit')
