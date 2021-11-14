@@ -582,12 +582,14 @@ def edit_workout_interval():
         usr_id = current_user.id
         wrkt_id = request.args.get('workout')
         for intrvl_form in form.wrkt_intrvl_segment_form.entries:
-            logger.debug(intrvl_form.interval_desc.data)
-            logger.debug(intrvl_form.wrkt_intrvl_id.data)
+            # logger.debug(intrvl_form.interval_desc.data)
+            # logger.debug(intrvl_form.wrkt_intrvl_id.data)
             wrktIntrvl = Workout_interval.query.filter_by(id=intrvl_form.wrkt_intrvl_id.data, user_id=usr_id, workout_id=wrkt_id).first_or_404()
-            logger.debug("Interval Order: " + str(wrktIntrvl.interval_order))
+            # logger.debug("Interval Order: " + str(wrktIntrvl.interval_order))
             if intrvl_form.interval_desc.data != '':
                 wrktIntrvl.interval_desc = intrvl_form.interval_desc.data
+            if intrvl_form.hr.data != '':
+                wrktIntrvl.hr = intrvl_form.hr.data
         db.session.commit()
 
 

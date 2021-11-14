@@ -43,21 +43,21 @@
                                 {{ intrvl.interval_order(size=1, disabled=True) }}
                             </td>
                             <td class="workout-intrvl" style="width:250px;">
-                                {{ intrvl.dur_h(size=2) }}h&nbsp;
-                                {{ intrvl.dur_m(size=2) }}m&nbsp;
-                                {{ intrvl.dur_s(size=2) }}s
+                                {{ intrvl.dur_h(size=2, disabled=True) }}h&nbsp;
+                                {{ intrvl.dur_m(size=2, disabled=True) }}m&nbsp;
+                                {{ intrvl.dur_s(size=2, disabled=True) }}s
                             </td>
                             <td class="workout-intrvl">
-                                {{ intrvl.dist(size=3) }}
+                                {{ intrvl.dist(size=3, disabled=True) }}
                             </td>
                             <td class="workout-intrvl">
                                 {{ intrvl.hr(size=3) }}
                             </td>
                             <td class="workout-intrvl ">
-                                {{ intrvl.ele_up(size=3) }}
+                                {{ intrvl.ele_up(size=3, disabled=True) }}
                             </td>
                             <td class="workout-intrvl ">
-                                {{ intrvl.ele_down(size=3) }}
+                                {{ intrvl.ele_down(size=3, disabled=True) }}
                             </td>
                             <td class="workout-intrvl ">
                                 {% if intrvl.interval_desc != None %}
