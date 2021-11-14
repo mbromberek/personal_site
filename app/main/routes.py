@@ -577,6 +577,11 @@ def edit_workout_interval():
         # Create List of forms based on the intervals
         wrktDict['segment_intrvl_lst'] = segment_intrvl_lst
         # logger.debug(form.wrkt_intrvl_segment_form.entries)
+    elif request.method == 'POST' and form.cancel.data:
+        logger.debug('cancel')
+        flash("Workout Intervals update canceled")
+        wrkt_id = request.args.get('workout')
+        return redirect(url_for('main.workout', workout=wrkt_id))
     elif request.method == 'POST':
         logger.debug('edit_workout_interval: validate_on_submit')
         usr_id = current_user.id
