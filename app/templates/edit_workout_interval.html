@@ -7,8 +7,9 @@
             <form action="" method="post">
                 {{ form.hidden_tag() }}
                 {{ wrktDet['wrkt_id'] }}
+                {{ form.wrkt_id.value }}
 
-                {% if wrktDet['segment_intrvl_lst']|length >0 %}
+                {% if form.wrkt_intrvl_segment_form|length >0 %}
                 <div class="form-group mt-3 mr-2" style="width:800px; vertical-align:top;">
                     Segment Splits<br>
                     <table>
@@ -22,9 +23,6 @@
                             <td class="workout-intrvl workout-intrvl-hdr">
                                 Dist<span class="hide_mobile">ance</span>
                             </td>
-                            {#<td class="workout-intrvl workout-intrvl-hdr">
-                                Pace
-                            </td>#}
                             <td class="workout-intrvl workout-intrvl-hdr">
                                 HR
                             </td>
@@ -40,6 +38,7 @@
                         </tr>
                     {% for intrvl in form.wrkt_intrvl_segment_form %}
                         <tr>
+                            {{ intrvl.hidden_tag() }}
                             <td class="workout-intrvl">
                                 {{ intrvl.interval_order(size=1, disabled=True) }}
                             </td>
@@ -51,9 +50,6 @@
                             <td class="workout-intrvl">
                                 {{ intrvl.dist(size=3) }}
                             </td>
-                            {#<td class="workout-intrvl">
-                                {{ intrvl.pace }}
-                            </td>#}
                             <td class="workout-intrvl">
                                 {{ intrvl.hr(size=3) }}
                             </td>

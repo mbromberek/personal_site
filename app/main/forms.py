@@ -12,7 +12,7 @@ from datetime import datetime
 # Third party classes
 from flask import request
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, TextAreaField, DecimalField, HiddenField, SelectField
+from wtforms import StringField, SubmitField, TextAreaField, DecimalField, HiddenField, SelectField, FieldList, FormField
 from wtforms.fields.html5 import DateField, TimeField, IntegerField
 from wtforms.validators import Length, NumberRange, InputRequired, Optional
 from wtforms.widgets import html5 as h5widgets
@@ -58,7 +58,7 @@ class WorkoutIntervalForm(FlaskForm):
     # break_type
     interval_order = IntegerField('Order',
         widget=h5widgets.NumberInput(min=0),
-        validators=[InputRequired()])
+        validators=[Optional()])
     interval_desc = StringField('Type', validators=[Optional()])
     dur_h = IntegerField('h ',
         widget=h5widgets.NumberInput(min=0,max=29),
@@ -76,6 +76,9 @@ class WorkoutIntervalForm(FlaskForm):
     notes = TextAreaField('Notes', validators=[Length(min=0, max=30000)])
     # submit = SubmitField('Submit')
     # cancel = SubmitField('Cancel')
+    def __repr__(self):
+        return '<WorkoutIntervals {}, {}>'.format(self.interval_order, self.interval_desc)
+
 
 class WorkoutForm(FlaskForm):
     wrkt_id = HiddenField()
@@ -158,3 +161,4 @@ class WorkoutForm(FlaskForm):
     intrvl_tot_dist = DecimalField('Distance', validators=[Optional()], places=2, rounding=decimal.ROUND_UP)
 
     # wrkt_intrvl_segment_form = WorkoutIntervalForm()
+    wrkt_intrvl_segment_form = FieldList(FormField(WorkoutIntervalForm))
