@@ -18,7 +18,7 @@ from sqlalchemy import or_
 
 # Custom classes
 from app.main import bp
-from app.main.forms import EmptyForm, WorkoutCreateBtnForm, WorkoutForm, WorkoutFilterForm
+from app.main.forms import EmptyForm, WorkoutCreateBtnForm, WorkoutForm, WorkoutFilterForm, WorkoutIntervalForm
 from app.models import User, Workout, Workout_interval, Gear_usage, Wrkt_sum
 from app import db
 from app.utils import tm_conv, const, nbrConv
@@ -241,6 +241,7 @@ def edit_workout():
     form.gear_lst.choices = gear_select_lst
 
     label_val = {}
+    usr_id = current_user.id
 
     logger.debug("Request Method: " + request.method)
     # logger.debug("Request Args workout: " + request.args.get('workout'))
@@ -258,6 +259,19 @@ def edit_workout():
     if form.cancel.data:
         logger.debug('cancel')
         return redirect(url_for('main.workouts'))
+    if form.edit_interval.data:
+        logger.debug('edit_interval')
+        return redirect(url_for('main.edit_workout_interval', workout=form.wrkt_id.data))
+    if form.delete_btn.data:
+        wrkt_id = form.wrkt_id.data
+        logger.debug('delete workout: ' + str(wrkt_id) + ' for user ' + str(usr_id))
+        wrktIntrvlLst = Workout_interval.query.filter_by(id=wrkt_id, user_id=usr_id)
+        for wrktIntrvl in wrktIntrvlLst:
+            db.session.delete(wrktIntrvl)
+        wrkt = Workout.query.filter_by(id=wrkt_id, user_id = usr_id).one()
+        db.session.delete(wrkt)
+        db.session.commit()
+        return redirect(url_for('main.workouts'))
     if form.validate_on_submit():
         logger.debug('validate_on_submit')
         if form.wrkt_id.data == "":
@@ -269,7 +283,7 @@ def edit_workout():
             wrkt = Workout(author=current_user, wrkt_dttm=wrkt_dttm)
         else:
             logger.info('update workout')
-            usr_id = current_user.id
+            # usr_id = current_user.id
             wrkt_id = form.wrkt_id.data
             wrkt = Workout.query.filter_by(id=wrkt_id, user_id=usr_id).first_or_404(id)
         wrkt.dur_sec = tm_conv.time_to_sec(form.duration_h.data, form.duration_m.data, form.duration_s.data)
@@ -526,3 +540,76 @@ def getFilterValuesFromUrl():
     filterVal['max_strt_temp'] = request.args.get('max_strt_temp', default='', type=int)
 
     return filterVal
+
+@bp.route('/edit_workout_interval', methods=['GET','POST'])
+@login_required
+def edit_workout_interval():
+    logger.info('edit_workout_interval: ' + str(request.args.get('workout')))
+    wrktDict = {}
+
+    form = WorkoutForm()
+
+    if request.method == 'GET' and request.args.get('workout') != None:
+        usr_id = current_user.id
+        wrktDict['wrkt_id'] = request.args.get('workout')
+        form.wrkt_id.data = request.args.get('workout')
+        logger.info('Update Workout: ' + str(wrktDict['wrkt_id'])+' for user: '+str(usr_id))
+        # Get Workout Intervals for workout based on wrktDict['wrkt_id']
+        #   Currently only get for break_type='segment' order by interval_order
+        intvl_lst = sorted(Workout_interval.query.filter_by( \
+          workout_id=wrktDict['wrkt_id'], user_id=usr_id, break_type='segment'))
+
+        segment_intrvl_lst = []
+        # form.wrkt_intrvl_segment_form = []
+        for intrvl in intvl_lst:
+            intrvl_form = WorkoutIntervalForm()
+            intrvl_form.wrkt_intrvl_id = intrvl.id
+            intrvl_form.interval_order = intrvl.interval_order
+            intrvl_form.interval_desc = intrvl.interval_desc
+            intrvl_form.dur_h, intrvl_form.dur_m, intrvl_form.dur_s = tm_conv.split_sec_to_time(intrvl.dur_sec)
+            intrvl_form.dist = intrvl.dist_mi
+            intrvl_form.hr = intrvl.hr
+            intrvl_form.ele_up = intrvl.ele_up
+            intrvl_form.ele_down = intrvl.ele_down
+            intrvl_form.notes = intrvl.notes
+            # intrvl.duration = intrvl.dur_str()
+            # intrvl.pace = intrvl.pace_str()
+            # if intrvl.break_type == 'mile':
+            #     mile_intrvl_lst.append(intrvl)
+            # elif intrvl.break_type == 'segment':
+            #     if intrvl.interval_desc == None:
+            #         intrvl.det = intrvl.interval_order
+            #     else:
+            #         intrvl.det = intrvl.interval_desc
+            if intrvl.break_type == 'segment':
+                segment_intrvl_lst.append(intrvl_form)
+                form.wrkt_intrvl_segment_form.append_entry(intrvl_form)
+
+        # Create List of forms based on the intervals
+        wrktDict['segment_intrvl_lst'] = segment_intrvl_lst
+        # logger.debug(form.wrkt_intrvl_segment_form.entries)
+    elif request.method == 'POST' and form.cancel.data:
+        logger.debug('cancel')
+        flash("Workout Intervals update canceled")
+        wrkt_id = request.args.get('workout')
+        return redirect(url_for('main.workout', workout=wrkt_id))
+    elif request.method == 'POST':
+        logger.debug('edit_workout_interval: validate_on_submit')
+        usr_id = current_user.id
+        wrkt_id = request.args.get('workout')
+        for intrvl_form in form.wrkt_intrvl_segment_form.entries:
+            # logger.debug(intrvl_form.interval_desc.data)
+            # logger.debug(intrvl_form.wrkt_intrvl_id.data)
+            wrktIntrvl = Workout_interval.query.filter_by(id=intrvl_form.wrkt_intrvl_id.data, user_id=usr_id, workout_id=wrkt_id).first_or_404()
+            # logger.debug("Interval Order: " + str(wrktIntrvl.interval_order))
+            if intrvl_form.interval_desc.data != '':
+                wrktIntrvl.interval_desc = intrvl_form.interval_desc.data
+            if intrvl_form.hr.data != '':
+                wrktIntrvl.hr = intrvl_form.hr.data
+        db.session.commit()
+        flash("Workout Intervals updated")
+        return redirect(url_for('main.workout', workout=wrkt_id))
+
+
+    logger.debug('edit_workout_interval pre-render_template')
+    return render_template('edit_workout_interval.html', form=form, wrktDet=wrktDict)

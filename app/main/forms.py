@@ -12,7 +12,7 @@ from datetime import datetime
 # Third party classes
 from flask import request
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, TextAreaField, DecimalField, HiddenField, SelectField
+from wtforms import StringField, SubmitField, TextAreaField, DecimalField, HiddenField, SelectField, FieldList, FormField
 from wtforms.fields.html5 import DateField, TimeField, IntegerField
 from wtforms.validators import Length, NumberRange, InputRequired, Optional
 from wtforms.widgets import html5 as h5widgets
@@ -53,6 +53,33 @@ class WorkoutFilterForm(FlaskForm):
     min_strt_temp_srch = DecimalField('Min Temp:', validators=[Optional()], places=0, rounding=decimal.ROUND_UP)
     max_strt_temp_srch = DecimalField('Max Temp:', validators=[Optional()], places=0, rounding=decimal.ROUND_UP)
 
+class WorkoutIntervalForm(FlaskForm):
+    wrkt_intrvl_id = HiddenField()
+    # break_type
+    interval_order = IntegerField('Order',
+        widget=h5widgets.NumberInput(min=0),
+        validators=[Optional()])
+    interval_desc = StringField('Type', validators=[Optional()])
+    dur_h = IntegerField('h ',
+        widget=h5widgets.NumberInput(min=0,max=29),
+        default=0, validators=[Optional()])
+    dur_m = IntegerField('m ',
+        widget=h5widgets.NumberInput(min=0,max=59),
+        default=0, validators=[Optional()])
+    dur_s = IntegerField('s ',
+        widget=h5widgets.NumberInput(min=0,max=59),
+        default=0, validators=[Optional()])
+    dist = DecimalField('Distance', validators=[InputRequired()], places=2, rounding=decimal.ROUND_UP)
+    hr = IntegerField('Heart Rate', validators=[Optional()])
+    ele_up = DecimalField('Elevation Up', validators=[Optional()], places=2, rounding=decimal.ROUND_UP)
+    ele_down = DecimalField('Elevation Down', validators=[Optional()], places=2, rounding=decimal.ROUND_UP)
+    notes = TextAreaField('Notes', validators=[Length(min=0, max=30000)])
+    # submit = SubmitField('Submit')
+    # cancel = SubmitField('Cancel')
+    def __repr__(self):
+        return '<WorkoutIntervals {}, {}>'.format(self.interval_order, self.interval_desc)
+
+
 class WorkoutForm(FlaskForm):
     wrkt_id = HiddenField()
     type = StringField('Type', validators=[InputRequired()])
@@ -70,6 +97,8 @@ class WorkoutForm(FlaskForm):
     notes = TextAreaField('Notes', validators=[Length(min=0, max=30000)])
     submit = SubmitField('Submit')
     cancel = SubmitField('Cancel')
+    edit_interval = SubmitField('Edit Intervals')
+    delete_btn = SubmitField('Delete')
 
     # gear = StringField('Gear')
     gear_lst = SelectField('Gear', validate_choice=True, coerce=int)
@@ -131,3 +160,6 @@ class WorkoutForm(FlaskForm):
         widget=h5widgets.NumberInput(min=0,max=59),
         default=0, validators=[Optional()])
     intrvl_tot_dist = DecimalField('Distance', validators=[Optional()], places=2, rounding=decimal.ROUND_UP)
+
+    # wrkt_intrvl_segment_form = WorkoutIntervalForm()
+    wrkt_intrvl_segment_form = FieldList(FormField(WorkoutIntervalForm))
