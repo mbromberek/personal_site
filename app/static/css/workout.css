@@ -155,6 +155,23 @@ input.workout_filter_btn_container:hover{
     margin-right:25%;
 }
 
+.txt_field_size_2{
+    size: 2;
+    width: 50px;
+}
+.txt_field_size_3{
+    size: 3;
+    width: 60px;
+}
+.txt_field_size_5{
+    size: 5;
+    width: 70px;
+}
+.txt_field_size_10{
+    size: 10;
+    width: 110px;
+}
+
 td.workout-intrvl{
     font-weight:normal;
     font-size: 12pt;
