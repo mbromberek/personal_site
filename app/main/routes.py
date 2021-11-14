@@ -591,6 +591,8 @@ def edit_workout_interval():
             if intrvl_form.hr.data != '':
                 wrktIntrvl.hr = intrvl_form.hr.data
         db.session.commit()
+        flash("Workout Intervals updated")
+        return redirect(url_for('main.workout', workout=wrkt_id))
 
 
     logger.debug('edit_workout_interval pre-render_template')
