@@ -12,7 +12,7 @@ from datetime import datetime
 # Third party classes
 from flask import request
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, TextAreaField, DecimalField, HiddenField, SelectField, FieldList, FormField
+from wtforms import StringField, SubmitField, TextAreaField, DecimalField, HiddenField, SelectField, FieldList, FormField, BooleanField
 from wtforms.fields.html5 import DateField, TimeField, IntegerField
 from wtforms.validators import Length, NumberRange, InputRequired, Optional
 from wtforms.widgets import html5 as h5widgets
@@ -163,3 +163,4 @@ class WorkoutForm(FlaskForm):
 
     # wrkt_intrvl_segment_form = WorkoutIntervalForm()
     wrkt_intrvl_segment_form = FieldList(FormField(WorkoutIntervalForm))
+    show_pause = BooleanField("Show Pause Segments")

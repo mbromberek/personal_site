@@ -192,6 +192,9 @@ class Workout(PaginatedAPIMixin, db.Model):
     intrvl_tot_ele_up = db.Column(db.Numeric(8,2))
     intrvl_tot_ele_down = db.Column(db.Numeric(8,2))
 
+    show_pause = db.Column(db.Boolean())
+    source = db.Column(db.String(50))
+
     isrt_ts = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     workout_intervals = db.relationship('Workout_interval', backref='author', lazy='dynamic')
 

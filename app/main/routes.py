@@ -328,6 +328,8 @@ def edit_workout():
         wrkt.intrvl_tot_tm_sec = tm_conv.time_to_sec(form.intrvl_dur_h.data, form.intrvl_dur_m.data, form.intrvl_dur_s.data)
         wrkt.intrvl_tot_dist_mi = form.intrvl_tot_dist.data
 
+        wrkt.show_pause = form.show_pause.data
+
         if form.wrkt_id.data == "":
             db.session.add(wrkt)
             db.session.commit()
@@ -396,6 +398,8 @@ def edit_workout():
         form.intrvl_dur_h.data, form.intrvl_dur_m.data, form.intrvl_dur_s.data = tm_conv.split_sec_to_time(wrkt.intrvl_tot_tm_sec)
         form.intrvl_tot_dist.data = wrkt.intrvl_tot_dist_mi
 
+        form.show_pause.data = wrkt.show_pause
+
     # else:
         # logger.debug('Create Workout')
         # label_val['title'] = 'Create Workout'
@@ -445,6 +449,7 @@ def workout():
 
     mile_intrvl_lst = []
     segment_intrvl_lst = []
+    pause_intrvl_lst = []
     for intrvl in intvl_lst:
         intrvl.duration = intrvl.dur_str()
         intrvl.pace = intrvl.pace_str()
@@ -456,9 +461,16 @@ def workout():
             else:
                 intrvl.det = intrvl.interval_desc
             segment_intrvl_lst.append(intrvl)
+        elif intrvl.break_type == 'resume':
+            if intrvl.interval_desc == None:
+                intrvl.det = intrvl.interval_order
+            else:
+                intrvl.det = intrvl.interval_desc
+            pause_intrvl_lst.append(intrvl)
+
 
     return render_template('workout.html', workout=workout, \
-      mile_intrvl_lst=mile_intrvl_lst, segment_intrvl_lst=segment_intrvl_lst, destPage = 'edit')
+      mile_intrvl_lst=mile_intrvl_lst, segment_intrvl_lst=segment_intrvl_lst, destPage = 'edit', pause_intrvl_lst=pause_intrvl_lst)
 
 
 @bp.route('/dashboard', methods=['GET'])
