@@ -241,6 +241,7 @@ def edit_workout():
     form.gear_lst.choices = gear_select_lst
 
     label_val = {}
+    usr_id = current_user.id
 
     logger.debug("Request Method: " + request.method)
     # logger.debug("Request Args workout: " + request.args.get('workout'))
@@ -261,6 +262,16 @@ def edit_workout():
     if form.edit_interval.data:
         logger.debug('edit_interval')
         return redirect(url_for('main.edit_workout_interval', workout=form.wrkt_id.data))
+    if form.delete_btn.data:
+        wrkt_id = form.wrkt_id.data
+        logger.debug('delete workout: ' + str(wrkt_id) + ' for user ' + str(usr_id))
+        wrktIntrvlLst = Workout_interval.query.filter_by(id=wrkt_id, user_id=usr_id)
+        for wrktIntrvl in wrktIntrvlLst:
+            db.session.delete(wrktIntrvl)
+        wrkt = Workout.query.filter_by(id=wrkt_id, user_id = usr_id).one()
+        db.session.delete(wrkt)
+        db.session.commit()
+        return redirect(url_for('main.workouts'))
     if form.validate_on_submit():
         logger.debug('validate_on_submit')
         if form.wrkt_id.data == "":
@@ -272,7 +283,7 @@ def edit_workout():
             wrkt = Workout(author=current_user, wrkt_dttm=wrkt_dttm)
         else:
             logger.info('update workout')
-            usr_id = current_user.id
+            # usr_id = current_user.id
             wrkt_id = form.wrkt_id.data
             wrkt = Workout.query.filter_by(id=wrkt_id, user_id=usr_id).first_or_404(id)
         wrkt.dur_sec = tm_conv.time_to_sec(form.duration_h.data, form.duration_m.data, form.duration_s.data)
