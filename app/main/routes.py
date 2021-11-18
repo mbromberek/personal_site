@@ -461,7 +461,7 @@ def workout():
             else:
                 intrvl.det = intrvl.interval_desc
             segment_intrvl_lst.append(intrvl)
-        elif intrvl.break_type == 'resume':
+        elif intrvl.break_type == 'resume' and workout.show_pause == True:
             if intrvl.interval_desc == None:
                 intrvl.det = intrvl.interval_order
             else:
