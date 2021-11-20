@@ -450,6 +450,7 @@ def workout():
     mile_intrvl_lst = []
     segment_intrvl_lst = []
     pause_intrvl_lst = []
+    lap_intrvl_lst = []
     for intrvl in intvl_lst:
         intrvl.duration = intrvl.dur_str()
         intrvl.pace = intrvl.pace_str()
@@ -467,10 +468,16 @@ def workout():
             else:
                 intrvl.det = intrvl.interval_desc
             pause_intrvl_lst.append(intrvl)
+        elif intrvl.break_type == 'lap':
+            if intrvl.interval_desc == None:
+                intrvl.det = intrvl.interval_order
+            else:
+                intrvl.det = intrvl.interval_desc
+            lap_intrvl_lst.append(intrvl)
 
 
     return render_template('workout.html', workout=workout, \
-      mile_intrvl_lst=mile_intrvl_lst, segment_intrvl_lst=segment_intrvl_lst, destPage = 'edit', pause_intrvl_lst=pause_intrvl_lst)
+      mile_intrvl_lst=mile_intrvl_lst, segment_intrvl_lst=segment_intrvl_lst, destPage = 'edit', pause_intrvl_lst=pause_intrvl_lst, lap_intrvl_lst=lap_intrvl_lst)
 
 
 @bp.route('/dashboard', methods=['GET'])
@@ -569,9 +576,12 @@ def edit_workout_interval():
         logger.info('Update Workout: ' + str(wrktDict['wrkt_id'])+' for user: '+str(usr_id))
         # Get Workout Intervals for workout based on wrktDict['wrkt_id']
         #   Currently only get for break_type='segment' order by interval_order
-        intvl_lst = sorted(Workout_interval.query.filter_by( \
-          workout_id=wrktDict['wrkt_id'], user_id=usr_id, break_type='segment'))
-
+        # intvl_lst = sorted(Workout_interval.query.filter_by( \
+          # workout_id=wrktDict['wrkt_id'], user_id=usr_id, break_type='segment'))
+        query = Workout_interval.query.filter_by( \
+            workout_id=wrktDict['wrkt_id'], user_id=usr_id)
+        query = query.filter(Workout_interval.break_type.in_(['segment','lap']))
+        intvl_lst = sorted(query)
         segment_intrvl_lst = []
         # form.wrkt_intrvl_segment_form = []
         for intrvl in intvl_lst:
@@ -594,7 +604,7 @@ def edit_workout_interval():
             #         intrvl.det = intrvl.interval_order
             #     else:
             #         intrvl.det = intrvl.interval_desc
-            if intrvl.break_type == 'segment':
+            if intrvl.break_type == 'segment' or intrvl.break_type == 'lap':
                 segment_intrvl_lst.append(intrvl_form)
                 form.wrkt_intrvl_segment_form.append_entry(intrvl_form)
 
