@@ -55,3 +55,19 @@ def get_lap_sum(intrvl_lst):
     sum_lst.append(itrvl_sum_wrkt)
 
     return sum_lst
+
+def get_mile_sum(intrvl_lst):
+    sum_lst = []
+    tot_df = pd.DataFrame(Workout_interval.to_intrvl_lst_dict(intrvl_lst))
+    itrvl_sum_tot = summarize_workout(tot_df, 'Total')
+    sum_lst.append(itrvl_sum_tot)
+
+    firsthalf_df = tot_df.loc[tot_df['interval_order']<tot_df.shape[0]/2]
+    itrvl_sum_firsthalf = summarize_workout(firsthalf_df, 'First')
+    sum_lst.append(itrvl_sum_firsthalf)
+
+    secondhalf_df = tot_df.loc[tot_df['interval_order']>=tot_df.shape[0]/2]
+    itrvl_sum_secondhalf = summarize_workout(secondhalf_df, 'Second')
+    sum_lst.append(itrvl_sum_secondhalf)
+
+    return sum_lst

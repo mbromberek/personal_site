@@ -57,7 +57,7 @@
             {{ intrvl_sum.duration }}
         </td>
         <td class="workout-intrvl workout_intrvl_sum">
-            {{ intrvl_sum.dist_mi }}
+            {{ "%.2f"|format(intrvl_sum.dist_mi|float) }}
         </td>
         <td class="workout-intrvl workout_intrvl_sum">
             {{ intrvl_sum.pace }}

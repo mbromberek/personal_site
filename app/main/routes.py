@@ -482,6 +482,9 @@ def workout():
         intrvl_dict['lap_sum'] = wrkt_summary.get_lap_sum(lap_intrvl_lst)
     if len(segment_intrvl_lst) >1:
         intrvl_dict['segment_sum'] = wrkt_summary.get_lap_sum(segment_intrvl_lst)
+    if len(mile_intrvl_lst) >1:
+        intrvl_dict['mile_sum'] = wrkt_summary.get_mile_sum(mile_intrvl_lst)
+
 
 
     return render_template('workout.html', workout=workout, \
