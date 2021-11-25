@@ -186,6 +186,9 @@ td.workout-intrvl-hdr{
     font-weight:bold;
     font-size: 12pt;
 }
+td.workout_intrvl_sum{
+    font-weight:bold;
+}
 
 div.wrkt_type_description{
     font-weight:bold;

@@ -15,6 +15,7 @@ from flask import render_template, flash, redirect, url_for, request, g, \
     jsonify, current_app
 from flask_login import current_user, login_required
 from sqlalchemy import or_
+import pandas as pd
 
 # Custom classes
 from app.main import bp
@@ -24,6 +25,7 @@ from app import db
 from app.utils import tm_conv, const, nbrConv
 from app import logger
 from app.utils import dt_conv
+from app.utils import wrkt_summary
 
 @bp.route('/')
 @bp.route('/index')
@@ -447,6 +449,7 @@ def workout():
     intvl_lst = sorted(Workout_interval.query.filter_by( \
       workout_id=wrkt_id, user_id=usr_id))
 
+    intrvl_dict = {}
     mile_intrvl_lst = []
     segment_intrvl_lst = []
     pause_intrvl_lst = []
@@ -474,10 +477,24 @@ def workout():
             else:
                 intrvl.det = intrvl.interval_desc
             lap_intrvl_lst.append(intrvl)
+    if len(lap_intrvl_lst) >1:
+        lap_sum_lst = []
+        tot_df = pd.DataFrame(Workout_interval.to_intrvl_lst_dict(lap_intrvl_lst))
+        # logger.debug(tot_df.info())
+        # logger.debug(tot_df)
+        # Calculate total duration, distance, avg pace, avg hr, ele up, ele down
+        itrvl_sum_tot = wrkt_summary.summarize_workout(tot_df, 'Total')
+        lap_sum_lst.append(itrvl_sum_tot)
+        # Calculate without warm up and cool down duration, distance, avg pace, avg hr, ele up, ele down
+        workout_df = tot_df.loc[~tot_df['interval_desc'].isin(['Warm Up','Cool Down'])]
+        itrvl_sum_wrkt = wrkt_summary.summarize_workout(workout_df, 'Workout')
+        lap_sum_lst.append(itrvl_sum_wrkt)
+
+        intrvl_dict['lap_sum'] = lap_sum_lst
 
 
     return render_template('workout.html', workout=workout, \
-      mile_intrvl_lst=mile_intrvl_lst, segment_intrvl_lst=segment_intrvl_lst, destPage = 'edit', pause_intrvl_lst=pause_intrvl_lst, lap_intrvl_lst=lap_intrvl_lst)
+      mile_intrvl_lst=mile_intrvl_lst, segment_intrvl_lst=segment_intrvl_lst, destPage = 'edit', pause_intrvl_lst=pause_intrvl_lst, lap_intrvl_lst=lap_intrvl_lst, intrvls=intrvl_dict)
 
 
 @bp.route('/dashboard', methods=['GET'])
