@@ -12,6 +12,8 @@ import pandas as pd
 # Custom classes
 from app import logger
 from app.utils import tm_conv
+from app.models import Workout, Workout_interval
+
 
 def summarize_workout(df, sum_desc=''):
     df_edit = df.copy()
@@ -36,3 +38,20 @@ def summarize_workout(df, sum_desc=''):
 
 
     return sum_row
+
+def get_lap_sum(intrvl_lst):
+    sum_lst = []
+    tot_df = pd.DataFrame(Workout_interval.to_intrvl_lst_dict(intrvl_lst))
+    # logger.debug(tot_df.info())
+    # logger.debug(tot_df)
+
+    # Calculate summary for total intervals
+    itrvl_sum_tot = summarize_workout(tot_df, 'Total')
+    sum_lst.append(itrvl_sum_tot)
+
+    # Calculate without warm up and cool down intervals
+    workout_df = tot_df.loc[~tot_df['interval_desc'].isin(['Warm Up','Cool Down'])]
+    itrvl_sum_wrkt = summarize_workout(workout_df, 'Workout')
+    sum_lst.append(itrvl_sum_wrkt)
+
+    return sum_lst

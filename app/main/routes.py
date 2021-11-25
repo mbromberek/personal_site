@@ -478,19 +478,7 @@ def workout():
                 intrvl.det = intrvl.interval_desc
             lap_intrvl_lst.append(intrvl)
     if len(lap_intrvl_lst) >1:
-        lap_sum_lst = []
-        tot_df = pd.DataFrame(Workout_interval.to_intrvl_lst_dict(lap_intrvl_lst))
-        # logger.debug(tot_df.info())
-        # logger.debug(tot_df)
-        # Calculate total duration, distance, avg pace, avg hr, ele up, ele down
-        itrvl_sum_tot = wrkt_summary.summarize_workout(tot_df, 'Total')
-        lap_sum_lst.append(itrvl_sum_tot)
-        # Calculate without warm up and cool down duration, distance, avg pace, avg hr, ele up, ele down
-        workout_df = tot_df.loc[~tot_df['interval_desc'].isin(['Warm Up','Cool Down'])]
-        itrvl_sum_wrkt = wrkt_summary.summarize_workout(workout_df, 'Workout')
-        lap_sum_lst.append(itrvl_sum_wrkt)
-
-        intrvl_dict['lap_sum'] = lap_sum_lst
+        intrvl_dict['lap_sum'] = wrkt_summary.get_lap_sum(lap_intrvl_lst)
 
 
     return render_template('workout.html', workout=workout, \
