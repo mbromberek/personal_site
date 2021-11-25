@@ -213,56 +213,10 @@
     {% if pause_intrvl_lst|length >0 %}
     <div class="form-group mt-3 mr-2" style="width:500px; vertical-align:top;">
         Pause Resume Splits<br>
-        <table>
-            <tr style="font-weight:bold">
-                <td class="workout-intrvl workout-intrvl-hdr">
-                    Segment
-                </td>
-                <td class="workout-intrvl workout-intrvl-hdr">
-                    Duration
-                </td>
-                <td class="workout-intrvl workout-intrvl-hdr">
-                    Dist<span class="hide_mobile">ance</span>
-                </td>
-                <td class="workout-intrvl workout-intrvl-hdr">
-                    Pace
-                </td>
-                <td class="workout-intrvl workout-intrvl-hdr">
-                    HR
-                </td>
-                <td class="workout-intrvl workout-intrvl-hdr hide_mobile">
-                    Ele↑
-                </td>
-                <td class="workout-intrvl workout-intrvl-hdr hide_mobile">
-                    Ele↓
-                </td>
-            </tr>
-        {% for intrvl in pause_intrvl_lst %}
-            <tr>
-                <td class="workout-intrvl">
-                    {{ intrvl.det }}
-                </td>
-                <td class="workout-intrvl">
-                    {{ intrvl.duration }}
-                </td>
-                <td class="workout-intrvl">
-                    {{ intrvl.dist_mi }}
-                </td>
-                <td class="workout-intrvl">
-                    {{ intrvl.pace }}
-                </td>
-                <td class="workout-intrvl">
-                    {{ intrvl.hr }}
-                </td>
-                <td class="workout-intrvl hide_mobile">
-                    {{ intrvl.ele_up }}
-                </td>
-                <td class="workout-intrvl hide_mobile">
-                    {{ intrvl.ele_down }}
-                </td>
-            </tr>
-        {% endfor %}
-        </table>
+        {% with intrvl_lst=pause_intrvl_lst, intrvl_sum_lst=intrvls['pause_sum'], intrvl_nm='Pause' %}
+            {% include "_workout_intrvl.html.j2" %}
+        {% endwith %}
+
     </div>
     {% endif %}
 
