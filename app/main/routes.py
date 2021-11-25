@@ -458,6 +458,7 @@ def workout():
         intrvl.duration = intrvl.dur_str()
         intrvl.pace = intrvl.pace_str()
         if intrvl.break_type == 'mile':
+            intrvl.det = intrvl.interval_order +1
             mile_intrvl_lst.append(intrvl)
         elif intrvl.break_type == 'segment':
             if intrvl.interval_desc == None:
