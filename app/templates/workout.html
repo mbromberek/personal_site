@@ -244,6 +244,34 @@
                     </td>
                 </tr>
             {% endfor %}
+            {% if intrvls['segment_sum']|length >0 %}
+                {% for intrvl_sum in intrvls['segment_sum'] %}
+                <tr>
+                    <td class="workout-intrvl workout_intrvl_sum">
+                        {{ intrvl_sum.det }}
+                    </td>
+                    <td class="workout-intrvl workout_intrvl_sum">
+                        {{ intrvl_sum.duration }}
+                    </td>
+                    <td class="workout-intrvl workout_intrvl_sum">
+                        {{ intrvl_sum.dist_mi }}
+                    </td>
+                    <td class="workout-intrvl workout_intrvl_sum">
+                        {{ intrvl_sum.pace }}
+                    </td>
+                    <td class="workout-intrvl workout_intrvl_sum">
+                        {{ intrvl_sum.hr|round|int }}
+                    </td>
+                    <td class="workout-intrvl workout_intrvl_sum hide_mobile">
+                        {{ "%.2f"|format(intrvl_sum.ele_up|float) }}
+                    </td>
+                    <td class="workout-intrvl workout_intrvl_sum hide_mobile">
+                        {{ "%.2f"|format(intrvl_sum.ele_down|float) }}
+                    </td>
+                </tr>
+                {% endfor %}
+            {% endif %}
+
             </table>
         </div>
     {% endif %}

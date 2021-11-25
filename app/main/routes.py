@@ -479,6 +479,8 @@ def workout():
             lap_intrvl_lst.append(intrvl)
     if len(lap_intrvl_lst) >1:
         intrvl_dict['lap_sum'] = wrkt_summary.get_lap_sum(lap_intrvl_lst)
+    if len(segment_intrvl_lst) >1:
+        intrvl_dict['segment_sum'] = wrkt_summary.get_lap_sum(segment_intrvl_lst)
 
 
     return render_template('workout.html', workout=workout, \
