@@ -1,0 +1,78 @@
+<table>
+    <tr style="font-weight:bold">
+        <td class="workout-intrvl workout-intrvl-hdr">
+            {{ intrvl_nm }}
+        </td>
+        <td class="workout-intrvl workout-intrvl-hdr">
+            Duration
+        </td>
+        <td class="workout-intrvl workout-intrvl-hdr">
+            Dist<span class="hide_mobile">ance</span>
+        </td>
+        <td class="workout-intrvl workout-intrvl-hdr">
+            Pace
+        </td>
+        <td class="workout-intrvl workout-intrvl-hdr">
+            HR
+        </td>
+        <td class="workout-intrvl workout-intrvl-hdr hide_mobile">
+            Ele↑
+        </td>
+        <td class="workout-intrvl workout-intrvl-hdr hide_mobile">
+            Ele↓
+        </td>
+    </tr>
+{% for intrvl in intrvl_lst %}
+    <tr>
+        <td class="workout-intrvl">
+            {{ intrvl.det }}
+        </td>
+        <td class="workout-intrvl">
+            {{ intrvl.duration }}
+        </td>
+        <td class="workout-intrvl">
+            {{ intrvl.dist_mi }}
+        </td>
+        <td class="workout-intrvl">
+            {{ intrvl.pace }}
+        </td>
+        <td class="workout-intrvl">
+            {{ intrvl.hr }}
+        </td>
+        <td class="workout-intrvl hide_mobile">
+            {{ intrvl.ele_up }}
+        </td>
+        <td class="workout-intrvl hide_mobile">
+            {{ intrvl.ele_down }}
+        </td>
+    </tr>
+{% endfor %}
+{% if intrvl_sum_lst|length >0 %}
+    {% for intrvl_sum in intrvl_sum_lst %}
+    <tr>
+        <td class="workout-intrvl workout_intrvl_sum">
+            {{ intrvl_sum.det }}
+        </td>
+        <td class="workout-intrvl workout_intrvl_sum">
+            {{ intrvl_sum.duration }}
+        </td>
+        <td class="workout-intrvl workout_intrvl_sum">
+            {{ intrvl_sum.dist_mi }}
+        </td>
+        <td class="workout-intrvl workout_intrvl_sum">
+            {{ intrvl_sum.pace }}
+        </td>
+        <td class="workout-intrvl workout_intrvl_sum">
+            {{ intrvl_sum.hr|round|int }}
+        </td>
+        <td class="workout-intrvl workout_intrvl_sum hide_mobile">
+            {{ "%.2f"|format(intrvl_sum.ele_up|float) }}
+        </td>
+        <td class="workout-intrvl workout_intrvl_sum hide_mobile">
+            {{ "%.2f"|format(intrvl_sum.ele_down|float) }}
+        </td>
+    </tr>
+    {% endfor %}
+{% endif %}
+
+</table>

@@ -195,167 +195,18 @@
         {% if segment_intrvl_lst|length >0 %}
         <div class="form-group mt-3 mr-2" style="width:500px; vertical-align:top;">
             Segment Splits<br>
-            <table>
-                <tr style="font-weight:bold">
-                    <td class="workout-intrvl workout-intrvl-hdr">
-                        Segment
-                    </td>
-                    <td class="workout-intrvl workout-intrvl-hdr">
-                        Duration
-                    </td>
-                    <td class="workout-intrvl workout-intrvl-hdr">
-                        Dist<span class="hide_mobile">ance</span>
-                    </td>
-                    <td class="workout-intrvl workout-intrvl-hdr">
-                        Pace
-                    </td>
-                    <td class="workout-intrvl workout-intrvl-hdr">
-                        HR
-                    </td>
-                    <td class="workout-intrvl workout-intrvl-hdr hide_mobile">
-                        Ele↑
-                    </td>
-                    <td class="workout-intrvl workout-intrvl-hdr hide_mobile">
-                        Ele↓
-                    </td>
-                </tr>
-            {% for intrvl in segment_intrvl_lst %}
-                <tr>
-                    <td class="workout-intrvl">
-                        {{ intrvl.det }}
-                    </td>
-                    <td class="workout-intrvl">
-                        {{ intrvl.duration }}
-                    </td>
-                    <td class="workout-intrvl">
-                        {{ intrvl.dist_mi }}
-                    </td>
-                    <td class="workout-intrvl">
-                        {{ intrvl.pace }}
-                    </td>
-                    <td class="workout-intrvl">
-                        {{ intrvl.hr }}
-                    </td>
-                    <td class="workout-intrvl hide_mobile">
-                        {{ intrvl.ele_up }}
-                    </td>
-                    <td class="workout-intrvl hide_mobile">
-                        {{ intrvl.ele_down }}
-                    </td>
-                </tr>
-            {% endfor %}
-            {% if intrvls['segment_sum']|length >0 %}
-                {% for intrvl_sum in intrvls['segment_sum'] %}
-                <tr>
-                    <td class="workout-intrvl workout_intrvl_sum">
-                        {{ intrvl_sum.det }}
-                    </td>
-                    <td class="workout-intrvl workout_intrvl_sum">
-                        {{ intrvl_sum.duration }}
-                    </td>
-                    <td class="workout-intrvl workout_intrvl_sum">
-                        {{ intrvl_sum.dist_mi }}
-                    </td>
-                    <td class="workout-intrvl workout_intrvl_sum">
-                        {{ intrvl_sum.pace }}
-                    </td>
-                    <td class="workout-intrvl workout_intrvl_sum">
-                        {{ intrvl_sum.hr|round|int }}
-                    </td>
-                    <td class="workout-intrvl workout_intrvl_sum hide_mobile">
-                        {{ "%.2f"|format(intrvl_sum.ele_up|float) }}
-                    </td>
-                    <td class="workout-intrvl workout_intrvl_sum hide_mobile">
-                        {{ "%.2f"|format(intrvl_sum.ele_down|float) }}
-                    </td>
-                </tr>
-                {% endfor %}
-            {% endif %}
-
-            </table>
+            {% with intrvl_lst=segment_intrvl_lst, intrvl_sum_lst=intrvls['segment_sum'], intrvl_nm='Segment' %}
+                {% include "_workout_intrvl.html.j2" %}
+            {% endwith %}
         </div>
     {% endif %}
 
     {% if lap_intrvl_lst|length >0 %}
     <div class="form-group mt-3 mr-2" style="width:500px; vertical-align:top;">
         Lap Splits<br>
-        <table>
-            <tr style="font-weight:bold">
-                <td class="workout-intrvl workout-intrvl-hdr">
-                    Lap
-                </td>
-                <td class="workout-intrvl workout-intrvl-hdr">
-                    Duration
-                </td>
-                <td class="workout-intrvl workout-intrvl-hdr">
-                    Dist<span class="hide_mobile">ance</span>
-                </td>
-                <td class="workout-intrvl workout-intrvl-hdr">
-                    Pace
-                </td>
-                <td class="workout-intrvl workout-intrvl-hdr">
-                    HR
-                </td>
-                <td class="workout-intrvl workout-intrvl-hdr hide_mobile">
-                    Ele↑
-                </td>
-                <td class="workout-intrvl workout-intrvl-hdr hide_mobile">
-                    Ele↓
-                </td>
-            </tr>
-        {% for intrvl in lap_intrvl_lst %}
-            <tr>
-                <td class="workout-intrvl">
-                    {{ intrvl.det }}
-                </td>
-                <td class="workout-intrvl">
-                    {{ intrvl.duration }}
-                </td>
-                <td class="workout-intrvl">
-                    {{ intrvl.dist_mi }}
-                </td>
-                <td class="workout-intrvl">
-                    {{ intrvl.pace }}
-                </td>
-                <td class="workout-intrvl">
-                    {{ intrvl.hr }}
-                </td>
-                <td class="workout-intrvl hide_mobile">
-                    {{ intrvl.ele_up }}
-                </td>
-                <td class="workout-intrvl hide_mobile">
-                    {{ intrvl.ele_down }}
-                </td>
-            </tr>
-        {% endfor %}
-        {% if intrvls['lap_sum']|length >0 %}
-            {% for intrvl_sum in intrvls['lap_sum'] %}
-            <tr>
-                <td class="workout-intrvl workout_intrvl_sum">
-                    {{ intrvl_sum.det }}
-                </td>
-                <td class="workout-intrvl workout_intrvl_sum">
-                    {{ intrvl_sum.duration }}
-                </td>
-                <td class="workout-intrvl workout_intrvl_sum">
-                    {{ intrvl_sum.dist_mi }}
-                </td>
-                <td class="workout-intrvl workout_intrvl_sum">
-                    {{ intrvl_sum.pace }}
-                </td>
-                <td class="workout-intrvl workout_intrvl_sum">
-                    {{ intrvl_sum.hr|round|int }}
-                </td>
-                <td class="workout-intrvl workout_intrvl_sum hide_mobile">
-                    {{ "%.2f"|format(intrvl_sum.ele_up|float) }}
-                </td>
-                <td class="workout-intrvl workout_intrvl_sum hide_mobile">
-                    {{ "%.2f"|format(intrvl_sum.ele_down|float) }}
-                </td>
-            </tr>
-            {% endfor %}
-        {% endif %}
-        </table>
+        {% with intrvl_lst=lap_intrvl_lst, intrvl_sum_lst=intrvls['lap_sum'], intrvl_nm='Lap' %}
+            {% include "_workout_intrvl.html.j2" %}
+        {% endwith %}
     </div>
     {% endif %}
 
