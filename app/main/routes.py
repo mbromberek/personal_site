@@ -461,19 +461,19 @@ def workout():
             intrvl.det = intrvl.interval_order +1
             mile_intrvl_lst.append(intrvl)
         elif intrvl.break_type == 'segment':
-            if intrvl.interval_desc == None:
+            if intrvl.interval_desc == None or intrvl.interval_desc == '':
                 intrvl.det = intrvl.interval_order
             else:
                 intrvl.det = intrvl.interval_desc
             segment_intrvl_lst.append(intrvl)
         elif intrvl.break_type == 'resume' and workout.show_pause == True:
-            if intrvl.interval_desc == None:
+            if intrvl.interval_desc == None or intrvl.interval_desc == '':
                 intrvl.det = intrvl.interval_order
             else:
                 intrvl.det = intrvl.interval_desc
             pause_intrvl_lst.append(intrvl)
         elif intrvl.break_type == 'lap':
-            if intrvl.interval_desc == None:
+            if intrvl.interval_desc == None or intrvl.interval_desc == '':
                 intrvl.det = intrvl.interval_order
             else:
                 intrvl.det = intrvl.interval_desc

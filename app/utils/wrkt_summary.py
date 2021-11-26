@@ -99,7 +99,7 @@ def get_sum_by_intrvl(df):
     print(intrvl_sum_lst)
     for intrvl_sum in intrvl_sum_lst:
         print(intrvl_sum)
-        if intrvl_sum['ct'] >1:
+        if intrvl_sum['ct'] >1 and intrvl_sum['interval_desc'] != '':
             intrvl_sum['det'] = intrvl_sum['interval_desc']
             intrvl_sum['duration'] = tm_conv.sec_to_time(intrvl_sum['dur_sec'],'ms')
             intrvl_sum['pace'] = tm_conv.sec_to_time(tm_conv.pace_calc(intrvl_sum['dist_mi'], intrvl_sum['dur_sec']), 'ms')
