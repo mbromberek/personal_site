@@ -201,7 +201,7 @@
         </div>
     {% endif %}
 
-    {% if lap_intrvl_lst|length >0 %}
+    {% if lap_intrvl_lst|length >1 %}
     <div class="form-group mt-3 mr-2" style="width:500px; vertical-align:top;">
         Lap Splits<br>
         {% with intrvl_lst=lap_intrvl_lst, intrvl_sum_lst=intrvls['lap_sum'], intrvl_nm='Lap' %}

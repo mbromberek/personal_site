@@ -54,6 +54,11 @@ def get_lap_sum(intrvl_lst):
     itrvl_sum_wrkt = summarize_workout(workout_df, 'Workout')
     sum_lst.append(itrvl_sum_wrkt)
 
+    # itrvl_sum_tot['interval_desc'].value_counts()
+    # itrvl_sum_tot.group_by('interval_desc').count()
+    # get_sum_by_intrvl(itrvl_sum_tot)
+    sum_lst.extend(get_sum_by_intrvl(tot_df))
+
     return sum_lst
 
 def get_mile_sum(intrvl_lst):
@@ -63,11 +68,47 @@ def get_mile_sum(intrvl_lst):
     sum_lst.append(itrvl_sum_tot)
 
     firsthalf_df = tot_df.loc[tot_df['interval_order']<tot_df.shape[0]/2]
-    itrvl_sum_firsthalf = summarize_workout(firsthalf_df, 'First')
+    itrvl_sum_firsthalf = summarize_workout(firsthalf_df, 'First½')
     sum_lst.append(itrvl_sum_firsthalf)
 
     secondhalf_df = tot_df.loc[tot_df['interval_order']>=tot_df.shape[0]/2]
-    itrvl_sum_secondhalf = summarize_workout(secondhalf_df, 'Second')
+    itrvl_sum_secondhalf = summarize_workout(secondhalf_df, 'Sec½')
     sum_lst.append(itrvl_sum_secondhalf)
 
     return sum_lst
+
+def get_sum_by_intrvl(df):
+    df_edit = df.copy()
+
+    df_edit['dist_mi'] = pd.to_numeric(df_edit.dist_mi)
+    df_edit['ele_up'] = pd.to_numeric(df_edit.ele_up)
+    df_edit['ele_down'] = pd.to_numeric(df_edit.ele_down)
+    df_edit['hr'] = pd.to_numeric(df_edit.hr)
+    grouped_df = (df_edit.groupby(
+        ['workout_id','break_type','interval_desc'])
+        .agg(dur_sec=('dur_sec','mean')
+            , dist_mi=('dist_mi','mean')
+            , ele_up=('ele_up','mean')
+            , ele_down=('ele_down','mean')
+            , hr=('hr','mean')
+            , ct=('dur_sec','count')
+        ).reset_index()
+    )
+    intrvl_sum_lst = grouped_df.to_dict(orient='records')
+    intrvl_sum_edit_lst = []
+    print(intrvl_sum_lst)
+    for intrvl_sum in intrvl_sum_lst:
+        print(intrvl_sum)
+        if intrvl_sum['ct'] >1:
+            intrvl_sum['det'] = intrvl_sum['interval_desc']
+            intrvl_sum['duration'] = tm_conv.sec_to_time(intrvl_sum['dur_sec'],'ms')
+            intrvl_sum['pace'] = tm_conv.sec_to_time(tm_conv.pace_calc(intrvl_sum['dist_mi'], intrvl_sum['dur_sec']), 'ms')
+            intrvl_sum_edit_lst.append(intrvl_sum)
+
+
+
+    # sum_row['duration'] = tm_conv.sec_to_time(sum_row['dur_sec'],'ms')
+    # sum_row['pace'] = tm_conv.sec_to_time(tm_conv.pace_calc(sum_row['dist_mi'], sum_row['dur_sec']), 'ms')
+    print('intrvl_sum_edit_lst')
+    print(intrvl_sum_edit_lst)
+    return intrvl_sum_edit_lst

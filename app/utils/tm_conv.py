@@ -24,18 +24,18 @@ def sec_to_time(tm_sec, format='hms'):
 
         hours = math.floor(tm_sec / SECONDS_IN_HOUR)
         minutes = math.floor((tm_sec % SECONDS_IN_HOUR) / SECONDS_IN_MINUTE)
-        seconds = (tm_sec % SECONDS_IN_HOUR) % SECONDS_IN_MINUTE
+        seconds = round((tm_sec % SECONDS_IN_HOUR) % SECONDS_IN_MINUTE)
 
         tm_str = str(hours) + 'h ' + str(minutes).zfill(2) + 'm ' + str(seconds).zfill(2) + 's'
     elif format == 'ms':
         minutes = math.floor(tm_sec / SECONDS_IN_MINUTE)
-        seconds = (tm_sec % SECONDS_IN_HOUR) % SECONDS_IN_MINUTE
+        seconds = round((tm_sec % SECONDS_IN_HOUR) % SECONDS_IN_MINUTE)
 
         tm_str = str(minutes) + 'm ' + str(seconds).zfill(2) + 's'
     if format == 'hms-auto':
         hours = math.floor(tm_sec / SECONDS_IN_HOUR)
         minutes = math.floor((tm_sec % SECONDS_IN_HOUR) / SECONDS_IN_MINUTE)
-        seconds = (tm_sec % SECONDS_IN_HOUR) % SECONDS_IN_MINUTE
+        seconds = round((tm_sec % SECONDS_IN_HOUR) % SECONDS_IN_MINUTE)
 
         tm_str = ''
         if hours > 0:
