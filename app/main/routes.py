@@ -7,7 +7,7 @@ All rights reserved.
 '''
 
 # First party classes
-from datetime import datetime
+from datetime import datetime, timedelta, date
 # from datetime import combine
 
 # Third party classes
@@ -20,7 +20,7 @@ import pandas as pd
 # Custom classes
 from app.main import bp
 from app.main.forms import EmptyForm, WorkoutCreateBtnForm, WorkoutForm, WorkoutFilterForm, WorkoutIntervalForm
-from app.models import User, Workout, Workout_interval, Gear_usage, Wrkt_sum
+from app.models import User, Workout, Workout_interval, Gear_usage, Wrkt_sum, Wkly_mileage
 from app import db
 from app.utils import tm_conv, const, nbrConv
 from app import logger
@@ -497,18 +497,32 @@ def dashboard():
     logger.info('dashboard')
     title="Dashboard"
 
+    dash_lst_dict = {}
+
     gear_lst = sorted(Gear_usage.query.filter_by(user_id=current_user.id, retired=False), reverse=True)
+    dash_lst_dict['gear_lst'] = gear_lst
 
     wrkt_sum_results = Wrkt_sum.query.filter_by(user_id=current_user.id, type='Running')
+
 
     wrkt_sum_lst = []
     for wrkt_sum in wrkt_sum_results:
         wrkt_sum.duration = wrkt_sum.dur_str()
         i = getInsertPoint(wrkt_sum, wrkt_sum_lst)
         wrkt_sum_lst.insert(i,wrkt_sum)
-        # wrkt_sum_lst.append(wrkt_sum)
+    dash_lst_dict['wrkt_sum_lst'] = wrkt_sum_lst
 
-    return render_template('dashboard.html', title=title, gear_lst=gear_lst, wrkt_sum_lst=wrkt_sum_lst)
+    min_wkly_dt = date.today() - timedelta((const.NBR_WK_COMP+1) * 7)
+    query = Wkly_mileage.query.filter_by(user_id=current_user.id, type='Running')
+    query = query.filter(Wkly_mileage.dt_by_wk >=min_wkly_dt)
+    wkly_mileage_results = sorted(query, reverse=True)
+    wkly_mileage_lst = []
+    for wk_mileage in wkly_mileage_results:
+        wk_mileage.duration = wk_mileage.dur_str()
+        wkly_mileage_lst.append(wk_mileage)
+    dash_lst_dict['wkly_mileage_lst'] = wkly_mileage_lst
+
+    return render_template('dashboard.html', title=title, dash_lst_dict=dash_lst_dict)
 
 def getInsertPoint(wrkt_sum, wrkt_sum_lst):
     i=0

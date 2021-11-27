@@ -532,3 +532,26 @@ class Wrkt_sum(db.Model):
 
     def dur_str(self):
         return tm_conv.sec_to_time(self.tot_sec, 'hms')
+
+class Wkly_mileage(db.Model):
+    __table_args__ = {"schema": "fitness", 'comment':'summary of workouts by type and week'}
+    user_id = db.Column(db.Integer, primary_key=True)
+    type = db.Column(db.String(50), primary_key=True)
+    nbr = db.Column(db.Integer())
+    dt_by_wk = db.Column(db.DateTime, primary_key=True)
+    tot_dist = db.Column(db.Numeric(8,2))
+    tot_sec = db.Column(db.Integer())
+    dist_delta_pct = db.Column(db.Numeric(8,2))
+    tm_delta_pct = db.Column(db.Numeric(8,2))
+
+    def __repr__(self):
+        return '<Weekly_mileage {}: type {}>'.format(str(self.dt_by_wk), self.type)
+
+    def dur_str(self):
+        return tm_conv.sec_to_time(self.tot_sec, 'hms')
+
+    def __lt__(self, other):
+        return ((self.dt_by_wk < other.dt_by_wk))
+
+    def __gt__(self, other):
+        return ((self.dt_by_wk > other.dt_by_wk))

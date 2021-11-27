@@ -5,12 +5,16 @@
 
 <div style="overflow:auto; width:100%; margin-top:20px;">
 
-{% if gear_lst %}
+{% if dash_lst_dict['gear_lst'] %}
 {% include '_gear_usage_widget.html' %}
 {% endif %}
 
-{% if wrkt_sum_lst %}
+{% if dash_lst_dict['wrkt_sum_lst'] %}
 {% include '_running_mileage_widget.html' %}
+{% endif %}
+
+{% if dash_lst_dict['wkly_mileage_lst'] %}
+{% include '_running_weekly_mileage_widget.html' %}
 {% endif %}
 
 </div>
