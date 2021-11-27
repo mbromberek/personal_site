@@ -499,12 +499,20 @@ def dashboard():
 
     dash_lst_dict = {}
 
-    gear_lst = sorted(Gear_usage.query.filter_by(user_id=current_user.id, retired=False), reverse=True)
+    gear_results = sorted(Gear_usage.query.filter_by(user_id=current_user.id, retired=False), reverse=True)
+    gear_lst = []
+    for gear in gear_results:
+        if gear.tot_dist >const.SHOE_MILE_AGE_SHOULD_RETIRE:
+            gear.age_cond_class = 'gear_age_should_retire'
+        elif gear.tot_dist >const.SHOE_MILE_AGE_WARNING:
+            gear.age_cond_class = 'gear_age_warning'
+        else:
+            gear.age_cond_class = ''
+        gear_lst.append(gear)
+    # gear_lst = gear_results
     dash_lst_dict['gear_lst'] = gear_lst
 
     wrkt_sum_results = Wrkt_sum.query.filter_by(user_id=current_user.id, type='Running')
-
-
     wrkt_sum_lst = []
     for wrkt_sum in wrkt_sum_results:
         wrkt_sum.duration = wrkt_sum.dur_str()

@@ -309,6 +309,12 @@ td.gear_usage_dtl{
     width: 100px;
 }
 
+.gear_age_warning{
+    background-color: yellow;
+}
+.gear_age_should_retire{
+    background-color: red;
+}
 
 
 @media only screen and (max-width:500px) {

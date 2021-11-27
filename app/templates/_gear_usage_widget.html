@@ -24,7 +24,7 @@
                 <td class="gear_usage_dtl">
                     {{ gear.nm }}
                 </td>
-                <td class="gear_usage_dtl">
+                <td class="gear_usage_dtl {{ gear.age_cond_class }}">
                     {% if gear.latest_workout %}
                     {{ gear.tot_dist }}
                     {% else %}
