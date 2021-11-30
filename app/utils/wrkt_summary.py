@@ -67,12 +67,14 @@ def get_mile_sum(intrvl_lst):
     itrvl_sum_tot = summarize_workout(tot_df, 'Total')
     sum_lst.append(itrvl_sum_tot)
 
+
     # subtract 1 from result of (nbr rows /2) since interval_order starts at 0
-    firsthalf_df = tot_df.loc[tot_df['interval_order']<tot_df.shape[0]/2-1]
+    firsthalf_df = tot_df.loc[tot_df['interval_order']<=tot_df.shape[0]/2-1]
+    secondhalf_df = tot_df.loc[tot_df['interval_order']>tot_df.shape[0]/2-1]
+
     itrvl_sum_firsthalf = summarize_workout(firsthalf_df, 'First½')
     sum_lst.append(itrvl_sum_firsthalf)
 
-    secondhalf_df = tot_df.loc[tot_df['interval_order']>=tot_df.shape[0]/2-1]
     itrvl_sum_secondhalf = summarize_workout(secondhalf_df, 'Sec½')
     sum_lst.append(itrvl_sum_secondhalf)
 
