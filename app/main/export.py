@@ -34,7 +34,7 @@ def wrkt_lst_to_csv(wrkt_lst, export_fields, output_file, delimiter=','):
     keys = export_fields
 
     # Create and populate CSV
-    with open(os.path.join(current_app['FILE_DOWNLOAD_DIR'],'workouts.csv'), 'w', newline='') as output_file:
+    with open(os.path.join(current_app.config['FILE_DOWNLOAD_DIR'],'workouts.csv'), 'w', newline='') as output_file:
         dict_writer = csv.DictWriter(output_file, keys)
         dict_writer.writeheader()
         dict_writer.writerows(wrkt_dict_lst)

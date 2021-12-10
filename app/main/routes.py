@@ -98,12 +98,6 @@ def workouts():
         logger.debug('Clear Pressed')
         return redirect(url_for('main.workouts'))
 
-    if wrkt_filter_form.download_csv_btn.data:
-        logger.debug('Download Pressed')
-        # workout_list = Workout.query.filter_by(user_id=1).filter(Workout.dist_mi >=25).order_by(Workout.wrkt_dttm.desc())
-        # export.wrkt_lst_to_csv(workout_list, ['id','type','dist_mi'], '')
-        # return
-
     if url_change:
         if filterVal['strt_dt'] == '' or filterVal['strt_dt'] == None:
             strt_dt_str = ''
@@ -154,6 +148,12 @@ def workouts():
     logger.info('type_filter ' + str(type_filter))
 
     query, usingSearch = filtering.get_workouts_from_filter(current_user.id, type_filter, category_filter, filterVal, wrkt_filter_form)
+
+    if wrkt_filter_form.download_csv_btn.data:
+        logger.debug('Download Pressed')
+        workout_list = query.order_by(Workout.wrkt_dttm.desc()).paginate(0,10, False)
+        export.wrkt_lst_to_csv(workout_list.items, ['id','type','dist_mi'], '')
+        # return
 
     workoutPages = query.order_by(Workout.wrkt_dttm.desc()).paginate(filterVal['page'], current_app.config['POSTS_PER_PAGE'], False)
     next_url = url_for('main.workouts', page=workoutPages.next_num, type=filterVal['type'], category=filterVal['category'], temperature=filterVal['temperature'], distance=filterVal['distance'], text_search=filterVal['txt_search'], min_strt_temp=filterVal['min_strt_temp'], max_strt_temp=filterVal['max_strt_temp'], min_dist=filterVal['min_dist'], max_dist=filterVal['max_dist'], strt_dt=filterVal['strt_dt'],
