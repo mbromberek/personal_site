@@ -12,7 +12,7 @@ from datetime import datetime, timedelta, date
 
 # Third party classes
 from flask import render_template, flash, redirect, url_for, request, g, \
-    jsonify, current_app
+    jsonify, current_app, send_file
 from flask_login import current_user, login_required
 from sqlalchemy import or_
 import pandas as pd
@@ -152,8 +152,9 @@ def workouts():
     if wrkt_filter_form.download_csv_btn.data:
         logger.debug('Download Pressed')
         workout_list = query.order_by(Workout.wrkt_dttm.desc()).paginate(0,10, False)
-        export.wrkt_lst_to_csv(workout_list.items, ['id','type','dist_mi'], '')
-        # return
+        field_lst = ['id','type','dist_mi']
+        return send_file(export.wrkt_lst_to_csv(workout_list.items, field_lst, ''), as_attachment=True)
+
 
     workoutPages = query.order_by(Workout.wrkt_dttm.desc()).paginate(filterVal['page'], current_app.config['POSTS_PER_PAGE'], False)
     next_url = url_for('main.workouts', page=workoutPages.next_num, type=filterVal['type'], category=filterVal['category'], temperature=filterVal['temperature'], distance=filterVal['distance'], text_search=filterVal['txt_search'], min_strt_temp=filterVal['min_strt_temp'], max_strt_temp=filterVal['max_strt_temp'], min_dist=filterVal['min_dist'], max_dist=filterVal['max_dist'], strt_dt=filterVal['strt_dt'],

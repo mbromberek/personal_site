@@ -39,4 +39,5 @@ def wrkt_lst_to_csv(wrkt_lst, export_fields, output_file, delimiter=','):
         dict_writer.writeheader()
         dict_writer.writerows(wrkt_dict_lst)
 
-    return True
+
+    return os.path.join(current_app.config['FILE_DOWNLOAD_DIR'],'workouts.csv')
