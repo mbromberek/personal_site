@@ -22,11 +22,10 @@ from app.main import bp
 from app.main.forms import EmptyForm, WorkoutCreateBtnForm, WorkoutForm, WorkoutFilterForm, WorkoutIntervalForm
 from app.models import User, Workout, Workout_interval, Gear_usage, Wrkt_sum, Wkly_mileage
 from app import db
-from app.utils import tm_conv, const, nbrConv
+from app.utils import tm_conv, const, nbrConv, dt_conv
 from app import logger
-from app.utils import dt_conv
 from app.utils import wrkt_summary
-from app.main import export
+from app.main import export, filtering
 
 @bp.route('/')
 @bp.route('/index')
@@ -53,13 +52,13 @@ def workouts():
     url_change = False
     usingSearch = False
     filterValFromPost = {}
-    filterValFromUrl = getFilterValuesFromUrl()
+    filterValFromUrl = filtering.getFilterValuesFromUrl()
 
     if wrkt_filter_form.submit_search_btn.data:
         logger.debug('Search Submit Pressed')
         usingSearch=True
         url_change = True
-        filterValFromPost = getFilterValuesFromPost(wrkt_filter_form)
+        filterValFromPost = filtering.getFilterValuesFromPost(wrkt_filter_form)
         filterVal = filterValFromPost
         filterVal['type'] = filterValFromUrl['type']
         filterVal['category'] = filterValFromUrl['category']
@@ -154,66 +153,7 @@ def workouts():
 
     logger.info('type_filter ' + str(type_filter))
 
-    # TODO move filtering to a function
-    query = Workout.query.filter_by(user_id=current_user.id)
-    if len(type_filter) >0:
-        query = query.filter(Workout.type.in_(type_filter))
-    if len(category_filter) >0:
-        query = query.filter(Workout.category.in_(category_filter))
-
-    if filterVal['temperature'] != '':
-        # usingSearch = True
-        query = query.filter(Workout.temp_strt >= filterVal['temperature'] \
-        -current_app.config['TEMPERATURE_RANGE'])
-        query = query.filter(Workout.temp_strt <= filterVal['temperature'] \
-        +current_app.config['TEMPERATURE_RANGE'])
-        wrkt_filter_form.strt_temp_search.data = filterVal['temperature']
-    if filterVal['distance'] != '':
-        # usingSearch = True
-        query = query.filter(Workout.dist_mi >= filterVal['distance'] \
-        *(1-current_app.config['DISTANCE_RANGE']))
-        query = query.filter(Workout.dist_mi <= filterVal['distance'] \
-        *(1+current_app.config['DISTANCE_RANGE']))
-        wrkt_filter_form.distance_search.data = filterVal['distance']
-    if filterVal['txt_search'] != '':
-        query = query.filter(
-            or_(Workout.training_type.ilike('%'+filterVal['txt_search']+'%'), Workout.location.ilike('%'+filterVal['txt_search']+'%'))
-        )
-        wrkt_filter_form.text_search.data = filterVal['txt_search']
-
-    if filterVal['min_strt_temp'] != '':
-        usingSearch = True
-        wrkt_filter_form.min_strt_temp_srch.data = filterVal['min_strt_temp']
-        query = query.filter(Workout.temp_strt >= filterVal['min_strt_temp'])
-    if filterVal['max_strt_temp'] != '':
-        usingSearch = True
-        wrkt_filter_form.max_strt_temp_srch.data = filterVal['max_strt_temp']
-        query = query.filter(Workout.temp_strt <= filterVal['max_strt_temp'])
-    if filterVal['min_dist'] != '':
-        usingSearch = True
-        wrkt_filter_form.min_dist_srch.data = filterVal['min_dist']
-        query = query.filter(Workout.dist_mi >= filterVal['min_dist'])
-    if filterVal['max_dist'] != '':
-        usingSearch = True
-        wrkt_filter_form.max_dist_srch.data = filterVal['max_dist']
-        query = query.filter(Workout.dist_mi <= filterVal['max_dist'])
-    if filterVal['strt_dt'] != '':
-        usingSearch = True
-        try:
-            dt = dt_conv.get_date(filterVal['strt_dt'])
-            wrkt_filter_form.strt_dt_srch.data = dt
-            query = query.filter(Workout.wrkt_dttm >= dt)
-        except:
-            pass
-    if filterVal['end_dt'] != '':
-        usingSearch = True
-        try:
-            # Add last second of day so end date for workout will be returned regardless of time of day.
-            dt = dt_conv.get_date(filterVal['end_dt'] + 'T23:59:59Z')
-            wrkt_filter_form.end_dt_srch.data = dt
-            query = query.filter(Workout.wrkt_dttm <= dt)
-        except:
-            pass
+    query, usingSearch = filtering.get_workouts_from_filter(current_user.id, type_filter, category_filter, filterVal, wrkt_filter_form)
 
     workoutPages = query.order_by(Workout.wrkt_dttm.desc()).paginate(filterVal['page'], current_app.config['POSTS_PER_PAGE'], False)
     next_url = url_for('main.workouts', page=workoutPages.next_num, type=filterVal['type'], category=filterVal['category'], temperature=filterVal['temperature'], distance=filterVal['distance'], text_search=filterVal['txt_search'], min_strt_temp=filterVal['min_strt_temp'], max_strt_temp=filterVal['max_strt_temp'], min_dist=filterVal['min_dist'], max_dist=filterVal['max_dist'], strt_dt=filterVal['strt_dt'],
@@ -559,46 +499,6 @@ def getInsertPoint(wrkt_sum, wrkt_sum_lst):
         i=i+1
     return i
 
-
-def getFilterValuesFromPost(form):
-    filterVal = {}
-    filterVal['temperature'] = form.strt_temp_search.data
-    filterVal['distance'] = form.distance_search.data
-    filterVal['txt_search'] = form.text_search.data
-    filterVal['strt_dt'] = form.strt_dt_srch.data
-    logger.debug(str(filterVal['strt_dt']))
-    filterVal['end_dt'] = form.end_dt_srch.data
-    filterVal['min_dist'] = form.min_dist_srch.data
-    filterVal['max_dist'] = form.max_dist_srch.data
-    filterVal['min_strt_temp'] = form.min_strt_temp_srch.data
-    filterVal['max_strt_temp'] = form.max_strt_temp_srch.data
-
-    return filterVal
-
-def getFilterValuesFromUrl():
-    filterVal = {}
-
-    filterVal['page'] = request.args.get('page', default=1, type=int)
-    filterVal['type'] = request.args.get('type', default='')
-    filterVal['category'] = request.args.get('category', default='')
-
-    filterVal['temperature'] = request.args.get('temperature', default='', type=int)
-    distance = request.args.get('distance', default='', type=str)
-    filterVal['distance'] = round(float(distance),2) if nbrConv.isFloat(distance) else ''
-    filterVal['txt_search'] = request.args.get('text_search', default='', type=str)
-
-    filterVal['strt_dt'] = request.args.get('strt_dt', default='', type=str)
-    filterVal['end_dt'] = request.args.get('end_dt', default='', type=str)
-
-    min_dist = request.args.get('min_dist', default='', type=str)
-    filterVal['min_dist'] = round(float(min_dist),2) if nbrConv.isFloat(min_dist) else ''
-    max_dist = request.args.get('max_dist', default='', type=str)
-    filterVal['max_dist'] = round(float(max_dist),2) if nbrConv.isFloat(max_dist) else ''
-
-    filterVal['min_strt_temp'] = request.args.get('min_strt_temp', default='', type=int)
-    filterVal['max_strt_temp'] = request.args.get('max_strt_temp', default='', type=int)
-
-    return filterVal
 
 @bp.route('/edit_workout_interval', methods=['GET','POST'])
 @login_required
