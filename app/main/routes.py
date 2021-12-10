@@ -26,6 +26,7 @@ from app.utils import tm_conv, const, nbrConv
 from app import logger
 from app.utils import dt_conv
 from app.utils import wrkt_summary
+from app.main import export
 
 @bp.route('/')
 @bp.route('/index')
@@ -93,11 +94,16 @@ def workouts():
         url_change = True
         filterVal['category'] = 'race'
 
-    # Redirect if All button was pressed
+    # Redirect if Clear button was pressed
     if wrkt_filter_form.clear_filter_btn.data:
         logger.debug('Clear Pressed')
         return redirect(url_for('main.workouts'))
 
+    if wrkt_filter_form.download_csv_btn.data:
+        logger.debug('Download Pressed')
+        # workout_list = Workout.query.filter_by(user_id=1).filter(Workout.dist_mi >=25).order_by(Workout.wrkt_dttm.desc())
+        # export.wrkt_lst_to_csv(workout_list, ['id','type','dist_mi'], '')
+        # return
 
     if url_change:
         if filterVal['strt_dt'] == '' or filterVal['strt_dt'] == None:
@@ -148,7 +154,7 @@ def workouts():
 
     logger.info('type_filter ' + str(type_filter))
 
-
+    # TODO move filtering to a function
     query = Workout.query.filter_by(user_id=current_user.id)
     if len(type_filter) >0:
         query = query.filter(Workout.type.in_(type_filter))

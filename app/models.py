@@ -220,6 +220,23 @@ class Workout(PaginatedAPIMixin, db.Model):
     def warm_up_pace_str(self):
         return tm_conv.sec_to_time(tm_conv.pace_calc(self.warm_up_tot_dist_mi, self.warm_up_tot_tm_sec),'ms')
 
+    # TODO create function for to_dict_fields
+    # Parameter export_fields is a list of the fields to export
+    #   can be blank to mean all
+    #   Need to check fields exist in Workout
+    # This function might be able to replace to_dict but will see how it works
+    # TODO Are there fields I do not want to export and should somehow block?
+    def to_dict_fields(self, export_fields):
+        data = {}
+        for field in export_fields:
+            # TODO how to handle getting gear name?
+            # TODO should user_id be replaced by user_name?
+            # Might be able to just use getattr with a default
+            # if hasattr(self, field):
+            #     data[field] = getattr(self, field)
+            data[field] = getattr(self, field, '')
+        return data
+
     def to_dict(self, include_calc_fields=False):
         gear_rec = Gear.query.filter_by(id=self.gear_id, user_id=self.user_id).first()
         data = {

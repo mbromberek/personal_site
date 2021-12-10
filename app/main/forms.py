@@ -37,6 +37,7 @@ class WorkoutFilterForm(FlaskForm):
     category_race_btn = SubmitField(label='Race')
 
     clear_filter_btn = SubmitField(label='Clear Filter')
+    download_csv_btn = SubmitField(label='Download')
 
     strt_temp_search = DecimalField('Temperature', validators=[Optional()], places=0, rounding=decimal.ROUND_UP)
     distance_search = DecimalField('Distance', validators=[Optional()], places=0, rounding=decimal.ROUND_UP)

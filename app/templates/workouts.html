@@ -16,10 +16,8 @@
             <span class="hide_desktop"><br></span>
             <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups" style="margin-top:15px;">
                 <div class="btn-group" role="group" aria-label="Type group">
-                    <!-- <form action="" method="post" role="form" class="form" > -->
                     {{ render_field(form.workt_create_btn, class='btn btn-outline-dark wrkts_hdr_btn', style='font-size:20pt;height:40px;padding-top:0px;padding-bottom:0px;font-weight:bold;') }}
 
-                    <!-- </form> -->
                     <div class="btn-group wrkts_hdr_btn" role="group" aria-label="Show or Hide Search"">
                         <input type="button"
                         class='btn btn-outline-dark workout_filter_btn_container',
@@ -68,6 +66,10 @@
                 <div class="form-group wrkt_filter_field">
                     {{ wrkt_filter_form.end_dt_srch.label( class="wrkt_filter_label") }}
                     {{ wrkt_filter_form.end_dt_srch(style="border: 1px solid black; width:130px; height:30px;") }}
+                </div>
+                <div class="form-group wrkt_filter_field">
+                    <!-- TODO add button -->
+                    {{ render_field(wrkt_filter_form.download_csv_btn, class='btn btn-outline-dark', style="height:40px;") }}
                 </div>
             </div>
             <div class="form-row ml-1" id="extra_filter_fields" >
