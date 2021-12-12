@@ -234,7 +234,7 @@ class Workout(PaginatedAPIMixin, db.Model):
             if field not in const.EXPORT_FIELDS:
                 data[field] = ''
             elif const.EXPORT_FIELD_MAPPING.get(field) == 'wrkt_dttm':
-                data[field] = self.wrkt_dttm.isoformat() + 'Z'
+                data[field] = self.wrkt_dttm.strftime('%m/%d/%Y %H:%M:%S')
             elif const.EXPORT_FIELD_MAPPING.get(field) == 'gear':
                 gear_rec = Gear.query.filter_by(id=self.gear_id, user_id=self.user_id).first()
                 data[field] = gear_rec.nm if gear_rec != None else ''
@@ -244,6 +244,8 @@ class Workout(PaginatedAPIMixin, db.Model):
                 data[field] = self.pace_str()
             elif const.EXPORT_FIELD_MAPPING.get(field) == 'notes+':
                 data[field] = '{}\n{}\n{}'.format(self.weather_str(), self.clothes, self.notes)
+            elif const.EXPORT_FIELD_MAPPING.get(field) == 'elevation':
+                data[field] = '{}↑\n{}↓'.format(self.ele_up, self.ele_down)
             else:
                 data[field] = getattr(self, const.EXPORT_FIELD_MAPPING.get(field,''), '')
         return data
