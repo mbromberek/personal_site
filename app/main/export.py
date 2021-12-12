@@ -19,8 +19,10 @@ from app.models import User, Workout, Workout_interval, Gear_usage, Wrkt_sum, Wk
 from app import logger
 
 
-def wrkt_lst_to_csv(wrkt_lst, export_fields, output_file, delimiter=','):
+def wrkt_lst_to_csv(wrkt_lst, export_fields, out_fname, delimiter=','):
     # Fields will be in same order on csv as in the export_fields list
+
+    out_file_path = os.path.join(current_app.config['FILE_DOWNLOAD_DIR'],out_fname)
 
     # Convert passed in workouts to a list of dictionaries
     # TODO how to handle fields that are not in model like pace_str and notes w/clothes and weather
@@ -34,10 +36,10 @@ def wrkt_lst_to_csv(wrkt_lst, export_fields, output_file, delimiter=','):
     keys = export_fields
 
     # Create and populate CSV
-    with open(os.path.join(current_app.config['FILE_DOWNLOAD_DIR'],'workouts.csv'), 'w', newline='') as output_file:
+    with open(out_file_path, 'w', newline='') as output_file:
         dict_writer = csv.DictWriter(output_file, keys)
         dict_writer.writeheader()
         dict_writer.writerows(wrkt_dict_lst)
 
 
-    return os.path.join(current_app.config['FILE_DOWNLOAD_DIR'],'workouts.csv')
+    return out_file_path

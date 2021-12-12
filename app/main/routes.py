@@ -151,9 +151,9 @@ def workouts():
 
     if wrkt_filter_form.download_csv_btn.data:
         logger.debug('Download Pressed')
-        workout_list = query.order_by(Workout.wrkt_dttm.desc()).paginate(0,10, False)
-        field_lst = ['id','type','dist_mi']
-        return send_file(export.wrkt_lst_to_csv(workout_list.items, field_lst, ''), as_attachment=True)
+        workout_list = query.order_by(Workout.wrkt_dttm.desc()).paginate(0,100, False)
+        field_lst = ['wrkt_dttm', 'type', 'dur_sec', 'dist_mi', 'pace', 'notes', 'category', 'gear', 'elevation', 'hr', 'cal_burn']
+        return send_file(export.wrkt_lst_to_csv(workout_list.items, field_lst, 'workouts.csv'), as_attachment=True)
 
 
     workoutPages = query.order_by(Workout.wrkt_dttm.desc()).paginate(filterVal['page'], current_app.config['POSTS_PER_PAGE'], False)

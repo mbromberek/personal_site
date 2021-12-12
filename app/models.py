@@ -21,7 +21,7 @@ from flask import url_for, current_app
 # Custom Classes
 from app import db, login
 from app.utils import tm_conv
-
+from app import logger
 
 @login.user_loader
 def load_user(id):
@@ -234,7 +234,15 @@ class Workout(PaginatedAPIMixin, db.Model):
             # Might be able to just use getattr with a default
             # if hasattr(self, field):
             #     data[field] = getattr(self, field)
-            data[field] = getattr(self, field, '')
+            if  field == 'wrkt_dttm':
+                data[field] = self.wrkt_dttm.isoformat() + 'Z'
+            elif field == 'gear':
+                gear_rec = Gear.query.filter_by(id=self.gear_id, user_id=self.user_id).first()
+                data[field] = gear_rec.nm if gear_rec != None else ''
+            elif field == 'pace':
+                data['pace'] = self.pace_str()
+            else:
+                data[field] = getattr(self, field, '')
         return data
 
     def to_dict(self, include_calc_fields=False):
@@ -266,12 +274,12 @@ class Workout(PaginatedAPIMixin, db.Model):
                 'dew_point' : str(self.dew_point_strt)
             },
             'weather_end': {
-                'temp': str(self.temp_strt),
-                'temp_feels_like': str(self.temp_feels_like_strt),
-                'wethr_cond': self.wethr_cond_strt,
-                'hmdty': str(self.hmdty_strt),
-                'wind_speed': str(self.wind_speed_strt),
-                'wind_gust': str(self.wind_gust_strt),
+                'temp': str(self.temp_end),
+                'temp_feels_like': str(self.temp_feels_like_end),
+                'wethr_cond': self.wethr_cond_end,
+                'hmdty': str(self.hmdty_end),
+                'wind_speed': str(self.wind_speed_end),
+                'wind_gust': str(self.wind_gust_end),
                 'dew_point' : str(self.dew_point_end)
             },
             'notes': self.notes,
