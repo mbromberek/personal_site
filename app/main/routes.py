@@ -153,7 +153,9 @@ def workouts():
         logger.debug('Download Pressed')
         workout_list = query.order_by(Workout.wrkt_dttm.desc()).paginate(0,100, False)
         field_lst = ['Date','Type','Duration','Distance','Pace', 'Notes+', 'Category','Gear','Elevation','HR','Calories']
-        return send_file(export.wrkt_lst_to_csv(workout_list.items, field_lst, 'workouts.csv'), as_attachment=True)
+        export_file = export.wrkt_lst_to_csv(workout_list.items, field_lst)
+
+        return send_file(export_file, as_attachment=True, mimetype='text/csv', attachment_filename='workouts.csv')
 
 
     workoutPages = query.order_by(Workout.wrkt_dttm.desc()).paginate(filterVal['page'], current_app.config['POSTS_PER_PAGE'], False)

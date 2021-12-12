@@ -8,6 +8,7 @@ All rights reserved.
 
 # First party classes
 import csv
+import io
 import os
 
 # Third party classes
@@ -18,28 +19,32 @@ from app.main import bp
 from app.models import User, Workout, Workout_interval, Gear_usage, Wrkt_sum, Wkly_mileage
 from app import logger
 
-
-def wrkt_lst_to_csv(wrkt_lst, export_fields, out_fname, delimiter=','):
+'''
+Generate a CSV formatted file in memory of the workouts passed
+'''
+def wrkt_lst_to_csv(wrkt_lst, export_fields):
     # Fields will be in same order on csv as in the export_fields list
 
-    out_file_path = os.path.join(current_app.config['FILE_DOWNLOAD_DIR'],out_fname)
+    # out_file_path = os.path.join(current_app.config['FILE_DOWNLOAD_DIR'],out_fname)
 
     # Convert passed in workouts to a list of dictionaries
-    # TODO how to handle fields that are not in model like pace_str and notes w/clothes and weather
     wrkt_dict_lst = []
     for wrkt in wrkt_lst:
         wrkt_dict_lst.append(wrkt.to_dict_export(export_fields))
 
     # Get CSV Header row
-    # TODO should keys be based on the dictionary or using the export_fields? If using export_fields need to be sure how things work when a field is in export_fields but will not be in dictionary
-    # keys = wrkt_dict_lst[0].keys()
     keys = export_fields
 
-    # Create and populate CSV
-    with open(out_file_path, 'w', newline='') as output_file:
-        dict_writer = csv.DictWriter(output_file, keys)
-        dict_writer.writeheader()
-        dict_writer.writerows(wrkt_dict_lst)
+    # Generate CSV in the string field output_string
+    output_string = io.StringIO()
+    dict_writer = csv.DictWriter(output_string, keys)
+    dict_writer.writeheader()
+    dict_writer.writerows(wrkt_dict_lst)
 
+    # Need to convert output_string to bytes for sending with send_file
+    mem = io.BytesIO()
+    mem.write(output_string.getvalue().encode())
+    mem.seek(0)
+    output_string.close()
 
-    return out_file_path
+    return mem
