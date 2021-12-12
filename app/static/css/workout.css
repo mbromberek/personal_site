@@ -12,12 +12,15 @@
     cursor:pointer;
 }*/
 
-.workouts{
+.workouts_hdr{
     font-weight:normal;
-    font-size: 30pt;
+    font-size: 15pt;
     text-align: left;
     vertical-align: middle;
     float: left;
+    line-height:90%;
+    padding-top:15px;
+    margin-right:20px;
 }
 header.workout{
     font-weight:bold;
@@ -29,7 +32,7 @@ header.workout{
     overflow:auto;
     position:relative;
     margin-top:15px;
-    padding-bottom: 25px;
+    padding-bottom: 0px;
     width:800px;
 }
 .wrkts_filter_row{
@@ -319,10 +322,10 @@ td.gear_usage_dtl{
 
 @media only screen and (max-width:500px) {
     /* For mobile phones: */
-    .workouts{
+    .workouts_hdr{
         font-size: 13pt;
         display:inline-block;
-
+        padding-top:0px;
     }
     header.workout{
         font-size: 13pt;
@@ -441,8 +444,8 @@ td.gear_usage_dtl{
     .wrkts_filter_row{
         width:100%;
     }
-    .workouts{
-        font-size: 23pt;
+    .workouts_hdr{
+        /*font-size: 23pt;*/
         /* display:inline-block; */
     }
 

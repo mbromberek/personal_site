@@ -243,7 +243,7 @@ class Workout(PaginatedAPIMixin, db.Model):
             elif const.EXPORT_FIELD_MAPPING.get(field) == 'pace':
                 data[field] = self.pace_str()
             elif const.EXPORT_FIELD_MAPPING.get(field) == 'notes+':
-                data[field] = '{}\n{}'.format(self.weather_str(), self.notes)
+                data[field] = '{}\n{}\n{}'.format(self.weather_str(), self.clothes, self.notes)
             else:
                 data[field] = getattr(self, const.EXPORT_FIELD_MAPPING.get(field,''), '')
         return data
