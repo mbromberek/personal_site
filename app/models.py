@@ -20,8 +20,9 @@ from flask import url_for, current_app
 
 # Custom Classes
 from app import db, login
-from app.utils import tm_conv
+from app.utils import tm_conv, const
 from app import logger
+
 
 @login.user_loader
 def load_user(id):
@@ -220,29 +221,31 @@ class Workout(PaginatedAPIMixin, db.Model):
     def warm_up_pace_str(self):
         return tm_conv.sec_to_time(tm_conv.pace_calc(self.warm_up_tot_dist_mi, self.warm_up_tot_tm_sec),'ms')
 
-    # TODO create function for to_dict_fields
+    def weather_str(self):
+        weather_strt_str = 'Start: {} degrees {}, {} percent humidity, wind speed {} mph, wind gust {} mpn, feels like {} degrees, dew point {}.'.format(self.temp_strt, self.wethr_cond_strt, self.hmdty_strt, self.wind_speed_strt, self.wind_gust_strt, self.temp_feels_like_strt, self.dew_point_strt)
+        weather_end_str = 'End: {} degrees {}, {} percent humidity, wind speed {} mph, wind gust {} mpn, feels like {} degrees, dew point {}.'.format(self.temp_end, self.wethr_cond_end, self.hmdty_end, self.wind_speed_end, self.wind_gust_end, self.temp_feels_like_end, self.dew_point_end)
+        return '{}\n{}'.format(weather_strt_str,weather_end_str)
+
     # Parameter export_fields is a list of the fields to export
-    #   can be blank to mean all
-    #   Need to check fields exist in Workout
-    # This function might be able to replace to_dict but will see how it works
-    # TODO Are there fields I do not want to export and should somehow block?
-    def to_dict_fields(self, export_fields):
+    def to_dict_export(self, export_fields):
         data = {}
         for field in export_fields:
-            # TODO how to handle getting gear name?
             # TODO should user_id be replaced by user_name?
-            # Might be able to just use getattr with a default
-            # if hasattr(self, field):
-            #     data[field] = getattr(self, field)
-            if  field == 'wrkt_dttm':
+            if field not in const.EXPORT_FIELDS:
+                data[field] = ''
+            elif const.EXPORT_FIELD_MAPPING.get(field) == 'wrkt_dttm':
                 data[field] = self.wrkt_dttm.isoformat() + 'Z'
-            elif field == 'gear':
+            elif const.EXPORT_FIELD_MAPPING.get(field) == 'gear':
                 gear_rec = Gear.query.filter_by(id=self.gear_id, user_id=self.user_id).first()
                 data[field] = gear_rec.nm if gear_rec != None else ''
-            elif field == 'pace':
-                data['pace'] = self.pace_str()
+            elif const.EXPORT_FIELD_MAPPING.get(field) == 'duration':
+                data[field] = self.dur_str()
+            elif const.EXPORT_FIELD_MAPPING.get(field) == 'pace':
+                data[field] = self.pace_str()
+            elif const.EXPORT_FIELD_MAPPING.get(field) == 'notes+':
+                data[field] = '{}\n{}'.format(self.weather_str(), self.notes)
             else:
-                data[field] = getattr(self, field, '')
+                data[field] = getattr(self, const.EXPORT_FIELD_MAPPING.get(field,''), '')
         return data
 
     def to_dict(self, include_calc_fields=False):

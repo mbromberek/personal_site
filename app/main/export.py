@@ -28,7 +28,7 @@ def wrkt_lst_to_csv(wrkt_lst, export_fields, out_fname, delimiter=','):
     # TODO how to handle fields that are not in model like pace_str and notes w/clothes and weather
     wrkt_dict_lst = []
     for wrkt in wrkt_lst:
-        wrkt_dict_lst.append(wrkt.to_dict_fields(export_fields))
+        wrkt_dict_lst.append(wrkt.to_dict_export(export_fields))
 
     # Get CSV Header row
     # TODO should keys be based on the dictionary or using the export_fields? If using export_fields need to be sure how things work when a field is in export_fields but will not be in dictionary

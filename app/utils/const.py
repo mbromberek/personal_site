@@ -12,3 +12,24 @@ NBR_WK_COMP = 10
 
 SHOE_MILE_AGE_WARNING = 300
 SHOE_MILE_AGE_SHOULD_RETIRE = 450
+
+EXPORT_FIELDS = ['Type','Date','Duration','Distance','Pace', 'Gear','HR','Category','Calories', 'Notes','Notes+']
+EXPORT_FIELD_MAPPING = {
+    'Type':'type',
+    'Date':'wrkt_dttm',
+    'Duration':'duration',
+    'Distance':'dist_mi',
+    'Pace':'pace',
+    'Gear':'gear',
+    'HR':'hr',
+    'Category':'category',
+    'Calories':'cal_burn',
+    'Elevation Up':'ele_up',
+    'Elevation Down':'ele_down',
+    'Elevation':'elevation',
+    'Location':'location',
+    'Training Type':'training_type',
+    'Weather':'weather',
+    'Notes+':'notes+',
+    'Notes':'notes'
+}
