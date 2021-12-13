@@ -57,7 +57,7 @@
                 </div>
                 <div class=" wrkt_filter_field" style="display:inline;margin-right:0px;">
                     {{ wrkt_filter_form.distance_search.label }}:
-                    {{ wrkt_filter_form.distance_search(style="border: 1px solid black; width:50px", type="number", pattern="[0-9]*(.[0-9][0-9])*") }}
+                    {{ wrkt_filter_form.distance_search(style="border: 1px solid black; width:50px", pattern="^(0|[1-9]\d*)(\.\d+)?$") }}
                 </div>
             </div>
         </div>
