@@ -93,3 +93,7 @@ function filterToggle(element){
             ele.setAttribute('value', 'Show Search');
         });
 }
+
+function showDownload(element){
+    console.log("showDownload");
+}
