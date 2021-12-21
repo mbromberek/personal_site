@@ -54,7 +54,7 @@ class WorkoutFilterForm(FlaskForm):
     max_strt_temp_srch = DecimalField('Max Temp:', validators=[Optional()], places=0, rounding=decimal.ROUND_UP)
 
 class WorkoutExportForm(FlaskForm):
-    max_export_records = IntegerField('Max number of records to export', widget=h5widgets.NumberInput(),
+    max_export_records = IntegerField('Max nbr of records', widget=h5widgets.NumberInput(),
         default='', validators=[Optional()])
     download_csv_btn = SubmitField(label='Export')
 
