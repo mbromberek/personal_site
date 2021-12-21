@@ -76,6 +76,10 @@ input.workout_filter_btn_container{
     height:40px;
     width:120px;
 }
+button.workout_filter_btn_container{
+    height:40px;
+    width:120px;
+}
 input.workout_filter_btn_container:hover{
     cursor: pointer;
 }

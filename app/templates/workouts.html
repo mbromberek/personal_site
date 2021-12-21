@@ -21,12 +21,20 @@
                     </button>
                 </div>
                 <div class="btn-group wrkts_hdr_btn" role="group" aria-label="Show or Hide Search"">
+                    {#
                     <input type="button"
                     class='btn btn-outline-dark workout_filter_btn_container',
                     onclick="showDownload(this);"
                     value="Download" id="download_temp_btn"
                     />
+                    #}
+
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-outline-dark workout_filter_btn_container" data-toggle="modal" data-target="#exportSelectModal" style="">
+                      Download
+                    </button>
                 </div>
+
 
                 <div class="btn-group" role="group" aria-label="Type group">
                     {{ render_field(form.workt_create_btn, class='btn btn-outline-dark wrkts_hdr_btn', style='font-size:20pt;height:40px;padding-top:0px;padding-bottom:0px;font-weight:bold;') }}
@@ -120,10 +128,34 @@
             </li>
         </ul>
     </nav>
+    {#
     <div id='csv_download_specs' style="position:absolute; top:130px; left:60px; width:750px; height:300px; border: 3px solid black; background:white; display:none; padding:20px; ">
         <form>
             Max number of records to export:
-            <!-- Create export form to populate this with -->
         </form>
+    </div>
+    #}
+    <!-- Modal window to popup for selecting fields to export as CSV -->
+    <div class="modal fade" id="exportSelectModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+              <form>
+                  Max number of records to export:
+                  <!-- Create export form to populate this with -->
+              </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
+      </div>
     </div>
 {% endblock %}
