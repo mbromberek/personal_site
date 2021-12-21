@@ -96,4 +96,8 @@ function filterToggle(element){
 
 function showDownload(element){
     console.log("showDownload");
+    var ele = document.getElementById("csv_download_specs");
+    console.log(ele.innerHTML);
+    document.getElementById("csv_download_specs").style.display = 'block'
+    console.log(ele.style.display);
 }
