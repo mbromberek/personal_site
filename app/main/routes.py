@@ -19,7 +19,7 @@ import pandas as pd
 
 # Custom classes
 from app.main import bp
-from app.main.forms import EmptyForm, WorkoutCreateBtnForm, WorkoutForm, WorkoutFilterForm, WorkoutIntervalForm
+from app.main.forms import EmptyForm, WorkoutCreateBtnForm, WorkoutForm, WorkoutFilterForm, WorkoutIntervalForm, WorkoutExportForm
 from app.models import User, Workout, Workout_interval, Gear_usage, Wrkt_sum, Wkly_mileage
 from app import db
 from app.utils import tm_conv, const, nbrConv, dt_conv
@@ -43,6 +43,10 @@ def workouts():
     logger.info('workouts')
     wrktCreateBtn = WorkoutCreateBtnForm()
     wrkt_filter_form = WorkoutFilterForm()
+    wrkt_export_form = WorkoutExportForm()
+
+    if wrkt_export_form.download_csv_btn.data:
+        logger.debug("download csv button popover pressed")
 
     # if New Workout button was pressed
     if wrktCreateBtn.workt_create_btn.data:
@@ -149,11 +153,15 @@ def workouts():
 
     query, usingSearch = filtering.get_workouts_from_filter(current_user.id, type_filter, category_filter, filterVal, wrkt_filter_form)
 
-    if wrkt_filter_form.download_csv_btn.data:
+    if wrkt_export_form.download_csv_btn.data:
         logger.debug('Download Pressed')
-        workout_list = query.order_by(Workout.wrkt_dttm.desc()).paginate(0,100, False)
+        query = query.order_by(Workout.wrkt_dttm.desc())
+        if wrkt_export_form.max_export_records.data != None:
+            workout_list = query.paginate(0,wrkt_export_form.max_export_records.data, False).items
+        else:
+            workout_list = query.all()
         field_lst = ['Date','Type','Duration','Distance','Pace', 'Notes+', 'Category','Gear','Elevation','HR','Calories']
-        export_file = export.wrkt_lst_to_csv(workout_list.items, field_lst)
+        export_file = export.wrkt_lst_to_csv(workout_list, field_lst)
 
         return send_file(export_file, as_attachment=True, mimetype='text/csv', attachment_filename='workouts.csv')
 
@@ -177,7 +185,7 @@ def workouts():
             # workout.notes_summmary = workout.notes
         else:
             workout.notes_summary = ""
-    return render_template('workouts.html', title='Workouts', workouts=workouts, form=wrktCreateBtn, wrkt_filter_form=wrkt_filter_form, btn_classes=btn_classes, next_url=next_url, prev_url=prev_url, using_search=usingSearch, destPage='search')
+    return render_template('workouts.html', title='Workouts', workouts=workouts, form=wrktCreateBtn, wrkt_filter_form=wrkt_filter_form, btn_classes=btn_classes, next_url=next_url, prev_url=prev_url, using_search=usingSearch, destPage='search', wrkt_export_form=wrkt_export_form)
 
 @bp.route('/edit_workout', methods=['GET','POST'])
 @login_required

@@ -16,7 +16,7 @@
             <span class="hide_desktop"><br></span>
             <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups" style="margin-top:15px;">
                 <div class="form-group wrkt_filter_field">
-                    <button class="btn btn-outline-dark" id="download_csv_btn" name="download_csv_btn" style="height:40px;border:0px;padding:0px;" type="submit" value="Download CSV">
+                    <button type="button" class="btn btn-outline-dark"  style="height:40px;border:0px;padding:0px;" value="Download CSV" data-toggle="modal" data-target="#exportSelectModal" >
                         <img src="static/images/CSV-icon-33.png" width="33px" height="33px" alt="CSV" title="Download Workouts as CSV">
                     </button>
                 </div>
@@ -28,11 +28,12 @@
                     value="Download" id="download_temp_btn"
                     />
                     #}
-
+                    {#
                     <!-- Button trigger modal -->
                     <button type="button" class="btn btn-outline-dark workout_filter_btn_container" data-toggle="modal" data-target="#exportSelectModal" style="">
                       Download
                     </button>
+                    #}
                 </div>
 
 
@@ -138,24 +139,28 @@
     <!-- Modal window to popup for selecting fields to export as CSV -->
     <div class="modal fade" id="exportSelectModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-              <form>
-                  Max number of records to export:
+        <form action="" method="post" role="form" class="form" id='wrkt_export_popup_form'>
+            {{ wrkt_export_form.hidden_tag() }}
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Export Workouts</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
                   <!-- Create export form to populate this with -->
-              </form>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
-          </div>
-        </div>
+                  {{ wrkt_export_form.max_export_records.label( class="wrkt_filter_label") }}
+                  {{ wrkt_export_form.max_export_records(style="border: 1px solid black; width:50px;", inputmode="numeric") }}
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                {#{{ render_field(wrkt_export_form.download_csv_btn, class='btn btn-primary') }}#}
+                <input class="btn btn-primary" id="download_csv_btn" name="download_csv_btn" type="submit" value="Download">
+              </div>
+            </div>
+        </form>
       </div>
     </div>
 {% endblock %}

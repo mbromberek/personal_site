@@ -37,7 +37,6 @@ class WorkoutFilterForm(FlaskForm):
     category_race_btn = SubmitField(label='Race')
 
     clear_filter_btn = SubmitField(label='Clear Filter')
-    download_csv_btn = SubmitField(label='Download')
 
     strt_temp_search = DecimalField('Temperature', validators=[Optional()], places=0, rounding=decimal.ROUND_UP)
     distance_search = DecimalField('Distance', validators=[Optional()], places=2, rounding=decimal.ROUND_UP)
@@ -53,6 +52,12 @@ class WorkoutFilterForm(FlaskForm):
     max_dist_srch = DecimalField('Max Dist:', validators=[Optional()], places=0, rounding=decimal.ROUND_UP)
     min_strt_temp_srch = DecimalField('Min Temp:', validators=[Optional()], places=0, rounding=decimal.ROUND_UP)
     max_strt_temp_srch = DecimalField('Max Temp:', validators=[Optional()], places=0, rounding=decimal.ROUND_UP)
+
+class WorkoutExportForm(FlaskForm):
+    max_export_records = IntegerField('Max number of records to export', widget=h5widgets.NumberInput(),
+        default='', validators=[Optional()])
+    download_csv_btn = SubmitField(label='Download')
+
 
 class WorkoutIntervalForm(FlaskForm):
     wrkt_intrvl_id = HiddenField()

@@ -94,6 +94,7 @@ function filterToggle(element){
         });
 }
 
+/*
 function showDownload(element){
     console.log("showDownload");
     var ele = document.getElementById("csv_download_specs");
@@ -101,3 +102,4 @@ function showDownload(element){
     document.getElementById("csv_download_specs").style.display = 'block'
     console.log(ele.style.display);
 }
+*/
