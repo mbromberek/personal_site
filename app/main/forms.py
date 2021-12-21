@@ -56,7 +56,7 @@ class WorkoutFilterForm(FlaskForm):
 class WorkoutExportForm(FlaskForm):
     max_export_records = IntegerField('Max number of records to export', widget=h5widgets.NumberInput(),
         default='', validators=[Optional()])
-    download_csv_btn = SubmitField(label='Download')
+    download_csv_btn = SubmitField(label='Export')
 
 
 class WorkoutIntervalForm(FlaskForm):

@@ -154,7 +154,7 @@ def workouts():
     query, usingSearch = filtering.get_workouts_from_filter(current_user.id, type_filter, category_filter, filterVal, wrkt_filter_form)
 
     if wrkt_export_form.download_csv_btn.data:
-        logger.debug('Download Pressed')
+        logger.debug('Export as CSV Pressed')
         query = query.order_by(Workout.wrkt_dttm.desc())
         if wrkt_export_form.max_export_records.data != None:
             workout_list = query.paginate(0,wrkt_export_form.max_export_records.data, False).items

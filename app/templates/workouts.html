@@ -20,22 +20,6 @@
                         <img src="static/images/CSV-icon-33.png" width="33px" height="33px" alt="CSV" title="Download Workouts as CSV">
                     </button>
                 </div>
-                <div class="btn-group wrkts_hdr_btn" role="group" aria-label="Show or Hide Search"">
-                    {#
-                    <input type="button"
-                    class='btn btn-outline-dark workout_filter_btn_container',
-                    onclick="showDownload(this);"
-                    value="Download" id="download_temp_btn"
-                    />
-                    #}
-                    {#
-                    <!-- Button trigger modal -->
-                    <button type="button" class="btn btn-outline-dark workout_filter_btn_container" data-toggle="modal" data-target="#exportSelectModal" style="">
-                      Download
-                    </button>
-                    #}
-                </div>
-
 
                 <div class="btn-group" role="group" aria-label="Type group">
                     {{ render_field(form.workt_create_btn, class='btn btn-outline-dark wrkts_hdr_btn', style='font-size:20pt;height:40px;padding-top:0px;padding-bottom:0px;font-weight:bold;') }}
@@ -156,8 +140,7 @@
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 
-                {#{{ render_field(wrkt_export_form.download_csv_btn, class='btn btn-primary') }}#}
-                <input class="btn btn-primary" id="download_csv_btn" name="download_csv_btn" type="submit" value="Download">
+                <input class="btn btn-primary" id="download_csv_btn" name="download_csv_btn" type="submit" value="Export" onclick="JavaScript:workout_exports()" >
               </div>
             </div>
         </form>
