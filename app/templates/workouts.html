@@ -128,7 +128,7 @@
             <div class="modal-content">
               <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Export Workouts</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Cancel">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
@@ -138,7 +138,7 @@
                   {{ wrkt_export_form.max_export_records(style="border: 1px solid black; width:50px;", inputmode="numeric") }}
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
 
                 <input class="btn btn-primary" id="download_csv_btn" name="download_csv_btn" type="submit" value="Export" onclick="JavaScript:workout_exports()" >
               </div>
