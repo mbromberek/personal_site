@@ -12,7 +12,7 @@ import math
 import re
 
 # Custom classes
-from app.utils.const import SECONDS_IN_HOUR, SECONDS_IN_MINUTE
+from app.utils.const import SECONDS_IN_HOUR, SECONDS_IN_MINUTE, SECONDS_IN_DAY
 
 def sec_to_time(tm_sec, format='hms'):
     '''
@@ -21,7 +21,6 @@ def sec_to_time(tm_sec, format='hms'):
     if tm_sec == None:
         tm_sec = 0
     if format == 'hms':
-
         hours = math.floor(tm_sec / SECONDS_IN_HOUR)
         minutes = math.floor((tm_sec % SECONDS_IN_HOUR) / SECONDS_IN_MINUTE)
         seconds = round((tm_sec % SECONDS_IN_HOUR) % SECONDS_IN_MINUTE)
@@ -32,6 +31,14 @@ def sec_to_time(tm_sec, format='hms'):
         seconds = round((tm_sec % SECONDS_IN_HOUR) % SECONDS_IN_MINUTE)
 
         tm_str = str(minutes) + 'm ' + str(seconds).zfill(2) + 's'
+    elif format == 'dhms':
+        days = math.floor(tm_sec / SECONDS_IN_DAY)
+        hours = math.floor((tm_sec % SECONDS_IN_DAY) / SECONDS_IN_HOUR)
+        minutes = math.floor((tm_sec % SECONDS_IN_DAY % SECONDS_IN_HOUR) / SECONDS_IN_MINUTE)
+        seconds = round((tm_sec % SECONDS_IN_DAY % SECONDS_IN_HOUR) % SECONDS_IN_MINUTE)
+
+        tm_str = str(days) + 'd ' + str(hours).zfill(2) + 'h ' + str(minutes).zfill(2) + 'm ' + str(seconds).zfill(2) + 's'
+
     if format == 'hms-auto':
         hours = math.floor(tm_sec / SECONDS_IN_HOUR)
         minutes = math.floor((tm_sec % SECONDS_IN_HOUR) / SECONDS_IN_MINUTE)
