@@ -20,7 +20,7 @@ import pandas as pd
 # Custom classes
 from app.main import bp
 from app.main.forms import EmptyForm, WorkoutCreateBtnForm, WorkoutForm, WorkoutFilterForm, WorkoutIntervalForm, WorkoutExportForm
-from app.models import User, Workout, Workout_interval, Gear_usage, Wrkt_sum, Wkly_mileage
+from app.models import User, Workout, Workout_interval, Gear_usage, Wrkt_sum, Wkly_mileage, Yrly_mileage
 from app import db
 from app.utils import tm_conv, const, nbrConv, dt_conv
 from app import logger
@@ -488,6 +488,18 @@ def dashboard():
         wk_mileage.duration = wk_mileage.dur_str()
         wkly_mileage_lst.append(wk_mileage)
     dash_lst_dict['wkly_mileage_lst'] = wkly_mileage_lst
+
+    min_yrly_dt = datetime(const.MIN_YR_COMP, 1, 1)
+    query = Yrly_mileage.query.filter_by(user_id=current_user.id)
+    query = query.filter(Yrly_mileage.type.in_(['Running','Cycling']))
+    query = query.filter(Yrly_mileage.dt_by_yr >=min_yrly_dt)
+    yrly_mileage_results = sorted(query, reverse=True)
+    yrly_mileage_lst = []
+    for yr_mileage in yrly_mileage_results:
+        yr_mileage.duration = yr_mileage.dur_str()
+        yr_mileage.pace = yr_mileage.pace_str()
+        yrly_mileage_lst.append(yr_mileage)
+    dash_lst_dict['yrly_mileage_lst'] = yrly_mileage_lst
 
     return render_template('dashboard.html', title=title, dash_lst_dict=dash_lst_dict)
 

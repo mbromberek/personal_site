@@ -9,13 +9,22 @@
 {% include '_gear_usage_widget.html' %}
 {% endif %}
 
+{% if dash_lst_dict['wkly_mileage_lst'] %}
+{% include '_running_weekly_mileage_widget.html' %}
+{% endif %}
+
+</div>
+
+<div style="overflow:auto; width:100%; ">
+
+{% if dash_lst_dict['yrly_mileage_lst'] %}
+{% include 'dashboard_widgets/_yearly_mileage_widget.html' %}
+{% endif %}
+
 {% if dash_lst_dict['wrkt_sum_lst'] %}
 {% include '_running_mileage_widget.html' %}
 {% endif %}
 
-{% if dash_lst_dict['wkly_mileage_lst'] %}
-{% include '_running_weekly_mileage_widget.html' %}
-{% endif %}
 
 </div>
 
