@@ -291,12 +291,19 @@ td.gear_usage_dtl{
     padding-left:4px;
     padding-right:2px;
 }
+td.dashboard_row_dtl{
+    border: 1px solid black;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-left:4px;
+    padding-right:2px;
+}
+
 .dashboard_widget{
     float:left;
     width:445px;
     margin-right:20px;
     margin-bottom:20px;
-
 }
 
 .calc_result{
@@ -384,6 +391,7 @@ td.gear_usage_dtl{
         width:100%;
         margin-right:0px;
     }
+
     .calc_result{
         margin-left:0px;
         width:100%;
