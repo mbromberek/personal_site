@@ -6,11 +6,11 @@
 <div style="overflow:auto; width:100%; margin-top:20px;">
 
 {% if dash_lst_dict['gear_lst'] %}
-{% include '_gear_usage_widget.html' %}
+{% include 'dashboard_widgets/_gear_usage_widget.html' %}
 {% endif %}
 
 {% if dash_lst_dict['wkly_mileage_lst'] %}
-{% include '_running_weekly_mileage_widget.html' %}
+{% include 'dashboard_widgets/_running_weekly_mileage_widget.html' %}
 {% endif %}
 
 </div>
@@ -22,7 +22,7 @@
 {% endif %}
 
 {% if dash_lst_dict['wrkt_sum_lst'] %}
-{% include '_running_mileage_widget.html' %}
+{% include 'dashboard_widgets/_running_mileage_widget.html' %}
 {% endif %}
 
 
