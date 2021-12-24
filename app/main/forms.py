@@ -57,6 +57,24 @@ class WorkoutExportForm(FlaskForm):
     max_export_records = IntegerField('Max nbr of records', widget=h5widgets.NumberInput(),
         default='', validators=[Optional()])
     download_csv_btn = SubmitField(label='Export')
+    duration_hms_chk = BooleanField("Duration h:m:s", default="checked")
+    duration_sec_chk = BooleanField("Duration Seconds")
+    distance_chk = BooleanField("Distance", default="checked")
+    pace_chk = BooleanField("Pace", default="checked")
+    clothes_chk = BooleanField("Clothes")
+    gear_chk = BooleanField("Gear", default="checked")
+    hr_chk = BooleanField("HR", default="checked")
+    category_chk = BooleanField("Category", default="checked")
+    calories_chk = BooleanField("Calories")
+    elevation_up_chk = BooleanField("Elevation Up")
+    elevation_down_chk = BooleanField("Elevation Down")
+    elevation_chk = BooleanField("Elevation", default="checked")
+    location_chk = BooleanField("Location")
+    training_type_chk = BooleanField("Training Type")
+    weather_chk = BooleanField("Weather")
+    notes_plus_chk = BooleanField("Notes+", default="checked")
+    notes_chk = BooleanField("Notes")
+
 
 
 class WorkoutIntervalForm(FlaskForm):
