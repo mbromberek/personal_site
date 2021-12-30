@@ -61,6 +61,7 @@ class WorkoutExportForm(FlaskForm):
     duration_sec_chk = BooleanField("Duration Seconds")
     distance_chk = BooleanField("Distance", default="checked")
     pace_chk = BooleanField("Pace", default="checked")
+    pace_sec_chk = BooleanField("Pace Seconds")
     clothes_chk = BooleanField("Clothes")
     gear_chk = BooleanField("Gear", default="checked")
     hr_chk = BooleanField("HR", default="checked")

@@ -203,7 +203,9 @@ class Workout(PaginatedAPIMixin, db.Model):
         return '<Workout {}: {}>'.format(self.type, self.wrkt_dttm)
 
     def pace_str(self):
-        return tm_conv.sec_to_time(tm_conv.pace_calc(self.dist_mi, self.dur_sec), 'ms')
+        return tm_conv.sec_to_time(self.pace_sec(), 'ms')
+    def pace_sec(self):
+        return tm_conv.pace_calc(self.dist_mi, self.dur_sec)
 
     def dur_str(self):
         return tm_conv.sec_to_time(self.dur_sec)
@@ -242,6 +244,8 @@ class Workout(PaginatedAPIMixin, db.Model):
                 data[field] = self.dur_str()
             elif const.EXPORT_FIELD_MAPPING.get(field) == 'pace':
                 data[field] = self.pace_str()
+            elif const.EXPORT_FIELD_MAPPING.get(field) == 'pace_sec':
+                data[field] = self.pace_sec()
             elif const.EXPORT_FIELD_MAPPING.get(field) == 'notes+':
                 data[field] = '{}\n{}\n{}'.format(self.weather_str(), self.clothes, self.notes)
             elif const.EXPORT_FIELD_MAPPING.get(field) == 'elevation':
