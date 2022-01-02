@@ -45,8 +45,8 @@ def workouts():
     wrkt_filter_form = WorkoutFilterForm()
     wrkt_export_form = WorkoutExportForm()
 
-    if wrkt_export_form.download_csv_btn.data:
-        logger.debug("download csv button popover pressed")
+    # if wrkt_export_form.download_csv_btn.data:
+        # logger.debug("download csv button popover pressed")
 
     # if New Workout button was pressed
     if wrktCreateBtn.workt_create_btn.data:
@@ -160,8 +160,8 @@ def workouts():
             workout_list = query.paginate(0,wrkt_export_form.max_export_records.data, False).items
         else:
             workout_list = query.all()
-        field_lst = ['Date','Type','Duration','Distance','Pace', 'Notes+', 'Category','Gear','Elevation','HR','Calories']
-        export_file = export.wrkt_lst_to_csv(workout_list, field_lst)
+        # field_lst = ['Date','Type','Duration','Distance','Pace', 'Notes+', 'Category','Gear','Elevation','HR','Calories']
+        export_file = export.wrkt_lst_to_csv(workout_list, wrkt_export_form)
 
         export_file_nm = 'workouts.export.' + datetime.now().strftime('%Y%m%d_%H%M%S') + '.csv'
 

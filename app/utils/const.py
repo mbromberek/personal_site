@@ -15,13 +15,15 @@ MIN_YR_COMP = 2018
 SHOE_MILE_AGE_WARNING = 300
 SHOE_MILE_AGE_SHOULD_RETIRE = 450
 
-EXPORT_FIELDS = ['Type','Date','Duration','Distance','Pace', 'Gear','HR','Category','Calories', 'Notes','Notes+','Elevation']
+EXPORT_FIELDS = ['Type','Date','Duration h:m:s','Duration Seconds','Distance','Pace', 'Pace Seconds', 'Gear','HR','Category','Calories', 'Notes','Notes+','Elevation', 'Elevation Up', 'Elevation Down', 'Location', 'Training Type', 'Weather','Clothes']
 EXPORT_FIELD_MAPPING = {
     'Type':'type',
     'Date':'wrkt_dttm',
-    'Duration':'duration',
+    'Duration h:m:s':'duration',
+    'Duration Seconds':'dur_sec',
     'Distance':'dist_mi',
     'Pace':'pace',
+    'Pace Seconds':'pace_sec',
     'Gear':'gear',
     'HR':'hr',
     'Category':'category',
@@ -33,5 +35,6 @@ EXPORT_FIELD_MAPPING = {
     'Training Type':'training_type',
     'Weather':'weather',
     'Notes+':'notes+',
-    'Notes':'notes'
+    'Notes':'notes',
+    'Clothes':'clothes'
 }

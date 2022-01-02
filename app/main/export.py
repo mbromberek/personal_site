@@ -18,14 +18,22 @@ from flask import current_app
 from app.main import bp
 from app.models import User, Workout, Workout_interval, Gear_usage, Wrkt_sum, Wkly_mileage
 from app import logger
+from app.main.forms import WorkoutExportForm
 
 '''
 Generate a CSV formatted file in memory of the workouts passed
 '''
-def wrkt_lst_to_csv(wrkt_lst, export_fields):
-    # Fields will be in same order on csv as in the export_fields list
+def wrkt_lst_to_csv(wrkt_lst, export_form):
+    export_fields = ['Date','Type']
 
-    # out_file_path = os.path.join(current_app.config['FILE_DOWNLOAD_DIR'],out_fname)
+    # Fields will be in same order on csv as declared in the export_form
+    # Loop through all items in export_form
+    for attr, value in export_form.__dict__.items():
+        # Check if any whose atrributes end in _chk are checked
+        if attr.endswith('_chk'):
+            # logger.debug('{}, {}'.format(attr, value))
+            if value.data == True:
+                export_fields.append(value.label.text)
 
     # Convert passed in workouts to a list of dictionaries
     wrkt_dict_lst = []
