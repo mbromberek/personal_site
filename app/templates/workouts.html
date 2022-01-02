@@ -137,51 +137,97 @@
                         {{ wrkt_export_form.max_export_records.label( class="wrkt_filter_label") }}
                         {{ wrkt_export_form.max_export_records(style="border: 1px solid black; width:50px;", inputmode="numeric") }}
                     </div>
-                    <div style="font-weight:bold;">
-                        Columns:
-                    </div>
-                    <div>
-                        Type<br>
-                        Date<br>
-                    </div>
-                    <div>
-                        {{ wrkt_export_form.duration_hms_chk }} {{ wrkt_export_form.duration_hms_chk.label }}
-                        <br>
-                        {{ wrkt_export_form.duration_sec_chk }} {{ wrkt_export_form.duration_sec_chk.label }}
-                        <br>
-                        {{ wrkt_export_form.distance_chk }} {{ wrkt_export_form.distance_chk.label }}
-                        <br>
-                        {{ wrkt_export_form.pace_chk }} {{ wrkt_export_form.pace_chk.label }}
-                        <br>
-                        {{ wrkt_export_form.pace_sec_chk }} {{ wrkt_export_form.pace_sec_chk.label }}
-                        <br>
-                        {{ wrkt_export_form.gear_chk }} {{ wrkt_export_form.gear_chk.label }}
-                        <br>
-                        {{ wrkt_export_form.hr_chk }} {{ wrkt_export_form.hr_chk.label }}
-                        <br>
-                        {{ wrkt_export_form.category_chk }} {{ wrkt_export_form.category_chk.label }}
-                        <br>
-                        {{ wrkt_export_form.calories_chk }} {{ wrkt_export_form.calories_chk.label }}
-                        <br>
-                        {{ wrkt_export_form.elevation_up_chk }} {{ wrkt_export_form.elevation_up_chk.label }}
-                        <br>
-                        {{ wrkt_export_form.elevation_down_chk }} {{ wrkt_export_form.elevation_down_chk.label }}
-                        <br>
-                        {{ wrkt_export_form.elevation_chk }} {{ wrkt_export_form.elevation_chk.label }}
-                        <br>
-                        {{ wrkt_export_form.location_chk }} {{ wrkt_export_form.location_chk.label }}
-                        <br>
-                        {{ wrkt_export_form.training_type_chk }} {{ wrkt_export_form.training_type_chk.label }}
-                        <br>
-                        {{ wrkt_export_form.weather_chk }} {{ wrkt_export_form.weather_chk.label }}
-                        <br>
-                        {{ wrkt_export_form.notes_plus_chk }} {{ wrkt_export_form.notes_plus_chk.label }}
-                        <br>
-                        {{ wrkt_export_form.notes_chk }} {{ wrkt_export_form.notes_chk.label }}
-                        <br>
-                        {{ wrkt_export_form.clothes_chk }} {{ wrkt_export_form.clothes_chk.label }}
-                        <br>
-                    </div>
+                    <table width="100%" style="border: 0px black solid">
+                        <tr>
+                            <td colspan="2" style="font-weight:bold;">
+                                Columns:
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="40%" >
+                                <input type="checkbox" id="Type" name="Type" disabled checked=True>
+                                <label class="wrkt_export_chk">Type</label>
+                            </td>
+                            <td width="40%" >
+                                <input type="checkbox" id="Date" name="Date" disabled checked=True>
+                                <label class="wrkt_export_chk">Date</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ wrkt_export_form.duration_hms_chk }} {{ wrkt_export_form.duration_hms_chk.label(class="wrkt_export_chk") }}
+                            </td>
+                            <td>
+                                {{ wrkt_export_form.duration_sec_chk }} {{ wrkt_export_form.duration_sec_chk.label(class="wrkt_export_chk") }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ wrkt_export_form.distance_chk }} {{ wrkt_export_form.distance_chk.label(class="wrkt_export_chk") }}
+                            </td>
+                            <td>
+                                {{ wrkt_export_form.hr_chk }} {{ wrkt_export_form.hr_chk.label(class="wrkt_export_chk") }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ wrkt_export_form.pace_chk }} {{ wrkt_export_form.pace_chk.label(class="wrkt_export_chk") }}
+                            </td>
+                            <td>
+                                {{ wrkt_export_form.pace_sec_chk }} {{ wrkt_export_form.pace_sec_chk.label(class="wrkt_export_chk") }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ wrkt_export_form.clothes_chk }} {{ wrkt_export_form.clothes_chk.label(class="wrkt_export_chk") }}
+                            </td>
+                            <td>
+                                {{ wrkt_export_form.gear_chk }} {{ wrkt_export_form.gear_chk.label(class="wrkt_export_chk") }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ wrkt_export_form.category_chk }}
+                                {{ wrkt_export_form.category_chk.label(class="wrkt_export_chk") }}
+                            </td>
+                            <td>
+                                {{ wrkt_export_form.training_type_chk }}
+                                {{ wrkt_export_form.training_type_chk.label(class="wrkt_export_chk") }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ wrkt_export_form.calories_chk }} {{ wrkt_export_form.calories_chk.label(class="wrkt_export_chk") }}
+                            </td>
+                            <td>
+                                {{ wrkt_export_form.elevation_chk }} {{ wrkt_export_form.elevation_chk.label(class="wrkt_export_chk") }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ wrkt_export_form.elevation_up_chk }} {{ wrkt_export_form.elevation_up_chk.label(class="wrkt_export_chk") }}
+                            </td>
+                            <td>
+                                {{ wrkt_export_form.elevation_down_chk }} {{ wrkt_export_form.elevation_down_chk.label(class="wrkt_export_chk") }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ wrkt_export_form.location_chk }} {{ wrkt_export_form.location_chk.label(class="wrkt_export_chk") }}
+                            </td>
+                            <td>
+                                {{ wrkt_export_form.weather_chk }} {{ wrkt_export_form.weather_chk.label(class="wrkt_export_chk") }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ wrkt_export_form.notes_plus_chk }} {{ wrkt_export_form.notes_plus_chk.label(class="wrkt_export_chk") }}
+                            </td>
+                            <td>
+                                {{ wrkt_export_form.notes_chk }} {{ wrkt_export_form.notes_chk.label(class="wrkt_export_chk") }}
+                            </td>
+                        </tr>
+                    </table>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
