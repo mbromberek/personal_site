@@ -227,6 +227,10 @@ label.workout_lbl{
     padding-bottom: 0px;
     margin-bottom: 0px;
 }
+label.wrkt_export_chk{
+    padding-bottom: 0px;
+    margin-bottom: 0px;
+}
 
 .field_row{
     padding-bottom:20px;
