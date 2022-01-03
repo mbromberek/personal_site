@@ -50,15 +50,15 @@ def index():
         yrly_mileage_lst.append(yr_mileage)
     dash_lst_dict['yrly_mileage_lst'] = yrly_mileage_lst
 
-    # wrkt_sum_results = Wrkt_sum.query.filter_by(user_id=1, type='Running')
-    # wrkt_sum_lst = []
-    # for wrkt_sum in wrkt_sum_results:
-    #     wrkt_sum.duration = wrkt_sum.dur_str()
-    #     i = getInsertPoint(wrkt_sum, wrkt_sum_lst)
-    #     wrkt_sum_lst.insert(i,wrkt_sum)
-    # dash_lst_dict['wrkt_sum_lst'] = wrkt_sum_lst
+    wrkt_sum_results = Wrkt_sum.query.filter_by(user_id=1, type='Running')
+    wrkt_sum_lst = []
+    for wrkt_sum in wrkt_sum_results:
+        wrkt_sum.duration = wrkt_sum.dur_str()
+        i = getInsertPoint(wrkt_sum, wrkt_sum_lst)
+        wrkt_sum_lst.insert(i,wrkt_sum)
+    dash_lst_dict['wrkt_sum_lst'] = wrkt_sum_lst
 
-    return render_template('index.html', title='Home Page', dash_lst_dict=dash_lst_dict)
+    return render_template('index.html', title='Home Page', dash_lst_dict=dash_lst_dict, destPage='home')
 
 @bp.route('/workouts', methods=['GET','POST'])
 @login_required
