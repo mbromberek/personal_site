@@ -98,8 +98,10 @@
         {% include 'dashboard_widgets/_yearly_mileage_widget.html' %}
         {% endif %}
 
-
         {# Running Mileage #}
+        {% if dash_lst_dict['wrkt_sum_lst'] %}
+        {% include 'dashboard_widgets/_running_mileage_widget.html' %}
+        {% endif %}
     </div>
 
 {#
