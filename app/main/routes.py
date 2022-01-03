@@ -35,7 +35,30 @@ def index():
     # user = {'displayname': 'Mike'}
     # workouts = [{'type':'Running', 'duration':'20m 56s', 'distance': '3.11', 'pace': '6m 44s'}, {'type':'Running', 'duration':'3h 35m 53s', 'distance': '26.2', 'pace': '8m 13s'}]
 
-    return render_template('index.html', title='Home Page')
+    dash_lst_dict = {}
+
+    # min_yrly_dt = datetime(date.today().year, 1, 1)
+    min_yrly_dt = datetime(2021, 1, 1)
+    query = Yrly_mileage.query.filter_by(user_id=1)
+    query = query.filter(Yrly_mileage.type.in_(['Running','Cycling']))
+    query = query.filter(Yrly_mileage.dt_by_yr >=min_yrly_dt)
+    yrly_mileage_results = sorted(query, reverse=True)
+    yrly_mileage_lst = []
+    for yr_mileage in yrly_mileage_results:
+        yr_mileage.duration = yr_mileage.dur_str()
+        yr_mileage.pace = yr_mileage.pace_str()
+        yrly_mileage_lst.append(yr_mileage)
+    dash_lst_dict['yrly_mileage_lst'] = yrly_mileage_lst
+
+    # wrkt_sum_results = Wrkt_sum.query.filter_by(user_id=1, type='Running')
+    # wrkt_sum_lst = []
+    # for wrkt_sum in wrkt_sum_results:
+    #     wrkt_sum.duration = wrkt_sum.dur_str()
+    #     i = getInsertPoint(wrkt_sum, wrkt_sum_lst)
+    #     wrkt_sum_lst.insert(i,wrkt_sum)
+    # dash_lst_dict['wrkt_sum_lst'] = wrkt_sum_lst
+
+    return render_template('index.html', title='Home Page', dash_lst_dict=dash_lst_dict)
 
 @bp.route('/workouts', methods=['GET','POST'])
 @login_required
