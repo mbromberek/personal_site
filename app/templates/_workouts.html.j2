@@ -49,8 +49,8 @@
             <div class="workouts_detail_separators">
                 &nbsp;
             </div>
-
             <div class="workouts_weather">
+                {% if workout.temp_strt %}
                 <div style="overflow:auto; width:100%">
                     <div class="workouts_weather_detail">
                         Start:&nbsp;
@@ -106,6 +106,8 @@
                     </div>
                     {% endif %}
                 </div>
+                {% endif %}
+                {% if workout.temp_end %}
                 <div style="overflow:auto; width:100%">
                     <div class="workouts_weather_detail">
                         End:&nbsp;
@@ -161,11 +163,14 @@
                     </div>
                     {% endif %}
                 </div>
+                {% endif %}
             </div>
 
+            {% if workout.temp_strt and workout.temp_end %}
             <div class="workouts_detail_separators">
                 &nbsp;
             </div>
+            {% endif %}
 
             <div style="overflow:auto; width:100%;">
                 <div class="workout-detail" style="float:left;">
