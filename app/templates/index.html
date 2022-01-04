@@ -93,15 +93,16 @@
 
     <div class="home_section home_section_2 ">
         <h2 class="home">Workout Summaries</h2>
+        {# Running Mileage #}
+        {% if dash_lst_dict['wrkt_sum_lst'] %}
+        {% include 'dashboard_widgets/_running_mileage_widget.html' %}
+        {% endif %}
+
         {# Running and Cycling for 2022 #}
         {% if dash_lst_dict['yrly_mileage_lst'] %}
         {% include 'dashboard_widgets/_yearly_mileage_widget.html' %}
         {% endif %}
 
-        {# Running Mileage #}
-        {% if dash_lst_dict['wrkt_sum_lst'] %}
-        {% include 'dashboard_widgets/_running_mileage_widget.html' %}
-        {% endif %}
     </div>
 
 {#

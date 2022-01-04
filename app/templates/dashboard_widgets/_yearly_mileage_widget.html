@@ -2,7 +2,11 @@
         <table class="gear_usage">
             <tr class="gear_usage_hdr">
                 <td  class="gear_usage_hdr" colspan="6">
+                    {% if destPage and destPage == 'home' %}
+                    Current Year
+                    {% else %}
                     Mileage by Year
+                    {% endif %}
                 </td>
             </tr>
             <tr class="gear_usage_hdr">
@@ -21,9 +25,11 @@
                 <td class="gear_usage_hdr">
                     Dur
                 </td>
+                {% if not destPage or destPage != 'home' %}
                 <td class="gear_usage_hdr hide_mobile">
                     Pace
                 </td>
+                {% endif %}
             </tr>
             {% for yr in dash_lst_dict['yrly_mileage_lst'] %}
             <tr >
@@ -42,9 +48,11 @@
                 <td class="dashboard_row_dtl" style="text-align:center">
                     {{ yr.duration }}
                 </td>
+                {% if not destPage or destPage != 'home' %}
                 <td class="dashboard_row_dtl hide_mobile" style="text-align:center">
                     {{ yr.pace }}
                 </td>
+                {% endif %}
             </tr>
             {% endfor %}
         </table>

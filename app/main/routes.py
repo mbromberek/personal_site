@@ -26,6 +26,7 @@ from app.utils import tm_conv, const, nbrConv, dt_conv
 from app import logger
 from app.utils import wrkt_summary
 from app.main import export, filtering
+from app.model.goals import Yrly_goal
 
 @bp.route('/')
 @bp.route('/index')
@@ -43,11 +44,22 @@ def index():
     query = query.filter(Yrly_mileage.type.in_(['Running','Cycling']))
     query = query.filter(Yrly_mileage.dt_by_yr >=min_yrly_dt)
     yrly_mileage_results = sorted(query, reverse=True)
+    yrly_goals_lst = []
     yrly_mileage_lst = []
     for yr_mileage in yrly_mileage_results:
+        yr_goal = Yrly_goal()
+        if yr_mileage.type == 'Running':
+            yr_goal.description = 'Run 2023 miles'
+            yr_goal.goal = 2023
+            yr_goal.tot_dist = yr_mileage.tot_dist
+            yr_goal.pct_comp = yr_goal.calc_pct_comp()
+            yr_goal.miles_per_day = yr_goal.calc_miles_per_day(365-datetime.now().timetuple().tm_yday)
+            logger.debug(yr_goal.description + ' ' + str(yr_goal.tot_dist) + ' ' + str(round(yr_goal.pct_comp,4)) + ' ' + str(round(yr_goal.miles_per_day,4)))
+
         yr_mileage.duration = yr_mileage.dur_str()
         yr_mileage.pace = yr_mileage.pace_str()
         yrly_mileage_lst.append(yr_mileage)
+    dash_lst_dict['yrly_goals_lst'] = yrly_goals_lst
     dash_lst_dict['yrly_mileage_lst'] = yrly_mileage_lst
 
     wrkt_sum_results = Wrkt_sum.query.filter_by(user_id=1, type='Running')
