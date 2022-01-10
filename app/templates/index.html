@@ -98,10 +98,17 @@
         {% include 'dashboard_widgets/_running_mileage_widget.html' %}
         {% endif %}
 
-        {# Running and Cycling for 2022 #}
+        {# Running and Cycling for 2022 Eventually remove
         {% if dash_lst_dict['yrly_mileage_lst'] %}
         {% include 'dashboard_widgets/_yearly_mileage_widget.html' %}
         {% endif %}
+        #}
+
+        {# Fitness Goals for 2022 #}
+        {% if dash_lst_dict['yrly_goals_lst'] %}
+        {% include 'dashboard_widgets/_yearly_goal_widget.html' %}
+        {% endif %}
+
 
     </div>
 

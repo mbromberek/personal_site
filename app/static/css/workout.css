@@ -309,6 +309,14 @@ td.dashboard_row_dtl{
     margin-right:20px;
     margin-bottom:20px;
 }
+.dashboard_widget_wide{
+    width:480px;
+    margin-right:0px;
+}
+.dashboard_widget_thin{
+    width:390px;
+
+}
 
 .calc_result{
     margin-left:50px;
@@ -394,6 +402,12 @@ td.dashboard_row_dtl{
     .dashboard_widget{
         width:100%;
         margin-right:0px;
+    }
+    .dashboard_widget_wide{
+        width:100%;
+    }
+    .dashboard_widget_thin{
+        width:100%;
     }
 
     .calc_result{

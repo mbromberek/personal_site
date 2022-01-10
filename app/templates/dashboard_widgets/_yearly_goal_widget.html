@@ -1,0 +1,57 @@
+    <div class="dashboard_widget dashboard_widget_wide">
+        <table class="gear_usage">
+            <tr class="gear_usage_hdr">
+                <td  class="gear_usage_hdr" colspan="4">
+                    Yearly Fitness Goals
+                </td>
+            </tr>
+            <tr class="gear_usage_hdr">
+                <td class="gear_usage_hdr">
+                    Goal
+                </td>
+                <td class="gear_usage_hdr">
+                    Completed
+                </td>
+                <td class="gear_usage_hdr hide_mobile">
+                    Avg needed <br>(day)
+                </td>
+                <td class="gear_usage_hdr">
+                    Avg needed <br>(month)
+                </td>
+            </tr>
+            {% for yr_goal in dash_lst_dict['yrly_goals_lst'] %}
+            <tr >
+                <td class="dashboard_row_dtl">
+                    {{ yr_goal.description }}
+                    <span class="hide_desktop"><br></span>
+                    {{ yr_goal.goal }} {{ yr_goal.uom }}
+                </td>
+                {% if yr_goal.uom=='times' %}
+                <td class="dashboard_row_dtl">
+                    {{ '%0.0f' % yr_goal.tot|float }} {{ yr_goal.uom }}
+                    <span class="hide_desktop"><br></span>
+                    ({{ '%0.1f' % yr_goal.pct_comp|float }}%)
+                </td>
+                <td class="dashboard_row_dtl hide_mobile">
+                    &nbsp;
+                </td>
+                <td class="dashboard_row_dtl">
+                    {{ '%0.0f' % yr_goal.miles_needed_per_month|round(0) }} {{ yr_goal.uom }}
+                </td>
+                {% else %}
+                <td class="dashboard_row_dtl">
+                    {{ '%0.2f' % yr_goal.tot|float }} {{ yr_goal.uom }}
+                    <span class="hide_desktop"><br></span>
+                    ({{ '%0.2f' % yr_goal.pct_comp|float }}%)
+                </td>
+                <td class="dashboard_row_dtl hide_mobile">
+                    {{ '%0.2f' % yr_goal.miles_per_day|float }} {{ yr_goal.uom }}
+                </td>
+                <td class="dashboard_row_dtl">
+                    {{ '%0.2f' % yr_goal.miles_needed_per_month|float }} {{ yr_goal.uom }}
+                </td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
