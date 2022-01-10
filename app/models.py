@@ -623,3 +623,6 @@ class Yrly_mileage(db.Model):
             return ((self.dt_by_yr > other.dt_by_yr))
         else:
             return ((self.type > other.type))
+
+    def dt_year(self):
+        return self.dt_by_yr.strftime('%Y')
