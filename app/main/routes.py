@@ -47,16 +47,17 @@ def index():
     yrly_goals_lst = []
     yrly_mileage_lst = []
     for yr_mileage in yrly_mileage_results:
-        goal = Yrly_goal.create_goal(yr_mileage)
-        if len(goal) >0:
-            yrly_goals_lst.extend(goal)
+        if yr_mileage.dt_year() == datetime.now().strftime('%Y'):
+            goal = Yrly_goal.create_goal(yr_mileage)
+            if len(goal) >0:
+                yrly_goals_lst.extend(goal)
 
         yr_mileage.duration = yr_mileage.dur_str()
         yr_mileage.pace = yr_mileage.pace_str()
         yrly_mileage_lst.append(yr_mileage)
     yrly_goals_lst = Yrly_goal.generate_nonstarted_goals(yrly_goals_lst)
     dash_lst_dict['yrly_goals_lst'] = yrly_goals_lst
-    dash_lst_dict['yrly_mileage_lst'] = yrly_mileage_lst
+    # dash_lst_dict['yrly_mileage_lst'] = yrly_mileage_lst
 
     wrkt_sum_results = Wrkt_sum.query.filter_by(user_id=1, type='Running')
     wrkt_sum_lst = []
@@ -525,11 +526,18 @@ def dashboard():
     query = query.filter(Yrly_mileage.type.in_(['Running','Cycling']))
     query = query.filter(Yrly_mileage.dt_by_yr >=min_yrly_dt)
     yrly_mileage_results = sorted(query, reverse=True)
+    yrly_goals_lst = []
     yrly_mileage_lst = []
     for yr_mileage in yrly_mileage_results:
+        if yr_mileage.dt_year() == datetime.now().strftime('%Y'):
+            goal = Yrly_goal.create_goal(yr_mileage)
+            if len(goal) >0:
+                yrly_goals_lst.extend(goal)
         yr_mileage.duration = yr_mileage.dur_str()
         yr_mileage.pace = yr_mileage.pace_str()
         yrly_mileage_lst.append(yr_mileage)
+    yrly_goals_lst = Yrly_goal.generate_nonstarted_goals(yrly_goals_lst)
+    dash_lst_dict['yrly_goals_lst'] = yrly_goals_lst
     dash_lst_dict['yrly_mileage_lst'] = yrly_mileage_lst
 
     return render_template('dashboard.html', title=title, dash_lst_dict=dash_lst_dict)
