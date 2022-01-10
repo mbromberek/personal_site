@@ -28,4 +28,12 @@
 
 </div>
 
+<div style="overflow:auto; width:100%; ">
+{# Fitness Goals for 2022 #}
+{% if dash_lst_dict['yrly_goals_lst'] %}
+{% include 'dashboard_widgets/_yearly_goal_widget.html' %}
+{% endif %}
+</div>
+
+
 {% endblock %}
