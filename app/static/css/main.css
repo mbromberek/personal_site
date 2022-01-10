@@ -96,17 +96,21 @@ h2.home{
 
 
 .skills{
+    overflow:auto;
     max-width: 550px;
     margin-left: auto;
     margin-right: auto;
-    display: flex;
+    /* display: flex; */
     border: 0px solid red;
 }
 .skills_item {
     float: left;
-    width: 110px;
+    width: 100px;
     overflow: hidden;
     border: 0px solid red;
+    padding-left: 7.5px;
+    padding-right: 7.5px;
+    margin-top: 15px;
 }
 
 @media only screen and (max-width:800px) {
