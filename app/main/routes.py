@@ -39,7 +39,7 @@ def index():
     dash_lst_dict = {}
 
     # min_yrly_dt = datetime(date.today().year, 1, 1)
-    min_yrly_dt = datetime(2021, 1, 1)
+    min_yrly_dt = datetime(2022, 1, 1)
     query = Yrly_mileage.query.filter_by(user_id=1)
     query = query.filter(Yrly_mileage.type.in_(['Running','Cycling']))
     query = query.filter(Yrly_mileage.dt_by_yr >=min_yrly_dt)
@@ -47,18 +47,14 @@ def index():
     yrly_goals_lst = []
     yrly_mileage_lst = []
     for yr_mileage in yrly_mileage_results:
-        yr_goal = Yrly_goal()
-        if yr_mileage.type == 'Running':
-            yr_goal.description = 'Run 2023 miles'
-            yr_goal.goal = 2023
-            yr_goal.tot_dist = yr_mileage.tot_dist
-            yr_goal.pct_comp = yr_goal.calc_pct_comp()
-            yr_goal.miles_per_day = yr_goal.calc_miles_per_day(365-datetime.now().timetuple().tm_yday)
-            logger.debug(yr_goal.description + ' ' + str(yr_goal.tot_dist) + ' ' + str(round(yr_goal.pct_comp,4)) + ' ' + str(round(yr_goal.miles_per_day,4)))
+        goal = Yrly_goal.create_goal(yr_mileage)
+        if len(goal) >0:
+            yrly_goals_lst.extend(goal)
 
         yr_mileage.duration = yr_mileage.dur_str()
         yr_mileage.pace = yr_mileage.pace_str()
         yrly_mileage_lst.append(yr_mileage)
+    yrly_goals_lst = Yrly_goal.generate_nonstarted_goals(yrly_goals_lst)
     dash_lst_dict['yrly_goals_lst'] = yrly_goals_lst
     dash_lst_dict['yrly_mileage_lst'] = yrly_mileage_lst
 
