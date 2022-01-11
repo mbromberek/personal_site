@@ -1,5 +1,6 @@
 body {
     padding-bottom: 50px;
+
 }
 
 div.home_section_1{
@@ -17,10 +18,10 @@ div.home_section{
     overflow:auto;
     /* width:900px; */
     width:100%;
-    padding-top: 20px;
+    padding-top: 10px;
     padding-bottom: 40px;
     padding-left: 20px;
-    padding-right: 20px;
+    padding-right: 10px;
 }
 h2.home{
     text-align:center;
@@ -120,8 +121,9 @@ div.cat_img_right {
     margin-top: 15px;
 }
 
-/* For tablets: */
-@media only screen and (max-width:850px) {
+/* For tablets and horizontal mobile: */
+@media  screen and (max-width:900px),
+        screen and (max-width:550px) and (orientation:landscape) {
     .about_body {
         width: 370px;
         padding: 0;
@@ -149,8 +151,9 @@ div.cat_img_right {
         margin-right: 0px;
     }
 }
+
+/* For mobile phones: */
 @media only screen and (max-width:550px) {
-    /* For mobile phones: */
     .menu, .about_body, .about_img, .cat_body {
         width: 100%;
     }
