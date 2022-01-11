@@ -53,9 +53,12 @@ h2.home{
 }
 .about_img {
     float: left;
-    width: 20%;
-    padding: 10px 15px;
+    width:300px;
     margin-top: 7px;
+}
+img.about{
+    max-width:100%;
+    height:auto;
 }
 
 .cat_body {
@@ -66,31 +69,35 @@ h2.home{
     padding-top:10px;
     border: 0px black solid;
 }
-.cat_img {
+div.cat_img {
     float: left;
-    width: 550px;
+    width: 500px;
     padding-top:10px;
-    padding-left: 15px;
-    padding-right: 15px;
+    margin-left: 15px;
+    margin-right: 15px;
     padding-bottom: 0px;
     border: 0px red solid;
 }
-.cat_img_long {
+img.cat_img{
+    max-width:100%;
+    height:auto;
+}
+/* .cat_img_long {
     max-width: 800px;
     margin-left: auto;
     margin-right: auto;
     border: 0px red solid;
-}
-.cat_img_left {
+} */
+div.cat_img_left {
     float: left;
-    max-width: 400px;
+    max-width: 398px;
     margin-left: 15px;
     margin-right: 75px;
     border: 0px red solid;
 }
-.cat_img_right {
+div.cat_img_right {
     float: left;
-    max-width: 400px;
+    max-width: 375px;
     border: 0px red solid;
 }
 
@@ -113,30 +120,57 @@ h2.home{
     margin-top: 15px;
 }
 
-@media only screen and (max-width:800px) {
-    /* For tablets: */
+/* For tablets: */
+@media only screen and (max-width:850px) {
     .about_body {
-        width: 80%;
+        width: 370px;
         padding: 0;
     }
     .about_img {
-        width: 100%;
+        width:250px;
     }
-    /* For tablets: */
     .cat_body {
         width: 80%;
         padding: 0;
     }
-    .cat_img {
+    div.cat_img {
         width: 100%;
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+    div.cat_img_left{
+        width: 320px;
+        margin-left: 0px;
+        margin-right: 25px;
+    }
+    div.cat_img_right{
+        width: 300px;
+        margin-left: 0px;
+        margin-right: 0px;
     }
 }
 @media only screen and (max-width:500px) {
     /* For mobile phones: */
-    .menu, .about_body, .about_img, .cat_body, .cat_img {
+    .menu, .about_body, .about_img, .cat_body {
         width: 100%;
     }
     .skills{
         width: 100%;
+    }
+    div.cat_img {
+        width: 100%;
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+    div.cat_img_left{
+        width: 100%;
+        margin-left: 0px;
+        margin-right: 0px;
+        margin-bottom: 10px;
+    }
+    div.cat_img_right{
+        width: 100%;
+        margin-left: 0px;
+        margin-right: 0px;
     }
 }
