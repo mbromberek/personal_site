@@ -130,13 +130,13 @@ div.cat_img_right {
         width:250px;
     }
     .cat_body {
-        width: 80%;
+        width: 280px;
         padding: 0;
     }
     div.cat_img {
-        width: 100%;
+        width: 350px;
         margin-left: 0px;
-        margin-right: 0px;
+        margin-right: 10px;
     }
     div.cat_img_left{
         width: 320px;
