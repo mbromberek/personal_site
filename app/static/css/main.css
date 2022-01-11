@@ -149,7 +149,7 @@ div.cat_img_right {
         margin-right: 0px;
     }
 }
-@media only screen and (max-width:500px) {
+@media only screen and (max-width:550px) {
     /* For mobile phones: */
     .menu, .about_body, .about_img, .cat_body {
         width: 100%;
