@@ -343,7 +343,7 @@ td.dashboard_row_dtl{
 }
 
 
-@media only screen and (max-width:550px) {
+@media only screen and (max-width:600px) {
     /* For mobile phones: */
     .workouts_hdr{
         font-size: 13pt;
@@ -445,7 +445,7 @@ td.dashboard_row_dtl{
 }
 
 
-@media screen and (min-width: 550px) and (max-width: 900px) {
+@media screen and (min-width: 600px) and (max-width: 900px) {
     .workout_card{
         width:100%;
     }

@@ -123,7 +123,7 @@ div.cat_img_right {
 
 /* For tablets and horizontal mobile: */
 @media  screen and (max-width:900px),
-        screen and (max-width:550px) and (orientation:landscape) {
+        screen and (max-width:600px) and (orientation:landscape) {
     .about_body {
         width: 370px;
         padding: 0;
@@ -153,7 +153,7 @@ div.cat_img_right {
 }
 
 /* For mobile phones: */
-@media only screen and (max-width:550px) {
+@media only screen and (max-width:600px) {
     .menu, .about_body, .about_img, .cat_body {
         width: 100%;
     }
