@@ -59,9 +59,10 @@ def index():
     dash_lst_dict['yrly_goals_lst'] = yrly_goals_lst
     # dash_lst_dict['yrly_mileage_lst'] = yrly_mileage_lst
 
-    wrkt_sum_results = Wrkt_sum.query.filter_by(user_id=1, type='Running')
+    wrkt_sum_results = Wrkt_sum.query.filter_by(user_id=1, type='Running').all()
+    wrkt_sum_mod_lst = Wrkt_sum.generate_missing_summaries(wrkt_sum_results, 'Running')
     wrkt_sum_lst = []
-    for wrkt_sum in wrkt_sum_results:
+    for wrkt_sum in wrkt_sum_mod_lst:
         wrkt_sum.duration = wrkt_sum.dur_str()
         i = getInsertPoint(wrkt_sum, wrkt_sum_lst)
         wrkt_sum_lst.insert(i,wrkt_sum)
@@ -503,9 +504,10 @@ def dashboard():
     # gear_lst = gear_results
     dash_lst_dict['gear_lst'] = gear_lst
 
-    wrkt_sum_results = Wrkt_sum.query.filter_by(user_id=current_user.id, type='Running')
+    wrkt_sum_results = Wrkt_sum.query.filter_by(user_id=1, type='Running').all()
+    wrkt_sum_mod_lst = Wrkt_sum.generate_missing_summaries(wrkt_sum_results, 'Running')
     wrkt_sum_lst = []
-    for wrkt_sum in wrkt_sum_results:
+    for wrkt_sum in wrkt_sum_mod_lst:
         wrkt_sum.duration = wrkt_sum.dur_str()
         i = getInsertPoint(wrkt_sum, wrkt_sum_lst)
         wrkt_sum_lst.insert(i,wrkt_sum)
@@ -562,7 +564,6 @@ def getInsertPoint(wrkt_sum, wrkt_sum_lst):
                 return i
         i=i+1
     return i
-
 
 @bp.route('/edit_workout_interval', methods=['GET','POST'])
 @login_required

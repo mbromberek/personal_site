@@ -569,6 +569,25 @@ class Wrkt_sum(db.Model):
     def dur_str(self):
         return tm_conv.sec_to_time(self.tot_sec, 'hms')
 
+    @staticmethod
+    def generate_missing_summaries(sum_lst, sum_typ):
+        sum_lst_mod = sum_lst
+        rng_chk_lst = ["Current Week", "Current Month", "Current Year"]
+
+        for rng_chk in rng_chk_lst:
+            if not (any(summary.rng == rng_chk and summary.type == sum_typ for summary in sum_lst_mod)):
+                # Create entry for Current Week that has 0 miles and 0 times
+                new_sum = Wrkt_sum()
+                new_sum.rng = rng_chk
+                new_sum.type = sum_typ
+                new_sum.nbr = 0
+                new_sum.tot_dist = 0
+                new_sum.tot_sec = 0
+                sum_lst_mod.append(new_sum)
+
+        return sum_lst_mod
+
+
 class Wkly_mileage(db.Model):
     __table_args__ = {"schema": "fitness", 'comment':'summary of workouts by type and week'}
     user_id = db.Column(db.Integer, primary_key=True)
