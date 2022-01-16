@@ -149,3 +149,13 @@ def update_workout():
     response.status_code = 200
     # response.headers['Location'] = url_for('api.get_workout', id=orig_workout.id)
     return response
+
+@bp.route('/generate_workout', methods=['POST'])
+@token_auth.login_required
+def generate_workout_from_file():
+    logger.info('generate_workout_from_file')
+    logger.debug(request.files)
+    if 'file' not in request.files:
+        logger.info('no file')
+        return jsonify("No file found"), 400
+    return jsonify('Success'), 200
