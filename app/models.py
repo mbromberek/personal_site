@@ -572,7 +572,7 @@ class Wrkt_sum(db.Model):
     @staticmethod
     def generate_missing_summaries(sum_lst, sum_typ):
         sum_lst_mod = sum_lst
-        rng_chk_lst = ["Current Week", "Current Month", "Current Year"]
+        rng_chk_lst = ["Current Week", "Current Month", "Current Year","Past 7 days","Past 30 days"]
 
         for rng_chk in rng_chk_lst:
             if not (any(summary.rng == rng_chk and summary.type == sum_typ for summary in sum_lst_mod)):
