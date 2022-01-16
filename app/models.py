@@ -587,6 +587,27 @@ class Wrkt_sum(db.Model):
 
         return sum_lst_mod
 
+    @staticmethod
+    def getInsertPoint(wrkt_sum, wrkt_sum_lst):
+        i=0
+        while i <len(wrkt_sum_lst):
+            if wrkt_sum_lst[i].rng == 'Past 7 days':
+                if wrkt_sum.rng == 'Current Week':
+                    return i
+            elif wrkt_sum_lst[i].rng == 'Current Month':
+                if wrkt_sum.rng in ['Past 7 days','Current Week']:
+                    return i
+            elif wrkt_sum_lst[i].rng == 'Past 30 days':
+                if wrkt_sum.rng in ['Past 7 days','Current Week','Current Month']:
+                    return i
+            elif wrkt_sum_lst[i].rng == 'Current Year':
+                if wrkt_sum.rng in ['Past 7 days','Current Week','Current Month','Past 30 days']:
+                    return i
+            elif wrkt_sum_lst[i].rng == 'Past 365 days':
+                if wrkt_sum.rng in ['Past 7 days','Current Week','Current Month','Past 30 days','Current Year']:
+                    return i
+            i=i+1
+        return i
 
 class Wkly_mileage(db.Model):
     __table_args__ = {"schema": "fitness", 'comment':'summary of workouts by type and week'}
