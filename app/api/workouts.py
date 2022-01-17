@@ -158,4 +158,5 @@ def generate_workout_from_file():
     if 'file' not in request.files:
         logger.info('no file')
         return jsonify("No file found"), 400
+    logger.info(str(request.files['file']))
     return jsonify('Success'), 200
