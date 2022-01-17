@@ -35,8 +35,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://{{server}}/api/tokens",
-					"protocol": "http",
+					"raw": "{{server}}/api/tokens",
 					"host": [
 						"{{server}}"
 					],
@@ -63,8 +62,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://{{server}}/api/tokens",
-					"protocol": "http",
+					"raw": "{{server}}/api/tokens",
 					"host": [
 						"{{server}}"
 					],
@@ -82,10 +80,11 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://{{server}}/api/users",
-					"protocol": "http",
+					"raw": "https://mikebromberek.com/api/users",
+					"protocol": "https",
 					"host": [
-						"{{server}}"
+						"mikebromberek",
+						"com"
 					],
 					"path": [
 						"api",
@@ -121,15 +120,67 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://{{server}}/api/workout/14",
-					"protocol": "http",
+					"raw": "{{server}}/api/workout/1270",
 					"host": [
 						"{{server}}"
 					],
 					"path": [
 						"api",
 						"workout",
-						"14"
+						"1270"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get_workout_intervals",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{server}}/api/workout_intervals/1311",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"workout_intervals",
+						"1311"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update_workout_intervals",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n    {\n        \"workout_id\": 1312,\n        \"break_type\": \"lap\",\n        \"intervals\":[\n\n    {\n        \"break_type\": \"lap\",\n        \"dist_mi\": \"0.69\",\n        \"dur_sec\": 346,\n        \"ele_down\": \"-32.81\",\n        \"ele_up\": \"29.53\",\n        \"hr\": \"118\",\n        \"id\": 2404,\n        \"interval_desc\": \"Warm Up\",\n        \"interval_order\": 0,\n        \"isrt_ts\": \"2021-12-01T12:02:03.807980Z\",\n        \"notes\": null,\n        \"user_id\": 1,\n        \"workout_id\": 1311\n    },\n    {\n        \"break_type\": \"lap\",\n        \"dist_mi\": \"0.52\",\n        \"dur_sec\": 211,\n        \"ele_down\": \"-104.99\",\n        \"ele_up\": \"3.28\",\n        \"hr\": \"124\",\n        \"id\": 2405,\n        \"interval_desc\": \"\",\n        \"interval_order\": 1,\n        \"isrt_ts\": \"2021-12-01T12:02:03.807986Z\",\n        \"notes\": null,\n        \"user_id\": 1,\n        \"workout_id\": 1311\n    },\n    {\n        \"break_type\": \"lap\",\n        \"dist_mi\": \"0.52\",\n        \"dur_sec\": 235,\n        \"ele_down\": \"-13.12\",\n        \"ele_up\": \"118.11\",\n        \"hr\": \"110\",\n        \"id\": 2406,\n        \"interval_desc\": \"\",\n        \"interval_order\": 2,\n        \"isrt_ts\": \"2021-12-01T12:02:03.807989Z\",\n        \"notes\": null,\n        \"user_id\": 1,\n        \"workout_id\": 1311\n    },\n    {\n        \"break_type\": \"lap\",\n        \"dist_mi\": \"0.52\",\n        \"dur_sec\": 199,\n        \"ele_down\": \"-108.27\",\n        \"ele_up\": \"3.28\",\n        \"hr\": \"114\",\n        \"id\": 2407,\n        \"interval_desc\": \"\",\n        \"interval_order\": 3,\n        \"isrt_ts\": \"2021-12-01T12:02:03.807991Z\",\n        \"notes\": null,\n        \"user_id\": 1,\n        \"workout_id\": 1311\n    },\n    {\n        \"break_type\": \"lap\",\n        \"dist_mi\": \"0.52\",\n        \"dur_sec\": 241,\n        \"ele_down\": \"-3.28\",\n        \"ele_up\": \"108.27\",\n        \"hr\": \"140\",\n        \"id\": 2408,\n        \"interval_desc\": \"\",\n        \"interval_order\": 4,\n        \"isrt_ts\": \"2021-12-01T12:02:03.807993Z\",\n        \"notes\": null,\n        \"user_id\": 1,\n        \"workout_id\": 1311\n    },\n    {\n        \"break_type\": \"lap\",\n        \"dist_mi\": \"0.52\",\n        \"dur_sec\": 204,\n        \"ele_down\": \"-111.55\",\n        \"ele_up\": \"3.28\",\n        \"hr\": \"130\",\n        \"id\": 2409,\n        \"interval_desc\": \"\",\n        \"interval_order\": 5,\n        \"isrt_ts\": \"2021-12-01T12:02:03.807995Z\",\n        \"notes\": null,\n        \"user_id\": 1,\n        \"workout_id\": 1311\n    },\n    {\n        \"break_type\": \"lap\",\n        \"dist_mi\": \"0.52\",\n        \"dur_sec\": 247,\n        \"ele_down\": \"-3.28\",\n        \"ele_up\": \"104.99\",\n        \"hr\": \"144\",\n        \"id\": 2410,\n        \"interval_desc\": \"\",\n        \"interval_order\": 6,\n        \"isrt_ts\": \"2021-12-01T12:02:03.807997Z\",\n        \"notes\": null,\n        \"user_id\": 1,\n        \"workout_id\": 1311\n    },\n    {\n        \"break_type\": \"lap\",\n        \"dist_mi\": \"0.52\",\n        \"dur_sec\": 197,\n        \"ele_down\": \"-111.55\",\n        \"ele_up\": \"13.12\",\n        \"hr\": \"139\",\n        \"id\": 2411,\n        \"interval_desc\": \"\",\n        \"interval_order\": 7,\n        \"isrt_ts\": \"2021-12-01T12:02:03.807998Z\",\n        \"notes\": null,\n        \"user_id\": 1,\n        \"workout_id\": 1311\n    },\n    {\n        \"break_type\": \"lap\",\n        \"dist_mi\": \"0.52\",\n        \"dur_sec\": 245,\n        \"ele_down\": \"-6.56\",\n        \"ele_up\": \"111.55\",\n        \"hr\": \"131\",\n        \"id\": 2412,\n        \"interval_desc\": \"\",\n        \"interval_order\": 8,\n        \"isrt_ts\": \"2021-12-01T12:02:03.808000Z\",\n        \"notes\": null,\n        \"user_id\": 1,\n        \"workout_id\": 1311\n    },\n    {\n        \"break_type\": \"lap\",\n        \"dist_mi\": \"0.52\",\n        \"dur_sec\": 200,\n        \"ele_down\": \"-108.27\",\n        \"ele_up\": \"9.84\",\n        \"hr\": \"135\",\n        \"id\": 2413,\n        \"interval_desc\": \"\",\n        \"interval_order\": 9,\n        \"isrt_ts\": \"2021-12-01T12:02:03.808002Z\",\n        \"notes\": null,\n        \"user_id\": 1,\n        \"workout_id\": 1311\n    },\n    {\n        \"break_type\": \"lap\",\n        \"dist_mi\": \"0.52\",\n        \"dur_sec\": 246,\n        \"ele_down\": \"-3.28\",\n        \"ele_up\": \"108.27\",\n        \"hr\": \"146\",\n        \"id\": 2414,\n        \"interval_desc\": \"\",\n        \"interval_order\": 10,\n        \"isrt_ts\": \"2021-12-01T12:02:03.808004Z\",\n        \"notes\": null,\n        \"user_id\": 1,\n        \"workout_id\": 1311\n    },\n    {\n        \"break_type\": \"lap\",\n        \"dist_mi\": \"0.52\",\n        \"dur_sec\": 205,\n        \"ele_down\": \"-111.55\",\n        \"ele_up\": \"6.56\",\n        \"hr\": \"150\",\n        \"id\": 2415,\n        \"interval_desc\": \"\",\n        \"interval_order\": 11,\n        \"isrt_ts\": \"2021-12-01T12:02:03.808006Z\",\n        \"notes\": null,\n        \"user_id\": 1,\n        \"workout_id\": 1311\n    },\n    {\n        \"break_type\": \"lap\",\n        \"dist_mi\": \"0.52\",\n        \"dur_sec\": 249,\n        \"ele_down\": \"-13.12\",\n        \"ele_up\": \"114.83\",\n        \"hr\": \"155\",\n        \"id\": 2416,\n        \"interval_desc\": \"\",\n        \"interval_order\": 12,\n        \"isrt_ts\": \"2021-12-01T12:02:03.808008Z\",\n        \"notes\": null,\n        \"user_id\": 1,\n        \"workout_id\": 1311\n    },\n    {\n        \"break_type\": \"lap\",\n        \"dist_mi\": \"0.60\",\n        \"dur_sec\": 331,\n        \"ele_down\": \"-29.53\",\n        \"ele_up\": \"29.53\",\n        \"hr\": \"120\",\n        \"id\": 2417,\n        \"interval_desc\": \"Cool Down\",\n        \"interval_order\": 13,\n        \"isrt_ts\": \"2021-12-01T12:02:03.808010Z\",\n        \"notes\": null,\n        \"user_id\": 1,\n        \"workout_id\": 1311\n    }\n]\n    }\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server}}/api/workout_intervals",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"workout_intervals"
 					]
 				}
 			},
@@ -150,8 +201,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://{{server}}/api/workout",
-					"protocol": "http",
+					"raw": "{{server}}/api/workout",
 					"host": [
 						"{{server}}"
 					],
@@ -164,13 +214,40 @@
 			"response": []
 		},
 		{
+			"name": "create_workout_interval",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n    {\n        \"workout_id\": 1136,\n        \"break_type\": \"segment\",\n        \"intervals\":[\n            {\n                \"interval_order\": 0,\n                \"interval_desc\": \"Warm Up\",\n                \"dur_sec\": 470,\n                \"dist_mi\": \"0.95\",\n                \"hr\": 132.38,\n                \"ele_up\": 20.51,\n                \"ele_down\": -19.79,\n                \"notes\": \"felt hot from the start\"\n            },\n            {\n                \"interval_order\": 1,\n                \"dur_sec\": 548,\n                \"dist_mi\": \"1.23\",\n                \"hr\": 146.39,\n                \"ele_up\": 89.01,\n                \"ele_down\": -93.08\n            },\n            {\n                \"interval_order\": 2,\n                \"dur_sec\": 550,\n                \"dist_mi\": \"1.23\",\n                \"hr\": 152.04,\n                \"ele_up\": 85.11,\n                \"ele_down\": -89.95\n            },\n            {\n                \"interval_order\": 3,\n                \"dur_sec\": 544,\n                \"dist_mi\": \"1.22\",\n                \"hr\": 153.9,\n                \"ele_up\": 84.49,\n                \"ele_down\": -89.6\n            },\n            {\n                \"interval_order\": 4,\n                \"dur_sec\": 548,\n                \"dist_mi\": \"1.23\",\n                \"hr\": 153.87,\n                \"ele_up\": 80.92,\n                \"ele_down\": -73.06,\n                \"notes\": \"did route in reverse\"\n            },\n            {\n                \"interval_order\": 5,\n                \"interval_desc\": \"Cool Down\",\n                \"dur_sec\": 487,\n                \"dist_mi\": \"0.92\",\n                \"hr\": 141.43,\n                \"ele_up\": 22.17,\n                \"ele_down\": -23.85\n            }\n\n        ]\n    }\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server}}/api/workout_intervals",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"workout_intervals"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "update_workout",
 			"request": {
 				"method": "PUT",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"id\": 17,\n    \"dist_mi\": \"7.12\",\n    \"dur_sec\": 3230,\n    \"type\": \"Run\",\n    \"wrkt_dttmd\": \"2021-04-26T15:21:08Z\",\n    \"gear\": \"Slime shoes\",\n    \"clothes\": \"Shorts, t-shirt\",\n    \"category\": \"Easy\"\n}",
+					"raw": "[\n{\n    \"id\": 14,\n    \"dist_mi\": \"7.12\",\n    \"dur_sec\": 3230,\n    \"type\": \"Run\",\n    \"wrkt_dttmd\": \"2021-04-26T15:21:08Z\",\n    \"gear\": \"Slime shoes\",\n    \"clothes\": \"Shorts, t-shirt\",\n    \"category\": \"Easy\"\n}\n]",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -206,8 +283,8 @@
 					}
 				},
 				"url": {
-					"raw": "http://{{server}}/api/workout",
-					"protocol": "http",
+					"raw": "https://{{server}}/api/workout",
+					"protocol": "https",
 					"host": [
 						"{{server}}"
 					],
@@ -225,8 +302,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://{{server}}/api/workouts/",
-					"protocol": "http",
+					"raw": "{{server}}/api/workouts/",
 					"host": [
 						"{{server}}"
 					],
@@ -245,15 +321,14 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://{{server}}/api/workouts/2021-04-26T15:21:08Z",
-					"protocol": "http",
+					"raw": "{{server}}/api/workouts/2021-07-04T08:29:00Z",
 					"host": [
 						"{{server}}"
 					],
 					"path": [
 						"api",
 						"workouts",
-						"2021-04-26T15:21:08Z"
+						"2021-07-04T08:29:00Z"
 					]
 				}
 			},
