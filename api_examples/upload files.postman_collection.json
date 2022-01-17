@@ -1,0 +1,91 @@
+{
+	"info": {
+		"_postman_id": "f35a38a5-ed79-4564-a578-e9a2c0ccae54",
+		"name": "upload files",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Upload_RunGap",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/Users/mikeyb/Library/Mobile Documents/iCloud~com~rungap~RunGap/Documents/Export_test/2022-01-03_15-20-10_co_440569036376408064.gzip"
+						}
+					],
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server}}/api/generate_workout",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"generate_workout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get_workout Copy",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{server}}/api/workout/1351",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"workout",
+						"1351"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
