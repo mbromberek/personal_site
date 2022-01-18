@@ -174,8 +174,10 @@ def generate_workout_from_file():
         logger.info('{} is an invalid file extension'.format(file_ext))
         abort(400)
 
-    user_id = current_user.get_id()
+    user_id = token_auth.current_user().id
     # TODO Should I ignore the passed in file name and create my own name?
-    uploaded_file.save('{}/{}'.format(current_app.config['WRKT_FILE_DIR'], fname))
+    if not os.path.exists(os.path.join(current_app.config['WRKT_FILE_DIR'], str(user_id))):
+        os.makedirs(os.path.join(current_app.config['WRKT_FILE_DIR'], str(user_id)))
+    uploaded_file.save(os.path.join(current_app.config['WRKT_FILE_DIR'], str(user_id), fname))
 
     return jsonify('Success'), 200
