@@ -6,8 +6,12 @@ Copyright (c) 2021, Mike Bromberek
 All rights reserved.
 '''
 
+# First party classes
+import os
+
 # 3rd Party classes
-from flask import jsonify, request, url_for, abort
+from flask import jsonify, request, url_for, abort, current_app
+from werkzeug.utils import secure_filename
 
 # Custom Classes
 from app import db
@@ -159,4 +163,19 @@ def generate_workout_from_file():
         logger.info('no file')
         return jsonify("No file found"), 400
     logger.info(str(request.files['file']))
+    uploaded_file = request.files['file']
+    if uploaded_file.filename == '':
+        logger.info('no filename in uploaded_file')
+        return jsonify("No file found"), 400
+
+    fname = secure_filename(uploaded_file.filename)
+    file_ext = os.path.splitext(fname)[-1]
+    if file_ext not in current_app.config['UPLOAD_EXTENSIONS']:
+        logger.info('{} is an invalid file extension'.format(file_ext))
+        abort(400)
+
+    user_id = current_user.get_id()
+    # TODO Should I ignore the passed in file name and create my own name?
+    uploaded_file.save('{}/{}'.format(current_app.config['WRKT_FILE_DIR'], fname))
+
     return jsonify('Success'), 200

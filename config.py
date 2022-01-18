@@ -22,3 +22,5 @@ class Config(object):
     DEBUG = False
     TEMPERATURE_RANGE = 5
     DISTANCE_RANGE = 0.10
+    MAX_CONTENT_LENGTH = 1024 * 1024
+    UPLOAD_EXTENSIONS = ['.zip', '.fit']
