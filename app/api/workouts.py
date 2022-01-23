@@ -176,14 +176,23 @@ def generate_workout_from_file():
 
     user_id = token_auth.current_user().id
     # TODO Should I ignore the passed in file name and create my own name?
-    if not os.path.exists(os.path.join(current_app.config['WRKT_FILE_DIR'], str(user_id), 'temp')):
+    tempDir = os.path.join(current_app.config['WRKT_FILE_DIR'], str(user_id), 'temp')
+    if not os.path.exists(tempDir):
         os.makedirs(os.path.join(current_app.config['WRKT_FILE_DIR'], str(user_id), 'temp'))
-    uploaded_file.save(os.path.join(current_app.config['WRKT_FILE_DIR'], str(user_id), 'temp', fname))
+    uploaded_file.save(os.path.join(tempDir, fname))
 
     # Process file ->
     #   returns Dictionary that contains
     #    -  JSON of Workout details and DataFrame of workout
     # Get workout year, workout month, workout day, workout time, origin, type from Workout
+    # fao.extract_files(fname, tempDir)
+    #
+    # if fao.file_with_ext(tempDir, ext='fit') != '':
+    #     logger.info('fit file exists')
+    #     fitFile = fao.file_with_ext(tempDir, ext='fit')
+    #     lapsDf, pointsDf = fitParse.get_dataframes(tempDir + '/' + fitFile)
+    #     actv_df = fitParse.normalize_laps_points(lapsDf, pointsDf)
+
     # Create folder for long term storage of file
     # Move saved file from temp to new directory and export data frame as pickle to new directory.
     # Generate Workout_intervals using DataFrame
