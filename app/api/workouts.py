@@ -8,6 +8,7 @@ All rights reserved.
 
 # First party classes
 import os
+import datetime
 
 # 3rd Party classes
 from flask import jsonify, request, url_for, abort, current_app
@@ -21,6 +22,11 @@ from app.api.auth import token_auth
 from app.api.errors import bad_request
 from app import logger
 from app.utils import dt_conv
+
+import NormalizeWorkout.dao.files as fao
+# import NormalizeWorkout.parse.rungapParse as rgNorm
+import NormalizeWorkout.parse.fitParse as fitParse
+import NormalizeWorkout.parse.rungapMetadata as rungapMeta
 
 @bp.route('/workout/<int:id>', methods=['GET'])
 @token_auth.login_required
@@ -159,6 +165,7 @@ def update_workout():
 def generate_workout_from_file():
     logger.info('generate_workout_from_file')
     logger.debug(request.files)
+    logger.debug('workout_id: ' + str(request.args.get('workout_id')))
     if 'file' not in request.files:
         logger.info('no file')
         return jsonify("No file found"), 400
@@ -175,26 +182,52 @@ def generate_workout_from_file():
         abort(400)
 
     user_id = token_auth.current_user().id
-    # TODO Should I ignore the passed in file name and create my own name?
+    
     tempDir = os.path.join(current_app.config['WRKT_FILE_DIR'], str(user_id), 'temp')
+    workDir = os.path.join(current_app.config['WRKT_FILE_DIR'], str(user_id), 'work')
+
+    if not os.path.exists(workDir):
+        os.makedirs(os.path.join(workDir))
+    else:
+        fao.clean_dir(workDir)
+
     if not os.path.exists(tempDir):
         os.makedirs(os.path.join(current_app.config['WRKT_FILE_DIR'], str(user_id), 'temp'))
     uploaded_file.save(os.path.join(tempDir, fname))
 
-    # Process file ->
-    #   returns Dictionary that contains
-    #    -  JSON of Workout details and DataFrame of workout
-    # Get workout year, workout month, workout day, workout time, origin, type from Workout
-    # fao.extract_files(fname, tempDir)
-    #
-    # if fao.file_with_ext(tempDir, ext='fit') != '':
-    #     logger.info('fit file exists')
-    #     fitFile = fao.file_with_ext(tempDir, ext='fit')
-    #     lapsDf, pointsDf = fitParse.get_dataframes(tempDir + '/' + fitFile)
-    #     actv_df = fitParse.normalize_laps_points(lapsDf, pointsDf)
+    fao.extract_files(fname, workDir, tempDir)
+
+    if fao.file_with_ext(workDir, ext='fit') != '':
+        logger.info('fit file exists')
+        fitFile = fao.file_with_ext(workDir, ext='fit')
+        lapsDf, pointsDf = fitParse.get_dataframes(workDir + '/' + fitFile)
+        actv_df = fitParse.normalize_laps_points(lapsDf, pointsDf)
+    elif fao.file_with_ext(workDir, ext='rungap.json') != '':
+        logger.info('Rungap JSON file')
+        data = fao.get_workout_data(workDir)
+        actv_df = rgNorm.normalize_activity(data)
+    else:
+        logger.info('No file to process')
+        fao.clean_dir(workDir)
+        fao.clean_dir(tempDir)
+        return jsonify("No valid files to process"), 400
+
+    dataJson = rungapMeta.get_workout_data(workDir)
+    wrktStrtTmStr = dataJson['startTime']['time']
+    wrktType = rungapMeta.get_wrkt_type(dataJson)
+    wrktSrc = dataJson['source'].replace(' ','-').lower()
+    wrktStrtTm = datetime.datetime.strptime(wrktStrtTmStr, '%Y-%m-%dT%H:%M:%SZ')
 
     # Create folder for long term storage of file
+    wrktDirNm = wrktStrtTm.strftime('%Y-%m-%d_%H%M%S') + '_' + wrktType + '_' + wrktSrc
+    wrktFullPath = os.path.join(current_app.config['WRKT_FILE_DIR'], str(user_id), wrktStrtTm.strftime('%Y'), wrktStrtTm.strftime('%m'), wrktDirNm)
+    os.makedirs(wrktFullPath, exist_ok=True)
+
     # Move saved file from temp to new directory and export data frame as pickle to new directory.
+    os.rename(os.path.join(tempDir, fname), os.path.join(wrktFullPath, fname))
+    fao.save_df(actv_df, wrktFullPath,'workout', frmt=['pickle'])
+    fao.clean_dir(workDir)
+
     # Generate Workout_intervals using DataFrame
 
     return jsonify('Success'), 200
