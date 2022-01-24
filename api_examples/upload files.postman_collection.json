@@ -16,7 +16,12 @@
 						{
 							"key": "file",
 							"type": "file",
-							"src": "/Users/mikeyb/Library/Mobile Documents/iCloud~com~rungap~RunGap/Documents/Export_test/2022-01-03_15-20-10_co_440569036376408064.gzip"
+							"src": "/Users/mikeyb/Library/Mobile Documents/iCloud~com~rungap~RunGap/Documents/Testing/2022-01-22_07-04-48_co_441002095250800640.zip"
+						},
+						{
+							"key": "workout_id",
+							"value": "1371",
+							"type": "text"
 						}
 					],
 					"options": {

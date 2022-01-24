@@ -165,7 +165,7 @@ def update_workout():
 def generate_workout_from_file():
     logger.info('generate_workout_from_file')
     logger.debug(request.files)
-    logger.debug('workout_id: ' + str(request.args.get('workout_id')))
+    logger.debug('workout_id: ' + str(request.values['workout_id']))
     if 'file' not in request.files:
         logger.info('no file')
         return jsonify("No file found"), 400
@@ -182,7 +182,7 @@ def generate_workout_from_file():
         abort(400)
 
     user_id = token_auth.current_user().id
-    
+
     tempDir = os.path.join(current_app.config['WRKT_FILE_DIR'], str(user_id), 'temp')
     workDir = os.path.join(current_app.config['WRKT_FILE_DIR'], str(user_id), 'work')
 
