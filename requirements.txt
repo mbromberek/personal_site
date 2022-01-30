@@ -4,6 +4,7 @@ click==7.1.2
 dnspython==2.1.0
 dominate==2.6.0
 email-validator==1.1.3
+fitdecode==0.10.0
 Flask==1.1.2
 Flask-HTTPAuth==4.5.0
 Flask-Login==0.5.0
@@ -15,6 +16,7 @@ itsdangerous==1.1.0
 Jinja2==2.11.3
 Mako==1.1.4
 MarkupSafe==1.1.1
+NormalizeWorkout @ git+https://github.com/mbromberek/NormalizeWorkout.git@077711c9b985eaeffc60312e10bbb2eb47fee48c
 numpy==1.21.4
 pandas==1.3.4
 psycopg2-binary==2.9.1
