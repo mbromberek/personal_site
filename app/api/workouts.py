@@ -13,6 +13,7 @@ import datetime
 # 3rd Party classes
 from flask import jsonify, request, url_for, abort, current_app
 from werkzeug.utils import secure_filename
+import pandas as pd
 
 # Custom Classes
 from app import db
@@ -24,7 +25,7 @@ from app import logger
 from app.utils import dt_conv
 
 import NormalizeWorkout.dao.files as fao
-# import NormalizeWorkout.parse.rungapParse as rgNorm
+import NormalizeWorkout.parse.rungapParse as rgNorm
 import NormalizeWorkout.parse.fitParse as fitParse
 import NormalizeWorkout.parse.rungapMetadata as rungapMeta
 
@@ -233,7 +234,10 @@ def generate_workout_from_file():
     orig_workout = Workout.query.filter_by(id=wrkt_id, user_id=user_id).first_or_404(wrkt_id)
     orig_workout.wrkt_dir = os.path.join(wrktStrtTm.strftime('%Y'), wrktStrtTm.strftime('%m'), wrktDirNm)
 
-    coord_df = actv_df[['latitude','longitude']].dropna()
+    if 'latitude' in actv_df and 'longitude' in actv_df:
+        coord_df = actv_df[['latitude','longitude']].dropna()
+    else:
+        coord_df = pd.DataFrame()
     if coord_df.shape[0] >1:
         strt_coord = actv_df[['latitude','longitude']].dropna().iloc[0]
         end_coord = actv_df[['latitude','longitude']].dropna().iloc[-1]
