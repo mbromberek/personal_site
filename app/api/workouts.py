@@ -166,6 +166,7 @@ def generate_workout_from_file():
     logger.info('generate_workout_from_file')
     logger.debug(request.files)
     logger.debug('workout_id: ' + str(request.values['workout_id']))
+    wrkt_id = request.values['workout_id']
     if 'file' not in request.files:
         logger.info('no file')
         return jsonify("No file found"), 400
@@ -214,7 +215,7 @@ def generate_workout_from_file():
 
     dataJson = rungapMeta.get_workout_data(workDir)
     wrktStrtTmStr = dataJson['startTime']['time']
-    wrktType = rungapMeta.get_wrkt_type(dataJson)
+    wrktType = rungapMeta.get_wrkt_type(dataJson).replace(' ','-').lower()
     wrktSrc = dataJson['source'].replace(' ','-').lower()
     wrktStrtTm = datetime.datetime.strptime(wrktStrtTmStr, '%Y-%m-%dT%H:%M:%SZ')
 
@@ -227,6 +228,20 @@ def generate_workout_from_file():
     os.rename(os.path.join(tempDir, fname), os.path.join(wrktFullPath, fname))
     fao.save_df(actv_df, wrktFullPath,'workout', frmt=['pickle'])
     fao.clean_dir(workDir)
+
+    # Update workout passed in wrkt_id for user_id
+    orig_workout = Workout.query.filter_by(id=wrkt_id, user_id=user_id).first_or_404(wrkt_id)
+    orig_workout.wrkt_dir = os.path.join(wrktStrtTm.strftime('%Y'), wrktStrtTm.strftime('%m'), wrktDirNm)
+
+    coord_df = actv_df[['latitude','longitude']].dropna()
+    if coord_df.shape[0] >1:
+        strt_coord = actv_df[['latitude','longitude']].dropna().iloc[0]
+        end_coord = actv_df[['latitude','longitude']].dropna().iloc[-1]
+        orig_workout.lat_strt = strt_coord['latitude']
+        orig_workout.long_strt = strt_coord['longitude']
+        orig_workout.lat_end = end_coord['latitude']
+        orig_workout.long_end = end_coord['longitude']
+    db.session.commit()
 
     # Generate Workout_intervals using DataFrame
 

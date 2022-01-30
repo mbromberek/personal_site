@@ -196,6 +196,12 @@ class Workout(PaginatedAPIMixin, db.Model):
     show_pause = db.Column(db.Boolean())
     source = db.Column(db.String(50))
 
+    wrkt_dir = db.Column(db.String())
+    lat_strt = db.Column(db.Numeric())
+    long_strt = db.Column(db.Numeric())
+    lat_end = db.Column(db.Numeric())
+    long_end = db.Column(db.Numeric())
+
     isrt_ts = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     workout_intervals = db.relationship('Workout_interval', backref='author', lazy='dynamic')
 
@@ -306,6 +312,16 @@ class Workout(PaginatedAPIMixin, db.Model):
             'intrvl_pace': self.intrvl_pace_str(),
             'intrvl_tot_ele_up': str(self.intrvl_tot_ele_up),
             'intrvl_tot_ele_down': str(self.intrvl_tot_ele_down),
+            'location_coordinates':{
+                'start':{
+                    'lat': str(self.lat_strt),
+                    'long': str(self.long_strt)
+                },
+                'end':{
+                    'lat': str(self.lat_end),
+                    'long': str(self.long_end)
+                }
+            },
 
             'isrt_ts': self.isrt_ts.isoformat() + 'Z',
             '_links':{
