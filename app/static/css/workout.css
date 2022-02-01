@@ -295,6 +295,9 @@ td.gear_usage_dtl{
     padding-left:4px;
     padding-right:2px;
 }
+td.gear_usage_nmcol{
+    width:250px;
+}
 td.dashboard_row_dtl{
     border: 1px solid black;
     padding-top: 2px;
