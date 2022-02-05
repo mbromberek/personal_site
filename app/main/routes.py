@@ -331,6 +331,7 @@ def edit_workout():
         else:
             db.session.commit()
             flash('Workout has been updated!')
+            return redirect(url_for('main.workout', workout=form.wrkt_id.data))
 
         return redirect(url_for('main.workouts'))
     elif request.method == 'GET' and request.args.get('workout') != None:
