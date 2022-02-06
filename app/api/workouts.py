@@ -161,7 +161,7 @@ def update_workout():
     # response.headers['Location'] = url_for('api.get_workout', id=orig_workout.id)
     return response
 
-@bp.route('/generate_workout', methods=['POST'])
+@bp.route('/generate_workout', methods=['PUT'])
 @token_auth.login_required
 def generate_workout_from_file():
     logger.info('generate_workout_from_file')

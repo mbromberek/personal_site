@@ -8,7 +8,7 @@
 		{
 			"name": "Upload_RunGap",
 			"request": {
-				"method": "POST",
+				"method": "PUT",
 				"header": [],
 				"body": {
 					"mode": "formdata",
@@ -16,11 +16,11 @@
 						{
 							"key": "file",
 							"type": "file",
-							"src": "/Users/mikeyb/Library/Mobile Documents/iCloud~com~rungap~RunGap/Documents/Testing/2022-01-22_07-04-48_co_441002095250800640.zip"
+							"src": "/Users/mikeyb/Library/Mobile Documents/iCloud~com~rungap~RunGap/Documents/Backup/2022-01-29_09-04-55_co_441166729662464000.zip"
 						},
 						{
 							"key": "workout_id",
-							"value": "1371",
+							"value": "1372",
 							"type": "text"
 						}
 					],
