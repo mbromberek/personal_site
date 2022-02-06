@@ -36,8 +36,35 @@ def summarize_workout(df, sum_desc=''):
     sum_row['duration'] = tm_conv.sec_to_time(sum_row['dur_sec'],'ms')
     sum_row['pace'] = tm_conv.sec_to_time(tm_conv.pace_calc(sum_row['dist_mi'], sum_row['dur_sec']), 'ms')
 
-
     return sum_row
+
+def summarize_workout_section(df, sum_desc=''):
+    df_edit = df.copy()
+    df_edit['dist_mi'] = pd.to_numeric(df_edit.dist_mi)
+    df_edit['ele_up'] = pd.to_numeric(df_edit.ele_up) if 'ele_up' in df_edit else 0
+    df_edit['ele_down'] = pd.to_numeric(df_edit.ele_down) if 'ele_down' in df_edit else 0
+    df_edit['hr'] = pd.to_numeric(df_edit.hr) if 'hr' in df_edit else 0
+    grouped_df = (df_edit.groupby(
+        ['break_type'])
+        .agg(dur_sec_min=('dur_sec','min')
+            , dist_mi_min=('dist_mi','min')
+            , dur_sec_max=('dur_sec','max')
+            , dist_mi_max=('dist_mi','max')
+            , ele_up=('ele_up','sum')
+            , ele_down=('ele_down','sum')
+            , hr=('hr','mean')
+        ).reset_index()
+    )
+    grouped_df['det'] = grouped_df['break_type']
+    grouped_df['dur_sec'] = grouped_df['dur_sec_max'] - grouped_df['dur_sec_min']
+    grouped_df['dist_mi'] = grouped_df['dist_mi_max'] - grouped_df['dist_mi_min']
+
+    sum_lst = grouped_df.to_dict(orient='records')
+    for sum_row in sum_lst:
+        sum_row['duration'] = tm_conv.sec_to_time(sum_row['dur_sec'],'ms')
+        sum_row['pace'] = tm_conv.sec_to_time(tm_conv.pace_calc(sum_row['dist_mi'], sum_row['dur_sec']), 'ms')
+
+    return sum_lst
 
 def get_lap_sum(intrvl_lst):
     sum_lst = []
@@ -78,6 +105,17 @@ def get_mile_sum(intrvl_lst):
     itrvl_sum_secondhalf = summarize_workout(secondhalf_df, 'Sec½')
     sum_lst.append(itrvl_sum_secondhalf)
 
+    return sum_lst
+
+def get_mile_sum_from_df(wrkt_df):
+    sum_lst = []
+    tot_df = wrkt_df.copy()
+    tot_dist = tot_df['dist_mi'].values[-1]
+    tot_df.loc[tot_df['dist_mi'] <=tot_dist/2, 'break_type'] = 'First 1/2'
+    tot_df.loc[tot_df['dist_mi'] >tot_dist/2, 'break_type'] = 'Sec 1/2'
+    sum_lst = summarize_workout_section(tot_df)
+
+    nbr_rows = round(tot_df.shape[0]/2)
     return sum_lst
 
 def get_sum_by_intrvl(df):

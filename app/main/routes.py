@@ -8,6 +8,7 @@ All rights reserved.
 
 # First party classes
 from datetime import datetime, timedelta, date
+import os
 # from datetime import combine
 
 # Third party classes
@@ -439,6 +440,7 @@ def workout():
     workout.cool_down_pace = workout.cool_down_pace_str()
     workout.intrvl_pace = workout.intrvl_pace_str()
 
+
     intvl_lst = sorted(Workout_interval.query.filter_by( \
       workout_id=wrkt_id, user_id=usr_id))
 
@@ -471,13 +473,22 @@ def workout():
             else:
                 intrvl.det = intrvl.interval_desc
             lap_intrvl_lst.append(intrvl)
+
     if len(lap_intrvl_lst) >1:
         intrvl_dict['lap_sum'] = wrkt_summary.get_lap_sum(lap_intrvl_lst)
     if len(segment_intrvl_lst) >1:
         intrvl_dict['segment_sum'] = wrkt_summary.get_lap_sum(segment_intrvl_lst)
+
     if len(mile_intrvl_lst) >1:
         intrvl_dict['mile_sum'] = wrkt_summary.get_mile_sum(mile_intrvl_lst)
-
+    if workout.wrkt_dir != None:
+        wrkt_df = pd.read_pickle(os.path.join(current_app.config['WRKT_FILE_DIR'], str(workout.user_id), workout.wrkt_dir, 'workout.pickle'))
+        intrvl_dict['mile_sum'] = wrkt_summary.get_mile_sum_from_df(wrkt_df)
+        # TODO Eventually remove, but this also adds the Total section so need to split out
+        if len(mile_intrvl_lst) >1:
+            intrvl_dict['mile_sum'].extend( wrkt_summary.get_mile_sum(mile_intrvl_lst))
+    elif len(mile_intrvl_lst) >1:
+        intrvl_dict['mile_sum'] = wrkt_summary.get_mile_sum(mile_intrvl_lst)
 
 
     return render_template('workout.html', workout=workout, \
