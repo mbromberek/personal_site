@@ -345,6 +345,22 @@ td.dashboard_row_dtl{
     background-color: red;
 }
 
+.lvl_1{
+    background-color: lightblue;
+}
+.lvl_2{
+    background-color: lightgreen;
+}
+.lvl_3{
+    background-color: yellow;
+}
+.lvl_4{
+    background-color: orange;
+}
+.lvl_5{
+    background-color: red;
+}
+
 
 @media only screen and (max-width:600px) {
     /* For mobile phones: */
