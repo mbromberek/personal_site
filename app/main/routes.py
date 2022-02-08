@@ -452,7 +452,7 @@ def workout():
     for intrvl in intvl_lst:
         intrvl.duration = intrvl.dur_str()
         intrvl.pace = intrvl.pace_str()
-        intrvl.hr_lvl = intrvl.hr_lvl_class()
+        intrvl.hr_zone = intrvl.hr_zone_class()
         if intrvl.break_type == 'mile':
             intrvl.det = intrvl.interval_order +1
             mile_intrvl_lst.append(intrvl)
