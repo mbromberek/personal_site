@@ -420,17 +420,20 @@ class Workout_interval(db.Model):
 
     def pace_str(self):
         return tm_conv.sec_to_time(tm_conv.pace_calc(self.dist_mi, self.dur_sec), 'ms')
+    def pace(self):
+        return tm_conv.pace_calc(self.dist_mi, self.dur_sec)
+    
     def hr_zone_class(self):
         if self.hr <=135:
-            return 'lvl_1'
+            return 'zone_1'
         elif self.hr <=143:
-            return 'lvl_2'
+            return 'zone_2'
         elif self.hr <=153:
-            return 'lvl_3'
+            return 'zone_3'
         elif self.hr <=159:
-            return 'lvl_4'
+            return 'zone_4'
         else:
-            return 'lvl_5'
+            return 'zone_5'
 
     def dur_str(self):
         return tm_conv.sec_to_time(self.dur_sec, 'ms')
