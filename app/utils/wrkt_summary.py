@@ -151,10 +151,6 @@ def get_sum_by_intrvl(df):
             intrvl_sum['pace'] = tm_conv.sec_to_time(tm_conv.pace_calc(intrvl_sum['dist_mi'], intrvl_sum['dur_sec']), 'ms')
             intrvl_sum_edit_lst.append(intrvl_sum)
 
-
-
-    # sum_row['duration'] = tm_conv.sec_to_time(sum_row['dur_sec'],'ms')
-    # sum_row['pace'] = tm_conv.sec_to_time(tm_conv.pace_calc(sum_row['dist_mi'], sum_row['dur_sec']), 'ms')
     print('intrvl_sum_edit_lst')
     print(intrvl_sum_edit_lst)
     return intrvl_sum_edit_lst

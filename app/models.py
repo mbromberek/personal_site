@@ -420,20 +420,9 @@ class Workout_interval(db.Model):
 
     def pace_str(self):
         return tm_conv.sec_to_time(tm_conv.pace_calc(self.dist_mi, self.dur_sec), 'ms')
-    def pace(self):
+
+    def pace_sec(self):
         return tm_conv.pace_calc(self.dist_mi, self.dur_sec)
-    
-    def hr_zone_class(self):
-        if self.hr <=135:
-            return 'zone_1'
-        elif self.hr <=143:
-            return 'zone_2'
-        elif self.hr <=153:
-            return 'zone_3'
-        elif self.hr <=159:
-            return 'zone_4'
-        else:
-            return 'zone_5'
 
     def dur_str(self):
         return tm_conv.sec_to_time(self.dur_sec, 'ms')
@@ -695,3 +684,65 @@ class Yrly_mileage(db.Model):
 
     def dt_year(self):
         return self.dt_by_yr.strftime('%Y')
+
+class Workout_zone(db.Model):
+    __table_args__ = {"schema": "fitness", 'comment':'workout zones'}
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('fitness.user.id'))
+    # hr | pace
+    type = db.Column(db.String(50), nullable=False)
+    zone = db.Column(db.String(50), nullable=False)
+    val = db.Column(db.Integer(), nullable=False)
+
+    # @staticmethod
+    # def get_zones(user_id):
+    #     zone_dict = {}
+    #     zone_results = Workout_zone.query.filter_by(user_id=user_id).order_by('zone')
+    #     hr_lst = []
+    #     pace_lst = []
+    #     for zone in zone_results:
+    #         if zone.type == 'hr':
+    #             hr_lst.append(zone)
+    #         if zone.type == 'pace':
+    #             zone.max_val
+    #             pace_lst.append(zone)
+    #     zone_dict['hr'] = hr_lst
+    #     zone_dict['pace'] = pace_lst
+    #
+    #     return zone_dict
+    #
+    # @staticmethod
+    # def zone_class(zone_lst, val):
+    #     for zone in zone_lst:
+    #         if val <= zone.max_val:
+    #             return zone.zone
+    #     return ''
+
+class Workout_zones(object):
+    pace_zone_lst = ''
+    hr_zone_lst = ''
+
+    def __init__(self, user_id):
+        zone_dict = {}
+        zone_results = Workout_zone.query.filter_by(user_id=user_id).order_by('zone')
+        hr_lst = []
+        pace_lst = []
+        for zone in zone_results:
+            if zone.type == 'hr':
+                hr_lst.append(zone)
+            if zone.type == 'pace':
+                pace_lst.append(zone)
+        self.hr_zone_lst = hr_lst
+        self.pace_zone_lst = pace_lst
+
+    def pace_zone(self, pace_val):
+        for zone in self.pace_zone_lst:
+            if pace_val >= zone.val:
+                return zone.zone
+        return ''
+
+    def hr_zone(self, hr_val):
+        for zone in self.hr_zone_lst:
+            if hr_val <= zone.val:
+                return zone.zone
+        return ''

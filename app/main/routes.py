@@ -21,7 +21,7 @@ import pandas as pd
 # Custom classes
 from app.main import bp
 from app.main.forms import EmptyForm, WorkoutCreateBtnForm, WorkoutForm, WorkoutFilterForm, WorkoutIntervalForm, WorkoutExportForm
-from app.models import User, Workout, Workout_interval, Gear_usage, Wrkt_sum, Wkly_mileage, Yrly_mileage
+from app.models import User, Workout, Workout_interval, Gear_usage, Wrkt_sum, Wkly_mileage, Yrly_mileage, Workout_zones
 from app import db
 from app.utils import tm_conv, const, nbrConv, dt_conv
 from app import logger
@@ -443,6 +443,8 @@ def workout():
 
     intvl_lst = sorted(Workout_interval.query.filter_by( \
       workout_id=wrkt_id, user_id=usr_id))
+    # zone_dict = Workout_zone.get_zones(usr_id)
+    wrkt_zones = Workout_zones(usr_id)
 
     intrvl_dict = {}
     mile_intrvl_lst = []
@@ -452,7 +454,8 @@ def workout():
     for intrvl in intvl_lst:
         intrvl.duration = intrvl.dur_str()
         intrvl.pace = intrvl.pace_str()
-        intrvl.hr_zone = intrvl.hr_zone_class()
+        intrvl.hr_zone = wrkt_zones.hr_zone(intrvl.hr)
+        intrvl.pace_zone = wrkt_zones.pace_zone(intrvl.pace_sec())
         if intrvl.break_type == 'mile':
             intrvl.det = intrvl.interval_order +1
             mile_intrvl_lst.append(intrvl)
@@ -632,3 +635,19 @@ def edit_workout_interval():
 
     logger.debug('edit_workout_interval pre-render_template')
     return render_template('edit_workout_interval.html', form=form, wrktDet=wrktDict)
+
+# def get_zones(user_id):
+#     zone_dict = {}
+#
+#     zone_results = Workout_zone.query.filter_by(user_id=user_id).order_by('zone')
+#     hr_lst = []
+#     pace_lst = []
+#     for zone in zone_results:
+#         if zone.type == 'hr':
+#             hr_lst.append({zone.max_val, zone.type})
+#         if zone.type == 'pace':
+#             pace_lst.append({zone.max_val, zone.type})
+#     zone_dict['hr'] = hr_lst
+#     zone_dict['pace'] = pace_lst
+#
+#     return zone_dict
