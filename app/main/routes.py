@@ -21,13 +21,14 @@ import pandas as pd
 # Custom classes
 from app.main import bp
 from app.main.forms import EmptyForm, WorkoutCreateBtnForm, WorkoutForm, WorkoutFilterForm, WorkoutIntervalForm, WorkoutExportForm
-from app.models import User, Workout, Workout_interval, Gear_usage, Wrkt_sum, Wkly_mileage, Yrly_mileage, Workout_zones
+from app.models import User, Workout, Workout_interval, Gear_usage, Wrkt_sum, Wkly_mileage, Yrly_mileage
 from app import db
 from app.utils import tm_conv, const, nbrConv, dt_conv
 from app import logger
 from app.utils import wrkt_summary
 from app.main import export, filtering
 from app.model.goals import Yrly_goal
+from app.model.workout_zones import Workout_zones
 
 @bp.route('/')
 @bp.route('/index')
