@@ -31,12 +31,16 @@ class Workout_zones(object):
         self.pace_zone_lst = pace_lst
 
     def pace_zone(self, pace_val):
+        if pace_val == 0:
+            return ''
         for zone in self.pace_zone_lst:
             if pace_val >= zone.val:
                 return zone.zone
         return ''
 
     def hr_zone(self, hr_val):
+        if hr_val == 0:
+            return ''
         for zone in self.hr_zone_lst:
             if hr_val <= zone.val:
                 return zone.zone
