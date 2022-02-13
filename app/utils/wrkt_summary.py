@@ -116,8 +116,8 @@ def get_mile_sum_from_df(wrkt_df):
     sum_lst.extend(summarize_workout_section(tot_df, 'Total'))
 
     tot_dist = tot_df['dist_mi'].values[-1]
-    tot_df.loc[tot_df['dist_mi'] <=tot_dist/2, 'break_type'] = 'First 1/2'
-    tot_df.loc[tot_df['dist_mi'] >tot_dist/2, 'break_type'] = 'Sec 1/2'
+    tot_df.loc[tot_df['dist_mi'] <=tot_dist/2, 'break_type'] = 'First½'
+    tot_df.loc[tot_df['dist_mi'] >tot_dist/2, 'break_type'] = 'Sec½'
     sum_lst.extend( summarize_workout_section(tot_df))
 
     nbr_rows = round(tot_df.shape[0]/2)

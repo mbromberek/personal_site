@@ -490,8 +490,8 @@ def workout():
         wrkt_df = pd.read_pickle(os.path.join(current_app.config['WRKT_FILE_DIR'], str(workout.user_id), workout.wrkt_dir, 'workout.pickle'))
         intrvl_dict['mile_sum'] = wrkt_summary.get_mile_sum_from_df(wrkt_df)
         # TODO Eventually remove, but this also adds the Total section so need to split out
-        if len(mile_intrvl_lst) >1:
-            intrvl_dict['mile_sum'].extend( wrkt_summary.get_mile_sum(mile_intrvl_lst))
+        # if len(mile_intrvl_lst) >1:
+        #     intrvl_dict['mile_sum'].extend( wrkt_summary.get_mile_sum(mile_intrvl_lst))
     elif len(mile_intrvl_lst) >1:
         intrvl_dict['mile_sum'] = wrkt_summary.get_mile_sum(mile_intrvl_lst)
 
