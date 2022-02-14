@@ -505,6 +505,7 @@ def workout():
 def dashboard():
     logger.info('dashboard')
     title="Dashboard"
+    destPage="dashboard"
 
     dash_lst_dict = {}
 
@@ -559,7 +560,7 @@ def dashboard():
     dash_lst_dict['yrly_goals_lst'] = yrly_goals_lst
     dash_lst_dict['yrly_mileage_lst'] = yrly_mileage_lst
 
-    return render_template('dashboard.html', title=title, dash_lst_dict=dash_lst_dict)
+    return render_template('dashboard.html', title=title, destPage=destPage, dash_lst_dict=dash_lst_dict)
 
 @bp.route('/edit_workout_interval', methods=['GET','POST'])
 @login_required

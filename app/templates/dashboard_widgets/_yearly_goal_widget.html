@@ -1,4 +1,4 @@
-    <div class="dashboard_widget dashboard_widget_wide">
+    <div class="dashboard_widget {% if destPage and destPage == 'dashboard' %}dashboard_widget_wide{% else %}dashboard_widget_goal{% endif %}">
         <table class="gear_usage">
             <tr class="gear_usage_hdr">
                 <td  class="gear_usage_hdr" colspan="4">
@@ -12,11 +12,11 @@
                 <td class="gear_usage_hdr">
                     Completed
                 </td>
-                <td class="gear_usage_hdr hide_mobile">
-                    Avg needed <br>(day)
+                <td class="gear_usage_hdr hide_mobile" >
+                    Avg need <br>(day)
                 </td>
-                <td class="gear_usage_hdr">
-                    Avg needed <br>(month)
+                <td class="gear_usage_hdr" >
+                    Avg need <br>(month)
                 </td>
             </tr>
             {% for yr_goal in dash_lst_dict['yrly_goals_lst'] %}

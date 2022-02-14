@@ -312,9 +312,13 @@ td.dashboard_row_dtl{
     margin-right:20px;
     margin-bottom:20px;
 }
-.dashboard_widget_wide{
+.dashboard_widget_goal{
     width:480px;
     margin-right:0px;
+}
+
+.dashboard_widget_wide{
+    width:550px;
 }
 .dashboard_widget_thin{
     width:390px;
