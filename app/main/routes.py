@@ -645,12 +645,12 @@ def edit_workout_interval():
 #
 #     return zone_dict
 
-@bp.route('/testing', methods=['GET'])
+@bp.route('/google_testing', methods=['GET'])
 @login_required
 def testing():
-    logger.info('testing')
-    title="Testing page"
+    logger.info('Google Maps Testing')
+    title="Google Maps Testing page"
     form = EmptyForm()
     mapKey = current_app.config['MAP_API_KEY']
 
-    return render_template('testing.html', title=title, form=form, destPage='test', mapKey=mapKey)
+    return render_template('google_testing.html', title=title, form=form, destPage='google_testing', mapKey=mapKey)
