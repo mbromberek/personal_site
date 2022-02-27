@@ -654,3 +654,13 @@ def testing():
     mapKey = current_app.config['MAP_API_KEY']
 
     return render_template('google_testing.html', title=title, form=form, destPage='google_testing', mapKey=mapKey)
+
+@bp.route('/leaflet_testing', methods=['GET'])
+@login_required
+def leaflet_testing():
+    logger.info('Leaflet Maps Testing')
+    title="Leaflet Maps Testing page"
+    form = EmptyForm()
+    mapKey = current_app.config['MAPBOX_API_KEY']
+
+    return render_template('leaflet_testing.html', title=title, form=form, destPage='leaflet_testing', mapKey=mapKey)
