@@ -25,9 +25,16 @@ Base HTML code for each web page
         {% if destPage and destPage == 'edit' %}
         <script type="text/javascript" src="{{ url_for('static', filename='js/workout_edit.js') }}"></script>
         {% endif %}
+        {% if destPage and destPage == 'test' %}
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+        <script src="{{ url_for('static', filename='js/maps.js') }}"></script>
+        {% endif %}
         {{ bootstrap.load_css() }}
         <link rel="stylesheet" href="{{ url_for('static', filename='css/workout.css') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+        {% if destPage and destPage == 'test' %}
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/maps.css') }}" />
+        {% endif %}
     {% endblock %}
 
     <title>

@@ -403,15 +403,6 @@ def edit_workout():
 
     return render_template('edit_workout.html', label_val=label_val, form=form, destPage = 'edit')
 
-# @bp.route('/testing', methods=['GET','POST'])
-# @login_required
-# def testing():
-#     logger.info('testing')
-#     title="Testing page"
-#     form = EmptyForm()
-#
-#     return render_template('testing.html', title=title, form=form)
-
 @bp.route('/calculate', methods=['GET'])
 def calculate():
     logger.info('calculate')
@@ -653,3 +644,13 @@ def edit_workout_interval():
 #     zone_dict['pace'] = pace_lst
 #
 #     return zone_dict
+
+@bp.route('/testing', methods=['GET'])
+@login_required
+def testing():
+    logger.info('testing')
+    title="Testing page"
+    form = EmptyForm()
+    mapKey = current_app.config['MAP_API_KEY']
+
+    return render_template('testing.html', title=title, form=form, destPage='test', mapKey=mapKey)
