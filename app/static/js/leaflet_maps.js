@@ -108,7 +108,7 @@ function initMap(apiKey) {
 
     var mileMarkers = new L.geoJson(milePoints, {
         pointToLayer: function(feature, latlng) {
-            console.log(latlng.lat + ' ' + latlng.lng);
+            // console.log(latlng.lat + ' ' + latlng.lng);
             // return new L.CircleMarker([latlng.lng, latlng.lat], {radius: feature.properties.radius});
             return new L.CircleMarker([latlng.lng, latlng.lat],  feature.properties);
         },
