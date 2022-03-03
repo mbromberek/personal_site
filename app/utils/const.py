@@ -12,9 +12,6 @@ SECONDS_IN_MINUTE = 60
 NBR_WK_COMP = 10
 MIN_YR_COMP = 2018
 
-SHOE_MILE_AGE_WARNING = 300
-SHOE_MILE_AGE_SHOULD_RETIRE = 450
-
 EXPORT_FIELDS = ['Type','Date','Duration h:m:s','Duration Seconds','Distance','Pace', 'Pace Seconds', 'Gear','HR','Category','Calories', 'Notes','Notes+','Elevation', 'Elevation Up', 'Elevation Down', 'Location', 'Training Type', 'Weather','Clothes']
 EXPORT_FIELD_MAPPING = {
     'Type':'type',

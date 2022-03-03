@@ -512,9 +512,9 @@ def dashboard():
     gear_results = sorted(Gear_usage.query.filter_by(user_id=current_user.id, retired=False), reverse=True)
     gear_lst = []
     for gear in gear_results:
-        if gear.type == 'Shoe' and gear.tot_dist >const.SHOE_MILE_AGE_SHOULD_RETIRE:
+        if gear.type == 'Shoe' and gear.tot_dist >current_app.config['SHOE_MILE_AGE_SHOULD_RETIRE']:
             gear.age_cond_class = 'gear_age_should_retire'
-        elif gear.type == 'Shoe' and gear.tot_dist >const.SHOE_MILE_AGE_WARNING:
+        elif gear.type == 'Shoe' and gear.tot_dist >current_app.config['SHOE_MILE_AGE_WARNING']:
             gear.age_cond_class = 'gear_age_warning'
         else:
             gear.age_cond_class = ''
