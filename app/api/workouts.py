@@ -9,6 +9,8 @@ All rights reserved.
 # First party classes
 import os
 import datetime
+import string
+import random
 
 # 3rd Party classes
 from flask import jsonify, request, url_for, abort, current_app
@@ -248,11 +250,9 @@ def generate_workout_from_file():
         orig_workout.long_strt = strt_coord['longitude']
         orig_workout.lat_end = end_coord['latitude']
         orig_workout.long_end = end_coord['longitude']
+        thumbnail_nm = 'thumb_200_200_' + ''.join(random.choices(string.ascii_uppercase + string.digits, k=50)) + '.png'
+        genMap.generate_map_img(actv_df, wrktFullPath, img_dim={'height':200, 'width':200}, img_name=thumbnail_nm)
     db.session.commit()
-
-    # Generate Workout map as a Thumbnail
-    if coord_df.shape[0] >1:
-        genMap.generate_map_img(actv_df, wrktFullPath, img_dim={'height':200, 'width':200}, img_name='thumb')
 
     # Generate Workout_intervals using DataFrame
 
