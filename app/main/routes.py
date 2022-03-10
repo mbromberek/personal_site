@@ -13,7 +13,7 @@ import os
 
 # Third party classes
 from flask import render_template, flash, redirect, url_for, request, g, \
-    jsonify, current_app, send_file
+    jsonify, current_app, send_file, send_from_directory
 from flask_login import current_user, login_required
 from sqlalchemy import or_
 import pandas as pd
@@ -215,6 +215,7 @@ def workouts():
     for workout in workouts:
         workout.duration = workout.dur_str()
         workout.pace = workout.pace_str()
+        workout.thumb_path = 'wrkt_maps/2022/03/thumb_200_200_2Y3XCXZWXFXC1EBT6EJ9R9YKEUG5BUOZ8128NICQ7P2SU4IKXM.png'
         if workout.clothes == None:
             workout.clothes = ''
         if workout.notes != None:
@@ -664,3 +665,8 @@ def leaflet_testing():
     mapKey = current_app.config['MAPBOX_API_KEY']
 
     return render_template('leaflet_testing.html', title=title, form=form, destPage='leaflet_testing', mapKey=mapKey)
+
+@bp.route('/wrkt_images/<path:filename>')
+@login_required
+def wrkt_img_file(filename):
+    return send_from_directory(current_app.config['MEDIA_DIR'], filename, as_attachment=True)
