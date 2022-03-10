@@ -15,6 +15,13 @@ from flask import jsonify, request, url_for, abort, current_app
 from werkzeug.utils import secure_filename
 import pandas as pd
 
+# Custom Classes from github
+import NormalizeWorkout.dao.files as fao
+import NormalizeWorkout.parse.rungapParse as rgNorm
+import NormalizeWorkout.parse.fitParse as fitParse
+import NormalizeWorkout.parse.rungapMetadata as rungapMeta
+import GenerateMapImage.gen_map_img as genMap
+
 # Custom Classes
 from app import db
 from app.models import Workout, User, Workout_interval
@@ -24,10 +31,6 @@ from app.api.errors import bad_request
 from app import logger
 from app.utils import dt_conv
 
-import NormalizeWorkout.dao.files as fao
-import NormalizeWorkout.parse.rungapParse as rgNorm
-import NormalizeWorkout.parse.fitParse as fitParse
-import NormalizeWorkout.parse.rungapMetadata as rungapMeta
 
 @bp.route('/workout/<int:id>', methods=['GET'])
 @token_auth.login_required
@@ -246,6 +249,10 @@ def generate_workout_from_file():
         orig_workout.lat_end = end_coord['latitude']
         orig_workout.long_end = end_coord['longitude']
     db.session.commit()
+
+    # Generate Workout map as a Thumbnail
+    if coord_df.shape[0] >1:
+        genMap.generate_map_img(actv_df, wrktFullPath, img_dim={'height':200, 'width':200}, img_name='thumb')
 
     # Generate Workout_intervals using DataFrame
 
