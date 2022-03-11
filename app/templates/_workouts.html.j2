@@ -31,11 +31,14 @@
 
             <div style="overflow:auto; width:100%;">
                 <div class="workout-detail-measures-section" >
+                    {#
+                    {% if workout.thumb_path != None %}
                     <div class="workout-detail workout-detail-measures" style="border-right: 1px black solid; ">
-                        <!--<img src="static/images/run_maps/run_thumb.png" style="max-width:75px; height:auto;" >-->
                         <img src="{{ url_for('main.wrkt_img_file', filename= workout.thumb_path) }}" style="max-width:75px; height:auto;" >
                     </div>
-
+                    {% endif %}
+                    #}
+                    
                     <div class="workout-detail workout-detail-measures" style="border-right: 1px black solid; ">
                         Distance<br>
                         {{ workout.dist_mi }}mi
