@@ -229,6 +229,8 @@ def generate_workout_from_file():
     wrktDirNm = wrktStrtTm.strftime('%Y-%m-%d_%H%M%S') + '_' + wrktType + '_' + wrktSrc
     wrktFullPath = os.path.join(current_app.config['WRKT_FILE_DIR'], str(user_id), wrktStrtTm.strftime('%Y'), wrktStrtTm.strftime('%m'), wrktDirNm)
     os.makedirs(wrktFullPath, exist_ok=True)
+    tumbnailDir = os.path.join(current_app.config['WRKT_FILE_DIR'], str(user_id), current_app.config['USER_THUMBNAIL_DIR'])
+    os.makedirs(tumbnailDir, exist_ok=True)
 
     # Move saved file from temp to new directory and export data frame as pickle to new directory.
     os.rename(os.path.join(tempDir, fname), os.path.join(wrktFullPath, fname))
@@ -251,8 +253,8 @@ def generate_workout_from_file():
         orig_workout.lat_end = end_coord['latitude']
         orig_workout.long_end = end_coord['longitude']
         thumbnail_nm = 'thumb_200_200_' + ''.join(random.choices(string.ascii_uppercase + string.digits, k=50)) + '.png'
-        genMap.generate_map_img(actv_df, wrktFullPath, img_dim={'height':200, 'width':200}, img_name=thumbnail_nm)
-        orig_workout.thumb_path = os.path.join(str(user_id), orig_workout.wrkt_dir, thumbnail_nm)
+        genMap.generate_map_img(actv_df, tumbnailDir, img_dim={'height':200, 'width':200}, img_name=thumbnail_nm)
+        orig_workout.thumb_path = thumbnail_nm
     db.session.commit()
 
     # Generate Workout_intervals using DataFrame
