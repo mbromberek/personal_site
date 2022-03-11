@@ -10,7 +10,7 @@ Flask-HTTPAuth==4.5.0
 Flask-Login==0.5.0
 Flask-SQLAlchemy==2.5.1
 Flask-WTF==0.15.1
-GenerateMapImage @ git+https://github.com/mbromberek/GenerateMapImage.git@043164cb64a2f5f635c39562ed81a7f47253373e
+GenerateMapImage @ git+https://github.com/mbromberek/GenerateMapImage.git@c344fb67f9d13eb869c16c31a28660d21b4e2dac
 greenlet==1.1.2
 idna==3.1
 itsdangerous==1.1.0

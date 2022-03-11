@@ -201,6 +201,7 @@ class Workout(PaginatedAPIMixin, db.Model):
     long_strt = db.Column(db.Numeric())
     lat_end = db.Column(db.Numeric())
     long_end = db.Column(db.Numeric())
+    thumb_path = db.Column(db.Text())
 
     isrt_ts = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     workout_intervals = db.relationship('Workout_interval', backref='author', lazy='dynamic')

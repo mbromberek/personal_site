@@ -215,7 +215,6 @@ def workouts():
     for workout in workouts:
         workout.duration = workout.dur_str()
         workout.pace = workout.pace_str()
-        workout.thumb_path = 'wrkt_maps/2022/03/thumb_200_200_2Y3XCXZWXFXC1EBT6EJ9R9YKEUG5BUOZ8128NICQ7P2SU4IKXM.png'
         if workout.clothes == None:
             workout.clothes = ''
         if workout.notes != None:
