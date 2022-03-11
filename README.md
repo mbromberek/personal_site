@@ -34,6 +34,11 @@ pip install wheel
 deactivate
 ```
 
+#### On server activate venv
+```
+source personal_site/bin/activate
+```
+
 ## Run Flask server
 ```
 $ export FLASK_APP=p_site.py
