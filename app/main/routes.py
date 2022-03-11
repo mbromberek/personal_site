@@ -668,4 +668,4 @@ def leaflet_testing():
 @bp.route('/wrkt_images/<path:filename>')
 @login_required
 def wrkt_img_file(filename):
-    return send_from_directory(current_app.config['MEDIA_DIR'], filename, as_attachment=True)
+    return send_from_directory(os.path.join(current_app.config['MEDIA_DIR'], str(current_user.id),'thumbnails'), filename, as_attachment=True)
