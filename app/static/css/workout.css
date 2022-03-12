@@ -6,6 +6,7 @@
     padding-right:15px;
     padding-top:10px;
     padding-bottom:15px;
+    position:relative;
 }
 /*.workout:hover {
     background-color: lightblue;
@@ -112,12 +113,12 @@ input.workout_filter_btn_container:hover{
     padding-top:0px;
     padding-bottom:0px;
 }
-.workout-detail-type{
+.workout_detail_type{
     float: left;
-    width:20%;
-    text-align: right;
+    width:75%;
+    text-align: left;
 }
-.workout-detail-type-items{
+.workout_detail_type_items{
 
 }
 .workout-detail-measures{
@@ -132,6 +133,14 @@ input.workout_filter_btn_container:hover{
     width:310px;
     margin-left:245px;
     margin-right:245px;
+}
+.workout_map{
+    position:absolute;
+    right:15px;
+    top:15px;
+    padding-top:0px;
+    width:140px;
+    border:0px red solid;
 }
 
 .workout-detail-shoe{
@@ -366,8 +375,8 @@ td.dashboard_row_dtl{
 }
 
 
+/* For mobile phones: */
 @media only screen and (max-width:600px) {
-    /* For mobile phones: */
     .workouts_hdr{
         font-size: 13pt;
         display:inline-block;
@@ -387,11 +396,11 @@ td.dashboard_row_dtl{
         font-size: 13pt;
         width:100%;
     }
-    .workout-detail-type{
+    .workout_detail_type{
         width:100%;
         text-align: left;
     }
-    .workout-detail-type-items{
+    .workout_detail_type_items{
         float:left;
         padding-right:3px;
     }

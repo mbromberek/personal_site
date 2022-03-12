@@ -13,32 +13,36 @@
                         (edit)
                     </a>
                 </div>
-                <div class="workout-detail workout-detail-type" style="border:0px red solid;">
-                    <div class="workout-detail-type-items">
-                        {{ workout.category }}
-                    </div>
-                    {% if workout.training_type != None %}
-                    <div class="workout-detail-type-items">
-                        {{ workout.training_type }}
-                    </div>
-                    {% endif %}
-                </div>
             </div>
+
+            <div class="workout-detail workout_detail_type" style="border:0px red solid;">
+                {{ workout.category }}
+                {% if workout.training_type != None %}
+                {{ workout.training_type }}
+                {% endif %}
+            </div>
+
+            {% if workout.thumb_path != None %}
+            <div class="workout_map" style=" ">
+                <img src="{{ url_for('main.wrkt_img_file', filename= workout.thumb_path) }}" style="width:100%; height:auto;" >
+            </div>
+            {% endif %}
+            {#
+            {% if workout.thumb_path != None %}
+            <div class="workout-detail workout_map" style=" ">
+                <img src="{{ url_for('main.wrkt_img_file', filename= workout.thumb_path) }}" style="max-width:75px; height:auto;" >
+            </div>
+            {% endif %}
+            #}
 
             <div class="workouts_detail_separators">
                 &nbsp;
             </div>
 
             <div style="overflow:auto; width:100%;">
+
                 <div class="workout-detail-measures-section" >
-                    {#
-                    {% if workout.thumb_path != None %}
-                    <div class="workout-detail workout-detail-measures" style="border-right: 1px black solid; ">
-                        <img src="{{ url_for('main.wrkt_img_file', filename= workout.thumb_path) }}" style="max-width:75px; height:auto;" >
-                    </div>
-                    {% endif %}
-                    #}
-                    
+
                     <div class="workout-detail workout-detail-measures" style="border-right: 1px black solid; ">
                         Distance<br>
                         {{ workout.dist_mi }}mi
