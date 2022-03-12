@@ -392,6 +392,13 @@ td.dashboard_row_dtl{
         width:100%;
 
     }
+    .workout_map{
+        /* position:relative; */
+        right:12px;
+        top:5px;
+        width:50px;
+    }
+
     .workout-header{
         font-size: 13pt;
         width:100%;
@@ -480,6 +487,11 @@ td.dashboard_row_dtl{
 @media screen and (min-width: 600px) and (max-width: 900px) {
     .workout_card{
         width:100%;
+    }
+    .workout_map{
+        right:12px;
+        top:5px;
+        width:125px;
     }
     .workout-detail-measures-section{
         margin-left:185px;
