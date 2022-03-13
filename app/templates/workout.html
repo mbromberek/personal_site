@@ -241,7 +241,7 @@
     {% if 'zoom' in map_dict %}
     <div id="map" style="height:450px;margin-top:25px;"></div>
     <script>
-        JavaScript:initMap('{{ map_dict.key }}', {{ map_dict.zoom }}, {{ map_dict.center.lat }}, {{ map_dict.center.lon }}, {{ map_dict.lat_lon }})
+        JavaScript:initMap({{ map_dict|tojson|safe }});
     </script>
     {% endif %}
 

@@ -504,6 +504,10 @@ def workout():
             print('center:' + str(map_dict['center']))
 
             map_dict['lat_lon'] = wrkt_df[['latitude', 'longitude']].dropna().values.tolist()
+            # map_json = json.dumps(map_dict)
+            # print(str(map_json))
+
+
 
 
     elif len(mile_intrvl_lst) >1:
