@@ -64,42 +64,32 @@ function initMap(map_json) {
     var end_mark = {position:lat_lon[lat_lon.length -1], icon:redCircle, popup: 'Run End'};
     // var mile_one_mark = {position:[40.732828164473200, -89.57437014207240], icon:whiteCircle, popup: 'Mile 1'};
 
-    var milePoints = [
-        {
-            "type": "Feature",
-            "geometry": {
-                "type": "Point",
-                "coordinates": [40.732828164473200, -89.57437014207240]
-            },
-            "properties": {
-                "text": "1",
-                "radius": 7,
-                "fillColor": 'white',
-                "color": '#000',
-                "weight": 1,
-                "opacity": 1,
-                "fillOpacity": "0.8"
-            }
-        },
-        {
-            "type": "Feature",
-            "geometry": {
-                "type": "Point",
-                "coordinates": [40.72476368397470, -89.58295689895750]
-            },
-            "properties": {
-                "text": "2",
-                "radius": 7,
-                "fillColor": 'white',
-                "color": '#000',
-                "weight": 1,
-                "opacity": 1,
-                "fillOpacity": "0.8"
-            }
-        }
-    ];
+    var milePoints = [];
+    // console.log(map_json.mile_markers);
 
-    var map = L.map('map').setView(run_map_center['pos'], run_map_center['zoom']);
+    map_json.mile_markers.forEach(function(marker, index){
+        console.log(marker);
+        var mile_marker_json = {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [marker.lat, marker.lon]
+            },
+            "properties": {
+                "text": marker.mile_nbr.toString(),
+                "radius": 7,
+                "fillColor": 'white',
+                "color": '#000',
+                "weight": 1,
+                "opacity": 1,
+                "fillOpacity": "0.8"
+            }
+        };
+        milePoints.push(mile_marker_json);
+    });
+    // console.log(milePoints);
+
+    var map = L.map('map', {scrollWheelZoom: false} ).setView(run_map_center['pos'], run_map_center['zoom']);
 
     L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
       attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',

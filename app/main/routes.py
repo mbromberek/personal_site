@@ -498,16 +498,22 @@ def workout():
             map_dict['key'] = current_app.config['MAPBOX_API_KEY']
 
             map_dict['center'] = genMap.calc_center(lats=[lat_max, lat_min], lons=[lon_max, lon_min])
-            map_dict['zoom'] = genMap.calc_zoom(lats=[lat_min, lat_max], lons=[lon_min, lon_max], img_dim={'height':650, 'width':800})
+            map_dict['zoom'] = genMap.calc_zoom(lats=[lat_min, lat_max], lons=[lon_min, lon_max], img_dim={'height':1100, 'width':1100})
 
             print('zoom: ' + str(map_dict['zoom']))
             print('center:' + str(map_dict['center']))
 
             map_dict['lat_lon'] = wrkt_df[['latitude', 'longitude']].dropna().values.tolist()
-            # map_json = json.dumps(map_dict)
-            # print(str(map_json))
 
+            # Get first row for each mile
+            #  skip the first row since that is the start
+            mile_df = wrkt_df.groupby('mile').first().iloc[1:, :]
+            mile_df['mile_nbr'] = mile_df.index -1
+            mile_df.rename(columns={'latitude': 'lat', 'longitude': 'lon'}, inplace=True)
 
+            map_dict['mile_markers'] = mile_df[['mile_nbr','lat','lon']].to_dict(orient='records')
+
+            # print(map_dict['mile_markers'])
 
 
     elif len(mile_intrvl_lst) >1:
