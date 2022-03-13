@@ -676,31 +676,15 @@ def edit_workout_interval():
     logger.debug('edit_workout_interval pre-render_template')
     return render_template('edit_workout_interval.html', form=form, wrktDet=wrktDict)
 
-# def get_zones(user_id):
-#     zone_dict = {}
+# @bp.route('/google_testing', methods=['GET'])
+# @login_required
+# def testing():
+#     logger.info('Google Maps Testing')
+#     title="Google Maps Testing page"
+#     form = EmptyForm()
+#     mapKey = current_app.config['MAP_API_KEY']
 #
-#     zone_results = Workout_zone.query.filter_by(user_id=user_id).order_by('zone')
-#     hr_lst = []
-#     pace_lst = []
-#     for zone in zone_results:
-#         if zone.type == 'hr':
-#             hr_lst.append({zone.max_val, zone.type})
-#         if zone.type == 'pace':
-#             pace_lst.append({zone.max_val, zone.type})
-#     zone_dict['hr'] = hr_lst
-#     zone_dict['pace'] = pace_lst
-#
-#     return zone_dict
-
-@bp.route('/google_testing', methods=['GET'])
-@login_required
-def testing():
-    logger.info('Google Maps Testing')
-    title="Google Maps Testing page"
-    form = EmptyForm()
-    mapKey = current_app.config['MAP_API_KEY']
-
-    return render_template('google_testing.html', title=title, form=form, destPage='google_testing', mapKey=mapKey)
+#     return render_template('google_testing.html', title=title, form=form, destPage='google_testing', mapKey=mapKey)
 
 @bp.route('/leaflet_testing', methods=['GET'])
 @login_required
