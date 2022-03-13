@@ -505,16 +505,11 @@ def workout():
 
             map_dict['lat_lon'] = wrkt_df[['latitude', 'longitude']].dropna().values.tolist()
 
-            # Get first row for each mile
-            #  skip the first row since that is the start
-            mile_df = wrkt_df.groupby('mile').first().iloc[1:, :]
-            mile_df['mile_nbr'] = mile_df.index -1
-            mile_df.rename(columns={'latitude': 'lat', 'longitude': 'lon'}, inplace=True)
-
-            map_dict['mile_markers'] = mile_df[['mile_nbr','lat','lon']].to_dict(orient='records')
-
-            # print(map_dict['mile_markers'])
-
+            map_dict['lap_markers'] = get_splits_by_group(wrkt_df, 'lap')
+            if workout.category != 'Training' or len(map_dict['lap_markers']) ==0:
+                map_dict['mile_markers'] = get_splits_by_group(wrkt_df, 'mile')
+            else:
+                map_dict['mile_markers'] = []
 
     elif len(mile_intrvl_lst) >1:
         intrvl_dict['mile_sum'] = wrkt_summary.get_mile_sum(mile_intrvl_lst)
@@ -525,6 +520,23 @@ def workout():
     return render_template('workout.html', workout=workout, \
       mile_intrvl_lst=mile_intrvl_lst, segment_intrvl_lst=segment_intrvl_lst, destPage = 'workout', pause_intrvl_lst=pause_intrvl_lst, lap_intrvl_lst=lap_intrvl_lst, intrvls=intrvl_dict, map_dict=map_dict)
 
+
+def get_splits_by_group(df, group_field, skip_first=True):
+    '''
+    Get first row for each value in group_field column
+    Returns list of dictionaries.
+        Each record contains
+            nbr: number for the grouped field
+            lat: latitue
+            lon: longitude
+    '''
+    df_group = df.groupby(group_field).first().iloc[1:, :]
+    if skip_first:
+        df_group['nbr'] = df_group.index -1
+    else:
+        df_group['nbr'] = df_group.index
+    df_group.rename(columns={'latitude': 'lat', 'longitude': 'lon'}, inplace=True)
+    return df_group[['nbr','lat','lon']].to_dict(orient='records')
 
 @bp.route('/dashboard', methods=['GET'])
 @login_required

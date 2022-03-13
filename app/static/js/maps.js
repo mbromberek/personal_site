@@ -36,6 +36,8 @@ var wrktLine = {
     weight: 3,
     opacity: 0.6
 }
+mile_marker_color = 'white'
+lap_marker_color = 'orange'
 
 function initMap(map_json) {
     console.log('maps.js initMap');
@@ -46,7 +48,6 @@ function initMap(map_json) {
     center_lat = map_json.center.lat;
     lat_lon = map_json.lat_lon;
 
-    mile_marker_color = 'white'
     var run_map_center = { pos:[center_lat, center_lon], zoom:zoom };
     var greenIcon = new L.Icon({
         iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
@@ -65,13 +66,18 @@ function initMap(map_json) {
     // var mile_one_mark = {position:[40.732828164473200, -89.57437014207240], icon:whiteCircle, popup: 'Mile 1'};
 
     var milePoints = [];
+    var lapPoints = [];
     // console.log(map_json.mile_markers);
 
     map_json.mile_markers.forEach(function(marker, index){
         // console.log(marker);
         milePoints.push(create_marker(marker, mile_marker_color));
     });
-    // console.log(milePoints);
+    console.log(milePoints);
+    map_json.lap_markers.forEach(function(marker, index){
+        // console.log(marker);
+        lapPoints.push(create_marker(marker, lap_marker_color));
+    });
 
     var map = L.map('map', {scrollWheelZoom: false} ).setView(run_map_center['pos'], run_map_center['zoom']);
 
@@ -115,6 +121,31 @@ function initMap(map_json) {
         }
     }).addTo(map);
 
+    var lapMarkers = new L.geoJson(lapPoints, {
+        pointToLayer: function(feature, latlng) {
+            return new L.CircleMarker([latlng.lng, latlng.lat],  feature.properties);
+        },
+        onEachFeature: function(feature, layer) {
+            var text = L.tooltip({
+                permanent: true,
+                direction: 'center',
+                className: 'text'
+            })
+            .setContent(feature.properties.text)
+            .setLatLng(layer.getLatLng());
+            text.addTo(map);
+
+
+            var text2 = L.tooltip({
+                direction: 'top',
+                className: 'text'
+            })
+            .setContent('Lap ' + feature.properties.text)
+            .setLatLng(layer.getLatLng());
+            layer.bindTooltip(text2);
+        }
+    }).addTo(map);
+
     console.log('End: leaflet_maps initMap');
 }
 
@@ -126,7 +157,7 @@ function create_marker(marker, marker_color){
             "coordinates": [marker.lat, marker.lon]
         },
         "properties": {
-            "text": marker.mile_nbr.toString(),
+            "text": marker.nbr.toString(),
             "radius": 7,
             "fillColor": marker_color,
             "color": '#000',
