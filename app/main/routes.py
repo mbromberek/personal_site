@@ -682,7 +682,7 @@ def edit_workout_interval():
 #     logger.info('Google Maps Testing')
 #     title="Google Maps Testing page"
 #     form = EmptyForm()
-#     mapKey = current_app.config['MAP_API_KEY']
+#     mapKey = current_app.config['GOOGLE_MAP_API_KEY']
 #
 #     return render_template('google_testing.html', title=title, form=form, destPage='google_testing', mapKey=mapKey)
 
