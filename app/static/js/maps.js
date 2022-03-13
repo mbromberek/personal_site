@@ -28,6 +28,14 @@ function initMap(apiKey, zoom, center_lat, center_lon, lat_lon) {
         opacity: 1,
         fillOpacity: 0.8
     }
+    var greenCircle = {
+        radius: 6,
+        fillColor: 'green',
+        color: '#000',
+        weight: 1,
+        opacity: 1,
+        fillOpacity: 0.8
+    }
     var blueCircle = {
         radius: 6,
         fillColor: 'blue',
@@ -53,8 +61,8 @@ function initMap(apiKey, zoom, center_lat, center_lon, lat_lon) {
 
     var polylinePoints = initializeMap();
     var polylinePoints = lat_lon;
-    var start_mark = {position:[40.746675403788700, -89.57505594938990], icon:greenIcon, popup: 'Run Start'}
-    var end_mark = {position:[40.74646594002840, -89.57534370012580], icon:redCircle, popup: 'Run End'};
+    var start_mark = {position:lat_lon[0], icon:greenCircle, popup: 'Run Start'}
+    var end_mark = {position:lat_lon[lat_lon.length -1], icon:redCircle, popup: 'Run End'};
     // var mile_one_mark = {position:[40.732828164473200, -89.57437014207240], icon:whiteCircle, popup: 'Mile 1'};
 
     var milePoints = [
@@ -105,7 +113,8 @@ function initMap(apiKey, zoom, center_lat, center_lon, lat_lon) {
 
     var polyline = L.polyline(polylinePoints, blueLine).addTo(map);
 
-    L.marker(start_mark['position'], {icon: start_mark['icon']}).addTo(map).bindPopup(start_mark['popup']);
+    // L.marker(start_mark['position'], {icon: start_mark['icon']}).addTo(map).bindPopup(start_mark['popup']);
+    L.circleMarker(start_mark['position'], start_mark['icon']) .addTo(map).bindPopup(start_mark['popup']);
     L.circleMarker(end_mark['position'], end_mark['icon']) .addTo(map).bindPopup(end_mark['popup']);
 
     var mileMarkers = new L.geoJson(milePoints, {
