@@ -8,7 +8,7 @@ All rights reserved.
 
 # First party classes
 from datetime import datetime, timedelta, date
-import os
+import os, math
 # from datetime import combine
 
 # Third party classes
@@ -17,6 +17,9 @@ from flask import render_template, flash, redirect, url_for, request, g, \
 from flask_login import current_user, login_required
 from sqlalchemy import or_
 import pandas as pd
+
+# Custom classes from GitHub
+import GenerateMapImage.gen_map_img as genMap
 
 # Custom classes
 from app.main import bp
@@ -475,6 +478,7 @@ def workout():
     if len(segment_intrvl_lst) >1:
         intrvl_dict['segment_sum'] = wrkt_summary.get_lap_sum(segment_intrvl_lst)
 
+    map_dict = {}
     if len(mile_intrvl_lst) >1:
         intrvl_dict['mile_sum'] = wrkt_summary.get_mile_sum(mile_intrvl_lst)
     if workout.wrkt_dir != None:
@@ -483,12 +487,33 @@ def workout():
         # TODO Eventually remove, but this also adds the Total section so need to split out
         # if len(mile_intrvl_lst) >1:
         #     intrvl_dict['mile_sum'].extend( wrkt_summary.get_mile_sum(mile_intrvl_lst))
+
+
+        lat_max = wrkt_df['latitude'].max()
+        lat_min = wrkt_df['latitude'].min()
+        lon_max = wrkt_df['longitude'].max()
+        lon_min = wrkt_df['longitude'].min()
+        if not math.isnan(lat_max):
+            map_dict = {}
+            map_dict['key'] = current_app.config['MAPBOX_API_KEY']
+
+            map_dict['center'] = genMap.calc_center(lats=[lat_max, lat_min], lons=[lon_max, lon_min])
+            map_dict['zoom'] = genMap.calc_zoom(lats=[lat_min, lat_max], lons=[lon_min, lon_max], img_dim={'height':650, 'width':800})
+
+            print('zoom: ' + str(map_dict['zoom']))
+            print('center:' + str(map_dict['center']))
+
+            map_dict['lat_lon'] = wrkt_df[['latitude', 'longitude']].dropna().values.tolist()
+
+
     elif len(mile_intrvl_lst) >1:
         intrvl_dict['mile_sum'] = wrkt_summary.get_mile_sum(mile_intrvl_lst)
 
 
+
+
     return render_template('workout.html', workout=workout, \
-      mile_intrvl_lst=mile_intrvl_lst, segment_intrvl_lst=segment_intrvl_lst, destPage = 'edit', pause_intrvl_lst=pause_intrvl_lst, lap_intrvl_lst=lap_intrvl_lst, intrvls=intrvl_dict)
+      mile_intrvl_lst=mile_intrvl_lst, segment_intrvl_lst=segment_intrvl_lst, destPage = 'workout', pause_intrvl_lst=pause_intrvl_lst, lap_intrvl_lst=lap_intrvl_lst, intrvls=intrvl_dict, map_dict=map_dict)
 
 
 @bp.route('/dashboard', methods=['GET'])
