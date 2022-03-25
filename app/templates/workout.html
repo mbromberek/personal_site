@@ -236,6 +236,14 @@
             <input type="submit" value="Copy Notes +">
 
         </form>
+        <form role="form" class="form" style="margin-top:15px;">
+            <input id="show_laps" name="show_laps" type="checkbox" value="y" onclick="toggleMapMarker('show_laps')" checked>
+            <label for="show_laps">Laps</label>
+            &nbsp;
+            <input id="show_miles" name="show_miles" type="checkbox" value="y" checked>
+            <label for="show_miles">Miles</label>
+
+        </form>
     </div>
 
     {% if 'zoom' in map_dict %}
