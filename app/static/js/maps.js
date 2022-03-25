@@ -1,5 +1,6 @@
 var map;
 var lapMarkers;
+var mileMarkers;
 
 var endCircle = {
     radius: 6,
@@ -99,28 +100,28 @@ function initMap(map_json) {
     L.circleMarker(start_mark['position'], start_mark['icon']) .addTo(map).bindPopup(start_mark['popup']);
     L.circleMarker(end_mark['position'], end_mark['icon']) .addTo(map).bindPopup(end_mark['popup']);
 
-    var mileMarkers = new L.geoJson(milePoints, {
+    mileMarkers = new L.geoJson(milePoints, {
         pointToLayer: function(feature, latlng) {
             return new L.CircleMarker([latlng.lng, latlng.lat],  feature.properties);
         },
         onEachFeature: function(feature, layer) {
-            var text = L.tooltip({
+            var mileText = L.tooltip({
                 permanent: true,
                 direction: 'center',
                 className: 'text'
             })
             .setContent(feature.properties.text)
             .setLatLng(layer.getLatLng());
-            text.addTo(map);
+            // mileText.addTo(map);
+            layer.bindTooltip(mileText);
 
-
-            var text2 = L.tooltip({
-                direction: 'top',
-                className: 'text'
-            })
-            .setContent('Mile ' + feature.properties.text)
-            .setLatLng(layer.getLatLng());
-            layer.bindTooltip(text2);
+            // var text2 = L.tooltip({
+            //     direction: 'top',
+            //     className: 'text'
+            // })
+            // .setContent('Mile ' + feature.properties.text)
+            // .setLatLng(layer.getLatLng());
+            // layer.bindTooltip(text2);
         }
     }).addTo(map);
 
@@ -129,23 +130,14 @@ function initMap(map_json) {
             return new L.CircleMarker([latlng.lng, latlng.lat],  feature.properties);
         },
         onEachFeature: function(feature, layer) {
-            var text = L.tooltip({
+            var lapText = L.tooltip({
                 permanent: true,
                 direction: 'center',
                 className: 'text'
             })
             .setContent(feature.properties.text)
             .setLatLng(layer.getLatLng());
-            text.addTo(map);
-
-
-            var text2 = L.tooltip({
-                direction: 'top',
-                className: 'text'
-            })
-            .setContent('Lap ' + feature.properties.text)
-            .setLatLng(layer.getLatLng());
-            layer.bindTooltip(text2);
+            layer.bindTooltip(lapText);
         }
     }).addTo(map);
 
@@ -176,9 +168,18 @@ function toggleMapMarker(chkId){
     console.log('toggleMapMarker');
     if (document.getElementById(chkId).checked){
         console.log(chkId + " is checked");
-        // map.showLayer(lapMarkers);
+        if (chkId == 'show_laps'){
+            lapMarkers.addTo(map);
+        }else{
+            mileMarkers.addTo(map);
+        }
     }else{
         console.log(chkId + " is not checked");
-        map.removeLayer(lapMarkers);
+        if (chkId == 'show_laps'){
+            map.removeLayer(lapMarkers);
+        }else{
+            map.removeLayer(mileMarkers);
+        }
+
     }
 }
