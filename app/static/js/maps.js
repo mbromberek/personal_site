@@ -1,3 +1,6 @@
+var map;
+var lapMarkers;
+
 var endCircle = {
     radius: 6,
     fillColor: 'red',
@@ -79,7 +82,7 @@ function initMap(map_json) {
         lapPoints.push(create_marker(marker, lap_marker_color));
     });
 
-    var map = L.map('map', {scrollWheelZoom: false} ).setView(run_map_center['pos'], run_map_center['zoom']);
+    map = L.map('map', {scrollWheelZoom: false} ).setView(run_map_center['pos'], run_map_center['zoom']);
 
     L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
       attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
@@ -121,7 +124,7 @@ function initMap(map_json) {
         }
     }).addTo(map);
 
-    var lapMarkers = new L.geoJson(lapPoints, {
+    lapMarkers = new L.geoJson(lapPoints, {
         pointToLayer: function(feature, latlng) {
             return new L.CircleMarker([latlng.lng, latlng.lat],  feature.properties);
         },
@@ -167,4 +170,15 @@ function create_marker(marker, marker_color){
         }
     };
     return mile_marker_json
+}
+
+function toggleMapMarker(chkId){
+    console.log('toggleMapMarker');
+    if (document.getElementById(chkId).checked){
+        console.log(chkId + " is checked");
+        // map.showLayer(lapMarkers);
+    }else{
+        console.log(chkId + " is not checked");
+        map.removeLayer(lapMarkers);
+    }
 }
