@@ -235,13 +235,16 @@
         <form action="JavaScript:copyNotes()" role="form" class="form" style="margin-top:15px;">
             <input type="submit" value="Copy Notes +">
 
+            {% if map_dict['lap_markers']|length >0 %}
             &nbsp;&nbsp;
             <input id="show_laps" name="show_laps" type="checkbox" onclick="toggleMapMarker('show_laps')" {% if workout.show_map_laps %}checked{% endif %}>
             <label for="show_laps">Laps</label>
-            &nbsp;
+            {% endif %}
+            {% if map_dict['mile_markers']|length >0 %}
+            &nbsp;&nbsp;
             <input id="show_miles" name="show_miles" type="checkbox" value="y" onclick="toggleMapMarker('show_miles')" {% if workout.show_map_miles %}checked{% endif %}>
             <label for="show_miles">Miles</label>
-
+            {% endif %}
         </form>
     </div>
 
