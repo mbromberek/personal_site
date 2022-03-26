@@ -203,6 +203,9 @@ class Workout(PaginatedAPIMixin, db.Model):
     long_end = db.Column(db.Numeric())
     thumb_path = db.Column(db.Text())
 
+    show_map_laps = db.Column(db.Boolean())
+    show_map_miles = db.Column(db.Boolean())
+
     isrt_ts = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     workout_intervals = db.relationship('Workout_interval', backref='author', lazy='dynamic')
 

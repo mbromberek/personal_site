@@ -236,10 +236,10 @@
             <input type="submit" value="Copy Notes +">
 
             &nbsp;&nbsp;
-            <input id="show_laps" name="show_laps" type="checkbox" onclick="toggleMapMarker('show_laps')" {% if workout.show_laps %}checked{% endif %}>
+            <input id="show_laps" name="show_laps" type="checkbox" onclick="toggleMapMarker('show_laps')" {% if workout.show_map_laps %}checked{% endif %}>
             <label for="show_laps">Laps</label>
             &nbsp;
-            <input id="show_miles" name="show_miles" type="checkbox" value="y" onclick="toggleMapMarker('show_miles')" {% if workout.show_miles %}checked{% endif %}>
+            <input id="show_miles" name="show_miles" type="checkbox" value="y" onclick="toggleMapMarker('show_miles')" {% if workout.show_map_miles %}checked{% endif %}>
             <label for="show_miles">Miles</label>
 
         </form>
@@ -248,7 +248,7 @@
     {% if 'zoom' in map_dict %}
     <div id="map" style="height:475px;margin-top:25px;"></div>
     <script>
-        JavaScript:initMap({{ map_dict|tojson|safe }}, {{ workout.show_laps|tojson|safe }}, {{ workout.show_miles|tojson|safe }});
+        JavaScript:initMap({{ map_dict|tojson|safe }}, {{ workout.show_map_laps|tojson|safe }}, {{ workout.show_map_miles|tojson|safe }});
     </script>
     {% endif %}
 

@@ -508,16 +508,8 @@ def workout():
             map_dict['lap_markers'] = get_splits_by_group(wrkt_df, 'lap')
             map_dict['mile_markers'] = get_splits_by_group(wrkt_df, 'mile')
 
-            if workout.category != 'Training' or len(map_dict['lap_markers']) ==0:
-                workout.show_miles = True
-            else:
-                workout.show_miles = False
-
     elif len(mile_intrvl_lst) >1:
         intrvl_dict['mile_sum'] = wrkt_summary.get_mile_sum(mile_intrvl_lst)
-
-    workout.show_laps = True
-
 
     return render_template('workout.html', workout=workout, \
       mile_intrvl_lst=mile_intrvl_lst, segment_intrvl_lst=segment_intrvl_lst, destPage = 'workout', pause_intrvl_lst=pause_intrvl_lst, lap_intrvl_lst=lap_intrvl_lst, intrvls=intrvl_dict, map_dict=map_dict)
