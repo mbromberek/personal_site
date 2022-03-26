@@ -255,6 +255,11 @@ def generate_workout_from_file():
         thumbnail_nm = 'thumb_200_200_' + ''.join(random.choices(string.ascii_uppercase + string.digits, k=50)) + '.png'
         genMap.generate_map_img(actv_df, tumbnailDir, img_dim={'height':200, 'width':200}, img_name=thumbnail_nm)
         orig_workout.thumb_path = thumbnail_nm
+        orig_workout.show_map_laps = True
+        if orig_workout.category == 'Training':
+            orig_workout.show_map_miles = False
+        else:
+            orig_workout.show_map_miles = True
     db.session.commit()
 
     # Generate Workout_intervals using DataFrame
