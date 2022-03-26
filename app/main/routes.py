@@ -328,6 +328,8 @@ def edit_workout():
         wrkt.intrvl_tot_dist_mi = form.intrvl_tot_dist.data
 
         wrkt.show_pause = form.show_pause.data
+        wrkt.show_map_laps = form.show_map_laps.data
+        wrkt.show_map_miles = form.show_map_miles.data
 
         if form.wrkt_id.data == "":
             db.session.add(wrkt)
@@ -399,6 +401,9 @@ def edit_workout():
         form.intrvl_tot_dist.data = wrkt.intrvl_tot_dist_mi
 
         form.show_pause.data = wrkt.show_pause
+        form.show_map_laps.data = wrkt.show_map_laps
+        form.show_map_miles.data = wrkt.show_map_miles
+
 
     # else:
         # logger.debug('Create Workout')

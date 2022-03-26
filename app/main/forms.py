@@ -189,3 +189,5 @@ class WorkoutForm(FlaskForm):
     # wrkt_intrvl_segment_form = WorkoutIntervalForm()
     wrkt_intrvl_segment_form = FieldList(FormField(WorkoutIntervalForm))
     show_pause = BooleanField("Show Pause Segments")
+    show_map_laps = BooleanField("Show Lap Markers on map")
+    show_map_miles = BooleanField("Show Mile Markers on map")
