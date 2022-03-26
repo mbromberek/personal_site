@@ -506,15 +506,17 @@ def workout():
             map_dict['lat_lon'] = wrkt_df[['latitude', 'longitude']].dropna().values.tolist()
 
             map_dict['lap_markers'] = get_splits_by_group(wrkt_df, 'lap')
+            map_dict['mile_markers'] = get_splits_by_group(wrkt_df, 'mile')
+
             if workout.category != 'Training' or len(map_dict['lap_markers']) ==0:
-                map_dict['mile_markers'] = get_splits_by_group(wrkt_df, 'mile')
+                workout.show_miles = True
             else:
-                map_dict['mile_markers'] = []
+                workout.show_miles = False
 
     elif len(mile_intrvl_lst) >1:
         intrvl_dict['mile_sum'] = wrkt_summary.get_mile_sum(mile_intrvl_lst)
 
-
+    workout.show_laps = True
 
 
     return render_template('workout.html', workout=workout, \

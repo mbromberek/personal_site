@@ -43,7 +43,7 @@ var wrktLine = {
 mile_marker_color = 'white'
 lap_marker_color = 'orange'
 
-function initMap(map_json) {
+function initMap(map_json, show_laps, show_miles) {
     console.log('maps.js initMap');
     // console.log(map_json);
     apiKey = map_json.key;
@@ -123,7 +123,10 @@ function initMap(map_json) {
             // .setLatLng(layer.getLatLng());
             // layer.bindTooltip(text2);
         }
-    }).addTo(map);
+    });
+    if (show_miles == true){
+        mileMarkers.addTo(map);
+    }
 
     lapMarkers = new L.geoJson(lapPoints, {
         pointToLayer: function(feature, latlng) {
@@ -139,7 +142,10 @@ function initMap(map_json) {
             .setLatLng(layer.getLatLng());
             layer.bindTooltip(lapText);
         }
-    }).addTo(map);
+    });
+    if (show_laps == true){
+        lapMarkers.addTo(map);
+    }
 
     console.log('End: leaflet_maps initMap');
 }
@@ -165,19 +171,19 @@ function create_marker(marker, marker_color){
 }
 
 function toggleMapMarker(chkId){
-    console.log('toggleMapMarker');
+    // console.log('toggleMapMarker');
     if (document.getElementById(chkId).checked){
         console.log(chkId + " is checked");
         if (chkId == 'show_laps'){
             lapMarkers.addTo(map);
-        }else{
+        }else if (chkId == 'show_miles'){
             mileMarkers.addTo(map);
         }
     }else{
         console.log(chkId + " is not checked");
         if (chkId == 'show_laps'){
             map.removeLayer(lapMarkers);
-        }else{
+        }else if (chkId == 'show_miles'){
             map.removeLayer(mileMarkers);
         }
 
