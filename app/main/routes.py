@@ -451,6 +451,12 @@ def workout():
     segment_intrvl_lst = []
     pause_intrvl_lst = []
     lap_intrvl_lst = []
+
+    lap_marker_lst = []
+    mile_marker_lst = []
+    segment_marker_lst = []
+    pause_marker_lst = []
+
     for intrvl in intvl_lst:
         intrvl.duration = intrvl.dur_str()
         intrvl.pace = intrvl.pace_str()
@@ -458,24 +464,33 @@ def workout():
         intrvl.pace_zone = wrkt_zones.pace_zone(intrvl.pace_sec())
         if intrvl.break_type == 'mile':
             intrvl.det = intrvl.interval_order +1
+            if intrvl.lat != None:
+                mile_marker_lst.append({'nbr':intrvl.det, 'lat':intrvl.lat, 'lon':intrvl.lon})
             mile_intrvl_lst.append(intrvl)
         elif intrvl.break_type == 'segment':
             if intrvl.interval_desc == None or intrvl.interval_desc == '':
                 intrvl.det = intrvl.interval_order
             else:
                 intrvl.det = intrvl.interval_desc
+            if intrvl.lat != None:
+                segment_marker_lst.append({'nbr':intrvl.interval_order, 'lat':intrvl.lat, 'lon':intrvl.lon})
             segment_intrvl_lst.append(intrvl)
         elif intrvl.break_type == 'resume' and workout.show_pause == True:
             if intrvl.interval_desc == None or intrvl.interval_desc == '':
                 intrvl.det = intrvl.interval_order
             else:
                 intrvl.det = intrvl.interval_desc
+            if intrvl.lat != None:
+                pause_marker_lst.append({'nbr':intrvl.interval_order, 'lat':intrvl.lat, 'lon':intrvl.lon})
             pause_intrvl_lst.append(intrvl)
         elif intrvl.break_type == 'lap':
             if intrvl.interval_desc == None or intrvl.interval_desc == '':
                 intrvl.det = intrvl.interval_order
             else:
                 intrvl.det = intrvl.interval_desc
+            intrvl.nbr = intrvl.interval_order
+            if intrvl.lat != None:
+                lap_marker_lst.append({'nbr':intrvl.interval_order, 'lat':intrvl.lat, 'lon':intrvl.lon})
             lap_intrvl_lst.append(intrvl)
 
     if len(lap_intrvl_lst) >1:
@@ -510,8 +525,17 @@ def workout():
 
             map_dict['lat_lon'] = wrkt_df[['latitude', 'longitude']].dropna().values.tolist()
 
-            map_dict['lap_markers'] = get_splits_by_group(wrkt_df, 'lap')
-            map_dict['mile_markers'] = get_splits_by_group(wrkt_df, 'mile')
+            if len(lap_marker_lst) >0:
+                # Remove last record for lap since that is the end of the workout
+                map_dict['lap_markers'] = lap_marker_lst[:-1]
+            else:
+                # If get_splits_by_group is removed then need to set lap_markers to empty list
+                map_dict['lap_markers'] = get_splits_by_group(wrkt_df, 'lap')
+            if len(mile_marker_lst) >0:
+                map_dict['mile_markers'] = mile_marker_lst[:-1]
+            else:
+                map_dict['mile_markers'] = get_splits_by_group(wrkt_df, 'mile')
+            map_dict['pause_markers'] = []
 
     elif len(mile_intrvl_lst) >1:
         intrvl_dict['mile_sum'] = wrkt_summary.get_mile_sum(mile_intrvl_lst)

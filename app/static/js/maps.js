@@ -42,9 +42,11 @@ var wrktLine = {
 }
 mile_marker_color = 'white'
 lap_marker_color = 'orange'
+pause_marker_color = 'yellow'
 
 function initMap(map_json, show_laps, show_miles) {
     console.log('maps.js initMap');
+    show_pauses = true;
     // console.log(map_json);
     apiKey = map_json.key;
     zoom = map_json.zoom;
@@ -71,6 +73,7 @@ function initMap(map_json, show_laps, show_miles) {
 
     var milePoints = [];
     var lapPoints = [];
+    var pausePoints = []
     // console.log(map_json.mile_markers);
 
     map_json.mile_markers.forEach(function(marker, index){
@@ -81,6 +84,10 @@ function initMap(map_json, show_laps, show_miles) {
     map_json.lap_markers.forEach(function(marker, index){
         // console.log(marker);
         lapPoints.push(create_marker(marker, lap_marker_color));
+    });
+    map_json.pause_markers.forEach(function(marker, index){
+        // console.log(marker);
+        pausePoints.push(create_marker(marker, pause_marker_color));
     });
 
     map = L.map('map', {scrollWheelZoom: false} ).setView(run_map_center['pos'], run_map_center['zoom']);
@@ -145,6 +152,25 @@ function initMap(map_json, show_laps, show_miles) {
     });
     if (show_laps == true){
         lapMarkers.addTo(map);
+    }
+
+    pauseMarkers = new L.geoJson(pausePoints, {
+        pointToLayer: function(feature, latlng) {
+            return new L.CircleMarker([latlng.lng, latlng.lat],  feature.properties);
+        },
+        onEachFeature: function(feature, layer) {
+            var pauseText = L.tooltip({
+                permanent: true,
+                direction: 'center',
+                className: 'text'
+            })
+            .setContent(feature.properties.text)
+            .setLatLng(layer.getLatLng());
+            layer.bindTooltip(pauseText);
+        }
+    });
+    if (show_pauses == true){
+        pauseMarkers.addTo(map);
     }
 
     console.log('End: leaflet_maps initMap');

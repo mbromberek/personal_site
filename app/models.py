@@ -409,6 +409,8 @@ class Workout_interval(db.Model):
     ele_up = db.Column(db.Numeric(8,2), nullable=True)
     ele_down = db.Column(db.Numeric(8,2), nullable=True)
     notes = db.Column(db.Text(), nullable=True)
+    lat = db.Column(db.String(), nullable=True)
+    lon = db.Column(db.String(), nullable=True)
     isrt_ts = db.Column(db.DateTime, nullable=False, index=True, default=datetime.utcnow)
 
     def __repr__(self):
@@ -432,7 +434,7 @@ class Workout_interval(db.Model):
         return tm_conv.sec_to_time(self.dur_sec, 'ms')
 
     def from_dict(self, data, user_id, wrkt_id, break_type):
-        str_fields = ['notes', 'interval_desc']
+        str_fields = ['notes', 'interval_desc', 'lat', 'lon']
         int_fields = ['interval_order','dur_sec']
         float_fields = ['dist_mi','ele_up','ele_down','hr']
 
@@ -466,6 +468,8 @@ class Workout_interval(db.Model):
             'ele_up': str(self.ele_up),
             'ele_down': str(self.ele_down),
             'notes': self.notes,
+            'lat': self.lat,
+            'lon': self.lon,
             'isrt_ts': self.isrt_ts.isoformat() + 'Z'
         }
         return data
