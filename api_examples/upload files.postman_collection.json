@@ -23,12 +23,7 @@
 							"value": "1372",
 							"type": "text"
 						}
-					],
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
+					]
 				},
 				"url": {
 					"raw": "{{server}}/api/generate_workout",
@@ -38,6 +33,33 @@
 					"path": [
 						"api",
 						"generate_workout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update_Wrkt_From_pickle",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n    {\"workout_id\":\"1395\"},\n    {\"workout_id\":\"1392\"},\n    {\"workout_id\":\"1396\"},\n    {\"workout_id\":\"1399\"},\n    {\"workout_id\":\"1402\"},\n    {\"workout_id\":\"1405\"},\n    {\"workout_id\":\"1398\"},\n    {\"workout_id\":\"1406\"},\n    {\"workout_id\":\"1408\"},\n    {\"workout_id\":\"1409\"},\n    {\"workout_id\":\"1424\"},\n    {\"workout_id\":\"1421\"},\n    {\"workout_id\":\"1420\"},\n    {\"workout_id\":\"1418\"},\n    {\"workout_id\":\"1417\"},\n    {\"workout_id\":\"1415\"},\n    {\"workout_id\":\"1414\"},\n    {\"workout_id\":\"1413\"},\n    {\"workout_id\":\"1412\"},\n    {\"workout_id\":\"1410\"},\n    {\"workout_id\":\"1411\"},\n    {\"workout_id\":\"1419\"},\n    {\"workout_id\":\"1422\"},\n    {\"workout_id\":\"1423\"},\n    {\"workout_id\":\"1426\"},\n    {\"workout_id\":\"1428\"}\n]\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server}}/api/update_workout_from_pickle",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"update_workout_from_pickle"
 					]
 				}
 			},
