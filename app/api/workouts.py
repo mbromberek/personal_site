@@ -22,6 +22,7 @@ import NormalizeWorkout.dao.files as fao
 import NormalizeWorkout.parse.rungapParse as rgNorm
 import NormalizeWorkout.parse.fitParse as fitParse
 import NormalizeWorkout.parse.rungapMetadata as rungapMeta
+import NormalizeWorkout.WrktSplits as wrktSplits
 import GenerateMapImage.gen_map_img as genMap
 
 # Custom Classes
@@ -263,5 +264,53 @@ def generate_workout_from_file():
     db.session.commit()
 
     # Generate Workout_intervals using DataFrame
+
+    return jsonify('Success'), 200
+
+@bp.route('/update_workout_from_pickle', methods=['PUT'])
+@token_auth.login_required
+def update_workout_from_pickle():
+    '''
+    Receives a list of workout ids to perform update on
+    '''
+    logger.info('update_workout_from_pickle')
+    current_user_id = token_auth.current_user().id
+    data = request.get_json() or {}
+    req_fields = ['workout_id']
+    ret_data_lst = []
+    logger.info(data)
+    for wrkt_data in data:
+        for field in req_fields:
+            if field not in wrkt_data:
+                return bad_request('must include ' + field + ' field')
+        wrkt_id = wrkt_data['workout_id']
+        workout = Workout.query.filter_by(id=wrkt_id, user_id=current_user_id).first_or_404(wrkt_id)
+        if workout.wrkt_dir == None:
+            logger.info('No workout directory for: {}'.format(str(wrkt_id)))
+            continue
+        wrkt_df = pd.read_pickle(os.path.join(current_app.config['WRKT_FILE_DIR'], str(workout.user_id), workout.wrkt_dir, 'workout.pickle'))
+        lap_df = wrktSplits.group_actv(wrkt_df, 'lap')
+        lap_lat_lon = lap_df[['lat','lon']].to_dict(orient='records')
+        mile_df = wrktSplits.group_actv(wrkt_df, 'mile')
+        mile_lat_lon = mile_df[['lat','lon']].to_dict(orient='records')
+        pause_df = wrktSplits.group_actv(wrkt_df, 'resume')
+        pause_lat_lon = pause_df[['lat','lon']].to_dict(orient='records')
+
+        logger.info(str(lap_df))
+        intvl_lst = sorted(Workout_interval.query.filter_by( workout_id=wrkt_id, user_id=current_user_id))
+        for intrvl in intvl_lst:
+            if intrvl.break_type == 'mile':
+                if len(mile_lat_lon) >intrvl.interval_order:
+                    intrvl.lat = mile_lat_lon[intrvl.interval_order]['lat']
+                    intrvl.lon = mile_lat_lon[intrvl.interval_order]['lon']
+            if intrvl.break_type == 'lap':
+                if len(lap_lat_lon) >intrvl.interval_order:
+                    intrvl.lat = lap_lat_lon[intrvl.interval_order]['lat']
+                    intrvl.lon = lap_lat_lon[intrvl.interval_order]['lon']
+            if intrvl.break_type == 'resume':
+                if len(pause_lat_lon) >intrvl.interval_order:
+                    intrvl.lat = pause_lat_lon[intrvl.interval_order]['lat']
+                    intrvl.lon = pause_lat_lon[intrvl.interval_order]['lon']
+        db.session.commit()
 
     return jsonify('Success'), 200
