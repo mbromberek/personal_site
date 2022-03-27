@@ -32,6 +32,7 @@ from app.utils import wrkt_summary
 from app.main import export, filtering
 from app.model.goals import Yrly_goal
 from app.model.workout_zones import Workout_zones
+from app.model.workout_point import Workout_point
 
 @bp.route('/')
 @bp.route('/index')
@@ -484,34 +485,45 @@ def workout():
         intrvl_dict['segment_sum'] = wrkt_summary.get_lap_sum(segment_intrvl_lst)
 
     map_dict = {}
+    logger.info('Read Workout_point')
+    # pt_lst = sorted(Workout_point.query.filter_by( workout_id=wrkt_id, user_id=usr_id))
     if len(mile_intrvl_lst) >1:
         intrvl_dict['mile_sum'] = wrkt_summary.get_mile_sum(mile_intrvl_lst)
+    # if len(pt_lst) >1 or workout.wrkt_dir != None:
+    #     logger.info('Start wrkt_df process')
+    #     if len(pt_lst) >1:
+    #         wrkt_df = pd.DataFrame(Workout_point.to_pt_lst_dict(pt_lst))
+    #     else:
     if workout.wrkt_dir != None:
         wrkt_df = pd.read_pickle(os.path.join(current_app.config['WRKT_FILE_DIR'], str(workout.user_id), workout.wrkt_dir, 'workout.pickle'))
+        wrkt_df['delta_ts_sec'] = wrkt_df['delta_timestamp'].dt.total_seconds()
+        wrkt_df.rename(columns={'latitude': 'lat', 'longitude':'lon', 'timestamp':'ts', 'altitude':'altitude_m'}, inplace=True)
         intrvl_dict['mile_sum'] = wrkt_summary.get_mile_sum_from_df(wrkt_df)
         # TODO Eventually remove, but this also adds the Total section so need to split out
         # if len(mile_intrvl_lst) >1:
         #     intrvl_dict['mile_sum'].extend( wrkt_summary.get_mile_sum(mile_intrvl_lst))
 
 
-        lat_max = wrkt_df['latitude'].max()
-        lat_min = wrkt_df['latitude'].min()
-        lon_max = wrkt_df['longitude'].max()
-        lon_min = wrkt_df['longitude'].min()
+        lat_max = wrkt_df['lat'].max()
+        lat_min = wrkt_df['lat'].min()
+        lon_max = wrkt_df['lon'].max()
+        lon_min = wrkt_df['lon'].min()
         if not math.isnan(lat_max):
             map_dict = {}
             map_dict['key'] = current_app.config['MAPBOX_API_KEY']
 
             map_dict['center'] = genMap.calc_center(lats=[lat_max, lat_min], lons=[lon_max, lon_min])
             map_dict['zoom'] = genMap.calc_zoom(lats=[lat_min, lat_max], lons=[lon_min, lon_max], img_dim={'height':1100, 'width':1100})
+            # map_dict['zoom']=15
 
             print('zoom: ' + str(map_dict['zoom']))
             print('center:' + str(map_dict['center']))
 
-            map_dict['lat_lon'] = wrkt_df[['latitude', 'longitude']].dropna().values.tolist()
+            map_dict['lat_lon'] = wrkt_df[['lat', 'lon']].dropna().values.tolist()
 
             map_dict['lap_markers'] = get_splits_by_group(wrkt_df, 'lap')
             map_dict['mile_markers'] = get_splits_by_group(wrkt_df, 'mile')
+        logger.info('End wrkt_df process')
 
     elif len(mile_intrvl_lst) >1:
         intrvl_dict['mile_sum'] = wrkt_summary.get_mile_sum(mile_intrvl_lst)
@@ -534,7 +546,7 @@ def get_splits_by_group(df, group_field, skip_first=True):
         df_group['nbr'] = df_group.index -1
     else:
         df_group['nbr'] = df_group.index
-    df_group.rename(columns={'latitude': 'lat', 'longitude': 'lon'}, inplace=True)
+    # df_group.rename(columns={'latitude': 'lat', 'longitude': 'lon'}, inplace=True)
     return df_group[['nbr','lat','lon']].to_dict(orient='records')
 
 @bp.route('/dashboard', methods=['GET'])

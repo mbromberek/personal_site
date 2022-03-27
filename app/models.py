@@ -22,6 +22,7 @@ from flask import url_for, current_app
 from app import db, login
 from app.utils import tm_conv, const
 from app import logger
+# from app.model.workout_point import Workout_point 
 
 
 @login.user_loader
@@ -208,6 +209,7 @@ class Workout(PaginatedAPIMixin, db.Model):
 
     isrt_ts = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     workout_intervals = db.relationship('Workout_interval', backref='author', lazy='dynamic')
+    workout_pts = db.relationship('Workout_point', backref='author', lazy='dynamic')
 
     def __repr__(self):
         return '<Workout {}: {}>'.format(self.type, self.wrkt_dttm)
