@@ -530,11 +530,13 @@ def workout():
                 map_dict['lap_markers'] = lap_marker_lst[:-1]
             else:
                 # If get_splits_by_group is removed then need to set lap_markers to empty list
-                map_dict['lap_markers'] = get_splits_by_group(wrkt_df, 'lap')
+                # map_dict['lap_markers'] = get_splits_by_group(wrkt_df, 'lap')
+                map_dict['lap_markers'] = []
             if len(mile_marker_lst) >0:
                 map_dict['mile_markers'] = mile_marker_lst[:-1]
             else:
-                map_dict['mile_markers'] = get_splits_by_group(wrkt_df, 'mile')
+                # map_dict['mile_markers'] = get_splits_by_group(wrkt_df, 'mile')
+                map_dict['mile_markers'] = []
             map_dict['pause_markers'] = []
 
     elif len(mile_intrvl_lst) >1:
