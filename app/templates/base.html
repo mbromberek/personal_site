@@ -25,16 +25,9 @@ Base HTML code for each web page
         {% if destPage and destPage == 'edit' %}
         <script type="text/javascript" src="{{ url_for('static', filename='js/workout_edit.js') }}"></script>
         {% endif %}
-        {% if destPage and destPage == 'google_testing' %}
-        <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
-        <script src="{{ url_for('static', filename='js/google_maps.js') }}"></script>
-        {% endif %}
         {{ bootstrap.load_css() }}
         <link rel="stylesheet" href="{{ url_for('static', filename='css/workout.css') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
-        {% if destPage and destPage == 'google_testing' %}
-        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/google_maps.css') }}" />
-        {% endif %}
         {% if destPage and destPage == 'workout' %}
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/leaflet_maps.css') }}" />
