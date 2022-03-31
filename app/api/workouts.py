@@ -33,6 +33,7 @@ from app.api.auth import token_auth
 from app.api.errors import bad_request
 from app import logger
 from app.utils import dt_conv
+from app.model.location import Location
 
 
 @bp.route('/workout/<int:id>', methods=['GET'])
@@ -261,6 +262,12 @@ def generate_workout_from_file():
             orig_workout.show_map_miles = False
         else:
             orig_workout.show_map_miles = True
+
+        loc_lst = Location.query.filter_by(user_id=user_id)
+        wrkt_loc = Location.closest_location(loc_lst, {'lat':orig_workout.lat_strt,'lon':orig_workout.long_strt})
+        if wrkt_loc != '':
+            orig_workout.location = wrkt_loc
+
     db.session.commit()
 
     # Generate Workout_intervals using DataFrame
@@ -272,6 +279,7 @@ def generate_workout_from_file():
 def update_workout_from_pickle():
     '''
     Receives a list of workout ids to perform update on
+    Used for OTO updates
     '''
     logger.info('update_workout_from_pickle')
     current_user_id = token_auth.current_user().id
