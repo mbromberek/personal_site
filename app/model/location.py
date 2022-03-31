@@ -11,6 +11,7 @@ from datetime import datetime, timedelta, date
 
 # Third party classes
 from geopy import distance
+from flask import current_app
 
 # Customer classes
 from app import logger
@@ -30,28 +31,32 @@ class Location(db.Model):
     def __repr__(self):
         return '<Location Name: {}, lat: {}, lon: {}>'.format( self.name, self.lat, self.lon)
 
-
-
-
     @staticmethod
     def get_distance(center_point, new_point):
-        center_point_tuple = tuple(center_point.values())
-        point_tuple = tuple(new_point.values())
+        center_point_tuple = (center_point['lat'], center_point['lon'])
+        point_tuple = (new_point['lat'], new_point['lon'])
 
         dist = distance.distance(center_point_tuple, point_tuple).miles
         return dist
 
     @staticmethod
-    def closest_location(center_points, point, min_dist=1):
+    def closest_location(center_points, point, min_radius=-1):
         '''
-        min_dist is minimum distance to consider for a location in miles
+        min_radius is minimum distance to consider for a location in miles
         '''
+        if min_radius <0:
+            min_radius = current_app.config['MIN_LOC_RADIUS']
         location_name = ''
+        lowest_dist = 9999 # Earths diameter is less than 8000 miles
 
         for location in center_points:
             center_point = {'lat':location.lat, 'lon':location.lon}
             dist = Location.get_distance(center_point, point)
-            if dist < min_dist:
-                min_dist = dist
+            if location.radius != None:
+                min_dist = location.radius
+            else:
+                min_dist = min_radius
+            if dist < lowest_dist and dist < min_dist:
+                lowest_dist = dist
                 location_name = location.name
         return location_name

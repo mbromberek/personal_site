@@ -24,6 +24,7 @@ class Config(object):
     DISTANCE_RANGE = 0.10
     MAX_CONTENT_LENGTH = 1024 * 1024
     UPLOAD_EXTENSIONS = ['.zip', '.fit']
+    MIN_LOC_RADIUS = 0.5 #miles
 
     SHOE_MILE_AGE_WARNING = 300
     SHOE_MILE_AGE_SHOULD_RETIRE = 350
