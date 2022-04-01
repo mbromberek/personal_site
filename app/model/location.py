@@ -33,6 +33,11 @@ class Location(db.Model):
 
     @staticmethod
     def get_distance(center_point, new_point):
+        '''
+        center_point: dictionary with items lat and lon
+        new_point: dictionary with items lat and lon
+        Returns distance between center_point and new_point in miles
+        '''
         center_point_tuple = (center_point['lat'], center_point['lon'])
         point_tuple = (new_point['lat'], new_point['lon'])
 
@@ -42,7 +47,10 @@ class Location(db.Model):
     @staticmethod
     def closest_location(center_points, point, min_radius=-1):
         '''
-        min_radius is minimum distance to consider for a location in miles
+        Returns the name of center_point that is closest to point
+        center_points: list of Location
+        point: dictionary with items lat and lon
+        min_radius: minimum distance to consider for a location in miles, can be overrided by Location.radius
         '''
         if min_radius <0:
             min_radius = current_app.config['MIN_LOC_RADIUS']
