@@ -10,7 +10,9 @@ Flask-HTTPAuth==4.5.0
 Flask-Login==0.5.0
 Flask-SQLAlchemy==2.5.1
 Flask-WTF==0.15.1
-GenerateMapImage @ git+https://github.com/mbromberek/GenerateMapImage.git@c344fb67f9d13eb869c16c31a28660d21b4e2dac
+GenerateMapImage @ git+https://github.com/mbromberek/GenerateMapImage.git@fcde5372eed98f69998c25c4f0f90f6da6228c65
+geographiclib==1.52
+geopy==2.2.0
 greenlet==1.1.2
 idna==3.1
 itsdangerous==1.1.0
@@ -18,7 +20,7 @@ Jinja2==2.11.3
 kaleido==0.2.1
 Mako==1.1.4
 MarkupSafe==1.1.1
-NormalizeWorkout @ git+https://github.com/mbromberek/NormalizeWorkout.git@874ec2ac7b18902d8d7677d2539214ce2c1e1a65
+NormalizeWorkout @ git+https://github.com/mbromberek/NormalizeWorkout.git@53e9f3089c28f914bf191c858e1fc4ca2d45dccb
 numpy==1.21.4
 pandas==1.3.4
 plotly==4.12.0
