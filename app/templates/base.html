@@ -22,9 +22,7 @@ Base HTML code for each web page
         <script type="text/javascript" src="{{ url_for('static', filename='js/workout_search.js') }}"></script>
         <script type="text/javascript" src="{{ url_for('static', filename='js/workout_export.js') }}"></script>
         {% endif %}
-        {% if destPage and destPage == 'edit' %}
         <script type="text/javascript" src="{{ url_for('static', filename='js/workout_edit.js') }}"></script>
-        {% endif %}
         {{ bootstrap.load_css() }}
         <link rel="stylesheet" href="{{ url_for('static', filename='css/workout.css') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
