@@ -28,3 +28,4 @@ class Config(object):
 
     SHOE_MILE_AGE_WARNING = 300
     SHOE_MILE_AGE_SHOULD_RETIRE = 350
+    SHOE_MIN_BRKIN_CT = 5

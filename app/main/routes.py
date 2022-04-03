@@ -24,7 +24,7 @@ import GenerateMapImage.gen_map_img as genMap
 # Custom classes
 from app.main import bp
 from app.main.forms import EmptyForm, WorkoutCreateBtnForm, WorkoutForm, WorkoutFilterForm, WorkoutIntervalForm, WorkoutExportForm
-from app.models import User, Workout, Workout_interval, Gear_usage, Wrkt_sum, Wkly_mileage, Yrly_mileage
+from app.models import User, Workout, Workout_interval, Gear, Gear_usage, Wrkt_sum, Wkly_mileage, Yrly_mileage
 from app import db
 from app.utils import tm_conv, const, nbrConv, dt_conv
 from app import logger
@@ -249,6 +249,9 @@ def edit_workout():
     if form.wrkt_id.data == None or form.wrkt_id.data == "":
         logger.info('Create Workout')
         label_val['title'] = 'Create Workout'
+        nxt_shoe_prediction = Gear.get_next_shoe(usr_id, '')
+        if nxt_shoe_prediction['id'] != '':
+            form.gear_lst.default = nxt_shoe_prediction['id']
     else:
         logger.info('Update Workout')
         logger.info(form.wrkt_id.data)
@@ -408,6 +411,11 @@ def edit_workout():
     # else:
         # logger.debug('Create Workout')
         # label_val['title'] = 'Create Workout'
+    # form.gear_lst.default = 44
+    if label_val['title'] == 'Create Workout':
+        # Need to do this at the end to prevent issues with data after Create submit. The process is needed to set default shoe
+        form.process() # Need to run after setting the default and needs to be before other fields are populated
+
 
     return render_template('edit_workout.html', label_val=label_val, form=form, destPage = 'edit')
 
