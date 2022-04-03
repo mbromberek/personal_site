@@ -532,11 +532,12 @@ class Gear(db.Model):
     def get_next_shoe(user_id, category, dt=datetime.today()):
         '''
         Gets suggestion for shoe to wear on next run based on passed in category
-        The number of miles run in shoes and number of times they were used determines which category they fit into. 
+        The number of miles run in shoes and number of times they were used determines which category they fit into.
         '''
         shoe_age_warning = current_app.config['SHOE_MILE_AGE_WARNING']
         nbr_brk_in_runs = current_app.config['SHOE_MIN_BRKIN_CT']
         gear_nm = ''
+        gear_id = ''
         type='Shoe'
         gear_lst = []
         gear_ct = -1
@@ -555,8 +556,9 @@ class Gear(db.Model):
             gear_ct = len(gear_lst)
         if gear_ct >0:
             gear_nm = gear_lst[0].nm
+            gear_id = gear_lst[0].gear_id
 
-        return gear_nm
+        return {'nm':gear_nm, 'id':gear_id}
 
 class Gear_relationship(db.Model):
     __table_args__ = {"schema": "fitness", 'comment':'Connection between gear like which shoes are used which with insoles'}
