@@ -17,6 +17,7 @@ import base64
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask import url_for, current_app
+from sqlalchemy import or_
 
 # Custom Classes
 from app import db, login
@@ -526,6 +527,36 @@ class Gear(db.Model):
         if gear_rec is None:
             return None
         return gear_rec.id
+
+    @staticmethod
+    def get_next_shoe(user_id, category, dt=datetime.today()):
+        '''
+        Gets suggestion for shoe to wear on next run based on passed in category
+        The number of miles run in shoes and number of times they were used determines which category they fit into. 
+        '''
+        shoe_age_warning = current_app.config['SHOE_MILE_AGE_WARNING']
+        nbr_brk_in_runs = current_app.config['SHOE_MIN_BRKIN_CT']
+        gear_nm = ''
+        type='Shoe'
+        gear_lst = []
+        gear_ct = -1
+
+        if category in ['Training', 'Long Run', 'Race']:
+            # Use gear that has <300 miles on them and used more than 5 times
+            gear_lst = sorted(Gear_usage.query.filter(Gear_usage.user_id==user_id, Gear_usage.retired==False, Gear_usage.type==type, Gear_usage.tot_dist <shoe_age_warning, Gear_usage.usage_count >nbr_brk_in_runs), reverse=False)
+            gear_ct = len(gear_lst)
+        elif category in ['Easy']:
+            # Use gear with >=300 miles on them or used <=5 times
+            gear_lst = sorted(Gear_usage.query.filter(Gear_usage.user_id==user_id, Gear_usage.retired==False, Gear_usage.type==type, or_( Gear_usage.tot_dist >=shoe_age_warning, Gear_usage.usage_count <=nbr_brk_in_runs)), reverse=False)
+            gear_ct = len(gear_lst)
+        if gear_ct <1:
+            # If not a known Category or no records returned for Category
+            gear_lst = sorted(Gear_usage.query.filter(Gear_usage.user_id==user_id, Gear_usage.retired==False, Gear_usage.type==type), reverse=False)
+            gear_ct = len(gear_lst)
+        if gear_ct >0:
+            gear_nm = gear_lst[0].nm
+
+        return gear_nm
 
 class Gear_relationship(db.Model):
     __table_args__ = {"schema": "fitness", 'comment':'Connection between gear like which shoes are used which with insoles'}
