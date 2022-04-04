@@ -32,6 +32,7 @@ from app.utils import wrkt_summary
 from app.main import export, filtering
 from app.model.goals import Yrly_goal
 from app.model.workout_zones import Workout_zones
+from app.model.location import Location
 
 @bp.route('/')
 @bp.route('/index')
@@ -302,6 +303,8 @@ def edit_workout():
         wrkt.hr = form.hr.data
         wrkt.cal_burn = form.cal_burn.data
         wrkt.category = form.category.data
+        if wrkt.location != form.location.data and wrkt.lat_strt != '':
+            Location.create_loc_if_not_exist(form.location.data, usr_id, wrkt.lat_strt, wrkt.long_strt)
         wrkt.location = form.location.data
         wrkt.training_type = form.training_type.data
 
