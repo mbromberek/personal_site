@@ -68,3 +68,22 @@ class Location(db.Model):
                 lowest_dist = dist
                 location_name = location.name
         return location_name
+
+    @staticmethod
+    def create_loc_if_not_exist(nm, user_id, lat, lon, radius=-1):
+        if radius <0:
+            radius = current_app.config['MIN_LOC_RADIUS']
+
+        loc = Location.query.filter_by(user_id=user_id, name=nm).first()
+        if loc != None:
+            return 0
+        else:
+            new_loc = Location()
+            new_loc.name = nm
+            new_loc.user_id = user_id
+            new_loc.lat = lat
+            new_loc.lon = lon
+            new_loc.radius = radius
+            db.session.add(new_loc)
+            db.session.commit()
+            return 1
