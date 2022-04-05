@@ -78,6 +78,9 @@ def create_workout():
         db.session.add(workout)
         db.session.commit()
 
+        if workout.location != None and workout.location != '' and workout.lat_strt != None and workout.lat_strt != '':
+            Location.create_loc_if_not_exist(workout.location, current_user_id, workout.lat_strt, workout.long_strt)
+
         if 'mile_splits' in data:
             wrkt_intrvl = {
                 'break_type': 'mile',
@@ -263,10 +266,11 @@ def generate_workout_from_file():
         else:
             orig_workout.show_map_miles = True
 
-        loc_lst = Location.query.filter_by(user_id=user_id)
-        wrkt_loc = Location.closest_location(loc_lst, {'lat':orig_workout.lat_strt,'lon':orig_workout.long_strt})
-        if wrkt_loc != '':
-            orig_workout.location = wrkt_loc
+        if orig_workout.location == '' or orig_workout.location == None:
+            loc_lst = Location.query.filter_by(user_id=user_id)
+            wrkt_loc = Location.closest_location(loc_lst, {'lat':orig_workout.lat_strt,'lon':orig_workout.long_strt})
+            if wrkt_loc != '':
+                orig_workout.location = wrkt_loc
 
     db.session.commit()
 
