@@ -20,11 +20,12 @@ class Config(object):
     POSTS_PER_PAGE = 20
     SIZE_NOTES_SUMMARY = 200
     DEBUG = False
-    TEMPERATURE_RANGE = 5
-    DISTANCE_RANGE = 0.10
+    TEMPERATURE_RANGE = 5 #degrees farenheight
+    DISTANCE_RANGE = 0.10 #percent
     MAX_CONTENT_LENGTH = 1024 * 1024
     UPLOAD_EXTENSIONS = ['.zip', '.fit']
     MIN_LOC_RADIUS = 0.5 #miles
+    MAP_MAX_ZOOM = 20
 
     SHOE_MILE_AGE_WARNING = 300
     SHOE_MILE_AGE_SHOULD_RETIRE = 350
