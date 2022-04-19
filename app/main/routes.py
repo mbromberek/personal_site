@@ -530,7 +530,7 @@ def workout():
             map_dict['max_zoom'] = current_app.config['MAP_MAX_ZOOM']
 
             map_dict['center'] = genMap.calc_center(lats=[lat_max, lat_min], lons=[lon_max, lon_min])
-            map_dict['zoom'] = genMap.calc_zoom(lats=[lat_min, lat_max], lons=[lon_min, lon_max], img_dim={'height':1600, 'width':1600})
+            map_dict['zoom'] = genMap.calc_zoom(lats=[lat_min, lat_max], lons=[lon_min, lon_max], img_dim={'height':1300, 'width':1600})
 
             print('zoom: ' + str(map_dict['zoom']))
             print('center:' + str(map_dict['center']))
