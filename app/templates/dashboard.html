@@ -33,10 +33,13 @@
 {% include 'dashboard_widgets/_yearly_mileage_widget.html' %}
 {% endif %}
 
-
-
 </div>
 
 
+<div style="overflow:auto; width:100%; ">
+{% if dash_lst_dict['nxt_gear'] %}
+{% include 'dashboard_widgets/_next_gear_widget.html' %}
+{% endif %}
+</div>
 
 {% endblock %}

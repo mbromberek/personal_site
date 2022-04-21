@@ -581,6 +581,7 @@ def dashboard():
     logger.info('dashboard')
     title="Dashboard"
     destPage="dashboard"
+    usr_id = current_user.id
 
     dash_lst_dict = {}
 
@@ -634,6 +635,10 @@ def dashboard():
     yrly_goals_lst = Yrly_goal.generate_nonstarted_goals(yrly_goals_lst)
     dash_lst_dict['yrly_goals_lst'] = yrly_goals_lst
     dash_lst_dict['yrly_mileage_lst'] = yrly_mileage_lst
+
+    dash_lst_dict['nxt_gear'] = {}
+    dash_lst_dict['nxt_gear']['training'] = Gear.get_next_shoe(usr_id, 'Training')
+    dash_lst_dict['nxt_gear']['easy'] = Gear.get_next_shoe(usr_id, 'Easy')
 
     return render_template('dashboard.html', title=title, destPage=destPage, dash_lst_dict=dash_lst_dict)
 

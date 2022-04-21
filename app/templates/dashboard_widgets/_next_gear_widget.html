@@ -1,0 +1,33 @@
+    <div class="dashboard_widget" >
+        <table class="gear_usage">
+            <tr class="gear_usage_hdr">
+                <td  class="gear_usage_hdr" colspan="4">
+                    Next Predicted Gear
+                </td>
+            </tr>
+            <tr class="gear_usage_hdr">
+                <td class="gear_usage_hdr " >
+                    Type
+                </td>
+                <td class="gear_usage_hdr gear_usage_nmcol">
+                    Name
+                </td>
+            </tr>
+            <tr >
+                <td class="gear_usage_dtl">
+                    Training / Long Run
+                </td>
+                <td class="gear_usage_dtl">
+                    {{ dash_lst_dict['nxt_gear']['training'].nm }}
+                </td>
+            </tr>
+            <tr >
+                <td class="gear_usage_dtl">
+                    Easy
+                </td>
+                <td class="gear_usage_dtl">
+                    {{ dash_lst_dict['nxt_gear']['easy'].nm }}
+                </td>
+            </tr>
+        </table>
+    </div>
