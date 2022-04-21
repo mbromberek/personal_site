@@ -722,3 +722,14 @@ def edit_workout_interval():
 @login_required
 def wrkt_img_file(filename):
     return send_from_directory(os.path.join(current_app.config['MEDIA_DIR'], str(current_user.id),'thumbnails'), filename, as_attachment=True)
+
+@bp.route('/settings', methods=['GET','POST'])
+@login_required
+def settings():
+    logger.info('settings')
+    usr_id = current_user.id
+    form = ''
+    nxt_gear = {}
+    nxt_gear['training'] = Gear.get_next_shoe(usr_id, 'Training')
+    nxt_gear['easy'] = Gear.get_next_shoe(usr_id, 'Easy')
+    return render_template('settings.html', form=form, nxt_gear=nxt_gear, destPage = 'settings')

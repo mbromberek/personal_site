@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% from 'bootstrap/form.html' import render_form, render_field %}
+
+{% block app_content %}
+
+<div style="overflow:auto; width:100%; margin-top:20px;">
+
+{% include 'dashboard_widgets/_next_gear_widget.html' %}
+
+{#
+{% if dash_lst_dict['gear_lst'] %}
+{% include 'dashboard_widgets/_gear_usage_widget.html' %}
+{% endif %}
+#}
+
+</div>
+
+{% endblock %}
