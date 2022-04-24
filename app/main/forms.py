@@ -205,5 +205,5 @@ class UserSettingsForm(FlaskForm):
     shoe_min_brkin_ct = IntegerField('Shoe Breaking Count',
         widget=h5widgets.NumberInput(min=0),
         validators=[Optional()])
-    submit = SubmitField('Submit')
+    submit = SubmitField('Save')
     cancel = SubmitField('Cancel')

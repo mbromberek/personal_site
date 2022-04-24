@@ -24,7 +24,7 @@ import GenerateMapImage.gen_map_img as genMap
 # Custom classes
 from app.main import bp
 from app.main.forms import EmptyForm, WorkoutCreateBtnForm, WorkoutForm, WorkoutFilterForm, WorkoutIntervalForm, WorkoutExportForm, UserSettingsForm
-from app.models import User, Workout, Workout_interval, Gear, Gear_usage, Wrkt_sum, Wkly_mileage, Yrly_mileage
+from app.models import User, Workout, Workout_interval, Gear, Gear_usage, Wrkt_sum, Wkly_mileage, Yrly_mileage, User_setting
 from app import db
 from app.utils import tm_conv, const, nbrConv, dt_conv
 from app import logger
@@ -728,13 +728,35 @@ def wrkt_img_file(filename):
 def settings():
     logger.info('settings')
     usr_id = current_user.id
+
     dash_lst_dict = {}
     dash_lst_dict['nxt_gear'] = {}
     dash_lst_dict['nxt_gear']['training'] = Gear.get_next_shoe(usr_id, 'Training')
     dash_lst_dict['nxt_gear']['easy'] = Gear.get_next_shoe(usr_id, 'Easy')
 
-    user = User.query.get_or_404(usr_id)
     setting_form = UserSettingsForm()
+
+    # if request.method == 'GET' and request.args.get('workout') != None:
+    if request.method == 'GET':
+        logger.info('settings GET')
+    elif request.method == 'POST' and setting_form.cancel.data:
+        logger.info('settings POST Cancel button pressed')
+    elif request.method == 'POST':
+        logger.info('settings POST Submit button pressed')
+        user = User.query.get_or_404(usr_id)
+        settings = user.settings.first()
+        if settings is None:
+            settings = User_setting()
+            settings.user_id = usr_id
+        settings.shoe_mile_warning = setting_form.shoe_mile_warning.data
+        settings.shoe_mile_max = setting_form.shoe_mile_max.data
+        settings.shoe_min_brkin_ct = setting_form.shoe_min_brkin_ct.data
+        db.session.add(settings)
+        db.session.commit()
+        flash('Settings have been updated')
+        return redirect(url_for('main.settings'))
+
+    user = User.query.get_or_404(usr_id)
     setting_form.shoe_mile_warning.default = current_app.config['USR_DFT_SHOE_MILE_WARNING']
     setting_form.shoe_mile_max.default = current_app.config['USR_DFT_SHOE_MILE_MAX']
     setting_form.shoe_min_brkin_ct.default = current_app.config['USR_DFT_SHOE_MIN_BRKIN_CT']
