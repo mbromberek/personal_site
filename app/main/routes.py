@@ -729,11 +729,6 @@ def settings():
     logger.info('settings')
     usr_id = current_user.id
 
-    dash_lst_dict = {}
-    dash_lst_dict['nxt_gear'] = {}
-    dash_lst_dict['nxt_gear']['training'] = Gear.get_next_shoe(usr_id, 'Training')
-    dash_lst_dict['nxt_gear']['easy'] = Gear.get_next_shoe(usr_id, 'Easy')
-
     setting_form = UserSettingsForm()
 
     # if request.method == 'GET' and request.args.get('workout') != None:
