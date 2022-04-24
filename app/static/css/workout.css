@@ -240,6 +240,20 @@ label.wrkt_export_chk{
     padding-bottom: 0px;
     margin-bottom: 0px;
 }
+.setting_lbl{
+    font-weight:bold;
+    padding-bottom: 0px;
+    padding-left: 5px;
+    margin-bottom: 0px;
+    width: 200px;
+}
+.setting_hdr{
+    font-weight:bold;
+    font-size:20pt;
+    padding-left:160px;
+    border-bottom:2px black solid;
+    margin-bottom:10px;
+}
 
 .field_row{
     padding-bottom:20px;

@@ -5,17 +5,72 @@
 
 <div style="overflow:auto; width:100%; margin-top:20px;">
 
-{% include 'dashboard_widgets/_next_gear_widget.html' %}
+    <div class="dashboard_widget" style="border:2px black solid;padding:10px;">
+        <form action="" method="post">
+            <div class="form-row setting_hdr">
+                Settings
+            </div>
+            <div class="form-row ">
+                <div class="form-group setting_lbl">
+                    {{ user_setting_form.displayname.label }}:
+                </div>
+                <div class="form-group">
+                    {{ user_setting_form.displayname(disabled=True) }}
+                    {% for error in user_setting_form.displayname.errors %}
+                    <span style="color: red;">
+                        [{{ error }}]
+                    </span>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group setting_lbl">
+                    {{ user_setting_form.shoe_mile_warning.label }}:
+                </div>
+                <div class="form-group">
+                    {{ user_setting_form.shoe_mile_warning }}
+                    {% for error in user_setting_form.shoe_mile_warning.errors %}
+                    <span style="color: red;">
+                        [{{ error }}]
+                    </span>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group setting_lbl">
+                    {{ user_setting_form.shoe_mile_max.label }}:
+                </div>
+                <div class="form-group">
+                    {{ user_setting_form.shoe_mile_max }}
+                    {% for error in user_setting_form.shoe_mile_max.errors %}
+                    <span style="color: red;">
+                        [{{ error }}]
+                    </span>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group setting_lbl">
+                    {{ user_setting_form.shoe_min_brkin_ct.label }}:
+                </div>
+                <div class="form-group">
+                    {{ user_setting_form.shoe_min_brkin_ct }}
+                    {% for error in user_setting_form.shoe_min_brkin_ct.errors %}
+                    <span style="color: red;">
+                        [{{ error }}]
+                    </span>
+                    {% endfor %}
+                </div>
+            </div>
 
-{#
-{% if dash_lst_dict['gear_lst'] %}
-{% include 'dashboard_widgets/_gear_usage_widget.html' %}
-{% endif %}
-#}
+            <div style="align:center;">
+                {{ user_setting_form.submit(class='mr-3') }}
+                {{ user_setting_form.cancel }}
+            </div>
 
-</div>
+        </form>
+    </div>
 
-<div style="overflow:auto; width:100%; margin-top:20px;">
 
     <div class="dashboard_widget" >
         <table class="gear_usage">

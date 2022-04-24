@@ -743,6 +743,7 @@ def settings():
     setting_form.user_id.data = usr_id
     setting_form.displayname.data = user.displayname
     settings = user.settings.first()
+
     if settings is not None:
         setting_form.shoe_mile_warning.data = settings.shoe_mile_warning
         setting_form.shoe_mile_max.data = settings.shoe_mile_max
