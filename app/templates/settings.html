@@ -15,4 +15,45 @@
 
 </div>
 
+<div style="overflow:auto; width:100%; margin-top:20px;">
+
+    <div class="dashboard_widget" >
+        <table class="gear_usage">
+            <tr >
+                <td class="gear_usage_dtl">
+                    {{ user_setting_form.displayname.label }}
+                </td>
+                <td class="gear_usage_dtl ">
+                    {{ user_setting_form.displayname(disabled=True) }}
+                </td>
+            </tr>
+            <tr >
+                <td class="gear_usage_dtl">
+                    {{ user_setting_form.shoe_mile_warning.label }}
+                </td>
+                <td class="gear_usage_dtl ">
+                    {{ user_setting_form.shoe_mile_warning }}
+                </td>
+            </tr>
+            <tr >
+                <td class="gear_usage_dtl">
+                    {{ user_setting_form.shoe_mile_max.label }}
+                </td>
+                <td class="gear_usage_dtl ">
+                    {{ user_setting_form.shoe_mile_max }}
+                </td>
+            </tr>
+            <tr >
+                <td class="gear_usage_dtl">
+                    {{ user_setting_form.shoe_min_brkin_ct.label }}
+                </td>
+                <td class="gear_usage_dtl ">
+                    {{ user_setting_form.shoe_min_brkin_ct }}
+                </td>
+            </tr>
+        </table>
+    </div>
+
+</div>
+
 {% endblock %}

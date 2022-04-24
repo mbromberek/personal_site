@@ -23,7 +23,7 @@ import GenerateMapImage.gen_map_img as genMap
 
 # Custom classes
 from app.main import bp
-from app.main.forms import EmptyForm, WorkoutCreateBtnForm, WorkoutForm, WorkoutFilterForm, WorkoutIntervalForm, WorkoutExportForm
+from app.main.forms import EmptyForm, WorkoutCreateBtnForm, WorkoutForm, WorkoutFilterForm, WorkoutIntervalForm, WorkoutExportForm, UserSettingsForm
 from app.models import User, Workout, Workout_interval, Gear, Gear_usage, Wrkt_sum, Wkly_mileage, Yrly_mileage
 from app import db
 from app.utils import tm_conv, const, nbrConv, dt_conv
@@ -728,8 +728,24 @@ def wrkt_img_file(filename):
 def settings():
     logger.info('settings')
     usr_id = current_user.id
-    form = ''
-    nxt_gear = {}
-    nxt_gear['training'] = Gear.get_next_shoe(usr_id, 'Training')
-    nxt_gear['easy'] = Gear.get_next_shoe(usr_id, 'Easy')
-    return render_template('settings.html', form=form, nxt_gear=nxt_gear, destPage = 'settings')
+    dash_lst_dict = {}
+    dash_lst_dict['nxt_gear'] = {}
+    dash_lst_dict['nxt_gear']['training'] = Gear.get_next_shoe(usr_id, 'Training')
+    dash_lst_dict['nxt_gear']['easy'] = Gear.get_next_shoe(usr_id, 'Easy')
+
+    user = User.query.get_or_404(usr_id)
+    setting_form = UserSettingsForm()
+    setting_form.shoe_mile_warning.default = current_app.config['USR_DFT_SHOE_MILE_WARNING']
+    setting_form.shoe_mile_max.default = current_app.config['USR_DFT_SHOE_MILE_MAX']
+    setting_form.shoe_min_brkin_ct.default = current_app.config['USR_DFT_SHOE_MIN_BRKIN_CT']
+    setting_form.process()
+
+    setting_form.user_id.data = usr_id
+    setting_form.displayname.data = user.displayname
+    settings = user.settings.first()
+    if settings is not None:
+        setting_form.shoe_mile_warning.data = settings.shoe_mile_warning
+        setting_form.shoe_mile_max.data = settings.shoe_mile_max
+        setting_form.shoe_min_brkin_ct.data = settings.shoe_min_brkin_ct
+
+    return render_template('settings.html', user_setting_form=setting_form, dash_lst_dict=dash_lst_dict, destPage = 'settings')
