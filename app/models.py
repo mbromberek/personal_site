@@ -61,6 +61,7 @@ class User(PaginatedAPIMixin, UserMixin, db.Model):
     password_hash = db.Column(db.String(128))
     displayname = db.Column(db.String(64))
     workouts = db.relationship('Workout', backref='author', lazy='dynamic')
+    settings = db.relationship('User_setting', backref='author', lazy='dynamic')
     last_seen = db.Column(db.DateTime, default=datetime.utcnow)
     token = db.Column(db.String(32), index=True, unique=True)
     token_expiration = db.Column(db.DateTime)
@@ -734,3 +735,44 @@ class Workout_zone(db.Model):
     type = db.Column(db.String(50), nullable=False)
     zone = db.Column(db.String(50), nullable=False)
     val = db.Column(db.Integer(), nullable=False)
+
+class User_setting(db.Model):
+    __table_args__ = {"schema": "fitness", 'comment':'fitness settings for user'}
+    user_id = db.Column(db.Integer, db.ForeignKey('fitness.user.id'), primary_key=True)
+    shoe_mile_warning = db.Column(db.Numeric(8))
+    shoe_mile_max = db.Column(db.Numeric(8))
+    shoe_min_brkin_ct = db.Column(db.Numeric(8))
+    updt_ts = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    isrt_ts = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+
+    def __repr__(self):
+        return '<Setting for {}: Value {}>'.format( self.user_id, str(self.shoe_mile_warning))
+
+    def to_dict():
+        '''
+        Convert object to dictionary and return it
+        If any setting field is not populated the default value will be returned
+        '''
+        data = {'user_id': s.user_id}
+
+        dict_fields_str = []
+        dict_fields_nbr = ['shoe_mile_warning' ,'shoe_mile_max' ,'shoe_min_brkin_ct']
+        dict_fields_date = ['updt_ts' ,'isrt_ts']
+
+        for field in dict_fields_str:
+            data[field] = self.get_field(field)
+        for field in dict_fields_nbr:
+            data[field] = str(self.get_field(field))
+        for field in dict_fields_date:
+            if getattr(self, field) is not None:
+                data[field] = getattr(self, field).isoformat() + 'Z'
+
+        return data
+
+    def get_field(self, field):
+        if getattr(self, field) is not None:
+            return getattr(self, field)
+        if 'USR_DFT_'+field.upper() in current_app.config:
+            return current_app.config['USR_DFT_'+field.upper()]
+        else:
+            return None
