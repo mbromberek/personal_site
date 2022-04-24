@@ -191,3 +191,17 @@ class WorkoutForm(FlaskForm):
     show_pause = BooleanField("Show Pause Segments")
     show_map_laps = BooleanField("Show Lap Markers on map")
     show_map_miles = BooleanField("Show Mile Markers on map")
+
+class UserSettingsForm(FlaskForm):
+    user_id = HiddenField()
+    displayname = StringField('Display Name', validators=[InputRequired()])
+    shoe_mile_warning = IntegerField('Shoe Mileage Warning',
+        widget=h5widgets.NumberInput(min=0),
+        # default=100,
+        validators=[Optional()])
+    shoe_mile_max = IntegerField('Shoe Mileage Max',
+        widget=h5widgets.NumberInput(min=0),
+         validators=[Optional()])
+    shoe_min_brkin_ct = IntegerField('Shoe Breaking Count',
+        widget=h5widgets.NumberInput(min=0),
+        validators=[Optional()])
