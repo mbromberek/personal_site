@@ -766,4 +766,4 @@ def settings():
         setting_form.shoe_mile_max.data = settings.shoe_mile_max
         setting_form.shoe_min_brkin_ct.data = settings.shoe_min_brkin_ct
 
-    return render_template('settings.html', user_setting_form=setting_form, dash_lst_dict=dash_lst_dict, destPage = 'settings')
+    return render_template('settings.html', user_setting_form=setting_form, destPage = 'settings')
