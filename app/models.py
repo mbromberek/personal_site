@@ -78,6 +78,12 @@ class User(PaginatedAPIMixin, UserMixin, db.Model):
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
 
+    def get_settings(self):
+        settings = self.settings.first()
+        if settings is None:
+            settings = User_setting()
+        return settings
+
     def to_dict(self):
         data = {
             'id': self.id,

@@ -582,15 +582,17 @@ def dashboard():
     title="Dashboard"
     destPage="dashboard"
     usr_id = current_user.id
+    user = User.query.get_or_404(usr_id)
+    settings = user.get_settings()
 
     dash_lst_dict = {}
 
     gear_results = sorted(Gear_usage.query.filter_by(user_id=current_user.id, retired=False), reverse=True)
     gear_lst = []
     for gear in gear_results:
-        if gear.type == 'Shoe' and gear.tot_dist >current_app.config['SHOE_MILE_AGE_SHOULD_RETIRE']:
+        if gear.type == 'Shoe' and gear.tot_dist >settings.get_field('shoe_mile_max'):
             gear.age_cond_class = 'gear_age_should_retire'
-        elif gear.type == 'Shoe' and gear.tot_dist >current_app.config['SHOE_MILE_AGE_WARNING']:
+        elif gear.type == 'Shoe' and gear.tot_dist >settings.get_field('shoe_mile_warning'):
             gear.age_cond_class = 'gear_age_warning'
         else:
             gear.age_cond_class = ''
@@ -731,39 +733,33 @@ def settings():
 
     setting_form = UserSettingsForm()
 
-    # if request.method == 'GET' and request.args.get('workout') != None:
     if request.method == 'GET':
         logger.info('settings GET')
     elif request.method == 'POST' and setting_form.cancel.data:
         logger.info('settings POST Cancel button pressed')
+        return redirect(url_for('main.settings'))
     elif request.method == 'POST':
         logger.info('settings POST Submit button pressed')
         user = User.query.get_or_404(usr_id)
-        settings = user.settings.first()
-        if settings is None:
-            settings = User_setting()
-            settings.user_id = usr_id
+        settings = user.get_settings()
         settings.shoe_mile_warning = setting_form.shoe_mile_warning.data
         settings.shoe_mile_max = setting_form.shoe_mile_max.data
         settings.shoe_min_brkin_ct = setting_form.shoe_min_brkin_ct.data
-        db.session.add(settings)
+        if settings.user_id is None:
+            settings.user_id = usr_id
+            db.session.add(settings)
         db.session.commit()
         flash('Settings have been updated')
         return redirect(url_for('main.settings'))
 
     user = User.query.get_or_404(usr_id)
-    setting_form.shoe_mile_warning.default = current_app.config['USR_DFT_SHOE_MILE_WARNING']
-    setting_form.shoe_mile_max.default = current_app.config['USR_DFT_SHOE_MILE_MAX']
-    setting_form.shoe_min_brkin_ct.default = current_app.config['USR_DFT_SHOE_MIN_BRKIN_CT']
-    setting_form.process()
-
     setting_form.user_id.data = usr_id
     setting_form.displayname.data = user.displayname
-    settings = user.settings.first()
+    settings = user.get_settings()
 
-    if settings is not None:
-        setting_form.shoe_mile_warning.data = settings.shoe_mile_warning
-        setting_form.shoe_mile_max.data = settings.shoe_mile_max
-        setting_form.shoe_min_brkin_ct.data = settings.shoe_min_brkin_ct
+    setting_form.shoe_mile_max.data = settings.get_field('shoe_mile_max')
+    setting_form.shoe_mile_warning.data = settings.get_field('shoe_mile_warning')
+    setting_form.shoe_min_brkin_ct.data = settings.get_field('shoe_min_brkin_ct')
+
 
     return render_template('settings.html', user_setting_form=setting_form, destPage = 'settings')
