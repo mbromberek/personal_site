@@ -27,6 +27,7 @@ class Config(object):
     MIN_LOC_RADIUS = 0.5 #miles
     MAP_MAX_ZOOM = 20
 
+    USR_DFT_DISPLAY_NAME = 'User'
     USR_DFT_SHOE_MILE_WARNING = 300
     USR_DFT_SHOE_MILE_MAX = 350
     USR_DFT_SHOE_MIN_BRKIN_CT = 5
