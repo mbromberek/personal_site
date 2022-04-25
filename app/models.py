@@ -541,8 +541,14 @@ class Gear(db.Model):
         Gets suggestion for shoe to wear on next run based on passed in category
         The number of miles run in shoes and number of times they were used determines which category they fit into.
         '''
-        shoe_age_warning = current_app.config['SHOE_MILE_AGE_WARNING']
-        nbr_brk_in_runs = current_app.config['SHOE_MIN_BRKIN_CT']
+        user = User.query.get_or_404(user_id)
+        settings = user.get_settings()
+        shoe_mile_max = settings.get_field('shoe_mile_max')
+        shoe_mile_warning = settings.get_field('shoe_mile_warning')
+        shoe_min_brkin_ct = settings.get_field('shoe_min_brkin_ct')
+
+        shoe_age_warning = shoe_mile_warning
+        nbr_brk_in_runs = shoe_min_brkin_ct
         gear_nm = ''
         gear_id = ''
         type='Shoe'
