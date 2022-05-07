@@ -641,6 +641,10 @@ class Gear_usage(db.Model):
         other_dt = other.latest_workout if other.latest_workout else datetime.combine(other.prchse_dt,datetime.min.time())
         return ((self_dt > other_dt))
 
+    def tot_dur_str(self):
+        return tm_conv.sec_to_time(self.tot_dur_sec, 'hms')
+
+
 
 
 class Wrkt_sum(db.Model):
