@@ -799,11 +799,41 @@ def settings():
 @bp.route('/edit_gear', methods=['GET','POST'])
 @login_required
 def edit_gear():
-    logger.info('edit_gear: ' + str(request.args.get('gear')))
     usr_id = current_user.id
-    gear_id = str(request.args.get('gear'))
-    gear = Gear.query.filter_by(id=gear_id, user_id = usr_id).one()
-    gear_form = GearForm()
+    gear_id = request.args.get('gear')
+    logger.info('edit_gear: ' + str(gear_id))
 
-    flash("Gear Edits not setup yet")
-    return redirect(url_for('main.settings'))
+    gear_type_dict = {'1': 'Shoe', '2':'Bike', '3':'Pool', '4':'Insole', '5':'Trainer'}
+    gear_type_select_lst = list(gear_type_dict.items())
+
+    if gear_id is None:
+        label_val = 'Create Gear'
+        gear_form = GearForm()
+        gear_form.type.choices = gear_type_select_lst
+        return render_template('edit_gear.html', destPage = 'settings', gear_form=gear_form, label_val=label_val)
+
+    label_val = 'Update Gear'
+    try:
+        gear = Gear.query.filter_by(id=gear_id, user_id = usr_id).one()
+    except:
+        flash("Gear not found")
+        return redirect(url_for('main.settings'))
+
+    gear_form = GearForm()
+    for key, value in gear_type_dict.items():
+        if value == gear.type:
+            default_type = key
+            break
+    gear_form.type.choices = gear_type_select_lst
+    gear_form.type.default = default_type
+    gear_form.process()
+    gear_form.id.data = gear.id
+    gear_form.nm.data = gear.nm
+    gear_form.prchse_dt.data = gear.prchse_dt
+    gear_form.price.data = gear.price
+    gear_form.retired.data = gear.retired
+    gear_form.confirmed.data = gear.confirmed
+    gear_form.company.data = gear.company
+    logger.info(gear_form)
+
+    return render_template('edit_gear.html', destPage = 'settings', gear_form=gear_form, label_val=label_val)

@@ -218,7 +218,7 @@ class GearForm(FlaskForm):
     type = SelectField('Gear Type', validate_choice=True, coerce=int)
     company = StringField('Company', validators=[Optional()])
 
-    # submit = SubmitField('Submit')
-    # cancel = SubmitField('Cancel')
+    submit = SubmitField('Submit')
+    cancel = SubmitField('Cancel')
     def __repr__(self):
         return '<Gear {}: {}>'.format(self.type.data, self.nm.data)
