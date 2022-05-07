@@ -73,4 +73,75 @@
 
 </div>
 
+<div style="overflow:auto; width:100%; margin-top:20px;">
+
+    <div class="dashboard_widget" style="width:800px; border:2px black solid;padding:10px;">
+        <form action="" method="post">
+            {#{{ form.hidden_tag() }} #}
+
+            <div class="form-group mt-3 mr-2" style="width:800px; vertical-align:top;">
+                <div class="form-row setting_hdr">
+                    Gear
+                </div>
+
+                <table>
+                    <tr style="font-weight:bold">
+                        <td class="workout-intrvl workout-intrvl-hdr" >
+                            Name
+                        </td>
+                        <td class="workout-intrvl workout-intrvl-hdr" style="">
+                            Purchase Date
+                        </td>
+                        <td class="workout-intrvl workout-intrvl-hdr">
+                            Price
+                        </td>
+                        <td class="workout-intrvl workout-intrvl-hdr">
+                            Retired
+                        </td>
+                        <td class="workout-intrvl workout-intrvl-hdr hide_mobile">
+                            Confirmed
+                        </td>
+                        <td class="workout-intrvl workout-intrvl-hdr hide_mobile">
+                            Gear Type
+                        </td>
+                        <td class="workout-intrvl workout-intrvl-hdr ">
+                            Company
+                        </td>
+                    </tr>
+
+                {% for gear in gear_form_lst %}
+                    <tr>
+                        {{ gear.hidden_tag() }}
+                        <td class="workout-intrvl" >
+                            {{ gear.nm(class="txt_field_size_2") }}
+                        </td>
+                        <td class="workout-intrvl" >
+                            {{ gear.prchse_dt }}
+                        </td>
+                        <td class="workout-intrvl">
+                            {{ gear.price(class="txt_field_size_5", disabled=True) }}
+                        </td>
+                        <td class="workout-intrvl">
+                            {{ gear.retired }}
+                        </td>
+                        <td class="workout-intrvl hide_mobile">
+                            {{ gear.confirmed }}
+                        </td>
+                        <td class="workout-intrvl hide_mobile">
+                            {{ gear.type() }}
+                        </td>
+                        <td class="workout-intrvl ">
+                            {{ gear.company }}
+                        </td>
+                    </tr>
+                {% endfor %}
+
+                </table>
+            </div>
+        </form>
+    </div>
+
+</div>
+
+
 {% endblock %}
