@@ -98,8 +98,18 @@
             </span><br>
             Used {{ gear_usage.usage_count }} times<br>
             {{ gear_usage.tot_dist }} miles for {{ gear_usage.tot_dur }}<br>
-            Last Used: {{ gear_usage.latest_workout.strftime('%Y-%m-%d') }}<br>
-            First Use: {{ gear_usage.first_workout.strftime('%Y-%m-%d') }}<br>
+            Last Used:
+            {% if gear_usage.latest_workout != None %}
+            {{ gear_usage.latest_workout.strftime('%Y-%m-%d') }}
+            {% else %}
+            &nbsp;
+            {% endif %}<br>
+            First Use:
+            {% if gear_usage.latest_workout != None %}
+            {{ gear_usage.first_workout.strftime('%Y-%m-%d') }}
+            {% else %}
+            &nbsp;
+            {% endif %}<br>
         </<fieldset>
 
     </div>
