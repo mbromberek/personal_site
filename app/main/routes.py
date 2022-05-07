@@ -761,27 +761,28 @@ def settings():
     setting_form.shoe_mile_warning.data = settings.get_field('shoe_mile_warning')
     setting_form.shoe_min_brkin_ct.data = settings.get_field('shoe_min_brkin_ct')
 
-
-    gear_type_select_lst = [[1, 'Shoe'],[2,'Bike'],[3,'Pool'],[4,'Insole']]
-    # form.gear_lst.choices = gear_type_select_lst
-
-
-
+    gear_type_dict = {'1': 'Shoe', '2':'Bike', '3':'Pool', '4':'Insole', '5':'Trainer'}
+    gear_type_select_lst = list(gear_type_dict.items())
 
     query = Gear.query.filter_by(user_id=usr_id)
     gear_lst = sorted(query, reverse=True)
     gear_form_lst = []
     for gear in gear_lst:
         gear_form = GearForm()
+        for key, value in gear_type_dict.items():
+            if value == gear.type:
+                default_type = key
+                break
+        gear_form.type.choices = gear_type_select_lst
+        gear_form.type.default = default_type
+        gear_form.process()
         gear_form.id.data = gear.id
         gear_form.nm.data = gear.nm
-        gear_form.prchse_dt = gear.prchse_dt
-        gear_form.price = gear.price
-        gear_form.retired = gear.retired
-        gear_form.confirmed = gear.confirmed
-        gear_form.type.choices = gear_type_select_lst
-        gear_form.type.default = 1
-        gear_form.company = gear.company
+        gear_form.prchse_dt.data = gear.prchse_dt
+        gear_form.price.data = gear.price
+        gear_form.retired.data = gear.retired
+        gear_form.confirmed.data = gear.confirmed
+        gear_form.company.data = gear.company
         logger.info(gear_form)
         gear_form_lst.append(gear_form)
 
