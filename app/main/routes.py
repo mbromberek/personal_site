@@ -763,6 +763,7 @@ def settings():
 
     gear_type_dict = {'1': 'Shoe', '2':'Bike', '3':'Pool', '4':'Insole', '5':'Trainer'}
     gear_type_select_lst = list(gear_type_dict.items())
+    default_type = 1
 
     query = Gear.query.filter_by(user_id=usr_id)
     gear_lst = sorted(query, reverse=True)
@@ -806,11 +807,32 @@ def edit_gear():
     gear_type_dict = {'1': 'Shoe', '2':'Bike', '3':'Pool', '4':'Insole', '5':'Trainer'}
     gear_type_select_lst = list(gear_type_dict.items())
 
+    gear_form = GearForm()
+
+    if request.method == 'GET':
+        logger.info('edit_gear GET')
+    elif request.method == 'POST' and gear_form.cancel.data:
+        logger.info('edit_gear POST Cancel button pressed')
+        return redirect(url_for('main.settings'))
+    elif request.method == 'POST':
+        logger.info('edit_gear POST Submit button pressed')
+        gear = Gear.query.filter_by(id=gear_id, user_id = usr_id).one()
+        gear.nm = gear_form.nm.data
+        gear.prchse_dt = gear_form.prchse_dt.data
+        gear.price = gear_form.price.data
+        gear.retired = gear_form.retired.data
+        gear.confirmed = gear_form.confirmed.data
+        gear.type = gear_type_dict[str(gear_form.type.data)]
+        gear.company = gear_form.company.data
+        db.session.commit()
+        flash('Gear has been updated')
+        return redirect(url_for('main.settings'))
+
+
     if gear_id is None:
         label_val = 'Create Gear'
-        gear_form = GearForm()
         gear_form.type.choices = gear_type_select_lst
-        return render_template('edit_gear.html', destPage = 'settings', gear_form=gear_form, label_val=label_val)
+        return render_template('edit_gear.html', destPage = 'settings', gear_form=gear_form, gear_usage=None, label_val=label_val)
 
     label_val = 'Update Gear'
     try:
@@ -819,7 +841,9 @@ def edit_gear():
         flash("Gear not found")
         return redirect(url_for('main.settings'))
 
-    gear_form = GearForm()
+    gear_usage = Gear_usage.query.filter_by(gear_id=gear_id, user_id = usr_id).one()
+    gear_usage.tot_dur = gear_usage.tot_dur_str()
+
     for key, value in gear_type_dict.items():
         if value == gear.type:
             default_type = key
@@ -836,4 +860,4 @@ def edit_gear():
     gear_form.company.data = gear.company
     logger.info(gear_form)
 
-    return render_template('edit_gear.html', destPage = 'settings', gear_form=gear_form, label_val=label_val)
+    return render_template('edit_gear.html', destPage = 'settings', gear_form=gear_form, gear_usage=gear_usage, label_val=label_val)
