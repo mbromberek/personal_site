@@ -1,8 +1,10 @@
 {% extends "base.html" %}
 
 {% block app_content %}
+<div style="overflow:auto; width:100%; margin-top:20px;">
+
     <h1>{{ label_val }}</h1>
-    <div class="row mb-5">
+    <div class="row mb-5 dashboard_widget" style="margin-left:0px;">
         <div class="col-md-12">
             <form action="" method="post">
                 {{ gear_form.hidden_tag() }}
@@ -10,7 +12,7 @@
                     <div class="form-group mr-4">
                         {{ gear_form.nm.label(class="workout_lbl") }}
                         <br>
-                        {{ gear_form.nm(size=35) }}<br>
+                        {{ gear_form.nm(size=31) }}<br>
                         {% for error in gear_form.nm.errors %}
                         <span style="color: red;">
                             [{{ error }}]
@@ -32,7 +34,7 @@
                     <div class="form-group">
                         {{ gear_form.company.label(class="workout_lbl") }}
                         <br>
-                        {{ gear_form.company(size=17) }}<br>
+                        {{ gear_form.company(size=13) }}<br>
                         {% for error in gear_form.company.errors %}
                         <span style="color: red;">
                             [{{ error }}]
@@ -83,4 +85,25 @@
 
         </div>
     </div>
+
+    {% if gear_usage != None %}
+    <div class="dashboard_widget">
+        <fieldset class="wrkt_det pb-4">
+            <legend class="wrkt_det">
+                Usage
+            </legend>
+
+            <span style="font-weight:bold;font-size: 12pt;">
+                {{ gear_usage.nm }}
+            </span><br>
+            Used {{ gear_usage.usage_count }} times<br>
+            {{ gear_usage.tot_dist }} miles for {{ gear_usage.tot_dur }}<br>
+            Last Used: {{ gear_usage.latest_workout.strftime('%Y-%m-%d') }}<br>
+            First Use: {{ gear_usage.first_workout.strftime('%Y-%m-%d') }}<br>
+        </<fieldset>
+
+    </div>
+    {% endif %}
+
+</div>
 {% endblock %}
