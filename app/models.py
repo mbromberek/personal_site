@@ -573,6 +573,25 @@ class Gear(db.Model):
 
         return {'nm':gear_nm, 'id':gear_id}
 
+    def __lt__(self, other):
+        if self.retired == False and other.retired == True:
+            return False
+        if self.retired == True and other.retired == False:
+            return True
+        self_dt = datetime.combine(self.prchse_dt,datetime.min.time())
+        other_dt = datetime.combine(other.prchse_dt,datetime.min.time())
+        return ((self_dt < other_dt))
+
+    def __gt__(self, other):
+        if self.retired == False and other.retired == True:
+            return True
+        if self.retired == True and other.retired == False:
+            return False
+        self_dt = datetime.combine(self.prchse_dt,datetime.min.time())
+        other_dt = datetime.combine(other.prchse_dt,datetime.min.time())
+        return ((self_dt > other_dt))
+
+
 class Gear_relationship(db.Model):
     __table_args__ = {"schema": "fitness", 'comment':'Connection between gear like which shoes are used which with insoles'}
     primary_gear_id = db.Column(db.Integer, db.ForeignKey('fitness.gear.id'), primary_key=True)
