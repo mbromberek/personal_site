@@ -396,6 +396,10 @@ td.dashboard_row_dtl{
     background-color: red;
 }
 
+.retired{
+    background-color: lightgray;
+}
+
 
 /* For mobile phones: */
 @media only screen and (max-width:600px) {
