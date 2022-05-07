@@ -23,7 +23,7 @@ import GenerateMapImage.gen_map_img as genMap
 
 # Custom classes
 from app.main import bp
-from app.main.forms import EmptyForm, WorkoutCreateBtnForm, WorkoutForm, WorkoutFilterForm, WorkoutIntervalForm, WorkoutExportForm, UserSettingsForm
+from app.main.forms import EmptyForm, WorkoutCreateBtnForm, WorkoutForm, WorkoutFilterForm, WorkoutIntervalForm, WorkoutExportForm, UserSettingsForm, GearForm
 from app.models import User, Workout, Workout_interval, Gear, Gear_usage, Wrkt_sum, Wkly_mileage, Yrly_mileage, User_setting
 from app import db
 from app.utils import tm_conv, const, nbrConv, dt_conv
@@ -762,4 +762,29 @@ def settings():
     setting_form.shoe_min_brkin_ct.data = settings.get_field('shoe_min_brkin_ct')
 
 
-    return render_template('settings.html', user_setting_form=setting_form, destPage = 'settings')
+    gear_type_select_lst = [[1, 'Shoe'],[2,'Bike'],[3,'Pool'],[4,'Insole']]
+    # form.gear_lst.choices = gear_type_select_lst
+
+
+
+
+    query = Gear.query.filter_by(user_id=usr_id)
+    gear_lst = sorted(query, reverse=True)
+    gear_form_lst = []
+    for gear in gear_lst:
+        gear_form = GearForm()
+        gear_form.id.data = gear.id
+        gear_form.nm.data = gear.nm
+        gear_form.prchse_dt = gear.prchse_dt
+        gear_form.price = gear.price
+        gear_form.retired = gear.retired
+        gear_form.confirmed = gear.confirmed
+        gear_form.type.choices = gear_type_select_lst
+        gear_form.type.default = 1
+        gear_form.company = gear.company
+        logger.info(gear_form)
+        gear_form_lst.append(gear_form)
+
+
+
+    return render_template('settings.html', user_setting_form=setting_form, destPage = 'settings', gear_form_lst=gear_form_lst)
