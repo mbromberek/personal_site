@@ -19,7 +19,3 @@ def get_date(s_date):
             pass
 
     raise ValueError("Entered date is not in valid format")
-
-def date_str(dttm):
-    date_patterns = '%Y-%m-%d'
-    return datetime.strftime(dttm, date_patterns)

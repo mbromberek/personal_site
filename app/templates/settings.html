@@ -187,7 +187,7 @@
                             {{ gear.tot_dur }}
                         </td>
                         <td class="workout-intrvl {% if gear.retired==True %} retired {% endif %}">
-                            {{ gear.last_dt }}
+                            {{ gear.latest_workout.strftime('%Y-%m-%d') }}
                         </td>
                         <td class="workout-intrvl {% if gear.retired==True %} retired {% endif %}"  >
                             {{ gear.retire_flag }}

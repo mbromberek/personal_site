@@ -791,11 +791,8 @@ def settings():
     for gear in gear_usage_lst:
         gear.retire_flag = 'Y' if gear.retired == True else 'N'
         gear.tot_dur = gear.tot_dur_str()
-        gear.last_dt = dt_conv.date_str(gear.latest_workout)
-        gear.first_dt = dt_conv.date_str(gear.first_workout)
         logger.info(gear)
         gear_lst.append(gear)
-
 
     return render_template('settings.html', user_setting_form=setting_form, destPage = 'settings', gear_form_lst=gear_form_lst, gear_lst=gear_usage_lst)
 
