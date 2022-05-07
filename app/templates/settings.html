@@ -75,21 +75,21 @@
 
 <div style="overflow:auto; width:100%; margin-top:20px;">
 
-    <div class="dashboard_widget" style="width:800px; border:2px black solid;padding:10px;">
+    <div class="dashboard_widget" style="width:900px; border:2px black solid;padding:10px;">
         <form action="" method="post">
             {#{{ form.hidden_tag() }} #}
 
-            <div class="form-group mt-3 mr-2" style="width:800px; vertical-align:top;">
-                <div class="form-row setting_hdr">
-                    Gear
-                </div>
+            <div class="form-row setting_hdr">
+                Gear
+            </div>
+            <div class="form-group mt-3 mr-2" style="width:875px; height:500px;vertical-align:top;overflow-y:scroll;">
 
                 <table>
                     <tr style="font-weight:bold">
                         <td class="workout-intrvl workout-intrvl-hdr" >
                             Name
                         </td>
-                        <td class="workout-intrvl workout-intrvl-hdr" style="">
+                        <td class="workout-intrvl workout-intrvl-hdr" >
                             Purchase Date
                         </td>
                         <td class="workout-intrvl workout-intrvl-hdr">
@@ -98,9 +98,9 @@
                         <td class="workout-intrvl workout-intrvl-hdr">
                             Retired
                         </td>
-                        <td class="workout-intrvl workout-intrvl-hdr hide_mobile">
+                        {#<td class="workout-intrvl workout-intrvl-hdr hide_mobile">
                             Confirmed
-                        </td>
+                        </td>#}
                         <td class="workout-intrvl workout-intrvl-hdr hide_mobile">
                             Gear Type
                         </td>
@@ -113,25 +113,25 @@
                     <tr>
                         {{ gear.hidden_tag() }}
                         <td class="workout-intrvl" >
-                            {{ gear.nm(class="txt_field_size_2") }}
+                            {{ gear.nm(class="txt_field_size_30", disabled=True) }}
                         </td>
                         <td class="workout-intrvl" >
-                            {{ gear.prchse_dt }}
+                            {{ gear.prchse_dt( disabled=True) }}
                         </td>
                         <td class="workout-intrvl">
                             {{ gear.price(class="txt_field_size_5", disabled=True) }}
                         </td>
                         <td class="workout-intrvl">
-                            {{ gear.retired }}
+                            {{ gear.retired(disabled=True) }}
                         </td>
-                        <td class="workout-intrvl hide_mobile">
-                            {{ gear.confirmed }}
-                        </td>
-                        <td class="workout-intrvl hide_mobile">
-                            {{ gear.type() }}
+                        {#<td class="workout-intrvl ">
+                            {{ gear.confirmed(disabled=True) }}
+                        </td>#}
+                        <td class="workout-intrvl ">
+                            {{ gear.type(disabled=True) }}
                         </td>
                         <td class="workout-intrvl ">
-                            {{ gear.company }}
+                            {{ gear.company(class="txt_field_size_15", disabled=True) }}
                         </td>
                     </tr>
                 {% endfor %}
