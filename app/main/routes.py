@@ -816,7 +816,11 @@ def edit_gear():
         return redirect(url_for('main.settings'))
     elif request.method == 'POST':
         logger.info('edit_gear POST Submit button pressed')
-        gear = Gear.query.filter_by(id=gear_id, user_id = usr_id).one()
+        if gear_id is None:
+            gear = Gear()
+            gear.user_id = usr_id
+        else:
+            gear = Gear.query.filter_by(id=gear_id, user_id = usr_id).one()
         gear.nm = gear_form.nm.data
         gear.prchse_dt = gear_form.prchse_dt.data
         gear.price = gear_form.price.data
@@ -824,6 +828,8 @@ def edit_gear():
         gear.confirmed = gear_form.confirmed.data
         gear.type = gear_type_dict[str(gear_form.type.data)]
         gear.company = gear_form.company.data
+        if gear_id is None:
+            db.session.add(gear)
         db.session.commit()
         flash('Gear has been updated')
         return redirect(url_for('main.settings'))
