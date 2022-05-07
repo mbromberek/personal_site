@@ -799,3 +799,14 @@ def settings():
 
     return render_template('settings.html', user_setting_form=setting_form, destPage = 'settings', gear_form_lst=gear_form_lst, gear_lst=gear_usage_lst)
 
+@bp.route('/edit_gear', methods=['GET','POST'])
+@login_required
+def edit_gear():
+    logger.info('edit_gear: ' + str(request.args.get('gear')))
+    usr_id = current_user.id
+    gear_id = str(request.args.get('gear'))
+    gear = Gear.query.filter_by(id=gear_id, user_id = usr_id).one()
+    gear_form = GearForm()
+
+    flash("Gear Edits not setup yet")
+    return redirect(url_for('main.settings'))
