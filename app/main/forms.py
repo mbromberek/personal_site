@@ -221,4 +221,4 @@ class GearForm(FlaskForm):
     # submit = SubmitField('Submit')
     # cancel = SubmitField('Cancel')
     def __repr__(self):
-        return '<Gear {}: {}>'.format(self.type, self.nm.data)
+        return '<Gear {}: {}>'.format(self.type.data, self.nm.data)
