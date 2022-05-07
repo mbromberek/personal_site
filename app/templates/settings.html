@@ -162,7 +162,7 @@
                             Duration
                         </td>
                         <td class="workout-intrvl workout-intrvl-hdr">
-                            Last Workout
+                            Last Used
                         </td>
                         <td class="workout-intrvl workout-intrvl-hdr">
                             Retired
@@ -190,7 +190,11 @@
                             {{ gear.latest_workout.strftime('%Y-%m-%d') }}
                         </td>
                         <td class="workout-intrvl {% if gear.retired==True %} retired {% endif %}"  >
-                            {{ gear.retire_flag }}
+                            {% if gear.retired == True %}
+                            Y
+                            {% else %}
+                            N
+                            {% endif %}
                         </td>
                         <td class="workout-intrvl {% if gear.retired==True %} retired {% endif %}">
                             {{ gear.type }}

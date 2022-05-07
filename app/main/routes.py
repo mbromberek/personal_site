@@ -789,7 +789,7 @@ def settings():
     gear_usage_lst = sorted(Gear_usage.query.filter_by(user_id=usr_id), reverse=True)
     gear_lst = []
     for gear in gear_usage_lst:
-        gear.retire_flag = 'Y' if gear.retired == True else 'N'
+        # gear.retire_flag = 'Y' if gear.retired == True else 'N'
         gear.tot_dur = gear.tot_dur_str()
         logger.info(gear)
         gear_lst.append(gear)
