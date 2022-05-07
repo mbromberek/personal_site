@@ -207,3 +207,18 @@ class UserSettingsForm(FlaskForm):
         validators=[Optional()])
     submit = SubmitField('Save')
     cancel = SubmitField('Cancel')
+
+class GearForm(FlaskForm):
+    id = HiddenField()
+    nm = StringField('Name', validators=[InputRequired()])
+    prchse_dt = DateField('Purchase Date', format='%Y-%m-%d',validators=[Optional()])
+    price = DecimalField('Price', validators=[Optional()], places=2, rounding=decimal.ROUND_UP)
+    retired = BooleanField("Retired")
+    confirmed = BooleanField("Confirmed")
+    type = SelectField('Gear Type', validate_choice=True, coerce=int)
+    company = StringField('Company', validators=[Optional()])
+
+    # submit = SubmitField('Submit')
+    # cancel = SubmitField('Cancel')
+    def __repr__(self):
+        return '<Gear {}: {}>'.format(self.type, self.nm.data)
