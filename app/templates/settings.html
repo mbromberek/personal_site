@@ -173,7 +173,7 @@
                         <td class="workout-intrvl workout-intrvl-hdr">
                             Last Used
                         </td>
-                        <td class="workout-intrvl workout-intrvl-hdr">
+                        <td class="workout-intrvl workout-intrvl-hdr hide_mobile">
                             Retired
                         </td>
                         <td class="workout-intrvl workout-intrvl-hdr ">
@@ -206,7 +206,7 @@
                             &nbsp;
                             {% endif %}
                         </td>
-                        <td class="workout-intrvl {% if gear.retired==True %} retired {% endif %}"  >
+                        <td class="workout-intrvl {% if gear.retired==True %} retired {% endif %} hide_mobile"  >
                             {% if gear.retired == True %}
                             Y
                             {% else %}
