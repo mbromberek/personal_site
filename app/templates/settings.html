@@ -73,172 +73,93 @@
 
 </div>
 
-{#
 <div style="overflow:auto; width:100%; margin-top:20px;">
 
     <div class="dashboard_widget" style="width:900px; border:2px black solid;padding:10px;">
-        <form action="" method="post">
-
-            <div class="form-row setting_hdr">
+        <div class="form-row setting_hdr" style="overflow:auto;">
+            <div style="margin-left:auto;margin-right:auto;">
                 Gear
             </div>
-            <div class="form-group mt-3 mr-2" style="width:875px; height:500px;vertical-align:top;overflow-y:scroll;">
-
-                <table>
-                    <tr style="font-weight:bold">
-                        <td class="workout-intrvl workout-intrvl-hdr" >
-                            Name
-                        </td>
-                        <td class="workout-intrvl workout-intrvl-hdr" >
-                            Purchase Date
-                        </td>
-                        <td class="workout-intrvl workout-intrvl-hdr">
-                            Price
-                        </td>
-                        <td class="workout-intrvl workout-intrvl-hdr">
-                            Retired
-                        </td>
-                        <td class="workout-intrvl workout-intrvl-hdr hide_mobile">
-                            Gear Type
-                        </td>
-                        <td class="workout-intrvl workout-intrvl-hdr ">
-                            Company
-                        </td>
-                    </tr>
-
-                {% for gear in gear_form_lst %}
-                    <tr>
-                        {{ gear.hidden_tag() }}
-                        <td class="workout-intrvl" >
-                            {{ gear.nm(class="txt_field_size_30", disabled=True) }}
-                        </td>
-                        <td class="workout-intrvl" >
-                            {{ gear.prchse_dt( disabled=True) }}
-                        </td>
-                        <td class="workout-intrvl">
-                            {{ gear.price(class="txt_field_size_5", disabled=True) }}
-                        </td>
-                        <td class="workout-intrvl">
-                            {{ gear.retired(disabled=True) }}
-                        </td>
-                        <td class="workout-intrvl ">
-                            {{ gear.type(disabled=True) }}
-                        </td>
-                        <td class="workout-intrvl ">
-                            {{ gear.company(class="txt_field_size_15", disabled=True) }}
-                        </td>
-                    </tr>
-                {% endfor %}
-
-                </table>
+            <div style="margin-left:auto;margin-right:10px;">
+                <a class="workout_edit_lnk"  href="{{ url_for('main.edit_gear') }}">
+                    Create
+                </a>
             </div>
-        </form>
-    </div>
+        </div>
 
-</div>
-#}
+        <div class="form-group mt-3 mr-2" style="width:875px; height:500px;vertical-align:top;overflow-y:scroll;">
 
+            <table>
+                <tr style="font-weight:bold">
+                    <td class="workout-intrvl workout-intrvl-hdr" >
+                        Name
+                    </td>
+                    <td class="workout-intrvl workout-intrvl-hdr" >
+                        Count
+                    </td>
+                    <td class="workout-intrvl workout-intrvl-hdr" >
+                        Distance
+                    </td>
+                    <td class="workout-intrvl workout-intrvl-hdr" >
+                        Duration
+                    </td>
+                    <td class="workout-intrvl workout-intrvl-hdr">
+                        Last Used
+                    </td>
+                    <td class="workout-intrvl workout-intrvl-hdr hide_mobile">
+                        Retired
+                    </td>
+                    <td class="workout-intrvl workout-intrvl-hdr ">
+                        Gear Type
+                    </td>
+                </tr>
 
-<div style="overflow:auto; width:100%; margin-top:20px;">
+            {% for gear in gear_lst %}
+                <tr>
+                    <td class="workout-intrvl {% if gear.retired==True %} retired {% endif %}" style="text-align:left;">
+                        <a class="workout_edit_lnk"  href="{{ url_for('main.edit_gear', gear=gear.gear_id) }}">
+                            {{ gear.nm }}
+                        </a>
+                    </td>
+                    <td class="workout-intrvl {% if gear.retired==True %} retired {% endif %}" >
+                        {% if gear.usage_count != None %}
+                        {{ gear.usage_count }}
+                        {% else %}
+                        0
+                        {% endif %}
+                    </td>
+                    <td class="workout-intrvl {% if gear.retired==True %} retired {% endif %}" >
+                        {% if gear.tot_dist != None %}
+                        {{ gear.tot_dist }}
+                        {% else %}
+                        0
+                        {% endif %}
+                    </td>
+                    <td class="workout-intrvl {% if gear.retired==True %} retired {% endif %}" >
+                        {{ gear.tot_dur }}
+                    </td>
+                    <td class="workout-intrvl {% if gear.retired==True %} retired {% endif %}">
+                        {% if gear.latest_workout != None %}
+                        {{ gear.latest_workout.strftime('%Y-%m-%d') }}
+                        {% else %}
+                        &nbsp;
+                        {% endif %}
+                    </td>
+                    <td class="workout-intrvl {% if gear.retired==True %} retired {% endif %} hide_mobile"  >
+                        {% if gear.retired == True %}
+                        Y
+                        {% else %}
+                        N
+                        {% endif %}
+                    </td>
+                    <td class="workout-intrvl {% if gear.retired==True %} retired {% endif %}">
+                        {{ gear.type }}
+                    </td>
+                </tr>
+            {% endfor %}
 
-    <div class="dashboard_widget" style="width:900px; border:2px black solid;padding:10px;">
-        <form action="" method="post">
-            {#{{ form.hidden_tag() }} #}
-
-
-            <div class="form-row setting_hdr" style="overflow:auto;">
-                <div style="margin-left:auto;margin-right:auto;">
-                    Gear
-                </div>
-                <div style="margin-left:auto;margin-right:10px;">
-                    <a class="workout_edit_lnk"  href="{{ url_for('main.edit_gear') }}">
-                        Create
-                    </a>
-                </div>
-            </div>
-
-            <div class="form-group mt-3 mr-2" style="width:875px; height:500px;vertical-align:top;overflow-y:scroll;">
-
-                <table>
-                    <tr style="font-weight:bold">
-                        <td class="workout-intrvl workout-intrvl-hdr" >
-                            Name
-                        </td>
-                        <td class="workout-intrvl workout-intrvl-hdr" >
-                            Count
-                        </td>
-                        <td class="workout-intrvl workout-intrvl-hdr" >
-                            Distance
-                        </td>
-                        <td class="workout-intrvl workout-intrvl-hdr" >
-                            Duration
-                        </td>
-                        <td class="workout-intrvl workout-intrvl-hdr">
-                            Last Used
-                        </td>
-                        <td class="workout-intrvl workout-intrvl-hdr hide_mobile">
-                            Retired
-                        </td>
-                        <td class="workout-intrvl workout-intrvl-hdr ">
-                            Gear Type
-                        </td>
-                        {#<td class="workout-intrvl workout-intrvl-hdr ">
-                            Edit
-                        </td>#}
-                    </tr>
-
-                {% for gear in gear_lst %}
-                    <tr>
-                        <td class="workout-intrvl {% if gear.retired==True %} retired {% endif %}" style="text-align:left;">
-                            <a class="workout_edit_lnk"  href="{{ url_for('main.edit_gear', gear=gear.gear_id) }}">
-                                {{ gear.nm }}
-                            </a>
-                        </td>
-                        <td class="workout-intrvl {% if gear.retired==True %} retired {% endif %}" >
-                            {% if gear.usage_count != None %}
-                            {{ gear.usage_count }}
-                            {% else %}
-                            0
-                            {% endif %}
-                        </td>
-                        <td class="workout-intrvl {% if gear.retired==True %} retired {% endif %}" >
-                            {% if gear.tot_dist != None %}
-                            {{ gear.tot_dist }}
-                            {% else %}
-                            0
-                            {% endif %}
-                        </td>
-                        <td class="workout-intrvl {% if gear.retired==True %} retired {% endif %}" >
-                            {{ gear.tot_dur }}
-                        </td>
-                        <td class="workout-intrvl {% if gear.retired==True %} retired {% endif %}">
-                            {% if gear.latest_workout != None %}
-                            {{ gear.latest_workout.strftime('%Y-%m-%d') }}
-                            {% else %}
-                            &nbsp;
-                            {% endif %}
-                        </td>
-                        <td class="workout-intrvl {% if gear.retired==True %} retired {% endif %} hide_mobile"  >
-                            {% if gear.retired == True %}
-                            Y
-                            {% else %}
-                            N
-                            {% endif %}
-                        </td>
-                        <td class="workout-intrvl {% if gear.retired==True %} retired {% endif %}">
-                            {{ gear.type }}
-                        </td>
-                        {#<td class="workout-intrvl ">
-                            <a class="workout_edit_lnk"  href="{{ url_for('main.edit_gear', gear=gear.gear_id) }}">
-                                edit
-                            </a>
-                        </td>#}
-                    </tr>
-                {% endfor %}
-
-                </table>
-            </div>
-        </form>
+            </table>
+        </div>
     </div>
 
 </div>
