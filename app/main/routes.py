@@ -808,6 +808,10 @@ def edit_gear():
     gear_type_select_lst = list(gear_type_dict.items())
 
     gear_form = GearForm()
+    gear_form.type.choices = gear_type_select_lst
+
+    label_val = 'Update Gear'
+
 
     if request.method == 'GET':
         logger.info('edit_gear GET')
@@ -815,6 +819,14 @@ def edit_gear():
         logger.info('edit_gear POST Cancel button pressed')
         return redirect(url_for('main.settings'))
     elif request.method == 'POST':
+        if not gear_form.validate_on_submit():
+            if gear_id is not None:
+                gear_usage = Gear_usage.query.filter_by(gear_id=gear_id, user_id = usr_id).one()
+                gear_usage.tot_dur = gear_usage.tot_dur_str()
+            else:
+                gear_usage = None
+            return render_template('edit_gear.html', destPage = 'settings', gear_form=gear_form, gear_usage=gear_usage, label_val=label_val)
+
         logger.info('edit_gear POST Submit button pressed')
         if gear_id is None:
             gear = Gear()
@@ -837,10 +849,9 @@ def edit_gear():
 
     if gear_id is None:
         label_val = 'Create Gear'
-        gear_form.type.choices = gear_type_select_lst
+        # gear_form.type.choices = gear_type_select_lst
         return render_template('edit_gear.html', destPage = 'settings', gear_form=gear_form, gear_usage=None, label_val=label_val)
 
-    label_val = 'Update Gear'
     try:
         gear = Gear.query.filter_by(id=gear_id, user_id = usr_id).one()
     except:
@@ -854,7 +865,7 @@ def edit_gear():
         if value == gear.type:
             default_type = key
             break
-    gear_form.type.choices = gear_type_select_lst
+    # gear_form.type.choices = gear_type_select_lst
     gear_form.type.default = default_type
     gear_form.process()
     gear_form.id.data = gear.id
