@@ -804,14 +804,13 @@ def edit_gear():
     gear_id = request.args.get('gear')
     logger.info('edit_gear: ' + str(gear_id))
 
-    gear_type_dict = {'1': 'Shoe', '2':'Bike', '3':'Pool', '4':'Insole', '5':'Trainer'}
+    gear_type_dict = current_app.config['GEAR_TYPE_MAP']
     gear_type_select_lst = list(gear_type_dict.items())
 
     gear_form = GearForm()
     gear_form.type.choices = gear_type_select_lst
 
     label_val = 'Update Gear'
-
 
     if request.method == 'GET':
         logger.info('edit_gear GET')
@@ -849,7 +848,6 @@ def edit_gear():
 
     if gear_id is None:
         label_val = 'Create Gear'
-        # gear_form.type.choices = gear_type_select_lst
         return render_template('edit_gear.html', destPage = 'settings', gear_form=gear_form, gear_usage=None, label_val=label_val)
 
     try:
@@ -865,7 +863,6 @@ def edit_gear():
         if value == gear.type:
             default_type = key
             break
-    # gear_form.type.choices = gear_type_select_lst
     gear_form.type.default = default_type
     gear_form.process()
     gear_form.id.data = gear.id
