@@ -165,7 +165,10 @@
                             Name
                         </td>
                         <td class="workout-intrvl workout-intrvl-hdr" >
-                            Mileage
+                            Count
+                        </td>
+                        <td class="workout-intrvl workout-intrvl-hdr" >
+                            Distance
                         </td>
                         <td class="workout-intrvl workout-intrvl-hdr" >
                             Duration
@@ -179,15 +182,24 @@
                         <td class="workout-intrvl workout-intrvl-hdr ">
                             Gear Type
                         </td>
-                        <td class="workout-intrvl workout-intrvl-hdr ">
+                        {#<td class="workout-intrvl workout-intrvl-hdr ">
                             Edit
-                        </td>
+                        </td>#}
                     </tr>
 
                 {% for gear in gear_lst %}
                     <tr>
                         <td class="workout-intrvl {% if gear.retired==True %} retired {% endif %}" style="text-align:left;">
-                            {{ gear.nm }}
+                            <a class="workout_edit_lnk"  href="{{ url_for('main.edit_gear', gear=gear.gear_id) }}">
+                                {{ gear.nm }}
+                            </a>
+                        </td>
+                        <td class="workout-intrvl {% if gear.retired==True %} retired {% endif %}" >
+                            {% if gear.usage_count != None %}
+                            {{ gear.usage_count }}
+                            {% else %}
+                            0
+                            {% endif %}
                         </td>
                         <td class="workout-intrvl {% if gear.retired==True %} retired {% endif %}" >
                             {% if gear.tot_dist != None %}
@@ -216,11 +228,11 @@
                         <td class="workout-intrvl {% if gear.retired==True %} retired {% endif %}">
                             {{ gear.type }}
                         </td>
-                        <td class="workout-intrvl ">
+                        {#<td class="workout-intrvl ">
                             <a class="workout_edit_lnk"  href="{{ url_for('main.edit_gear', gear=gear.gear_id) }}">
                                 edit
                             </a>
-                        </td>
+                        </td>#}
                     </tr>
                 {% endfor %}
 
