@@ -120,14 +120,14 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{server}}/api/workout/1270",
+					"raw": "{{server}}/api/workout/1364",
 					"host": [
 						"{{server}}"
 					],
 					"path": [
 						"api",
 						"workout",
-						"1270"
+						"1364"
 					]
 				}
 			},
@@ -146,14 +146,14 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{server}}/api/workout_intervals/1311",
+					"raw": "{{server}}/api/workout_intervals/1349",
 					"host": [
 						"{{server}}"
 					],
 					"path": [
 						"api",
 						"workout_intervals",
-						"1311"
+						"1349"
 					]
 				}
 			},
@@ -329,6 +329,32 @@
 						"api",
 						"workouts",
 						"2021-07-04T08:29:00Z"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get_workout_since_dt",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{server}}/api/workouts/since/2022-01-20?sort=desc",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"workouts",
+						"since",
+						"2022-01-20"
+					],
+					"query": [
+						{
+							"key": "sort",
+							"value": "desc"
+						}
 					]
 				}
 			},
