@@ -137,6 +137,42 @@ def get_workouts_by_dt(dttm_str):
     else:
         return jsonify("No records found"), 400
 
+@bp.route('/workouts/since/<dt>', methods=['GET'])
+@token_auth.login_required
+def get_workouts_since_dt(dt):
+    '''
+    Get list of workouts since the passed in date
+    '''
+    logger.info('get_workouts_since_dt')
+    current_user_id = token_auth.current_user().id
+
+    workout_since_dt = dt_conv.get_date(dt)
+    logger.info("Get workouts for User: " + str(current_user_id) + " since date: " + str(workout_since_dt))
+
+    query = Workout.query.filter_by(user_id=current_user_id)
+    wrkt_lst = query.filter(Workout.wrkt_dttm>=workout_since_dt).order_by(Workout.wrkt_dttm.desc())
+    page = request.args.get('page', 1, type=int)
+    per_page = min(request.args.get('per_page', 10, type=int), 100)
+    data = Workout.to_collection_dict(wrkt_lst, page, per_page, 'api.get_workouts_since_dt', dt=dt)
+
+    wrkt_dict_lst = []
+    for wrkt in wrkt_lst:
+        wrkt_dict_lst.append(wrkt.to_dict())
+
+    if len(wrkt_dict_lst) >0:
+        return jsonify(data), 200
+    else:
+        return jsonify("No records found"), 400
+
+    # logger.info('get_workouts')
+    # current_user_id = token_auth.current_user().id
+    # user = User.query.get_or_404(current_user_id)
+    # page = request.args.get('page', 1, type=int)
+    # per_page = min(request.args.get('per_page', 10, type=int), 100)
+    # data = User.to_collection_dict(user.workouts, page, per_page, 'api.get_workouts')
+    # return jsonify(data)
+
+
 @bp.route('/workout', methods=['PUT'])
 @token_auth.login_required
 def update_workout():
