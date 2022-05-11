@@ -149,8 +149,10 @@ def get_workouts_since_dt(dt):
     '''
     logger.info('get_workouts_since_dt')
     current_user_id = token_auth.current_user().id
-
-    workout_since_dt = dt_conv.get_date(dt)
+    try:
+        workout_since_dt = dt_conv.get_date(dt)
+    except Exception as e:
+        return jsonify(str(e)), 400
     logger.info("Get workouts for User: " + str(current_user_id) + " since date: " + str(workout_since_dt))
     sort_order = request.args.get('sort', 'asc', type=str)
 
