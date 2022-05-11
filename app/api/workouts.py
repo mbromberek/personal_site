@@ -142,35 +142,30 @@ def get_workouts_by_dt(dttm_str):
 def get_workouts_since_dt(dt):
     '''
     Get list of workouts since the passed in date
+    Arguments:
+        page: page of data to return
+        per_page: number of records to return (default 10), max=100
+        sort: order to return workouts in by date. Possible values are asc or desc. (default asc)
     '''
     logger.info('get_workouts_since_dt')
     current_user_id = token_auth.current_user().id
 
     workout_since_dt = dt_conv.get_date(dt)
     logger.info("Get workouts for User: " + str(current_user_id) + " since date: " + str(workout_since_dt))
+    sort_order = request.args.get('sort', 'asc', type=str)
 
     query = Workout.query.filter_by(user_id=current_user_id)
-    wrkt_lst = query.filter(Workout.wrkt_dttm>=workout_since_dt).order_by(Workout.wrkt_dttm.desc())
+    query = query.filter(Workout.wrkt_dttm>=workout_since_dt)
+    if sort_order == 'desc':
+        query = query.order_by(Workout.wrkt_dttm.desc())
+    else:
+        query = query.order_by(Workout.wrkt_dttm.asc())
+        sort_order='asc'
     page = request.args.get('page', 1, type=int)
     per_page = min(request.args.get('per_page', 10, type=int), 100)
-    data = Workout.to_collection_dict(wrkt_lst, page, per_page, 'api.get_workouts_since_dt', dt=dt)
+    data = Workout.to_collection_dict(query, page, per_page, 'api.get_workouts_since_dt', dt=dt, sort=sort_order)
 
-    wrkt_dict_lst = []
-    for wrkt in wrkt_lst:
-        wrkt_dict_lst.append(wrkt.to_dict())
-
-    if len(wrkt_dict_lst) >0:
-        return jsonify(data), 200
-    else:
-        return jsonify("No records found"), 400
-
-    # logger.info('get_workouts')
-    # current_user_id = token_auth.current_user().id
-    # user = User.query.get_or_404(current_user_id)
-    # page = request.args.get('page', 1, type=int)
-    # per_page = min(request.args.get('per_page', 10, type=int), 100)
-    # data = User.to_collection_dict(user.workouts, page, per_page, 'api.get_workouts')
-    # return jsonify(data)
+    return jsonify(data), 200
 
 
 @bp.route('/workout', methods=['PUT'])
