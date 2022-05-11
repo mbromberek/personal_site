@@ -536,6 +536,17 @@ class Gear(db.Model):
         return gear_rec.id
 
     @staticmethod
+    def predict_gear(user_id, category, type):
+        if type in ['Running','Indoor Running']:
+            return Gear.get_next_shoe(user_id, category)
+        elif type in ['Cycling','Indoor Cycling']:
+            dft_cycl_gear = current_app.config['DFT_CYCL_GEAR']
+            return {'nm':dft_cycl_gear, 'id':Gear.get_gear_id(dft_cycl_gear)}
+        elif type in ['Swimming']:
+            dft_swim_gear = current_app.config['DFT_SWIM_GEAR']
+            return {'nm':dft_swim_gear, 'id':Gear.get_gear_id(dft_swim_gear)}
+
+    @staticmethod
     def get_next_shoe(user_id, category, dt=datetime.today()):
         '''
         Gets suggestion for shoe to wear on next run based on passed in category
@@ -550,7 +561,7 @@ class Gear(db.Model):
         shoe_age_warning = shoe_mile_warning
         nbr_brk_in_runs = shoe_min_brkin_ct
         gear_nm = ''
-        gear_id = ''
+        gear_id = None
         type='Shoe'
         gear_lst = []
         gear_ct = -1

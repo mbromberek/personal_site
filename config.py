@@ -33,3 +33,5 @@ class Config(object):
     USR_DFT_SHOE_MIN_BRKIN_CT = 5
 
     GEAR_TYPE_MAP = {'1': 'Shoe', '2':'Bike', '3':'Pool', '4':'Insole', '5':'Trainer'}
+    DFT_CYCL_GEAR = 'Cannondale'
+    DFT_SWIM_GEAR = 'Bamas pool'

@@ -27,7 +27,7 @@ import GenerateMapImage.gen_map_img as genMap
 
 # Custom Classes
 from app import db
-from app.models import Workout, User, Workout_interval
+from app.models import Workout, User, Workout_interval, Gear
 from app.api import bp
 from app.api.auth import token_auth
 from app.api.errors import bad_request
@@ -75,6 +75,11 @@ def create_workout():
         #     return bad_request('please use a different email address')
         workout = Workout()
         workout.from_dict(data, current_user_id)
+        if workout.gear_id is None:
+            logger.debug('no gear passed')
+            predicted_gear = Gear.predict_gear(current_user_id, workout.category, workout.type)
+            logger.debug('Gear predicted to be used: {}'.format(predicted_gear['nm']))
+            workout.gear_id = predicted_gear['id']
         db.session.add(workout)
         db.session.commit()
 
