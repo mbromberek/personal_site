@@ -142,6 +142,7 @@ def get_workouts_by_dt(dttm_str):
 def get_workouts_since_dt(dt):
     '''
     Get list of workouts since the passed in date
+    Date formats is %Y-%m-%d
     Arguments:
         page: page of data to return
         per_page: number of records to return (default 10), max=100
