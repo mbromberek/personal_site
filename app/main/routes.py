@@ -240,7 +240,11 @@ def edit_workout():
         gear_select_lst.append([g.gear_id, g.nm])
     form.gear_lst.choices = gear_select_lst
 
-    training_type_lst = ['400 800 1200 repeats','Tempo','Half mile hill repeats', '800m repeats', 'Half Marathon', 'Marathon', 'Knoxville Bridge', 'Firness+', 'Fartlek 1, 2, 3, 4 minutes']
+    # training_type_lst = ['400 800 1200 repeats','Tempo','Half mile hill repeats', '800m repeats', 'Half Marathon', 'Marathon', 'Knoxville Bridge', 'Firness+', 'Fartlek 1, 2, 3, 4 minutes']
+    training_type_lst = []
+    training_type_query = db.session.query(Workout.training_type).distinct().all()
+    for trn_typ_rec in training_type_query:
+        training_type_lst.append(trn_typ_rec[0])
 
     label_val = {}
     usr_id = current_user.id
