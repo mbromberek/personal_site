@@ -240,6 +240,8 @@ def edit_workout():
         gear_select_lst.append([g.gear_id, g.nm])
     form.gear_lst.choices = gear_select_lst
 
+    training_type_lst = ['400 800 1200 repeats','Tempo','Half mile hill repeats', '800m repeats', 'Half Marathon', 'Marathon', 'Knoxville Bridge', 'Firness+', 'Fartlek 1, 2, 3, 4 minutes']
+
     label_val = {}
     usr_id = current_user.id
 
@@ -420,7 +422,7 @@ def edit_workout():
         form.process() # Need to run after setting the default and needs to be before other fields are populated
 
 
-    return render_template('edit_workout.html', label_val=label_val, form=form, destPage = 'edit')
+    return render_template('edit_workout.html', label_val=label_val, form=form, destPage = 'edit', training_type_lst=training_type_lst)
 
 @bp.route('/calculate', methods=['GET'])
 def calculate():
