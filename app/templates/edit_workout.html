@@ -93,6 +93,42 @@
                         {% endfor %}
                     </div>
                 </div>
+
+                <div class="form-row">
+                    <div class="form-group mr-4">
+                        {{ form.location.label(class="workout_lbl") }}<br>
+                        {{ form.location(size=15) }}<br>
+                        {% for error in form.location.errors %}
+                        <span style="color: red;">
+                            [{{ error }}]
+                        </span>
+                        {% endfor %}
+                    </div>
+                    <div class="form-group mr-4">
+                        {{ form.category.label(class="workout_lbl") }}<br>
+                        {{ form.category(size=8) }}<br>
+                        {% for error in form.category.errors %}
+                        <span style="color: red;">
+                            [{{ error }}]
+                        </span>
+                        {% endfor %}
+                    </div>
+                    <div class="form-group mr-4">
+                        {{ form.training_type.label(class="workout_lbl") }}<br>
+                        {{ form.training_type(size=20, list='training_lst') }}<br>
+                        {% for error in form.training_type.errors %}
+                        <span style="color: red;">
+                            [{{ error }}]
+                        </span>
+                        {% endfor %}
+                    </div>
+                    <datalist id="training_lst">
+                    {% for train_typ in training_type_lst %}
+                        <option>{{ train_typ }}</option>
+                    {% endfor %}
+                    </datalist>
+                </div>
+
                 <div class="form-row">
                     <div class="form-group mr-4">
                         {{ form.ele_up.label(class="workout_lbl") }}<br>
@@ -132,40 +168,6 @@
                     </div>
                 </div>
 
-                <div class="form-row">
-                    <div class="form-group mr-4">
-                        {{ form.location.label(class="workout_lbl") }}<br>
-                        {{ form.location(size=15) }}<br>
-                        {% for error in form.location.errors %}
-                        <span style="color: red;">
-                            [{{ error }}]
-                        </span>
-                        {% endfor %}
-                    </div>
-                    <div class="form-group mr-4">
-                        {{ form.category.label(class="workout_lbl") }}<br>
-                        {{ form.category(size=8) }}<br>
-                        {% for error in form.category.errors %}
-                        <span style="color: red;">
-                            [{{ error }}]
-                        </span>
-                        {% endfor %}
-                    </div>
-                    <div class="form-group mr-4">
-                        {{ form.training_type.label(class="workout_lbl") }}<br>
-                        {{ form.training_type(size=20, list='training_lst') }}<br>
-                        {% for error in form.training_type.errors %}
-                        <span style="color: red;">
-                            [{{ error }}]
-                        </span>
-                        {% endfor %}
-                    </div>
-                    <datalist id="training_lst">
-                    {% for train_typ in training_type_lst %}
-                        <option>{{ train_typ }}</option>
-                    {% endfor %}
-                    </datalist>
-                </div>
                 <div class="form-row">
                     <div class="form-group">
                         {{ form.notes.label(class="workout_lbl") }}<br>
