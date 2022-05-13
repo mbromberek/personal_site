@@ -73,6 +73,9 @@ class Location(db.Model):
     def create_loc_if_not_exist(nm, user_id, lat, lon, radius=-1):
         if radius <0:
             radius = current_app.config['MIN_LOC_RADIUS']
+        if lat == '' or lat == None or lon == '' or lon == None:
+            logger.info('Could not create location since lat or lon is empty')
+            return -1
 
         loc = Location.query.filter_by(user_id=user_id, name=nm).first()
         if loc != None:
