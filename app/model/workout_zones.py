@@ -39,7 +39,7 @@ class Workout_zones(object):
         return ''
 
     def hr_zone(self, hr_val):
-        if hr_val == 0:
+        if hr_val == None or hr_val == 0:
             return ''
         for zone in self.hr_zone_lst:
             if hr_val <= zone.val:
