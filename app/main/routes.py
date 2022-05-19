@@ -236,11 +236,14 @@ def edit_workout():
 
     gear_lst = sorted(Gear_usage.query.filter_by(user_id=current_user.id), reverse=True)
     gear_select_lst = []
+    retired_gear = False
     for g in gear_lst:
+        if g.retired == True and retired_gear == False:
+            gear_select_lst.append([-1, '──────────'])
+            retired_gear = True
         gear_select_lst.append([g.gear_id, g.nm])
     form.gear_lst.choices = gear_select_lst
 
-    # training_type_lst = ['400 800 1200 repeats','Tempo','Half mile hill repeats', '800m repeats', 'Half Marathon', 'Marathon', 'Knoxville Bridge', 'Firness+', 'Fartlek 1, 2, 3, 4 minutes']
     training_type_lst = []
     training_type_query = db.session.query(Workout.training_type).distinct().all()
     for trn_typ_rec in training_type_query:
