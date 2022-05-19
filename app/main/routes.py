@@ -304,8 +304,10 @@ def edit_workout():
         wrkt.dist_mi = form.distance.data
         wrkt.notes = form.notes.data
 
-        # wrkt.gear = form.gear.data
-        wrkt.gear_id = form.gear_lst.data
+        if form.gear_lst.data == -1:
+            wrkt.gear_id = None
+        else:
+            wrkt.gear_id = form.gear_lst.data
         wrkt.clothes = form.clothes.data
         wrkt.ele_up = form.ele_up.data
         wrkt.ele_down = form.ele_down.data
@@ -367,7 +369,10 @@ def edit_workout():
         wrkt = Workout.query.filter_by(id=wrkt_id, \
             user_id=usr_id).first_or_404(id)
 
-        form.gear_lst.default = wrkt.gear_det.id
+        if wrkt.gear_det != None:
+            form.gear_lst.default = wrkt.gear_det.id
+        else:
+            form.gear_lst.default = -1
         form.process() # Need to run after setting the default and needs to be before other fields are populated
         # form.gear.data = wrkt.gear_det.nm
 
