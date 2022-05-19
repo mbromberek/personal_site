@@ -522,43 +522,46 @@ def workout():
     if len(mile_intrvl_lst) >1:
         intrvl_dict['mile_sum'] = wrkt_summary.get_mile_sum(mile_intrvl_lst)
     if workout.wrkt_dir != None:
-        wrkt_df = pd.read_pickle(os.path.join(current_app.config['WRKT_FILE_DIR'], str(workout.user_id), workout.wrkt_dir, 'workout.pickle'))
-        intrvl_dict['mile_sum'] = wrkt_summary.get_mile_sum_from_df(wrkt_df)
-        # TODO Eventually remove, but this also adds the Total section so need to split out
-        # if len(mile_intrvl_lst) >1:
-        #     intrvl_dict['mile_sum'].extend( wrkt_summary.get_mile_sum(mile_intrvl_lst))
+        try:
+            wrkt_df = pd.read_pickle(os.path.join(current_app.config['WRKT_FILE_DIR'], str(workout.user_id), workout.wrkt_dir, 'workout.pickle'))
+            intrvl_dict['mile_sum'] = wrkt_summary.get_mile_sum_from_df(wrkt_df)
+            # TODO Eventually remove, but this also adds the Total section so need to split out
+            # if len(mile_intrvl_lst) >1:
+            #     intrvl_dict['mile_sum'].extend( wrkt_summary.get_mile_sum(mile_intrvl_lst))
 
 
-        lat_max = wrkt_df['latitude'].max()
-        lat_min = wrkt_df['latitude'].min()
-        lon_max = wrkt_df['longitude'].max()
-        lon_min = wrkt_df['longitude'].min()
-        if not math.isnan(lat_max):
-            map_dict = {}
-            map_dict['key'] = current_app.config['MAPBOX_API_KEY']
-            map_dict['max_zoom'] = current_app.config['MAP_MAX_ZOOM']
+            lat_max = wrkt_df['latitude'].max()
+            lat_min = wrkt_df['latitude'].min()
+            lon_max = wrkt_df['longitude'].max()
+            lon_min = wrkt_df['longitude'].min()
+            if not math.isnan(lat_max):
+                map_dict = {}
+                map_dict['key'] = current_app.config['MAPBOX_API_KEY']
+                map_dict['max_zoom'] = current_app.config['MAP_MAX_ZOOM']
 
-            map_dict['center'] = genMap.calc_center(lats=[lat_max, lat_min], lons=[lon_max, lon_min])
-            map_dict['zoom'] = genMap.calc_zoom(lats=[lat_min, lat_max], lons=[lon_min, lon_max], img_dim={'height':1300, 'width':1600})
+                map_dict['center'] = genMap.calc_center(lats=[lat_max, lat_min], lons=[lon_max, lon_min])
+                map_dict['zoom'] = genMap.calc_zoom(lats=[lat_min, lat_max], lons=[lon_min, lon_max], img_dim={'height':1300, 'width':1600})
 
-            print('zoom: ' + str(map_dict['zoom']))
-            print('center:' + str(map_dict['center']))
+                print('zoom: ' + str(map_dict['zoom']))
+                print('center:' + str(map_dict['center']))
 
-            map_dict['lat_lon'] = wrkt_df[['latitude', 'longitude']].dropna().values.tolist()
+                map_dict['lat_lon'] = wrkt_df[['latitude', 'longitude']].dropna().values.tolist()
 
-            if len(lap_marker_lst) >0:
-                # Remove last record for lap since that is the end of the workout
-                map_dict['lap_markers'] = lap_marker_lst[:-1]
-            else:
-                # If get_splits_by_group is removed then need to set lap_markers to empty list
-                # map_dict['lap_markers'] = get_splits_by_group(wrkt_df, 'lap')
-                map_dict['lap_markers'] = []
-            if len(mile_marker_lst) >0:
-                map_dict['mile_markers'] = mile_marker_lst[:-1]
-            else:
-                # map_dict['mile_markers'] = get_splits_by_group(wrkt_df, 'mile')
-                map_dict['mile_markers'] = []
-            map_dict['pause_markers'] = []
+                if len(lap_marker_lst) >0:
+                    # Remove last record for lap since that is the end of the workout
+                    map_dict['lap_markers'] = lap_marker_lst[:-1]
+                else:
+                    # If get_splits_by_group is removed then need to set lap_markers to empty list
+                    # map_dict['lap_markers'] = get_splits_by_group(wrkt_df, 'lap')
+                    map_dict['lap_markers'] = []
+                if len(mile_marker_lst) >0:
+                    map_dict['mile_markers'] = mile_marker_lst[:-1]
+                else:
+                    # map_dict['mile_markers'] = get_splits_by_group(wrkt_df, 'mile')
+                    map_dict['mile_markers'] = []
+                map_dict['pause_markers'] = []
+        except:
+            logger.error('missing pickle file: {}'.format(workout.wrkt_dir))
 
     elif len(mile_intrvl_lst) >1:
         intrvl_dict['mile_sum'] = wrkt_summary.get_mile_sum(mile_intrvl_lst)
