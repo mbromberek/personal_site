@@ -24,7 +24,7 @@ class Config(object):
     DISTANCE_RANGE = 0.10 #percent
     MAX_CONTENT_LENGTH = 1024 * 1024
     UPLOAD_EXTENSIONS = ['.zip', '.fit']
-    MIN_LOC_RADIUS = 0.5 #miles
+    DFT_LOC_RADIUS = 0.5 #miles
     MAP_MAX_ZOOM = 20
 
     USR_DFT_DISPLAY_NAME = 'User'
