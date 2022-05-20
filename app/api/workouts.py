@@ -80,6 +80,8 @@ def create_workout():
             predicted_gear = Gear.predict_gear(current_user_id, workout.category, workout.type)
             logger.debug('Gear predicted to be used: {}'.format(predicted_gear['nm']))
             workout.gear_id = predicted_gear['id']
+        else:
+            logger.debug('Gear passed ({})'.format(workout.gear_id))
         db.session.add(workout)
         db.session.commit()
 
