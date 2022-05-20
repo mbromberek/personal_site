@@ -61,6 +61,7 @@
                 <div>
                     {{ loc_form.submit(class='mr-3') }}
                     {{ loc_form.cancel(class='mr-3') }}
+                    {{ loc_form.delete(class='mr-3', onclick="return confirm('Are you sure you want to delete the location?')") }}
                 </div>
 
             </form>

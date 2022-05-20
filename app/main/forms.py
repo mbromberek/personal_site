@@ -228,9 +228,10 @@ class LocForm(FlaskForm):
     name = StringField('Name', validators=[InputRequired()])
     lat = StringField('Latitude')
     lon = StringField('Longitude')
-    radius = DecimalField('Radius', places=2, rounding=decimal.ROUND_UP)
+    radius = DecimalField('Radius', validators=[InputRequired()], places=2, rounding=decimal.ROUND_UP)
 
     submit = SubmitField('Save')
     cancel = SubmitField('Cancel')
+    delete = SubmitField('Delete')
     def __repr__(self):
         return '<Location {}: {}>'.format(self.name.data, self.radius.data)

@@ -912,14 +912,22 @@ def edit_location():
         return redirect(url_for('main.settings'))
 
     loc_form = LocForm()
+    label_val = 'Edit Location {}'.format(location.name)
 
     if request.method == 'GET':
         logger.info('edit_location GET')
     elif request.method == 'POST' and loc_form.cancel.data:
         logger.info('edit_location POST Cancel button pressed')
         return redirect(url_for('main.settings'))
+    elif request.method == 'POST' and loc_form.delete.data:
+        logger.info('edit_location POST Delete button pressed')
+        db.session.delete(location)
+        db.session.commit()
+        return redirect(url_for('main.settings'))
     elif request.method == 'POST':
         if not loc_form.validate_on_submit():
+            loc_form.lat.data = location.lat
+            loc_form.lon.data = location.lon
             return render_template('edit_location.html', destPage = 'settings', loc_form=loc_form, label_val=label_val)
         logger.info('edit_location POST Submit button pressed')
         location.name = loc_form.name.data
@@ -929,7 +937,6 @@ def edit_location():
         flash('Location has been updated')
         return redirect(url_for('main.settings'))
 
-    label_val = 'Edit Location {}'.format(location.name)
     loc_form.id.data = location.id
     loc_form.name.data = location.name
     loc_form.lat.data = location.lat
