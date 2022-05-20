@@ -164,4 +164,63 @@
 
 </div>
 
+<div style="overflow:auto; width:100%; margin-top:20px;">
+
+    <div class="dashboard_widget" style="width:900px; border:2px black solid;padding:10px;">
+        <div class="form-row setting_hdr" style="overflow:auto;">
+            <div style="margin-left:auto;margin-right:auto;padding-right:200px;">
+                Locations
+            </div>
+            {#
+            <div style="margin-left:auto;margin-right:10px;">
+                <a class="workout_edit_lnk"  href="{{ url_for('main.edit_gear') }}">
+                    Create
+                </a>
+            </div>
+            #}
+        </div>
+
+        <div class="form-group mt-3 mr-2" style="width:875px; height:500px;vertical-align:top;overflow-y:scroll;">
+
+            <table>
+                <tr style="font-weight:bold">
+                    <td class="workout-intrvl workout-intrvl-hdr" style="width:350px;" >
+                        Name
+                    </td>
+                    <td class="workout-intrvl workout-intrvl-hdr" >
+                        Latitude
+                    </td>
+                    <td class="workout-intrvl workout-intrvl-hdr" >
+                        Longitude
+                    </td>
+                    <td class="workout-intrvl workout-intrvl-hdr" >
+                        Radius (miles)
+                    </td>
+                </tr>
+
+            {% for loc in loc_lst %}
+                <tr>
+                    <td class="workout-intrvl " style="text-align:left;">
+                        {#<a class="workout_edit_lnk"  href="{{ url_for('main.edit_gear', gear=loc.id) }}">#}
+                            {{ loc.name }}
+                        {#</a>#}
+                    </td>
+                    <td class="workout-intrvl " >
+                        {{ '%0.12f'|format(loc.lat|float) }}
+                    </td>
+                    <td class="workout-intrvl " >
+                        {{ '%0.12f'|format(loc.lon|float) }}
+                    </td>
+                    <td class="workout-intrvl " >
+                        {{ '%0.2f'|format(loc.radius|float) }}
+                    </td>
+                </tr>
+            {% endfor %}
+
+            </table>
+        </div>
+    </div>
+
+</div>
+
 {% endblock %}
