@@ -201,9 +201,9 @@
             {% for loc in loc_lst %}
                 <tr>
                     <td class="workout-intrvl " style="text-align:left;">
-                        {#<a class="workout_edit_lnk"  href="{{ url_for('main.edit_gear', gear=loc.id) }}">#}
+                        <a class="workout_edit_lnk"  href="{{ url_for('main.edit_location', location=loc.id) }}">
                             {{ loc.name }}
-                        {#</a>#}
+                        </a>
                     </td>
                     <td class="workout-intrvl " >
                         {{ '%0.12f'|format(loc.lat|float) }}

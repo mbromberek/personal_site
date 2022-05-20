@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+<div style="overflow:auto; width:100%; margin-top:20px;">
+
+    <h1>{{ label_val }}</h1>
+    <div class="row mb-5 dashboard_widget" style="margin-left:0px;">
+        <div class="col-md-12">
+            <form action="" method="post" novalidate>
+                {{ loc_form.hidden_tag() }}
+                <div class="form-row">
+                    <div class="form-group mr-4">
+                        {{ loc_form.name.label(class="workout_lbl") }}
+                        <br>
+                        {{ loc_form.name(size=36) }}<br>
+                        {% for error in loc_form.name.errors %}
+                        <span style="color: red;">
+                            [{{ error }}]
+                        </span>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group mr-3">
+                        {{ loc_form.lat.label(class="workout_lbl") }}
+                        <br>
+                        {{ loc_form.lat(size=15, disabled=True) }}<br>
+                        {% for error in loc_form.lat.errors %}
+                        <span style="color: red;">
+                            [{{ error }}]
+                        </span>
+                        {% endfor %}
+                    </div>
+
+                    <div class="form-group">
+                        {{ loc_form.lon.label(class="workout_lbl") }}
+                        <br>
+                        {{ loc_form.lon(size=15, disabled=True) }}<br>
+                        {% for error in loc_form.lon.errors %}
+                        <span style="color: red;">
+                            [{{ error }}]
+                        </span>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group mr-4">
+                        {{ loc_form.radius.label(class="workout_lbl") }}
+                        <br>
+                        {{ loc_form.radius(size=5) }}<br>
+                        {% for error in loc_form.radius.errors %}
+                        <span style="color: red;">
+                            [{{ error }}]
+                        </span>
+                        {% endfor %}
+                    </div>
+
+                </div>
+
+                <div>
+                    {{ loc_form.submit(class='mr-3') }}
+                    {{ loc_form.cancel(class='mr-3') }}
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+</div>
+{% endblock %}

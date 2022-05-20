@@ -222,3 +222,15 @@ class GearForm(FlaskForm):
     cancel = SubmitField('Cancel')
     def __repr__(self):
         return '<Gear {}: {}>'.format(self.type.data, self.nm.data)
+
+class LocForm(FlaskForm):
+    id = HiddenField()
+    name = StringField('Name', validators=[InputRequired()])
+    lat = StringField('Latitude')
+    lon = StringField('Longitude')
+    radius = DecimalField('Radius', places=2, rounding=decimal.ROUND_UP)
+
+    submit = SubmitField('Save')
+    cancel = SubmitField('Cancel')
+    def __repr__(self):
+        return '<Location {}: {}>'.format(self.name.data, self.radius.data)

@@ -23,7 +23,7 @@ import GenerateMapImage.gen_map_img as genMap
 
 # Custom classes
 from app.main import bp
-from app.main.forms import EmptyForm, WorkoutCreateBtnForm, WorkoutForm, WorkoutFilterForm, WorkoutIntervalForm, WorkoutExportForm, UserSettingsForm, GearForm
+from app.main.forms import EmptyForm, WorkoutCreateBtnForm, WorkoutForm, WorkoutFilterForm, WorkoutIntervalForm, WorkoutExportForm, UserSettingsForm, GearForm, LocForm
 from app.models import User, Workout, Workout_interval, Gear, Gear_usage, Wrkt_sum, Wkly_mileage, Yrly_mileage, User_setting
 from app import db
 from app.utils import tm_conv, const, nbrConv, dt_conv
@@ -782,38 +782,37 @@ def settings():
     gear_type_select_lst = list(gear_type_dict.items())
     default_type = 1
 
-    query = Gear.query.filter_by(user_id=usr_id)
-    gear_lst = sorted(query, reverse=True)
-    gear_form_lst = []
-    for gear in gear_lst:
-        gear_form = GearForm()
-        for key, value in gear_type_dict.items():
-            if value == gear.type:
-                default_type = key
-                break
-        gear_form.type.choices = gear_type_select_lst
-        gear_form.type.default = default_type
-        gear_form.process()
-        gear_form.id.data = gear.id
-        gear_form.nm.data = gear.nm
-        gear_form.prchse_dt.data = gear.prchse_dt
-        gear_form.price.data = gear.price
-        gear_form.retired.data = gear.retired
-        gear_form.confirmed.data = gear.confirmed
-        gear_form.company.data = gear.company
-        # logger.info(gear_form)
-        gear_form_lst.append(gear_form)
+    # query = Gear.query.filter_by(user_id=usr_id)
+    # gear_lst = sorted(query, reverse=True)
+    # gear_form_lst = []
+    # for gear in gear_lst:
+    #     gear_form = GearForm()
+    #     for key, value in gear_type_dict.items():
+    #         if value == gear.type:
+    #             default_type = key
+    #             break
+    #     gear_form.type.choices = gear_type_select_lst
+    #     gear_form.type.default = default_type
+    #     gear_form.process()
+    #     gear_form.id.data = gear.id
+    #     gear_form.nm.data = gear.nm
+    #     gear_form.prchse_dt.data = gear.prchse_dt
+    #     gear_form.price.data = gear.price
+    #     gear_form.retired.data = gear.retired
+    #     gear_form.confirmed.data = gear.confirmed
+    #     gear_form.company.data = gear.company
+    #     # logger.info(gear_form)
+    #     gear_form_lst.append(gear_form)
 
     gear_usage_lst = sorted(Gear_usage.query.filter_by(user_id=usr_id), reverse=True)
     gear_lst = []
     for gear in gear_usage_lst:
         # gear.retire_flag = 'Y' if gear.retired == True else 'N'
         gear.tot_dur = gear.tot_dur_str()
-        logger.info(gear)
+        # logger.info(gear)
         gear_lst.append(gear)
 
     query_loc_lst = sorted(Location.query.filter_by(user_id=usr_id))
-    logger.debug(str(query_loc_lst))
     for loc in query_loc_lst:
         if loc.radius == None or loc.radius <=0:
             loc.radius = current_app.config['DFT_LOC_RADIUS']
@@ -898,3 +897,43 @@ def edit_gear():
     logger.info(gear_form)
 
     return render_template('edit_gear.html', destPage = 'settings', gear_form=gear_form, gear_usage=gear_usage, label_val=label_val)
+
+@bp.route('/edit_location', methods=['GET','POST'])
+@login_required
+def edit_location():
+    usr_id = current_user.id
+    loc_id = request.args.get('location')
+    logger.info('edit_location: ' + str(loc_id))
+
+    try:
+        location = Location.query.filter_by(id=loc_id, user_id = usr_id).one()
+    except:
+        flash("Location not found")
+        return redirect(url_for('main.settings'))
+
+    loc_form = LocForm()
+
+    if request.method == 'GET':
+        logger.info('edit_location GET')
+    elif request.method == 'POST' and loc_form.cancel.data:
+        logger.info('edit_location POST Cancel button pressed')
+        return redirect(url_for('main.settings'))
+    elif request.method == 'POST':
+        if not loc_form.validate_on_submit():
+            return render_template('edit_location.html', destPage = 'settings', loc_form=loc_form, label_val=label_val)
+        logger.info('edit_location POST Submit button pressed')
+        location.name = loc_form.name.data
+        location.radius = loc_form.radius.data
+        location.updt_ts = datetime.utcnow()
+        db.session.commit()
+        flash('Location has been updated')
+        return redirect(url_for('main.settings'))
+
+    label_val = 'Edit Location {}'.format(location.name)
+    loc_form.id.data = location.id
+    loc_form.name.data = location.name
+    loc_form.lat.data = location.lat
+    loc_form.lon.data = location.lon
+    loc_form.radius.data = location.radius
+
+    return render_template('edit_location.html', destPage = 'settings', loc_form=loc_form, label_val=label_val)
