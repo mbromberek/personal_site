@@ -365,7 +365,7 @@ class Workout(PaginatedAPIMixin, db.Model):
             if field in data:
                 setattr(self, field, float(data[field]))
 
-        if 'gear' in data:
+        if 'gear' in data and data['gear'] != None and data['gear'] != '' :
             self.gear_id = Gear.get_gear_id(data['gear'])
             if self.gear_id is None:
                 # Create gear
