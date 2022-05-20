@@ -812,7 +812,13 @@ def settings():
         logger.info(gear)
         gear_lst.append(gear)
 
-    return render_template('settings.html', user_setting_form=setting_form, destPage = 'settings', gear_form_lst=gear_form_lst, gear_lst=gear_usage_lst)
+    query_loc_lst = sorted(Location.query.filter_by(user_id=usr_id))
+    logger.debug(str(query_loc_lst))
+    for loc in query_loc_lst:
+        if loc.radius == None or loc.radius <=0:
+            loc.radius = current_app.config['DFT_LOC_RADIUS']
+
+    return render_template('settings.html', user_setting_form=setting_form, destPage = 'settings', gear_lst=gear_usage_lst, loc_lst=query_loc_lst)
 
 @bp.route('/edit_gear', methods=['GET','POST'])
 @login_required
