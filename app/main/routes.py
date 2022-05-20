@@ -314,7 +314,7 @@ def edit_workout():
         wrkt.hr = form.hr.data
         wrkt.cal_burn = form.cal_burn.data
         wrkt.category = form.category.data
-        if wrkt.location != form.location.data and wrkt.lat_strt != '':
+        if wrkt.location != form.location.data and wrkt.lat_strt != '' and form.location.data != None and form.location.data != '':
             Location.create_loc_if_not_exist(form.location.data, usr_id, wrkt.lat_strt, wrkt.long_strt)
         wrkt.location = form.location.data
         wrkt.training_type = form.training_type.data
