@@ -26,6 +26,7 @@ class Config(object):
     UPLOAD_EXTENSIONS = ['.zip', '.fit']
     DFT_LOC_RADIUS = 0.5 #miles
     MAP_MAX_ZOOM = 20
+    LOCATION_MAP_ZOOM = 14
 
     USR_DFT_DISPLAY_NAME = 'User'
     USR_DFT_SHOE_MILE_WARNING = 300

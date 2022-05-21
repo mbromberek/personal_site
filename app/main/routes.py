@@ -947,6 +947,7 @@ def edit_location():
     map_dict = {}
     map_dict['key'] = current_app.config['MAPBOX_API_KEY']
     map_dict['max_zoom'] = current_app.config['MAP_MAX_ZOOM']
+    map_dict['zoom'] = current_app.config['LOCATION_MAP_ZOOM']
 
     loc_form.id.data = location.id
     loc_form.name.data = location.name

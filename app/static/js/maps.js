@@ -225,7 +225,7 @@ function toggleMapMarker(chkId){
 }
 
 function locationMap(map_json, lat, lon, radius){
-    zoom = 13;
+    zoom = map_json.zoom;
     apiKey = map_json.key;
     center_lon = lon;
     center_lat = lat;
