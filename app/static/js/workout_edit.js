@@ -70,9 +70,10 @@ async function pasteNotes(){
             }
         }
 
-
+        window.alert('Data Pasted');
     } catch (err) {
       console.error('Failed to read clipboard contents: ', err);
+      window.alert('Failed to read clipboard contents');
     }
 
 }
