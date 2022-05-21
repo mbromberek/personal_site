@@ -919,7 +919,7 @@ def edit_location():
         return redirect(url_for('main.settings'))
 
     loc_form = LocForm()
-    label_val = 'Edit Location {}'.format(location.name)
+    label_val = 'Edit Location: {}'.format(location.name)
 
     if request.method == 'GET':
         logger.info('edit_location GET')
