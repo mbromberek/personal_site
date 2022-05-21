@@ -244,13 +244,20 @@ def edit_workout():
         gear_select_lst.append([g.gear_id, g.nm])
     form.gear_lst.choices = gear_select_lst
 
-    training_type_lst = []
-    training_type_query = db.session.query(Workout.training_type).distinct().all()
-    for trn_typ_rec in training_type_query:
-        training_type_lst.append(trn_typ_rec[0])
-
     label_val = {}
     usr_id = current_user.id
+
+    training_type_lst = []
+    training_type_query = db.session.query(Workout.training_type).distinct().filter_by(user_id=usr_id).all()
+    for trn_typ_rec in training_type_query:
+        if trn_typ_rec[0] != None:
+            training_type_lst.append(trn_typ_rec[0])
+
+    loc_lst = []
+    location_query = db.session.query(Location.name).distinct().filter_by(user_id=usr_id).all()
+    for loc_rec in location_query:
+        loc_lst.append(loc_rec[0])
+    logger.debug(str(loc_lst))
 
     logger.debug("Request Method: " + request.method)
     # logger.debug("Request Args workout: " + request.args.get('workout'))
@@ -434,7 +441,7 @@ def edit_workout():
         form.process() # Need to run after setting the default and needs to be before other fields are populated
 
 
-    return render_template('edit_workout.html', label_val=label_val, form=form, destPage = 'edit', training_type_lst=training_type_lst)
+    return render_template('edit_workout.html', label_val=label_val, form=form, destPage = 'edit', training_type_lst=training_type_lst, location_lst=loc_lst)
 
 @bp.route('/calculate', methods=['GET'])
 def calculate():

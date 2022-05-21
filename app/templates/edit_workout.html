@@ -97,13 +97,18 @@
                 <div class="form-row">
                     <div class="form-group mr-4">
                         {{ form.location.label(class="workout_lbl") }}<br>
-                        {{ form.location(size=15) }}<br>
+                        {{ form.location(size=15, list='loc_lst') }}<br>
                         {% for error in form.location.errors %}
                         <span style="color: red;">
                             [{{ error }}]
                         </span>
                         {% endfor %}
                     </div>
+                    <datalist id="loc_lst">
+                    {% for loc in location_lst %}
+                        <option>{{ loc }}</option>
+                    {% endfor %}
+                    </datalist>
                     <div class="form-group mr-4">
                         {{ form.category.label(class="workout_lbl") }}<br>
                         {{ form.category(size=8) }}<br>
