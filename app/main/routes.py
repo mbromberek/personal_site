@@ -944,10 +944,14 @@ def edit_location():
         flash('Location has been updated')
         return redirect(url_for('main.settings'))
 
+    map_dict = {}
+    map_dict['key'] = current_app.config['MAPBOX_API_KEY']
+    map_dict['max_zoom'] = current_app.config['MAP_MAX_ZOOM']
+
     loc_form.id.data = location.id
     loc_form.name.data = location.name
     loc_form.lat.data = location.lat
     loc_form.lon.data = location.lon
     loc_form.radius.data = location.radius
 
-    return render_template('edit_location.html', destPage = 'settings', loc_form=loc_form, label_val=label_val)
+    return render_template('edit_location.html', destPage = 'settings', loc_form=loc_form, label_val=label_val, map_dict=map_dict)

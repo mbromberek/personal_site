@@ -26,6 +26,14 @@ var blueCircle = {
     opacity: 1,
     fillOpacity: 0.8
 }
+var lightblueCircle = {
+    radius: 6,
+    fillColor: 'lightblue',
+    color: '#000',
+    weight: 1,
+    opacity: 1,
+    fillOpacity: 0.8
+}
 var whiteCircle = {
     radius: 6,
     fillColor: 'white',
@@ -214,4 +222,34 @@ function toggleMapMarker(chkId){
         }
 
     }
+}
+
+function locationMap(map_json, lat, lon, radius){
+    zoom = 13;
+    apiKey = map_json.key;
+    center_lon = lon;
+    center_lat = lat;
+    // lat_lon = map_json.lat_lon;
+    var run_map_center = { pos:[center_lat, center_lon], zoom:zoom };
+    map = L.map('map', {scrollWheelZoom: false} ).setView(run_map_center['pos'], run_map_center['zoom']);
+
+    L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+      attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+      maxZoom: map_json.max_zoom,
+      id: 'mapbox/streets-v11',
+      tileSize: 512,
+      zoomOffset: -1,
+      accessToken: apiKey
+    }).addTo(map);
+
+
+    radiusCircle = lightblueCircle;
+    radiusCircle['radius'] = radius*1609.3;
+    radiusCircle['fillOpacity'] = 0.5;
+    radiusCircle['color'] = 'blue';
+    var radius_mark = {position:[lat, lon], icon:radiusCircle};
+    L.circle(radius_mark['position'], radius_mark['icon']).addTo(map);
+
+    var location_mark = {position:[lat, lon], icon:startCircle};
+    L.circleMarker(location_mark['position'], location_mark['icon']).addTo(map);
 }

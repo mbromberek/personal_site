@@ -69,5 +69,15 @@
         </div>
     </div>
 
+    {% if loc_form.lat != None and loc_form.lon != None %}
+    <div class="dashboard_widget">
+        <div id="map" style="height:400px;margin-top:25px;"></div>
+        <script>
+            JavaScript:locationMap({{ map_dict|tojson|safe }}, {{ loc_form.lat.data }}, {{ loc_form.lon.data }}, {{ loc_form.radius.data|default(0, true) }});
+        </script>
+
+    </div>
+    {% endif %}
+
 </div>
 {% endblock %}
