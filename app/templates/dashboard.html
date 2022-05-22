@@ -3,43 +3,46 @@
 
 {% block app_content %}
 
-<div style="overflow:auto; width:100%; margin-top:20px;">
+<div class="dashboard_page">
+    <div style="overflow:auto; width:100%; margin-top:20px;">
 
-{% if dash_lst_dict['wrkt_sum_lst'] %}
-{% include 'dashboard_widgets/_running_mileage_widget.html' %}
-{% endif %}
+    {% if dash_lst_dict['wrkt_sum_lst'] %}
+    {% include 'dashboard_widgets/_running_mileage_widget.html' %}
+    {% endif %}
 
-{% if dash_lst_dict['gear_lst'] %}
-{% include 'dashboard_widgets/_gear_usage_widget.html' %}
-{% endif %}
-
-
-</div>
-
-<div style="overflow:auto; width:100%; ">
-{# Fitness Goals for 2022 #}
-{% if dash_lst_dict['yrly_goals_lst'] %}
-{% include 'dashboard_widgets/_yearly_goal_widget.html' %}
-{% endif %}
-</div>
-
-<div style="overflow:auto; width:100%; ">
-
-{% if dash_lst_dict['wkly_mileage_lst'] %}
-{% include 'dashboard_widgets/_running_weekly_mileage_widget.html' %}
-{% endif %}
-
-{% if dash_lst_dict['yrly_mileage_lst'] %}
-{% include 'dashboard_widgets/_yearly_mileage_widget.html' %}
-{% endif %}
-
-</div>
+    {% if dash_lst_dict['gear_lst'] %}
+    {% include 'dashboard_widgets/_gear_usage_widget.html' %}
+    {% endif %}
 
 
-<div style="overflow:auto; width:100%; ">
-{% if dash_lst_dict['nxt_gear'] %}
-{% include 'dashboard_widgets/_next_gear_widget.html' %}
-{% endif %}
+    </div>
+
+    <div style="overflow:auto; width:100%; ">
+    {# Fitness Goals for 2022 #}
+    {% if dash_lst_dict['yrly_goals_lst'] %}
+    {% include 'dashboard_widgets/_yearly_goal_widget.html' %}
+    {% endif %}
+    </div>
+
+    <div style="overflow:auto; width:100%; ">
+
+    {% if dash_lst_dict['wkly_mileage_lst'] %}
+    {% include 'dashboard_widgets/_running_weekly_mileage_widget.html' %}
+    {% endif %}
+
+    {% if dash_lst_dict['yrly_mileage_lst'] %}
+    {% include 'dashboard_widgets/_yearly_mileage_widget.html' %}
+    {% endif %}
+
+    </div>
+
+
+    <div style="overflow:auto; width:100%; ">
+    {% if dash_lst_dict['nxt_gear'] %}
+    {% include 'dashboard_widgets/_next_gear_widget.html' %}
+    {% endif %}
+    </div>
+
 </div>
 
 {% endblock %}
