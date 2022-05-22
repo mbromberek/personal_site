@@ -1,6 +1,5 @@
 body {
     padding-bottom: 50px;
-
 }
 
 div.home_section_1{
@@ -16,12 +15,15 @@ div.home_section_2{
 }
 div.home_section{
     overflow:auto;
-    /* width:900px; */
+    /* width:950px; */
     width:100%;
     padding-top: 10px;
     padding-bottom: 40px;
-    padding-left: 20px;
-    padding-right: 10px;
+    padding-left: 40px;
+    padding-right: 20px;
+}
+div.home_section_content{
+    width:900px;
 }
 h2.home{
     text-align:center;
@@ -124,6 +126,14 @@ div.cat_img_right {
 /* For tablets and horizontal mobile: */
 @media  screen and (max-width:900px),
         screen and (max-width:600px) and (orientation:landscape) {
+    div.home_section{
+        width:100%;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+    div.home_section_content{
+        width:100%;
+    }
     .about_body {
         width: 370px;
         padding: 0;
@@ -157,6 +167,15 @@ div.cat_img_right {
     .menu, .about_body, .about_img, .cat_body {
         width: 100%;
     }
+    div.home_section{
+        width:100%;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+    div.home_section_content{
+        width:100%;
+    }
+
     .skills{
         width: 100%;
     }

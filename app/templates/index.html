@@ -2,6 +2,7 @@
 
 {% block app_content %}
     <div class="home_section home_section_1" style="overflow:auto">
+        <div class="home_section_content">
         <h2 class="home">About Me</h2>
         <div class="about_body">
             <p>
@@ -17,9 +18,11 @@
         <div class="about_img" >
             <img class="about" src="static/images/Whiskey_Daddle_Marathon_Race_small.jpeg" alt="Mike Running" />
         </div>
+        </div>
     </div>
 
     <div class="home_section home_section_2 " style="overflow:auto;padding-bottom:20px;">
+        <div class="home_section_content">
         <h2 class="home">My cat Pixel</h2>
         <div class="cat_img" >
             <img class="cat_img" src="static/images/pixel/Pixel_cat_on_bathroom_door_box.jpg"  alt="Cat Pixel on door" />
@@ -31,6 +34,7 @@
             <p>
                 The vet said Pixel's hips were out of alignment from an accident but had healed so he is not in pain but will not be able to jump as much. I thought that meant I would not have to worry about him jumping on tables and things, that lasted a week.
             </p>
+        </div>
         </div>
     </div>
     <div class="home_section home_section_2 " style="overflow:auto;padding-top:0px;">
@@ -45,6 +49,7 @@
 
 
     <div class="home_section home_section_1 " >
+        <div class="home_section_content">
         <h2 class="home">Programming Skills</h2>
         <div class="skills" >
         <div class="skills_item">
@@ -63,6 +68,7 @@
         </div>
         <div class="skills_item">
             <img src="static/images/html-icon-512x512.png" width="85" height="85" alt="HTML" title="HTML">
+        </div>
         </div>
         </div>
     </div>
@@ -92,6 +98,7 @@
     </div> -->
 
     <div class="home_section home_section_2 ">
+        <div class="home_section_content">
         <h2 class="home">Fitness</h2>
         {# Running Mileage #}
         {% if dash_lst_dict['wrkt_sum_lst'] %}
@@ -108,7 +115,7 @@
         {% if dash_lst_dict['yrly_goals_lst'] %}
         {% include 'dashboard_widgets/_yearly_goal_widget.html' %}
         {% endif %}
-
+        </div>
 
     </div>
 

@@ -126,7 +126,7 @@ Base HTML code for each web page
 {% endblock %}
 
 {% block content %}
-    <div class="container">
+    <div class="container" style="display:inline;">
         {# Show flash messages #}
         {% with messages = get_flashed_messages() %}
         {% if messages %}
