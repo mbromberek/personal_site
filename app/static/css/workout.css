@@ -188,6 +188,11 @@ input.workout_filter_btn_container:hover{
     margin-right:25%;
 }
 
+.default_page{
+    padding-left:30px;
+    padding-right:30px;
+    width:100%;
+}
 .workout_page_detail{
     padding-left:30px;
     padding-right:30px;
@@ -460,6 +465,11 @@ td.dashboard_row_dtl{
         top:5px;
         width:50px;
     }
+    .default_page{
+        padding-left:15px;
+        padding-right:15px;
+        width:100%;
+    }
     .workout_page_detail{
         padding-left:15px;
         padding-right:15px;
@@ -611,6 +621,11 @@ td.dashboard_row_dtl{
         margin-bottom:4px;
     }
 
+    .default_page{
+        padding-left:15px;
+        padding-right:15px;
+        width:100%;
+    }
     .workout_page_detail{
         padding-left:15px;
         padding-right:15px;

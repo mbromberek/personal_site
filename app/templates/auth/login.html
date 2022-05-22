@@ -2,20 +2,22 @@
 {% from 'bootstrap/form.html' import render_form, render_field %}
 
 {% block app_content %}
-    <h1 style="margin-top:20px;">{{ 'Sign In' }}</h1>
-    <div class="row">
-        <div class="col-md-4">
-            {{ render_form(form) }}
+    <div class="default_page">
+        <h1 style="margin-top:20px;">{{ 'Sign In' }}</h1>
+        <div class="row">
+            <div class="col-md-4">
+                {{ render_form(form) }}
+            </div>
         </div>
-    </div>
-    <br>
-    {#
-    <p>{{ 'New User?' }} <a href="{{ url_for('auth.register') }}">{{ 'Click to Register!' }}</a></p>
+        <br>
+        {#
+        <p>{{ 'New User?' }} <a href="{{ url_for('auth.register') }}">{{ 'Click to Register!' }}</a></p>
+        #}
+        {#
+        <p>
+            {{ 'Forgot Your Password?' }}
+            <a href="{{ url_for('auth.reset_password_request') }}">{{ 'Click to Reset It' }}</a>
+        </p>
     #}
-    {#
-    <p>
-        {{ 'Forgot Your Password?' }}
-        <a href="{{ url_for('auth.reset_password_request') }}">{{ 'Click to Reset It' }}</a>
-    </p>
-#}
+    </div>
 {% endblock %}
