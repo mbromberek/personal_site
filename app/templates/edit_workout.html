@@ -1,462 +1,464 @@
 {% extends "base.html" %}
 
 {% block app_content %}
-    <h1>{{ label_val.title }}</h1>
-    <div class="row mb-5">
-        <div class="col-md-12">
-            <form action="" method="post">
-                {{ form.hidden_tag() }}
-                {{ form.wrkt_id }}
-                <div class="form-row">
-                    <div class="form-group mr-4">
-                        {{ form.type.label(class="workout_lbl") }}
-                        <br>
-                        {{ form.type(size=25) }}<br>
-                        {% for error in form.type.errors %}
-                        <span style="color: red;">
-                            [{{ error }}]
-                        </span>
-                        {% endfor %}
-                    </div>
-                    <div class="form-group">
-                        {% if label_val.title == 'Create Workout' and form.wrkt_dt != None %}
-                            {{ form.wrkt_dt.label(class="workout_lbl") }} and {{ form.wrkt_tm.label(class="workout_lbl") }}
+    <div class="workout_page_detail">
+        <h1>{{ label_val.title }}</h1>
+        <div class="row mb-5">
+            <div class="col-md-12">
+                <form action="" method="post">
+                    {{ form.hidden_tag() }}
+                    {{ form.wrkt_id }}
+                    <div class="form-row">
+                        <div class="form-group mr-4">
+                            {{ form.type.label(class="workout_lbl") }}
                             <br>
-                            {{ form.wrkt_dt(size=15) }}
-                            {{ form.wrkt_tm(size=15) }}
-                            <br>
-                            {% for error in form.wrkt_dt.errors %}
+                            {{ form.type(size=25) }}<br>
+                            {% for error in form.type.errors %}
                             <span style="color: red;">
                                 [{{ error }}]
                             </span>
                             {% endfor %}
-                            {% for error in form.wrkt_tm.errors %}
-                            <span style="color: red;">
-                                [{{ error }}]
-                            </span>
-                            {% endfor %}
-                        {% else %}
-                            <strong>Date and Time</strong><br>
-                            {{ label_val.wrkt_dttm }}
-                        {% endif %}
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group mr-4">
-                    <label class="workout_lbl">Duration:</label>
-                    <br>
-                    {{ form.duration_h(size=2) }}
-                    {{ form.duration_h.label }}
-                    {{ form.duration_m(size=2) }}
-                    {{ form.duration_m.label }}
-                    {{ form.duration_s(size=2) }}
-                    {{ form.duration_s.label }}
-                    <br>
-                    </div>
-                    <div class="form-group">
-                        {{ form.distance.label(class="workout_lbl") }} <br>
-                        {{ form.distance(size=15) }}<br>
-                        {% for error in form.distance.errors %}
-                        <span style="color: red;">
-                            [{{ error }}]
-                        </span>
-                        {% endfor %}
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group mr-4">
-                        {{ form.clothes.label(class="workout_lbl") }}
-                        <br>
-                        {{ form.clothes(size=30) }}<br>
-                        {% for error in form.clothes.errors %}
-                        <span style="color: red;">
-                            [{{ error }}]
-                        </span>
-                        {% endfor %}
-                    </div>
-                    {#<div class="form-group">
-                        {{ form.gear.label(class="workout_lbl") }}<br>
-                        {{ form.gear(size=20) }}<br>
-                        {% for error in form.gear.errors %}
-                        <span style="color: red;">
-                            [{{ error }}]
-                        </span>
-                        {% endfor %}
-                    </div>#}
-                    <div class="form-group">
-                        {{ form.gear_lst.label(class="workout_lbl") }}<br>
-                        {{ form.gear_lst() }}<br>
-                        {% for error in form.gear_lst.errors %}
-                        <span style="color: red;">
-                            [{{ error }}]
-                        </span>
-                        {% endfor %}
-                    </div>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group mr-4">
-                        {{ form.location.label(class="workout_lbl") }}<br>
-                        {{ form.location(size=15, list='loc_lst') }}<br>
-                        {% for error in form.location.errors %}
-                        <span style="color: red;">
-                            [{{ error }}]
-                        </span>
-                        {% endfor %}
-                    </div>
-                    <datalist id="loc_lst">
-                    {% for loc in location_lst %}
-                        <option>{{ loc }}</option>
-                    {% endfor %}
-                    </datalist>
-                    <div class="form-group mr-4">
-                        {{ form.category.label(class="workout_lbl") }}<br>
-                        {{ form.category(size=8) }}<br>
-                        {% for error in form.category.errors %}
-                        <span style="color: red;">
-                            [{{ error }}]
-                        </span>
-                        {% endfor %}
-                    </div>
-                    <div class="form-group mr-4">
-                        {{ form.training_type.label(class="workout_lbl") }}<br>
-                        {{ form.training_type(size=20, list='training_lst') }}<br>
-                        {% for error in form.training_type.errors %}
-                        <span style="color: red;">
-                            [{{ error }}]
-                        </span>
-                        {% endfor %}
-                    </div>
-                    <datalist id="training_lst">
-                    {% for train_typ in training_type_lst %}
-                        <option>{{ train_typ }}</option>
-                    {% endfor %}
-                    </datalist>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group mr-4">
-                        {{ form.ele_up.label(class="workout_lbl") }}<br>
-                        {{ form.ele_up(size=5) }}<br>
-                        {% for error in form.ele_up.errors %}
-                        <span style="color: red;">
-                            [{{ error }}]
-                        </span>
-                        {% endfor %}
-                    </div>
-                    <div class="form-group mr-4">
-                        {{ form.ele_down.label(class="workout_lbl") }}<br>
-                        {{ form.ele_down(size=5) }}<br>
-                        {% for error in form.ele_down.errors %}
-                        <span style="color: red;">
-                            [{{ error }}]
-                        </span>
-                        {% endfor %}
-                    </div>
-                    <div class="form-group mr-4">
-                        {{ form.hr.label(class="workout_lbl") }}<br>
-                        {{ form.hr(class="txt_field_size_3") }}<br>
-                        {% for error in form.hr.errors %}
-                        <span style="color: red;">
-                            [{{ error }}]
-                        </span>
-                        {% endfor %}
-                    </div>
-                    <div class="form-group">
-                        {{ form.cal_burn.label(class="workout_lbl") }}<br>
-                        {{ form.cal_burn(class="txt_field_size_5") }}<br>
-                        {% for error in form.cal_burn.errors %}
-                        <span style="color: red;">
-                            [{{ error }}]
-                        </span>
-                        {% endfor %}
-                    </div>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        {{ form.notes.label(class="workout_lbl") }}<br>
-                        {{ form.notes(class="wrkt_section_notes") }}<br>
-                        {% for error in form.notes.errors %}
-                        <span style="color: red;">
-                            [{{ error }}]
-                        </span>
-                        {% endfor %}
-                    </div>
-                </div>
-
-                <div class="form-row mb-4 wrkt_section">
-                    <fieldset class="wrkt_det">
-                        <legend class="wrkt_det">
-                            Weather Start
-                        </legend>
-                        <div class="form-row">
-                            <div class="form-group ml-4">
-                                {{ form.temp_strt.label(class="workout_lbl") }}
+                        </div>
+                        <div class="form-group">
+                            {% if label_val.title == 'Create Workout' and form.wrkt_dt != None %}
+                                {{ form.wrkt_dt.label(class="workout_lbl") }} and {{ form.wrkt_tm.label(class="workout_lbl") }}
                                 <br>
-                                {{ form.temp_strt(size=5) }}<br>
-                                {% for error in form.temp_strt.errors %}
+                                {{ form.wrkt_dt(size=15) }}
+                                {{ form.wrkt_tm(size=15) }}
+                                <br>
+                                {% for error in form.wrkt_dt.errors %}
                                 <span style="color: red;">
                                     [{{ error }}]
                                 </span>
                                 {% endfor %}
-                            </div>
-                            <div class="form-group ml-4">
-                                {{ form.temp_feels_like_strt.label(class="workout_lbl") }}<br>
-                                {{ form.temp_feels_like_strt(size=5) }}<br>
-                                {% for error in form.temp_feels_like_strt.errors %}
+                                {% for error in form.wrkt_tm.errors %}
                                 <span style="color: red;">
                                     [{{ error }}]
                                 </span>
                                 {% endfor %}
-                            </div>
-                            <div class="form-group ml-4">
-                                {{ form.wethr_cond_strt.label(class="workout_lbl") }}<br>
-                                {{ form.wethr_cond_strt(size=15) }}<br>
-                                {% for error in form.wethr_cond_strt.errors %}
-                                <span style="color: red;">
-                                    [{{ error }}]
-                                </span>
-                                {% endfor %}
-                            </div>
+                            {% else %}
+                                <strong>Date and Time</strong><br>
+                                {{ label_val.wrkt_dttm }}
+                            {% endif %}
                         </div>
-                        <div class="form-row">
-                            <div class="form-group ml-4">
-                                {{ form.hmdty_strt.label(class="workout_lbl") }}<br>
-                                {{ form.hmdty_strt(size=5) }}<br>
-                                {% for error in form.hmdty_strt.errors %}
-                                <span style="color: red;">
-                                    [{{ error }}]
-                                </span>
-                                {% endfor %}
-                            </div>
-                            <div class="form-group ml-4">
-                                {{ form.dew_point_strt.label(class="workout_lbl") }}<br>
-                                {{ form.dew_point_strt(size=5) }}<br>
-                                {% for error in form.dew_point_strt.errors %}
-                                <span style="color: red;">
-                                    [{{ error }}]
-                                </span>
-                                {% endfor %}
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group mr-4 ml-4">
-                                {{ form.wind_speed_strt.label(class="workout_lbl") }}<br>
-                                {{ form.wind_speed_strt(size=5) }}<br>
-                                {% for error in form.wind_speed_strt.errors %}
-                                <span style="color: red;">
-                                    [{{ error }}]
-                                </span>
-                                {% endfor %}
-                            </div>
-                            <div class="form-group mr-4">
-                                {{ form.wind_gust_strt.label(class="workout_lbl") }}<br>
-                                {{ form.wind_gust_strt(size=5) }}<br>
-                                {% for error in form.wind_gust_strt.errors %}
-                                <span style="color: red;">
-                                    [{{ error }}]
-                                </span>
-                                {% endfor %}
-                            </div>
-                        </div>
-                    </fieldset>
-                </div>
-
-                <div class="form-row mb-4 wrkt_section">
-                    <fieldset class="wrkt_det">
-                      <legend class="wrkt_det">
-                          Weather End
-                      </legend>
-                      <div class="form-row">
-                          <div class="form-group ml-4">
-                              {{ form.temp_end.label(class="workout_lbl") }}<br>
-                              {{ form.temp_end(size=5) }}<br>
-                              {% for error in form.temp_end.errors %}
-                              <span style="color: red;">
-                                  [{{ error }}]
-                              </span>
-                              {% endfor %}
-                          </div>
-                          <div class="form-group ml-4">
-                              {{ form.temp_feels_like_end.label(class="workout_lbl") }}<br>
-                              {{ form.temp_feels_like_end(size=5) }}<br>
-                              {% for error in form.temp_feels_like_end.errors %}
-                              <span style="color: red;">
-                                  [{{ error }}]
-                              </span>
-                              {% endfor %}
-                          </div>
-                          <div class="form-group ml-4">
-                              {{ form.wethr_cond_end.label(class="workout_lbl") }}<br>
-                              {{ form.wethr_cond_end(size=15) }}<br>
-                              {% for error in form.wethr_cond_end.errors %}
-                              <span style="color: red;">
-                                  [{{ error }}]
-                              </span>
-                              {% endfor %}
-                          </div>
-                      </div>
-                      <div class="form-row">
-                          <div class="form-group mr-4 ml-4">
-                              {{ form.hmdty_end.label(class="workout_lbl") }}<br>
-                              {{ form.hmdty_end(size=5) }}<br>
-                              {% for error in form.hmdty_end.errors %}
-                              <span style="color: red;">
-                                  [{{ error }}]
-                              </span>
-                              {% endfor %}
-                          </div>
-                          <div class="form-group mr-4">
-                              {{ form.dew_point_end.label(class="workout_lbl") }}<br>
-                              {{ form.dew_point_end(size=5) }}<br>
-                              {% for error in form.dew_point_end.errors %}
-                              <span style="color: red;">
-                                  [{{ error }}]
-                              </span>
-                              {% endfor %}
-                          </div>
-                      </div>
-                      <div class="form-row">
-                          <div class="form-group mr-4 ml-4">
-                              {{ form.wind_speed_end.label(class="workout_lbl") }}<br>
-                              {{ form.wind_speed_end(size=5) }}<br>
-                              {% for error in form.wind_speed_end.errors %}
-                              <span style="color: red;">
-                                  [{{ error }}]
-                              </span>
-                              {% endfor %}
-                          </div>
-                          <div class="form-group mr-4">
-                              {{ form.wind_gust_end.label(class="workout_lbl") }}<br>
-                              {{ form.wind_gust_end(size=5) }}<br>
-                              {% for error in form.wind_gust_end.errors %}
-                              <span style="color: red;">
-                                  [{{ error }}]
-                              </span>
-                              {% endfor %}
-                          </div>
-                      </div>
-                    </fieldset>
-                </div>
-
-                <div class="form-row mb-4 wrkt_section">
-                    <fieldset class="wrkt_det">
-                        <legend class="wrkt_det">
-                            Warm Up
-                        </legend>
-                        <div class="form-row ml-4">
-                            <div class="form-group  mr-4">
-                            <label class="workout_lbl">Duration:</label>
-                            <br>
-                            {{ form.warm_up_dur_h(size=2) }}
-                            {{ form.warm_up_dur_h.label }}
-                            {{ form.warm_up_dur_m(size=2) }}
-                            {{ form.warm_up_dur_m.label }}
-                            {{ form.warm_up_dur_s(size=2) }}
-                            {{ form.warm_up_dur_s.label }}
-                            <br>
-                            </div>
-                            <div class="form-group mr-4">
-                                {{ form.warm_up_tot_dist.label(class="workout_lbl") }}<br>
-                                {{ form.warm_up_tot_dist(size=10) }}<br>
-                                {% for error in form.warm_up_tot_dist.errors %}
-                                <span style="color: red;">
-                                    [{{ error }}]
-                                </span>
-                                {% endfor %}
-                            </div>
-                        </div>
-                    </<fieldset>
-                </div>
-
-                <div class="form-row mb-4 wrkt_section">
-                    <fieldset class="wrkt_det">
-                        <legend class="wrkt_det">
-                            Intervals
-                        </legend>
-                        <div class="form-row ml-4">
-                            <div class="form-group  mr-4">
-                            <label class="workout_lbl">Duration:</label>
-                            <br>
-                            {{ form.intrvl_dur_h(size=2) }}
-                            {{ form.intrvl_dur_h.label }}
-                            {{ form.intrvl_dur_m(size=2) }}
-                            {{ form.intrvl_dur_m.label }}
-                            {{ form.intrvl_dur_s(size=2) }}
-                            {{ form.intrvl_dur_s.label }}
-                            <br>
-                            </div>
-                            <div class="form-group  mr-4">
-                                {{ form.intrvl_tot_dist.label(class="workout_lbl") }}<br>
-                                {{ form.intrvl_tot_dist(size=10) }}<br>
-                                {% for error in form.intrvl_tot_dist.errors %}
-                                <span style="color: red;">
-                                    [{{ error }}]
-                                </span>
-                                {% endfor %}
-                            </div>
-                        </div>
-                    </<fieldset>
-                </div>
-
-                <div class="form-row mb-4 wrkt_section">
-                    <fieldset class="wrkt_det">
-                        <legend class="wrkt_det">
-                            Cool Down
-                        </legend>
-                        <div class="form-row ml-4">
-                            <div class="form-group mr-4">
-                            <label class="workout_lbl">Duration:</label>
-                            <br>
-                            {{ form.cool_down_dur_h(size=2) }}
-                            {{ form.cool_down_dur_h.label }}
-                            {{ form.cool_down_dur_m(size=2) }}
-                            {{ form.cool_down_dur_m.label }}
-                            {{ form.cool_down_dur_s(size=2) }}
-                            {{ form.cool_down_dur_s.label }}
-                            <br>
-                            </div>
-                            <div class="form-group mr-4">
-                                {{ form.cool_down_tot_dist.label(class="workout_lbl") }}<br>
-                                {{ form.cool_down_tot_dist(size=10) }}<br>
-                                {% for error in form.cool_down_tot_dist.errors %}
-                                <span style="color: red;">
-                                    [{{ error }}]
-                                </span>
-                                {% endfor %}
-                            </div>
-                        </div>
-                    </<fieldset>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group mr-4">
-                        {{ form.show_pause }} {{ form.show_pause.label }}
                     </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group mr-4">
-                        {{ form.show_map_laps }} {{ form.show_map_laps.label }}
+                    <div class="form-row">
+                        <div class="form-group mr-4">
+                        <label class="workout_lbl">Duration:</label>
+                        <br>
+                        {{ form.duration_h(size=2) }}
+                        {{ form.duration_h.label }}
+                        {{ form.duration_m(size=2) }}
+                        {{ form.duration_m.label }}
+                        {{ form.duration_s(size=2) }}
+                        {{ form.duration_s.label }}
+                        <br>
+                        </div>
+                        <div class="form-group">
+                            {{ form.distance.label(class="workout_lbl") }} <br>
+                            {{ form.distance(size=15) }}<br>
+                            {% for error in form.distance.errors %}
+                            <span style="color: red;">
+                                [{{ error }}]
+                            </span>
+                            {% endfor %}
+                        </div>
                     </div>
-                    <div class="form-group mr-4">
-                        {{ form.show_map_miles }} {{ form.show_map_miles.label }}
+                    <div class="form-row">
+                        <div class="form-group mr-4">
+                            {{ form.clothes.label(class="workout_lbl") }}
+                            <br>
+                            {{ form.clothes(size=30) }}<br>
+                            {% for error in form.clothes.errors %}
+                            <span style="color: red;">
+                                [{{ error }}]
+                            </span>
+                            {% endfor %}
+                        </div>
+                        {#<div class="form-group">
+                            {{ form.gear.label(class="workout_lbl") }}<br>
+                            {{ form.gear(size=20) }}<br>
+                            {% for error in form.gear.errors %}
+                            <span style="color: red;">
+                                [{{ error }}]
+                            </span>
+                            {% endfor %}
+                        </div>#}
+                        <div class="form-group">
+                            {{ form.gear_lst.label(class="workout_lbl") }}<br>
+                            {{ form.gear_lst() }}<br>
+                            {% for error in form.gear_lst.errors %}
+                            <span style="color: red;">
+                                [{{ error }}]
+                            </span>
+                            {% endfor %}
+                        </div>
                     </div>
-                </div>
 
-                <div>
-                    {{ form.submit(class='mr-3') }}
-                    {{ form.cancel(class='mr-3') }}
-                    {{ form.edit_interval(class='mr-3') }}
-                    {{ form.delete_btn(class='mr-3', onclick="return confirm('Are you sure?')") }}
-                </div>
+                    <div class="form-row">
+                        <div class="form-group mr-4">
+                            {{ form.location.label(class="workout_lbl") }}<br>
+                            {{ form.location(size=15, list='loc_lst') }}<br>
+                            {% for error in form.location.errors %}
+                            <span style="color: red;">
+                                [{{ error }}]
+                            </span>
+                            {% endfor %}
+                        </div>
+                        <datalist id="loc_lst">
+                        {% for loc in location_lst %}
+                            <option>{{ loc }}</option>
+                        {% endfor %}
+                        </datalist>
+                        <div class="form-group mr-4">
+                            {{ form.category.label(class="workout_lbl") }}<br>
+                            {{ form.category(size=8) }}<br>
+                            {% for error in form.category.errors %}
+                            <span style="color: red;">
+                                [{{ error }}]
+                            </span>
+                            {% endfor %}
+                        </div>
+                        <div class="form-group mr-4">
+                            {{ form.training_type.label(class="workout_lbl") }}<br>
+                            {{ form.training_type(size=20, list='training_lst') }}<br>
+                            {% for error in form.training_type.errors %}
+                            <span style="color: red;">
+                                [{{ error }}]
+                            </span>
+                            {% endfor %}
+                        </div>
+                        <datalist id="training_lst">
+                        {% for train_typ in training_type_lst %}
+                            <option>{{ train_typ }}</option>
+                        {% endfor %}
+                        </datalist>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group mr-4">
+                            {{ form.ele_up.label(class="workout_lbl") }}<br>
+                            {{ form.ele_up(size=5) }}<br>
+                            {% for error in form.ele_up.errors %}
+                            <span style="color: red;">
+                                [{{ error }}]
+                            </span>
+                            {% endfor %}
+                        </div>
+                        <div class="form-group mr-4">
+                            {{ form.ele_down.label(class="workout_lbl") }}<br>
+                            {{ form.ele_down(size=5) }}<br>
+                            {% for error in form.ele_down.errors %}
+                            <span style="color: red;">
+                                [{{ error }}]
+                            </span>
+                            {% endfor %}
+                        </div>
+                        <div class="form-group mr-4">
+                            {{ form.hr.label(class="workout_lbl") }}<br>
+                            {{ form.hr(class="txt_field_size_3") }}<br>
+                            {% for error in form.hr.errors %}
+                            <span style="color: red;">
+                                [{{ error }}]
+                            </span>
+                            {% endfor %}
+                        </div>
+                        <div class="form-group">
+                            {{ form.cal_burn.label(class="workout_lbl") }}<br>
+                            {{ form.cal_burn(class="txt_field_size_5") }}<br>
+                            {% for error in form.cal_burn.errors %}
+                            <span style="color: red;">
+                                [{{ error }}]
+                            </span>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            {{ form.notes.label(class="workout_lbl") }}<br>
+                            {{ form.notes(class="wrkt_section_notes") }}<br>
+                            {% for error in form.notes.errors %}
+                            <span style="color: red;">
+                                [{{ error }}]
+                            </span>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <div class="form-row mb-4 wrkt_section">
+                        <fieldset class="wrkt_det">
+                            <legend class="wrkt_det">
+                                Weather Start
+                            </legend>
+                            <div class="form-row">
+                                <div class="form-group ml-4">
+                                    {{ form.temp_strt.label(class="workout_lbl") }}
+                                    <br>
+                                    {{ form.temp_strt(size=5) }}<br>
+                                    {% for error in form.temp_strt.errors %}
+                                    <span style="color: red;">
+                                        [{{ error }}]
+                                    </span>
+                                    {% endfor %}
+                                </div>
+                                <div class="form-group ml-4">
+                                    {{ form.temp_feels_like_strt.label(class="workout_lbl") }}<br>
+                                    {{ form.temp_feels_like_strt(size=5) }}<br>
+                                    {% for error in form.temp_feels_like_strt.errors %}
+                                    <span style="color: red;">
+                                        [{{ error }}]
+                                    </span>
+                                    {% endfor %}
+                                </div>
+                                <div class="form-group ml-4">
+                                    {{ form.wethr_cond_strt.label(class="workout_lbl") }}<br>
+                                    {{ form.wethr_cond_strt(size=15) }}<br>
+                                    {% for error in form.wethr_cond_strt.errors %}
+                                    <span style="color: red;">
+                                        [{{ error }}]
+                                    </span>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group ml-4">
+                                    {{ form.hmdty_strt.label(class="workout_lbl") }}<br>
+                                    {{ form.hmdty_strt(size=5) }}<br>
+                                    {% for error in form.hmdty_strt.errors %}
+                                    <span style="color: red;">
+                                        [{{ error }}]
+                                    </span>
+                                    {% endfor %}
+                                </div>
+                                <div class="form-group ml-4">
+                                    {{ form.dew_point_strt.label(class="workout_lbl") }}<br>
+                                    {{ form.dew_point_strt(size=5) }}<br>
+                                    {% for error in form.dew_point_strt.errors %}
+                                    <span style="color: red;">
+                                        [{{ error }}]
+                                    </span>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group mr-4 ml-4">
+                                    {{ form.wind_speed_strt.label(class="workout_lbl") }}<br>
+                                    {{ form.wind_speed_strt(size=5) }}<br>
+                                    {% for error in form.wind_speed_strt.errors %}
+                                    <span style="color: red;">
+                                        [{{ error }}]
+                                    </span>
+                                    {% endfor %}
+                                </div>
+                                <div class="form-group mr-4">
+                                    {{ form.wind_gust_strt.label(class="workout_lbl") }}<br>
+                                    {{ form.wind_gust_strt(size=5) }}<br>
+                                    {% for error in form.wind_gust_strt.errors %}
+                                    <span style="color: red;">
+                                        [{{ error }}]
+                                    </span>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+
+                    <div class="form-row mb-4 wrkt_section">
+                        <fieldset class="wrkt_det">
+                          <legend class="wrkt_det">
+                              Weather End
+                          </legend>
+                          <div class="form-row">
+                              <div class="form-group ml-4">
+                                  {{ form.temp_end.label(class="workout_lbl") }}<br>
+                                  {{ form.temp_end(size=5) }}<br>
+                                  {% for error in form.temp_end.errors %}
+                                  <span style="color: red;">
+                                      [{{ error }}]
+                                  </span>
+                                  {% endfor %}
+                              </div>
+                              <div class="form-group ml-4">
+                                  {{ form.temp_feels_like_end.label(class="workout_lbl") }}<br>
+                                  {{ form.temp_feels_like_end(size=5) }}<br>
+                                  {% for error in form.temp_feels_like_end.errors %}
+                                  <span style="color: red;">
+                                      [{{ error }}]
+                                  </span>
+                                  {% endfor %}
+                              </div>
+                              <div class="form-group ml-4">
+                                  {{ form.wethr_cond_end.label(class="workout_lbl") }}<br>
+                                  {{ form.wethr_cond_end(size=15) }}<br>
+                                  {% for error in form.wethr_cond_end.errors %}
+                                  <span style="color: red;">
+                                      [{{ error }}]
+                                  </span>
+                                  {% endfor %}
+                              </div>
+                          </div>
+                          <div class="form-row">
+                              <div class="form-group mr-4 ml-4">
+                                  {{ form.hmdty_end.label(class="workout_lbl") }}<br>
+                                  {{ form.hmdty_end(size=5) }}<br>
+                                  {% for error in form.hmdty_end.errors %}
+                                  <span style="color: red;">
+                                      [{{ error }}]
+                                  </span>
+                                  {% endfor %}
+                              </div>
+                              <div class="form-group mr-4">
+                                  {{ form.dew_point_end.label(class="workout_lbl") }}<br>
+                                  {{ form.dew_point_end(size=5) }}<br>
+                                  {% for error in form.dew_point_end.errors %}
+                                  <span style="color: red;">
+                                      [{{ error }}]
+                                  </span>
+                                  {% endfor %}
+                              </div>
+                          </div>
+                          <div class="form-row">
+                              <div class="form-group mr-4 ml-4">
+                                  {{ form.wind_speed_end.label(class="workout_lbl") }}<br>
+                                  {{ form.wind_speed_end(size=5) }}<br>
+                                  {% for error in form.wind_speed_end.errors %}
+                                  <span style="color: red;">
+                                      [{{ error }}]
+                                  </span>
+                                  {% endfor %}
+                              </div>
+                              <div class="form-group mr-4">
+                                  {{ form.wind_gust_end.label(class="workout_lbl") }}<br>
+                                  {{ form.wind_gust_end(size=5) }}<br>
+                                  {% for error in form.wind_gust_end.errors %}
+                                  <span style="color: red;">
+                                      [{{ error }}]
+                                  </span>
+                                  {% endfor %}
+                              </div>
+                          </div>
+                        </fieldset>
+                    </div>
+
+                    <div class="form-row mb-4 wrkt_section">
+                        <fieldset class="wrkt_det">
+                            <legend class="wrkt_det">
+                                Warm Up
+                            </legend>
+                            <div class="form-row ml-4">
+                                <div class="form-group  mr-4">
+                                <label class="workout_lbl">Duration:</label>
+                                <br>
+                                {{ form.warm_up_dur_h(size=2) }}
+                                {{ form.warm_up_dur_h.label }}
+                                {{ form.warm_up_dur_m(size=2) }}
+                                {{ form.warm_up_dur_m.label }}
+                                {{ form.warm_up_dur_s(size=2) }}
+                                {{ form.warm_up_dur_s.label }}
+                                <br>
+                                </div>
+                                <div class="form-group mr-4">
+                                    {{ form.warm_up_tot_dist.label(class="workout_lbl") }}<br>
+                                    {{ form.warm_up_tot_dist(size=10) }}<br>
+                                    {% for error in form.warm_up_tot_dist.errors %}
+                                    <span style="color: red;">
+                                        [{{ error }}]
+                                    </span>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </<fieldset>
+                    </div>
+
+                    <div class="form-row mb-4 wrkt_section">
+                        <fieldset class="wrkt_det">
+                            <legend class="wrkt_det">
+                                Intervals
+                            </legend>
+                            <div class="form-row ml-4">
+                                <div class="form-group  mr-4">
+                                <label class="workout_lbl">Duration:</label>
+                                <br>
+                                {{ form.intrvl_dur_h(size=2) }}
+                                {{ form.intrvl_dur_h.label }}
+                                {{ form.intrvl_dur_m(size=2) }}
+                                {{ form.intrvl_dur_m.label }}
+                                {{ form.intrvl_dur_s(size=2) }}
+                                {{ form.intrvl_dur_s.label }}
+                                <br>
+                                </div>
+                                <div class="form-group  mr-4">
+                                    {{ form.intrvl_tot_dist.label(class="workout_lbl") }}<br>
+                                    {{ form.intrvl_tot_dist(size=10) }}<br>
+                                    {% for error in form.intrvl_tot_dist.errors %}
+                                    <span style="color: red;">
+                                        [{{ error }}]
+                                    </span>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </<fieldset>
+                    </div>
+
+                    <div class="form-row mb-4 wrkt_section">
+                        <fieldset class="wrkt_det">
+                            <legend class="wrkt_det">
+                                Cool Down
+                            </legend>
+                            <div class="form-row ml-4">
+                                <div class="form-group mr-4">
+                                <label class="workout_lbl">Duration:</label>
+                                <br>
+                                {{ form.cool_down_dur_h(size=2) }}
+                                {{ form.cool_down_dur_h.label }}
+                                {{ form.cool_down_dur_m(size=2) }}
+                                {{ form.cool_down_dur_m.label }}
+                                {{ form.cool_down_dur_s(size=2) }}
+                                {{ form.cool_down_dur_s.label }}
+                                <br>
+                                </div>
+                                <div class="form-group mr-4">
+                                    {{ form.cool_down_tot_dist.label(class="workout_lbl") }}<br>
+                                    {{ form.cool_down_tot_dist(size=10) }}<br>
+                                    {% for error in form.cool_down_tot_dist.errors %}
+                                    <span style="color: red;">
+                                        [{{ error }}]
+                                    </span>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </<fieldset>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group mr-4">
+                            {{ form.show_pause }} {{ form.show_pause.label }}
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group mr-4">
+                            {{ form.show_map_laps }} {{ form.show_map_laps.label }}
+                        </div>
+                        <div class="form-group mr-4">
+                            {{ form.show_map_miles }} {{ form.show_map_miles.label }}
+                        </div>
+                    </div>
+
+                    <div>
+                        {{ form.submit(class='mr-3') }}
+                        {{ form.cancel(class='mr-3') }}
+                        {{ form.edit_interval(class='mr-3') }}
+                        {{ form.delete_btn(class='mr-3', onclick="return confirm('Are you sure?')") }}
+                    </div>
 
 
-            </form>
-            <form action="JavaScript:pasteNotes()" role="form" class="form" style="margin-top:15px;">
-                <input type="submit" value="Paste Notes">
-            </form>
+                </form>
+                <form action="JavaScript:pasteNotes()" role="form" class="form" style="margin-top:15px;">
+                    <input type="submit" value="Paste Notes">
+                </form>
 
+            </div>
         </div>
     </div>
 
