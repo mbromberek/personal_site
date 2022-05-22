@@ -63,7 +63,7 @@
             </div>
         </div>
 
-        <div class="collapse {% if using_search %}show{% endif %}" id="extra_filter_fields" >
+        <div class="collapse wrkts_extra_filter {% if using_search %}show{% endif %}" id="extra_filter_fields" >
             <div class="form-row ml-1" id="extra_filter_fields" >
                 <div class="form-group wrkt_filter_field">
                     {{ wrkt_filter_form.strt_dt_srch.label( class="wrkt_filter_label") }}
@@ -95,11 +95,13 @@
         </div>
     </form>
 
+    <div class="wrkt_lst">
     {% for workout in workouts %}
     {% include '_workouts.html.j2' %}
     {% endfor %}
+    </div>
 
-    <nav aria-label="Workouts page navigation">
+    <nav aria-label="Workouts page navigation" class="wrkts_nav">
         <ul class="pagination">
             <li class="page-item {% if not prev_url %} disabled {% endif %}">
                 <a class='page-link' href="{{ prev_url or '#' }}">
