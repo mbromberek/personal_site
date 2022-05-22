@@ -24,6 +24,8 @@ div.home_section{
 }
 div.home_section_content{
     width:900px;
+    margin-left: auto;
+    margin-right:auto;
 }
 h2.home{
     text-align:center;
