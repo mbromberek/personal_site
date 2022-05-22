@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block app_content %}
+    <div class="workout_page_detail">
     <header class="workout " style="overflow:auto; display: flex; ">
         <div  style="width:430px; overflow: hidden; ">
             {{ workout.type }}, {{ workout.wrkt_dttm.strftime('%Y-%m-%d %H:%M:%S') }}
@@ -190,8 +191,9 @@
             </div>
         </fieldset>
     </div>
+    </div>
 
-    <div class="form-row wrkt_section_splits">
+    <div class="form-row workout_page_splits">
         {% if segment_intrvl_lst|length >0 %}
         <div class="form-group mt-3 mr-2" style="width:500px; vertical-align:top;">
             Segment Splits<br>
@@ -199,39 +201,38 @@
                 {% include "_workout_intrvl.html.j2" %}
             {% endwith %}
         </div>
-    {% endif %}
+        {% endif %}
 
-    {% if lap_intrvl_lst|length >1 %}
-    <div class="form-group mt-3 mr-2" style="width:500px; vertical-align:top;">
-        Lap Splits<br>
-        {% with intrvl_lst=lap_intrvl_lst, intrvl_sum_lst=intrvls['lap_sum'], intrvl_nm='Lap' %}
-            {% include "_workout_intrvl.html.j2" %}
-        {% endwith %}
+        {% if lap_intrvl_lst|length >1 %}
+        <div class="form-group mt-3 mr-2" style="width:500px; vertical-align:top;">
+            Lap Splits<br>
+            {% with intrvl_lst=lap_intrvl_lst, intrvl_sum_lst=intrvls['lap_sum'], intrvl_nm='Lap' %}
+                {% include "_workout_intrvl.html.j2" %}
+            {% endwith %}
+        </div>
+        {% endif %}
+
+        {% if pause_intrvl_lst|length >0 %}
+        <div class="form-group mt-3 mr-2" style="width:500px; vertical-align:top;">
+            Pause Resume Splits<br>
+            {% with intrvl_lst=pause_intrvl_lst, intrvl_sum_lst=intrvls['pause_sum'], intrvl_nm='Pause' %}
+                {% include "_workout_intrvl.html.j2" %}
+            {% endwith %}
+
+        </div>
+        {% endif %}
+
+        {% if mile_intrvl_lst|length >0 %}
+        <div class="form-group mt-3" style="width:500px; vertical-align:top;">
+            Mile Splits<br>
+            {% with intrvl_lst=mile_intrvl_lst, intrvl_sum_lst=intrvls['mile_sum'], intrvl_nm='Mile' %}
+                {% include "_workout_intrvl.html.j2" %}
+            {% endwith %}
+        </div>
+        {% endif %}
     </div>
-    {% endif %}
 
-    {% if pause_intrvl_lst|length >0 %}
-    <div class="form-group mt-3 mr-2" style="width:500px; vertical-align:top;">
-        Pause Resume Splits<br>
-        {% with intrvl_lst=pause_intrvl_lst, intrvl_sum_lst=intrvls['pause_sum'], intrvl_nm='Pause' %}
-            {% include "_workout_intrvl.html.j2" %}
-        {% endwith %}
-
-    </div>
-    {% endif %}
-
-    {% if mile_intrvl_lst|length >0 %}
-    <div class="form-group mt-3" style="width:500px; vertical-align:top;">
-        Mile Splits<br>
-        {% with intrvl_lst=mile_intrvl_lst, intrvl_sum_lst=intrvls['mile_sum'], intrvl_nm='Mile' %}
-            {% include "_workout_intrvl.html.j2" %}
-        {% endwith %}
-    </div>
-    {% endif %}
-
-
-    </div>
-    <div>
+    <div class="workout_page_buttons">
         <form action="JavaScript:copyNotes()" role="form" class="form" style="margin-top:15px;">
             <input type="submit" value="Copy Notes +">
 
