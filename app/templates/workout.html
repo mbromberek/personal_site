@@ -39,7 +39,12 @@
             </td>
             <td class="workout-detail"  width="100px" >
                 Pace <br>
-                {{ workout.pace }} /mile
+                {{ workout.pace }}
+                {% if workout.type in ['Cycling','Indoor Cycling'] %}
+                mph
+                {% else %}
+                /mile
+                {% endif %}
             </td>
         </tr>
         <tr class="workout-detail" >

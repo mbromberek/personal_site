@@ -84,6 +84,11 @@ def pace_calc(dist, dur_sec):
         return 0
     return math.floor(dur_sec / dist)
 
+def mph_calc(dist, dur_sec):
+    if dist == 0 or dur_sec == 0 or dist == None or dur_sec == None:
+        return 0
+    return float(dist) / (float(dur_sec) / float(SECONDS_IN_HOUR))
+
 def split_sec_to_time(tm_sec):
     if tm_sec == '' or tm_sec == None:
         tm_sec = 0

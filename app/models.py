@@ -221,7 +221,10 @@ class Workout(PaginatedAPIMixin, db.Model):
         return '<Workout {}: {}>'.format(self.type, self.wrkt_dttm)
 
     def pace_str(self):
-        return tm_conv.sec_to_time(self.pace_sec(), 'ms')
+        if self.type in ['Cycling','Indoor Cycling']:
+            return str(round(tm_conv.mph_calc(self.dist_mi, self.dur_sec),2))
+        else:
+            return tm_conv.sec_to_time(self.pace_sec(), 'ms')
     def pace_sec(self):
         return tm_conv.pace_calc(self.dist_mi, self.dur_sec)
 

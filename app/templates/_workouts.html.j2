@@ -46,7 +46,12 @@
                 </div>
                 <div class="workout-detail workout-detail-measures" >
                     Pace<br>
-                    {{ workout.pace }} /mi
+                    {{ workout.pace }}
+                    {% if workout.type in ['Cycling','Indoor Cycling'] %}
+                    mph
+                    {% else %}
+                    /mi
+                    {% endif %}
                 </div>
             </div>
 
