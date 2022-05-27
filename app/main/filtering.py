@@ -47,9 +47,12 @@ def get_workouts_from_filter(usr_id, type_filter, category_filter, filterVal, wr
         *(1+current_app.config['DISTANCE_RANGE']))
         wrkt_filter_form.distance_search.data = filterVal['distance']
     if filterVal['txt_search'] != '':
-        query = query.filter(
-            or_(Workout.training_type.ilike('%'+filterVal['txt_search']+'%'), Workout.location.ilike('%'+filterVal['txt_search']+'%'))
-        )
+        txt_srch_lst = filterVal['txt_search'].split(' ')
+        for txt_srch in txt_srch_lst:
+            txt_srch = txt_srch.strip()
+            query = query.filter(
+                or_(Workout.training_type.ilike('%'+txt_srch+'%'), Workout.location.ilike('%'+txt_srch+'%'))
+            )
         wrkt_filter_form.text_search.data = filterVal['txt_search']
 
     if filterVal['min_strt_temp'] != '':
