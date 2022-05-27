@@ -51,7 +51,7 @@ def get_workouts_from_filter(usr_id, type_filter, category_filter, filterVal, wr
         for txt_srch in txt_srch_lst:
             txt_srch = txt_srch.strip()
             query = query.filter(
-                or_(Workout.training_type.ilike('%'+txt_srch+'%'), Workout.location.ilike('%'+txt_srch+'%'))
+                or_(Workout.training_type.ilike('%'+txt_srch+'%'), Workout.location.ilike('%'+txt_srch+'%'), Workout.notes.ilike('%'+txt_srch+'%'))
             )
         wrkt_filter_form.text_search.data = filterVal['txt_search']
 
