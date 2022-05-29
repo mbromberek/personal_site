@@ -181,6 +181,10 @@ function initMap(map_json, show_laps, show_miles) {
         pauseMarkers.addTo(map);
     }
 
+    map.on('click', function(ev){
+        saveMapClick(ev)
+    });
+
     console.log('End: leaflet_maps initMap');
 }
 
@@ -252,4 +256,9 @@ function locationMap(map_json, lat, lon, radius){
 
     var location_mark = {position:[lat, lon], icon:startCircle};
     L.circleMarker(location_mark['position'], location_mark['icon']).addTo(map);
+}
+
+function saveMapClick(ev){
+    var latlng = map.mouseEventToLatLng(ev.originalEvent);
+    console.log(latlng.lat + ', ' + latlng.lng);
 }
