@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+<div class="default_page" style="overflow:auto; width:100%; margin-top:20px;">
+
+    <h1>New York Vacation</h1>
+
+
+</div>
+
+<div id="map" style="height:600px;margin-top:25px;"></div>
+<script>
+    JavaScript:initEventMap({{ map_dict|tojson|safe }}, true);
+</script>
+
+{% endblock %}
