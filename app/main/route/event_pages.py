@@ -36,7 +36,7 @@ def event():
     map_dict['max_zoom'] = current_app.config['MAP_MAX_ZOOM']
 
     map_dict['center'] = {'lat':'40.756350', 'lon':'-73.993120'}
-    map_dict['zoom'] = 13
+    map_dict['zoom'] = 11
     map_dict['lat_lon'] = []
     map_dict['mile_markers'] = []
 

@@ -48,6 +48,17 @@ var wrktLine = {
     weight: 3,
     opacity: 0.6
 }
+
+var greenIcon = new L.Icon({
+    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
+    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+    // iconSize: [25, 41],
+    iconSize: [20, 32],
+    iconAnchor: [6, 20],
+    popupAnchor: [1, -17],
+    shadowSize: [20, 20]
+});
+
 mile_marker_color = 'white'
 lap_marker_color = 'orange'
 pause_marker_color = 'yellow'
@@ -276,19 +287,9 @@ function initEventMap(map_json, track_clicks) {
     lat_lon = map_json.lat_lon;
 
     var run_map_center = { pos:[center_lat, center_lon], zoom:zoom };
-    var greenIcon = new L.Icon({
-        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
-        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-        // iconSize: [25, 41],
-        iconSize: [12, 20],
-        iconAnchor: [6, 20],
-        popupAnchor: [1, -17],
-        shadowSize: [20, 20]
-    });
 
 
     var polylinePoints = lat_lon;
-    // var start_mark = {position:lat_lon[0], icon:startCircle, popup: 'Run Start'}
     // var end_mark = {position:lat_lon[lat_lon.length -1], icon:endCircle, popup: 'Run End'};
     // var mile_one_mark = {position:[40.732828164473200, -89.57437014207240], icon:whiteCircle, popup: 'Mile 1'};
 
@@ -314,7 +315,13 @@ function initEventMap(map_json, track_clicks) {
 
     var polyline = L.polyline(polylinePoints, wrktLine).addTo(map);
 
-    // L.marker(start_mark['position'], {icon: start_mark['icon']}).addTo(map).bindPopup(start_mark['popup']);
+    startCircle['radius']=8
+
+    var hotel_mark = {position:map_json.loc_lst[0], icon:greenIcon, popup: map_json.loc_lst[0].name, marker:'marker'}
+    var start_mark = {position:map_json.loc_lst[1], icon:startCircle, popup: map_json.loc_lst[1].name, marker:'circle'}
+
+
+    L.marker(hotel_mark['position'], {icon: hotel_mark['icon']}).addTo(map).bindPopup(hotel_mark['popup']);
     L.circleMarker(start_mark['position'], start_mark['icon']) .addTo(map).bindPopup(start_mark['popup']);
 
     mileMarkers = new L.geoJson(milePoints, {
@@ -349,5 +356,5 @@ function initEventMap(map_json, track_clicks) {
         });
     }
 
-    console.log('End: leaflet_maps initMap');
+    console.log('End: initEventMap');
 }
