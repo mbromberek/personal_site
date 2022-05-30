@@ -52,7 +52,7 @@ mile_marker_color = 'white'
 lap_marker_color = 'orange'
 pause_marker_color = 'yellow'
 
-function initMap(map_json, show_laps, show_miles) {
+function initMap(map_json, show_laps, show_miles, track_clicks) {
     console.log('maps.js initMap');
     show_pauses = true;
     // console.log(map_json);
@@ -181,9 +181,11 @@ function initMap(map_json, show_laps, show_miles) {
         pauseMarkers.addTo(map);
     }
 
-    map.on('click', function(ev){
-        saveMapClick(ev)
-    });
+    if (track_clicks == true){
+        map.on('click', function(ev){
+            saveMapClick(ev)
+        });
+    }
 
     console.log('End: leaflet_maps initMap');
 }
