@@ -271,9 +271,16 @@ function locationMap(map_json, lat, lon, radius){
     L.circleMarker(location_mark['position'], location_mark['icon']).addTo(map);
 }
 
-function saveMapClick(ev){
+function logMapClick(ev){
+    /**
+    Log latitude and longitude of point clicked on map
+    */
     var latlng = map.mouseEventToLatLng(ev.originalEvent);
     console.log(latlng.lat + ', ' + latlng.lng);
+}
+
+function saveMapClick(ev){
+    logMapClick(ev);
 }
 
 
