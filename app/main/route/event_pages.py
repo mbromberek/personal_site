@@ -35,7 +35,7 @@ def event():
     map_dict['key'] = current_app.config['MAPBOX_API_KEY']
     map_dict['max_zoom'] = current_app.config['MAP_MAX_ZOOM']
 
-    map_dict['center'] = {'lat':'40.756350', 'lon':'-73.993120'}
+    map_dict['center'] = {'lat':'40.703545803451426', 'lon':'-74.0032196044922'}
     map_dict['zoom'] = 11
     map_dict['lat_lon'] = []
     map_dict['mile_markers'] = []
@@ -46,6 +46,5 @@ def event():
     loc_lst = [hotel_det, race_start]
 
     map_dict['loc_lst'] = loc_lst
-
 
     return render_template('event.html', map_dict=map_dict, destPage='event')

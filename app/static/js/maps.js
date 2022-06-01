@@ -59,6 +59,16 @@ var greenIcon = new L.Icon({
     shadowSize: [20, 20]
 });
 
+var blueIcon = new L.Icon({
+    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png',
+    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+    // iconSize: [25, 41],
+    iconSize: [20, 32],
+    iconAnchor: [6, 20],
+    popupAnchor: [1, -17],
+    shadowSize: [20, 20]
+});
+
 mile_marker_color = 'white'
 lap_marker_color = 'orange'
 pause_marker_color = 'yellow'
@@ -324,7 +334,7 @@ function initEventMap(map_json, track_clicks) {
 
     startCircle['radius']=8
 
-    var hotel_mark = {position:map_json.loc_lst[0], icon:greenIcon, popup: map_json.loc_lst[0].name, marker:'marker'}
+    var hotel_mark = {position:map_json.loc_lst[0], icon:blueIcon, popup: map_json.loc_lst[0].name, marker:'marker'}
     var start_mark = {position:map_json.loc_lst[1], icon:startCircle, popup: map_json.loc_lst[1].name, marker:'circle'}
 
 

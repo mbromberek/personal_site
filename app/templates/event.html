@@ -8,9 +8,13 @@
 
 </div>
 
-<div id="map" style="height:600px;margin-top:25px;"></div>
+<!-- <div id="map" style="height:600px;margin-top:25px;"></div> -->
+<!-- <div id="map" style="position: absolute;top:200px;bottom: 0px;border:1px solid black;"></div> -->
+<div id="map" style="height:100%;width:100%;"></div>
 <script>
     JavaScript:initEventMap({{ map_dict|tojson|safe }}, true);
+    // alert(document.documentElement.clientHeight);
+    // document.getElementById('map').style.height=document.documentElement.clientHeight - 200;
 </script>
 
 {% endblock %}
