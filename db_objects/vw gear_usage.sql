@@ -16,7 +16,7 @@ SELECT gear.nm,
 FROM fitness.gear gear
 LEFT JOIN fitness.workout wrkt
   ON gear.id = wrkt.gear_id AND gear.user_id = wrkt.user_id
-WHERE gear.type::text = ANY (ARRAY['Shoe'::character varying::text, 'Bike'::character varying::text])
+WHERE gear.type::text = ANY (ARRAY['Shoe'::character varying::text, 'Bike'::character varying::text, 'Pool'::character varying::text])
 GROUP BY wrkt.user_id, gear.nm, gear.id, gear.prchse_dt, gear.price, gear.retired, gear.confirmed, gear.type, gear.company
 ;
 
