@@ -118,6 +118,14 @@ div.workout_filter_btn_container:hover{
     cursor: pointer;
     background-color: black
 }
+.wrkt_alert{
+    display:none;
+    width:100%;
+    position:fixed;
+    top:55px;
+    left:0px;
+    z-index:500;
+}
 
 input.workout_filter_btn_container{
     height:40px;

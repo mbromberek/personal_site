@@ -69,8 +69,10 @@ async function pasteNotes(){
                 notesEle.value = clothesNotesTxt.substr(clothesLen).trim() + '\n' + notesEle.value;
             }
         }
+        document.getElementById('alert_div').innerHTML = 'Data Pasted';
+        document.getElementById('alert_div').style.display = 'inline-block';
 
-        window.alert('Data Pasted');
+        // window.alert('Data Pasted');
     } catch (err) {
       console.error('Failed to read clipboard contents: ', err);
       window.alert('Failed to read clipboard contents');
