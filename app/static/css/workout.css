@@ -122,9 +122,12 @@ div.workout_filter_btn_container:hover{
     display:none;
     width:100%;
     position:fixed;
-    top:55px;
+    /* top:55px; */
+    bottom:0px;
     left:0px;
     z-index:500;
+    margin-bottom:0px;
+    color:black;
 }
 
 input.workout_filter_btn_container{
