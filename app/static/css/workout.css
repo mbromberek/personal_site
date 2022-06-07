@@ -120,14 +120,17 @@ div.workout_filter_btn_container:hover{
 }
 .wrkt_alert{
     display:none;
-    width:100%;
     position:fixed;
-    /* top:55px; */
-    bottom:0px;
-    left:0px;
-    z-index:500;
+    z-index:2;
     margin-bottom:0px;
     color:black;
+    border:1px black solid;
+    width:100%;
+    bottom:0px;
+    left:0px;
+    /* width:300px; */
+    /* top:55px; */
+    /* right:0px; */
 }
 
 input.workout_filter_btn_container{
