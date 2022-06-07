@@ -129,6 +129,7 @@ function initMap(map_json, show_laps, show_miles, track_clicks) {
       zoomOffset: -1,
       accessToken: apiKey
     }).addTo(map);
+    
 
     var polyline = L.polyline(polylinePoints, wrktLine).addTo(map);
 

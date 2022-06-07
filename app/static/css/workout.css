@@ -6,7 +6,14 @@ body {
     width:100vw;
 }
 
-
+#fullButton{
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    padding: 10px;
+    z-index: 500;
+    background-color: #43d9b8;
+}
 
 .workout_card {
     width: 800px;
