@@ -51,6 +51,7 @@ async function pasteNotes(){
     // clothesNotesTxt = document.execCommand("paste");
     try {
         const clothesNotesTxt = await navigator.clipboard.readText();
+        // clothesNotesTxt = "Shorts, tank top.\n Hot and humid.Decided to run from fondulac admin building in East Peoria towards Morton for my easy run to get in some extra hills. Did not feel like I was pushing too hard so hopefully this was good for an easy run. Used lap button just past Matheny road before the hill, at the top of the hill by the bench. Then coming back at the bench before going down and meant to press lap at Matheny road but forgot so pressed it a little later. Turned around at Bloomington Rd and Crestwood Dr right when hitting 3 miles. So good 6 mile route. Top of right knee felt weird early on but good rest of run. Feel really hungry after getting home. "
         console.log('Pasted content: ', clothesNotesTxt);
 
         // var matchClothes = re.search(clothesPattern,rec, flags=re.IGNORECASE)
