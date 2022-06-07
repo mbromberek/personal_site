@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+<!-- <div id="map" style="height:100%;width:100%;"></div> -->
+<div id="map" style="position: absolute;top:0px;bottom: 0px;"></div>
+<script>
+    JavaScript:initMap({{ map_dict|tojson|safe }}, {{ workout.show_map_laps|tojson|safe }}, {{ workout.show_map_miles|tojson|safe }}, false);
+</script>
+
+{% endblock %}

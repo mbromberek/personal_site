@@ -255,9 +255,13 @@
     </div>
 
     {% if 'zoom' in map_dict %}
-    <div id="map" style="height:600px;margin-top:25px;"></div>
+    <div id="map" style="height:600px;margin-top:25px;">
+        <button id="fullButton" onclick="window.open('{{ url_for('main.workout', workout=workout.id, map_full='Y') }}')">
+            Full
+      </button>
+    </div>
     <script>
-        JavaScript:initMap({{ map_dict|tojson|safe }}, {{ workout.show_map_laps|tojson|safe }}, {{ workout.show_map_miles|tojson|safe }});
+        JavaScript:initMap({{ map_dict|tojson|safe }}, {{ workout.show_map_laps|tojson|safe }}, {{ workout.show_map_miles|tojson|safe }}, false);
     </script>
     {% endif %}
 
