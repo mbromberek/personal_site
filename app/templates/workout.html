@@ -256,7 +256,7 @@
 
     {% if 'zoom' in map_dict %}
     <div id="map" style="height:600px;margin-top:25px;">
-        <a id="fullButton" href="{{ url_for('main.workout', workout=workout.id, map_full='Y') }}" target="_blank">
+        <a id="fullButton" href="{{ url_for('main.workout', workout=workout.id, map_full='Y') }}" >
             Full
         </a>
     </div>
