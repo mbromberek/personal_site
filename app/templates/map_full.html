@@ -2,7 +2,11 @@
 
 {% block app_content %}
 <!-- <div id="map" style="height:100%;width:100%;"></div> -->
-<div id="map" style="position: absolute;top:0px;bottom: 0px;"></div>
+<div id="map" style="position: absolute;top:55px;bottom: 0px;">
+    <a id="fullButton" href="{{ url_for('main.workout', workout=workout.id) }}" >
+        X
+    </a>
+</div>
 <script>
     JavaScript:initMap({{ map_dict|tojson|safe }}, {{ workout.show_map_laps|tojson|safe }}, {{ workout.show_map_miles|tojson|safe }}, false);
 </script>
