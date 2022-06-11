@@ -129,7 +129,7 @@ function initMap(map_json, show_laps, show_miles, track_clicks) {
       zoomOffset: -1,
       accessToken: apiKey
     }).addTo(map);
-    
+
 
     var polyline = L.polyline(polylinePoints, wrktLine).addTo(map);
 
@@ -375,4 +375,11 @@ function initEventMap(map_json, track_clicks) {
     }
 
     console.log('End: initEventMap');
+}
+
+function mapSize(fullScreen){
+    console.log(fullScreen);
+
+    map = document.getElementById('map');
+    map.style.height='1000px';
 }

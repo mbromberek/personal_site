@@ -259,6 +259,9 @@
         <a id="fullButton" href="{{ url_for('main.workout', workout=workout.id, map_full='Y') }}" >
             Full
         </a>
+        <button id="fullButton2" onclick="mapSize(true)" }}" >
+            Full
+        </button>
     </div>
     <script>
         JavaScript:initMap({{ map_dict|tojson|safe }}, {{ workout.show_map_laps|tojson|safe }}, {{ workout.show_map_miles|tojson|safe }}, false);
