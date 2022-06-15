@@ -790,6 +790,10 @@ def settings():
     setting_form.shoe_mile_warning.data = settings.get_field('shoe_mile_warning')
     setting_form.shoe_min_brkin_ct.data = settings.get_field('shoe_min_brkin_ct')
 
+    api_key_lst = []
+    api_key_lst.append({'description':'Full','key':user.token,'expiration':user.token_expiration,'regen_button':EmptyForm()})
+
+
     gear_type_dict = {'1': 'Shoe', '2':'Bike', '3':'Pool', '4':'Insole', '5':'Trainer'}
     gear_type_select_lst = list(gear_type_dict.items())
     default_type = 1
@@ -829,7 +833,7 @@ def settings():
         if loc.radius == None or loc.radius <=0:
             loc.radius = current_app.config['DFT_LOC_RADIUS']
 
-    return render_template('settings.html', user_setting_form=setting_form, destPage = 'settings', gear_lst=gear_usage_lst, loc_lst=query_loc_lst)
+    return render_template('settings.html', user_setting_form=setting_form, destPage = 'settings', gear_lst=gear_usage_lst, loc_lst=query_loc_lst, api_key_lst=api_key_lst)
 
 @bp.route('/edit_gear', methods=['GET','POST'])
 @login_required
