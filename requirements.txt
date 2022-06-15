@@ -20,7 +20,7 @@ Jinja2==2.11.3
 kaleido==0.2.1
 Mako==1.1.4
 MarkupSafe==1.1.1
-NormalizeWorkout @ git+https://github.com/mbromberek/NormalizeWorkout.git@53e9f3089c28f914bf191c858e1fc4ca2d45dccb
+NormalizeWorkout @ git+https://github.com/mbromberek/NormalizeWorkout.git@d690829ce4b3c66a947327637e8f80d7e018a731
 numpy==1.21.4
 pandas==1.3.4
 plotly==4.12.0
