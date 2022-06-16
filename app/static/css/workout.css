@@ -350,6 +350,15 @@ label.wrkt_export_chk{
     border-bottom:2px black solid;
     margin-bottom:10px;
 }
+.copy_btn{
+    display:inline-block;
+    border:2px gray solid;
+    background-color:lightgray;
+}
+.copy_btn:hover{
+    cursor: pointer;
+    background-color: gray;
+}
 
 .field_row{
     padding-bottom:20px;

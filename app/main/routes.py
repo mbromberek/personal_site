@@ -792,6 +792,7 @@ def settings():
 
     api_key_lst = []
     regen_btn = EmptyForm()
+    regen_btn.submit.label.text = 'Regenerate'
     api_key_lst.append( {'description':'Full','key':user.token, 'key_part':user.token[:5] + '...' + user.token[-5:], 'expiration':user.token_expiration,'regen_btn':regen_btn})
 
 

@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% from 'bootstrap/form.html' import render_form, render_field %}
+{% from 'bootstrap/utils.html' import render_icon %}
 
 {% block app_content %}
 
@@ -78,52 +79,30 @@
             <div class="form-row setting_hdr">
                 Keys
             </div>
-            <table style="border-bottom:1px black solid;">
-                <tr>
-                    <td style="font-weight:bold;padding-right: 5px;">
-                        Desc
-                    </td>
-                    <td style="">
-                        Token
-                    </td>
-                    <td style="">
-                        Exp Dt
-                    </td>
-                    <td>
-                        Copy
-                    </td>
-                    <td >
-                        Regenerate
-                    </td>
-                </tr>
-                {% for token in api_key_lst %}
-                <tr >
-                    <td style="">
-                        {{ token.description }}:
-                    </td>
-                    <td style="border:2px gray solid;background-color:lightgray; padding-left:10px; padding-right: 10px;">
-                        {{ token.key_part }}
-                    </td>
-                    <td style="">
-                        {{ token.expiration.strftime('%Y-%m-%d') }}
-                    </td>
-                    <td >
-                        &nbsp;
-                    </td>
-                    <td >
-                        {{ token.regen_btn.submit }}
-                    </td>
-
-                </tr>
-                {% endfor %}
-            </table>
+            {% for token in api_key_lst %}
+            <div style="height:50px;padding-top:10px;padding-bottom:10px;">
+                <span style="font-weight:bold;padding-right: 5px;">
+                    {{ token.description }}:
+                </span>
+                <span class="copy_btn" style=" margin-right: 10px; height:100%;" onclick="navigator.clipboard.writeText('{{ token.key }}')">
+                    {{ token.key_part }}
+                    {{ render_icon('clipboard-plus', size='22px') }}
+                </span>
+                <span style="">
+                    Exp: {{ token.expiration.strftime('%Y-%m-%d') }}
+                </span>
+                <span >
+                    {{ token.regen_btn.submit }}
+                </span>
+            </div>
+            {% endfor %}
         </form>
     </div>
 
     {% endif %}
-
-
 </div>
+
+
 
 <div style="overflow:auto; width:100%; margin-top:20px;">
 
