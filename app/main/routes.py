@@ -791,7 +791,8 @@ def settings():
     setting_form.shoe_min_brkin_ct.data = settings.get_field('shoe_min_brkin_ct')
 
     api_key_lst = []
-    api_key_lst.append({'description':'Full','key':user.token,'expiration':user.token_expiration,'regen_button':EmptyForm()})
+    regen_btn = EmptyForm()
+    api_key_lst.append( {'description':'Full','key':user.token, 'key_part':user.token[:5] + '...' + user.token[-5:], 'expiration':user.token_expiration,'regen_btn':regen_btn})
 
 
     gear_type_dict = {'1': 'Shoe', '2':'Bike', '3':'Pool', '4':'Insole', '5':'Trainer'}
