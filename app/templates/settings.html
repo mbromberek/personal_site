@@ -92,7 +92,10 @@
                     Exp: {{ token.expiration.strftime('%Y-%m-%d') }}
                 </span>
                 <span >
-                    {{ token.regen_btn.submit }}
+                    <button id="submit_full_regen" name="submit_full_regen" type="submit" title="Generate new token">
+                        {{ render_icon('arrow-clockwise', size='22px') }}
+                    </button>
+
                 </span>
             </div>
             {% endfor %}
