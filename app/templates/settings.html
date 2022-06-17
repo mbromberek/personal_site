@@ -85,13 +85,17 @@
                     {{ token.description }}:
                 </span>
                 <span class="copy_btn" style=" margin-right: 10px; height:100%;width:150px;" title="Copy Token" onclick="navigator.clipboard.writeText('{{ token.key }}');copyToken('token_copied');">
-                    <span id="token_copied" style="position:absolute;opacity:.8; background-color:darkgray;color:red;width:146px;text-align:center;display:none;">
+                    <span id="token_copied" style="position:absolute;left:0px;top:1px;opacity:.8; background-color:darkgray;color:darkblue;width:146px;text-align:center;display:none;">
                         COPIED
                     </span>
-                    {{ token.key_part }}
-                    {{ render_icon('clipboard-plus', size='22px') }}
+                    <span style="align:left;">
+                        {{ token.key_part }}
+                    </span>
+                    <span style="position:absolute;right:0px;top:-1px;">
+                        {{ render_icon('clipboard-plus', size='22px') }}
+                    </span>
                 </span>
-                <span style="">
+                <span style="align-center;">
                     Exp: {{ token.expiration.strftime('%Y-%m-%d') }}
                 </span>
                 <span >

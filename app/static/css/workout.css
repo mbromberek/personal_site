@@ -352,8 +352,10 @@ label.wrkt_export_chk{
 }
 .copy_btn{
     display:inline-block;
+    position:relative;
     border:2px gray solid;
     background-color:lightgray;
+    padding-left:5px;
 }
 .copy_btn:hover{
     cursor: pointer;
