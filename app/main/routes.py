@@ -761,13 +761,14 @@ def settings():
     usr_id = current_user.id
 
     setting_form = UserSettingsForm()
+    user = User.query.get_or_404(usr_id)
 
     if request.method == 'GET':
         logger.info('settings GET')
     elif request.method == 'POST' and setting_form.cancel.data:
         logger.info('settings POST Cancel button pressed')
         return redirect(url_for('main.settings'))
-    elif request.method == 'POST':
+    elif request.method == 'POST' and setting_form.submit.data:
         logger.info('settings POST Submit button pressed')
         user = User.query.get_or_404(usr_id)
         settings = user.get_settings()
@@ -780,8 +781,14 @@ def settings():
         db.session.commit()
         flash('Settings have been updated')
         return redirect(url_for('main.settings'))
+    elif request.method == 'POST' and 'submit_full_regen' in request.form:
+        logger.info('Generate new token')
+        user.revoke_token()
+        user.get_token()
+        db.session.commit()
+        flash('Generate new token')
+        return redirect(url_for('main.settings'))
 
-    user = User.query.get_or_404(usr_id)
     setting_form.user_id.data = usr_id
     setting_form.displayname.data = user.displayname
     settings = user.get_settings()
@@ -793,7 +800,7 @@ def settings():
     api_key_lst = []
     regen_btn = EmptyForm()
     regen_btn.submit.label.text = 'Regenerate'
-    api_key_lst.append( {'description':'Full','key':user.token, 'key_part':user.token[:5] + '...' + user.token[-5:], 'expiration':user.token_expiration,'regen_btn':regen_btn})
+    api_key_lst.append( {'description':'Full','key':user.token, 'key_part':user.token[:4] + '.....' + user.token[-4:], 'expiration':user.token_expiration,'regen_btn':regen_btn})
 
 
     gear_type_dict = {'1': 'Shoe', '2':'Bike', '3':'Pool', '4':'Insole', '5':'Trainer'}
