@@ -84,7 +84,10 @@
                 <span style="font-weight:bold;padding-right: 5px;">
                     {{ token.description }}:
                 </span>
-                <span class="copy_btn" style=" margin-right: 10px; height:100%;" onclick="navigator.clipboard.writeText('{{ token.key }}')">
+                <span class="copy_btn" style=" margin-right: 10px; height:100%;width:150px;" title="Copy Token" onclick="navigator.clipboard.writeText('{{ token.key }}');copyToken('token_copied');">
+                    <span id="token_copied" style="position:absolute;opacity:.8; background-color:darkgray;color:red;width:146px;text-align:center;display:none;">
+                        COPIED
+                    </span>
                     {{ token.key_part }}
                     {{ render_icon('clipboard-plus', size='22px') }}
                 </span>
