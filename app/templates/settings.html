@@ -80,12 +80,12 @@
                 Keys
             </div>
             {% for token in api_key_lst %}
-            <div style="height:50px;padding-top:10px;padding-bottom:10px;">
+            <div class="key_row">
                 <span style="font-weight:bold;padding-right: 5px;">
                     {{ token.description }}:
                 </span>
-                <span class="copy_btn" style=" margin-right: 10px; height:100%;width:150px;" title="Copy Token" onclick="navigator.clipboard.writeText('{{ token.key }}');copyToken('token_copied');">
-                    <span id="token_copied" style="position:absolute;left:0px;top:1px;opacity:.8; background-color:darkgray;color:darkblue;width:146px;text-align:center;display:none;">
+                <span class="copy_btn" style=" margin-right: 10px; height:100%;width:150px;" title="Copy Token" onclick="copyToken('{{ token.key }}', 'token_copied');">
+                    <span id="token_copied" class="copy_btn_overlay" style="width:146px;">
                         COPIED
                     </span>
                     <span style="align:left;">
@@ -95,10 +95,10 @@
                         {{ render_icon('clipboard-plus', size='22px') }}
                     </span>
                 </span>
-                <span style="align-center;">
+                <span style="margin-left:10px;display:inline-block;">
                     Exp: {{ token.expiration.strftime('%Y-%m-%d') }}
                 </span>
-                <span >
+                <span style="position:absolute;right:0px;top:10px;">
                     <button id="submit_full_regen" name="submit_full_regen" type="submit" title="Generate new token">
                         {{ render_icon('arrow-clockwise', size='22px') }}
                     </button>

@@ -350,6 +350,12 @@ label.wrkt_export_chk{
     border-bottom:2px black solid;
     margin-bottom:10px;
 }
+.key_row{
+    position:relative;
+    height:50px;
+    padding-top:10px;
+    padding-bottom:10px;
+}
 .copy_btn{
     display:inline-block;
     position:relative;
@@ -360,6 +366,17 @@ label.wrkt_export_chk{
 .copy_btn:hover{
     cursor: pointer;
     background-color: gray;
+}
+.copy_btn_overlay{
+    position:absolute;
+    left:0px;
+    top:1px;
+    opacity:.8;
+    background-color:darkgray;
+    color:darkblue;
+    width:146px;
+    text-align:center;
+    display:none;
 }
 
 .field_row{
