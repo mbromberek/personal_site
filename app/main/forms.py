@@ -13,9 +13,9 @@ from datetime import datetime
 from flask import request
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, TextAreaField, DecimalField, HiddenField, SelectField, FieldList, FormField, BooleanField
-from wtforms.fields.html5 import DateField, TimeField, IntegerField
+from wtforms.fields import DateField, TimeField, IntegerField
 from wtforms.validators import Length, NumberRange, InputRequired, Optional
-from wtforms.widgets import html5 as h5widgets
+from wtforms import widgets as h5widgets
 
 # Custom classes
 from app import logger
