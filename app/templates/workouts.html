@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% from 'bootstrap/form.html' import render_form, render_field %}
+{% from 'bootstrap4/form.html' import render_form, render_field %}
 
 {% block app_content %}
     <form action="" method="post" role="form" class="form" id='wrkt_search_form'>
@@ -8,7 +8,7 @@
             <div class="btn-toolbar wrkts_search_field">
                 <!-- will go in top right of the div but is at the top of the div code so enter key uses the search button -->
                 {{ wrkt_filter_form.text_search(style="border: 1px solid black;height:30px;width:130px; ", placeholder="Search..") }}
-                {{ render_field(wrkt_filter_form.submit_search_btn, class='btn btn-dark ', style='font-size:12pt;height:30px;padding-top:0px;padding-bottom:0px;') }}
+                {{ render_field(wrkt_filter_form.submit_search_btn, button_style='btn btn-dark ', style='font-size:12pt;height:30px;padding-top:0px;padding-bottom:0px;') }}
             </div>
             <div class="workouts_hdr" style="">
                 {{ current_user.displayname }}&#39;s<br>workouts
@@ -22,7 +22,7 @@
                 </div>
 
                 <div class="btn-group" role="group" aria-label="Type group">
-                    {{ render_field(form.workt_create_btn, class='btn btn-outline-dark wrkts_hdr_btn', style='font-size:20pt;height:40px;padding-top:0px;padding-bottom:0px;font-weight:bold;') }}
+                    {{ render_field(form.workt_create_btn, class='wrkts_hdr_btn', style='font-size:20pt;height:40px;padding-top:0px;padding-bottom:0px;font-weight:bold;', button_style='btn btn-outline-dark') }}
 
                     <div class="btn-group wrkts_hdr_btn" role="group" aria-label="Show or Hide Search"">
                         <input type="button"
@@ -32,7 +32,7 @@
                         />
                     </div>
                     <div class="btn-group wrkts_hdr_btn" role="group" aria-label="Clear group">
-                        {{ render_field(wrkt_filter_form.clear_filter_btn, class='btn btn-outline-dark', style="height:40px;") }}
+                        {{ render_field(wrkt_filter_form.clear_filter_btn, style="height:40px;", button_style='btn btn-outline-dark') }}
                     </div>
                 </div>
             </div>
@@ -40,15 +40,15 @@
         </div>
         <div class="btn-toolbar wrkts_filter_row" role="toolbar" aria-label="Filter button groups" >
             <div class="btn-group mr-3" role="group" aria-label="Type group" >
-                {{ render_field(wrkt_filter_form.category_run_btn, class=btn_classes['run'] or 'btn btn-outline-dark') }}
-                {{ render_field(wrkt_filter_form.category_cycle_btn, class=btn_classes['cycle'] or 'btn btn-outline-dark') }}
-                {{ render_field(wrkt_filter_form.category_swim_btn, class=btn_classes['swim'] or 'btn btn-outline-dark') }}
+                {{ render_field(wrkt_filter_form.category_run_btn, button_style=btn_classes['run'] or 'btn btn-outline-dark') }}
+                {{ render_field(wrkt_filter_form.category_cycle_btn, button_style=btn_classes['cycle'] or 'btn btn-outline-dark') }}
+                {{ render_field(wrkt_filter_form.category_swim_btn, button_style=btn_classes['swim'] or 'btn btn-outline-dark') }}
             </div>
             <div class="btn-group mr-3" role="group" aria-label="Category group" >
-                {{ render_field(wrkt_filter_form.category_training_btn, class=btn_classes['training'] or 'btn btn-outline-dark ') }}
-                {{ render_field(wrkt_filter_form.category_long_btn, class=btn_classes['long'] or 'btn btn-outline-dark') }}
-                {{ render_field(wrkt_filter_form.category_easy_btn, class=btn_classes['easy'] or 'btn btn-outline-dark') }}
-                {{ render_field(wrkt_filter_form.category_race_btn, class=btn_classes['race'] or 'btn btn-outline-dark') }}
+                {{ render_field(wrkt_filter_form.category_training_btn, button_style=btn_classes['training'] or 'btn btn-outline-dark ') }}
+                {{ render_field(wrkt_filter_form.category_long_btn, button_style=btn_classes['long'] or 'btn btn-outline-dark') }}
+                {{ render_field(wrkt_filter_form.category_easy_btn, button_style=btn_classes['easy'] or 'btn btn-outline-dark') }}
+                {{ render_field(wrkt_filter_form.category_race_btn, button_style=btn_classes['race'] or 'btn btn-outline-dark') }}
             </div>
 
             <div style="display:inline; padding-top:3px; ">
