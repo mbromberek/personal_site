@@ -6,7 +6,7 @@
                     <a class="workout_lnk" href="{{ url_for('main.workout', workout=workout.id) }}">
                         {{ workout.wrkt_dttm.strftime('%Y-%m-%d %H:%M') }}
                         &nbsp;-&nbsp;
-                        {{ workout.type }}
+                        {{ workout.type_det.nm }}
                     </a>
                     &nbsp;
                     <a class="workout_edit_lnk hide_mobile"  href="{{ url_for('main.edit_workout', workout=workout.id) }}">
@@ -16,7 +16,7 @@
             </div>
 
             <div class="workout-detail workout_detail_type" style="border:0px red solid;">
-                {{ workout.category }}
+                {{ workout.category_det.nm }}
                 {% if workout.training_type is defined and workout.training_type is not none and workout.training_type|length %}
                 - {{ workout.training_type }}
                 {% endif %}
@@ -47,7 +47,7 @@
                 <div class="workout-detail workout-detail-measures" >
                     Pace<br>
                     {{ workout.pace }}
-                    {% if workout.type in ['Cycling','Indoor Cycling'] %}
+                    {% if workout.type_det.nm in ['Cycling','Indoor Cycling'] %}
                     mph
                     {% else %}
                     /mi

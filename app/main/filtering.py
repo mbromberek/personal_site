@@ -28,9 +28,9 @@ def get_workouts_from_filter(usr_id, type_filter, category_filter, filterVal, wr
     usingSearch = False
     query = Workout.query.filter_by(user_id=usr_id)
     if len(type_filter) >0:
-        query = query.filter(Workout.type.in_(type_filter))
+        query = query.filter(Workout.type_id.in_(type_filter))
     if len(category_filter) >0:
-        query = query.filter(Workout.category.in_(category_filter))
+        query = query.filter(Workout.category_id.in_(category_filter))
 
     if filterVal['temperature'] != '':
         # usingSearch = True
