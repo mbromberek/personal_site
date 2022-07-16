@@ -4,7 +4,7 @@
     <div class="workout_page_detail">
     <header class="workout " style="overflow:auto; display: flex; ">
         <div  style="width:430px; overflow: hidden; ">
-            {{ workout.type }}, {{ workout.wrkt_dttm.strftime('%Y-%m-%d %H:%M:%S') }}
+            {{ workout.type_det.nm }}, {{ workout.wrkt_dttm.strftime('%Y-%m-%d %H:%M:%S') }}
         </div>
         <div style="width:100px; overflow: hidden; float:right" >
             <a class="workout_lnk" style="font-weight:normal;font-size: 12pt;" href="{{ url_for('main.edit_workout', workout=workout.id) }}">
@@ -13,7 +13,7 @@
         </div>
     </header>
     <div class="wrkt_type_description">
-        {{ workout.category }}
+        {{ workout.category_det.nm }}
         {% if workout.training_type is defined and workout.training_type is not none and workout.training_type|length %}
         - {{ workout.training_type }}
         {% endif %}
@@ -167,9 +167,9 @@
                 {% endif %}
             </div>
             <div class="form-row">
-                {% if 'run' in workout.type.lower() %}
+                {% if 'run' in workout.type_det.grp.lower() %}
                 Shoes:
-                {% elif 'cycl' in workout.type.lower() %}
+                {% elif 'cycl' in workout.type_det.grp.lower() %}
                 Bike:
                 {% endif %}
                 {{ workout.gear_det.nm }}
