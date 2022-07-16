@@ -302,7 +302,7 @@ def generate_workout_from_file():
         genMap.generate_map_img(actv_df, tumbnailDir, img_dim={'height':200, 'width':200}, img_name=thumbnail_nm)
         orig_workout.thumb_path = thumbnail_nm
         orig_workout.show_map_laps = True
-        if orig_workout.category == 'Training':
+        if orig_workout.category_det.nm == 'Training':
             orig_workout.show_map_miles = False
         else:
             orig_workout.show_map_miles = True
