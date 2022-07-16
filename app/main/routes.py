@@ -24,7 +24,7 @@ import GenerateMapImage.gen_map_img as genMap
 # Custom classes
 from app.main import bp
 from app.main.forms import EmptyForm, WorkoutCreateBtnForm, WorkoutForm, WorkoutFilterForm, WorkoutIntervalForm, WorkoutExportForm, UserSettingsForm, GearForm, LocForm
-from app.models import User, Workout, Workout_interval, Gear, Gear_usage, Wrkt_sum, Wkly_mileage, Yrly_mileage, User_setting
+from app.models import User, Workout, Workout_interval, Gear, Gear_usage, Wrkt_sum, Wkly_mileage, Yrly_mileage, User_setting, Workout_type, Workout_category
 from app import db
 from app.utils import tm_conv, const, nbrConv, dt_conv
 from app import logger
@@ -251,6 +251,20 @@ def edit_workout():
         gear_select_lst.append([g.gear_id, g.nm])
     form.gear_lst.choices = gear_select_lst
 
+    wrkt_type_lst = sorted(Workout_type.query)
+    type_select_lst = []
+    for g in wrkt_type_lst:
+        type_select_lst.append([g.id, g.nm])
+    form.type_lst.choices = type_select_lst
+
+    wrkt_cat_lst = sorted(Workout_category.query)
+    cat_select_lst = []
+    for g in wrkt_cat_lst:
+        cat_select_lst.append([g.id, g.nm])
+    cat_select_lst.append([-1, '──────────'])
+    form.cat_lst.choices = cat_select_lst
+
+
     label_val = {}
     usr_id = current_user.id
 
@@ -314,7 +328,17 @@ def edit_workout():
             wrkt_id = form.wrkt_id.data
             wrkt = Workout.query.filter_by(id=wrkt_id, user_id=usr_id).first_or_404(id)
         wrkt.dur_sec = tm_conv.time_to_sec(form.duration_h.data, form.duration_m.data, form.duration_s.data)
-        wrkt.type = form.type.data
+        # wrkt.type = form.type.data
+        if form.type_lst.data == -1:
+            wrkt.type_id = None
+        else:
+            wrkt.type_id = form.type_lst.data
+        # wrkt.category = form.category.data
+        if form.cat_lst.data == -1:
+            wrkt.category_id = None
+        else:
+            wrkt.category_id = form.cat_lst.data
+
         wrkt.dist_mi = form.distance.data
         wrkt.notes = form.notes.data
 
@@ -327,7 +351,7 @@ def edit_workout():
         wrkt.ele_down = form.ele_down.data
         wrkt.hr = form.hr.data
         wrkt.cal_burn = form.cal_burn.data
-        wrkt.category = form.category.data
+
         if wrkt.location != form.location.data and wrkt.lat_strt != '' and form.location.data != None and form.location.data != '':
             Location.create_loc_if_not_exist(form.location.data, usr_id, wrkt.lat_strt, wrkt.long_strt)
         wrkt.location = form.location.data
@@ -387,10 +411,16 @@ def edit_workout():
             form.gear_lst.default = wrkt.gear_det.id
         else:
             form.gear_lst.default = -1
+        # form.type.data = wrkt.type
+        form.type_lst.default = wrkt.type_det.id
+        # form.category.data = wrkt.category
+        if wrkt.category_det != None:
+            form.cat_lst.default = wrkt.category_det.id
+        else:
+            form.cat_lst.default = -1
         form.process() # Need to run after setting the default and needs to be before other fields are populated
         # form.gear.data = wrkt.gear_det.nm
 
-        form.type.data = wrkt.type
         label_val['wrkt_dttm'] = wrkt.wrkt_dttm
 
         form.wrkt_tm.data = wrkt.wrkt_dttm
@@ -405,7 +435,6 @@ def edit_workout():
         form.ele_down.data = wrkt.ele_down
         form.hr.data = wrkt.hr
         form.cal_burn.data = wrkt.cal_burn
-        form.category.data = wrkt.category
         form.location.data = wrkt.location
         form.training_type.data = wrkt.training_type
 

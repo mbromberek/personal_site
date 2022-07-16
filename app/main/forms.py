@@ -107,7 +107,8 @@ class WorkoutIntervalForm(FlaskForm):
 
 class WorkoutForm(FlaskForm):
     wrkt_id = HiddenField()
-    type = StringField('Type', validators=[InputRequired()])
+    # type = StringField('Type', validators=[InputRequired()])
+    type_lst = SelectField('Type', validate_choice=True, coerce=int)
     wrkt_dt = DateField('Date', format='%Y-%m-%d', default=datetime.now(), validators=[InputRequired("Workout date is required")])
     wrkt_tm = TimeField('Time', format='%H:%M', default=datetime.now())
 
@@ -133,7 +134,8 @@ class WorkoutForm(FlaskForm):
     ele_down = DecimalField('Elevation Down', validators=[Optional()], places=2, rounding=decimal.ROUND_UP)
     hr = IntegerField('Heart Rate', validators=[Optional()])
     cal_burn = IntegerField('Calories Burned', validators=[Optional()])
-    category = StringField('Category')
+    # category = StringField('Category')
+    cat_lst = SelectField('Category', validate_choice=True, coerce=int)
     location = StringField('Location')
     training_type = StringField('Training Type')
 
