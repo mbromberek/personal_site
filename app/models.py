@@ -286,6 +286,7 @@ class Workout(PaginatedAPIMixin, db.Model):
 
     def to_dict(self, include_calc_fields=False):
         gear_rec = Gear.query.filter_by(id=self.gear_id, user_id=self.user_id).first()
+        logger.debug('to_dict category_id: ' + str(self.category_id))
         data = {
             'id': self.id,
             'user_id': self.user_id,
@@ -354,7 +355,7 @@ class Workout(PaginatedAPIMixin, db.Model):
 
     def from_dict(self, data, user_id):
 
-        str_fields = ['type','gear', 'clothes', 'category', 'location', 'training_type', 'notes']
+        str_fields = ['clothes', 'location', 'training_type', 'notes']
         int_fields = ['dur_sec','hr','cal_burn','warm_up_tot_tm_sec', 'cool_down_tot_tm_sec', 'intrvl_tot_tm_sec']
         float_fields = ['dist_mi','ele_up','ele_down','warm_up_tot_dist_mi','cool_down_tot_dist_mi','intrvl_tot_dist_mi','intrvl_tot_ele_up','intrvl_tot_ele_down']
 
@@ -386,6 +387,7 @@ class Workout(PaginatedAPIMixin, db.Model):
 
         if 'type' in data and data['type'] != None and data['type'] != '' :
             self.type_id = Workout_type.get_wrkt_type_id(data['type'])
+        logger.debug('from_dict category: ' + str(data['category']))
         if 'category' in data and data['category'] != None and data['category'] != '' :
             self.category_id = Workout_category.get_wrkt_cat_id(data['category'])
 
@@ -551,18 +553,18 @@ class Gear(db.Model):
         return gear_rec.id
 
     @staticmethod
-    def predict_gear(user_id, category, type):
-        if type in ['Running','Indoor Running']:
-            return Gear.get_next_shoe(user_id, category)
-        elif type in ['Cycling','Indoor Cycling']:
+    def predict_gear(user_id, category_id, type_id):
+        if Workout_type.query.filter_by(id=type_id, grp='run').first() != None:
+            return Gear.get_next_shoe(user_id, category_id)
+        elif Workout_type.query.filter_by(id=type_id, grp='cycle').first() != None:
             dft_cycl_gear = current_app.config['DFT_CYCL_GEAR']
             return {'nm':dft_cycl_gear, 'id':Gear.get_gear_id(dft_cycl_gear)}
-        elif type in ['Swimming']:
+        elif Workout_type.query.filter_by(id=type_id, grp='swim').first() != None:
             dft_swim_gear = current_app.config['DFT_SWIM_GEAR']
             return {'nm':dft_swim_gear, 'id':Gear.get_gear_id(dft_swim_gear)}
 
     @staticmethod
-    def get_next_shoe(user_id, category, dt=datetime.today()):
+    def get_next_shoe(user_id, category_id, dt=datetime.today()):
         '''
         Gets suggestion for shoe to wear on next run based on passed in category
         The number of miles run in shoes and number of times they were used determines which category they fit into.
@@ -581,11 +583,12 @@ class Gear(db.Model):
         gear_lst = []
         gear_ct = -1
 
-        if category in ['Training', 'Long Run', 'Race']:
+        cat_rec = Workout_category.query.filter_by(id=category_id).first_or_404()
+        if cat_rec.nm in ['Training', 'Long Run', 'Race', 'Hard']:
             # Use gear that has <300 miles on them and used more than 5 times
             gear_lst = sorted(Gear_usage.query.filter(Gear_usage.user_id==user_id, Gear_usage.retired==False, Gear_usage.type==type, Gear_usage.tot_dist <shoe_age_warning, Gear_usage.usage_count >nbr_brk_in_runs), reverse=False)
             gear_ct = len(gear_lst)
-        elif category in ['Easy']:
+        elif cat_rec.nm in ['Easy']:
             # Use gear with >=300 miles on them or used <=5 times
             gear_lst = sorted(Gear_usage.query.filter(Gear_usage.user_id==user_id, Gear_usage.retired==False, Gear_usage.type==type, or_( Gear_usage.tot_dist >=shoe_age_warning, Gear_usage.usage_count <=nbr_brk_in_runs)), reverse=False)
             gear_ct = len(gear_lst)
@@ -708,7 +711,7 @@ class Workout_category(db.Model):
 
     @staticmethod
     def get_wrkt_cat_id(wrkt_nm):
-        type_rec = Workout_type.query.filter_by(nm=wrkt_nm).first()
+        type_rec = Workout_category.query.filter_by(nm=wrkt_nm).first()
         if type_rec is None:
             return None
         return type_rec.id

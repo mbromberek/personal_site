@@ -77,7 +77,7 @@ def create_workout():
         workout.from_dict(data, current_user_id)
         if workout.gear_id is None:
             logger.debug('no gear passed')
-            predicted_gear = Gear.predict_gear(current_user_id, workout.category, workout.type)
+            predicted_gear = Gear.predict_gear(current_user_id, workout.category_id, workout.type_id)
             logger.debug('Gear predicted to be used: {}'.format(predicted_gear['nm']))
             workout.gear_id = predicted_gear['id']
         else:
