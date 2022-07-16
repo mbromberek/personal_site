@@ -286,7 +286,6 @@ class Workout(PaginatedAPIMixin, db.Model):
 
     def to_dict(self, include_calc_fields=False):
         gear_rec = Gear.query.filter_by(id=self.gear_id, user_id=self.user_id).first()
-        logger.debug('to_dict category_id: ' + str(self.category_id))
         data = {
             'id': self.id,
             'user_id': self.user_id,
