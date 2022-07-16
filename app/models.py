@@ -152,8 +152,8 @@ class Workout(PaginatedAPIMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('fitness.user.id'))
     # Running | Cycling | Swimming | Indoor Running
-    type = db.Column(db.String(50), index=True, nullable=False)
-    # type_id = db.Column(db.Integer, db.ForeignKey('fitness.workout_type.id'))
+    # type = db.Column(db.String(50), index=True, nullable=False)
+    type_id = db.Column(db.Integer, db.ForeignKey('fitness.workout_type.id'))
     wrkt_dttm = db.Column(db.DateTime, index=True, nullable=False)
     dur_sec = db.Column(db.Integer())
     dist_mi = db.Column(db.Numeric(8,2))
@@ -167,8 +167,8 @@ class Workout(PaginatedAPIMixin, db.Model):
     cal_burn = db.Column(db.Integer())
 
     # Training | Easy | Long Run
-    category = db.Column(db.String(50))
-    # category_id = db.Column(db.Integer, db.ForeignKey('fitness.workout_category.id'))
+    # category = db.Column(db.String(50))
+    category_id = db.Column(db.Integer, db.ForeignKey('fitness.workout_category.id'))
     location = db.Column(db.String(50))
     # 800m repeats | hills
     training_type = db.Column(db.String(50))
@@ -220,10 +220,11 @@ class Workout(PaginatedAPIMixin, db.Model):
     workout_intervals = db.relationship('Workout_interval', backref='author', lazy='dynamic')
 
     def __repr__(self):
-        return '<Workout {}: {}>'.format(self.type, self.wrkt_dttm)
+        return '<Workout {}: {}>'.format(self.type_id, self.wrkt_dttm)
 
     def pace_str(self):
-        if self.type in ['Cycling','Indoor Cycling']:
+        # if self.type in ['Cycling','Indoor Cycling']:
+        if self.type_det.nm in ['Cycling','Indoor Cycling']:
             return str(round(tm_conv.mph_calc(self.dist_mi, self.dur_sec),2))
         else:
             return tm_conv.sec_to_time(self.pace_sec(), 'ms')
@@ -663,6 +664,7 @@ class Gear_usage(db.Model):
 class Workout_type(db.Model):
     __table_args__ = {"schema": "fitness", 'comment':'Type of workout: Running, Cycling, Swimming, Indoor Running'}
     id = db.Column(db.Integer, primary_key=True)
+    workouts = db.relationship('Workout', backref='type_det', lazy='dynamic')
     nm = db.Column(db.String(50), index=True, nullable=False, unique=True)
     grp = db.Column(db.String(50), nullable=True)
     ordr = db.Column(db.Integer, nullable=False)
@@ -687,8 +689,8 @@ class Workout_type(db.Model):
 class Workout_category(db.Model):
     __table_args__ = {"schema": "fitness", 'comment':'Category of workout: Easy, Long Run, Training'}
     id = db.Column(db.Integer, primary_key=True)
+    workouts = db.relationship('Workout', backref='category_det', lazy='dynamic')
     nm = db.Column(db.String(50), index=True, nullable=False, unique=True)
-    grp = db.Column(db.String(50), nullable=True)
     ordr = db.Column(db.Integer, nullable=False)
     isrt_ts = db.Column(db.DateTime, nullable=False, index=True, default=datetime.utcnow)
 
