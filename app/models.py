@@ -264,6 +264,10 @@ class Workout(PaginatedAPIMixin, db.Model):
             elif const.EXPORT_FIELD_MAPPING.get(field) == 'gear':
                 gear_rec = Gear.query.filter_by(id=self.gear_id, user_id=self.user_id).first()
                 data[field] = gear_rec.nm if gear_rec != None else ''
+            elif const.EXPORT_FIELD_MAPPING.get(field) == 'type':
+                data[field] = self.type_det.nm
+            elif const.EXPORT_FIELD_MAPPING.get(field) == 'category':
+                data[field] = self.category_det.nm
             elif const.EXPORT_FIELD_MAPPING.get(field) == 'duration':
                 data[field] = self.dur_str()
             elif const.EXPORT_FIELD_MAPPING.get(field) == 'pace':
@@ -285,7 +289,7 @@ class Workout(PaginatedAPIMixin, db.Model):
         data = {
             'id': self.id,
             'user_id': self.user_id,
-            'type': self.type,
+            'type': self.type_det.nm,
             'wrkt_dttm': self.wrkt_dttm.isoformat() + 'Z',
             'dur_sec': self.dur_sec,
             'dist_mi': str(self.dist_mi),
@@ -296,7 +300,7 @@ class Workout(PaginatedAPIMixin, db.Model):
             'ele_down': str(self.ele_down),
             'hr': str(self.hr),
             'cal_burn': self.cal_burn,
-            'category': self.category,
+            'category': self.category_det.nm,
             'location': self.location,
             'training_type': self.training_type,
             'weather_start': {
@@ -380,6 +384,11 @@ class Workout(PaginatedAPIMixin, db.Model):
                 db.session.commit()
                 self.gear_id = Gear.get_gear_id(data['gear'])
 
+        if 'type' in data and data['type'] != None and data['type'] != '' :
+            self.type_id = Workout_type.get_wrkt_type_id(data['type'])
+        if 'category' in data and data['category'] != None and data['category'] != '' :
+            self.category_id = Workout_category.get_wrkt_cat_id(data['category'])
+
         # Populate Weather data
         wethr_float_fields = ['temp','temp_feels_like','hmdty', 'wind_speed','wind_gust','dew_point']
         wethr_str_fields = ['wethr_cond']
@@ -402,7 +411,7 @@ class Workout(PaginatedAPIMixin, db.Model):
 
 
     def update(self, updt_wrkt):
-        merge_fields = ['type', 'wrkt_dttm', 'dur_sec', 'dist_mi', 'clothes', 'category', 'location', 'training_type', 'notes','hr','cal_burn','warm_up_tot_tm_sec', 'cool_down_tot_tm_sec', 'intrvl_tot_tm_sec','ele_up','ele_down','warm_up_tot_dist_mi','cool_down_tot_dist_mi','intrvl_tot_dist_mi','intrvl_tot_ele_up','intrvl_tot_ele_down', 'gear_id']
+        merge_fields = ['type_id', 'wrkt_dttm', 'dur_sec', 'dist_mi', 'clothes', 'category_id', 'location', 'training_type', 'notes','hr','cal_burn','warm_up_tot_tm_sec', 'cool_down_tot_tm_sec', 'intrvl_tot_tm_sec','ele_up','ele_down','warm_up_tot_dist_mi','cool_down_tot_dist_mi','intrvl_tot_dist_mi','intrvl_tot_ele_up','intrvl_tot_ele_down', 'gear_id']
         for field in merge_fields:
             if getattr(updt_wrkt, field) != None:
                 setattr(self, field, getattr(updt_wrkt, field))
