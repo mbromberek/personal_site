@@ -703,8 +703,8 @@ def dashboard():
     dash_lst_dict['yrly_mileage_lst'] = yrly_mileage_lst
 
     dash_lst_dict['nxt_gear'] = {}
-    dash_lst_dict['nxt_gear']['training'] = Gear.get_next_shoe(usr_id, 'Training')
-    dash_lst_dict['nxt_gear']['easy'] = Gear.get_next_shoe(usr_id, 'Easy')
+    dash_lst_dict['nxt_gear']['training'] = Gear.get_next_shoe(usr_id, Workout_category.get_wrkt_cat_id('Training'))
+    dash_lst_dict['nxt_gear']['easy'] = Gear.get_next_shoe(usr_id, Workout_category.get_wrkt_cat_id('Easy'))
 
     return render_template('dashboard.html', title=title, destPage=destPage, dash_lst_dict=dash_lst_dict)
 
