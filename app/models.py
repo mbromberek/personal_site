@@ -583,15 +583,17 @@ class Gear(db.Model):
         gear_lst = []
         gear_ct = -1
 
-        cat_rec = Workout_category.query.filter_by(id=category_id).first_or_404()
-        if cat_rec.nm in ['Training', 'Long Run', 'Race', 'Hard']:
-            # Use gear that has <300 miles on them and used more than 5 times
-            gear_lst = sorted(Gear_usage.query.filter(Gear_usage.user_id==user_id, Gear_usage.retired==False, Gear_usage.type==type, Gear_usage.tot_dist <shoe_age_warning, Gear_usage.usage_count >nbr_brk_in_runs), reverse=False)
-            gear_ct = len(gear_lst)
-        elif cat_rec.nm in ['Easy']:
-            # Use gear with >=300 miles on them or used <=5 times
-            gear_lst = sorted(Gear_usage.query.filter(Gear_usage.user_id==user_id, Gear_usage.retired==False, Gear_usage.type==type, or_( Gear_usage.tot_dist >=shoe_age_warning, Gear_usage.usage_count <=nbr_brk_in_runs)), reverse=False)
-            gear_ct = len(gear_lst)
+        if category_id != '':
+            cat_rec = Workout_category.query.filter_by(id=category_id).first()
+
+            if cat_rec.nm in ['Training', 'Long Run', 'Race', 'Hard']:
+                # Use gear that has <300 miles on them and used more than 5 times
+                gear_lst = sorted(Gear_usage.query.filter(Gear_usage.user_id==user_id, Gear_usage.retired==False, Gear_usage.type==type, Gear_usage.tot_dist <shoe_age_warning, Gear_usage.usage_count >nbr_brk_in_runs), reverse=False)
+                gear_ct = len(gear_lst)
+            elif cat_rec.nm in ['Easy']:
+                # Use gear with >=300 miles on them or used <=5 times
+                gear_lst = sorted(Gear_usage.query.filter(Gear_usage.user_id==user_id, Gear_usage.retired==False, Gear_usage.type==type, or_( Gear_usage.tot_dist >=shoe_age_warning, Gear_usage.usage_count <=nbr_brk_in_runs)), reverse=False)
+                gear_ct = len(gear_lst)
         if gear_ct <1:
             # If not a known Category or no records returned for Category
             gear_lst = sorted(Gear_usage.query.filter(Gear_usage.user_id==user_id, Gear_usage.retired==False, Gear_usage.type==type), reverse=False)
