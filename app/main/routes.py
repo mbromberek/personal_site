@@ -163,36 +163,36 @@ def workouts():
     type_filter = []
     category_filter = []
     btn_classes = {}
+    filter_type_lst = Workout_type.query.filter_by(grp=filterVal['type'])
+    for filter_type in filter_type_lst:
+        type_filter.append(filter_type.id)
     if filterVal['type'] == 'run':
-        # type_filter.extend(['Running','Indoor Running'])
-        type_filter.extend([1, 2])
-        # run_btn_class = 'btn btn-primary'
         btn_classes['run'] = 'btn btn-primary'
     if filterVal['type'] == 'cycle':
-        # type_filter.extend(['Cycling','Indoor Cycling'])
-        type_filter.extend([3, 4])
         btn_classes['cycle'] = 'btn btn-primary'
     if filterVal['type'] == 'swim':
-        # type_filter.extend(['Swimming','Indoor Swimming'])
-        type_filter.extend([5, 6])
         btn_classes['swim'] = 'btn btn-primary'
 
     if filterVal['category'] == 'training':
-        # category_filter.extend(['Training', 'Hard'])
-        category_filter.extend([3, 5])
-        # run_btn_class = 'btn btn-primary'
+        filter_cat_lst = Workout_category.query.filter( Workout_category.nm.in_(['Training', 'Hard']))
+        logger.debug(str(filter_cat_lst))
+        for filter_cat in filter_cat_lst:
+            category_filter.append(filter_cat.id)
         btn_classes['training'] = 'btn btn-primary'
     if filterVal['category'] == 'long':
-        # category_filter.extend(['Long Run', 'Long'])
-        category_filter.extend([2])
+        filter_cat_lst = Workout_category.query.filter( Workout_category.nm.in_(['Long Run', 'Long']))
+        for filter_cat in filter_cat_lst:
+            category_filter.append(filter_cat.id)
         btn_classes['long'] = 'btn btn-primary'
     if filterVal['category'] == 'easy':
-        # category_filter.extend(['Easy'])
-        category_filter.extend([1])
+        filter_cat_lst = Workout_category.query.filter( Workout_category.nm.in_(['Easy']))
+        for filter_cat in filter_cat_lst:
+            category_filter.append(filter_cat.id)
         btn_classes['easy'] = 'btn btn-primary'
     if filterVal['category'] == 'race':
-        # category_filter.extend(['Race', 'Virtual Race'])
-        category_filter.extend([4, 8])
+        filter_cat_lst = Workout_category.query.filter( Workout_category.nm.in_(['Race', 'Virtual Race']))
+        for filter_cat in filter_cat_lst:
+            category_filter.append(filter_cat.id)
         btn_classes['race'] = 'btn btn-primary'
 
     logger.info('type_filter ' + str(type_filter))
