@@ -175,7 +175,6 @@ def workouts():
 
     if filterVal['category'] == 'training':
         filter_cat_lst = Workout_category.query.filter( Workout_category.nm.in_(['Training', 'Hard']))
-        logger.debug(str(filter_cat_lst))
         for filter_cat in filter_cat_lst:
             category_filter.append(filter_cat.id)
         btn_classes['training'] = 'btn btn-primary'
