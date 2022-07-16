@@ -15,7 +15,7 @@ SELECT
 FROM (
 SELECT workout.user_id
    , 'Current Week'::text AS rng
-   , wrkt_type.nm type
+   , wrkt_type.nm as type
    , sum(workout.dur_sec) AS tot_sec
    , sum(workout.dist_mi) AS tot_dist
    , count(workout.id) AS nbr
@@ -30,7 +30,7 @@ SELECT workout.user_id
 UNION ALL
  SELECT workout.user_id
    , 'Past 7 days'::text AS rng
-   , wrkt_type.nm type
+   , wrkt_type.nm as type
    , sum(workout.dur_sec) AS tot_sec
    , sum(workout.dist_mi) AS tot_dist
    , count(workout.id) AS nbr
@@ -44,7 +44,7 @@ UNION ALL
 UNION ALL
  SELECT workout.user_id
    , 'Past 30 days'::text AS rng
-   , wrkt_type.nm type
+   , wrkt_type.nm as type
    , sum(workout.dur_sec) AS tot_sec
    , sum(workout.dist_mi) AS tot_dist
    , count(workout.id) AS nbr
@@ -58,7 +58,7 @@ UNION ALL
 UNION ALL
  SELECT workout.user_id,
    'Current Month'::text AS rng
-   , wrkt_type.nm type
+   , wrkt_type.nm as type
    , sum(workout.dur_sec) AS tot_sec
    , sum(workout.dist_mi) AS tot_dist
    , count(workout.id) AS nbr
@@ -73,7 +73,7 @@ UNION ALL
 UNION ALL
  SELECT workout.user_id
    , 'Past 365 days'::text AS rng
-   , wrkt_type.nm type
+   , wrkt_type.nm as type
    , sum(workout.dur_sec) AS tot_sec
    , sum(workout.dist_mi) AS tot_dist
    , count(workout.id) AS nbr
@@ -88,7 +88,7 @@ UNION ALL
 UNION ALL
  SELECT workout.user_id
    , 'Current Year'::text AS rng
-   , wrkt_type.nm type
+   , wrkt_type.nm as type
    , sum(workout.dur_sec) AS tot_sec
    , sum(workout.dist_mi) AS tot_dist
    , count(workout.id) AS nbr

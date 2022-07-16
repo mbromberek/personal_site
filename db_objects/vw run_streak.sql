@@ -2,7 +2,7 @@
 WITH workout_streaks as (
 select distinct
   workout_curr.user_id
-  , wrkt_type.nm type
+  , wrkt_type.nm as type
   , workout_curr.wrkt_dttm::date as wrkt_dt
   , case
       when workout_prev_day.id is not null then 'Y'
