@@ -27,7 +27,7 @@ import GenerateMapImage.gen_map_img as genMap
 
 # Custom Classes
 from app import db
-from app.models import Workout, User, Workout_interval, Gear
+from app.models import Workout, User, Workout_interval, Gear, Wrkt_sum
 from app.api import bp
 from app.api.auth import token_auth
 from app.api.errors import bad_request
@@ -367,3 +367,18 @@ def update_workout_from_pickle():
         db.session.commit()
 
     return jsonify('Success'), 200
+
+@bp.route('/run_summary/', methods=['GET'])
+@token_auth.login_required
+def run_summary():
+    logger.info('run_summary')
+    current_user_id = token_auth.current_user().id
+    # user = User.query.get_or_404(current_user_id)
+
+    wrkt_sum_results = Wrkt_sum.query.filter_by(user_id=current_user_id, type='Running').all()
+    wrkt_sum_mod_lst = Wrkt_sum.generate_missing_summaries(wrkt_sum_results, 'Running')
+    wrkt_sum_dict = {}
+    for wrkt_sum in wrkt_sum_mod_lst:
+        wrkt_sum_dict[wrkt_sum.rng] = wrkt_sum.to_dict()
+
+    return jsonify(wrkt_sum_dict), 200
