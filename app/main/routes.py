@@ -664,7 +664,7 @@ def dashboard():
     # gear_lst = gear_results
     dash_lst_dict['gear_lst'] = gear_lst
 
-    wrkt_sum_results = Wrkt_sum.query.filter_by(user_id=1, type='Running').all()
+    wrkt_sum_results = Wrkt_sum.query.filter_by(user_id=current_user.id, type='Running').all()
     wrkt_sum_mod_lst = Wrkt_sum.generate_missing_summaries(wrkt_sum_results, 'Running')
     wrkt_sum_lst = []
     for wrkt_sum in wrkt_sum_mod_lst:
