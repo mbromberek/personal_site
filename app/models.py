@@ -741,6 +741,23 @@ class Wrkt_sum(db.Model):
     def dur_str(self):
         return tm_conv.sec_to_time(self.tot_sec, 'hms')
 
+    def to_dict(self):
+        old_wrkt_dt = self.oldest_workout.isoformat() + 'Z' if self.oldest_workout != None else ''
+        new_wrkt_dt = self.newest_workout.isoformat() + 'Z' if self.newest_workout != None else ''
+
+        data = {
+            'user_id': self.user_id,
+            'type': self.type,
+            'rng': self.rng,
+            'tot_sec': self.tot_sec,
+            'duration_str': self.dur_str(),
+            'tot_dist': self.tot_dist,
+            'nbr': self.nbr,
+            'oldest_workout': old_wrkt_dt,
+            'newest_workout': new_wrkt_dt
+        }
+        return data
+
     @staticmethod
     def generate_missing_summaries(sum_lst, sum_typ):
         sum_lst_mod = sum_lst
