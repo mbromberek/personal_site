@@ -1,5 +1,6 @@
 # 3rd party classes
 from flask_httpauth import HTTPBasicAuth, HTTPTokenAuth
+from flask import request
 
 # Customer classes
 from app.models import User
@@ -34,6 +35,7 @@ def basic_auth_error(status):
 def verify_token(token):
     logger.info("verify_token")
     logger.info(token)
+    logger.info(request.headers)
     # TODO Add log message when token verification fails
     return User.check_token(token) if token else None
 
