@@ -36,11 +36,12 @@ def verify_token(token):
     logger.info("verify_token")
     logger.debug(token)
     logger.debug(request.headers)
+    authorization_alt_field = 'Authorization-Alt'
 
     if token is None or token == '':
-        if 'Authorization-Alt' in request.headers and len(request.headers['Authorization_alt']) >7:
+        if authorization_alt_field in request.headers and len(request.headers[authorization_alt_field]) >7:
             logger.debug('use alt authorization')
-            token = request.headers['Authorization_alt'][7:]
+            token = request.headers[authorization_alt_field][7:]
         else:
             logger.debug('no token')
             return None
