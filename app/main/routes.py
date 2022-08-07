@@ -226,6 +226,7 @@ def workouts():
     for workout in workouts:
         workout.duration = workout.dur_str()
         workout.pace = workout.pace_str()
+        workout.pace_uom = workout.pace_uom()
         if workout.clothes == None:
             workout.clothes = ''
         if workout.notes != None:
@@ -263,6 +264,9 @@ def more_workouts():
         wrkt_dict = workout.to_dict()
         wrkt_dict['duration'] = workout.dur_str()
         wrkt_dict['pace'] = workout.pace_str()
+        wrkt_dict['pace_uom'] = workout.pace_uom()
+        wrkt_dict['weather_summary_start'] = workout.weather_summary('start')
+        wrkt_dict['weather_summary_end'] = workout.weather_summary('end')
         if workout.clothes == None:
             wrkt_dict['clothes'] = ''
         if workout.notes != None:

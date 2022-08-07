@@ -47,11 +47,7 @@
                 <div class="workout-detail workout-detail-measures" >
                     Pace<br>
                     {{ workout.pace }}
-                    {% if workout.type_det.nm in ['Cycling','Indoor Cycling'] %}
-                    mph
-                    {% else %}
-                    /mi
-                    {% endif %}
+                    {{ workout.pace_uom }}
                 </div>
             </div>
 

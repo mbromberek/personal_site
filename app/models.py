@@ -228,9 +228,13 @@ class Workout(PaginatedAPIMixin, db.Model):
             return str(round(tm_conv.mph_calc(self.dist_mi, self.dur_sec),2))
         else:
             return tm_conv.sec_to_time(self.pace_sec(), 'ms')
+    def pace_uom(self):
+        if self.type_det.nm in ['Cycling','Indoor Cycling']:
+            return 'mph'
+        else:
+            return '/mi'
     def pace_sec(self):
         return tm_conv.pace_calc(self.dist_mi, self.dur_sec)
-
     def dur_str(self):
         return tm_conv.sec_to_time(self.dur_sec)
     def intrvl_dur_str(self):
@@ -251,6 +255,13 @@ class Workout(PaginatedAPIMixin, db.Model):
         weather_strt_str = 'Start: {} degrees {}, {} percent humidity, wind speed {} mph, wind gust {} mpn, feels like {} degrees, dew point {}.'.format(self.temp_strt, self.wethr_cond_strt, self.hmdty_strt, self.wind_speed_strt, self.wind_gust_strt, self.temp_feels_like_strt, self.dew_point_strt)
         weather_end_str = 'End: {} degrees {}, {} percent humidity, wind speed {} mph, wind gust {} mpn, feels like {} degrees, dew point {}.'.format(self.temp_end, self.wethr_cond_end, self.hmdty_end, self.wind_speed_end, self.wind_gust_end, self.temp_feels_like_end, self.dew_point_end)
         return '{}\n{}'.format(weather_strt_str,weather_end_str)
+    def weather_summary(self, sctn):
+        if sctn == 'end':
+            wthr_sum_lst = ['End: ']
+        else:
+            wthr_sum_lst = ['Start: ']
+        return ''.join(wthr_sum_lst)
+
 
     # Parameter export_fields is a list of the fields to export
     def to_dict_export(self, export_fields):
