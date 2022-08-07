@@ -139,6 +139,8 @@ function loadItems(response){
     for (var i=0; i<wrkts.length; i++){
         let template_clone = document.getElementsByTagName("template")[0].content.cloneNode(true);
         template_clone.querySelector("#wrkt_lnk").innerHTML = wrkts[i]['wrkt_dttm'] + ' - ' + wrkts[i]['type'];
+        template_clone.querySelector("#wrkt_lnk").href = wrkts[i]['_links']['self'];
+        template_clone.querySelector("#wrkt_edit_lnk").href = wrkts[i]['_links']['edit'];
         wrkt_lst.appendChild(template_clone);
 
     }

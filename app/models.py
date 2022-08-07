@@ -361,6 +361,8 @@ class Workout(PaginatedAPIMixin, db.Model):
                 'self': url_for('main.workout', workout=self.id, _external=True) if for_web else url_for('api.get_workout', id=self.id)
             }
         }
+        if for_web:
+            data['_links']['edit'] = url_for('main.edit_workout', workout=self.id, _external=True)
         return data
 
     def from_dict(self, data, user_id):
