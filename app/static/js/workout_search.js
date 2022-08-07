@@ -132,17 +132,32 @@ function getNextWrkts(filter){
 
 }
 
+function formatDate(date_str) {
+    let d = new Date(date_str);
+    let year = d.getUTCFullYear();
+    let month = (d.getUTCMonth() + 1).toString().padStart(2,'0');
+    let day = d.getUTCDate().toString().padStart(2,'0');
+    dt = [year, month, day].join('-');
+
+    let hour = d.getUTCHours().toString().padStart(2,'0');
+    let minute = d.getUTCMinutes().toString().padStart(2,'0');
+    let second = d.getUTCSeconds().toString().padStart(2,'0');
+    return dt + ' ' + hour + ':' + minute;
+}
+
 function loadItems(response){
     console.log(response);
-    // let template_clone = template.content.cloneNode(true);
+
     let wrkts = response['workouts'];
+    let wrkt_lst_ele = document.getElementById('wrkt_lst');
     for (var i=0; i<wrkts.length; i++){
+        let wrkt_dttm_formatted = formatDate(wrkts[i]['wrkt_dttm']);
+
         let template_clone = document.getElementsByTagName("template")[0].content.cloneNode(true);
-        template_clone.querySelector("#wrkt_lnk").innerHTML = wrkts[i]['wrkt_dttm'] + ' - ' + wrkts[i]['type'];
+        template_clone.querySelector("#wrkt_lnk").innerHTML = wrkt_dttm_formatted + ' - ' + wrkts[i]['type'];
         template_clone.querySelector("#wrkt_lnk").href = wrkts[i]['_links']['self'];
         template_clone.querySelector("#wrkt_edit_lnk").href = wrkts[i]['_links']['edit'];
-        wrkt_lst.appendChild(template_clone);
-
+        wrkt_lst_ele.appendChild(template_clone);
     }
 
 }
