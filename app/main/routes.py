@@ -272,7 +272,7 @@ def more_workouts():
             wrkt_dict['notes_summary'] = ""
         wrkt_dict_lst.append(wrkt_dict)
 
-    return jsonify({'workouts': wrkt_dict_lst})
+    return jsonify({'workouts': wrkt_dict_lst, 'page':workoutPages.next_num})
 
 
 @bp.route('/edit_workout', methods=['GET','POST'])
