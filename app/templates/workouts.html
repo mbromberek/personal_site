@@ -101,6 +101,80 @@
     {% endfor %}
     </div>
 
+
+    <div class="wrkt_lst" id="wrkt_lst">
+        <template id="wrkt_template">
+            <div class="workout_card" >
+                <div style="overflow:auto">
+                    <div class="workout-header" style="float: left; border:0px blue solid;">
+                        <a id="wrkt_lnk" class="workout_lnk" href="#">
+                            &nbsp;
+                        </a>
+                        &nbsp;
+                        <a id="wrkt_edit_lnk" class="workout_edit_lnk hide_mobile"  href="#">
+                            (edit)
+                        </a>
+                    </div>
+                </div>
+
+{#
+
+                <div class="workout-detail workout_detail_type" style="border:0px red solid;">
+                    {{ workout.category_det.nm }}
+                    {% if workout.training_type is defined and workout.training_type is not none and workout.training_type|length %}
+                    - {{ workout.training_type }}
+                    {% endif %}
+                    {% if workout.location is defined and workout.location is not none and workout.location|length %}
+                    - {{ workout.location }}
+                    {% endif %}
+                </div>
+
+                {% if workout.thumb_path != None %}
+                <div class="workout_map" style=" ">
+                    <img src="{{ url_for('main.wrkt_img_file', filename= workout.thumb_path) }}" style="width:100%; height:auto;" >
+                </div>
+                {% endif %}
+
+                <div class="workouts_detail_separators">
+                    &nbsp;
+                </div>
+
+                <div class="workout-detail-measures-section" style="overflow:auto; ">
+                    <div class="workout-detail workout-detail-measures" style="border-right: 1px black solid; ">
+                        Distance<br>
+                        {{ workout.dist_mi }}mi
+                    </div>
+                    <div class="workout-detail workout-detail-measures" style="border-right: 1px black solid; ">
+                        Duration<br>
+                        {{ workout.duration }}
+                    </div>
+                    <div class="workout-detail workout-detail-measures" >
+                        Pace<br>
+                        {{ workout.pace }}
+                        {{ workout.pace_uom }}
+                    </div>
+                </div>
+                <div style="overflow:auto; width:100%;">
+                    <div class="workout-detail" style="float:left;">
+                        Wore: {{ workout.clothes }}
+                    </div>
+                    <div class="workout-detail-shoe" >
+                        {{ workout.gear_det.nm }}
+                    </div>
+                </div>
+
+                {% if workout.notes_summary != "" %}
+                <div style="width:100%; text-align:left;">
+                    Notes: {{ workout.notes_summary }}
+                </div>
+                {% endif %}
+#}
+            </div>
+            <br>
+        </template>
+    </div>
+
+
     <nav aria-label="Workouts page navigation" class="wrkts_nav">
         <ul class="pagination">
             <li class="page-item {% if not prev_url %} disabled {% endif %}">

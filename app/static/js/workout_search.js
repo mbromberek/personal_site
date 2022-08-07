@@ -124,10 +124,23 @@ function getNextWrkts(filter){
         text_search: filter['text_search']
 
     }).done(function(response){
-        console.log(response);
+        loadItems(response);
     }).fail(function(){
         console.error("Error: Could not contact server.");
     })
     ;
+
+}
+
+function loadItems(response){
+    console.log(response);
+    // let template_clone = template.content.cloneNode(true);
+    let wrkts = response['workouts'];
+    for (var i=0; i<wrkts.length; i++){
+        let template_clone = document.getElementsByTagName("template")[0].content.cloneNode(true);
+        template_clone.querySelector("#wrkt_lnk").innerHTML = wrkts[i]['wrkt_dttm'] + ' - ' + wrkts[i]['type'];
+        wrkt_lst.appendChild(template_clone);
+
+    }
 
 }
