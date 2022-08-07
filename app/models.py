@@ -295,7 +295,7 @@ class Workout(PaginatedAPIMixin, db.Model):
                 data[field] = getattr(self, const.EXPORT_FIELD_MAPPING.get(field,''), '')
         return data
 
-    def to_dict(self, include_calc_fields=False):
+    def to_dict(self, include_calc_fields=False, for_web=False):
         gear_rec = Gear.query.filter_by(id=self.gear_id, user_id=self.user_id).first()
         data = {
             'id': self.id,
@@ -358,7 +358,7 @@ class Workout(PaginatedAPIMixin, db.Model):
 
             'isrt_ts': self.isrt_ts.isoformat() + 'Z',
             '_links':{
-                'self': url_for('api.get_workout', id=self.id)
+                'self': url_for('main.workout', workout=self.id, _external=True) if for_web else url_for('api.get_workout', id=self.id)
             }
         }
         return data
