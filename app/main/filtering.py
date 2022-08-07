@@ -32,7 +32,7 @@ def get_workouts_from_filter(usr_id, type_filter, category_filter, filterVal, wr
     if len(category_filter) >0:
         query = query.filter(Workout.category_id.in_(category_filter))
 
-    if filterVal['temperature'] != '':
+    if filterVal['temperature'] != '' and filterVal['temperature'] != None:
         # usingSearch = True
         query = query.filter(Workout.temp_strt >= filterVal['temperature'] \
         -current_app.config['TEMPERATURE_RANGE'])
@@ -40,52 +40,60 @@ def get_workouts_from_filter(usr_id, type_filter, category_filter, filterVal, wr
         +current_app.config['TEMPERATURE_RANGE'])
         if wrkt_filter_form != None:
             wrkt_filter_form.strt_temp_search.data = filterVal['temperature']
-    if filterVal['distance'] != '':
+    if filterVal['distance'] != '' and filterVal['distance'] != None:
         # usingSearch = True
         query = query.filter(Workout.dist_mi >= filterVal['distance'] \
         *(1-current_app.config['DISTANCE_RANGE']))
         query = query.filter(Workout.dist_mi <= filterVal['distance'] \
         *(1+current_app.config['DISTANCE_RANGE']))
-        wrkt_filter_form.distance_search.data = filterVal['distance']
-    if filterVal['txt_search'] != '':
+        if wrkt_filter_form != None:
+            wrkt_filter_form.distance_search.data = filterVal['distance']
+    if filterVal['txt_search'] != '' and filterVal['txt_search'] != None:
         txt_srch_lst = filterVal['txt_search'].split(' ')
         for txt_srch in txt_srch_lst:
             txt_srch = txt_srch.strip()
             query = query.filter(
                 or_(Workout.training_type.ilike('%'+txt_srch+'%'), Workout.location.ilike('%'+txt_srch+'%'), Workout.notes.ilike('%'+txt_srch+'%'))
             )
-        wrkt_filter_form.text_search.data = filterVal['txt_search']
+        if wrkt_filter_form != None:
+            wrkt_filter_form.text_search.data = filterVal['txt_search']
 
-    if filterVal['min_strt_temp'] != '':
+    if filterVal['min_strt_temp'] != '' and filterVal['min_strt_temp'] != None:
         usingSearch = True
-        wrkt_filter_form.min_strt_temp_srch.data = filterVal['min_strt_temp']
+        if wrkt_filter_form != None:
+            wrkt_filter_form.min_strt_temp_srch.data = filterVal['min_strt_temp']
         query = query.filter(Workout.temp_strt >= filterVal['min_strt_temp'])
-    if filterVal['max_strt_temp'] != '':
+    if filterVal['max_strt_temp'] != '' and filterVal['max_strt_temp'] != None:
         usingSearch = True
-        wrkt_filter_form.max_strt_temp_srch.data = filterVal['max_strt_temp']
+        if wrkt_filter_form != None:
+            wrkt_filter_form.max_strt_temp_srch.data = filterVal['max_strt_temp']
         query = query.filter(Workout.temp_strt <= filterVal['max_strt_temp'])
-    if filterVal['min_dist'] != '':
+    if filterVal['min_dist'] != '' and filterVal['min_dist'] != None:
         usingSearch = True
-        wrkt_filter_form.min_dist_srch.data = filterVal['min_dist']
+        if wrkt_filter_form != None:
+            wrkt_filter_form.min_dist_srch.data = filterVal['min_dist']
         query = query.filter(Workout.dist_mi >= filterVal['min_dist'])
-    if filterVal['max_dist'] != '':
+    if filterVal['max_dist'] != '' and filterVal['max_dist'] != None:
         usingSearch = True
-        wrkt_filter_form.max_dist_srch.data = filterVal['max_dist']
+        if wrkt_filter_form != None:
+            wrkt_filter_form.max_dist_srch.data = filterVal['max_dist']
         query = query.filter(Workout.dist_mi <= filterVal['max_dist'])
-    if filterVal['strt_dt'] != '':
+    if filterVal['strt_dt'] != '' and filterVal['strt_dt'] != None:
         usingSearch = True
         try:
             dt = dt_conv.get_date(filterVal['strt_dt'])
-            wrkt_filter_form.strt_dt_srch.data = dt
+            if wrkt_filter_form != None:
+                wrkt_filter_form.strt_dt_srch.data = dt
             query = query.filter(Workout.wrkt_dttm >= dt)
         except:
             pass
-    if filterVal['end_dt'] != '':
+    if filterVal['end_dt'] != '' and filterVal['end_dt'] != None:
         usingSearch = True
         try:
             # Add last second of day so end date for workout will be returned regardless of time of day.
             dt = dt_conv.get_date(filterVal['end_dt'] + 'T23:59:59Z')
-            wrkt_filter_form.end_dt_srch.data = dt
+            if wrkt_filter_form != None:
+                wrkt_filter_form.end_dt_srch.data = dt
             query = query.filter(Workout.wrkt_dttm <= dt)
         except:
             pass
