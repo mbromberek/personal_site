@@ -214,6 +214,7 @@ def workouts():
 
 
     workoutPages = query.order_by(Workout.wrkt_dttm.desc()).paginate(filterVal['page'], current_app.config['POSTS_PER_PAGE'], False)
+    more_wrkt_filter = {'page':workoutPages.next_num, 'type':filterVal['type'], 'category':filterVal['category'], 'temperature':filterVal['temperature'], 'distance':filterVal['distance'], 'text_search':filterVal['txt_search'], 'min_strt_temp':filterVal['min_strt_temp'], 'max_strt_temp':filterVal['max_strt_temp'], 'min_dist':filterVal['min_dist'], 'max_dist':filterVal['max_dist'], 'strt_dt':filterVal['strt_dt'], 'end_dt':filterVal['end_dt'] }
     next_url = url_for('main.workouts', page=workoutPages.next_num, type=filterVal['type'], category=filterVal['category'], temperature=filterVal['temperature'], distance=filterVal['distance'], text_search=filterVal['txt_search'], min_strt_temp=filterVal['min_strt_temp'], max_strt_temp=filterVal['max_strt_temp'], min_dist=filterVal['min_dist'], max_dist=filterVal['max_dist'], strt_dt=filterVal['strt_dt'],
     end_dt=filterVal['end_dt'] ) \
         if workoutPages.has_next else None
@@ -232,7 +233,21 @@ def workouts():
             # workout.notes_summmary = workout.notes
         else:
             workout.notes_summary = ""
-    return render_template('workouts.html', title='Workouts', workouts=workouts, form=wrktCreateBtn, wrkt_filter_form=wrkt_filter_form, btn_classes=btn_classes, next_url=next_url, prev_url=prev_url, using_search=usingSearch, destPage='search', wrkt_export_form=wrkt_export_form)
+    return render_template('workouts.html', title='Workouts', workouts=workouts, form=wrktCreateBtn, wrkt_filter_form=wrkt_filter_form, btn_classes=btn_classes, next_url=next_url, more_wrkt_filter=more_wrkt_filter, prev_url=prev_url, using_search=usingSearch, destPage='search', wrkt_export_form=wrkt_export_form)
+
+@bp.route('/more_workouts', methods=['GET'])
+@login_required
+def more_workouts():
+    logger.info('more_workouts')
+    logger.info(request.args.get('category'))
+
+    # filterVal = request.args.get()
+
+    # query, usingSearch = filtering.get_workouts_from_filter(current_user.id, request.args.get('type'), request.args.get('category'), filterVal, None)
+    # workoutPages = query.order_by(Workout.wrkt_dttm.desc()).paginate(filterVal['page'], current_app.config['POSTS_PER_PAGE'], False)
+
+    return jsonify({'workouts': 'data'})
+
 
 @bp.route('/edit_workout', methods=['GET','POST'])
 @login_required

@@ -38,7 +38,8 @@ def get_workouts_from_filter(usr_id, type_filter, category_filter, filterVal, wr
         -current_app.config['TEMPERATURE_RANGE'])
         query = query.filter(Workout.temp_strt <= filterVal['temperature'] \
         +current_app.config['TEMPERATURE_RANGE'])
-        wrkt_filter_form.strt_temp_search.data = filterVal['temperature']
+        if wrkt_filter_form != None:
+            wrkt_filter_form.strt_temp_search.data = filterVal['temperature']
     if filterVal['distance'] != '':
         # usingSearch = True
         query = query.filter(Workout.dist_mi >= filterVal['distance'] \
