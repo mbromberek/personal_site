@@ -110,17 +110,17 @@ function getNextWrkts(filter){
     currPageNbr = 1;
     $.get('/more_workouts', {
         pageReq: currPageNbr+1,
-        type: filter['type']
-        category: filter['category']
-        distance: filter['distance']
-        end_dt: filter['end_dt']
-        max_dist: filter['max_dist']
-        max_strt_temp: filter['max_strt_temp']
-        min_dist: filter['min_dist']
-        min_strt_temp: filter['min_strt_temp']
-        page: filter['page']
-        strt_dt: filter['strt_dt']
-        temperature: filter['temperature']
+        type: filter['type'],
+        category: filter['category'],
+        distance: filter['distance'],
+        end_dt: filter['end_dt'],
+        max_dist: filter['max_dist'],
+        max_strt_temp: filter['max_strt_temp'],
+        min_dist: filter['min_dist'],
+        min_strt_temp: filter['min_strt_temp'],
+        page: filter['page'],
+        strt_dt: filter['strt_dt'],
+        temperature: filter['temperature'],
         text_search: filter['text_search']
 
     }).done(function(response){
