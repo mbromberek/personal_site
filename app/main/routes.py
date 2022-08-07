@@ -242,11 +242,37 @@ def more_workouts():
     logger.info(request.args.get('category'))
 
     # filterVal = request.args.get()
+    filterVal = {}
+    filterVal['temperature'] = request.args.get('temperature')
+    filterVal['distance'] = request.args.get('distance')
+    filterVal['txt_search'] = request.args.get('txt_search')
+    filterVal['min_strt_temp'] = request.args.get('min_strt_temp')
+    filterVal['max_strt_temp'] = request.args.get('max_strt_temp')
+    filterVal['min_dist'] = request.args.get('min_dist')
+    filterVal['max_dist'] = request.args.get('max_dist')
+    filterVal['strt_dt'] = request.args.get('strt_dt')
+    filterVal['end_dt'] = request.args.get('end_dt')
+    filterVal['page'] = int(request.args.get('page'))
 
-    # query, usingSearch = filtering.get_workouts_from_filter(current_user.id, request.args.get('type'), request.args.get('category'), filterVal, None)
-    # workoutPages = query.order_by(Workout.wrkt_dttm.desc()).paginate(filterVal['page'], current_app.config['POSTS_PER_PAGE'], False)
+    query, usingSearch = filtering.get_workouts_from_filter(current_user.id, request.args.get('type'), request.args.get('category'), filterVal, None)
+    workoutPages = query.order_by(Workout.wrkt_dttm.desc()).paginate(filterVal['page'], current_app.config['POSTS_PER_PAGE'], False)
 
-    return jsonify({'workouts': 'data'})
+    workouts = workoutPages.items
+    wrkt_dict_lst = []
+    for workout in workouts:
+        wrkt_dict = workout.to_dict()
+        wrkt_dict['duration'] = workout.dur_str()
+        wrkt_dict['pace'] = workout.pace_str()
+        if workout.clothes == None:
+            wrkt_dict['clothes'] = ''
+        if workout.notes != None:
+            wrkt_dict['notes_summary'] =  workout.notes[:current_app.config['SIZE_NOTES_SUMMARY']] + '...' if len(workout.notes) > current_app.config['SIZE_NOTES_SUMMARY'] else workout.notes
+            # workout.notes_summmary = workout.notes
+        else:
+            wrkt_dict['notes_summary'] = ""
+        wrkt_dict_lst.append(wrkt_dict)
+
+    return jsonify({'workouts': wrkt_dict_lst})
 
 
 @bp.route('/edit_workout', methods=['GET','POST'])
