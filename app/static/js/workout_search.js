@@ -235,9 +235,6 @@ function loadItems(response){
             section_ct = section_ct +1;
         }
 
-
-        //Need to determine how to handle calculating this and make it work for mobile too
-        console.log(section_ct);
         if (section_ct <=7){
             template_clone.querySelector("#wrkt_card").style.height = '200px';
         }else if (section_ct ==8){
