@@ -150,6 +150,7 @@ function loadItems(response){
     let wrkts = response['workouts'];
     let wrkt_lst_ele = document.getElementById('wrkt_lst');
     for (var i=0; i<wrkts.length; i++){
+        let section_ct = 6; //Should always be at least 6
         let wrkt_dttm_formatted = formatDate(wrkts[i]['wrkt_dttm']);
 
         let template_clone = document.getElementsByTagName("template")[0].content.cloneNode(true);
@@ -170,14 +171,19 @@ function loadItems(response){
             template_clone.querySelector("#clothes").innerHTML = 'Wore: ' +  wrkts[i]['clothes'];
         }
         template_clone.querySelector("#gear").innerHTML = wrkts[i]['gear'];
+        section_ct = section_ct + 1;
         if (wrkts[i]['notes_summary'] != ''){
             template_clone.querySelector("#notes").innerHTML = 'Notes: ' +  wrkts[i]['notes_summary'];
+            section_ct = section_ct + 2;
+        }else{
+            template_clone.querySelector("#notes").outerHTML = '';
         }
 
         let weather_start = wrkts[i]['weather_start'];
         if (weather_start['temp'] == '' || isNaN(weather_start['temp']) ){
             template_clone.querySelector("#weather_start").innerHTML = '';
         }else{
+            section_ct = section_ct + 1;
             template_clone.querySelector("#weather_start_temp").innerHTML = Math.round(weather_start['temp']) + '&#176';
             if (weather_start['wethr_cond'] != ''){
                 template_clone.querySelector("#weather_start_cond").innerHTML = '&nbsp;' + weather_start['wethr_cond'];
@@ -202,6 +208,7 @@ function loadItems(response){
         if (weather_end['temp'] == '' || isNaN(weather_end['temp']) ){
             template_clone.querySelector("#weather_end").innerHTML = '';
         }else{
+            section_ct = section_ct + 1;
             template_clone.querySelector("#weather_end_temp").innerHTML = Math.round(weather_end['temp']) + '&#176';
             if (weather_end['wethr_cond'] != ''){
                 template_clone.querySelector("#weather_end_cond").innerHTML = '&nbsp;' + weather_end['wethr_cond'];
@@ -222,10 +229,28 @@ function loadItems(response){
                 template_clone.querySelector("#weather_end_wind_gust").innerHTML = ', gust ' + Math.round(weather_end['wind_gust']);
             }
         }
+        if ((weather_start['temp'] == '' || isNaN(weather_start['temp'])) && (weather_end['temp'] == '' || isNaN(weather_end['temp']))){
+            template_clone.querySelector('#weather_separator').outerHTML = '';
+        }else{
+            section_ct = section_ct +1;
+        }
 
 
         //Need to determine how to handle calculating this and make it work for mobile too
-        template_clone.querySelector("#wrkt_card").style.height = '300px';
+        console.log(section_ct);
+        if (section_ct <=7){
+            template_clone.querySelector("#wrkt_card").style.height = '200px';
+        }else if (section_ct ==8){
+            template_clone.querySelector("#wrkt_card").style.height = '220px';
+        }else if (section_ct ==9){
+            template_clone.querySelector("#wrkt_card").style.height = '240px';
+        }else if (section_ct ==10){
+            template_clone.querySelector("#wrkt_card").style.height = '260px';
+        }else if (section_ct ==11){
+            template_clone.querySelector("#wrkt_card").style.height = '285px';
+        }else if (section_ct ==12){
+            template_clone.querySelector("#wrkt_card").style.height = '310px';
+        }
 
         wrkt_lst_ele.appendChild(template_clone);
     }
