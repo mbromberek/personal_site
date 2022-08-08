@@ -242,8 +242,32 @@ def more_workouts():
     logger.info('more_workouts')
     logger.info(request.args.get('category'))
 
-    # filterVal = request.args.get()
     filterVal = {}
+    filterVal['type'] = request.args.get('type')
+    filterVal['category'] = request.args.get('category')
+    type_filter = []
+    category_filter = []
+    filter_type_lst = Workout_type.query.filter_by(grp=filterVal['type'])
+    for filter_type in filter_type_lst:
+        type_filter.append(filter_type.id)
+
+    if filterVal['category'] == 'training':
+        filter_cat_lst = Workout_category.query.filter( Workout_category.nm.in_(['Training', 'Hard']))
+        for filter_cat in filter_cat_lst:
+            category_filter.append(filter_cat.id)
+    if filterVal['category'] == 'long':
+        filter_cat_lst = Workout_category.query.filter( Workout_category.nm.in_(['Long Run', 'Long']))
+        for filter_cat in filter_cat_lst:
+            category_filter.append(filter_cat.id)
+    if filterVal['category'] == 'easy':
+        filter_cat_lst = Workout_category.query.filter( Workout_category.nm.in_(['Easy']))
+        for filter_cat in filter_cat_lst:
+            category_filter.append(filter_cat.id)
+    if filterVal['category'] == 'race':
+        filter_cat_lst = Workout_category.query.filter( Workout_category.nm.in_(['Race', 'Virtual Race']))
+        for filter_cat in filter_cat_lst:
+            category_filter.append(filter_cat.id)
+
     filterVal['temperature'] = request.args.get('temperature')
     filterVal['distance'] = request.args.get('distance')
     filterVal['txt_search'] = request.args.get('txt_search')
@@ -255,7 +279,7 @@ def more_workouts():
     filterVal['end_dt'] = request.args.get('end_dt')
     filterVal['page'] = int(request.args.get('page'))
 
-    query, usingSearch = filtering.get_workouts_from_filter(current_user.id, request.args.get('type'), request.args.get('category'), filterVal, None)
+    query, usingSearch = filtering.get_workouts_from_filter(current_user.id, type_filter, category_filter, filterVal, None)
     workoutPages = query.order_by(Workout.wrkt_dttm.desc()).paginate(filterVal['page'], current_app.config['POSTS_PER_PAGE'], False)
 
     workouts = workoutPages.items
