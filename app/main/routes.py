@@ -276,8 +276,9 @@ def more_workouts():
         if workout.clothes == None:
             wrkt_dict['clothes'] = ''
         if workout.notes != None:
-            wrkt_dict['notes_summary'] =  workout.notes[:current_app.config['SIZE_NOTES_SUMMARY']] + '...' if len(workout.notes) > current_app.config['SIZE_NOTES_SUMMARY'] else workout.notes
+            # wrkt_dict['notes_summary'] =  workout.notes[:current_app.config['SIZE_NOTES_SUMMARY']] + '...' if len(workout.notes) > current_app.config['SIZE_NOTES_SUMMARY'] else workout.notes
             # workout.notes_summmary = workout.notes
+            wrkt_dict['notes_summary'] = workout.notes
         else:
             wrkt_dict['notes_summary'] = ""
         wrkt_dict_lst.append(wrkt_dict)
