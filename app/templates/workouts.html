@@ -222,21 +222,21 @@
 
     <nav aria-label="Workouts page navigation" class="wrkts_nav">
         <ul class="pagination">
-            <li class="page-item {% if not prev_url %} disabled {% endif %}">
+            {#<li class="page-item {% if not prev_url %} disabled {% endif %}">
                 <a class='page-link' href="{{ prev_url or '#' }}">
                     <span aria-hidden="true">&larr;</span> Newer workouts
                 </a>
-            </li>
+            </li>#}
             <li class="page-item ">
                 <a class='page-link' href="javascript:getNextWrkts({{ more_wrkt_filter }})">
                     More Workouts
                 </a>
             </li>
-            <li class="ml-auto page-item {% if not next_url %} disabled {% endif %}">
+            {#<li class="ml-auto page-item {% if not next_url %} disabled {% endif %}">
                 <a class='page-link' href="{{ next_url or '#' }}">
                     Older workouts <span aria-hidden="true">&rarr;</span>
                 </a>
-            </li>
+            </li>#}
         </ul>
     </nav>
     {#
