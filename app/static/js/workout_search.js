@@ -157,6 +157,9 @@ function loadItems(response){
         template_clone.querySelector("#wrkt_lnk").innerHTML = wrkt_dttm_formatted + ' - ' + wrkts[i]['type'];
         template_clone.querySelector("#wrkt_lnk").href = wrkts[i]['_links']['self'];
         template_clone.querySelector("#wrkt_edit_lnk").href = wrkts[i]['_links']['edit'];
+
+        template_clone.querySelector("#category_training_loc").innerHTML = wrkts[i]['category_training_loc'];
+
         wrkt_lst_ele.appendChild(template_clone);
     }
 

@@ -265,7 +265,15 @@ def more_workouts():
         wrkt_dict['duration'] = workout.dur_str()
         wrkt_dict['pace'] = workout.pace_str()
         wrkt_dict['pace_uom'] = workout.pace_uom()
-        # wrkt_dict['weather_summary_start'] = workout.weather_summary('start')
+
+        wrkt_category_training_loc = [workout.category_det.nm]
+        if workout.training_type != None and len(workout.training_type) > 0:
+            wrkt_category_training_loc.append(workout.training_type)
+        if workout.location != None and len(workout.location) > 0:
+            wrkt_category_training_loc.append(workout.location)
+        wrkt_dict['category_training_loc'] = ' - '.join(wrkt_category_training_loc)
+
+        wrkt_dict['weather_summary_start'] = workout.weather_summary('start')
         # wrkt_dict['weather_summary_end'] = workout.weather_summary('end')
         if workout.clothes == None:
             wrkt_dict['clothes'] = ''

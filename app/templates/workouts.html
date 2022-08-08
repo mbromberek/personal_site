@@ -117,17 +117,11 @@
                     </div>
                 </div>
 
-{#
-
-                <div class="workout-detail workout_detail_type" style="border:0px red solid;">
-                    {{ workout.category_det.nm }}
-                    {% if workout.training_type is defined and workout.training_type is not none and workout.training_type|length %}
-                    - {{ workout.training_type }}
-                    {% endif %}
-                    {% if workout.location is defined and workout.location is not none and workout.location|length %}
-                    - {{ workout.location }}
-                    {% endif %}
+                <div class="workout-detail workout_detail_type" style="border:0px red solid;" id='category_training_loc'>
+                    &nbsp;
                 </div>
+
+{#
 
                 {% if workout.thumb_path != None %}
                 <div class="workout_map" style=" ">
