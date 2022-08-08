@@ -1,3 +1,4 @@
+let nextPage = 2;
 /*
 */
 // function wrktSearchBtn(){
@@ -107,9 +108,7 @@ function showDownload(element){
 function getNextWrkts(filter){
     console.log("getNextWrkts");
     console.log(filter);
-    currPageNbr = 1;
     $.get('/more_workouts', {
-        pageReq: currPageNbr+1,
         type: filter['type'],
         category: filter['category'],
         distance: filter['distance'],
@@ -118,7 +117,7 @@ function getNextWrkts(filter){
         max_strt_temp: filter['max_strt_temp'],
         min_dist: filter['min_dist'],
         min_strt_temp: filter['min_strt_temp'],
-        page: filter['page'],
+        page: nextPage,
         strt_dt: filter['strt_dt'],
         temperature: filter['temperature'],
         text_search: filter['text_search']
@@ -230,5 +229,6 @@ function loadItems(response){
 
         wrkt_lst_ele.appendChild(template_clone);
     }
+    nextPage = response['page'];
 
 }
