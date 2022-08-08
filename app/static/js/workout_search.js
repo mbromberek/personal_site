@@ -160,6 +160,9 @@ function loadItems(response){
 
         template_clone.querySelector("#category_training_loc").innerHTML = wrkts[i]['category_training_loc'];
 
+        //Need to determine how to handle calculating this and make it work for mobile too
+        template_clone.querySelector("#wrkt_card").style.height = '300px';
+
         wrkt_lst_ele.appendChild(template_clone);
     }
 

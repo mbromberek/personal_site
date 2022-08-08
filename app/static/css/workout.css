@@ -36,6 +36,7 @@ body {
     padding-top:10px;
     padding-bottom:15px;
     position:relative;
+    /* height: 300px; */
 }
 /*.workout:hover {
     background-color: lightblue;
