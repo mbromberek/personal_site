@@ -230,5 +230,5 @@ function loadItems(response){
         wrkt_lst_ele.appendChild(template_clone);
     }
     nextPage = response['page'];
-
+    //TODO if nextPage is null means no more records, need to make button disabled
 }

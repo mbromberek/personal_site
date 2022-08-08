@@ -139,3 +139,47 @@ def getFilterValuesFromUrl():
     filterVal['max_strt_temp'] = request.args.get('max_strt_temp', default='', type=int)
 
     return filterVal
+
+def getFilterValuesFromGet(request):
+    filterVal = {}
+    filterVal['type'] = request.args.get('type')
+    filterVal['category'] = request.args.get('category')
+    filterVal['txt_search'] = request.args.get('txt_search')
+    try:
+        filterVal['temperature'] = int(request.args.get('temperature'))
+    except ValueError:
+        filterVal['temperature'] = ''
+    try:
+        filterVal['distance'] = int(request.args.get('distance'))
+    except ValueError:
+        filterVal['distance'] = ''
+    try:
+        filterVal['min_strt_temp'] = int(request.args.get('min_strt_temp'))
+    except ValueError:
+        filterVal['min_strt_temp'] = ''
+    try:
+        filterVal['max_strt_temp'] = int(request.args.get('max_strt_temp'))
+    except ValueError:
+        filterVal['max_strt_temp'] = ''
+    try:
+        filterVal['min_dist'] = int(request.args.get('min_dist'))
+    except ValueError:
+        filterVal['min_dist'] = ''
+    try:
+        filterVal['max_dist'] = int(request.args.get('max_dist'))
+    except ValueError:
+        filterVal['max_dist'] = ''
+    try:
+        filterVal['strt_dt'] = datetime.strptime(request.args.get('strt_dt'),'%Y-%m-%d')
+    except ValueError:
+        filterVal['strt_dt'] = ''
+    try:
+        filterVal['end_dt'] = datetime.strptime(request.args.get('end_dt'),'%Y-%m-%d')
+    except ValueError:
+        filterVal['end_dt'] = ''
+
+    try:
+        filterVal['page'] = int(request.args.get('page'))
+    except ValueError:
+        filterVal['page'] = None
+    return filterVal

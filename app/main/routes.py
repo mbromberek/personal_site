@@ -242,9 +242,8 @@ def more_workouts():
     logger.info('more_workouts')
     logger.info(request.args.get('category'))
 
-    filterVal = {}
-    filterVal['type'] = request.args.get('type')
-    filterVal['category'] = request.args.get('category')
+    filterVal = filtering.getFilterValuesFromGet(request)
+
     type_filter = []
     category_filter = []
     filter_type_lst = Workout_type.query.filter_by(grp=filterVal['type'])
@@ -268,16 +267,6 @@ def more_workouts():
         for filter_cat in filter_cat_lst:
             category_filter.append(filter_cat.id)
 
-    filterVal['temperature'] = request.args.get('temperature')
-    filterVal['distance'] = request.args.get('distance')
-    filterVal['txt_search'] = request.args.get('txt_search')
-    filterVal['min_strt_temp'] = request.args.get('min_strt_temp')
-    filterVal['max_strt_temp'] = request.args.get('max_strt_temp')
-    filterVal['min_dist'] = request.args.get('min_dist')
-    filterVal['max_dist'] = request.args.get('max_dist')
-    filterVal['strt_dt'] = request.args.get('strt_dt')
-    filterVal['end_dt'] = request.args.get('end_dt')
-    filterVal['page'] = int(request.args.get('page'))
 
     query, usingSearch = filtering.get_workouts_from_filter(current_user.id, type_filter, category_filter, filterVal, None)
     workoutPages = query.order_by(Workout.wrkt_dttm.desc()).paginate(filterVal['page'], current_app.config['POSTS_PER_PAGE'], False)
