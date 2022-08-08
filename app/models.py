@@ -305,6 +305,7 @@ class Workout(PaginatedAPIMixin, db.Model):
             'dur_sec': self.dur_sec,
             'dist_mi': str(self.dist_mi),
             'pace': self.pace_str(),
+            'pace_uom': self.pace_uom(),
             'gear': gear_rec.nm if gear_rec != None else None,
             'clothes': self.clothes,
             'ele_up': str(self.ele_up),
@@ -363,6 +364,8 @@ class Workout(PaginatedAPIMixin, db.Model):
         }
         if for_web:
             data['_links']['edit'] = url_for('main.edit_workout', workout=self.id, _external=True)
+        if self.thumb_path is not None:
+            data['_links']['map_thumb'] = url_for('main.wrkt_img_file', filename= self.thumb_path, _external=True)
         return data
 
     def from_dict(self, data, user_id):

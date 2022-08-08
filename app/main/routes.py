@@ -263,8 +263,6 @@ def more_workouts():
     for workout in workouts:
         wrkt_dict = workout.to_dict(for_web=True)
         wrkt_dict['duration'] = workout.dur_str()
-        wrkt_dict['pace'] = workout.pace_str()
-        wrkt_dict['pace_uom'] = workout.pace_uom()
 
         wrkt_category_training_loc = [workout.category_det.nm]
         if workout.training_type != None and len(workout.training_type) > 0:
