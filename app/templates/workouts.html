@@ -227,7 +227,7 @@
                     <span aria-hidden="true">&larr;</span> Newer workouts
                 </a>
             </li>#}
-            <li class="page-item ">
+            <li class="page-item {% if not more_wrkt_filter %} disabled {% endif %}" id='more_workouts'>
                 <a class='page-link' href="javascript:getNextWrkts({{ more_wrkt_filter }})">
                     More Workouts
                 </a>

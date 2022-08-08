@@ -214,7 +214,7 @@ def workouts():
 
 
     workoutPages = query.order_by(Workout.wrkt_dttm.desc()).paginate(filterVal['page'], current_app.config['POSTS_PER_PAGE'], False)
-    more_wrkt_filter = {'page':workoutPages.next_num, 'type':filterVal['type'], 'category':filterVal['category'], 'temperature':filterVal['temperature'], 'distance':filterVal['distance'], 'text_search':filterVal['txt_search'], 'min_strt_temp':filterVal['min_strt_temp'], 'max_strt_temp':filterVal['max_strt_temp'], 'min_dist':filterVal['min_dist'], 'max_dist':filterVal['max_dist'], 'strt_dt':filterVal['strt_dt'], 'end_dt':filterVal['end_dt'] }
+    more_wrkt_filter = {'page':workoutPages.next_num, 'type':filterVal['type'], 'category':filterVal['category'], 'temperature':filterVal['temperature'], 'distance':filterVal['distance'], 'text_search':filterVal['txt_search'], 'min_strt_temp':filterVal['min_strt_temp'], 'max_strt_temp':filterVal['max_strt_temp'], 'min_dist':filterVal['min_dist'], 'max_dist':filterVal['max_dist'], 'strt_dt':filterVal['strt_dt'], 'end_dt':filterVal['end_dt'] } if workoutPages.has_next else None
     next_url = url_for('main.workouts', page=workoutPages.next_num, type=filterVal['type'], category=filterVal['category'], temperature=filterVal['temperature'], distance=filterVal['distance'], text_search=filterVal['txt_search'], min_strt_temp=filterVal['min_strt_temp'], max_strt_temp=filterVal['max_strt_temp'], min_dist=filterVal['min_dist'], max_dist=filterVal['max_dist'], strt_dt=filterVal['strt_dt'],
     end_dt=filterVal['end_dt'] ) \
         if workoutPages.has_next else None
