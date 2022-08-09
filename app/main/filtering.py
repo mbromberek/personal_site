@@ -169,14 +169,10 @@ def getFilterValuesFromGet(request):
         filterVal['max_dist'] = int(request.args.get('max_dist'))
     except ValueError:
         filterVal['max_dist'] = ''
-    try:
-        filterVal['strt_dt'] = datetime.strptime(request.args.get('strt_dt'),'%Y-%m-%d')
-    except ValueError:
-        filterVal['strt_dt'] = ''
-    try:
-        filterVal['end_dt'] = datetime.strptime(request.args.get('end_dt'),'%Y-%m-%d')
-    except ValueError:
-        filterVal['end_dt'] = ''
+
+    filterVal['strt_dt'] = request.args.get('strt_dt')
+    filterVal['end_dt'] = request.args.get('end_dt')
+
 
     try:
         filterVal['page'] = int(request.args.get('page'))

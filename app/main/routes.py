@@ -240,7 +240,6 @@ def workouts():
 @login_required
 def more_workouts():
     logger.info('more_workouts')
-    logger.info(request.args.get('category'))
 
     filterVal = filtering.getFilterValuesFromGet(request)
 
