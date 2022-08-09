@@ -312,7 +312,7 @@ class Workout(PaginatedAPIMixin, db.Model):
             'ele_down': str(self.ele_down),
             'hr': str(self.hr),
             'cal_burn': self.cal_burn,
-            'category': self.category_det.nm,
+            'category': self.category_det.nm if self.category_det != None else '',
             'location': self.location,
             'training_type': self.training_type,
             'weather_start': {

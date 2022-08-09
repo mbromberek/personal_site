@@ -276,7 +276,7 @@ def more_workouts():
         wrkt_dict = workout.to_dict(for_web=True)
         wrkt_dict['duration'] = workout.dur_str()
 
-        wrkt_category_training_loc = [workout.category_det.nm]
+        wrkt_category_training_loc = [wrkt_dict['category']]
         if workout.training_type != None and len(workout.training_type) > 0:
             wrkt_category_training_loc.append(workout.training_type)
         if workout.location != None and len(workout.location) > 0:
