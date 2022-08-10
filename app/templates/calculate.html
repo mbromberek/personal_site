@@ -84,6 +84,81 @@
 
     <fieldset class="wrkt_det " style="margin-top:8px;">
         <legend class="wrkt_det">
+            Calculate distance from time and pace
+        </legend>
+        <div style="overflow:auto; width:100%; margin-top:20px;">
+            <form action="JavaScript:calcDistanceBtn('dist_from_time_pace_1')" method="post" role="form" class="form" id='dist_from_time_pace_1'>
+                <div class="form-row " style="width:90%; margin-left:5px;">
+
+                    {{ form.hidden_tag() }}
+                    <!-- Search Fields -->
+                    <div class="form-group mr-4">
+                        <label>Pace: </label><br>
+                        <input class="calc_field_2" type="number" id="cd_pace_m" name="pace_m" min=0>
+                        <label>m </label>
+                        <input class="calc_field_2" type="number" id="cd_pace_s" name="pace_s" min=0 max=59>
+                        <label>s </label>
+                    </div>
+                    <div class="form-group mr-4">
+                        <label>Time: </label><br>
+                        <input class="calc_field_2" type="number" id="cd_time_h" name="time_h" min=0>
+                        <label>h </label>
+                        <input class="calc_field_2" type="number" id="cd_time_m" name="time_m" min=0>
+                        <label>m </label>
+                        <input class="calc_field_2" type="number" id="cd_time_s" name="time_s" min=0>
+                        <label>s </label>
+                    </div>
+                    <div class="form-group mr-4" >
+                        <label>Distance: </label><br>
+                        =
+                        <input class="calc_field_3" type="string" id="cd_distance" name="distance" disabled>
+                    </div>
+                    <div class="form-group" style="margin-left:5px;">
+                        <br />
+                        <input type="submit" value="Calculate">
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div style="overflow:auto; width:100%; margin-top:20px;">
+            <form action="JavaScript:calcDistanceBtn('dist_from_time_pace_2')" method="post" role="form" class="form" id='dist_from_time_pace_2'>
+                <div class="form-row " style="width:90%; margin-left:5px;">
+
+                    {{ form.hidden_tag() }}
+                    <!-- Search Fields -->
+                    <div class="form-group mr-4">
+                        <label>Pace: </label><br>
+                        <input class="calc_field_2" type="number" id="cd_pace_m" name="pace_m" min=0>
+                        <label>m </label>
+                        <input class="calc_field_2" type="number" id="cd_pace_s" name="pace_s" min=0 max=59>
+                        <label>s </label>
+                    </div>
+                    <div class="form-group mr-4">
+                        <label>Time: </label><br>
+                        <input class="calc_field_2" type="number" id="cd_time_h" name="time_h" min=0>
+                        <label>h </label>
+                        <input class="calc_field_2" type="number" id="cd_time_m" name="time_m" min=0>
+                        <label>m </label>
+                        <input class="calc_field_2" type="number" id="cd_time_s" name="time_s" min=0>
+                        <label>s </label>
+                    </div>
+                    <div class="form-group mr-4" >
+                        <label>Distance: </label><br>
+                        =
+                        <input class="calc_field_3" type="string" id="cd_distance" name="distance" disabled>
+                    </div>
+                    <div class="form-group" style="margin-left:5px;">
+                        <br />
+                        <input type="submit" value="Calculate">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </fieldset>
+
+    <fieldset class="wrkt_det " style="margin-top:8px;">
+        <legend class="wrkt_det">
             Calculate pace based on desired pace and temperature
         </legend>
         <div style="overflow:auto; width:100%; margin-top:20px;">

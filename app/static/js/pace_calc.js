@@ -2,11 +2,13 @@
 let calculationCookieLst = [
     'calcPaceHours','calcPaceMinutes','calcPaceSeconds','calcPaceDistance',
     'calcTimeMinutes', 'calcTimeSeconds', 'calcTimeDistance',
-    'calcPaceAdjMinutes', 'calcPaceAdjSeconds', 'calcPaceAdjTemperature'
+    'calcPaceAdjMinutes', 'calcPaceAdjSeconds', 'calcPaceAdjTemperature',
+    'calcDistTmHours', 'calcDistTmMinutes', 'calcDistTmSeconds', 'calcDistPaceMinutes', 'calcDistPaceSeconds'
 ];
 
+
 //Number of days to save cookies for
-let cookieExpireDays = 30;
+let cookieExpireDays = 60;
 
 /*
 Run when calculate button is pressed for getting pace
@@ -97,6 +99,46 @@ function calcPaceHeat(h, m, s, temp){
         return pace_sec+increase_per_mile_seconds
     }
 
+}
+
+/*
+Run when calculate button is pressed for getting distance
+Saves fields as cookies if they are populated and Remember Calculations is checked
+*/
+function calcDistanceBtn(formId){
+    form_ele = document.getElementById(formId);
+    let tm_h = form_ele.querySelector("#cd_time_h").value;
+    let tm_m = form_ele.querySelector("#cd_time_m").value;
+    let tm_s = form_ele.querySelector("#cd_time_s").value;
+    let pace_m = form_ele.querySelector("#cd_pace_m").value;
+    let pace_s = form_ele.querySelector("#cd_pace_s").value;
+    let dist = '';
+
+    //Need at least one value for time or pace
+    if ((tm_h != '' || tm_m != '' || tm_s != '') || (pace_m != '' || pace_s != '')) {
+        dist = calcDistance(tm_h, tm_m, tm_s, 0, pace_m, pace_s);
+    }else{
+        alert('Please enter a value for Time and Pace')
+    }
+    if (dist != '' && document.getElementById("save_cookie").checked){
+        setCookie(formId + "_calcDistTmHours", tm_h, cookieExpireDays);
+        setCookie(formId + "_calcDistTmMinutes", tm_m, cookieExpireDays);
+        setCookie(formId + "_calcDistTmSeconds", tm_s, cookieExpireDays);
+        setCookie(formId + "_calcDistPaceMinutes", pace_m, cookieExpireDays);
+        setCookie(formId + "_calcDistPaceSeconds", pace_s, cookieExpireDays);
+    }
+    form_ele.querySelector("#cd_distance").value = dist
+}
+
+function calcDistance(tm_h, tm_m, tm_s, pace_h, pace_m, pace_s){
+    if ((tm_h == '' && tm_m == '' && tm_s == '') && (pace_m == '' && pace_s == '')) {
+        return '';
+    }
+
+    let tm = time_to_sec(tm_h, tm_m, tm_s);
+    let pace = time_to_sec(pace_h, pace_m, pace_s);
+
+    return parseFloat(tm/pace).toFixed(2);
 }
 
 /*
@@ -199,6 +241,8 @@ function saveAllCookieValues(){
     console.log('saveAllCookieValues');
     setCookie("rememberCalculations", true, cookieExpireDays);
 
+    setCookie("dist_form_ids", 'dist_from_time_pace_1,dist_from_time_pace_2', cookieExpireDays);
+
     var h = document.getElementById("cp_time_h").value;
     var m = document.getElementById("cp_time_m").value;
     var s = document.getElementById("cp_time_s").value;
@@ -222,6 +266,19 @@ function saveAllCookieValues(){
     setCookie("calcPaceAdjSeconds", s, cookieExpireDays);
     setCookie("calcPaceAdjTemperature", temp, cookieExpireDays);
 
+    formId = 'dist_from_time_pace_1';
+    form_ele = document.getElementById(formId);
+    let tm_h = form_ele.querySelector("#cd_time_h").value;
+    let tm_m = form_ele.querySelector("#cd_time_m").value;
+    let tm_s = form_ele.querySelector("#cd_time_s").value;
+    let pace_m = form_ele.querySelector("#cd_pace_m").value;
+    let pace_s = form_ele.querySelector("#cd_pace_s").value;
+    setCookie(formId + "_calcDistTmHours", tm_h, cookieExpireDays);
+    setCookie(formId + "_calcDistTmMinutes", tm_m, cookieExpireDays);
+    setCookie(formId + "_calcDistTmSeconds", tm_s, cookieExpireDays);
+    setCookie(formId + "_calcDistPaceMinutes", pace_m, cookieExpireDays);
+    setCookie(formId + "_calcDistPaceSeconds", pace_s, cookieExpireDays);
+
 }
 
 /*
@@ -241,10 +298,15 @@ Run on page loade. Checks if rememberCalculations cookie is set and if it is rea
 function reloadCalculationValues(){
     var rememberCalc = getCookie("rememberCalculations");
     if (rememberCalc){
+        form_ids = getCookie("dist_form_ids").split(',');
+        console.log(form_ids);
         document.getElementById("save_cookie").checked = true;
         getCalcPacePrevious();
         getCalcTimePrevious();
         getCalcAdjPacePrevious();
+        for (let i=0; i<form_ids.length; i++){
+            getCalcDistancePrevious(form_ids[i]);
+        }
     }
 }
 
@@ -275,7 +337,6 @@ function getCalcTimePrevious(){
     var m = getCookie("calcTimeMinutes");
     var s = getCookie("calcTimeSeconds");
     var dist = getCookie("calcTimeDistance");
-    console.log('getCalcTimePrevious: ' + dist);
 
     document.getElementById("ct_pace_m").value = m;
     document.getElementById("ct_pace_s").value = s;
@@ -301,4 +362,26 @@ function getCalcAdjPacePrevious(){
     if (temp != ''){
         document.getElementById("cpt_adjusted_pace").value = sec_to_time_str(calcPaceHeat(0, m, s, temp), 'ms');
     }
+}
+
+/*
+Get cookie values for Calculating distance, populates the web page fields, and calculates the pace.
+*/
+function getCalcDistancePrevious(formId){
+    form_ele = document.getElementById(formId);
+
+    tm_h = getCookie(formId + "_calcDistTmHours");
+    tm_m = getCookie(formId + "_calcDistTmMinutes");
+    tm_s = getCookie(formId + "_calcDistTmSeconds");
+    pace_m = getCookie(formId + "_calcDistPaceMinutes");
+    pace_s = getCookie(formId + "_calcDistPaceSeconds");
+
+    form_ele.querySelector("#cd_time_h").value = tm_h;
+    form_ele.querySelector("#cd_time_m").value = tm_m;
+    form_ele.querySelector("#cd_time_s").value = tm_s;
+    form_ele.querySelector("#cd_pace_m").value = pace_m;
+    form_ele.querySelector("#cd_pace_s").value = pace_s;
+
+    form_ele.querySelector("#cd_distance").value = calcDistance(tm_h, tm_m, tm_s, 0, pace_m, pace_s);
+
 }
