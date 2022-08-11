@@ -92,6 +92,9 @@ header.workout{
     margin-right:30px;
     width:800px;
 }
+.center{
+    margin: auto;
+}
 .hide_desktop{
     display:none;
 }

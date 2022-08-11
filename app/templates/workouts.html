@@ -240,11 +240,12 @@
                     More Workouts
                 </a>
             </li>#}
+            {% if more_wrkt_filter %}
             <!-- Spinner logo to be shown while new items are loaded, it is being monitored for when to load new workouts -->
-            <li id="more_workouts_loading">
+            <li id="more_workouts_loading" class="center">
                 <img src="static/images/loading.gif" alt="additional workouts loading" width="32px" height="32px">
             </li>
-
+            {% endif %}
         </ul>
     </nav>
     {#
@@ -372,19 +373,8 @@
       </div>
     </div>
 
+{% if more_wrkt_filter %}
 <script>
-    // let options = {
-    //   root: document.querySelector('#more_workouts'),
-    //   rootMargin: '0px',
-    //   threshold: 1.0
-    // }
-    //
-    // let callback = (entries, observer) => {
-    //   entries.forEach((entry) => {
-    //       getNextWrkts(' ');
-    // });
-    // };
-
     var observer = new IntersectionObserver(entries => {
         if (entries[0].intersectionRatio <=0){
             return;
@@ -395,4 +385,5 @@
     var target = document.querySelector('#more_workouts_loading');
     observer.observe(target);
 </script>
+{% endif %}
 {% endblock %}
