@@ -363,4 +363,28 @@
         </form>
       </div>
     </div>
+
+<script>
+    // let options = {
+    //   root: document.querySelector('#more_workouts'),
+    //   rootMargin: '0px',
+    //   threshold: 1.0
+    // }
+    //
+    // let callback = (entries, observer) => {
+    //   entries.forEach((entry) => {
+    //       getNextWrkts(' ');
+    // });
+    // };
+
+    var observer = new IntersectionObserver(entries => {
+        if (entries[0].intersectionRatio <=0){
+            return;
+        }
+        getNextWrkts({{ more_wrkt_filter|tojson|safe }});
+    });
+
+    var target = document.querySelector('#more_workouts');
+    observer.observe(target);
+</script>
 {% endblock %}
