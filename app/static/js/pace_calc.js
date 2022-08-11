@@ -307,6 +307,8 @@ function reloadCalculationValues(){
         for (let i=0; i<form_ids.length; i++){
             getCalcDistancePrevious(form_ids[i]);
         }
+        //this is done so when user visits the page the cookies will get saved with new set of days to live
+        saveAllCookieValues();
     }
 }
 
