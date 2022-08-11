@@ -254,6 +254,7 @@ function loadItems(response){
     }
     nextPage = response['page'];
     if (response['page'] == null){
-        document.getElementById("more_workouts").classList.add('disabled');
+        // document.getElementById("more_workouts").classList.add('disabled');
+        document.getElementById("more_workouts_loading").outerHTML = '';
     }
 }
