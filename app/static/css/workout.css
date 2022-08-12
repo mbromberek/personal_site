@@ -627,6 +627,9 @@ td.dashboard_row_dtl{
     .workout_card_mobile_height_14{
         height: 310px;
     }
+    .workout_card_mobile_height_15{
+        height: 330px;
+    }
 
     .workout_map{
         /* position:relative; */

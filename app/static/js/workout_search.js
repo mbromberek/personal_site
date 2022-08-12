@@ -211,12 +211,7 @@ function loadItems(response){
         if (wrkts[i]['category_training_loc'].length >39){
             row_ct = row_ct +1;
         }
-        template_clone.querySelector("#wrkt_card").classList.add('workout_card_mobile_height_'+row_ct)
-
-        /*
-        if (weather_start['wethr_cond'].length >13 || weather_end['wethr_cond'].length >13 ){
-            template_clone.querySelector("#wrkt_card").classList.add();
-        }*/
+        template_clone.querySelector("#wrkt_card").classList.add('workout_card_mobile_height_'+row_ct);
 
         wrkt_lst_ele.appendChild(template_clone);
     }
