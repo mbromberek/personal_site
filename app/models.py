@@ -307,7 +307,7 @@ class Workout(PaginatedAPIMixin, db.Model):
             'pace': self.pace_str(),
             'pace_uom': self.pace_uom(),
             'gear': gear_rec.nm if gear_rec != None else None,
-            'clothes': self.clothes,
+            'clothes': self.clothes, 
             'ele_up': str(self.ele_up),
             'ele_down': str(self.ele_down),
             'hr': str(self.hr),
@@ -333,7 +333,7 @@ class Workout(PaginatedAPIMixin, db.Model):
                 'wind_gust': str(self.wind_gust_end),
                 'dew_point' : str(self.dew_point_end)
             },
-            'notes': self.notes,
+            'notes': self.notes if self.notes != None else '',
 
             'warm_up_tot_dist_mi': str(self.warm_up_tot_dist_mi),
             'warm_up_tot_tm_sec': str(self.warm_up_tot_tm_sec),

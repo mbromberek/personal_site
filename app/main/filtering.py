@@ -19,7 +19,7 @@ from sqlalchemy import or_
 # Custom classes
 from app.main import bp
 from app.main.forms import EmptyForm, WorkoutCreateBtnForm, WorkoutForm, WorkoutFilterForm, WorkoutIntervalForm
-from app.models import User, Workout, Workout_interval, Gear_usage, Wrkt_sum, Wkly_mileage
+from app.models import User, Workout, Workout_interval, Gear_usage, Wrkt_sum, Wkly_mileage, Workout_type, Workout_category
 from app import db
 from app.utils import tm_conv, const, nbrConv, dt_conv
 from app import logger
@@ -100,6 +100,78 @@ def get_workouts_from_filter(usr_id, type_filter, category_filter, filterVal, wr
 
     return query, usingSearch
 
+def get_workouts(current_user_id, page, per_page, filterVal, endpoint):
+
+    type_filter = []
+    category_filter = []
+    filter_type_lst = Workout_type.query.filter_by(grp=filterVal['type'])
+    for filter_type in filter_type_lst:
+        type_filter.append(filter_type.id)
+
+    if filterVal['category'] == 'training':
+        filter_cat_lst = Workout_category.query.filter( Workout_category.nm.in_(['Training', 'Hard']))
+        for filter_cat in filter_cat_lst:
+            category_filter.append(filter_cat.id)
+    if filterVal['category'] == 'long':
+        filter_cat_lst = Workout_category.query.filter( Workout_category.nm.in_(['Long Run', 'Long']))
+        for filter_cat in filter_cat_lst:
+            category_filter.append(filter_cat.id)
+    if filterVal['category'] == 'easy':
+        filter_cat_lst = Workout_category.query.filter( Workout_category.nm.in_(['Easy']))
+        for filter_cat in filter_cat_lst:
+            category_filter.append(filter_cat.id)
+    if filterVal['category'] == 'race':
+        filter_cat_lst = Workout_category.query.filter( Workout_category.nm.in_(['Race', 'Virtual Race']))
+        for filter_cat in filter_cat_lst:
+            category_filter.append(filter_cat.id)
+
+
+    query, usingSearch = get_workouts_from_filter(current_user_id, type_filter, category_filter, filterVal, None)
+    workoutPages = query.order_by(Workout.wrkt_dttm.desc()).paginate(page, per_page, False)
+
+    workouts = workoutPages.items
+    wrkt_dict_lst = []
+    for workout in workouts:
+        wrkt_dict = workout.to_dict(for_web=True)
+        wrkt_dict['duration'] = workout.dur_str()
+
+        wrkt_category_training_loc = [wrkt_dict['category']]
+        if workout.training_type != None and len(workout.training_type) > 0:
+            wrkt_category_training_loc.append(workout.training_type)
+        if workout.location != None and len(workout.location) > 0:
+            wrkt_category_training_loc.append(workout.location)
+        wrkt_dict['category_training_loc'] = ' - '.join(wrkt_category_training_loc)
+
+        # wrkt_dict['weather_summary_start'] = workout.weather_summary('start')
+        # wrkt_dict['weather_summary_end'] = workout.weather_summary('end')
+        '''
+        if workout.clothes == None:
+            wrkt_dict['clothes'] = ''
+        if workout.notes != None:
+            # wrkt_dict['notes_summary'] =  workout.notes[:current_app.config['SIZE_NOTES_SUMMARY']] + '...' if len(workout.notes) > current_app.config['SIZE_NOTES_SUMMARY'] else workout.notes
+            # workout.notes_summmary = workout.notes
+            wrkt_dict['notes_summary'] = workout.notes
+        else:
+            wrkt_dict['notes_summary'] = ""
+        '''            
+        wrkt_dict_lst.append(wrkt_dict)
+
+    meta_dict = {'page':  page,
+        'next_page': workoutPages.next_num,
+        'per_page': per_page,
+        'total_pages':workoutPages.pages,
+        'total_items':workoutPages.total
+    }
+    endpoint = 'main.workout'
+    kwargs = filterVal
+    kwargs.pop('page', None)
+    links_dict = {
+        'self': url_for(endpoint, page=page, per_page=per_page, **kwargs),
+        'next': url_for(endpoint, page=workoutPages.next_num, per_page=per_page, **kwargs) if workoutPages.has_next else None,
+        'prev': url_for(endpoint, page=page -1, per_page=per_page, **kwargs) if workoutPages.has_prev else None
+    }
+    return {'items': wrkt_dict_lst, '_meta':meta_dict, '_links':links_dict}
+
 def getFilterValuesFromPost(form):
     filterVal = {}
     filterVal['temperature'] = form.strt_temp_search.data
@@ -146,36 +218,36 @@ def getFilterValuesFromGet(request):
     filterVal['category'] = request.args.get('category')
     filterVal['txt_search'] = request.args.get('txt_search')
     try:
-        filterVal['temperature'] = int(request.args.get('temperature'))
+        filterVal['temperature'] = request.args.get('temperature', '', type=int)
     except ValueError:
         filterVal['temperature'] = ''
     try:
-        filterVal['distance'] = int(request.args.get('distance'))
+        filterVal['distance'] = request.args.get('distance', '', type=int)
     except ValueError:
         filterVal['distance'] = ''
     try:
-        filterVal['min_strt_temp'] = int(request.args.get('min_strt_temp'))
+        filterVal['min_strt_temp'] = request.args.get('min_strt_temp', '', type=int)
     except ValueError:
         filterVal['min_strt_temp'] = ''
     try:
-        filterVal['max_strt_temp'] = int(request.args.get('max_strt_temp'))
+        filterVal['max_strt_temp'] = request.args.get('max_strt_temp', '', type=int)
     except ValueError:
         filterVal['max_strt_temp'] = ''
     try:
-        filterVal['min_dist'] = int(request.args.get('min_dist'))
+        filterVal['min_dist'] = request.args.get('min_dist', '', type=int)
     except ValueError:
         filterVal['min_dist'] = ''
     try:
-        filterVal['max_dist'] = int(request.args.get('max_dist'))
+        filterVal['max_dist'] = request.args.get('max_dist', '', type=int)
     except ValueError:
         filterVal['max_dist'] = ''
 
-    filterVal['strt_dt'] = request.args.get('strt_dt')
-    filterVal['end_dt'] = request.args.get('end_dt')
+    filterVal['strt_dt'] = filterVal['strt_dt'] = request.args.get('strt_dt', '', type=str)
+    filterVal['strt_dt'] = filterVal['end_dt'] = request.args.get('end_dt', '', type=str)
 
 
     try:
-        filterVal['page'] = int(request.args.get('page'))
+        filterVal['page'] = request.args.get('page', 1, type=int)
     except ValueError:
-        filterVal['page'] = None
+        filterVal['page'] = 1
     return filterVal

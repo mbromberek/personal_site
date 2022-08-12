@@ -1,43 +1,6 @@
 let nextPage = 2;
 
 /*
-*/
-// function wrktSearchBtn(){
-//     console.log("wrktSearchBtn")
-//
-//     var urlOrig = window.location.href;
-//     var urlNoParm = urlOrig.split('?')[0];
-//     var urlParmDict = brkdUrlParms(urlOrig.split('?')[1]);
-//
-//     // alert(document.getElementById('clear_filter_btn').clicked);
-//     var txtSearch = document.getElementById("text_search").value;
-//     var strtTempSearch = document.getElementById("strt_temp_search").value;
-//     var distSearch = document.getElementById("distance_search").value;
-//
-//     //Update URL fields with values from search fields
-//     if (txtSearch != ''){
-//         urlParmDict['text_search'] = txtSearch;
-//     }else{
-//         delete urlParmDict['text_search'];
-//     }
-//     if (strtTempSearch != ''){
-//         urlParmDict['temperature'] = strtTempSearch;
-//     }else{
-//         delete urlParmDict['temperature'];
-//     }
-//     if (distSearch != ''){
-//         urlParmDict['distance'] = distSearch;
-//     }else{
-//         delete urlParmDict['distance'];
-//     }
-//     delete urlParmDict['page'];
-//     var urlParmNew = generateUrlParms(urlParmDict);
-//
-//     console.log(urlNoParm + '?' + urlParmNew);
-//     window.location.href = urlNoParm + '?' + urlParmNew;
-// }
-
-/*
 Convert passed String of URL parameters in parmStr to a
 dictionary of the parameters. Returns the parameters dictionary.
 }
@@ -148,7 +111,7 @@ function formatDate(date_str) {
 function loadItems(response){
     console.log(response);
 
-    let wrkts = response['workouts'];
+    let wrkts = response['items'];
     let wrkt_lst_ele = document.getElementById('wrkt_lst');
     for (var i=0; i<wrkts.length; i++){
         let section_ct = 6; //Should always be at least 6
@@ -168,13 +131,13 @@ function loadItems(response){
         template_clone.querySelector("#duration").innerHTML = wrkts[i]['duration'];
         template_clone.querySelector("#pace").innerHTML = wrkts[i]['pace'] + ' ' + wrkts[i]['pace_uom'];
 
-        if (wrkts[i]['clothes'] != ''){
+        if (wrkts[i]['clothes'] != null && wrkts[i]['clothes'] != ''){
             template_clone.querySelector("#clothes").innerHTML = 'Wore: ' +  wrkts[i]['clothes'];
         }
         template_clone.querySelector("#gear").innerHTML = wrkts[i]['gear'];
         section_ct = section_ct + 1;
-        if (wrkts[i]['notes_summary'] != ''){
-            template_clone.querySelector("#notes").innerHTML = 'Notes: ' +  wrkts[i]['notes_summary'];
+        if (wrkts[i]['notes'] != null && wrkts[i]['notes'] != ''){
+            template_clone.querySelector("#notes").innerHTML = 'Notes: ' +  wrkts[i]['notes'];
             section_ct = section_ct + 2;
         }else{
             template_clone.querySelector("#notes").outerHTML = '';
@@ -252,8 +215,8 @@ function loadItems(response){
 
         wrkt_lst_ele.appendChild(template_clone);
     }
-    nextPage = response['page'];
-    if (response['page'] == null){
+    nextPage = response['_meta']['next_page'];
+    if (nextPage == null){
         // document.getElementById("more_workouts").classList.add('disabled');
         document.getElementById("more_workouts_loading").outerHTML = '';
     }

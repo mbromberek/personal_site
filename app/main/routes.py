@@ -8,6 +8,7 @@ All rights reserved.
 
 # First party classes
 from datetime import datetime, timedelta, date
+import time
 import os, math
 # from datetime import combine
 
@@ -240,62 +241,14 @@ def workouts():
 @login_required
 def more_workouts():
     logger.info('more_workouts')
+    # time.sleep(2)
 
     filterVal = filtering.getFilterValuesFromGet(request)
+    page = filterVal['page']
+    filterVal.pop('page',None)
 
-    type_filter = []
-    category_filter = []
-    filter_type_lst = Workout_type.query.filter_by(grp=filterVal['type'])
-    for filter_type in filter_type_lst:
-        type_filter.append(filter_type.id)
-
-    if filterVal['category'] == 'training':
-        filter_cat_lst = Workout_category.query.filter( Workout_category.nm.in_(['Training', 'Hard']))
-        for filter_cat in filter_cat_lst:
-            category_filter.append(filter_cat.id)
-    if filterVal['category'] == 'long':
-        filter_cat_lst = Workout_category.query.filter( Workout_category.nm.in_(['Long Run', 'Long']))
-        for filter_cat in filter_cat_lst:
-            category_filter.append(filter_cat.id)
-    if filterVal['category'] == 'easy':
-        filter_cat_lst = Workout_category.query.filter( Workout_category.nm.in_(['Easy']))
-        for filter_cat in filter_cat_lst:
-            category_filter.append(filter_cat.id)
-    if filterVal['category'] == 'race':
-        filter_cat_lst = Workout_category.query.filter( Workout_category.nm.in_(['Race', 'Virtual Race']))
-        for filter_cat in filter_cat_lst:
-            category_filter.append(filter_cat.id)
-
-
-    query, usingSearch = filtering.get_workouts_from_filter(current_user.id, type_filter, category_filter, filterVal, None)
-    workoutPages = query.order_by(Workout.wrkt_dttm.desc()).paginate(filterVal['page'], current_app.config['POSTS_PER_PAGE'], False)
-
-    workouts = workoutPages.items
-    wrkt_dict_lst = []
-    for workout in workouts:
-        wrkt_dict = workout.to_dict(for_web=True)
-        wrkt_dict['duration'] = workout.dur_str()
-
-        wrkt_category_training_loc = [wrkt_dict['category']]
-        if workout.training_type != None and len(workout.training_type) > 0:
-            wrkt_category_training_loc.append(workout.training_type)
-        if workout.location != None and len(workout.location) > 0:
-            wrkt_category_training_loc.append(workout.location)
-        wrkt_dict['category_training_loc'] = ' - '.join(wrkt_category_training_loc)
-
-        wrkt_dict['weather_summary_start'] = workout.weather_summary('start')
-        # wrkt_dict['weather_summary_end'] = workout.weather_summary('end')
-        if workout.clothes == None:
-            wrkt_dict['clothes'] = ''
-        if workout.notes != None:
-            # wrkt_dict['notes_summary'] =  workout.notes[:current_app.config['SIZE_NOTES_SUMMARY']] + '...' if len(workout.notes) > current_app.config['SIZE_NOTES_SUMMARY'] else workout.notes
-            # workout.notes_summmary = workout.notes
-            wrkt_dict['notes_summary'] = workout.notes
-        else:
-            wrkt_dict['notes_summary'] = ""
-        wrkt_dict_lst.append(wrkt_dict)
-
-    return jsonify({'workouts': wrkt_dict_lst, 'page':workoutPages.next_num})
+    data = filtering.get_workouts(current_user.id, page, current_app.config['POSTS_PER_PAGE'], filterVal, 'main.workout')
+    return jsonify(data)
 
 
 @bp.route('/edit_workout', methods=['GET','POST'])

@@ -34,6 +34,7 @@ from app.api.errors import bad_request
 from app import logger
 from app.utils import dt_conv
 from app.model.location import Location
+from app.main import filtering
 
 
 @bp.route('/workout/<int:id>', methods=['GET'])
@@ -47,12 +48,31 @@ def get_workout(id):
 @bp.route('/workouts/', methods=['GET'])
 @token_auth.login_required
 def get_workouts():
+    '''
+    Get workouts based on passed in arguements
+    Optional arguments:
+        page: page of date to return
+        type: type of workout, possible values are run | cycle | swim
+        category: category of workout, possible values are training | long | east | race
+        txt_search: text search of training type, location, and notes
+        temperature: Get workouts within +/- 5 degrees of the temperature sent
+        distance: Get workouts within +/- 10% of the distance sent
+        min_strt_temp: min temperature at start of workouts
+        max_strt_temp: max temperature at start of workouts
+        min_dist: min distance of workouts
+        max_dist: max distance of workouts
+        strt_dt: first date of workouts
+        end_dt: last date of workouts
+    '''
     logger.info('get_workouts')
     current_user_id = token_auth.current_user().id
     user = User.query.get_or_404(current_user_id)
-    page = request.args.get('page', 1, type=int)
-    per_page = min(request.args.get('per_page', 10, type=int), 100)
-    data = User.to_collection_dict(user.workouts, page, per_page, 'api.get_workouts')
+    per_page = min(request.args.get('per_page', current_app.config['POSTS_PER_PAGE'], type=int), 100)
+    filterVal = filtering.getFilterValuesFromGet(request)
+    page = filterVal['page']
+    filterVal.pop('page',None)
+
+    data = filtering.get_workouts(current_user_id, page, per_page, filterVal, 'api.get_workouts')
     return jsonify(data)
 
 @bp.route('/workout', methods=['POST'])
