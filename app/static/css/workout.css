@@ -41,6 +41,40 @@ body {
     position:relative;
     /* height: 300px; */
 }
+.workout_card_desktop_height_7{
+    height: 200px;
+}
+.workout_card_desktop_height_8{
+    height: 220px;
+}
+.workout_card_desktop_height_9{
+    height: 240px;
+}
+.workout_card_desktop_height_10{
+    height: 260px;
+}
+.workout_card_desktop_height_11{
+    height: 285px;
+}
+.workout_card_desktop_height_12{
+    height: 310px;
+}
+.workout_card_mobile_height_7{
+}
+.workout_card_mobile_height_8{
+}
+.workout_card_mobile_height_9{
+}
+.workout_card_mobile_height_10{
+}
+.workout_card_mobile_height_11{
+}
+.workout_card_mobile_height_12{
+}
+.workout_card_mobile_height_13{
+}
+.workout_card_mobile_height_14{
+}
 /*.workout:hover {
     background-color: lightblue;
     cursor:pointer;
@@ -569,6 +603,31 @@ td.dashboard_row_dtl{
         width:100%;
 
     }
+    .workout_card_mobile_height_7{
+        height: 160px;
+    }
+    .workout_card_mobile_height_8{
+        height: 180px;
+    }
+    .workout_card_mobile_height_9{
+        height: 210px;
+    }
+    .workout_card_mobile_height_10{
+        height: 220px;
+    }
+    .workout_card_mobile_height_11{
+        height: 245px;
+    }
+    .workout_card_mobile_height_12{
+        height: 270px;
+    }
+    .workout_card_mobile_height_13{
+        height: 290px;
+    }
+    .workout_card_mobile_height_14{
+        height: 310px;
+    }
+
     .workout_map{
         /* position:relative; */
         right:12px;

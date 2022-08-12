@@ -114,7 +114,7 @@ function loadItems(response){
     let wrkts = response['items'];
     let wrkt_lst_ele = document.getElementById('wrkt_lst');
     for (var i=0; i<wrkts.length; i++){
-        let section_ct = 6; //Should always be at least 6
+        let row_ct = 6; //Should always be at least 6
         let wrkt_dttm_formatted = formatDate(wrkts[i]['wrkt_dttm']);
 
         let template_clone = document.getElementsByTagName("template")[0].content.cloneNode(true);
@@ -135,10 +135,10 @@ function loadItems(response){
             template_clone.querySelector("#clothes").innerHTML = 'Wore: ' +  wrkts[i]['clothes'];
         }
         template_clone.querySelector("#gear").innerHTML = wrkts[i]['gear'];
-        section_ct = section_ct + 1;
+        row_ct = row_ct + 1;
         if (wrkts[i]['notes'] != null && wrkts[i]['notes'] != ''){
             template_clone.querySelector("#notes").innerHTML = 'Notes: ' +  wrkts[i]['notes'];
-            section_ct = section_ct + 2;
+            row_ct = row_ct + 2;
         }else{
             template_clone.querySelector("#notes").outerHTML = '';
         }
@@ -147,7 +147,7 @@ function loadItems(response){
         if (weather_start['temp'] == '' || isNaN(weather_start['temp']) ){
             template_clone.querySelector("#weather_start").innerHTML = '';
         }else{
-            section_ct = section_ct + 1;
+            row_ct = row_ct + 1;
             template_clone.querySelector("#weather_start_temp").innerHTML = Math.round(weather_start['temp']) + '&#176';
             if (weather_start['wethr_cond'] != ''){
                 template_clone.querySelector("#weather_start_cond").innerHTML = '&nbsp;' + weather_start['wethr_cond'];
@@ -172,7 +172,7 @@ function loadItems(response){
         if (weather_end['temp'] == '' || isNaN(weather_end['temp']) ){
             template_clone.querySelector("#weather_end").innerHTML = '';
         }else{
-            section_ct = section_ct + 1;
+            row_ct = row_ct + 1;
             template_clone.querySelector("#weather_end_temp").innerHTML = Math.round(weather_end['temp']) + '&#176';
             if (weather_end['wethr_cond'] != ''){
                 template_clone.querySelector("#weather_end_cond").innerHTML = '&nbsp;' + weather_end['wethr_cond'];
@@ -196,22 +196,27 @@ function loadItems(response){
         if ((weather_start['temp'] == '' || isNaN(weather_start['temp'])) && (weather_end['temp'] == '' || isNaN(weather_end['temp']))){
             template_clone.querySelector('#weather_separator').outerHTML = '';
         }else{
-            section_ct = section_ct +1;
+            row_ct = row_ct +1;
         }
 
-        if (section_ct <=7){
-            template_clone.querySelector("#wrkt_card").style.height = '200px';
-        }else if (section_ct ==8){
-            template_clone.querySelector("#wrkt_card").style.height = '220px';
-        }else if (section_ct ==9){
-            template_clone.querySelector("#wrkt_card").style.height = '240px';
-        }else if (section_ct ==10){
-            template_clone.querySelector("#wrkt_card").style.height = '260px';
-        }else if (section_ct ==11){
-            template_clone.querySelector("#wrkt_card").style.height = '285px';
-        }else if (section_ct ==12){
-            template_clone.querySelector("#wrkt_card").style.height = '310px';
+        //row_ct of 7 is the minimum for getting height
+        if (row_ct <=7){
+            row_ct = 7;
         }
+        template_clone.querySelector("#wrkt_card").classList.add('workout_card_desktop_height_'+row_ct)
+        //Need to add extra sections for mobile when some fields exceed a cetain length
+        if (weather_start['wethr_cond'].length >13 || weather_end['wethr_cond'].length >13 ){
+            row_ct = row_ct +2;
+        }
+        if (wrkts[i]['category_training_loc'].length >39){
+            row_ct = row_ct +1;
+        }
+        template_clone.querySelector("#wrkt_card").classList.add('workout_card_mobile_height_'+row_ct)
+
+        /*
+        if (weather_start['wethr_cond'].length >13 || weather_end['wethr_cond'].length >13 ){
+            template_clone.querySelector("#wrkt_card").classList.add();
+        }*/
 
         wrkt_lst_ele.appendChild(template_clone);
     }
