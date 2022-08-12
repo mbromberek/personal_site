@@ -142,18 +142,7 @@ def get_workouts(current_user_id, page, per_page, filterVal, endpoint):
             wrkt_category_training_loc.append(workout.location)
         wrkt_dict['category_training_loc'] = ' - '.join(wrkt_category_training_loc)
 
-        # wrkt_dict['weather_summary_start'] = workout.weather_summary('start')
-        # wrkt_dict['weather_summary_end'] = workout.weather_summary('end')
-        '''
-        if workout.clothes == None:
-            wrkt_dict['clothes'] = ''
-        if workout.notes != None:
-            # wrkt_dict['notes_summary'] =  workout.notes[:current_app.config['SIZE_NOTES_SUMMARY']] + '...' if len(workout.notes) > current_app.config['SIZE_NOTES_SUMMARY'] else workout.notes
-            # workout.notes_summmary = workout.notes
-            wrkt_dict['notes_summary'] = workout.notes
-        else:
-            wrkt_dict['notes_summary'] = ""
-        '''            
+        
         wrkt_dict_lst.append(wrkt_dict)
 
     meta_dict = {'page':  page,
