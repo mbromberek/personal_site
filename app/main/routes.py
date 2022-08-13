@@ -214,7 +214,7 @@ def workouts():
 
         return send_file(export_file, as_attachment=True, mimetype='text/csv', attachment_filename=export_file_nm)
 
-    wrkts_data = filtering.get_workouts(current_user.id, page, current_app.config['POSTS_PER_PAGE'], filterVal, 'main.workout')
+    wrkts_data = filtering.get_workouts(current_user.id, page, current_app.config['POSTS_PER_PAGE'], filterVal, 'main.workout', wrkt_filter_form)
     usingSearch = wrkts_data['_meta']['using_extra_search_fields']
 
     more_wrkt_filter = {'page':wrkts_data['_meta']['next_page'], 'type':filterVal['type'], 'category':filterVal['category'], 'temperature':filterVal['temperature'], 'distance':filterVal['distance'], 'text_search':filterVal['txt_search'], 'min_strt_temp':filterVal['min_strt_temp'], 'max_strt_temp':filterVal['max_strt_temp'], 'min_dist':filterVal['min_dist'], 'max_dist':filterVal['max_dist'], 'strt_dt':filterVal['strt_dt'], 'end_dt':filterVal['end_dt'] } if 'next_page' in wrkts_data['_meta'] else None

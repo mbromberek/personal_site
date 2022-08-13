@@ -100,7 +100,7 @@ def get_workouts_from_filter(usr_id, type_filter, category_filter, filterVal, wr
 
     return query, usingSearch
 
-def get_workouts(current_user_id, page, per_page, filterVal, endpoint):
+def get_workouts(current_user_id, page, per_page, filterVal, endpoint, wrkt_filter_form=None):
     type_filter = []
     category_filter = []
     filter_type_lst = Workout_type.query.filter_by(grp=filterVal['type'])
@@ -125,7 +125,7 @@ def get_workouts(current_user_id, page, per_page, filterVal, endpoint):
             category_filter.append(filter_cat.id)
 
 
-    query, usingSearch = get_workouts_from_filter(current_user_id, type_filter, category_filter, filterVal, None)
+    query, usingSearch = get_workouts_from_filter(current_user_id, type_filter, category_filter, filterVal, wrkt_filter_form)
     workoutPages = query.order_by(Workout.wrkt_dttm.desc()).paginate(page, per_page, False)
 
     workouts = workoutPages.items
