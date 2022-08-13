@@ -150,7 +150,7 @@ function loadItems(response){
         }else{
             row_ct = row_ct + 1;
             template_clone.querySelector("#weather_start_temp").innerHTML = Math.round(weather_start['temp']) + '&#176';
-            if (!isNaN(weather_start['wethr_cond']) && weather_start['wethr_cond'] != '' && weather_start['wethr_cond'] != null){
+            if (weather_start['wethr_cond'] != '' && weather_start['wethr_cond'] != null){
                 template_clone.querySelector("#weather_start_cond").innerHTML = '&nbsp;' + weather_start['wethr_cond'];
             }
             if (weather_start['hmdty'] != '' && !isNaN(weather_start['hmdty'])){
@@ -175,7 +175,7 @@ function loadItems(response){
         }else{
             row_ct = row_ct + 1;
             template_clone.querySelector("#weather_end_temp").innerHTML = Math.round(weather_end['temp']) + '&#176';
-            if (!isNaN(weather_end['wethr_cond']) && weather_end['wethr_cond'] != '' && weather_end['wethr_cond'] != null){
+            if (weather_end['wethr_cond'] != '' && weather_end['wethr_cond'] != null){
                 template_clone.querySelector("#weather_end_cond").innerHTML = '&nbsp;' + weather_end['wethr_cond'];
             }
             if (weather_end['hmdty'] != '' && !isNaN(weather_end['hmdty'])){
