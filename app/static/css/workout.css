@@ -1,6 +1,6 @@
 html{
-    --lh: 1.4rem;
-    line-height: var(--lh);
+    /* --lh: 1.5rem;
+    line-height: var(--lh); */
 }
 body {
     margin: 0;
@@ -253,7 +253,8 @@ input.workout_filter_btn_container:hover{
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
-    max-height: 20px;
+    overflow:hidden;
+    width:100%;
 }
 
 .truncate_overflow {
@@ -261,7 +262,7 @@ input.workout_filter_btn_container:hover{
   position: relative;
   max-height: calc(var(--lh) * var(--max-lines));
   overflow: hidden;
-  padding-right: 1rem; /* space for ellipsis */
+  padding-right: 15px; /* space for ellipsis */
 }
 .truncate_overflow::before {
   position: absolute;
