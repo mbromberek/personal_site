@@ -95,13 +95,6 @@
         </div>
     </form>
 
-    <div class="wrkt_lst">
-    {% for workout in workouts %}
-    {% include '_workouts.html.j2' %}
-    {% endfor %}
-    </div>
-
-
     <div class="wrkt_lst" id="wrkt_lst">
         <template id="wrkt_template">
             <div class="workout_card" id="wrkt_card">
@@ -219,7 +212,6 @@
         </template>
     </div>
 
-
     <nav aria-label="Workouts page navigation" class="wrkts_nav">
         <ul class="pagination">
             {#
@@ -240,12 +232,12 @@
                     More Workouts
                 </a>
             </li>#}
-            {% if more_wrkt_filter %}
+            {#{% if more_wrkt_filter %}#}
             <!-- Spinner logo to be shown while new items are loaded, it is being monitored for when to load new workouts -->
             <li id="more_workouts_loading" class="center">
                 <img src="static/images/loading.gif" alt="additional workouts loading" width="32px" height="32px">
             </li>
-            {% endif %}
+            {#{% endif %}#}
         </ul>
     </nav>
     {#
@@ -373,8 +365,11 @@
       </div>
     </div>
 
-{% if more_wrkt_filter %}
+
 <script>
+    JavaScript:loadItems({{ workouts|tojson|safe }})
+
+    {% if more_wrkt_filter %}
     var observer = new IntersectionObserver(entries => {
         if (entries[0].intersectionRatio <=0){
             return;
@@ -384,6 +379,7 @@
 
     var target = document.querySelector('#more_workouts_loading');
     observer.observe(target);
+
+    {% endif %}
 </script>
-{% endif %}
 {% endblock %}

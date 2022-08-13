@@ -108,6 +108,7 @@ function formatDate(date_str) {
     return dt + ' ' + hour + ':' + minute;
 }
 
+
 function loadItems(response){
     console.log(response);
 
@@ -149,7 +150,6 @@ function loadItems(response){
         }else{
             row_ct = row_ct + 1;
             template_clone.querySelector("#weather_start_temp").innerHTML = Math.round(weather_start['temp']) + '&#176';
-            console.log(weather_start['wethr_cond']);
             if (!isNaN(weather_start['wethr_cond']) && weather_start['wethr_cond'] != '' && weather_start['wethr_cond'] != null){
                 template_clone.querySelector("#weather_start_cond").innerHTML = '&nbsp;' + weather_start['wethr_cond'];
             }

@@ -17,7 +17,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 class Config(object):
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    POSTS_PER_PAGE = 20
+    POSTS_PER_PAGE = 10
     SIZE_NOTES_SUMMARY = 200
     DEBUG = False
     TEMPERATURE_RANGE = 5 #degrees farenheight

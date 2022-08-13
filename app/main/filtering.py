@@ -101,7 +101,6 @@ def get_workouts_from_filter(usr_id, type_filter, category_filter, filterVal, wr
     return query, usingSearch
 
 def get_workouts(current_user_id, page, per_page, filterVal, endpoint):
-
     type_filter = []
     category_filter = []
     filter_type_lst = Workout_type.query.filter_by(grp=filterVal['type'])
@@ -132,6 +131,7 @@ def get_workouts(current_user_id, page, per_page, filterVal, endpoint):
     workouts = workoutPages.items
     wrkt_dict_lst = []
     for workout in workouts:
+        logger.debug(workout)
         wrkt_dict = workout.to_dict(for_web=True)
         wrkt_dict['duration'] = workout.dur_str()
 
@@ -142,14 +142,16 @@ def get_workouts(current_user_id, page, per_page, filterVal, endpoint):
             wrkt_category_training_loc.append(workout.location)
         wrkt_dict['category_training_loc'] = ' - '.join(wrkt_category_training_loc)
 
-        
+
         wrkt_dict_lst.append(wrkt_dict)
 
     meta_dict = {'page':  page,
         'next_page': workoutPages.next_num,
+        'previous_page': workoutPages.prev_num,
         'per_page': per_page,
         'total_pages':workoutPages.pages,
-        'total_items':workoutPages.total
+        'total_items':workoutPages.total,
+        'using_extra_search_fields':usingSearch
     }
     endpoint = 'main.workout'
     kwargs = filterVal

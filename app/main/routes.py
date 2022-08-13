@@ -97,6 +97,7 @@ def workouts():
     usingSearch = False
     filterValFromPost = {}
     filterValFromUrl = filtering.getFilterValuesFromUrl()
+    page = filterValFromUrl['page']
 
     if wrkt_filter_form.submit_search_btn.data:
         logger.debug('Search Submit Pressed')
@@ -195,12 +196,12 @@ def workouts():
             category_filter.append(filter_cat.id)
         btn_classes['race'] = 'btn btn-primary'
 
-    logger.info('type_filter ' + str(type_filter))
-
-    query, usingSearch = filtering.get_workouts_from_filter(current_user.id, type_filter, category_filter, filterVal, wrkt_filter_form)
+    # logger.info('type_filter ' + str(type_filter))
 
     if wrkt_export_form.download_csv_btn.data:
         logger.debug('Export as CSV Pressed')
+        query, usingSearch = filtering.get_workouts_from_filter(current_user.id, type_filter, category_filter, filterVal, wrkt_filter_form)
+
         query = query.order_by(Workout.wrkt_dttm.desc())
         if wrkt_export_form.max_export_records.data != None:
             workout_list = query.paginate(0,wrkt_export_form.max_export_records.data, False).items
@@ -213,29 +214,19 @@ def workouts():
 
         return send_file(export_file, as_attachment=True, mimetype='text/csv', attachment_filename=export_file_nm)
 
+    wrkts_data = filtering.get_workouts(current_user.id, page, current_app.config['POSTS_PER_PAGE'], filterVal, 'main.workout')
+    usingSearch = wrkts_data['_meta']['using_extra_search_fields']
 
-    workoutPages = query.order_by(Workout.wrkt_dttm.desc()).paginate(filterVal['page'], current_app.config['POSTS_PER_PAGE'], False)
-    more_wrkt_filter = {'page':workoutPages.next_num, 'type':filterVal['type'], 'category':filterVal['category'], 'temperature':filterVal['temperature'], 'distance':filterVal['distance'], 'text_search':filterVal['txt_search'], 'min_strt_temp':filterVal['min_strt_temp'], 'max_strt_temp':filterVal['max_strt_temp'], 'min_dist':filterVal['min_dist'], 'max_dist':filterVal['max_dist'], 'strt_dt':filterVal['strt_dt'], 'end_dt':filterVal['end_dt'] } if workoutPages.has_next else None
-    next_url = url_for('main.workouts', page=workoutPages.next_num, type=filterVal['type'], category=filterVal['category'], temperature=filterVal['temperature'], distance=filterVal['distance'], text_search=filterVal['txt_search'], min_strt_temp=filterVal['min_strt_temp'], max_strt_temp=filterVal['max_strt_temp'], min_dist=filterVal['min_dist'], max_dist=filterVal['max_dist'], strt_dt=filterVal['strt_dt'],
+    more_wrkt_filter = {'page':wrkts_data['_meta']['next_page'], 'type':filterVal['type'], 'category':filterVal['category'], 'temperature':filterVal['temperature'], 'distance':filterVal['distance'], 'text_search':filterVal['txt_search'], 'min_strt_temp':filterVal['min_strt_temp'], 'max_strt_temp':filterVal['max_strt_temp'], 'min_dist':filterVal['min_dist'], 'max_dist':filterVal['max_dist'], 'strt_dt':filterVal['strt_dt'], 'end_dt':filterVal['end_dt'] } if 'next_page' in wrkts_data['_meta'] else None
+    next_url = url_for('main.workouts', page=wrkts_data['_meta']['next_page'], type=filterVal['type'], category=filterVal['category'], temperature=filterVal['temperature'], distance=filterVal['distance'], text_search=filterVal['txt_search'], min_strt_temp=filterVal['min_strt_temp'], max_strt_temp=filterVal['max_strt_temp'], min_dist=filterVal['min_dist'], max_dist=filterVal['max_dist'], strt_dt=filterVal['strt_dt'],
     end_dt=filterVal['end_dt'] ) \
-        if workoutPages.has_next else None
-    prev_url = url_for('main.workouts', page=workoutPages.prev_num, type=filterVal['type'], category=filterVal['category'], temperature=filterVal['temperature'], distance=filterVal['distance'], text_search=filterVal['txt_search'], min_strt_temp=filterVal['min_strt_temp'], max_strt_temp=filterVal['max_strt_temp'], min_dist=filterVal['min_dist'], max_dist=filterVal['max_dist'], strt_dt=filterVal['strt_dt'],
+        if 'next_page' in wrkts_data['_meta'] else None
+    prev_url = url_for('main.workouts', page=wrkts_data['_meta']['previous_page'], type=filterVal['type'], category=filterVal['category'], temperature=filterVal['temperature'], distance=filterVal['distance'], text_search=filterVal['txt_search'], min_strt_temp=filterVal['min_strt_temp'], max_strt_temp=filterVal['max_strt_temp'], min_dist=filterVal['min_dist'], max_dist=filterVal['max_dist'], strt_dt=filterVal['strt_dt'],
     end_dt=filterVal['end_dt']) \
-        if workoutPages.has_prev else None
+        if wrkts_data['_meta']['previous_page'] != None else None
 
-    workouts = workoutPages.items
-    for workout in workouts:
-        workout.duration = workout.dur_str()
-        workout.pace = workout.pace_str()
-        workout.pace_uom = workout.pace_uom()
-        if workout.clothes == None:
-            workout.clothes = ''
-        if workout.notes != None:
-            workout.notes_summary = workout.notes[:current_app.config['SIZE_NOTES_SUMMARY']] + '...' if len(workout.notes) > current_app.config['SIZE_NOTES_SUMMARY'] else workout.notes
-            # workout.notes_summmary = workout.notes
-        else:
-            workout.notes_summary = ""
-    return render_template('workouts.html', title='Workouts', workouts=workouts, form=wrktCreateBtn, wrkt_filter_form=wrkt_filter_form, btn_classes=btn_classes, next_url=next_url, more_wrkt_filter=more_wrkt_filter, prev_url=prev_url, using_search=usingSearch, destPage='search', wrkt_export_form=wrkt_export_form)
+    return render_template('workouts.html', title='Workouts', workouts=wrkts_data, form=wrktCreateBtn, wrkt_filter_form=wrkt_filter_form, btn_classes=btn_classes, next_url=next_url, more_wrkt_filter=more_wrkt_filter, prev_url=prev_url, using_search=usingSearch, destPage='search', wrkt_export_form=wrkt_export_form)
+
 
 @bp.route('/more_workouts', methods=['GET'])
 @login_required
