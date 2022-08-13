@@ -149,7 +149,8 @@ function loadItems(response){
         }else{
             row_ct = row_ct + 1;
             template_clone.querySelector("#weather_start_temp").innerHTML = Math.round(weather_start['temp']) + '&#176';
-            if (weather_start['wethr_cond'] != ''){
+            console.log(weather_start['wethr_cond']);
+            if (!isNaN(weather_start['wethr_cond']) && weather_start['wethr_cond'] != '' && weather_start['wethr_cond'] != null){
                 template_clone.querySelector("#weather_start_cond").innerHTML = '&nbsp;' + weather_start['wethr_cond'];
             }
             if (weather_start['hmdty'] != '' && !isNaN(weather_start['hmdty'])){
@@ -174,7 +175,7 @@ function loadItems(response){
         }else{
             row_ct = row_ct + 1;
             template_clone.querySelector("#weather_end_temp").innerHTML = Math.round(weather_end['temp']) + '&#176';
-            if (weather_end['wethr_cond'] != ''){
+            if (!isNaN(weather_end['wethr_cond']) && weather_end['wethr_cond'] != '' && weather_end['wethr_cond'] != null){
                 template_clone.querySelector("#weather_end_cond").innerHTML = '&nbsp;' + weather_end['wethr_cond'];
             }
             if (weather_end['hmdty'] != '' && !isNaN(weather_end['hmdty'])){
@@ -205,7 +206,7 @@ function loadItems(response){
         }
         template_clone.querySelector("#wrkt_card").classList.add('workout_card_desktop_height_'+row_ct)
         //Need to add extra sections for mobile when some fields exceed a cetain length
-        if (weather_start['wethr_cond'].length >13 || weather_end['wethr_cond'].length >13 ){
+        if ((isNaN(weather_start['wethr_cond']) && weather_start['wethr_cond'].length >13) || (isNaN(weather_end['wethr_cond']) && weather_end['wethr_cond'].length >13) ){
             row_ct = row_ct +2;
         }
         if (wrkts[i]['category_training_loc'].length >39){
