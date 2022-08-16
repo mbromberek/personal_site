@@ -233,8 +233,8 @@ def getFilterValuesFromGet(request):
     except ValueError:
         filterVal['max_dist'] = ''
 
-    filterVal['strt_dt'] = filterVal['strt_dt'] = request.args.get('strt_dt', '', type=str)
-    filterVal['strt_dt'] = filterVal['end_dt'] = request.args.get('end_dt', '', type=str)
+    filterVal['strt_dt'] = request.args.get('strt_dt', '', type=str)
+    filterVal['end_dt'] = request.args.get('end_dt', '', type=str)
 
 
     try:
