@@ -84,7 +84,7 @@ function getNextWrkts(filter){
         page: nextPage,
         strt_dt: filter['strt_dt'],
         temperature: filter['temperature'],
-        text_search: filter['text_search']
+        txt_search: filter['txt_search']
 
     }).done(function(response){
         loadItems(response);

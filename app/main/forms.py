@@ -42,7 +42,7 @@ class WorkoutFilterForm(FlaskForm):
     distance_search = DecimalField('Distance', validators=[Optional()], places=2, rounding=decimal.ROUND_UP)
     submit_search_btn = SubmitField('🔎')
 
-    text_search = StringField('Text', validators=[Optional()])
+    txt_search = StringField('Text', validators=[Optional()])
 
     show_filter_btn = SubmitField(label='Show Filters')
 

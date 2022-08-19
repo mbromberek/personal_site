@@ -56,7 +56,7 @@ def get_workouts_from_filter(usr_id, type_filter, category_filter, filterVal, wr
                 or_(Workout.training_type.ilike('%'+txt_srch+'%'), Workout.location.ilike('%'+txt_srch+'%'), Workout.notes.ilike('%'+txt_srch+'%'))
             )
         if wrkt_filter_form != None:
-            wrkt_filter_form.text_search.data = filterVal['txt_search']
+            wrkt_filter_form.txt_search.data = filterVal['txt_search']
 
     if filterVal['min_strt_temp'] != '' and filterVal['min_strt_temp'] != None:
         usingSearch = True
@@ -167,7 +167,7 @@ def getFilterValuesFromPost(form):
     filterVal = {}
     filterVal['temperature'] = form.strt_temp_search.data
     filterVal['distance'] = form.distance_search.data
-    filterVal['txt_search'] = form.text_search.data
+    filterVal['txt_search'] = form.txt_search.data
     filterVal['strt_dt'] = form.strt_dt_srch.data
     logger.debug(str(filterVal['strt_dt']))
     filterVal['end_dt'] = form.end_dt_srch.data
@@ -188,7 +188,7 @@ def getFilterValuesFromUrl():
     filterVal['temperature'] = request.args.get('temperature', default='', type=int)
     distance = request.args.get('distance', default='', type=str)
     filterVal['distance'] = round(float(distance),2) if nbrConv.isFloat(distance) else ''
-    filterVal['txt_search'] = request.args.get('text_search', default='', type=str)
+    filterVal['txt_search'] = request.args.get('txt_search', default='', type=str)
 
     filterVal['strt_dt'] = request.args.get('strt_dt', default='', type=str)
     filterVal['end_dt'] = request.args.get('end_dt', default='', type=str)
