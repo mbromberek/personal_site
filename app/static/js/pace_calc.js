@@ -387,3 +387,10 @@ function getCalcDistancePrevious(formId){
     form_ele.querySelector("#cd_distance").value = calcDistance(tm_h, tm_m, tm_s, 0, pace_m, pace_s);
 
 }
+
+function loadSections(){
+    let calc_pace_lst = document.getElementById('calc_pace_from_dist_tm_lst');
+    let template_calc_pace = document.getElementById("calc_pace_from_dist_tm").content.cloneNode(true);
+    calc_pace_lst.appendChild(template_calc_pace);
+
+}
