@@ -15,9 +15,12 @@
             Calculate pace from distance and time
         </legend>
         <div id="calc_pace_from_dist_tm_lst">
+            <form action="JavaScript:newCalcPace()">
+                <input type="submit" value="New">
+            </form>
         <template id="calc_pace_from_dist_tm">
         <div style="overflow:auto; width:100%; margin-top:20px; padding-left:5px;">
-            <form action="JavaScript:calcPaceBtn()" method="post" role="form" class="form">
+            <form method="post" role="form" class="form">
                 <div class="form-row " style="width:100%; ">
                     <div class="form-group" style="margin-right:25px;">
                         <label>Distance: </label><br>

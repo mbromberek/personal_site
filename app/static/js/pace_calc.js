@@ -1,5 +1,5 @@
 //List of cookies being saved for different values
-let calculationCookieLst = [
+var calculationCookieLst = [
     'calcPaceHours','calcPaceMinutes','calcPaceSeconds','calcPaceDistance',
     'calcTimeMinutes', 'calcTimeSeconds', 'calcTimeDistance',
     'calcPaceAdjMinutes', 'calcPaceAdjSeconds', 'calcPaceAdjTemperature',
@@ -8,17 +8,20 @@ let calculationCookieLst = [
 
 
 //Number of days to save cookies for
-let cookieExpireDays = 60;
+var cookieExpireDays = 60;
+var paceFormCt = 0;
 
 /*
 Run when calculate button is pressed for getting pace
 Saves fields as cookies if they are populated and Remember Calculations is checked
 */
-function calcPaceBtn(){
-    var h = document.getElementById("cp_time_h").value;
-    var m = document.getElementById("cp_time_m").value;
-    var s = document.getElementById("cp_time_s").value;
-    var dist = document.getElementById("cp_distance").value;
+function calcPaceBtn(formId){
+    let form_ele = document.getElementById(formId);
+
+    let h = form_ele.querySelector("#cp_time_h").value;
+    let m = form_ele.querySelector("#cp_time_m").value;
+    let s = form_ele.querySelector("#cp_time_s").value;
+    let dist = form_ele.querySelector("#cp_distance").value;
     if (dist != '' && document.getElementById("save_cookie").checked){
         setCookie("calcPaceHours", h, cookieExpireDays);
         setCookie("calcPaceMinutes", m, cookieExpireDays);
@@ -26,7 +29,7 @@ function calcPaceBtn(){
         setCookie("calcPaceDistance", dist, cookieExpireDays);
     }
 
-    document.getElementById("cp_pace").value = sec_to_time_str(calcPace(h,m,s,dist));
+    form_ele.querySelector("#cp_pace").value = sec_to_time_str(calcPace(h,m,s,dist));
 }
 
 /*
@@ -388,9 +391,21 @@ function getCalcDistancePrevious(formId){
 
 }
 
-function loadSections(){
+/*
+Using template creates new calculate pace from distance and time section
+*/
+function newCalcPace(){
     let calc_pace_lst = document.getElementById('calc_pace_from_dist_tm_lst');
+
+    paceFormCt++;
     let template_calc_pace = document.getElementById("calc_pace_from_dist_tm").content.cloneNode(true);
+    formTag = template_calc_pace.querySelector("form");
+    formTag.id = 'pace_from_dist_time_' + paceFormCt;
+    formTag.action = "JavaScript:calcPaceBtn('pace_from_dist_time_"+paceFormCt+"')"
     calc_pace_lst.appendChild(template_calc_pace);
 
+}
+
+function loadSections(){
+    newCalcPace();
 }
