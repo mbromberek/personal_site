@@ -5,6 +5,7 @@ var calculationCookieLst = [
     'calcPaceAdjMinutes', 'calcPaceAdjSeconds', 'calcPaceAdjTemperature',
     'calcDistTmHours', 'calcDistTmMinutes', 'calcDistTmSeconds', 'calcDistPaceMinutes', 'calcDistPaceSeconds'
 ];
+var calcPaceFormLst = [];
 
 
 //Number of days to save cookies for
@@ -16,6 +17,7 @@ Run when calculate button is pressed for getting pace
 Saves fields as cookies if they are populated and Remember Calculations is checked
 */
 function calcPaceBtn(formId){
+    console.log(formId);
     let form_ele = document.getElementById(formId);
 
     let h = form_ele.querySelector("#cp_time_h").value;
@@ -23,10 +25,14 @@ function calcPaceBtn(formId){
     let s = form_ele.querySelector("#cp_time_s").value;
     let dist = form_ele.querySelector("#cp_distance").value;
     if (dist != '' && document.getElementById("save_cookie").checked){
-        setCookie("calcPaceHours", h, cookieExpireDays);
-        setCookie("calcPaceMinutes", m, cookieExpireDays);
-        setCookie("calcPaceSeconds", s, cookieExpireDays);
-        setCookie("calcPaceDistance", dist, cookieExpireDays);
+        setCookie(formId + "_calcPaceHours", h, cookieExpireDays);
+        setCookie(formId + "_calcPaceMinutes", m, cookieExpireDays);
+        setCookie(formId + "_calcPaceSeconds", s, cookieExpireDays);
+        setCookie(formId + "_calcPaceDistance", dist, cookieExpireDays);
+        setCookie("calcPaceFromDistTm", String(calcPaceFormLst), cookieExpireDays)
+    }
+    if (!(calcPaceFormLst.includes(formId))) {
+        calcPaceFormLst.push(formId);
     }
 
     form_ele.querySelector("#cp_pace").value = sec_to_time_str(calcPace(h,m,s,dist));
@@ -246,14 +252,20 @@ function saveAllCookieValues(){
 
     setCookie("dist_form_ids", 'dist_from_time_pace_1,dist_from_time_pace_2', cookieExpireDays);
 
-    var h = document.getElementById("cp_time_h").value;
-    var m = document.getElementById("cp_time_m").value;
-    var s = document.getElementById("cp_time_s").value;
-    var dist = document.getElementById("cp_distance").value;
-    setCookie("calcPaceHours", h, cookieExpireDays);
-    setCookie("calcPaceMinutes", m, cookieExpireDays);
-    setCookie("calcPaceSeconds", s, cookieExpireDays);
-    setCookie("calcPaceDistance", dist, cookieExpireDays);
+    for (i=0; i<calcPaceFormLst.length; i++){
+        let formId = calcPaceFormLst[i];
+        let calc_pace_form = document.querySelector("#"+formId);
+        var h = calc_pace_form.querySelector("#cp_time_h").value;
+        var m = calc_pace_form.querySelector("#cp_time_m").value;
+        var s = calc_pace_form.querySelector("#cp_time_s").value;
+        var dist = calc_pace_form.querySelector("#cp_distance").value;
+        setCookie(formId + "_calcPaceHours", h, cookieExpireDays);
+        setCookie(formId + "_calcPaceMinutes", m, cookieExpireDays);
+        setCookie(formId + "_calcPaceSeconds", s, cookieExpireDays);
+        setCookie(formId + "_calcPaceDistance", dist, cookieExpireDays);
+        console.log('saved cookies for form: ' + formId);
+    }
+    setCookie("calcPaceFromDistTm", String(calcPaceFormLst), cookieExpireDays)
 
     var dist = document.getElementById("ct_distance").value;
     var m = document.getElementById("ct_pace_m").value;
@@ -289,9 +301,23 @@ Run when Remember Calculations check box is un-selected to remove all current ca
 */
 function eraseAllCookieValues(){
     console.log('eraseAllCookieValues');
+
+    //Erase cookies for calculating pace from distance and time
+    for (i=0; i<calcPaceFormLst.length; i++){
+        let formId = calcPaceFormLst[i];
+        eraseCookie(formId + "_calcPaceHours");
+        eraseCookie(formId + "_calcPaceMinutes");
+        eraseCookie(formId + "_calcPaceSeconds");
+        eraseCookie(formId + "_calcPaceDistance");
+    }
+    eraseCookie("calcPaceFromDistTm")
+
+    //Erase other cookies
     for (var i=0; i<calculationCookieLst.length; i++){
         eraseCookie(calculationCookieLst[i]);
     }
+
+    //Erase the cookie for remembering calculations
     eraseCookie("rememberCalculations");
 }
 
@@ -301,38 +327,62 @@ Run on page loade. Checks if rememberCalculations cookie is set and if it is rea
 function reloadCalculationValues(){
     var rememberCalc = getCookie("rememberCalculations");
     if (rememberCalc){
-        form_ids = getCookie("dist_form_ids").split(',');
-        console.log(form_ids);
         document.getElementById("save_cookie").checked = true;
-        getCalcPacePrevious();
+
+        let calcPaceCt = getCalcPacePrevious();
+        if (calcPaceCt <1){
+            newCalcPace();
+        }
         getCalcTimePrevious();
         getCalcAdjPacePrevious();
+
+        form_ids = getCookie("dist_form_ids").split(',');
+        // console.log(form_ids);
         for (let i=0; i<form_ids.length; i++){
             getCalcDistancePrevious(form_ids[i]);
         }
         //this is done so when user visits the page the cookies will get saved with new set of days to live
         saveAllCookieValues();
+    }else{
+        newCalcPace();
     }
 }
 
 /*
 Get cookie values for Calculating pace, populates the web page fields, and calculates the pace.
+Returns number of calculate pace forms generated
 */
 function getCalcPacePrevious(){
-    h = getCookie("calcPaceHours");
-    m = getCookie("calcPaceMinutes");
-    s = getCookie("calcPaceSeconds");
-    dist = getCookie("calcPaceDistance");
-    // alert(h + m + s + ", " + dist);
+    let calcPaceCookieLst = getCookie("calcPaceFromDistTm").split(',');
+    console.log('getCalcPacePrevious: ' + String(calcPaceCookieLst));
 
-    document.getElementById("cp_time_h").value = h;
-    document.getElementById("cp_time_m").value = m;
-    document.getElementById("cp_time_s").value = s;
-    document.getElementById("cp_distance").value = dist;
+    for (i=0; i<calcPaceCookieLst.length; i++){
+        let formId = calcPaceCookieLst[i];
+        newFormId = newCalcPace();
+        let calc_pace_form = document.querySelector("#"+newFormId);
+        h = getCookie(formId + "_calcPaceHours");
+        m = getCookie(formId + "_calcPaceMinutes");
+        s = getCookie(formId + "_calcPaceSeconds");
+        dist = getCookie(formId + "_calcPaceDistance");
 
-    if (dist != ''){
-        document.getElementById("cp_pace").value = sec_to_time_str(calcPace(h,m,s,dist));
+        //TODO Save cookies to remove to a list and remove just before saving new forms
+        eraseCookie(formId + "_calcPaceHours");
+        eraseCookie(formId + "_calcPaceMinutes");
+        eraseCookie(formId + "_calcPaceSeconds");
+        eraseCookie(formId + "_calcPaceDistance");
+
+        calc_pace_form.querySelector("#cp_time_h").value = h;
+        calc_pace_form.querySelector("#cp_time_m").value = m;
+        calc_pace_form.querySelector("#cp_time_s").value = s;
+        calc_pace_form.querySelector("#cp_distance").value = dist;
+
+        if (dist != ''){
+            calc_pace_form.querySelector("#cp_pace").value = sec_to_time_str(calcPace(h,m,s,dist));
+        }
+        calcPaceFormLst.push(newFormId);
+
     }
+    return calcPaceCookieLst.length;
 }
 
 /*
@@ -391,21 +441,19 @@ function getCalcDistancePrevious(formId){
 
 }
 
-/*
-Using template creates new calculate pace from distance and time section
-*/
+function newCalcPaceBtn(){
+    newCalcPace()
+}
 function newCalcPace(){
-    let calc_pace_lst = document.getElementById('calc_pace_from_dist_tm_lst');
-
     paceFormCt++;
+    newFormId = 'pace_from_dist_time_'+paceFormCt;
+
+    let calc_pace_lst = document.getElementById('calc_pace_from_dist_tm_lst');
     let template_calc_pace = document.getElementById("calc_pace_from_dist_tm").content.cloneNode(true);
     formTag = template_calc_pace.querySelector("form");
-    formTag.id = 'pace_from_dist_time_' + paceFormCt;
-    formTag.action = "JavaScript:calcPaceBtn('pace_from_dist_time_"+paceFormCt+"')"
+    formTag.id = newFormId;
+    formTag.action = "JavaScript:calcPaceBtn('"+newFormId+"')";
     calc_pace_lst.appendChild(template_calc_pace);
+    return newFormId;
 
-}
-
-function loadSections(){
-    newCalcPace();
 }
