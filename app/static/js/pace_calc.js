@@ -24,15 +24,15 @@ function calcPaceBtn(formId){
     let m = form_ele.querySelector("#cp_time_m").value;
     let s = form_ele.querySelector("#cp_time_s").value;
     let dist = form_ele.querySelector("#cp_distance").value;
+    if (!(calcPaceFormLst.includes(formId))) {
+        calcPaceFormLst.push(formId);
+    }
     if (dist != '' && document.getElementById("save_cookie").checked){
         setCookie(formId + "_calcPaceHours", h, cookieExpireDays);
         setCookie(formId + "_calcPaceMinutes", m, cookieExpireDays);
         setCookie(formId + "_calcPaceSeconds", s, cookieExpireDays);
         setCookie(formId + "_calcPaceDistance", dist, cookieExpireDays);
         setCookie("calcPaceFromDistTm", String(calcPaceFormLst), cookieExpireDays)
-    }
-    if (!(calcPaceFormLst.includes(formId))) {
-        calcPaceFormLst.push(formId);
     }
 
     form_ele.querySelector("#cp_pace").value = sec_to_time_str(calcPace(h,m,s,dist));
@@ -444,6 +444,29 @@ function getCalcDistancePrevious(formId){
 function newCalcPaceBtn(){
     newCalcPace()
 }
+function removeCalcPaceRow(rowId){
+    console.log("removeCalcPaceRow: " + rowId);
+    let divToRemove = document.getElementById(rowId).parentElement;
+
+    let calc_pace_lst = document.getElementById('calc_pace_from_dist_tm_lst');
+    calc_pace_lst.removeChild(divToRemove);
+
+    //Remove cookies
+    eraseCookie(rowId + "_calcPaceHours");
+    eraseCookie(rowId + "_calcPaceMinutes");
+    eraseCookie(rowId + "_calcPaceSeconds");
+    eraseCookie(rowId + "_calcPaceDistance");
+    let index = calcPaceFormLst.indexOf(rowId);
+    if (index != -1) {
+        console.log(String(calcPaceFormLst));
+        calcPaceFormLst.splice(index, 1);
+        console.log("removed calculations");
+        console.log(String(calcPaceFormLst));
+    }
+    setCookie("calcPaceFromDistTm", String(calcPaceFormLst), cookieExpireDays);
+    //TODO check if that is the last entry and create a new one
+
+}
 function newCalcPace(){
     paceFormCt++;
     newFormId = 'pace_from_dist_time_'+paceFormCt;
@@ -453,6 +476,9 @@ function newCalcPace(){
     formTag = template_calc_pace.querySelector("form");
     formTag.id = newFormId;
     formTag.action = "JavaScript:calcPaceBtn('"+newFormId+"')";
+    rmBtnTag = template_calc_pace.querySelector("#cp_rm_btn");
+    rmBtnTag.setAttribute("onclick", "JavaScript:removeCalcPaceRow('"+newFormId+"');");
+
     calc_pace_lst.appendChild(template_calc_pace);
     return newFormId;
 
