@@ -519,10 +519,15 @@ td.dashboard_row_dtl{
 
 }
 
+.calc_row{
+    width:100%;
+    padding-left:26px;
+}
 .calc_result{
-    margin-left:50px;
+    margin-left:20px;
     margin-right:20px;
     width:115px;
+    display:inline-block; /* whole span goes to new line if needed */
 }
 .calc_field_3{
     border: 1px solid black;
@@ -693,9 +698,16 @@ td.dashboard_row_dtl{
         width:100%;
     }
 
-    .calc_result{
-        margin-left:0px;
+    .new_calc_btn{
         width:100%;
+    }
+    .calc_result{
+        margin-left:10px;
+        /* width:100%; */
+    }
+    .calc_row{
+        padding-left:0px;
+        margin-bottom:20px;
     }
 
     .wrkt_section{
