@@ -230,7 +230,7 @@ Run when the check box for remembering calculations in selected or unselected
 */
 function cookieChkChange(){
     var cookieChkStatus = document.getElementById("save_cookie");
-    console.log('cookieChk: ' + cookieChkStatus.checked);
+    // console.log('cookieChk: ' + cookieChkStatus.checked);
 
     if (cookieChkStatus.checked == true){
         if (confirm("This will store the values you enter as cookies on your computer. Do you agree to them being stored this way?")){
@@ -263,7 +263,6 @@ function saveAllCookieValues(){
         setCookie(formId + "_calcPaceMinutes", m, cookieExpireDays);
         setCookie(formId + "_calcPaceSeconds", s, cookieExpireDays);
         setCookie(formId + "_calcPaceDistance", dist, cookieExpireDays);
-        console.log('saved cookies for form: ' + formId);
     }
     setCookie("calcPaceFromDistTm", String(calcPaceFormLst), cookieExpireDays)
 
@@ -442,7 +441,7 @@ function getCalcDistancePrevious(formId){
 }
 
 function newCalcPaceBtn(){
-    newCalcPace()
+    newCalcPace();
 }
 function removeCalcPaceRow(rowId){
     console.log("removeCalcPaceRow: " + rowId);
@@ -458,14 +457,15 @@ function removeCalcPaceRow(rowId){
     eraseCookie(rowId + "_calcPaceDistance");
     let index = calcPaceFormLst.indexOf(rowId);
     if (index != -1) {
-        console.log(String(calcPaceFormLst));
         calcPaceFormLst.splice(index, 1);
-        console.log("removed calculations");
-        console.log(String(calcPaceFormLst));
     }
     setCookie("calcPaceFromDistTm", String(calcPaceFormLst), cookieExpireDays);
-    //TODO check if that is the last entry and create a new one
 
+    //If there are no more rows then add a new blank one
+    let calc_ct = calc_pace_lst.querySelectorAll(".calc_row").length;
+    if (calc_ct <=0){
+        newCalcPace();
+    }
 }
 function newCalcPace(){
     paceFormCt++;
