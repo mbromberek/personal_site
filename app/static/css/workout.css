@@ -523,6 +523,14 @@ td.dashboard_row_dtl{
     width:100%;
     padding-left:26px;
 }
+.calc_pace_section{
+    width:140px;
+    margin-right:20px;
+}
+.calc_time_section{
+    width:210px;
+    margin-right:15px;
+}
 .calc_result{
     margin-left:20px;
     margin-right:20px;
@@ -536,6 +544,8 @@ td.dashboard_row_dtl{
 .calc_field_2{
     border: 1px solid black;
     width: 50px;
+    -moz-appearance: textfield;
+    -webkit-appearance: none;
 }
 .calc_field_result{
     border: 1px solid black;
@@ -701,10 +711,34 @@ td.dashboard_row_dtl{
     .new_calc_btn{
         width:100%;
     }
+    .calc_pace_section{
+        width:120px;
+        margin-right:15px;
+    }
+    .calc_time_section{
+        width:50px;
+        margin-right:5px;
+    }
+
     .calc_result{
         margin-left:10px;
         /* width:100%; */
     }
+    input.calc_field_2{
+        width: 40px;
+    }
+    /* Chrome, Safari, Edge, Opera */
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    /* Firefox */
+    /* input[type=number] {
+      -moz-appearance: textfield;
+    } */
+
+
     .calc_row{
         padding-left:0px;
         margin-bottom:20px;
