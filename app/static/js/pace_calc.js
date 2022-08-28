@@ -1,10 +1,4 @@
 //List of cookies being saved for different values
-var calculationCookieLst = [
-    'calcPaceHours','calcPaceMinutes','calcPaceSeconds','calcPaceDistance',
-    'calcTimeMinutes', 'calcTimeSeconds', 'calcTimeDistance',
-    'calcPaceAdjMinutes', 'calcPaceAdjSeconds', 'calcPaceAdjTemperature',
-    'calcDistTmHours', 'calcDistTmMinutes', 'calcDistTmSeconds', 'calcDistPaceMinutes', 'calcDistPaceSeconds'
-];
 var calcPaceFormLst = [];
 var calcTimeFormLst = [];
 var calcDistFormLst = [];
@@ -22,7 +16,7 @@ Run when calculate button is pressed for getting pace
 Saves fields as cookies if they are populated and Remember Calculations is checked
 */
 function calcPaceBtn(formId){
-    console.log(formId);
+    // console.log(formId);
     let form_ele = document.getElementById(formId);
 
     let h = form_ele.querySelector("#cp_time_h").value;
@@ -37,7 +31,7 @@ function calcPaceBtn(formId){
         setCookie(formId + "_calcPaceMinutes", m, cookieExpireDays);
         setCookie(formId + "_calcPaceSeconds", s, cookieExpireDays);
         setCookie(formId + "_calcPaceDistance", dist, cookieExpireDays);
-        setCookie("calcPaceFromDistTm", String(calcPaceFormLst), cookieExpireDays)
+        setCookie("calcPaceFormLst", String(calcPaceFormLst), cookieExpireDays)
     }
 
     form_ele.querySelector("#cp_pace").value = sec_to_time_str(calcPace(h,m,s,dist));
@@ -59,7 +53,7 @@ Run when calculate button is pressed for getting time
 Saves fields as cookies if they are populated and Remember Calculations is checked
 */
 function calcTimeBtn(formId){
-    console.log(formId);
+    // console.log(formId);
     let form_ele = document.getElementById(formId);
 
     let m = form_ele.querySelector("#ct_pace_m").value;
@@ -96,7 +90,7 @@ Converts the pace minutes and seconds to seconds and sums together
 Adjusted Pace = Pace in Seconds + ((temperature - 59) / 1.8) * 4.5)
 */
 function calcAdjPaceBtn(formId){
-    console.log(formId);
+    // console.log(formId);
     let form_ele = document.getElementById(formId);
 
     let m = form_ele.querySelector("#pace_m").value;
@@ -289,7 +283,7 @@ function saveAllCookieValues(){
         setCookie(formId + "_calcPaceSeconds", s, cookieExpireDays);
         setCookie(formId + "_calcPaceDistance", dist, cookieExpireDays);
     }
-    setCookie("calcPaceFromDistTm", String(calcPaceFormLst), cookieExpireDays)
+    setCookie("calcPaceFormLst", String(calcPaceFormLst), cookieExpireDays)
 
     for (i=0; i<calcTimeFormLst.length; i++){
         let formId = calcTimeFormLst[i];
@@ -347,12 +341,38 @@ function eraseAllCookieValues(){
         eraseCookie(formId + "_calcPaceSeconds");
         eraseCookie(formId + "_calcPaceDistance");
     }
-    eraseCookie("calcPaceFromDistTm")
+    eraseCookie("calcPaceFormLst")
+    calcPaceFormLst = [];
 
-    //Erase other cookies
-    for (var i=0; i<calculationCookieLst.length; i++){
-        eraseCookie(calculationCookieLst[i]);
+    for (i=0; i<calcTimeFormLst.length; i++){
+        let formId = calcTimeFormLst[i];
+        eraseCookie(formId + "_calcTimeMinutes");
+        eraseCookie(formId + "_calcTimeSeconds");
+        eraseCookie(formId + "_calcTimeDistance");
     }
+    eraseCookie("calcTimeFormLst");
+    calcTimeFormLst = [];
+
+    for (i=0; i<calcAdjPaceFormLst.length; i++){
+        let formId = calcAdjPaceFormLst[i];
+        eraseCookie(formId + "_calcAdjPaceMinutes");
+        eraseCookie(formId + "_calcAdjPaceSeconds");
+        eraseCookie(formId + "_calcPaceSeconds");
+        eraseCookie(formId + "_calcAdjPaceTemperature");
+    }
+    eraseCookie("calcAdjPaceFormLst");
+    calcAdjPaceFormLst = [];
+
+    for (i=0; i<calcDistFormLst.length; i++){
+        let formId = calcDistFormLst[i];
+        eraseCookie(formId + "_calcDistTmHours");
+        eraseCookie(formId + "_calcDistTmMinutes");
+        eraseCookie(formId + "_calcDistTmSeconds");
+        eraseCookie(formId + "_calcDistPaceMinutes");
+        eraseCookie(formId + "_calcDistPaceSeconds");
+    }
+    eraseCookie("calcDistFormLst");
+    calcDistFormLst = [];
 
     //Erase the cookie for remembering calculations
     eraseCookie("rememberCalculations");
@@ -399,7 +419,7 @@ Get cookie values for Calculating pace, populates the web page fields, and calcu
 Returns number of calculate pace forms generated
 */
 function getCalcPacePrevious(){
-    let calcPaceCookieLst = getCookie("calcPaceFromDistTm").split(',');
+    let calcPaceCookieLst = getCookie("calcPaceFormLst").split(',');
     console.log('getCalcPacePrevious: ' + String(calcPaceCookieLst));
 
     for (i=0; i<calcPaceCookieLst.length; i++){
@@ -534,6 +554,9 @@ function getCalcDistancePrevious(){
     return calcDistFormLst.length;
 }
 
+/*
+Used for create new calculation row from button, only calls the function to create the new row. This is needed since cannot have the function return a value when called by an HTML button.
+*/
 function newCalcPaceBtn(){
     newCalcPace();
 }
@@ -546,6 +569,11 @@ function newCalcDistBtn(){
 function newCalcAdjPaceBtn(){
     newCalcAdjPace();
 }
+
+/*
+Create new calculation row
+Return ID of form for row that was created
+*/
 function newCalcPace(){
     paceFormCt++;
     newFormId = 'pace_from_dist_time_'+paceFormCt;
@@ -563,6 +591,10 @@ function newCalcPace(){
 
 }
 
+/*
+Create new calculation row
+Return ID of form for row that was created
+*/
 function newCalcTime(){
     timeFormCt++;
     newFormId = 'time_from_dist_pace_'+timeFormCt;
@@ -580,6 +612,10 @@ function newCalcTime(){
 
 }
 
+/*
+Create new calculation row
+Return ID of form for row that was created
+*/
 function newCalcDist(){
     distFormCt++;
     newFormId = 'dist_from_time_pace'+distFormCt;
@@ -596,7 +632,10 @@ function newCalcDist(){
     return newFormId;
 
 }
-
+/*
+Create new calculation row
+Return ID of form for row that was created
+*/
 function newCalcAdjPace(){
     adjPaceFormCt++;
     newFormId = 'adjpace_from_temperature_pace'+adjPaceFormCt;
@@ -614,7 +653,10 @@ function newCalcAdjPace(){
 
 }
 
-
+/*
+Remove row for rowId of Calculate Pace from Distance and Time
+Then remove cookies for the row
+*/
 function removeCalcPaceRow(rowId){
     console.log("removeCalcPaceRow: " + rowId);
     let divToRemove = document.getElementById(rowId).parentElement;
@@ -631,7 +673,7 @@ function removeCalcPaceRow(rowId){
     if (index != -1) {
         calcPaceFormLst.splice(index, 1);
     }
-    setCookie("calcPaceFromDistTm", String(calcPaceFormLst), cookieExpireDays);
+    setCookie("calcPaceFormLst", String(calcPaceFormLst), cookieExpireDays);
 
     //If there are no more rows then add a new blank one
     let calc_ct = calc_pace_lst.querySelectorAll(".calc_row").length;
@@ -639,6 +681,10 @@ function removeCalcPaceRow(rowId){
         newCalcPace();
     }
 }
+/*
+Remove row for rowId of Calculate Time from Distance and Pace
+Then remove cookies for the row
+*/
 function removeCalcTimeRow(rowId){
     console.log("removeCalcTimeRow: " + rowId);
     let divToRemove = document.getElementById(rowId).parentElement;
@@ -662,6 +708,10 @@ function removeCalcTimeRow(rowId){
         newCalcTime();
     }
 }
+/*
+Remove row for rowId of Calculate Distance from Time and Pace
+Then remove cookies for the row
+*/
 function removeCalcDistRow(rowId){
     console.log("removeCalcDistRow: " + rowId);
     let divToRemove = document.getElementById(rowId).parentElement;
@@ -689,6 +739,10 @@ function removeCalcDistRow(rowId){
         newCalcDist();
     }
 }
+/*
+Remove row for rowId of Calculate Adjusted Pace from Temperature and desired Pace
+Then remove cookies for the row
+*/
 function removeCalcAdjPaceRow(rowId){
     console.log("removeCalcAdjPaceRow: " + rowId);
     let divToRemove = document.getElementById(rowId).parentElement;
