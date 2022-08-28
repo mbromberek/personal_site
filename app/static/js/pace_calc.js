@@ -7,12 +7,14 @@ var calculationCookieLst = [
 ];
 var calcPaceFormLst = [];
 var calcTimeFormLst = [];
+var calcDistFormLst = [];
 
 
 //Number of days to save cookies for
 var cookieExpireDays = 60;
 var paceFormCt = 0;
 var timeFormCt = 0;
+var distFormCt = 0;
 
 /*
 Run when calculate button is pressed for getting pace
@@ -124,13 +126,13 @@ function calcPaceHeat(h, m, s, temp){
 Run when calculate button is pressed for getting distance
 Saves fields as cookies if they are populated and Remember Calculations is checked
 */
-function calcDistanceBtn(formId){
+function calcDistBtn(formId){
     form_ele = document.getElementById(formId);
-    let tm_h = form_ele.querySelector("#cd_time_h").value;
-    let tm_m = form_ele.querySelector("#cd_time_m").value;
-    let tm_s = form_ele.querySelector("#cd_time_s").value;
-    let pace_m = form_ele.querySelector("#cd_pace_m").value;
-    let pace_s = form_ele.querySelector("#cd_pace_s").value;
+    let tm_h = form_ele.querySelector("#time_h").value;
+    let tm_m = form_ele.querySelector("#time_m").value;
+    let tm_s = form_ele.querySelector("#time_s").value;
+    let pace_m = form_ele.querySelector("#pace_m").value;
+    let pace_s = form_ele.querySelector("#pace_s").value;
     let dist = '';
 
     //Need at least one value for time or pace
@@ -139,14 +141,21 @@ function calcDistanceBtn(formId){
     }else{
         alert('Please enter a value for Time and Pace')
     }
+
+    if (!(calcDistFormLst.includes(formId))) {
+        calcDistFormLst.push(formId);
+    }
+
+
     if (dist != '' && document.getElementById("save_cookie").checked){
         setCookie(formId + "_calcDistTmHours", tm_h, cookieExpireDays);
         setCookie(formId + "_calcDistTmMinutes", tm_m, cookieExpireDays);
         setCookie(formId + "_calcDistTmSeconds", tm_s, cookieExpireDays);
         setCookie(formId + "_calcDistPaceMinutes", pace_m, cookieExpireDays);
         setCookie(formId + "_calcDistPaceSeconds", pace_s, cookieExpireDays);
+        setCookie("calcDistFormLst", String(calcDistFormLst), cookieExpireDays)
     }
-    form_ele.querySelector("#cd_distance").value = dist
+    form_ele.querySelector("#distance").value = dist
 }
 
 function calcDistance(tm_h, tm_m, tm_s, pace_h, pace_m, pace_s){
@@ -260,8 +269,6 @@ function saveAllCookieValues(){
     console.log('saveAllCookieValues');
     setCookie("rememberCalculations", true, cookieExpireDays);
 
-    setCookie("dist_form_ids", 'dist_from_time_pace_1,dist_from_time_pace_2', cookieExpireDays);
-
     for (i=0; i<calcPaceFormLst.length; i++){
         let formId = calcPaceFormLst[i];
         let calc_pace_form = document.querySelector("#"+formId);
@@ -296,19 +303,23 @@ function saveAllCookieValues(){
     setCookie("calcPaceAdjSeconds", s, cookieExpireDays);
     setCookie("calcPaceAdjTemperature", temp, cookieExpireDays);
 
-    formId = 'dist_from_time_pace_1';
-    form_ele = document.getElementById(formId);
-    let tm_h = form_ele.querySelector("#cd_time_h").value;
-    let tm_m = form_ele.querySelector("#cd_time_m").value;
-    let tm_s = form_ele.querySelector("#cd_time_s").value;
-    let pace_m = form_ele.querySelector("#cd_pace_m").value;
-    let pace_s = form_ele.querySelector("#cd_pace_s").value;
-    setCookie(formId + "_calcDistTmHours", tm_h, cookieExpireDays);
-    setCookie(formId + "_calcDistTmMinutes", tm_m, cookieExpireDays);
-    setCookie(formId + "_calcDistTmSeconds", tm_s, cookieExpireDays);
-    setCookie(formId + "_calcDistPaceMinutes", pace_m, cookieExpireDays);
-    setCookie(formId + "_calcDistPaceSeconds", pace_s, cookieExpireDays);
 
+    for (i=0; i<calcDistFormLst.length; i++){
+        let formId = calcDistFormLst[i];
+        let calc_form = document.querySelector("#"+formId);
+        let tm_h = calc_form.querySelector("#time_h").value;
+        let tm_m = calc_form.querySelector("#time_m").value;
+        let tm_s = calc_form.querySelector("#time_s").value;
+        let pace_m = calc_form.querySelector("#pace_m").value;
+        let pace_s = calc_form.querySelector("#pace_s").value;
+        // let dist = calc_form.querySelector("#ct_distance").value;
+        setCookie(formId + "_calcDistTmHours", tm_h, cookieExpireDays);
+        setCookie(formId + "_calcDistTmMinutes", tm_m, cookieExpireDays);
+        setCookie(formId + "_calcDistTmSeconds", tm_s, cookieExpireDays);
+        setCookie(formId + "_calcDistPaceMinutes", pace_m, cookieExpireDays);
+        setCookie(formId + "_calcDistPaceSeconds", pace_s, cookieExpireDays);
+    }
+    setCookie("calcDistFormLst", String(calcDistFormLst), cookieExpireDays)
 }
 
 /*
@@ -358,10 +369,9 @@ function reloadCalculationValues(){
 
         getCalcAdjPacePrevious();
 
-        form_ids = getCookie("dist_form_ids").split(',');
-        // console.log(form_ids);
-        for (let i=0; i<form_ids.length; i++){
-            getCalcDistancePrevious(form_ids[i]);
+        let calcDistCt = getCalcDistancePrevious();
+        if (calcDistCt <1){
+            newCalcDist();
         }
 
         //this is done so when user visits the page the cookies will get saved with new set of days to live
@@ -369,6 +379,7 @@ function reloadCalculationValues(){
     }else{
         newCalcPace();
         newCalcTime();
+        newCalcDist();
     }
 }
 
@@ -461,25 +472,39 @@ function getCalcAdjPacePrevious(){
 /*
 Get cookie values for Calculating distance, populates the web page fields, and calculates the pace.
 */
-function getCalcDistancePrevious(formId){
-    console.log(formId);
-    form_ele = document.getElementById(formId);
-    console.log(form_ele);
+function getCalcDistancePrevious(){
+    let calcCookieLst = getCookie("calcDistFormLst").split(',');
+    console.log('getCalcDistPrevious: ' + String(calcCookieLst));
 
-    tm_h = getCookie(formId + "_calcDistTmHours");
-    tm_m = getCookie(formId + "_calcDistTmMinutes");
-    tm_s = getCookie(formId + "_calcDistTmSeconds");
-    pace_m = getCookie(formId + "_calcDistPaceMinutes");
-    pace_s = getCookie(formId + "_calcDistPaceSeconds");
+    for (i=0; i<calcCookieLst.length; i++){
+        let formId = calcCookieLst[i];
+        newFormId = newCalcDist();
+        let calc_form = document.querySelector("#"+newFormId);
 
-    form_ele.querySelector("#cd_time_h").value = tm_h;
-    form_ele.querySelector("#cd_time_m").value = tm_m;
-    form_ele.querySelector("#cd_time_s").value = tm_s;
-    form_ele.querySelector("#cd_pace_m").value = pace_m;
-    form_ele.querySelector("#cd_pace_s").value = pace_s;
+        let tm_h = getCookie(formId + "_calcDistTmHours");
+        let tm_m = getCookie(formId + "_calcDistTmMinutes");
+        let tm_s = getCookie(formId + "_calcDistTmSeconds");
+        let pace_m = getCookie(formId + "_calcDistPaceMinutes");
+        let pace_s = getCookie(formId + "_calcDistPaceSeconds");
 
-    form_ele.querySelector("#cd_distance").value = calcDistance(tm_h, tm_m, tm_s, 0, pace_m, pace_s);
+        eraseCookie(formId + "_calcDistTmHours");
+        eraseCookie(formId + "_calcDistTmMinutes");
+        eraseCookie(formId + "_calcDistTmSeconds");
+        eraseCookie(formId + "_calcDistPaceMinutes");
+        eraseCookie(formId + "_calcDistPaceSeconds");
 
+        calc_form.querySelector("#time_h").value = tm_h;
+        calc_form.querySelector("#time_m").value = tm_m;
+        calc_form.querySelector("#time_s").value = tm_s;
+        calc_form.querySelector("#pace_m").value = pace_m;
+        calc_form.querySelector("#pace_s").value = pace_s;
+
+        calc_form.querySelector("#distance").value = calcDistance(tm_h, tm_m, tm_s, 0, pace_m, pace_s);
+
+        calcDistFormLst.push(newFormId);
+
+    }
+    return calcDistFormLst.length;
 }
 
 function newCalcPaceBtn(){
@@ -488,6 +513,10 @@ function newCalcPaceBtn(){
 function newCalcTimeBtn(){
     newCalcTime();
 }
+function newCalcDistBtn(){
+    newCalcDist();
+}
+
 function newCalcPace(){
     paceFormCt++;
     newFormId = 'pace_from_dist_time_'+paceFormCt;
@@ -507,7 +536,7 @@ function newCalcPace(){
 
 function newCalcTime(){
     timeFormCt++;
-    newFormId = 'time_from_dist_dist_'+timeFormCt;
+    newFormId = 'time_from_dist_pace_'+timeFormCt;
 
     let calc_lst = document.getElementById('calc_time_from_dist_pace_lst');
     let template_calc = document.getElementById("calc_time_from_dist_pace").content.cloneNode(true);
@@ -516,6 +545,23 @@ function newCalcTime(){
     formTag.action = "JavaScript:calcTimeBtn('"+newFormId+"')";
     rmBtnTag = template_calc.querySelector("#calc_rm_btn");
     rmBtnTag.setAttribute("onclick", "JavaScript:removeCalcTimeRow('"+newFormId+"');");
+
+    calc_lst.appendChild(template_calc);
+    return newFormId;
+
+}
+
+function newCalcDist(){
+    distFormCt++;
+    newFormId = 'dist_from_time_pace'+distFormCt;
+
+    let calc_lst = document.getElementById('calc_dist_from_time_pace_lst');
+    let template_calc = document.getElementById("calc_dist_from_time_pace").content.cloneNode(true);
+    formTag = template_calc.querySelector("form");
+    formTag.id = newFormId;
+    formTag.action = "JavaScript:calcDistBtn('"+newFormId+"')";
+    rmBtnTag = template_calc.querySelector("#calc_rm_btn");
+    rmBtnTag.setAttribute("onclick", "JavaScript:removeCalcDistRow('"+newFormId+"');");
 
     calc_lst.appendChild(template_calc);
     return newFormId;
@@ -567,5 +613,32 @@ function removeCalcTimeRow(rowId){
     let calc_ct = calc_lst.querySelectorAll(".calc_row").length;
     if (calc_ct <=0){
         newCalcTime();
+    }
+}
+function removeCalcDistRow(rowId){
+    console.log("removeCalcDistRow: " + rowId);
+    let divToRemove = document.getElementById(rowId).parentElement;
+
+    let calc_lst = document.getElementById('calc_dist_from_time_pace_lst');
+    calc_lst.removeChild(divToRemove);
+
+    //Remove cookies
+    eraseCookie(rowId + "_calcDistTmHours");
+    eraseCookie(rowId + "_calcDistTmMinutes");
+    eraseCookie(rowId + "_calcDistTmSeconds");
+    eraseCookie(rowId + "_calcDistTmHours");
+    eraseCookie(rowId + "_calcDistPaceMinutes");
+    eraseCookie(rowId + "_calcDistPaceSeconds");
+
+    let index = calcDistFormLst.indexOf(rowId);
+    if (index != -1) {
+        calcDistFormLst.splice(index, 1);
+    }
+    setCookie("calcDistFormLst", String(calcDistFormLst), cookieExpireDays);
+
+    //If there are no more rows then add a new blank one
+    let calc_ct = calc_lst.querySelectorAll(".calc_row").length;
+    if (calc_ct <=0){
+        newCalcDist();
     }
 }

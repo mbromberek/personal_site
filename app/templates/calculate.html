@@ -58,8 +58,6 @@
             Calculate time from distance and pace
         </legend>
 
-
-
         <div id="calc_time_from_dist_pace_lst">
             <div style="margin-top:5px;width:100%; ">
                 <form action="JavaScript:newCalcTimeBtn()">
@@ -102,12 +100,56 @@
         <legend class="wrkt_det">
             Calculate distance from time and pace
         </legend>
-        <div style="overflow:auto; width:100%; margin-top:20px;">
+
+
+        <div id="calc_dist_from_time_pace_lst">
+            <div style="margin-top:5px;width:100%; ">
+                <form action="JavaScript:newCalcDistBtn()">
+                    <input class="new_calc_btn" type="submit" value="+" style='font-size:10pt;height:25px;padding-top:0px;padding-bottom:0px;font-weight:bold;', button_style='btn'>
+                    <label style="width:140px;margin-right:25px;">Pace: </label>
+                    <label style="width:210px;margin-right:15px;">Time: </label>
+                    <label class="hide_mobile" style="width:50px;">Distance: </label>
+                </form>
+            </div>
+            <template id="calc_dist_from_time_pace">
+                <div class="calc_row">
+                    <form method="post" role="form" class="form">
+                        <span style="width:140px;">
+                            <input class="calc_field_2" type="number" id="pace_m" name="pace_m" min=0>
+                            <label>m </label>
+                            <input class="calc_field_2" type="number" id="pace_s" name="pace_s" min=0>
+                            <label>s </label>
+                        </span>
+                        <span style="width:210px;">
+                            <input class="calc_field_2" type="number" id="time_h" name="time_h" min=0>
+                            <label>h </label>
+                            <input class="calc_field_2" type="number" id="time_m" name="time_m" min=0>
+                            <label>m </label>
+                            <input class="calc_field_2" type="number" id="time_s" name="time_s" min=0>
+                            <label>s </label>
+                        </span>
+                        <span class="calc_result">
+                            =
+                            <input class="calc_field_result" type="text" id="distance" name="distance" disabled>
+                        </span>
+                        <span>
+                            <input type="submit" value="Calculate">
+                        </span>
+                        <span style="margin-left:10px;">
+                            <input id="calc_rm_btn" type="button" onclick="JavaScript:removeCalcDistRow(1)" value="-">
+                        </span>
+                    </form>
+                </div>
+            </template>
+        </div>
+
+
+
+
+        <!-- <div style="overflow:auto; width:100%; margin-top:20px;">
             <form action="JavaScript:calcDistanceBtn('dist_from_time_pace_1')" method="post" role="form" class="form" id='dist_from_time_pace_1'>
                 <div class="form-row " style="width:90%; margin-left:5px;">
 
-                    {{ form.hidden_tag() }}
-                    <!-- Search Fields -->
                     <div class="form-group mr-4">
                         <label>Pace: </label><br>
                         <input class="calc_field_2" type="number" id="cd_pace_m" name="pace_m" min=0>
@@ -135,14 +177,12 @@
                     </div>
                 </div>
             </form>
-        </div>
+        </div> -->
 
-        <div style="overflow:auto; width:100%; margin-top:20px;">
+        <!-- <div style="overflow:auto; width:100%; margin-top:20px;">
             <form action="JavaScript:calcDistanceBtn('dist_from_time_pace_2')" method="post" role="form" class="form" id='dist_from_time_pace_2'>
                 <div class="form-row " style="width:90%; margin-left:5px;">
 
-                    {{ form.hidden_tag() }}
-                    <!-- Search Fields -->
                     <div class="form-group mr-4">
                         <label>Pace: </label><br>
                         <input class="calc_field_2" type="number" id="cd_pace_m" name="pace_m" min=0>
@@ -170,7 +210,7 @@
                     </div>
                 </div>
             </form>
-        </div>
+        </div> -->
     </fieldset>
 
     <fieldset class="wrkt_det " style="margin-top:8px;">
