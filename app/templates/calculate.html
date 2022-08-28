@@ -57,34 +57,45 @@
         <legend class="wrkt_det">
             Calculate time from distance and pace
         </legend>
-        <div style="overflow:auto; width:100%; margin-top:20px;">
-            <form action="JavaScript:calcTimeBtn()" method="post" role="form" class="form">
-                <div class="form-row " style="width:90%; margin-left:5px;">
 
-                    {{ form.hidden_tag() }}
-                    <!-- Search Fields -->
-                    <div class="form-group" style="margin-right:25px;">
-                        <label>Distance: </label><br>
-                        <input class="calc_field_3" type="number" id="ct_distance" name="distance" step="0.01" required>
-                    </div>
-                    <div class="form-group mr-2">
-                        <label>Pace: </label><br>
-                        <input class="calc_field_2" type="number" id="ct_pace_m" name="pace_m" min=0>
-                        <label>m </label>
-                        <input class="calc_field_2" type="number" id="ct_pace_s" name="pace_s" min=0 max=59>
-                        <label>s </label>
 
-                    </div>
-                    <div class="form-group calc_result">
-                        <label>Time: </label>
-                        <input class="calc_field_result" type="text" id="ct_time" name="time" size=8 disabled>
-                    </div>
+
+        <div id="calc_time_from_dist_pace_lst">
+            <div style="margin-top:5px;width:100%; ">
+                <form action="JavaScript:newCalcTimeBtn()">
+                    <input class="new_calc_btn" type="submit" value="+" style='font-size:10pt;height:25px;padding-top:0px;padding-bottom:0px;font-weight:bold;', button_style='btn'>
+                    <label style="width:60px;margin-right:25px;">Distance: </label>
+                    <label style="width:210px;margin-right:15px;">Pace: </label>
+                    <label class="hide_mobile" style="width:50px;">Time: </label>
+                </form>
+            </div>
+            <template id="calc_time_from_dist_pace">
+                <div class="calc_row">
+                    <form method="post" role="form" class="form">
+                        <span style="width:60px;margin-right:25px;">
+                            <input class="calc_field_3" type="number" id="ct_distance" name="distance" step="0.01" required>
+                        </span>
+                        <span style="width:210px;">
+                            <input class="calc_field_2" type="number" id="ct_pace_m" name="pace_m" min=0>
+                            <label>m </label>
+                            <input class="calc_field_2" type="number" id="ct_pace_s" name="pace_s" min=0>
+                            <label>s </label>
+                        </span>
+                        <span class="calc_result">
+                            =
+                            <input class="calc_field_result" type="text" id="ct_time" name="time" disabled>
+                        </span>
+                        <span>
+                            <input type="submit" value="Calculate">
+                        </span>
+                        <span style="margin-left:10px;">
+                            <input id="calc_rm_btn" type="button" onclick="JavaScript:removeCalcTimeRow(1)" value="-">
+                        </span>
+                    </form>
                 </div>
-                <div class="form-group" style="margin-left:5px;">
-                    <input type="submit" value="Calculate">
-                </div>
-            </form>
+            </template>
         </div>
+
     </fieldset>
 
     <fieldset class="wrkt_det " style="margin-top:8px;">
