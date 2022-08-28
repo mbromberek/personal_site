@@ -658,7 +658,7 @@ Remove row for rowId of Calculate Pace from Distance and Time
 Then remove cookies for the row
 */
 function removeCalcPaceRow(rowId){
-    console.log("removeCalcPaceRow: " + rowId);
+    // console.log("removeCalcPaceRow: " + rowId);
     let divToRemove = document.getElementById(rowId).parentElement;
 
     let calc_pace_lst = document.getElementById('calc_pace_from_dist_tm_lst');
@@ -686,7 +686,7 @@ Remove row for rowId of Calculate Time from Distance and Pace
 Then remove cookies for the row
 */
 function removeCalcTimeRow(rowId){
-    console.log("removeCalcTimeRow: " + rowId);
+    // console.log("removeCalcTimeRow: " + rowId);
     let divToRemove = document.getElementById(rowId).parentElement;
 
     let calc_lst = document.getElementById('calc_time_from_dist_pace_lst');
@@ -713,7 +713,7 @@ Remove row for rowId of Calculate Distance from Time and Pace
 Then remove cookies for the row
 */
 function removeCalcDistRow(rowId){
-    console.log("removeCalcDistRow: " + rowId);
+    // console.log("removeCalcDistRow: " + rowId);
     let divToRemove = document.getElementById(rowId).parentElement;
 
     let calc_lst = document.getElementById('calc_dist_from_time_pace_lst');
@@ -744,7 +744,7 @@ Remove row for rowId of Calculate Adjusted Pace from Temperature and desired Pac
 Then remove cookies for the row
 */
 function removeCalcAdjPaceRow(rowId){
-    console.log("removeCalcAdjPaceRow: " + rowId);
+    // console.log("removeCalcAdjPaceRow: " + rowId);
     let divToRemove = document.getElementById(rowId).parentElement;
 
     let calc_lst = document.getElementById('calc_adjpace_from_temp_pace_lst');
