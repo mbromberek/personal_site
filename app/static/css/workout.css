@@ -531,6 +531,10 @@ td.dashboard_row_dtl{
     width:210px;
     margin-right:15px;
 }
+.calc_temperature_section{
+    width:100px;
+    margin-right:15px;
+}
 .calc_result{
     margin-left:20px;
     margin-right:20px;
