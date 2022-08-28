@@ -142,113 +142,46 @@
                 </div>
             </template>
         </div>
-
-
-
-
-        <!-- <div style="overflow:auto; width:100%; margin-top:20px;">
-            <form action="JavaScript:calcDistanceBtn('dist_from_time_pace_1')" method="post" role="form" class="form" id='dist_from_time_pace_1'>
-                <div class="form-row " style="width:90%; margin-left:5px;">
-
-                    <div class="form-group mr-4">
-                        <label>Pace: </label><br>
-                        <input class="calc_field_2" type="number" id="cd_pace_m" name="pace_m" min=0>
-                        <label>m </label>
-                        <input class="calc_field_2" type="number" id="cd_pace_s" name="pace_s" min=0 max=59>
-                        <label>s </label>
-                    </div>
-                    <div class="form-group mr-4">
-                        <label>Time: </label><br>
-                        <input class="calc_field_2" type="number" id="cd_time_h" name="time_h" min=0>
-                        <label>h </label>
-                        <input class="calc_field_2" type="number" id="cd_time_m" name="time_m" min=0>
-                        <label>m </label>
-                        <input class="calc_field_2" type="number" id="cd_time_s" name="time_s" min=0>
-                        <label>s </label>
-                    </div>
-                    <div class="form-group mr-4" >
-                        <label>Distance: </label><br>
-                        =
-                        <input class="calc_field_3" type="string" id="cd_distance" name="distance" disabled>
-                    </div>
-                    <div class="form-group" style="margin-left:5px;">
-                        <br />
-                        <input type="submit" value="Calculate">
-                    </div>
-                </div>
-            </form>
-        </div> -->
-
-        <!-- <div style="overflow:auto; width:100%; margin-top:20px;">
-            <form action="JavaScript:calcDistanceBtn('dist_from_time_pace_2')" method="post" role="form" class="form" id='dist_from_time_pace_2'>
-                <div class="form-row " style="width:90%; margin-left:5px;">
-
-                    <div class="form-group mr-4">
-                        <label>Pace: </label><br>
-                        <input class="calc_field_2" type="number" id="cd_pace_m" name="pace_m" min=0>
-                        <label>m </label>
-                        <input class="calc_field_2" type="number" id="cd_pace_s" name="pace_s" min=0 max=59>
-                        <label>s </label>
-                    </div>
-                    <div class="form-group mr-4">
-                        <label>Time: </label><br>
-                        <input class="calc_field_2" type="number" id="cd_time_h" name="time_h" min=0>
-                        <label>h </label>
-                        <input class="calc_field_2" type="number" id="cd_time_m" name="time_m" min=0>
-                        <label>m </label>
-                        <input class="calc_field_2" type="number" id="cd_time_s" name="time_s" min=0>
-                        <label>s </label>
-                    </div>
-                    <div class="form-group mr-4" >
-                        <label>Distance: </label><br>
-                        =
-                        <input class="calc_field_3" type="string" id="cd_distance" name="distance" disabled>
-                    </div>
-                    <div class="form-group" style="margin-left:5px;">
-                        <br />
-                        <input type="submit" value="Calculate">
-                    </div>
-                </div>
-            </form>
-        </div> -->
     </fieldset>
 
     <fieldset class="wrkt_det " style="margin-top:8px;">
         <legend class="wrkt_det">
             Calculate pace based on desired pace and temperature
         </legend>
-        <div style="overflow:auto; width:100%; margin-top:20px;">
-            <form action="JavaScript:calcPaceHeatBtn()" method="post" role="form" class="form">
-                <div class="form-row " style="width:90%; margin-left:5px;">
-
-                    {{ form.hidden_tag() }}
-                    <div class="form-group" style="margin-right:25px;">
-                        <label>Temperature: </label><br>
-                        <input class="calc_field_3" type="number" id="cpt_temperature" name="distance" step="1" required>
-                    </div>
-                    <div class="form-group mr-2">
-                        <label>Pace: </label><br>
-                        <input class="calc_field_2" type="number" id="cpt_desired_pace_m" name="pace_m" min=0>
-                        <label>m </label>
-                        <input class="calc_field_2" type="number" id="cpt_desired_pace_s" name="pace_s" min=0 max=59>
-                        <label>s </label>
-
-                    </div>
-                    <div class="form-group calc_result">
-                        <label>Adjusted Pace: </label>
-                        <input class="calc_field_result" type="text" id="cpt_adjusted_pace" name="time" disabled>
-                    </div>
-                    <!-- <div class="form-group ml-4 mr-2">
-                        <label>Adjusted Time: </label><br>
-                        <input type="text" id="cpt_adjusted_time" name="time" size=8 disabled>
-                    </div> -->
+        <div id="calc_adjpace_from_temp_pace_lst">
+            <div style="margin-top:5px;width:100%; ">
+                <form action="JavaScript:newCalcAdjPaceBtn()">
+                    <input class="new_calc_btn" type="submit" value="+" style='font-size:10pt;height:25px;padding-top:0px;padding-bottom:0px;font-weight:bold;', button_style='btn'>
+                    <label class="calc_dist_section">Temperature: </label>
+                    <label class="calc_pace_section">Pace: </label>
+                    <label class="hide_mobile" style="width:50px;">Distance: </label>
+                </form>
+            </div>
+            <template id="calc_adjpace_from_temp_pace">
+                <div class="calc_row">
+                    <form method="post" role="form" class="form">
+                        <span style="width:60px;margin-right:25px;">
+                            <input class="calc_field_3" type="number" id="temperature" name="temperature" step="1" required>
+                        </span>
+                        <span style="width:140px;margin-right:25px;">
+                            <input class="calc_field_2" type="number" id="pace_m" name="pace_m" min=0>
+                            <label>m </label>
+                            <input class="calc_field_2" type="number" id="pace_s" name="pace_s" min=0>
+                            <label>s </label>
+                        </span>
+                        <span class="calc_result">
+                            =
+                            <input class="calc_field_result" type="text" id="adjusted_pace" name="Adjusted Pace" disabled>
+                        </span>
+                        <span>
+                            <input type="submit" value="Calculate">
+                        </span>
+                        <span style="margin-left:10px;">
+                            <input id="calc_rm_btn" type="button" onclick="JavaScript:removeCalcAdjPaceRow(1)" value="-">
+                        </span>
+                    </form>
                 </div>
-                <div class="form-group" style="margin-left:5px;">
-                    <!-- <input type="button" value="calculate" onclick="calcPace()">
-                    <br> -->
-                    <input type="submit" value="Calculate">
-                </div>
-            </form>
+            </template>
         </div>
         <div>
             Logic is from <a href="https://www.podiumrunner.com/training/how-much-does-heat-slow-your-race-pace/?utm_source=facebook&utm_medium=podiumrunner&utm_campaign=4bdcc7d1-bcc6-4195-8195-19bb3c246c97" target="_blank">Podium Runner</a>

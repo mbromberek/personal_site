@@ -8,13 +8,14 @@ var calculationCookieLst = [
 var calcPaceFormLst = [];
 var calcTimeFormLst = [];
 var calcDistFormLst = [];
-
+var calcAdjPaceFormLst = [];
 
 //Number of days to save cookies for
 var cookieExpireDays = 60;
 var paceFormCt = 0;
 var timeFormCt = 0;
 var distFormCt = 0;
+var adjPaceFormCt = 0;
 
 /*
 Run when calculate button is pressed for getting pace
@@ -94,20 +95,27 @@ Calculate Adjusted Pace based on temperature and desired pace
 Converts the pace minutes and seconds to seconds and sums together
 Adjusted Pace = Pace in Seconds + ((temperature - 59) / 1.8) * 4.5)
 */
-function calcPaceHeatBtn(){
-    var m = document.getElementById("cpt_desired_pace_m").value;
-    var s = document.getElementById("cpt_desired_pace_s").value;
-    var temp = document.getElementById("cpt_temperature").value;
-    if (temp != '' && document.getElementById("save_cookie").checked){
-        setCookie("calcPaceAdjMinutes", m, cookieExpireDays);
-        setCookie("calcPaceAdjSeconds", s, cookieExpireDays);
-        setCookie("calcPaceAdjTemperature", temp, cookieExpireDays);
+function calcAdjPaceBtn(formId){
+    console.log(formId);
+    let form_ele = document.getElementById(formId);
+
+    let m = form_ele.querySelector("#pace_m").value;
+    let s = form_ele.querySelector("#pace_s").value;
+    let temperature = form_ele.querySelector("#temperature").value;
+    if (!(calcAdjPaceFormLst.includes(formId))) {
+        calcAdjPaceFormLst.push(formId);
     }
 
-    document.getElementById("cpt_adjusted_pace").value = sec_to_time_str(calcPaceHeat(0, m, s, temp), 'ms');
+    if (temperature != '' && document.getElementById("save_cookie").checked){
+        setCookie(formId + "_calcAdjPaceMinutes", m, cookieExpireDays);
+        setCookie(formId + "_calcAdjPaceSeconds", s, cookieExpireDays);
+        setCookie(formId + "_calcAdjPaceTemperature", temperature, cookieExpireDays);
+        setCookie("calcAdjPaceFormLst", String(calcAdjPaceFormLst), cookieExpireDays)
+    }
+    form_ele.querySelector("#adjusted_pace").value = sec_to_time_str(calcAdjPace(0, m, s, temperature), 'ms');
 }
 
-function calcPaceHeat(h, m, s, temp){
+function calcAdjPace(h, m, s, temp){
     //calculate pace normal way
     pace_sec = time_to_sec(h, m, s);
 
@@ -295,14 +303,17 @@ function saveAllCookieValues(){
     }
     setCookie("calcTimeFormLst", String(calcTimeFormLst), cookieExpireDays)
 
-
-    var m = document.getElementById("cpt_desired_pace_m").value;
-    var s = document.getElementById("cpt_desired_pace_s").value;
-    var temp = document.getElementById("cpt_temperature").value;
-    setCookie("calcPaceAdjMinutes", m, cookieExpireDays);
-    setCookie("calcPaceAdjSeconds", s, cookieExpireDays);
-    setCookie("calcPaceAdjTemperature", temp, cookieExpireDays);
-
+    for (i=0; i<calcAdjPaceFormLst.length; i++){
+        let formId = calcAdjPaceFormLst[i];
+        let calc_form = document.querySelector("#"+formId);
+        let m = calc_form.querySelector("#pace_m").value;
+        let s = calc_form.querySelector("#pace_s").value;
+        let temperature = calc_form.querySelector("#temperature").value;
+        setCookie(formId + "_calcAdjPaceMinutes", m, cookieExpireDays);
+        setCookie(formId + "_calcAdjPaceSeconds", s, cookieExpireDays);
+        setCookie(formId + "_calcAdjPaceTemperature", temperature, cookieExpireDays);
+    }
+    setCookie("calcAdjPaceFormLst", String(calcAdjPaceFormLst), cookieExpireDays)
 
     for (i=0; i<calcDistFormLst.length; i++){
         let formId = calcDistFormLst[i];
@@ -364,10 +375,9 @@ function reloadCalculationValues(){
             newCalcTime();
         }
 
-
-
-
-        getCalcAdjPacePrevious();
+        if (getCalcAdjPacePrevious() <1){
+            newCalcAdjPace();
+        }
 
         let calcDistCt = getCalcDistancePrevious();
         if (calcDistCt <1){
@@ -380,6 +390,7 @@ function reloadCalculationValues(){
         newCalcPace();
         newCalcTime();
         newCalcDist();
+        newCalcAdjPace();
     }
 }
 
@@ -456,17 +467,33 @@ function getCalcTimePrevious(){
 Get cookie values for Calculating adjusted pace, populates the web page fields, and calculates the adjusted pace.
 */
 function getCalcAdjPacePrevious(){
-    var m = getCookie("calcPaceAdjMinutes");
-    var s = getCookie("calcPaceAdjSeconds");
-    var temp = getCookie("calcPaceAdjTemperature");
+    let calcAdjPaceCookieLst = getCookie("calcAdjPaceFormLst").split(',');
+    console.log('getCalcTimePrevious: ' + String(calcAdjPaceCookieLst));
 
-    document.getElementById("cpt_desired_pace_m").value = m;
-    document.getElementById("cpt_desired_pace_s").value = s;
-    document.getElementById("cpt_temperature").value = temp;
+    for (i=0; i<calcAdjPaceCookieLst.length; i++){
+        let formId = calcAdjPaceCookieLst[i];
+        newFormId = newCalcAdjPace();
+        let calc_form = document.querySelector("#"+newFormId);
 
-    if (temp != ''){
-        document.getElementById("cpt_adjusted_pace").value = sec_to_time_str(calcPaceHeat(0, m, s, temp), 'ms');
+        let m = getCookie(formId + "_calcAdjPaceMinutes");
+        let s = getCookie(formId + "_calcAdjPaceSeconds");
+        let temperature = getCookie(formId + "_calcAdjPaceTemperature");
+
+        eraseCookie(formId + "_calcAdjPaceMinutes");
+        eraseCookie(formId + "_calcAdjPaceSeconds");
+        eraseCookie(formId + "_calcAdjPaceTemperature");
+
+        calc_form.querySelector("#pace_m").value = m;
+        calc_form.querySelector("#pace_s").value = s;
+        calc_form.querySelector("#temperature").value = temperature;
+
+        if (temperature != ''){
+            calc_form.querySelector("#adjusted_pace").value = sec_to_time_str(calcAdjPace(0, m, s, temperature), 'ms');
+        }
+        calcAdjPaceFormLst.push(newFormId);
+
     }
+    return calcAdjPaceFormLst.length;
 }
 
 /*
@@ -516,7 +543,9 @@ function newCalcTimeBtn(){
 function newCalcDistBtn(){
     newCalcDist();
 }
-
+function newCalcAdjPaceBtn(){
+    newCalcAdjPace();
+}
 function newCalcPace(){
     paceFormCt++;
     newFormId = 'pace_from_dist_time_'+paceFormCt;
@@ -567,6 +596,24 @@ function newCalcDist(){
     return newFormId;
 
 }
+
+function newCalcAdjPace(){
+    adjPaceFormCt++;
+    newFormId = 'adjpace_from_temperature_pace'+adjPaceFormCt;
+
+    let calc_lst = document.getElementById('calc_adjpace_from_temp_pace_lst');
+    let template_calc = document.getElementById("calc_adjpace_from_temp_pace").content.cloneNode(true);
+    formTag = template_calc.querySelector("form");
+    formTag.id = newFormId;
+    formTag.action = "JavaScript:calcAdjPaceBtn('"+newFormId+"')";
+    rmBtnTag = template_calc.querySelector("#calc_rm_btn");
+    rmBtnTag.setAttribute("onclick", "JavaScript:removeCalcAdjPaceRow('"+newFormId+"');");
+
+    calc_lst.appendChild(template_calc);
+    return newFormId;
+
+}
+
 
 function removeCalcPaceRow(rowId){
     console.log("removeCalcPaceRow: " + rowId);
@@ -640,5 +687,29 @@ function removeCalcDistRow(rowId){
     let calc_ct = calc_lst.querySelectorAll(".calc_row").length;
     if (calc_ct <=0){
         newCalcDist();
+    }
+}
+function removeCalcAdjPaceRow(rowId){
+    console.log("removeCalcAdjPaceRow: " + rowId);
+    let divToRemove = document.getElementById(rowId).parentElement;
+
+    let calc_lst = document.getElementById('calc_adjpace_from_temp_pace_lst');
+    calc_lst.removeChild(divToRemove);
+
+    //Remove cookies
+    eraseCookie(rowId + "_calcAdjPaceMinutes");
+    eraseCookie(rowId + "_calcAdjPaceSeconds");
+    eraseCookie(rowId + "_calcAdjPaceTemperature");
+
+    let index = calcAdjPaceFormLst.indexOf(rowId);
+    if (index != -1) {
+        calcAdjPaceFormLst.splice(index, 1);
+    }
+    setCookie("calcAdjPaceFormLst", String(calcAdjPaceFormLst), cookieExpireDays);
+
+    //If there are no more rows then add a new blank one
+    let calc_ct = calc_lst.querySelectorAll(".calc_row").length;
+    if (calc_ct <=0){
+        newCalcAdjPace();
     }
 }
