@@ -32,6 +32,10 @@ def refresh_book_status():
     return jsonify(books), 200
 
 def refresh_books(usr_id):
+    # If not original user do not perform refresh
+    if usr_id != 1:
+        return[]
+    
     current_reading = current_app.config['CURR_READ_RSS']
     read_feed = current_app.config['READ_RSS']
 
