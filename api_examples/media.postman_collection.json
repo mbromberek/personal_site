@@ -1,0 +1,60 @@
+{
+	"info": {
+		"_postman_id": "ed7d55a0-310b-48f0-b7a5-bfecac624ddd",
+		"name": "media",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "8430378"
+	},
+	"item": [
+		{
+			"name": "refresh_book_status",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{server}}/api/books/refresh/",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"books",
+						"refresh",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
