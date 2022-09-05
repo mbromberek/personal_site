@@ -13,6 +13,9 @@ from datetime import datetime
 from app import logger
 from app import db
 
+dt_str_format = '%Y-%m-%d'
+gr_datetime_format = '%a, %d %b %Y %H:%M:%S %z'
+
 class Book(db.Model):
     __table_args__ = {"schema": "media", 'comment':'Store current and previous read books'}
     id = db.Column(db.Integer, primary_key=True)
@@ -26,7 +29,7 @@ class Book(db.Model):
     isrt_ts = db.Column(db.DateTime, nullable=False, index=True, default=datetime.utcnow)
 
     def __repr__(self):
-        return '<Book: {}, status: {}, lon: {}>'.format( self.title, self.status)
+        return '<Book: {}, status: {}>'.format( self.title, self.status)
 
     def __lt__(self, other):
         if not (isNan(self.finished_reading_dt)):
@@ -40,3 +43,66 @@ class Book(db.Model):
         else:
             return ((self.strt_reading_dt > other.strt_reading_dt))
 
+    def compare_goodreads(self, gr_book):
+        if self.title == gr_book['title'] \
+            and self.author == gr_book['author'] \
+            and self.strt_reading_dt == gr_book['strt_reading_dt'] \
+            and self.finished_reading_dt == gr_book['finished_reading_dt']:
+            return True
+        else:
+            return False
+    @staticmethod
+    def GR_to_dict(gr_book, usr_id, status):
+        book_dict = {'status':status,
+            'title':gr_book['title'], 
+            'author':gr_book['author_name'], 
+            'user_id':usr_id,
+            'cover_img_locl_path':''
+        }
+        if gr_book['user_date_added'] is not None and gr_book['user_date_added'] != '':
+            book_dict['strt_reading_dt'] = \
+                datetime.strptime(gr_book['user_date_added'],gr_datetime_format).date()
+        else:
+            book_dict['strt_reading_dt'] = None
+        if gr_book['user_read_at'] is not None and gr_book['user_read_at'] != '':
+            book_dict['finished_reading_dt'] = \
+                datetime.strptime(gr_book['user_read_at'],gr_datetime_format).date()
+        else:
+            book_dict['finished_reading_dt'] = None
+        book_dict['already_exist'] = False
+        return book_dict
+    
+    def to_dict(self):
+        book_dict = {'status':self.status,
+            'title':self.title, 
+            'author':self.author, 
+            'user_id':self.user_id
+        }
+        if self.strt_reading_dt is not None:
+            book_dict['strt_reading_dt'] = self.strt_reading_dt.strftime(dt_str_format)
+        else:
+            book_dict['strt_reading_dt'] = ''
+        if self.finished_reading_dt is not None:
+            book_dict['finished_reading_dt'] = self.strt_refinished_reading_dtading_dt.strftime(dt_str_format)
+        else:
+            book_dict['finished_reading_dt'] = ''
+
+        if self.cover_img_locl_path == '':
+            book_dict['cover_img'] = 'N'
+        else:
+            book_dict['cover_img'] = 'Y'
+        return book_dict
+
+
+    @staticmethod
+    def from_dict(book_dict):
+        book = Book()
+        book.user_id = book_dict['user_id']
+        book.status = book_dict['status']
+        book.title = book_dict['title']
+        book.author = book_dict['author']
+        book.cover_img_locl_path = book_dict['cover_img_locl_path']
+        book.strt_reading_dt = book_dict['strt_reading_dt']
+        book.finished_reading_dt = book_dict['finished_reading_dt']
+
+        return book

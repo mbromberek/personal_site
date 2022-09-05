@@ -29,6 +29,7 @@ def refresh_book_status():
     logger.info('refresh_book_status')
     usr_id = token_auth.current_user().id
     books = refresh_books(usr_id)
+    logger.debug(books)
     return jsonify(books), 200
 
 def refresh_books(usr_id):
@@ -38,20 +39,64 @@ def refresh_books(usr_id):
     
     current_reading = current_app.config['CURR_READ_RSS']
     read_feed = current_app.config['READ_RSS']
+    curr_reading_val = 'reading'
 
     books = []
 
-    # Get Books Currently being read
+    # 1) Get Books Currently being read on GoodReads
     Feed = feedparser.parse(current_reading)
-    current_book_lst = Feed.entries
+    # TODO If cannot connect what should happen?
+    gr_current_books = Feed.entries
+
+    # 2) Convert from GR JSON feed format to Book Dictionary format
+    gr_book_lst = []
+    for gr_book in gr_current_books:
+        gr_book_lst.append(Book.GR_to_dict(gr_book, usr_id, curr_reading_val))
+
+    # 3) Get Books Currently being read on DB, list of current Book objects
+    query = Book.query.filter_by(user_id=usr_id).filter_by(status = curr_reading_val)
+    db_current_books = query.all()
+
+    # 4) Loop through current reading books in DB, and delete any not in gr_current_books list
+    # Keep track of GR books that are not already in DB
+    for db_book in db_current_books:
+        match = False
+        for gr_book in gr_book_lst:
+            if db_book.compare_goodreads(gr_book):
+                match = True
+                gr_book['already_exist'] = True
+                break
+        if not match:
+            # Remove book from DB
+            db.session.delete(db_book)
+            db.session.commit()
+        else:
+            books.append(db_book.to_dict())
+
+    # 5) Insert GR books that are not already in DB
+    for gr_book in gr_book_lst:
+        if gr_book['already_exist'] == False:
+            book = Book.from_dict(gr_book)
+            db.session.add(book)
+            db.session.commit()
+            books.append(book.to_dict())
+
+    return books
+        
+
+    # loop through list of GR current books and add any books not in remaining list of current books from database
     print('Currently Reading:')
-    for book in current_book_lst:
-        # print(book)
-        logger.info ('Title: ' + book['title'])
-        logger.info ('Author: ' + book['author_name'])
-        logger.info ('Image URL: ' + book['book_medium_image_url'] + '\n')
-        logger.info ('Summary: ' + book['summary'])
-        logger.info ('Started: ' + book['user_date_added'])
+    for gr_book in gr_current_books:
+        book_dict = {'status':'reading','title':gr_book['title'], 'author':gr_book['author_name'], 'strt_reading_dt':gr_book['user_date_added']}
+        # Does book with same title, author, start date already exist?
+        # If yes do nothing
+        # If no then insert
+
+        logger.info ('Title: ' + gr_book['title'])
+        logger.info ('Author: ' + gr_book['author_name'])
+        logger.info ('Image URL: ' + gr_book['book_medium_image_url'] + '\n')
+        logger.info ('Summary: ' + gr_book['summary'])
+        logger.info ('Started: ' + gr_book['user_date_added'])
         # Download book cover in medium and large sizes
         # img_data_medium = requests.get(book['book_medium_image_url']).content
         # img_data_large = requests.get(book['book_large_image_url']).content
