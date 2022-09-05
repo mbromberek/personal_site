@@ -42,7 +42,6 @@ def refresh_books(usr_id):
     curr_reading_val = 'reading'
     read_val = 'read'
 
-
     books = []
 
     logger.debug('START: Get Current Reading Books')
@@ -65,13 +64,13 @@ def refresh_books(usr_id):
     gr_book_lst.append(Book.GR_to_dict(read_books[0], usr_id, read_val))
     gr_book_lst.append(Book.GR_to_dict(read_books[1], usr_id, read_val))
 
-    # 3) Get Books Currently being read on DB, list of current Book objects
+    # 3) Get Books from DB
     query = Book.query.filter_by(user_id=usr_id)
-    db_current_books = query.all()
+    db_books = query.all()
 
-    # 4) Loop through current reading books in DB, and delete any not in gr_current_books list
+    # 4) Loop through books in DB, and delete any not in gr_book_lst
     # Keep track of GR books that are not already in DB
-    for db_book in db_current_books:
+    for db_book in db_books:
         match = False
         for gr_book in gr_book_lst:
             if db_book.compare_goodreads(gr_book):
@@ -93,25 +92,12 @@ def refresh_books(usr_id):
             db.session.commit()
             books.append(book.to_dict())
 
-
-    # 6) Get 2 most recently read books
-    Feed = feedparser.parse(read_feed)
-    read_books = Feed.entries
-
-    gr_read_book_lst = []
-    gr_read_book_lst.append(Book.GR_to_dict(read_books[0], usr_id, read_val))
-    gr_read_book_lst.append(Book.GR_to_dict(read_books[1], usr_id, read_val))
-
-    # 7) Get Books marked as read on DB, list of read Book objects
-    query = Book.query.filter_by(user_id=usr_id).filter_by(status = read_val)
-    db_current_books = query.all()
-
     return books
         
 
     # loop through list of GR current books and add any books not in remaining list of current books from database
     print('Currently Reading:')
-    for gr_book in gr_current_books:
+    for gr_book in gr_books:
         book_dict = {'status':'reading','title':gr_book['title'], 'author':gr_book['author_name'], 'strt_reading_dt':gr_book['user_date_added']}
         # Does book with same title, author, start date already exist?
         # If yes do nothing
