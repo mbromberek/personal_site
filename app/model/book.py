@@ -47,7 +47,8 @@ class Book(db.Model):
         if self.title == gr_book['title'] \
             and self.author == gr_book['author'] \
             and self.strt_reading_dt == gr_book['strt_reading_dt'] \
-            and self.finished_reading_dt == gr_book['finished_reading_dt']:
+            and self.finished_reading_dt == gr_book['finished_reading_dt'] \
+            and self.status == gr_book['status']:
             return True
         else:
             return False
@@ -83,7 +84,7 @@ class Book(db.Model):
         else:
             book_dict['strt_reading_dt'] = ''
         if self.finished_reading_dt is not None:
-            book_dict['finished_reading_dt'] = self.strt_refinished_reading_dtading_dt.strftime(dt_str_format)
+            book_dict['finished_reading_dt'] = self.finished_reading_dt.strftime(dt_str_format)
         else:
             book_dict['finished_reading_dt'] = ''
 

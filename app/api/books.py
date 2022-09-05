@@ -40,21 +40,33 @@ def refresh_books(usr_id):
     current_reading = current_app.config['CURR_READ_RSS']
     read_feed = current_app.config['READ_RSS']
     curr_reading_val = 'reading'
+    read_val = 'read'
+
 
     books = []
 
+    logger.debug('START: Get Current Reading Books')
     # 1) Get Books Currently being read on GoodReads
     Feed = feedparser.parse(current_reading)
     # TODO If cannot connect what should happen?
     gr_current_books = Feed.entries
+    logger.debug('END: Get Current Reading Books')
 
     # 2) Convert from GR JSON feed format to Book Dictionary format
     gr_book_lst = []
     for gr_book in gr_current_books:
         gr_book_lst.append(Book.GR_to_dict(gr_book, usr_id, curr_reading_val))
 
+    # 3) Get 2 most recently read books
+    logger.debug('START: Get Read Books')
+    Feed = feedparser.parse(read_feed)
+    read_books = Feed.entries
+    logger.debug('END: Get Read Books')
+    gr_book_lst.append(Book.GR_to_dict(read_books[0], usr_id, read_val))
+    gr_book_lst.append(Book.GR_to_dict(read_books[1], usr_id, read_val))
+
     # 3) Get Books Currently being read on DB, list of current Book objects
-    query = Book.query.filter_by(user_id=usr_id).filter_by(status = curr_reading_val)
+    query = Book.query.filter_by(user_id=usr_id)
     db_current_books = query.all()
 
     # 4) Loop through current reading books in DB, and delete any not in gr_current_books list
@@ -80,6 +92,19 @@ def refresh_books(usr_id):
             db.session.add(book)
             db.session.commit()
             books.append(book.to_dict())
+
+
+    # 6) Get 2 most recently read books
+    Feed = feedparser.parse(read_feed)
+    read_books = Feed.entries
+
+    gr_read_book_lst = []
+    gr_read_book_lst.append(Book.GR_to_dict(read_books[0], usr_id, read_val))
+    gr_read_book_lst.append(Book.GR_to_dict(read_books[1], usr_id, read_val))
+
+    # 7) Get Books marked as read on DB, list of read Book objects
+    query = Book.query.filter_by(user_id=usr_id).filter_by(status = read_val)
+    db_current_books = query.all()
 
     return books
         
