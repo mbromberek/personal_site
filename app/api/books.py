@@ -9,6 +9,7 @@ All rights reserved.
 # First party classes
 from datetime import datetime
 import sys
+import os
 
 # Third party classes
 import feedparser
@@ -89,6 +90,7 @@ def refresh_books(usr_id):
                 break
         if not match:
             # Remove book from DB
+            os.remove('./app/'+db_book.cover_img_locl_path)
             db.session.delete(db_book)
             db.session.commit()
         else:
