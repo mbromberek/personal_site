@@ -97,56 +97,15 @@ def refresh_books(usr_id):
     # Insert GR books that are not already in DB
     for gr_book in gr_book_lst:
         if gr_book['already_exist'] == False:
+            # Download book cover in medium and large sizes
+            img_data = requests.get(gr_book['img_url']).content
+            book_img_title = gr_book['title'] + '_' + gr_book['author'] + '_' + gr_book['status'] + '.jpg'
+            with open('./app/static/images/books/' + book_img_title, 'wb') as handler:
+                handler.write(img_data)
             book = Book.from_dict(gr_book)
+            book.cover_img_locl_path = 'static/images/books/' + book_img_title
             db.session.add(book)
             db.session.commit()
             books.append(book.to_dict())
 
     return books, 200
-        
-
-    # loop through list of GR current books and add any books not in remaining list of current books from database
-    print('Currently Reading:')
-    for gr_book in gr_books:
-        book_dict = {'status':'reading','title':gr_book['title'], 'author':gr_book['author_name'], 'strt_reading_dt':gr_book['user_date_added']}
-        # Does book with same title, author, start date already exist?
-        # If yes do nothing
-        # If no then insert
-
-        logger.info ('Title: ' + gr_book['title'])
-        logger.info ('Author: ' + gr_book['author_name'])
-        logger.info ('Image URL: ' + gr_book['book_medium_image_url'] + '\n')
-        logger.info ('Summary: ' + gr_book['summary'])
-        logger.info ('Started: ' + gr_book['user_date_added'])
-        # Download book cover in medium and large sizes
-        # img_data_medium = requests.get(book['book_medium_image_url']).content
-        # img_data_large = requests.get(book['book_large_image_url']).content
-        # with open('book_img_large.jpg', 'wb') as handler:
-        #     handler.write(img_data_large)
-        # with open('book_img_medium.jpg', 'wb') as handler:
-        #     handler.write(img_data_medium)
-        books.append({'status':'reading','title':book['title'], 'author':book['author_name'], 'strt_reading_dt':book['user_date_added']})
-
-    # Get 2 most recently read books
-    Feed = feedparser.parse(read_feed)
-    read_books = Feed.entries
-    last_book_1 = read_books[0]
-    logger.info ('\nLast 2 books:')
-    logger.info('Title: ' + last_book_1['title'])
-    logger.info('Author: ' + last_book_1['author_name'])
-    logger.info('Image medium URL: ' + last_book_1['book_medium_image_url'])
-    logger.info('Image URL: ' + last_book_1['book_small_image_url'])
-    # print ('Summary: ' + last_book_1['summary'])
-    logger.info ('Finished on: ' + last_book_1['user_read_at'])
-    books.append({'status':'finished','title':last_book_1['title'], 'author':last_book_1['author_name'], 'finished_reading_dt':last_book_1['user_read_at']})
-
-
-    last_book_2 = read_books[1]
-    logger.info('Title: ' + last_book_2['title'])
-    logger.info('Author: ' + last_book_2['author_name'])
-    logger.info('Image URL: ' + last_book_2['book_small_image_url'])
-    # print ('Summary: ' + last_book_2['summary'])
-    logger.info ('Finished on: ' + last_book_2['user_read_at'])
-    books.append({'status':'finished','title':last_book_2['title'], 'author':last_book_2['author_name'], 'finished_reading_dt':last_book_2['user_read_at']})
-
-    return books

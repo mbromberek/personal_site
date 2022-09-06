@@ -60,6 +60,10 @@ class Book(db.Model):
             'user_id':usr_id,
             'cover_img_locl_path':''
         }
+        if status == 'reading':
+            book_dict['img_url'] = gr_book['book_medium_image_url']
+        else:
+            book_dict['img_url'] = gr_book['book_small_image_url']
         if gr_book['user_date_added'] is not None and gr_book['user_date_added'] != '':
             book_dict['strt_reading_dt'] = \
                 datetime.strptime(gr_book['user_date_added'],gr_datetime_format).date()
