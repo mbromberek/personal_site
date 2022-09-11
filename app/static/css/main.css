@@ -125,6 +125,38 @@ div.cat_img_right {
     margin-top: 15px;
 }
 
+.books_current {
+    float: left;
+    width: 500px;
+    overflow: hidden;
+    margin-right: 30px;
+    font-size:18px;
+}
+.books_read {
+    float: left;
+    width:400px;
+    font-size:14px;
+}
+.book_section_title{
+    font-size:20px;
+    font-weight:bold;
+    margin-top:10px;
+}
+.book_current_cover_img{
+    float:left; 
+    width:100px; 
+    margin-right:15px;
+}
+.book_read_cover_img{
+    float:left; 
+    width:50px; 
+    margin-right:15px;
+}
+.book_section{
+    margin-bottom: 7px;
+}
+
+
 /* For tablets and horizontal mobile: */
 @media  screen and (max-width:900px),
         screen and (max-width:600px) and (orientation:landscape) {
@@ -162,6 +194,12 @@ div.cat_img_right {
         margin-left: 0px;
         margin-right: 0px;
     }
+    .books_current {
+        width:400px;
+    }
+    .books_read {
+        width:300px;
+    }
 }
 
 /* For mobile phones: */
@@ -197,4 +235,12 @@ div.cat_img_right {
         margin-left: 0px;
         margin-right: 0px;
     }
+
+    .books_current {
+        width:100%;
+    }
+    .books_read {
+        width:100%;
+    }
+
 }

@@ -123,32 +123,47 @@
 
 
     <div class="home_section home_section_1 ">
-        <h2 class="home">Book reading</h2>
-        <div>
-            Currently Reading <br>
+        <h2 class="home">Reading List</h2>
+        <div  class="books_current">
+            <div class="book_section_title">
+                Currently Reading
+            </div>
          {% for book in books['current'] %}
-            <div>
-                {{ book.title }}
-                <br>
-                {{ book.author }}
-                <br>
-                {{ book.strt_reading_dt.strftime('%Y-%m-%d') }}
-                <br>
+            <div class="book_current_cover_img">
+                <img class="about" src="{{ book.cover_img_locl_path }}">
+            </div>
+            <div class="book_section">
+                <div  style="font-size:20px;">
+                    {{ book.title }}
+                </div>
+                <div>
+                    by {{ book.author }}
+                </div>
+                <div>
+                    Started: {{ book.strt_reading_dt.strftime('%Y-%m-%d') }}
+                </div>
             </div>
             {% endfor %}
         </div>
 
-        <div>
-            Read<br>
+        <div class="books_read">
+            <div class="book_section_title">
+                Recently Read
+            </div>
             {% for book in books['read'] %}
-            <div>
+            <div class="book_read_cover_img">
+                <img class="about" src="{{ book.cover_img_locl_path }}">
+            </div>
+            <div class="book_section">
+                <div style="font-size:16px;">
                 {{ book.title }}
+                </div>
+                by {{ book.author }}
                 <br>
-                {{ book.author }}
-                <br>
-                {{ book.finished_reading_dt.strftime('%Y-%m-%d') }}
+                Finished: {{ book.finished_reading_dt.strftime('%Y-%m-%d') }}
                 <br>
             </div>
+            <br>
             {% endfor %}
         </div>
 
