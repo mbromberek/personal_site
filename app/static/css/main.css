@@ -127,15 +127,18 @@ div.cat_img_right {
 
 .books_current {
     float: left;
-    width: 500px;
+    width: 450px;
     overflow: hidden;
     margin-right: 30px;
     font-size:18px;
+    /* border: 1px solid black; */
+    /* margin-left:50px; */
 }
 .books_read {
     float: left;
     width:400px;
     font-size:14px;
+    border: 0px solid red;
 }
 .book_section_title{
     font-size:20px;
@@ -152,8 +155,10 @@ div.cat_img_right {
     width:50px; 
     margin-right:15px;
 }
-.book_section{
+.book_detail{
     margin-bottom: 7px;
+    float:left;
+    width:100%;
 }
 
 
