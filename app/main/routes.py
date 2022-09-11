@@ -34,6 +34,8 @@ from app.main import export, filtering
 from app.model.goals import Yrly_goal
 from app.model.workout_zones import Workout_zones
 from app.model.location import Location
+from app.model.book import Book
+from app.model.book import CURR_READING_VAL, READ_VAL
 
 @bp.route('/')
 @bp.route('/index')
@@ -75,7 +77,20 @@ def index():
         wrkt_sum_lst.insert(i,wrkt_sum)
     dash_lst_dict['wrkt_sum_lst'] = wrkt_sum_lst
 
-    return render_template('index.html', title='Home Page', dash_lst_dict=dash_lst_dict, destPage='home')
+    books={}
+    # Get Currently Reading books
+    # TODO should I sort?
+    book_query = Book.query.filter_by(user_id=1).filter_by(status=CURR_READING_VAL)
+    books['current'] = book_query
+
+    # Get Read books
+    # Store in dictionary of two lists (current read list, and read list)
+    book_query = Book.query.filter_by(user_id=1).filter_by(status=READ_VAL)
+    books['read'] = sorted(book_query, reverse=True)
+
+
+    return render_template('index.html', title='Home Page', dash_lst_dict=dash_lst_dict \
+        , destPage='home', books=books)
 
 @bp.route('/workouts', methods=['GET','POST'])
 @login_required

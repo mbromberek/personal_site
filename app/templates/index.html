@@ -121,12 +121,39 @@
 
     </div>
 
-{#
+
     <div class="home_section home_section_1 ">
         <h2 class="home">Book reading</h2>
+        <div>
+            Currently Reading <br>
+         {% for book in books['current'] %}
+            <div>
+                {{ book.title }}
+                <br>
+                {{ book.author }}
+                <br>
+                {{ book.strt_reading_dt.strftime('%Y-%m-%d') }}
+                <br>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div>
+            Read<br>
+            {% for book in books['read'] %}
+            <div>
+                {{ book.title }}
+                <br>
+                {{ book.author }}
+                <br>
+                {{ book.finished_reading_dt.strftime('%Y-%m-%d') }}
+                <br>
+            </div>
+            {% endfor %}
+        </div>
 
     </div>
-#}
+
 {#
     <div class="home_section home_section_2 ">
         <h2 class="home">Programming Projects</h2>

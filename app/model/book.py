@@ -15,6 +15,9 @@ from app import db
 
 dt_str_format = '%Y-%m-%d'
 gr_datetime_format = '%a, %d %b %Y %H:%M:%S %z'
+CURR_READING_VAL = 'reading'
+READ_VAL = 'read'
+
 
 class Book(db.Model):
     __table_args__ = {"schema": "media", 'comment':'Store current and previous read books'}
@@ -32,13 +35,13 @@ class Book(db.Model):
         return '<Book: {}, status: {}>'.format( self.title, self.status)
 
     def __lt__(self, other):
-        if not (isNan(self.finished_reading_dt)):
+        if self.finished_reading_dt is not None:
             return ((self.finished_reading_dt < other.finished_reading_dt))
         else:
             return ((self.strt_reading_dt < other.strt_reading_dt))
 
     def __gt__(self, other):
-        if not (isNan(self.finished_reading_dt)):
+        if self.finished_reading_dt is not None:
             return ((self.finished_reading_dt > other.finished_reading_dt))
         else:
             return ((self.strt_reading_dt > other.strt_reading_dt))
@@ -54,12 +57,7 @@ class Book(db.Model):
             return False
     @staticmethod
     def GR_to_dict(gr_book, usr_id, status):
-        book_dict = {'status':status,
-            'title':gr_book['title'], 
-            'author':gr_book['author_name'], 
-            'user_id':usr_id,
-            'cover_img_locl_path':''
-        }
+        book_dict = {'status':status, 'user_id':usr_id, 'cover_img_locl_path':''}
         if status == 'reading':
             book_dict['img_url'] = gr_book['book_medium_image_url']
         else:
@@ -69,6 +67,11 @@ class Book(db.Model):
                 datetime.strptime(gr_book['user_date_added'],gr_datetime_format).date()
         else:
             book_dict['strt_reading_dt'] = None
+
+        if 'title' in gr_book and len(gr_book['title'] <500):
+            book_dict['title'] = gr_book['title']
+        if 'author_name' in gr_book and len(gr_book['author_name'] <500):
+            book_dict['author'] = gr_book['author_name']
         if gr_book['user_read_at'] is not None and gr_book['user_read_at'] != '':
             book_dict['finished_reading_dt'] = \
                 datetime.strptime(gr_book['user_read_at'],gr_datetime_format).date()
