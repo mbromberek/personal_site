@@ -68,9 +68,9 @@ class Book(db.Model):
         else:
             book_dict['strt_reading_dt'] = None
 
-        if 'title' in gr_book and len(gr_book['title'] <500):
+        if 'title' in gr_book and len(gr_book['title']) <500:
             book_dict['title'] = gr_book['title']
-        if 'author_name' in gr_book and len(gr_book['author_name'] <500):
+        if 'author_name' in gr_book and len(gr_book['author_name']) <500:
             book_dict['author'] = gr_book['author_name']
         if gr_book['user_read_at'] is not None and gr_book['user_read_at'] != '':
             book_dict['finished_reading_dt'] = \
