@@ -102,6 +102,7 @@ def refresh_books(usr_id):
             # Download book cover in medium and large sizes
             img_data = requests.get(gr_book['img_url']).content
             book_img_title = gr_book['title'] + '_' + gr_book['author'] + '_' + gr_book['status'] + '.jpg'
+            book_img_title = book_img_title.replace(' ','_').replace('#','')
             with open('./app/static/images/books/' + book_img_title, 'wb') as handler:
                 handler.write(img_data)
             book = Book.from_dict(gr_book)
