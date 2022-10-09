@@ -359,7 +359,7 @@ class Workout(PaginatedAPIMixin, db.Model):
 
             'isrt_ts': self.isrt_ts.isoformat() + 'Z',
             '_links':{
-                'self': url_for('main.workout', workout=self.id, _external=True, _scheme=current_app.config['URL_SCHEME']) if for_web else url_for('api.get_workout', id=self.id, _scheme=current_app.config['URL_SCHEME'])
+                'self': url_for('main.workout', workout=self.id, _external=True, _scheme=current_app.config['URL_SCHEME']) if for_web else url_for('api.get_workout', id=self.id)
             }
         }
         if for_web:
