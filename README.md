@@ -7,6 +7,10 @@ My Personal Website for information about me and to track my Fitness
 pg_ctl -D /usr/local/var/postgres start
 # Start Postgres and set Brew to start it on bootup
 pg_ctl -D /usr/local/var/postgres start && brew services start postgresql
+
+# If need to kill postgres
+pg_ctl -D /usr/local/var/postgres status
+pg_ctl -D /usr/local/var/postgres kill TERM 35775 
 ```
 
 ### Access postgresql from terminal
