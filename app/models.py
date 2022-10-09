@@ -359,13 +359,21 @@ class Workout(PaginatedAPIMixin, db.Model):
 
             'isrt_ts': self.isrt_ts.isoformat() + 'Z',
             '_links':{
-                'self': url_for('main.workout', workout=self.id, _external=True) if for_web else url_for('api.get_workout', id=self.id)
+                'self': url_for('main.workout', workout=self.id, _external=True, _scheme=current_app.config['URL_SCHEME']) if for_web else url_for('api.get_workout', id=self.id, _scheme=current_app.config['URL_SCHEME'])
             }
         }
         if for_web:
-            data['_links']['edit'] = url_for('main.edit_workout', workout=self.id, _external=True)
+            data['_links']['edit'] = url_for('main.edit_workout', 
+                workout=self.id, 
+                _external=True,
+                _scheme=current_app.config['URL_SCHEME']
+            )
         if self.thumb_path is not None:
-            data['_links']['map_thumb'] = url_for('main.wrkt_img_file', filename= self.thumb_path, _external=True)
+            data['_links']['map_thumb'] = url_for('main.wrkt_img_file', 
+                filename= self.thumb_path, 
+                _external=True,
+                _scheme=current_app.config['URL_SCHEME']
+            )
         return data
 
     def from_dict(self, data, user_id):
