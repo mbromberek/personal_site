@@ -36,3 +36,4 @@ class Config(object):
     GEAR_TYPE_MAP = {'1': 'Shoe', '2':'Bike', '3':'Pool', '4':'Insole', '5':'Trainer'}
     DFT_CYCL_GEAR = 'Cannondale'
     DFT_SWIM_GEAR = 'Bamas pool'
+

@@ -560,6 +560,7 @@ class Gear(db.Model):
     prchse_dt = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     price = db.Column(db.Numeric(8,2))
     retired = db.Column(db.Boolean, nullable=True, default=False)
+    no_suggest = db.Column(db.Boolean, nullable=False, default=False)
     confirmed = db.Column(db.Boolean, nullable=True, default=False)
     type = db.Column(db.String(50), index=True, nullable=False)
     company = db.Column(db.String(50))
@@ -611,15 +612,15 @@ class Gear(db.Model):
 
             if cat_rec.nm in ['Training', 'Long Run', 'Race', 'Hard']:
                 # Use gear that has <300 miles on them and used more than 5 times
-                gear_lst = sorted(Gear_usage.query.filter(Gear_usage.user_id==user_id, Gear_usage.retired==False, Gear_usage.type==type, Gear_usage.tot_dist <shoe_age_warning, Gear_usage.usage_count >nbr_brk_in_runs), reverse=False)
+                gear_lst = sorted(Gear_usage.query.filter(Gear_usage.user_id==user_id, Gear_usage.retired==False, Gear_usage.no_suggest==False, Gear_usage.type==type, Gear_usage.tot_dist <shoe_age_warning, Gear_usage.usage_count >nbr_brk_in_runs), reverse=False)
                 gear_ct = len(gear_lst)
             elif cat_rec.nm in ['Easy']:
                 # Use gear with >=300 miles on them or used <=5 times
-                gear_lst = sorted(Gear_usage.query.filter(Gear_usage.user_id==user_id, Gear_usage.retired==False, Gear_usage.type==type, or_( Gear_usage.tot_dist >=shoe_age_warning, Gear_usage.usage_count <=nbr_brk_in_runs)), reverse=False)
+                gear_lst = sorted(Gear_usage.query.filter(Gear_usage.user_id==user_id, Gear_usage.retired==False, Gear_usage.no_suggest==False, Gear_usage.type==type, or_( Gear_usage.tot_dist >=shoe_age_warning, Gear_usage.usage_count <=nbr_brk_in_runs)), reverse=False)
                 gear_ct = len(gear_lst)
         if gear_ct <1:
             # If not a known Category or no records returned for Category
-            gear_lst = sorted(Gear_usage.query.filter(Gear_usage.user_id==user_id, Gear_usage.retired==False, Gear_usage.type==type), reverse=False)
+            gear_lst = sorted(Gear_usage.query.filter(Gear_usage.user_id==user_id, Gear_usage.retired==False, Gear_usage.no_suggest==False, Gear_usage.type==type), reverse=False)
             gear_ct = len(gear_lst)
         if gear_ct >0:
             gear_nm = gear_lst[0].nm
@@ -668,6 +669,7 @@ class Gear_usage(db.Model):
     prchse_dt = db.Column(db.DateTime)
     price = db.Column(db.Numeric(8,2))
     retired = db.Column(db.Boolean)
+    no_suggest = db.Column(db.Boolean)
     confirmed = db.Column(db.Boolean)
     type = db.Column(db.String(50))
     company = db.Column(db.String(50))

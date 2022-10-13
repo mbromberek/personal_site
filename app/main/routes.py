@@ -941,6 +941,7 @@ def edit_gear():
         gear.prchse_dt = gear_form.prchse_dt.data
         gear.price = gear_form.price.data
         gear.retired = gear_form.retired.data
+        gear.no_suggest = gear_form.no_suggest.data
         gear.confirmed = gear_form.confirmed.data
         gear.type = gear_type_dict[str(gear_form.type.data)]
         gear.company = gear_form.company.data
@@ -975,6 +976,7 @@ def edit_gear():
     gear_form.prchse_dt.data = gear.prchse_dt
     gear_form.price.data = gear.price
     gear_form.retired.data = gear.retired
+    gear_form.no_suggest.data = gear.no_suggest
     gear_form.confirmed.data = gear.confirmed
     gear_form.company.data = gear.company
     logger.info(gear_form)

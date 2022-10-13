@@ -216,6 +216,7 @@ class GearForm(FlaskForm):
     prchse_dt = DateField('Purchase Date', format='%Y-%m-%d',validators=[InputRequired()])
     price = DecimalField('Price', validators=[Optional()], places=2, rounding=decimal.ROUND_UP)
     retired = BooleanField("Retired")
+    no_suggest = BooleanField("Do not suggest")
     confirmed = BooleanField("Confirmed")
     type = SelectField('Gear Type', validate_choice=True, coerce=int)
     company = StringField('Company', validators=[Optional()])
