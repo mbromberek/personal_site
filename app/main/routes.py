@@ -807,10 +807,10 @@ def edit_workout_interval():
     logger.debug('edit_workout_interval pre-render_template')
     return render_template('edit_workout_interval.html', form=form, wrktDet=wrktDict)
 
-@bp.route('/wrkt_images/<path:filename>')
+@bp.route('/wrkt_images/<path:filename>', methods=['GET'])
 @login_required
 def wrkt_img_file(filename):
-    return send_from_directory(os.path.join(current_app.config['MEDIA_DIR'], str(current_user.id),'thumbnails'), filename, as_attachment=True)
+    return send_from_directory(os.path.join(current_app.config['MEDIA_DIR'], str(current_user.id),'thumbnails'), filename, as_attachment=False)
 
 @bp.route('/settings', methods=['GET','POST'])
 @login_required
