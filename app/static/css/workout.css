@@ -30,6 +30,10 @@ body {
     background-color: #cccccc;
 }
 
+.workout_data_missing{
+    color:red;
+}
+
 .workout_card {
     width: 800px;
     box-shadow: 3px 3px 5px black;

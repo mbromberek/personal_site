@@ -134,6 +134,8 @@ function loadItems(response){
 
         if (wrkts[i]['clothes'] != null && wrkts[i]['clothes'] != ''){
             template_clone.querySelector("#clothes").innerHTML = 'Wore: ' +  wrkts[i]['clothes'];
+        }else{
+            template_clone.querySelector("#clothes").classList.add('workout_data_missing')
         }
         template_clone.querySelector("#gear").innerHTML = wrkts[i]['gear'];
         row_ct = row_ct + 1;

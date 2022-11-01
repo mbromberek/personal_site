@@ -810,7 +810,8 @@ def edit_workout_interval():
 @bp.route('/wrkt_images/<path:filename>', methods=['GET'])
 @login_required
 def wrkt_img_file(filename):
-    return send_from_directory(os.path.join(current_app.config['MEDIA_DIR'], str(current_user.id),'thumbnails'), filename, as_attachment=False)
+    return send_from_directory(os.path.join(current_app.config['MEDIA_DIR'], \
+        str(current_user.id),'thumbnails'), filename, as_attachment=False)
 
 @bp.route('/settings', methods=['GET','POST'])
 @login_required
