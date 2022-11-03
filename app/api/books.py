@@ -90,7 +90,8 @@ def refresh_books(usr_id):
                 break
         if not match:
             # Remove book from DB
-            os.remove('./app/'+db_book.cover_img_locl_path)
+            if os.path.exists('./app/'+db_book.cover_img_locl_path):
+                os.remove('./app/'+db_book.cover_img_locl_path)
             db.session.delete(db_book)
             db.session.commit()
         else:
