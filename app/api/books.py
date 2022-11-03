@@ -24,6 +24,19 @@ from app.api.auth import token_auth
 from app.api.errors import bad_request
 from app.model.book import Book
 
+@bp.route('/books/', methods=['GET'])
+@token_auth.login_required
+def get_books():
+    logger.info('get_books')
+    usr_id = token_auth.current_user().id
+
+    books = Book.query.filter_by(user_id=usr_id)
+    book_lst = []
+    for b in books:
+        book_lst.append(b.to_dict())
+
+    return jsonify(book_lst), 200
+
 @bp.route('/books/refresh/', methods=['GET'])
 @token_auth.login_required
 def refresh_book_status():
