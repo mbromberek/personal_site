@@ -25,6 +25,50 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "get_books reading",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{server}}/api/books/?status=reading",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"books",
+						""
+					],
+					"query": [
+						{
+							"key": "status",
+							"value": "reading"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get_books",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{server}}/api/books/",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"books",
+						""
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"auth": {

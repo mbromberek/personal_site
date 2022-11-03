@@ -29,8 +29,10 @@ from app.model.book import Book
 def get_books():
     logger.info('get_books')
     usr_id = token_auth.current_user().id
-
+        
     books = Book.query.filter_by(user_id=usr_id)
+    if 'status' in request.args:
+        books = books.filter(Book.status == request.args.get('status'))
     book_lst = []
     for b in books:
         book_lst.append(b.to_dict())
