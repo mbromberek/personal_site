@@ -219,7 +219,7 @@ def workouts():
 
         query = query.order_by(Workout.wrkt_dttm.desc())
         if wrkt_export_form.max_export_records.data != None:
-            workout_list = query.paginate(0,wrkt_export_form.max_export_records.data, False).items
+            workout_list = query.paginate(page=0, per_page=wrkt_export_form.max_export_records.data, error_out=False).items
         else:
             workout_list = query.all()
         # field_lst = ['Date','Type','Duration','Distance','Pace', 'Notes+', 'Category','Gear','Elevation','HR','Calories']
@@ -227,7 +227,7 @@ def workouts():
 
         export_file_nm = 'workouts.export.' + datetime.now().strftime('%Y%m%d_%H%M%S') + '.csv'
 
-        return send_file(export_file, as_attachment=True, mimetype='text/csv', attachment_filename=export_file_nm)
+        return send_file(export_file, as_attachment=True, mimetype='text/csv', download_name=export_file_nm)
 
     wrkts_data = filtering.get_workouts(current_user.id, page, current_app.config['POSTS_PER_PAGE'], filterVal, 'main.workout', wrkt_filter_form)
     usingSearch = wrkts_data['_meta']['using_extra_search_fields']

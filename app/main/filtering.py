@@ -126,7 +126,7 @@ def get_workouts(current_user_id, page, per_page, filterVal, endpoint, wrkt_filt
 
 
     query, usingSearch = get_workouts_from_filter(current_user_id, type_filter, category_filter, filterVal, wrkt_filter_form)
-    workoutPages = query.order_by(Workout.wrkt_dttm.desc()).paginate(page, per_page, False)
+    workoutPages = query.order_by(Workout.wrkt_dttm.desc()).paginate(page=page, per_page=per_page, error_out=False)
 
     workouts = workoutPages.items
     wrkt_dict_lst = []
