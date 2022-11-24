@@ -128,11 +128,16 @@ def get_workouts(current_user_id, page, per_page, filterVal, endpoint, wrkt_filt
     query, usingSearch = get_workouts_from_filter(current_user_id, type_filter, category_filter, filterVal, wrkt_filter_form)
     workoutPages = query.order_by(Workout.wrkt_dttm.desc()).paginate(page=page, per_page=per_page, error_out=False)
 
+    if endpoint.startswith('api'):
+        for_web = False
+    else:
+        for_web = True
+
     workouts = workoutPages.items
     wrkt_dict_lst = []
     for workout in workouts:
         logger.debug(workout)
-        wrkt_dict = workout.to_dict(for_web=True)
+        wrkt_dict = workout.to_dict(for_web=for_web)
         wrkt_dict['duration'] = workout.dur_str()
 
         wrkt_category_training_loc = [wrkt_dict['category']]
