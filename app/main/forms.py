@@ -99,6 +99,8 @@ class WorkoutIntervalForm(FlaskForm):
     ele_up = DecimalField('Elevation Up', validators=[Optional()], places=2, rounding=decimal.ROUND_UP)
     ele_down = DecimalField('Elevation Down', validators=[Optional()], places=2, rounding=decimal.ROUND_UP)
     notes = TextAreaField('Notes', validators=[Length(min=0, max=30000)])
+
+    split_dist = DecimalField('Split Distance', validators=[Optional()], places=2, rounding=decimal.ROUND_UP)
     # submit = SubmitField('Submit')
     # cancel = SubmitField('Cancel')
     def __repr__(self):
