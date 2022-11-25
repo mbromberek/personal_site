@@ -280,6 +280,8 @@ def split_intrvl():
     logger.debug(wrkt_intrvl)
 
     lap_updates = wrkt_split.split_lap(wrkt_pickle, wrkt_intrvl.interval_order+1, split_dist)
+    for lap in lap_updates:
+        lap['dur_str'] = tm_conv.sec_to_time(lap['dur_sec'], format='hms-auto')
 
     return jsonify(lap_updates)
 
