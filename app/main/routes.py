@@ -30,6 +30,7 @@ from app import db
 from app.utils import tm_conv, const, nbrConv, dt_conv
 from app import logger
 from app.utils import wrkt_summary
+from app.utils import wrkt_split
 from app.main import export, filtering
 from app.model.goals import Yrly_goal
 from app.model.workout_zones import Workout_zones
@@ -272,21 +273,15 @@ def split_intrvl():
 
     # Read in the workout
     wrkt = Workout.query.filter_by(id=wrkt_id, user_id=usr_id).first_or_404(id)
+    wrkt_pickle = os.path.join(current_app.config['WRKT_FILE_DIR'], str(usr_id), wrkt.wrkt_dir, 'workout.pickle')
     logger.debug(wrkt.wrkt_dir)
 
     wrkt_intrvl = Workout_interval.query.filter_by(id=intrvl_id, user_id=usr_id).first_or_404(id)
     logger.debug(wrkt_intrvl)
 
-    # meta_dict = {'page':  page,
-    #     'next_page': workoutPages.next_num,
-    #     'previous_page': workoutPages.prev_num,
-    #     'per_page': per_page,
-    #     'total_pages':workoutPages.pages,
-    #     'total_items':workoutPages.total,
-    #     'using_extra_search_fields':usingSearch
-    # }
-    data = wrkt_intrvl.to_dict(include_calc_fields=True)
-    return jsonify(data)
+    lap_updates = wrkt_split.split_lap(wrkt_pickle, wrkt_intrvl.interval_order+1, split_dist)
+
+    return jsonify(lap_updates)
 
 @bp.route('/edit_workout', methods=['GET','POST'])
 @login_required
