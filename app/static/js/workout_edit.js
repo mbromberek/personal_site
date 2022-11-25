@@ -80,3 +80,31 @@ async function pasteNotes(){
     }
 
 }
+
+function split_intrvl(sel_ele, wrkt_id, intrvl_id){
+    // alert("split_interval: " + wrkt_id + " " + intrvl_id);
+    console.log("split_intrvl: " + wrkt_id + " " + intrvl_id);
+
+    let sel_row = sel_ele.parentElement;
+    split_dist = sel_row.querySelector('[id$="split_dist"]').value;
+    split_dur = '';
+    console.log('New Distance: ' + split_dist);
+
+    // Perform AJAX call passing the workout id, interval id, and new distance
+    $.get('/split_intrvl', {
+        wrkt_id: wrkt_id,
+        intrvl_id: intrvl_id,
+        split_dist: split_dist,
+        split_dur: split_dur
+    }).done(function(response){
+        show_split(response);
+    }).fail(function(){
+        console.error("Error: Could not contact server.");
+    })
+    ;
+}
+
+function show_split(response){
+    console.log('show_split');
+    console.log(response);
+}

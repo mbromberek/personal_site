@@ -256,6 +256,37 @@ def more_workouts():
     data = filtering.get_workouts(current_user.id, page, current_app.config['POSTS_PER_PAGE'], filterVal, 'main.workout')
     return jsonify(data)
 
+@bp.route('/split_intrvl', methods=['GET'])
+@login_required
+def split_intrvl():
+    logger.info('split_intrvl')
+
+    usr_id = current_user.id
+    wrkt_id = request.args.get('wrkt_id')
+    intrvl_id = request.args.get('intrvl_id')
+    split_dist = request.args.get('split_dist')
+    try:
+        split_dur = request.args.get('split_dur', '', type=int)
+    except ValueError:
+        split_dur = ''
+
+    # Read in the workout
+    wrkt = Workout.query.filter_by(id=wrkt_id, user_id=usr_id).first_or_404(id)
+    logger.debug(wrkt.wrkt_dir)
+
+    wrkt_intrvl = Workout_interval.query.filter_by(id=intrvl_id, user_id=usr_id).first_or_404(id)
+    logger.debug(wrkt_intrvl)
+
+    # meta_dict = {'page':  page,
+    #     'next_page': workoutPages.next_num,
+    #     'previous_page': workoutPages.prev_num,
+    #     'per_page': per_page,
+    #     'total_pages':workoutPages.pages,
+    #     'total_items':workoutPages.total,
+    #     'using_extra_search_fields':usingSearch
+    # }
+    data = wrkt_intrvl.to_dict(include_calc_fields=True)
+    return jsonify(data)
 
 @bp.route('/edit_workout', methods=['GET','POST'])
 @login_required
