@@ -86,6 +86,7 @@ function split_intrvl(sel_ele, wrkt_id, intrvl_id){
     console.log("split_intrvl: " + wrkt_id + " " + intrvl_id);
 
     let sel_row = sel_ele.parentElement;
+    sel_row.style.backgroundColor = 'lightgray';
     split_dist = sel_row.querySelector('[id$="split_dist"]').value;
     split_dur = '';
     console.log('New Distance: ' + split_dist);
@@ -107,4 +108,28 @@ function split_intrvl(sel_ele, wrkt_id, intrvl_id){
 function show_split(response){
     console.log('show_split');
     console.log(response);
+    let intrvl_id = response['intrvl_id'];
+    let rowId_1 = 'row_'+intrvl_id+'_1'
+    let rowId_2 = 'row_'+intrvl_id+'_2'
+    let lap_1 = response['laps'][0]
+    let lap_2 = response['laps'][1]
+
+    let row_updt = document.querySelector('#'+rowId_1);
+    console.log(row_updt);
+    // row_updt = document.getElementById(rowId);
+    row_updt.style='display:inline-flex;color:blue;background-color:yellow;';
+    row_updt.querySelector('#dist').innerHTML = lap_1['dist_mi'];
+    row_updt.querySelector('#dur').innerHTML = lap_1['dur_str'];
+    row_updt.querySelector('#hr').innerHTML = lap_1['hr'];
+    row_updt.querySelector('#ele_up').innerHTML = lap_1['ele_up'];
+    row_updt.querySelector('#ele_down').innerHTML = lap_1['ele_down'];
+
+    row_updt = document.querySelector('#'+rowId_2);
+    row_updt.style='display:inline-flex;color:blue;background-color:yellow;';
+    row_updt.querySelector('#dist').innerHTML = lap_2['dist_mi'];
+    row_updt.querySelector('#dur').innerHTML = lap_2['dur_str'];
+    row_updt.querySelector('#hr').innerHTML = lap_2['hr'];
+    row_updt.querySelector('#ele_up').innerHTML = lap_2['ele_up'];
+    row_updt.querySelector('#ele_down').innerHTML = lap_2['ele_down'];
+
 }

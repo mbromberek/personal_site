@@ -353,6 +353,42 @@ td.workout-intrvl-hdr{
     font-weight:bold;
     font-size: 12pt;
 }
+.wrkt_intrvl{
+    display:inline-block;
+    font-weight:normal;
+    font-size: 12pt;
+    text-align: center;
+    padding-left:4px;
+    padding-right:4px;
+    padding-top:5px;
+    padding-bottom:2px;
+    border: 1px black solid;
+    margin:0px;
+    height: 40px;
+    /* height: 45px; */
+}
+.wrkt_intrvl_hdr{
+    font-weight:bold;
+    font-size: 12pt;
+}
+.wrkt_intrvl_dur{
+    width:125px;
+}
+.wrkt_intrvl_dist{
+    width:75px;
+}
+.wrkt_intrvl_desc{
+    width:125px;
+}
+.wrkt_intrvl_new_dist{
+    width:80px;
+}
+.wrkt_intrvl_split{
+    width:80px;
+}
+
+
+
 td.workout_intrvl_sum{
     font-weight:bold;
 }

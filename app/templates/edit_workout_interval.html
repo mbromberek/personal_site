@@ -8,78 +8,128 @@
                 {{ form.hidden_tag() }}
 
                 {% if form.wrkt_intrvl_segment_form|length >0 %}
-                <div class="form-group mt-3 mr-2" style="width:1200px; vertical-align:top;">
+                <div class="form-group mt-3 mr-2" style="width:900px; vertical-align:top; ">
                     Segment Splits<br>
-                    <table>
-                        <tr style="font-weight:bold">
-                            <td class="workout-intrvl workout-intrvl-hdr" >
-                                Order
-                            </td>
-                            <td class="workout-intrvl workout-intrvl-hdr" style="width:220px;">
-                                Duration
-                            </td>
-                            <td class="workout-intrvl workout-intrvl-hdr">
-                                Dist<span class="hide_mobile">ance</span>
-                            </td>
-                            <td class="workout-intrvl workout-intrvl-hdr">
-                                HR
-                            </td>
-                            <td class="workout-intrvl workout-intrvl-hdr hide_mobile">
-                                Ele↑
-                            </td>
-                            <td class="workout-intrvl workout-intrvl-hdr hide_mobile">
-                                Ele↓
-                            </td>
-                            <td class="workout-intrvl workout-intrvl-hdr ">
-                                Description
-                            </td>
-                            <td class="workout-intrvl workout-intrvl-hdr ">
-                                New Dist
-                            </td>
-                            <td class="workout-intrvl workout-intrvl-hdr ">
-                                Split Itrvl
-                            </td>
-                        </tr>
+
+                    <div style="width:100%;display:inline-flex;">
+                        {#<span class="wrkt_intrvl wrkt_intrvl_hdr" style="width:40px;" >
+                            Order
+                        </span>#}
+                        <span class="wrkt_intrvl_hdr wrkt_intrvl  wrkt_intrvl_dur">
+                            Duration
+                        </span>
+                        <span class="wrkt_intrvl wrkt_intrvl_hdr wrkt_intrvl_dist">
+                            Dist<span class="hide_mobile">ance</span>
+                        </span>
+                        <span class="wrkt_intrvl wrkt_intrvl_hdr wrkt_intrvl_dist">
+                            HR
+                        </span>
+                        <span class="wrkt_intrvl wrkt_intrvl_hdr wrkt_intrvl_dist hide_mobile">
+                            Ele↑
+                        </span>
+                        <span class="wrkt_intrvl wrkt_intrvl_hdr wrkt_intrvl_dist hide_mobile">
+                            Ele↓
+                        </span>
+                        <span class="wrkt_intrvl wrkt_intrvl_hdr wrkt_intrvl_desc">
+                            Description
+                        </span>
+                        <span class="wrkt_intrvl wrkt_intrvl_hdr wrkt_intrvl_new_dist">
+                            New Dist
+                        </span>
+                        <span class="wrkt_intrvl wrkt_intrvl_hdr wrkt_intrvl_split">
+                            Split Lap
+                        </span>
+                    </div>
                     {% for intrvl in form.wrkt_intrvl_segment_form %}
-                        <tr>
-                            {{ intrvl.hidden_tag() }}
-                            <td class="workout-intrvl" >
-                                {{ intrvl.interval_order(class="txt_field_size_2", disabled=True) }}
-                            </td>
-                            <td class="workout-intrvl" >
-                                {{ intrvl.dur_h(class="txt_field_size_2", disabled=True) }}h&nbsp;
-                                {{ intrvl.dur_m(class="txt_field_size_2", disabled=True) }}m&nbsp;
-                                {{ intrvl.dur_s(class="txt_field_size_2", disabled=True) }}s
-                            </td>
-                            <td class="workout-intrvl">
-                                {{ intrvl.dist(class="txt_field_size_5", disabled=True) }}
-                            </td>
-                            <td class="workout-intrvl">
-                                {{ intrvl.hr(class="txt_field_size_3", disabled=True) }}
-                            </td>
-                            <td class="workout-intrvl hide_mobile">
-                                {{ intrvl.ele_up(class="txt_field_size_5", disabled=True) }}
-                            </td>
-                            <td class="workout-intrvl hide_mobile">
-                                {{ intrvl.ele_down(class="txt_field_size_5", disabled=True) }}
-                            </td>
-                            <td class="workout-intrvl ">
-                                {% if intrvl.interval_desc != None %}
-                                {{ intrvl.interval_desc(class="txt_field_size_10") }}
-                                {% else %}
-                                &nbsp;
-                                {% endif %}
-                            </td>
-                            <td class="workout-intrvl ">
-                                {{ intrvl.split_dist(class="txt_field_size_5") }}
-                            </td>
-                            <td class="workout-intrvl " 
-                                onclick="split_intrvl(this, '{{ wrktDet.wrkt_id }}', '{{ intrvl.wrkt_intrvl_id.data }}' );">
-                                Split
-                            </td>
-                        </tr>
+                    <div id="row_{{intrvl.wrkt_intrvl_id.data}}_orig" style="display:inline-flex;">
+                        {{ intrvl.hidden_tag() }}
+                        {#<span class='wrkt_intrvl' style="width:40px;" >
+                            {{ intrvl.interval_order.data }}
+                        </span>#}
+                        <span class='wrkt_intrvl wrkt_intrvl_dur' >
+                            {{ intrvl.dur_h.data }}h&nbsp;
+                            {{ intrvl.dur_m.data }}m&nbsp;
+                            {{ intrvl.dur_s.data }}s
+                        </span>
+                        <span class='wrkt_intrvl wrkt_intrvl_dist' >
+                            {{ intrvl.dist.data }}
+                        </span>
+                        <span class='wrkt_intrvl wrkt_intrvl_dist' >
+                            {{ intrvl.hr.data }}
+                        </span>
+                        <span class='wrkt_intrvl wrkt_intrvl_dist hide_mobile' >
+                            {{ intrvl.ele_up.data }}
+                        </span>
+                        <span class='wrkt_intrvl wrkt_intrvl_dist hide_mobile' >
+                            {{ intrvl.ele_down.data }}
+                        </span>
+
+                        <span class="wrkt_intrvl wrkt_intrvl_desc" style="padding-top:4px;">
+                            
+                            {% if intrvl.interval_desc != None %}
+                            {{ intrvl.interval_desc(class="txt_field_size_10") }}
+                            {% else %}
+                            &nbsp;
+                            {% endif %}
+                        </span>
+                        <span class="wrkt_intrvl wrkt_intrvl_new_dist" style="padding-top:4px;">
+                            {{ intrvl.split_dist(class="txt_field_size_5") }}
+                        </span>
+                        <span class="wrkt_intrvl wrkt_intrvl_split" 
+                            onclick="split_intrvl(this, '{{ wrktDet.wrkt_id }}', '{{ intrvl.wrkt_intrvl_id.data }}' );">
+                            Split
+                        </span>
+                        
+                    </div>
+
+                    <div id='row_{{intrvl.wrkt_intrvl_id.data}}_1' 
+                        style="display:none;">
+                        <span class='wrkt_intrvl wrkt_intrvl_dur' id="dur">
+                            &nbsp;
+                        </span>
+                        <span class='wrkt_intrvl wrkt_intrvl_dist' id="dist">
+                            &nbsp;
+                        </span>
+                        <span class='wrkt_intrvl wrkt_intrvl_dist' id="hr">
+                            &nbsp;
+                        </span>
+                        <span class='wrkt_intrvl wrkt_intrvl_dist hide_mobile' id="ele_up" >
+                            &nbsp;
+                        </span>
+                        <span class='wrkt_intrvl wrkt_intrvl_dist hide_mobile' id="ele_down">
+                            &nbsp;
+                        </span>
+
+                        <span class="wrkt_intrvl wrkt_intrvl_desc" 
+                        style="width:285px;">
+                            New Split Record
+                        </span>
+                    </div>
+                    <div id='row_{{intrvl.wrkt_intrvl_id.data}}_2' 
+                        style="display:none;">
+                        <span class='wrkt_intrvl wrkt_intrvl_dur' id="dur">
+                            &nbsp;
+                        </span>
+                        <span class='wrkt_intrvl wrkt_intrvl_dist' id="dist">
+                            &nbsp;
+                        </span>
+                        <span class='wrkt_intrvl wrkt_intrvl_dist' id="hr">
+                            &nbsp;
+                        </span>
+                        <span class='wrkt_intrvl wrkt_intrvl_dist hide_mobile' id="ele_up" >
+                            &nbsp;
+                        </span>
+                        <span class='wrkt_intrvl wrkt_intrvl_dist hide_mobile' id="ele_down">
+                            &nbsp;
+                        </span>
+
+                        <span class="wrkt_intrvl wrkt_intrvl_desc" 
+                        style="width:285px;">
+                            New Split Record
+                        </span>
+                    </div>
+
                     {% endfor %}
-                    </table>
                 </div>
             {% endif %}
 
