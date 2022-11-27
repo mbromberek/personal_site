@@ -16,6 +16,10 @@ import NormalizeWorkout.WrktSplits as wrktSplits
 def split_lap(wrkt_df, lap_nbr, split_dist):
     df = wrkt_df.copy()
     
+    # create backup of laps if not exist so this is the original laps for workout
+    if not 'lap_orig' in df:
+        df['lap_orig'] = df['lap']
+    
     min_lap_dist_m = df.loc[df['lap'] == lap_nbr]['dist_m'].min()
 
     # convert split_dist from miles to meters
