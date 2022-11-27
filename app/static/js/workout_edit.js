@@ -88,10 +88,8 @@ function validate_data(){
     intrvl_split_lst = [];
     for (i=0; i<intrvl_rows.length; i++){
         let intrvl = intrvl_rows[i];
-        // let split_intrvl_id = intrvl.querySelector('[id$="wrkt_intrvl_id"]').value;
         let split_dist = intrvl.querySelector('[id$="split_dist"]').value;
         let orig_dist = parseFloat(intrvl.querySelector('#dist').innerHTML);
-        // TODO Handle split_dist being a number
         if (split_dist != ''){
             if (isNaN(split_dist)){
                 alert('Split Distance ('+ split_dist + ') needs to be a number smaller than intervals distance.');
@@ -103,7 +101,6 @@ function validate_data(){
             }
         }
     }
-    // document.getElementById("intrvl_form").submit();
     return true;
 }
 
@@ -117,7 +114,6 @@ function preview_split_intrvl(wrkt_id){
         let split_intrvl_id = intrvl.querySelector('[id$="wrkt_intrvl_id"]').value;
         let split_dist = intrvl.querySelector('[id$="split_dist"]').value;
         let orig_dist = parseFloat(intrvl.querySelector('#dist').innerHTML);
-        // TODO Handle split_dist being a number
         if (split_dist != ''){
             if (isNaN(split_dist)){
                 alert('Split Distance ('+ split_dist + ') needs to be a number smaller than intervals distance.');

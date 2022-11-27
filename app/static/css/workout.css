@@ -353,6 +353,10 @@ td.workout-intrvl-hdr{
     font-weight:bold;
     font-size: 12pt;
 }
+div.wrkt_intrvl_edit{
+    width:900px;
+    vertical-align:top;
+}
 .wrkt_intrvl{
     display:inline-block;
     font-weight:normal;
@@ -837,6 +841,17 @@ td.dashboard_row_dtl{
         padding-right:15px;
         width:100%;
     }
+
+    .wrkt_intrvl_dur{
+        width:110px;
+    }
+    .wrkt_intrvl_dist{
+        width:60px;
+    }
+    div.wrkt_intrvl_edit{
+        width:700px;
+    }
+    
 
 }
 
