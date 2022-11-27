@@ -81,55 +81,69 @@ async function pasteNotes(){
 
 }
 
-function split_intrvl(sel_ele, wrkt_id, intrvl_id){
-    // alert("split_interval: " + wrkt_id + " " + intrvl_id);
-    console.log("split_intrvl: " + wrkt_id + " " + intrvl_id);
-
-    let sel_row = sel_ele.parentElement;
-    sel_row.style.backgroundColor = 'lightgray';
-    split_dist = sel_row.querySelector('[id$="split_dist"]').value;
-    split_dur = '';
-    console.log('New Distance: ' + split_dist);
-
-    // Perform AJAX call passing the workout id, interval id, and new distance
+function preview_split_intrvl(wrkt_id){
+    console.log("preview_split_intrvl");
+    let intrvl_rows = document.querySelectorAll('[id^=orig_intrvl_row_');
+    console.log(intrvl_rows);
+    intrvl_split_lst = [];
+    for (i=0; i<intrvl_rows.length; i++){
+        let intrvl = intrvl_rows[i];
+        let split_intrvl_id = intrvl.querySelector('[id$="wrkt_intrvl_id"]').value;
+        let split_dist = intrvl.querySelector('[id$="split_dist"]').value;
+        // TODO Handle split_dist being a number
+        if (split_dist != ''){
+            console.log('id: ' + split_intrvl_id + ' split_dist: ' + split_dist);
+            intrvl_split_lst.push({'id':split_intrvl_id, 'split_dist':split_dist});
+            intrvl.style.backgroundColor = 'lightgray';
+        }
+    }
+    console.log(intrvl_split_lst);
     $.get('/split_intrvl', {
-        wrkt_id: wrkt_id,
-        intrvl_id: intrvl_id,
-        split_dist: split_dist,
-        split_dur: split_dur
+        'wrkt_id': wrkt_id,
+        'intrvl_split_lst': JSON.stringify(intrvl_split_lst)
     }).done(function(response){
         show_split(response);
     }).fail(function(){
         console.error("Error: Could not contact server.");
     })
     ;
+
 }
 
 function show_split(response){
     console.log('show_split');
     console.log(response);
-    let intrvl_id = response['intrvl_id'];
-    let rowId_1 = 'row_'+intrvl_id+'_1'
-    let rowId_2 = 'row_'+intrvl_id+'_2'
-    let lap_1 = response['laps'][0]
-    let lap_2 = response['laps'][1]
 
-    let row_updt = document.querySelector('#'+rowId_1);
-    console.log(row_updt);
-    // row_updt = document.getElementById(rowId);
-    row_updt.style='display:inline-flex;color:blue;background-color:yellow;';
-    row_updt.querySelector('#dist').innerHTML = lap_1['dist_mi'];
-    row_updt.querySelector('#dur').innerHTML = lap_1['dur_str'];
-    row_updt.querySelector('#hr').innerHTML = lap_1['hr'];
-    row_updt.querySelector('#ele_up').innerHTML = lap_1['ele_up'];
-    row_updt.querySelector('#ele_down').innerHTML = lap_1['ele_down'];
+    // interval_change = {};
+    split_laps = response['split_laps']
+    
+    for (i=0; i<split_laps.length; i++){
+        split_lap = split_laps[i];
+        let intrvl_id = split_lap['intrvl_id'];
+        let rowId_1 = 'row_'+intrvl_id+'_1'
+        let rowId_2 = 'row_'+intrvl_id+'_2'
+        let lap_1 = split_lap['laps'][0]
+        let lap_2 = split_lap['laps'][1]
+    
+        let row_updt = document.querySelector('#'+rowId_1);
+        console.log(row_updt);
+        // row_updt = document.getElementById(rowId);
+        row_updt.style='display:inline-flex;color:blue;background-color:yellow;';
+        row_updt.querySelector('#dist').innerHTML = lap_1['dist_mi'];
+        row_updt.querySelector('#dur').innerHTML = lap_1['dur_str'];
+        row_updt.querySelector('#hr').innerHTML = lap_1['hr'];
+        row_updt.querySelector('#ele_up').innerHTML = lap_1['ele_up'];
+        row_updt.querySelector('#ele_down').innerHTML = lap_1['ele_down'];
+    
+        row_updt = document.querySelector('#'+rowId_2);
+        row_updt.style='display:inline-flex;color:blue;background-color:yellow;';
+        row_updt.querySelector('#dist').innerHTML = lap_2['dist_mi'];
+        row_updt.querySelector('#dur').innerHTML = lap_2['dur_str'];
+        row_updt.querySelector('#hr').innerHTML = lap_2['hr'];
+        row_updt.querySelector('#ele_up').innerHTML = lap_2['ele_up'];
+        row_updt.querySelector('#ele_down').innerHTML = lap_2['ele_down'];
+    
+    }
 
-    row_updt = document.querySelector('#'+rowId_2);
-    row_updt.style='display:inline-flex;color:blue;background-color:yellow;';
-    row_updt.querySelector('#dist').innerHTML = lap_2['dist_mi'];
-    row_updt.querySelector('#dur').innerHTML = lap_2['dur_str'];
-    row_updt.querySelector('#hr').innerHTML = lap_2['hr'];
-    row_updt.querySelector('#ele_up').innerHTML = lap_2['ele_up'];
-    row_updt.querySelector('#ele_down').innerHTML = lap_2['ele_down'];
 
 }

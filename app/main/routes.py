@@ -9,7 +9,7 @@ All rights reserved.
 # First party classes
 from datetime import datetime, timedelta, date
 import time
-import os, math
+import os, math, json
 # from datetime import combine
 
 # Third party classes
@@ -262,28 +262,34 @@ def more_workouts():
 def split_intrvl():
     logger.info('split_intrvl')
 
+    # logger.info(str(request.args))
+
     usr_id = current_user.id
     wrkt_id = request.args.get('wrkt_id')
-    intrvl_id = request.args.get('intrvl_id')
-    split_dist = request.args.get('split_dist')
-    try:
-        split_dur = request.args.get('split_dur', '', type=int)
-    except ValueError:
-        split_dur = ''
 
-    # Read in the workout
+    intrvl_split_lst = json.loads(request.args.get('intrvl_split_lst'))
+    logger.info(intrvl_split_lst)
+
+    split_laps = []
     wrkt = Workout.query.filter_by(id=wrkt_id, user_id=usr_id).first_or_404(id)
+    # Read in the workout
     wrkt_pickle = os.path.join(current_app.config['WRKT_FILE_DIR'], str(usr_id), wrkt.wrkt_dir, 'workout.pickle')
     logger.debug(wrkt.wrkt_dir)
 
-    wrkt_intrvl = Workout_interval.query.filter_by(id=intrvl_id, user_id=usr_id).first_or_404(id)
-    logger.debug(wrkt_intrvl)
+    for intrvl_split in intrvl_split_lst:
+        logger.debug(intrvl_split)
+        intrvl_id = intrvl_split['id']
+        split_dist = intrvl_split['split_dist']
 
-    lap_updates = wrkt_split.split_lap(wrkt_pickle, wrkt_intrvl.interval_order+1, split_dist)
-    for lap in lap_updates:
-        lap['dur_str'] = tm_conv.sec_to_time(lap['dur_sec'], format='hms-auto')
+        wrkt_intrvl = Workout_interval.query.filter_by(id=intrvl_id, user_id=usr_id).first_or_404(id)
+        logger.debug(wrkt_intrvl)
 
-    return jsonify({'laps':lap_updates, 'wrkt_id':wrkt_id, 'intrvl_id':intrvl_id})
+        lap_updates = wrkt_split.split_lap(wrkt_pickle, wrkt_intrvl.interval_order+1, split_dist)
+        for lap in lap_updates:
+            lap['dur_str'] = tm_conv.sec_to_time(lap['dur_sec'], format='hms-auto')
+        split_laps.append({'laps':lap_updates, 'wrkt_id':wrkt_id, 'intrvl_id':intrvl_id})
+    logger.info(split_laps)
+    return jsonify({'split_laps':split_laps})
 
 @bp.route('/edit_workout', methods=['GET','POST'])
 @login_required
@@ -826,6 +832,7 @@ def edit_workout_interval():
             # logger.debug(intrvl_form.wrkt_intrvl_id.data)
             wrktIntrvl = Workout_interval.query.filter_by(id=intrvl_form.wrkt_intrvl_id.data, user_id=usr_id, workout_id=wrkt_id).first_or_404()
             # logger.debug("Interval Order: " + str(wrktIntrvl.interval_order))
+            logger.debug('modified: ' + str(intrvl_form.mod.data));
             if intrvl_form.interval_desc.data != '':
                 wrktIntrvl.interval_desc = intrvl_form.interval_desc.data
             # if intrvl_form.hr.data != '':

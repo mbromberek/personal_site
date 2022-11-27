@@ -36,16 +36,11 @@
                         <span class="wrkt_intrvl wrkt_intrvl_hdr wrkt_intrvl_new_dist">
                             New Dist
                         </span>
-                        <span class="wrkt_intrvl wrkt_intrvl_hdr wrkt_intrvl_split">
-                            Split Lap
-                        </span>
                     </div>
                     {% for intrvl in form.wrkt_intrvl_segment_form %}
-                    <div id="row_{{intrvl.wrkt_intrvl_id.data}}_orig" style="display:inline-flex;">
-                        {{ intrvl.hidden_tag() }}
-                        {#<span class='wrkt_intrvl' style="width:40px;" >
-                            {{ intrvl.interval_order.data }}
-                        </span>#}
+                    <div id="orig_intrvl_row_{{intrvl.wrkt_intrvl_id.data}}" style="display:inline-flex;">
+                        {{ intrvl.wrkt_intrvl_id }}
+
                         <span class='wrkt_intrvl wrkt_intrvl_dur' >
                             {{ intrvl.dur_h.data }}h&nbsp;
                             {{ intrvl.dur_m.data }}m&nbsp;
@@ -75,11 +70,6 @@
                         <span class="wrkt_intrvl wrkt_intrvl_new_dist" style="padding-top:4px;">
                             {{ intrvl.split_dist(class="txt_field_size_5") }}
                         </span>
-                        <span class="wrkt_intrvl wrkt_intrvl_split" 
-                            onclick="split_intrvl(this, '{{ wrktDet.wrkt_id }}', '{{ intrvl.wrkt_intrvl_id.data }}' );">
-                            Split
-                        </span>
-                        
                     </div>
 
                     <div id='row_{{intrvl.wrkt_intrvl_id.data}}_1' 
@@ -101,7 +91,7 @@
                         </span>
 
                         <span class="wrkt_intrvl wrkt_intrvl_desc" 
-                        style="width:285px;">
+                        style="width:205px;">
                             New Split Record
                         </span>
                     </div>
@@ -124,7 +114,7 @@
                         </span>
 
                         <span class="wrkt_intrvl wrkt_intrvl_desc" 
-                        style="width:285px;">
+                        style="width:205px;">
                             New Split Record
                         </span>
                     </div>
@@ -139,6 +129,10 @@
                 </div>
 
 
+            </form>
+            <br/>
+            <form action="JavaScript:preview_split_intrvl({{ wrktDet.wrkt_id }});">
+                <input type="submit" value="Preview Split" style='font-size:12pt;', button_style='btn'>
             </form>
         </div>
     </div>
