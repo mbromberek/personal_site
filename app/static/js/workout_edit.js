@@ -81,6 +81,32 @@ async function pasteNotes(){
 
 }
 
+function validate_data(){
+    console.log("validate_data");
+    let intrvl_rows = document.querySelectorAll('[id^=orig_intrvl_row_');
+    console.log(intrvl_rows);
+    intrvl_split_lst = [];
+    for (i=0; i<intrvl_rows.length; i++){
+        let intrvl = intrvl_rows[i];
+        // let split_intrvl_id = intrvl.querySelector('[id$="wrkt_intrvl_id"]').value;
+        let split_dist = intrvl.querySelector('[id$="split_dist"]').value;
+        let orig_dist = parseFloat(intrvl.querySelector('#dist').innerHTML);
+        // TODO Handle split_dist being a number
+        if (split_dist != ''){
+            if (isNaN(split_dist)){
+                alert('Split Distance ('+ split_dist + ') needs to be a number smaller than intervals distance.');
+                return false;
+            }
+            if (split_dist >= orig_dist){
+                alert('Split Distance ('+ split_dist + ') needs to be smaller than intervals distance (' + orig_dist + ').');
+                return false;
+            }
+        }
+    }
+    // document.getElementById("intrvl_form").submit();
+    return true;
+}
+
 function preview_split_intrvl(wrkt_id){
     console.log("preview_split_intrvl");
     let intrvl_rows = document.querySelectorAll('[id^=orig_intrvl_row_');
@@ -90,8 +116,17 @@ function preview_split_intrvl(wrkt_id){
         let intrvl = intrvl_rows[i];
         let split_intrvl_id = intrvl.querySelector('[id$="wrkt_intrvl_id"]').value;
         let split_dist = intrvl.querySelector('[id$="split_dist"]').value;
+        let orig_dist = parseFloat(intrvl.querySelector('#dist').innerHTML);
         // TODO Handle split_dist being a number
         if (split_dist != ''){
+            if (isNaN(split_dist)){
+                alert('Split Distance ('+ split_dist + ') needs to be a number smaller than intervals distance.');
+                return;
+            }
+            if (split_dist >= orig_dist){
+                alert('Split Distance ('+ split_dist + ') needs to be smaller than intervals distance (' + orig_dist + ').');
+                return;
+            }
             console.log('id: ' + split_intrvl_id + ' split_dist: ' + split_dist);
             intrvl_split_lst.push({'id':split_intrvl_id, 'split_dist':split_dist});
             intrvl.style.backgroundColor = 'lightgray';

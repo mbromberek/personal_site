@@ -4,7 +4,7 @@
     {# <h1>{{ label_val.title }}</h1> #}
     <div class="row mb-5 workout_page_detail">
         <div class="col-md-12">
-            <form action="" method="post">
+            <form action="" method="post" id="intrvl_form" onsubmit="return validate_data();">
                 {{ form.hidden_tag() }}
 
                 {% if form.wrkt_intrvl_segment_form|length >0 %}
@@ -46,7 +46,7 @@
                             {{ intrvl.dur_m.data }}m&nbsp;
                             {{ intrvl.dur_s.data }}s
                         </span>
-                        <span class='wrkt_intrvl wrkt_intrvl_dist' >
+                        <span class='wrkt_intrvl wrkt_intrvl_dist' id="dist">
                             {{ intrvl.dist.data }}
                         </span>
                         <span class='wrkt_intrvl wrkt_intrvl_dist' >
