@@ -127,6 +127,7 @@ class WorkoutForm(FlaskForm):
     cancel = SubmitField('Cancel')
     edit_interval = SubmitField('Edit Intervals')
     delete_btn = SubmitField('Delete')
+    restore_btn = SubmitField('Restore to orginal')
 
     # gear = StringField('Gear')
     gear_lst = SelectField('Gear', validate_choice=True, coerce=int)

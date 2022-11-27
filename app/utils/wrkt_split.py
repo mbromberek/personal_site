@@ -45,3 +45,17 @@ def split_lap(wrkt_df, lap_nbr, split_dist):
 
     return {'wrkt_df': df, 'laps':laps}
 
+def restore_original_laps(wrkt_df):
+    df = wrkt_df.copy()
+
+    # restore the laps to laps_orig value
+    df['lap'] = df['lap_orig']
+
+    # Calculate interval splits
+    lap_df = wrktSplits.group_actv(df, 'lap')
+
+    # Get two updated/new laps and return them as a list
+    lap_df.rename(columns={'avg_hr':'hr'}, inplace=True)
+    laps = lap_df.to_dict(orient='records')
+
+    return {'wrkt_df': df, 'laps':laps}

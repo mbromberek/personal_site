@@ -773,9 +773,9 @@ def edit_workout_interval():
     wrktDict = {}
 
     form = WorkoutForm()
+    usr_id = current_user.id
 
     if request.method == 'GET' and request.args.get('workout') != None:
-        usr_id = current_user.id
         wrktDict['wrkt_id'] = request.args.get('workout')
         form.wrkt_id.data = request.args.get('workout')
         logger.info('Get Workout Intrvl: ' + str(wrktDict['wrkt_id'])+' for user: '+str(usr_id))
@@ -824,9 +824,42 @@ def edit_workout_interval():
         flash("Workout Intervals update canceled")
         wrkt_id = request.args.get('workout')
         return redirect(url_for('main.workout', workout=wrkt_id))
+    elif request.method == 'POST' and form.restore_btn.data:
+        logger.debug('restore intervals')
+        flash("Workout Intervals restored to original")
+        wrkt_id = request.args.get('workout')
+        # Get workouts pickle file
+        wrkt = Workout.query.filter_by(id=wrkt_id, user_id=usr_id).first_or_404(id)
+        wrkt_pickle = os.path.join(current_app.config['WRKT_FILE_DIR'], str(usr_id), wrkt.wrkt_dir, 'workout.pickle')
+        wrkt_df = pd.read_pickle(wrkt_pickle)
+
+        # delete intervals for the workout id
+        wrktIntrvlLst = Workout_interval.query.filter_by(workout_id=wrkt_id, user_id=usr_id)
+        logger.debug(str(wrkt_id) + ' ' + str(usr_id))
+        logger.debug(str(wrktIntrvlLst))
+        for wrktIntrvl in wrktIntrvlLst:
+            logger.debug('Delete: ' + str(wrktIntrvl))
+            db.session.delete(wrktIntrvl)
+
+        restore_laps = wrkt_split.restore_original_laps(wrkt_df)
+        wrkt_df = restore_laps['wrkt_df']
+        laps = restore_laps['laps']
+
+        # save laps to DB
+        for indx, lap in enumerate(laps):
+            wkrt_Intrvl = Workout_interval()
+            wkrt_Intrvl.from_dict(lap, usr_id, wrkt_id, 'lap')
+            wkrt_Intrvl.interval_order = indx
+            db.session.add(wkrt_Intrvl)
+
+        # Commit delete and add to DB and Save new DF to pickle file
+        db.session.commit()
+        wrkt_df.to_pickle(wrkt_pickle)
+
+        return redirect(url_for('main.edit_workout_interval', workout=wrkt_id))
     elif request.method == 'POST':
         logger.debug('edit_workout_interval: validate_on_submit')
-        usr_id = current_user.id
+        
         wrkt_id = request.args.get('workout')
         updt_ord = 0
 
