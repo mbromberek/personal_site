@@ -834,11 +834,8 @@ def edit_workout_interval():
         wrkt_df = pd.read_pickle(wrkt_pickle)
 
         # delete intervals for the workout id
-        wrktIntrvlLst = Workout_interval.query.filter_by(workout_id=wrkt_id, user_id=usr_id)
-        logger.debug(str(wrkt_id) + ' ' + str(usr_id))
-        logger.debug(str(wrktIntrvlLst))
+        wrktIntrvlLst = Workout_interval.query.filter_by(workout_id=wrkt_id, user_id=usr_id, break_type = 'lap')
         for wrktIntrvl in wrktIntrvlLst:
-            logger.debug('Delete: ' + str(wrktIntrvl))
             db.session.delete(wrktIntrvl)
 
         restore_laps = wrkt_split.restore_original_laps(wrkt_df)
@@ -849,7 +846,7 @@ def edit_workout_interval():
         for indx, lap in enumerate(laps):
             wkrt_Intrvl = Workout_interval()
             wkrt_Intrvl.from_dict(lap, usr_id, wrkt_id, 'lap')
-            wkrt_Intrvl.interval_order = indx
+            wkrt_Intrvl.interval_order = indx+1 # interval_order starts at 1
             db.session.add(wkrt_Intrvl)
 
         # Commit delete and add to DB and Save new DF to pickle file
@@ -907,10 +904,12 @@ def edit_workout_interval():
                 db.session.delete(wrktIntrvl)
 
         db.session.commit()
+        flash("Workout Intervals updated")
         # save updated df to pickle file
         if wrkt_pickle != None:
             wrkt_df.to_pickle(wrkt_pickle)
-        flash("Workout Intervals updated")
+            # Reload edit_workout_interval page if split interval
+            return redirect(url_for('main.edit_workout_interval', workout=wrkt_id))
         return redirect(url_for('main.workout', workout=wrkt_id))
 
 
