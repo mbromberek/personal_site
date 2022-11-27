@@ -284,7 +284,8 @@ def split_intrvl():
         wrkt_intrvl = Workout_interval.query.filter_by(id=intrvl_id, user_id=usr_id).first_or_404(id)
         logger.debug(wrkt_intrvl)
 
-        lap_updates = wrkt_split.split_lap(wrkt_pickle, wrkt_intrvl.interval_order+1, split_dist)
+        wrkt_df = pd.read_pickle(wrkt_pickle)
+        lap_updates = wrkt_split.split_lap(wrkt_df, wrkt_intrvl.interval_order+1, split_dist)['laps']
         for lap in lap_updates:
             lap['dur_str'] = tm_conv.sec_to_time(lap['dur_sec'], format='hms-auto')
         split_laps.append({'laps':lap_updates, 'wrkt_id':wrkt_id, 'intrvl_id':intrvl_id})
@@ -827,17 +828,55 @@ def edit_workout_interval():
         logger.debug('edit_workout_interval: validate_on_submit')
         usr_id = current_user.id
         wrkt_id = request.args.get('workout')
+        updt_ord = 0
+
+        
+        wrkt_df = None
+        wrkt_pickle = None
+
         for intrvl_form in form.wrkt_intrvl_segment_form.entries:
-            # logger.debug(intrvl_form.interval_desc.data)
-            # logger.debug(intrvl_form.wrkt_intrvl_id.data)
+            # Check and update interval description
             wrktIntrvl = Workout_interval.query.filter_by(id=intrvl_form.wrkt_intrvl_id.data, user_id=usr_id, workout_id=wrkt_id).first_or_404()
-            # logger.debug("Interval Order: " + str(wrktIntrvl.interval_order))
-            logger.debug('modified: ' + str(intrvl_form.mod.data));
             if intrvl_form.interval_desc.data != '':
                 wrktIntrvl.interval_desc = intrvl_form.interval_desc.data
-            # if intrvl_form.hr.data != '':
-                # wrktIntrvl.hr = intrvl_form.hr.data
+            # Increment workout intervals order by updt_ord, will not change if no updates to order needed
+            wrktIntrvl.interval_order = wrktIntrvl.interval_order + updt_ord
+
+            split_dist = intrvl_form.split_dist.data
+            if split_dist != '' and split_dist != None:
+                logger.debug('split: ' + str(wrktIntrvl))
+                if wrkt_pickle == None:
+                    # Get workouts pickle file
+                    wrkt = Workout.query.filter_by(id=wrkt_id, user_id=usr_id).first_or_404(id)
+                    # Read in the workout
+                    wrkt_pickle = os.path.join(current_app.config['WRKT_FILE_DIR'], str(usr_id), wrkt.wrkt_dir, 'workout.pickle')
+    
+                    # Load wrkt_df
+                    wrkt_df = pd.read_pickle(wrkt_pickle)
+
+                # process splitting interval
+                wrkt_split_dict = wrkt_split.split_lap(wrkt_df, wrktIntrvl.interval_order+1, split_dist)
+                wrkt_df = wrkt_split_dict['wrkt_df']
+                laps = wrkt_split_dict['laps']
+                
+                # Increment update order for intervals
+                updt_ord += 1
+                
+                # create two new intervals with previous intervals order
+                for i in [0,1]:
+                    newIntrvl = Workout_interval()
+                    newIntrvl.from_dict(laps[i], usr_id, wrkt_id, 'lap')
+                    newIntrvl.interval_order = wrktIntrvl.interval_order+i
+                    newIntrvl.interval_desc = wrktIntrvl.interval_desc
+                    db.session.add(newIntrvl)
+                
+                # delete interval that is being split
+                db.session.delete(wrktIntrvl)
+
         db.session.commit()
+        # save updated df to pickle file
+        if wrkt_pickle != None:
+            wrkt_df.to_pickle(wrkt_pickle)
         flash("Workout Intervals updated")
         return redirect(url_for('main.workout', workout=wrkt_id))
 
