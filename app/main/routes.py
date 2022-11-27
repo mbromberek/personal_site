@@ -285,7 +285,7 @@ def split_intrvl():
         logger.debug(wrkt_intrvl)
 
         wrkt_df = pd.read_pickle(wrkt_pickle)
-        lap_updates = wrkt_split.split_lap(wrkt_df, wrkt_intrvl.interval_order+1, split_dist)['laps']
+        lap_updates = wrkt_split.split_lap(wrkt_df, wrkt_intrvl.interval_order, split_dist)['laps']
         for lap in lap_updates:
             lap['dur_str'] = tm_conv.sec_to_time(lap['dur_sec'], format='hms-auto')
         split_laps.append({'laps':lap_updates, 'wrkt_id':wrkt_id, 'intrvl_id':intrvl_id})
@@ -888,7 +888,7 @@ def edit_workout_interval():
                     wrkt_df = pd.read_pickle(wrkt_pickle)
 
                 # process splitting interval
-                wrkt_split_dict = wrkt_split.split_lap(wrkt_df, wrktIntrvl.interval_order+1, split_dist)
+                wrkt_split_dict = wrkt_split.split_lap(wrkt_df, wrktIntrvl.interval_order, split_dist)
                 wrkt_df = wrkt_split_dict['wrkt_df']
                 laps = wrkt_split_dict['laps']
                 
