@@ -292,6 +292,10 @@ def split_intrvl():
             lap_updates = wrkt_split.merge_laps(wrkt_df, wrkt_intrvl.interval_order)['laps']
         for lap in lap_updates:
             lap['dur_str'] = tm_conv.sec_to_time(lap['dur_sec'], format='hms-auto')
+            if math.isnan(lap['lat']):
+                lap.pop('lat')
+            if math.isnan(lap['lon']):
+                lap.pop('lon')
         split_laps.append({'laps':lap_updates, 'wrkt_id':wrkt_id, 'intrvl_id':intrvl_id})
             
     logger.info({'split_laps':split_laps})

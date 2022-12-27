@@ -495,7 +495,7 @@ class Workout_interval(db.Model):
         setattr(self, 'break_type', break_type)
 
         for field in str_fields:
-            if field in data:
+            if field in data and not math.isnan(data[field]):
                 setattr(self, field, data[field])
 
         for field in int_fields:
