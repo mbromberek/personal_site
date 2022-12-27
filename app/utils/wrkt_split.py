@@ -12,6 +12,7 @@ import numpy as np
 
 # Custom Classes from github
 import NormalizeWorkout.WrktSplits as wrktSplits
+from app import logger
 
 def split_lap(wrkt_df, lap_nbr, split_dist):
     df = wrkt_df.copy()
@@ -65,6 +66,7 @@ def merge_laps(wrkt_df, lap_nbr):
 
     lap_to_ret = lap_df[lap_df['lap'].isin([lap_nbr])]
     laps = lap_to_ret.to_dict(orient='records')
+    logger.debug(laps)
 
     return {'wrkt_df': df, 'laps':laps}
     
