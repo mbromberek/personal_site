@@ -148,7 +148,7 @@ function preview_split_intrvl(wrkt_id){
         'intrvl_split_lst': JSON.stringify(intrvl_split_lst)
     }).done(function(response){
         show_split(response);
-    }).fail(function(){
+    }).fail(function(response){
         console.error("Error: Could not contact server.");
     })
     ;

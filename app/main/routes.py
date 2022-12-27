@@ -294,7 +294,7 @@ def split_intrvl():
             lap['dur_str'] = tm_conv.sec_to_time(lap['dur_sec'], format='hms-auto')
         split_laps.append({'laps':lap_updates, 'wrkt_id':wrkt_id, 'intrvl_id':intrvl_id})
             
-    logger.info(split_laps)
+    logger.info({'split_laps':split_laps})
     return jsonify({'split_laps':split_laps})
 
 @bp.route('/edit_workout', methods=['GET','POST'])
