@@ -101,6 +101,7 @@ class WorkoutIntervalForm(FlaskForm):
     notes = TextAreaField('Notes', validators=[Length(min=0, max=30000)])
 
     split_dist = DecimalField('Split Distance', validators=[Optional()], places=2, rounding=decimal.ROUND_UP)
+    merge_laps = BooleanField("Merge with below lap")
     # submit = SubmitField('Submit')
     # cancel = SubmitField('Cancel')
     def __repr__(self):

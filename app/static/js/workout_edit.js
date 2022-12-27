@@ -109,12 +109,19 @@ function preview_split_intrvl(wrkt_id){
     let intrvl_rows = document.querySelectorAll('[id^=orig_intrvl_row_');
     console.log(intrvl_rows);
     intrvl_split_lst = [];
+    let merge_next_lap = false;
     for (i=0; i<intrvl_rows.length; i++){
         let intrvl = intrvl_rows[i];
         let split_intrvl_id = intrvl.querySelector('[id$="wrkt_intrvl_id"]').value;
         let split_dist = intrvl.querySelector('[id$="split_dist"]').value;
         let orig_dist = parseFloat(intrvl.querySelector('#dist').innerHTML);
-        if (split_dist != ''){
+        let merge_laps = intrvl.querySelector('[id$="merge_laps"]').checked;
+        if (merge_next_lap == true){
+            //If line above says to merge then do not allow split or merge for next line.
+            //TODO should this be changed to allow for merge on line below a merge?
+            merge_next_lap = false;
+            intrvl.style.backgroundColor = 'lightgray';
+        } else if (split_dist != ''){
             if (isNaN(split_dist)){
                 alert('Split Distance ('+ split_dist + ') needs to be a number smaller than intervals distance.');
                 return;
@@ -126,6 +133,13 @@ function preview_split_intrvl(wrkt_id){
             console.log('id: ' + split_intrvl_id + ' split_dist: ' + split_dist);
             intrvl_split_lst.push({'id':split_intrvl_id, 'split_dist':split_dist});
             intrvl.style.backgroundColor = 'lightgray';
+            //Will ignore Merge if the Split Dist is filled in so set merge to False
+        }else if (merge_laps == true){
+            //Else IF Merge is selected
+            console.log('id: ' + split_intrvl_id + ' merge with lap below it');
+            intrvl_split_lst.push({'id':split_intrvl_id, 'merge':true});
+            intrvl.style.backgroundColor = 'lightgray';
+            merge_next_lap = true;
         }
     }
     console.log(intrvl_split_lst);
@@ -154,7 +168,6 @@ function show_split(response){
         let rowId_1 = 'row_'+intrvl_id+'_1'
         let rowId_2 = 'row_'+intrvl_id+'_2'
         let lap_1 = split_lap['laps'][0]
-        let lap_2 = split_lap['laps'][1]
     
         let row_updt = document.querySelector('#'+rowId_1);
         console.log(row_updt);
@@ -166,14 +179,18 @@ function show_split(response){
         row_updt.querySelector('#ele_up').innerHTML = lap_1['ele_up'];
         row_updt.querySelector('#ele_down').innerHTML = lap_1['ele_down'];
     
-        row_updt = document.querySelector('#'+rowId_2);
-        row_updt.style='display:inline-flex;color:blue;background-color:yellow;';
-        row_updt.querySelector('#dist').innerHTML = lap_2['dist_mi'];
-        row_updt.querySelector('#dur').innerHTML = lap_2['dur_str'];
-        row_updt.querySelector('#hr').innerHTML = lap_2['hr'];
-        row_updt.querySelector('#ele_up').innerHTML = lap_2['ele_up'];
-        row_updt.querySelector('#ele_down').innerHTML = lap_2['ele_down'];
-    
+        if (split_lap['laps'].length >1){
+            let lap_2 = split_lap['laps'][1]
+            row_updt = document.querySelector('#'+rowId_2);
+            row_updt.style='display:inline-flex;color:blue;background-color:yellow;';
+            row_updt.querySelector('#dist').innerHTML = lap_2['dist_mi'];
+            row_updt.querySelector('#dur').innerHTML = lap_2['dur_str'];
+            row_updt.querySelector('#hr').innerHTML = lap_2['hr'];
+            row_updt.querySelector('#ele_up').innerHTML = lap_2['ele_up'];
+            row_updt.querySelector('#ele_down').innerHTML = lap_2['ele_down'];
+        }else{
+            row_updt.querySelector('#updt_rec_msg').innerHTML = 'New Merged Record';
+        }
     }
 
 

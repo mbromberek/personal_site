@@ -279,16 +279,21 @@ def split_intrvl():
     for intrvl_split in intrvl_split_lst:
         logger.debug(intrvl_split)
         intrvl_id = intrvl_split['id']
-        split_dist = intrvl_split['split_dist']
-
         wrkt_intrvl = Workout_interval.query.filter_by(id=intrvl_id, user_id=usr_id).first_or_404(id)
         logger.debug(wrkt_intrvl)
 
         wrkt_df = pd.read_pickle(wrkt_pickle)
-        lap_updates = wrkt_split.split_lap(wrkt_df, wrkt_intrvl.interval_order, split_dist)['laps']
+
+        if 'split_dist' in intrvl_split:
+            split_dist = intrvl_split['split_dist']
+            lap_updates = wrkt_split.split_lap(wrkt_df, wrkt_intrvl.interval_order, split_dist)['laps']
+        elif 'merge' in intrvl_split:
+            logger.debug('merge: ' + intrvl_id)
+            lap_updates = wrkt_split.merge_laps(wrkt_df, wrkt_intrvl.interval_order)['laps']
         for lap in lap_updates:
             lap['dur_str'] = tm_conv.sec_to_time(lap['dur_sec'], format='hms-auto')
         split_laps.append({'laps':lap_updates, 'wrkt_id':wrkt_id, 'intrvl_id':intrvl_id})
+            
     logger.info(split_laps)
     return jsonify({'split_laps':split_laps})
 
@@ -802,6 +807,7 @@ def edit_workout_interval():
             intrvl_form.ele_down = intrvl.ele_down
             intrvl_form.notes = intrvl.notes
             intrvl_form.split_dist = None
+            intrvl_form.merge_laps = False
             # intrvl_form.split_btn.render_kw = {"onclick":"split_interval_function()"}
             # intrvl.duration = intrvl.dur_str()
             # intrvl.pace = intrvl.pace_str()
