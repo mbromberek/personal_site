@@ -74,7 +74,12 @@
                             {{ intrvl.split_dist(class="txt_field_size_5") }}
                         </span>
                         <span class="wrkt_intrvl wrkt_intrvl_new_dist" style="padding-top:4px;">
+                            {% if not loop.last %}
                             {{ intrvl.merge_laps(alt="Merge with lap below") }}
+                            {% else %}
+                            &nbsp;
+                            {% endif %}
+
                         </span>
                     </div>
 
