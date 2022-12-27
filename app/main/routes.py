@@ -855,7 +855,7 @@ def edit_workout_interval():
         for indx, lap in enumerate(laps):
             wkrt_Intrvl = Workout_interval()
             wkrt_Intrvl.from_dict(lap, usr_id, wrkt_id, 'lap')
-            wkrt_Intrvl.interval_order = indx
+            wkrt_Intrvl.interval_order = indx +1
             db.session.add(wkrt_Intrvl)
 
         # Commit delete and add to DB and Save new DF to pickle file
