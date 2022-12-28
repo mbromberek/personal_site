@@ -802,6 +802,7 @@ def edit_workout_interval():
             intrvl_form.ele_down = intrvl.ele_down
             intrvl_form.notes = intrvl.notes
             intrvl_form.split_dist = None
+            intrvl_form.merge_laps_chk = False
             # intrvl_form.split_btn.render_kw = {"onclick":"split_interval_function()"}
             # intrvl.duration = intrvl.dur_str()
             # intrvl.pace = intrvl.pace_str()

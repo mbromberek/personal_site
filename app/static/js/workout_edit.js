@@ -117,7 +117,7 @@ function preview_split_intrvl(wrkt_id){
         let split_dist = intrvl.querySelector('[id$="split_dist"]').value;
         let orig_dist = parseFloat(intrvl.querySelector('#dist').innerHTML);
         if (i+1 < intrvl_rows.length ){
-            merge_laps = intrvl.querySelector('[id$="merge_laps"]').checked;
+            merge_laps = intrvl.querySelector('[id$="merge_laps_chk"]').checked;
         }else{
             // Last row does not have a merge checkbox so set it to false
             merge_laps = false;
