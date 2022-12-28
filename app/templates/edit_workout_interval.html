@@ -36,6 +36,9 @@
                         <span class="wrkt_intrvl wrkt_intrvl_hdr wrkt_intrvl_new_dist">
                             Split Dist
                         </span>
+                        <span class="wrkt_intrvl wrkt_intrvl_hdr wrkt_intrvl_new_dist">
+                            Merge
+                        </span>
                     </div>
                     {% for intrvl in form.wrkt_intrvl_segment_form %}
                     <div id="orig_intrvl_row_{{intrvl.wrkt_intrvl_id.data}}" style="display:inline-flex;">
@@ -70,6 +73,14 @@
                         <span class="wrkt_intrvl wrkt_intrvl_new_dist" style="padding-top:4px;">
                             {{ intrvl.split_dist(class="txt_field_size_5") }}
                         </span>
+                        <span class="wrkt_intrvl wrkt_intrvl_new_dist" style="padding-top:4px;">
+                            {% if not loop.last %}
+                            {{ intrvl.merge_laps(alt="Merge with lap below", title="Merge with lap below") }}
+                            {% else %}
+                            &nbsp;
+                            {% endif %}
+
+                        </span>
                     </div>
 
                     <div id='row_{{intrvl.wrkt_intrvl_id.data}}_1' 
@@ -90,7 +101,7 @@
                             &nbsp;
                         </span>
 
-                        <span class="wrkt_intrvl wrkt_intrvl_desc, wrkt_intrvl_msg" >
+                        <span class="wrkt_intrvl wrkt_intrvl_desc, wrkt_intrvl_msg" id="updt_rec_msg">
                             New Split Record
                         </span>
                     </div>
@@ -112,7 +123,7 @@
                             &nbsp;
                         </span>
 
-                        <span class="wrkt_intrvl wrkt_intrvl_desc, wrkt_intrvl_msg" >
+                        <span class="wrkt_intrvl wrkt_intrvl_desc, wrkt_intrvl_msg"  id="updt_rec_msg">
                             New Split Record
                         </span>
                     </div>

@@ -12,6 +12,7 @@ import numpy as np
 
 # Custom Classes from github
 import NormalizeWorkout.WrktSplits as wrktSplits
+from app import logger
 
 def split_lap(wrkt_df, lap_nbr, split_dist):
     df = wrkt_df.copy()
@@ -44,6 +45,32 @@ def split_lap(wrkt_df, lap_nbr, split_dist):
     laps = lap_to_ret.to_dict(orient='records')
 
     return {'wrkt_df': df, 'laps':laps}
+
+def merge_laps(wrkt_df, lap_nbr):
+    df = wrkt_df.copy()
+    # create backup of laps if not exist so this is the original laps for workout
+    if not 'lap_orig' in df:
+        df['lap_orig'] = df['lap']
+    
+    # Update lap where lap > lap_nbr 
+    #    (this takes care of removing lap being merged and updating order for other laps)
+    df['lap_updt'] = df.loc[df['lap'] > lap_nbr]['lap'] -1
+    df['lap'] = np.where(pd.notnull(df['lap_updt']), df['lap_updt'], df['lap']).astype('int')
+    df.drop('lap_updt', axis=1, inplace=True)
+
+    # Calculate interval splits
+    lap_df = wrktSplits.group_actv(df, 'lap')
+
+    # Get two updated/new laps and return them as a list
+    lap_df.rename(columns={'avg_hr':'hr'}, inplace=True)
+
+    lap_to_ret = lap_df[lap_df['lap'].isin([lap_nbr])]
+    laps = lap_to_ret.to_dict(orient='records')
+    logger.debug(laps)
+
+    return {'wrkt_df': df, 'laps':laps}
+    
+
 
 def restore_original_laps(wrkt_df):
     df = wrkt_df.copy()
