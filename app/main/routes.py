@@ -936,7 +936,7 @@ def edit_workout_interval():
                 laps = wrkt_split_dict['laps']
                 
                 # Increment update order for intervals
-                updt_ord -= 1 #TODO not sure if this works
+                updt_ord -= 1
 
                 
                 # Create one new merged interval with previous intervals order

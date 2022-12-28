@@ -122,9 +122,13 @@ function preview_split_intrvl(wrkt_id){
             // Last row does not have a merge checkbox so set it to false
             merge_laps = false;
         }
-        if (merge_next_lap == true){
-            //If line above says to merge then do not allow split or merge for next line.
-            //TODO should this be changed to allow for merge on line below a merge?
+        if (merge_laps == true){
+            //Else IF Merge is selected
+            console.log('id: ' + split_intrvl_id + ' merge with lap below it');
+            intrvl_split_lst.push({'id':split_intrvl_id, 'merge':true});
+            intrvl.style.backgroundColor = 'lightgray';
+            merge_next_lap = true;
+        }else if (merge_next_lap == true){
             merge_next_lap = false;
             intrvl.style.backgroundColor = 'lightgray';
         } else if (split_dist != ''){
@@ -140,12 +144,6 @@ function preview_split_intrvl(wrkt_id){
             intrvl_split_lst.push({'id':split_intrvl_id, 'split_dist':split_dist});
             intrvl.style.backgroundColor = 'lightgray';
             //Will ignore Merge if the Split Dist is filled in so set merge to False
-        }else if (merge_laps == true){
-            //Else IF Merge is selected
-            console.log('id: ' + split_intrvl_id + ' merge with lap below it');
-            intrvl_split_lst.push({'id':split_intrvl_id, 'merge':true});
-            intrvl.style.backgroundColor = 'lightgray';
-            merge_next_lap = true;
         }
     }
     console.log(intrvl_split_lst);
