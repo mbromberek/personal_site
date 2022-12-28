@@ -110,12 +110,18 @@ function preview_split_intrvl(wrkt_id){
     console.log(intrvl_rows);
     intrvl_split_lst = [];
     let merge_next_lap = false;
+    let merge_laps = false;
     for (i=0; i<intrvl_rows.length; i++){
         let intrvl = intrvl_rows[i];
         let split_intrvl_id = intrvl.querySelector('[id$="wrkt_intrvl_id"]').value;
         let split_dist = intrvl.querySelector('[id$="split_dist"]').value;
         let orig_dist = parseFloat(intrvl.querySelector('#dist').innerHTML);
-        let merge_laps = intrvl.querySelector('[id$="merge_laps"]').checked;
+        if (i+1 < intrvl_rows.length ){
+            merge_laps = intrvl.querySelector('[id$="merge_laps"]').checked;
+        }else{
+            // Last row does not have a merge checkbox so set it to false
+            merge_laps = false;
+        }
         if (merge_next_lap == true){
             //If line above says to merge then do not allow split or merge for next line.
             //TODO should this be changed to allow for merge on line below a merge?
