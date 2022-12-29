@@ -407,7 +407,7 @@ def run_summary():
 @bp.route('/wrkt_images_api/<path:filename>', methods=['GET'])
 @token_auth.login_required
 def wrkt_images_api(filename):
-    logger.info(filename)
+    # logger.info(filename)
     current_user_id = token_auth.current_user().id
     return send_from_directory(os.path.join(current_app.config['MEDIA_DIR'], \
         str(current_user_id),'thumbnails'), filename, as_attachment=False)
