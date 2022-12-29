@@ -13,7 +13,7 @@ import string
 import random
 
 # 3rd Party classes
-from flask import jsonify, request, url_for, abort, current_app
+from flask import jsonify, request, url_for, abort, current_app, send_from_directory
 from werkzeug.utils import secure_filename
 import pandas as pd
 
@@ -403,3 +403,12 @@ def run_summary():
         wrkt_sum_dict[wrkt_sum.rng] = wrkt_sum.to_dict()
 
     return jsonify(wrkt_sum_dict), 200
+
+@bp.route('/wrkt_images_api/<path:filename>', methods=['GET'])
+@token_auth.login_required
+def wrkt_images_api(filename):
+    logger.info(filename)
+    current_user_id = token_auth.current_user().id
+    return send_from_directory(os.path.join(current_app.config['MEDIA_DIR'], \
+        str(current_user_id),'thumbnails'), filename, as_attachment=False)
+    # return jsonify({}), 200

@@ -373,11 +373,18 @@ class Workout(PaginatedAPIMixin, db.Model):
             data['_links']['intervals'] =  url_for('api.get_workout_intervals', wrkt_id=self.id)
         
         if self.thumb_path is not None:
-            data['_links']['map_thumb'] = url_for('main.wrkt_img_file', 
-                filename= self.thumb_path, 
-                _external=True,
-                _scheme=current_app.config['URL_SCHEME']
-            )
+            if for_web:
+                data['_links']['map_thumb'] = url_for('main.wrkt_img_file', 
+                    filename= self.thumb_path, 
+                    _external=True,
+                    _scheme=current_app.config['URL_SCHEME']
+                )
+            else:
+                data['_links']['map_thumb'] = url_for('api.wrkt_images_api', 
+                    filename= self.thumb_path, 
+                    _external=True,
+                    _scheme=current_app.config['URL_SCHEME']
+                )
         return data
 
     def from_dict(self, data, user_id):
