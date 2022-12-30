@@ -49,7 +49,7 @@ def index():
     dash_lst_dict = {}
 
     # min_yrly_dt = datetime(date.today().year, 1, 1)
-    min_yrly_dt = datetime(2022, 1, 1)
+    min_yrly_dt = datetime(2023, 1, 1)
     query = Yrly_mileage.query.filter_by(user_id=1)
     query = query.filter(Yrly_mileage.type.in_(['Running','Cycling']))
     query = query.filter(Yrly_mileage.dt_by_yr >=min_yrly_dt)

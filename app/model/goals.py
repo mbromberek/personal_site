@@ -41,7 +41,7 @@ class Yrly_goal(object):
 
         if yr_mileage.type == 'Running':
             yr_goal.description = 'Run'
-            yr_goal.goal = 2023
+            yr_goal.goal = 2024
             yr_goal.tot = yr_mileage.tot_dist
             yr_goal.uom = 'miles'
             yr_goal.pct_comp = yr_goal.calc_pct_comp() *100
@@ -52,7 +52,7 @@ class Yrly_goal(object):
             run_set = True
         elif yr_mileage.type == 'Cycling':
             yr_goal = Yrly_goal()
-            yr_goal.goal = 150
+            yr_goal.goal = 200
             yr_goal.uom = 'miles'
             yr_goal.description = 'Cycle'
             yr_goal.tot = yr_mileage.tot_dist
