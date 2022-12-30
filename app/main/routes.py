@@ -844,7 +844,7 @@ def edit_workout_interval():
         wrkt_df = pd.read_pickle(wrkt_pickle)
 
         # delete intervals for the workout id
-        wrktIntrvlLst = Workout_interval.query.filter_by(workout_id=wrkt_id, user_id=usr_id)
+        wrktIntrvlLst = Workout_interval.query.filter_by(workout_id=wrkt_id, user_id=usr_id, break_type='lap')
         logger.debug(str(wrkt_id) + ' ' + str(usr_id))
         logger.debug(str(wrktIntrvlLst))
         for wrktIntrvl in wrktIntrvlLst:

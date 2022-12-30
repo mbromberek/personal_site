@@ -76,7 +76,8 @@ def restore_original_laps(wrkt_df):
     df = wrkt_df.copy()
 
     # restore the laps to laps_orig value
-    df['lap'] = df['lap_orig']
+    if 'lap_orig' in df.columns:
+        df['lap'] = df['lap_orig']
 
     # Calculate interval splits
     lap_df = wrktSplits.group_actv(df, 'lap')
