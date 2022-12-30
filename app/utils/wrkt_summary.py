@@ -77,7 +77,7 @@ def get_lap_sum(intrvl_lst):
     sum_lst.append(itrvl_sum_tot)
 
     # Calculate without warm up and cool down intervals
-    workout_df = tot_df.loc[~tot_df['interval_desc'].isin(['Warm Up','Cool Down'])]
+    workout_df = tot_df.loc[~tot_df['interval_desc'].isin(['Warm Up','Cool Down','Jog','Recovery','Rest'])]
     itrvl_sum_wrkt = summarize_workout(workout_df, 'Workout')
     sum_lst.append(itrvl_sum_wrkt)
 
