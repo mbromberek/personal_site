@@ -1,0 +1,152 @@
+{
+	"info": {
+		"_postman_id": "ee793e89-024b-4a0f-8ca0-4ed50c2b188b",
+		"name": "WeatherKit",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "8430378"
+	},
+	"item": [
+		{
+			"name": "WeatherAvailability",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{weatherKitUrl}}/api/v1/availability/{{lat}}/{{lon}}?country=US",
+					"host": [
+						"{{weatherKitUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"availability",
+						"{{lat}}",
+						"{{lon}}"
+					],
+					"query": [
+						{
+							"key": "country",
+							"value": "US"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CurrentWeather",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{weatherKitUrl}}/api/v1/weather/en_US/{{lat}}/{{lon}}?dataSets=currentWeather",
+					"host": [
+						"{{weatherKitUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"weather",
+						"en_US",
+						"{{lat}}",
+						"{{lon}}"
+					],
+					"query": [
+						{
+							"key": "dataSets",
+							"value": "currentWeather"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "WeatherHistory",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{weatherKitUrl}}/api/v1/weather/en_US/{{lat}}/{{lon}}?hourlyStart=2023-01-14T13:00:00Z&hourlyEnd=2023-01-14T13:00:01Z&dataSets=forecastHourly&countryCode=US",
+					"host": [
+						"{{weatherKitUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"weather",
+						"en_US",
+						"{{lat}}",
+						"{{lon}}"
+					],
+					"query": [
+						{
+							"key": "hourlyStart",
+							"value": "2023-01-14T13:00:00Z"
+						},
+						{
+							"key": "hourlyEnd",
+							"value": "2023-01-14T13:00:01Z"
+						},
+						{
+							"key": "dataSets",
+							"value": "forecastHourly"
+						},
+						{
+							"key": "countryCode",
+							"value": "US"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "weatherKitUrl",
+			"value": "https://weatherkit.apple.com",
+			"type": "string"
+		},
+		{
+			"key": "lat",
+			"value": "40.60",
+			"type": "string"
+		},
+		{
+			"key": "lon",
+			"value": "-89.44",
+			"type": "string"
+		}
+	]
+}

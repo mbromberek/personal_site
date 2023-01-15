@@ -155,6 +155,7 @@ class Workout(PaginatedAPIMixin, db.Model):
     # type = db.Column(db.String(50), index=True, nullable=False)
     type_id = db.Column(db.Integer, db.ForeignKey('fitness.workout_type.id'))
     wrkt_dttm = db.Column(db.DateTime, index=True, nullable=False)
+    t_zone = db.Column(db.String(255))
     dur_sec = db.Column(db.Integer())
     dist_mi = db.Column(db.Numeric(8,2))
     pace_sec = db.Column(db.Integer())# replace with function
@@ -302,6 +303,7 @@ class Workout(PaginatedAPIMixin, db.Model):
             'user_id': self.user_id,
             'type': self.type_det.nm,
             'wrkt_dttm': self.wrkt_dttm.isoformat() + 'Z',
+            't_zone': self.t_zone,
             'dur_sec': self.dur_sec,
             'dist_mi': str(self.dist_mi),
             'pace': self.pace_str(),
@@ -389,7 +391,7 @@ class Workout(PaginatedAPIMixin, db.Model):
 
     def from_dict(self, data, user_id):
 
-        str_fields = ['clothes', 'location', 'training_type', 'notes']
+        str_fields = ['clothes', 'location', 'training_type', 'notes','t_zone']
         int_fields = ['dur_sec','hr','cal_burn','warm_up_tot_tm_sec', 'cool_down_tot_tm_sec', 'intrvl_tot_tm_sec']
         float_fields = ['dist_mi','ele_up','ele_down','warm_up_tot_dist_mi','cool_down_tot_dist_mi','intrvl_tot_dist_mi','intrvl_tot_ele_up','intrvl_tot_ele_down']
 
