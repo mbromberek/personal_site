@@ -31,7 +31,7 @@
 
 
 
-                        <div class="form-group">
+                        <div class="form-group mr-3">
                             {% if label_val.title == 'Create Workout' and form.wrkt_dt != None %}
                                 {{ form.wrkt_dt.label(class="workout_lbl") }} and {{ form.wrkt_tm.label(class="workout_lbl") }}
                                 <br>
@@ -52,6 +52,17 @@
                                 <strong>Date and Time</strong><br>
                                 {{ label_val.wrkt_dttm }}
                             {% endif %}
+                        </div>
+                        <div class="form-group">
+                            {% if label_val.title == 'Create Workout' and form.wrkt_dt != None %}
+                                {{ form.t_zone.label(class="workout_lbl") }} 
+                                <br>
+                                {{ form.t_zone(size=15) }}
+                            {% else %}
+                                &nbsp;<br>
+                                {{ label_val.t_zone }}
+                            {% endif %}
+
                         </div>
                     </div>
                     <div class="form-row">

@@ -114,6 +114,7 @@ class WorkoutForm(FlaskForm):
     type_lst = SelectField('Type', validate_choice=True, coerce=int)
     wrkt_dt = DateField('Date', format='%Y-%m-%d', default=datetime.now(), validators=[InputRequired("Workout date is required")])
     wrkt_tm = TimeField('Time', format='%H:%M', default=datetime.now())
+    t_zone = StringField('Timezone', default='America/Chicago')
 
     duration_h = IntegerField('h ', widget=h5widgets.NumberInput(min=0,max=29),
         default=0, validators=[InputRequired()])

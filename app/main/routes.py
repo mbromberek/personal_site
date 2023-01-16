@@ -388,6 +388,7 @@ def edit_workout():
             logger.info(form.wrkt_tm)
             wrkt_dttm = datetime.combine(form.wrkt_dt.data, form.wrkt_tm.data)
             wrkt = Workout(author=current_user, wrkt_dttm=wrkt_dttm)
+            wrkt.t_zone = form.t_zone.data
         else:
             logger.info('update workout')
             # usr_id = current_user.id
@@ -488,6 +489,7 @@ def edit_workout():
         # form.gear.data = wrkt.gear_det.nm
 
         label_val['wrkt_dttm'] = wrkt.wrkt_dttm
+        label_val['t_zone'] = wrkt.t_zone
 
         form.wrkt_tm.data = wrkt.wrkt_dttm
 
