@@ -63,6 +63,12 @@ body {
 .workout_card_desktop_height_12{
     height: 310px;
 }
+.workout_card_desktop_height_13{
+    height: 335px;
+}
+.workout_card_desktop_height_14{
+    height: 360px;
+}
 .workout_card_mobile_height_7{
 }
 .workout_card_mobile_height_8{
@@ -78,6 +84,10 @@ body {
 .workout_card_mobile_height_13{
 }
 .workout_card_mobile_height_14{
+}
+.workout_card_mobile_height_15{
+}
+.workout_card_mobile_height_16{
 }
 /*.workout:hover {
     background-color: lightblue;
@@ -671,6 +681,9 @@ td.dashboard_row_dtl{
     }
     .workout_card_mobile_height_15{
         height: 330px;
+    }
+    .workout_card_mobile_height_16{
+        height: 355px;
     }
 
     .workout_map{

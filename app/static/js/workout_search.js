@@ -201,6 +201,9 @@ function loadItems(response){
         }else{
             row_ct = row_ct +1;
         }
+        if ((wrkts[i]['clothes'] + wrkts[i]['gear']).length > 92){
+            row_ct = row_ct + 1;
+        }
 
         //row_ct of 7 is the minimum for getting height
         if (row_ct <=7){
@@ -214,6 +217,11 @@ function loadItems(response){
         if (wrkts[i]['category_training_loc'].length >39){
             row_ct = row_ct +1;
         }
+        if ((wrkts[i]['clothes'] + '').length > 39 && (wrkts[i]['clothes'] + wrkts[i]['gear']).length <= 92){
+            row_ct = row_ct + 1;
+        }
+
+        console.log(row_ct);
         template_clone.querySelector("#wrkt_card").classList.add('workout_card_mobile_height_'+row_ct);
 
         wrkt_lst_ele.appendChild(template_clone);
