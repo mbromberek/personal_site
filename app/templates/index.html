@@ -165,9 +165,14 @@
                         <div style="font-size:16px;">
                         {{ book.title }}
                         </div>
-                        by {{ book.author }}
+                        by 
+                        {% if book.author is not none %}
+                        {{ book.author }}
+                        {% else %}
+                        UNKNOWN
+                        {% endif %}
                         <br>
-                        Finished: {{ book.finished_reading_dt.strftime('%Y-%m-%d') }}
+                        Finished: {% if book.finished_reading_dt is not none %}{{ book.finished_reading_dt.strftime('%Y-%m-%d') }}{% endif %}
                         <br>
                     </div>
                 </div>

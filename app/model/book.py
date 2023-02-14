@@ -35,7 +35,7 @@ class Book(db.Model):
         return '<Book: {}, status: {}>'.format( self.title, self.status)
 
     def __lt__(self, other):
-        if self.finished_reading_dt is not None:
+        if self.finished_reading_dt is not None and other.finished_reading_dt is not None:
             return ((self.finished_reading_dt < other.finished_reading_dt))
         else:
             return ((self.strt_reading_dt < other.strt_reading_dt))
