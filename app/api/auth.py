@@ -34,8 +34,8 @@ def basic_auth_error(status):
 @token_auth.verify_token
 def verify_token(token):
     logger.info("verify_token")
-    logger.debug(token)
-    logger.debug(request.headers)
+    # logger.debug(token)
+    # logger.debug(request.headers)
     authorization_alt_field = 'Authorization-Alt'
 
     if token is None or token == '':
