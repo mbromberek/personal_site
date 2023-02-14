@@ -10,9 +10,9 @@ function copyNotes(){
     var notesEle = document.getElementById('workout_notes');
     var notesVal = '';
     if (notesEle != null){
-        notesVal = notesEle.innerHTML.replaceAll('\<br\>','\n').trim();
+        // notesVal = notesEle.innerHTML.replaceAll('\<br\>','\n').trim();
+        notesVal = notesEle.innerHTML.replaceAll('\<br\>','').trim();
     }
-    // console.log(notesVal);
 
     var wthrStrtEle = document.getElementById('workout_weather_start');
     var wthrStrtVal = '';
