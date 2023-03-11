@@ -39,19 +39,19 @@
 
         </div>
         <div class="btn-toolbar wrkts_filter_row" role="toolbar" aria-label="Filter button groups" >
-            <div class="btn-group mr-3" role="group" aria-label="Type group" >
+            <div class="btn-group mr-2" role="group" aria-label="Type group" >
                 {{ render_field(wrkt_filter_form.category_run_btn, button_style=btn_classes['run'] or 'btn btn-outline-dark') }}
                 {{ render_field(wrkt_filter_form.category_cycle_btn, button_style=btn_classes['cycle'] or 'btn btn-outline-dark') }}
                 {{ render_field(wrkt_filter_form.category_swim_btn, button_style=btn_classes['swim'] or 'btn btn-outline-dark') }}
             </div>
-            <div class="btn-group mr-3" role="group" aria-label="Category group" >
+            <div class="btn-group mr-2" role="group" aria-label="Category group" >
                 {{ render_field(wrkt_filter_form.category_training_btn, button_style=btn_classes['training'] or 'btn btn-outline-dark ') }}
                 {{ render_field(wrkt_filter_form.category_long_btn, button_style=btn_classes['long'] or 'btn btn-outline-dark') }}
                 {{ render_field(wrkt_filter_form.category_easy_btn, button_style=btn_classes['easy'] or 'btn btn-outline-dark') }}
                 {{ render_field(wrkt_filter_form.category_race_btn, button_style=btn_classes['race'] or 'btn btn-outline-dark') }}
             </div>
 
-            <div style="display:inline; padding-top:3px; ">
+            <div style="display:inline; padding-top:3px; " role="group">
                 <div class=" wrkt_filter_field" style="display:inline;">
                     {{ wrkt_filter_form.strt_temp_search.label }}:
                     {{ wrkt_filter_form.strt_temp_search(style="border: 1px solid black; width:40px;", type="number") }}
