@@ -895,6 +895,46 @@ class Yrly_mileage(db.Model):
     def dt_year(self):
         return self.dt_by_yr.strftime('%Y')
 
+class Moly_mileage(db.Model):
+    __table_args__ = {"schema": "fitness", 'comment':'summary of workouts by type and month'}
+    user_id = db.Column(db.Integer, primary_key=True)
+    type = db.Column(db.String(50), primary_key=True)
+    nbr = db.Column(db.Integer())
+    dt_by_mo = db.Column(db.DateTime, primary_key=True)
+    tot_dist = db.Column(db.Numeric(8,2))
+    tot_sec = db.Column(db.Integer())
+    dist_delta_pct = db.Column(db.Numeric(8,2))
+    tm_delta_pct = db.Column(db.Numeric(8,2))
+
+    def __repr__(self):
+        return '<Weekly_mileage {}: type {}>'.format(str(self.dt_by_mo), self.type)
+
+    def dur_str(self):
+        return tm_conv.sec_to_time(self.tot_sec, 'hms')
+
+    def __lt__(self, other):
+        return ((self.dt_by_mo < other.dt_by_mo))
+
+    def __gt__(self, other):
+        return ((self.dt_by_mo > other.dt_by_mo))
+
+    def to_dict(self):
+        data = {
+            'user_id': self.user_id,
+            'type': self.type,
+            'nbr': self.nbr,
+            'dt_by_mo': self.dt_by_mo.isoformat() + 'Z',
+            'dt_yr_mo': self.dt_by_mo.strftime('%Y-%m'),
+            'tot_dist': self.tot_dist,
+            'tot_sec': self.tot_sec,
+            'duration': self.dur_str(),
+            'dist_delta_pct': self.dist_delta_pct,
+            'tm_delta_pct': self.tm_delta_pct
+        }
+        return data
+
+
+
 class Workout_zone(db.Model):
     __table_args__ = {"schema": "fitness", 'comment':'workout zones'}
     id = db.Column(db.Integer, primary_key=True)

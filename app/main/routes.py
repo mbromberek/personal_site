@@ -25,7 +25,7 @@ import GenerateMapImage.gen_map_img as genMap
 # Custom classes
 from app.main import bp
 from app.main.forms import EmptyForm, WorkoutCreateBtnForm, WorkoutForm, WorkoutFilterForm, WorkoutIntervalForm, WorkoutExportForm, UserSettingsForm, GearForm, LocForm
-from app.models import User, Workout, Workout_interval, Gear, Gear_usage, Wrkt_sum, Wkly_mileage, Yrly_mileage, User_setting, Workout_type, Workout_category
+from app.models import User, Workout, Workout_interval, Gear, Gear_usage, Wrkt_sum, Wkly_mileage, Yrly_mileage, Moly_mileage, User_setting, Workout_type, Workout_category
 from app import db
 from app.utils import tm_conv, const, nbrConv, dt_conv
 from app import logger
@@ -770,6 +770,16 @@ def dashboard():
     yrly_goals_lst = Yrly_goal.generate_nonstarted_goals(yrly_goals_lst)
     dash_lst_dict['yrly_goals_lst'] = yrly_goals_lst
     dash_lst_dict['yrly_mileage_lst'] = yrly_mileage_lst
+
+    min_moly_dt = date.today() - timedelta((const.NBR_MO_COMP+1) * 31) # TODO probably not the best way to do this
+    query = Moly_mileage.query.filter_by(user_id=current_user.id, type='Running')
+    query = query.filter(Moly_mileage.dt_by_mo >=min_moly_dt)
+    moly_mileage_results = sorted(query, reverse=True)
+    moly_mileage_lst = []
+    for mo_mileage in moly_mileage_results:
+        mo_mileage_dict = mo_mileage.to_dict()
+        moly_mileage_lst.append(mo_mileage_dict)
+    dash_lst_dict['moly_mileage_lst'] = moly_mileage_lst
 
     dash_lst_dict['nxt_gear'] = {}
     dash_lst_dict['nxt_gear']['training'] = Gear.get_next_shoe(usr_id, Workout_category.get_wrkt_cat_id('Training'))
