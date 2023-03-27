@@ -94,6 +94,7 @@ let updateBarChart = function (data) {
     .call(xAxis)
     .selectAll("text")
     .style("text-anchor", "end")
+    .style("font-size","10px")
     .attr("dx", "-.8em")
     .attr("dy", ".15em")
     .attr("transform", "rotate(-65)");
