@@ -930,6 +930,11 @@ class Moly_mileage(db.Model):
             'duration': self.dur_str(),
             'dist_delta_pct': self.dist_delta_pct,
             'tm_delta_pct': self.tm_delta_pct
+            ,
+            'code': self.dt_by_mo.strftime('%Y-%m'),
+            'value': float(self.tot_dist)
+
+
         }
         return data
 

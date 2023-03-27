@@ -774,7 +774,7 @@ def dashboard():
     min_moly_dt = date.today() - timedelta((const.NBR_MO_COMP+1) * 31) # TODO probably not the best way to do this
     query = Moly_mileage.query.filter_by(user_id=current_user.id, type='Running')
     query = query.filter(Moly_mileage.dt_by_mo >=min_moly_dt)
-    moly_mileage_results = sorted(query, reverse=True)
+    moly_mileage_results = sorted(query, reverse=False)
     moly_mileage_lst = []
     for mo_mileage in moly_mileage_results:
         mo_mileage_dict = mo_mileage.to_dict()

@@ -43,6 +43,22 @@
     {% endif %}
     </div>
 
+    <div style="overflow:auto; width:100%; ">
+    {% if dash_lst_dict['moly_mileage_lst'] %}
+    {% include 'dashboard_widgets/_monthly_mileage_widget.html' %}
+    {% endif %}
+    </div>
+    
+    <div id="monthly_mileage_bar" style="overflow:auto; width:100%; ">
+    </div>
+
 </div>
+
+<script>
+    month_mileage_lst = {{ dash_lst_dict['moly_mileage_lst']|tojson|safe }};
+</script>
+
+<script type="module" src="{{ url_for('static', filename='js/viz_dashboard.mjs') }}"></script>
+
 
 {% endblock %}

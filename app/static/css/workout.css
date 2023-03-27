@@ -638,6 +638,46 @@ td.dashboard_row_dtl{
 }
 
 
+
+/* BAR-CHART */
+#monthly_mileage_bar{
+    /* top: 510px; */
+    height: 300px;
+    width: 650px;
+}
+.bar.active {
+    fill: goldenrod;
+  }
+  .bar {
+    fill: steelblue;
+  }
+  .bar:hover {
+    fill: brown;
+  }
+  
+  .axis {
+    font: 10px sans-serif;
+  }
+  
+  .axis-label {
+  }
+  
+  .axis path,
+  .axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+  }
+  
+  .x.axis path {
+    display: none;
+  }
+  #y-axis-label {
+    font-size: 11px;
+    fill: black;
+  }
+
+
 /* For mobile phones: */
 @media only screen and (max-width:600px) {
     .workouts_hdr{
