@@ -1,7 +1,7 @@
 import wrkt_viz from './wrkt_viz_core.mjs'
 // import { initMenu } from './nbviz_menu.mjs'
 // import { initMap } from './nbviz_map.mjs'
-import './wrkt_viz_bar.mjs'
+import './wrkt_mthly_viz_bar.mjs'
 // import './nbviz_details.mjs'
 // import './nbviz_time.mjs'
 
@@ -13,13 +13,15 @@ import './wrkt_viz_bar.mjs'
   {code: '2022-11', value:78.5},
   {code: '2022-10', value:215.8}
 ];*/
-initChart(month_mileage_lst);
+initChart(month_mileage_lst, race_mileage_lst);
 
-function initChart(month_mileage) {
+
+function initChart(month_mileage, race_mileage) {
   console.log('initChart');
   // console.log(month_mileage);
   // STORE OUR COUNTRY-DATA DATASET
   wrkt_viz.data.month_mileage = month_mileage;
+  wrkt_viz.data.race_mileage = race_mileage
   // nbviz.data.winnersData = winnersData
   // MAKE OUR FILTER AND ITS DIMENSIONS
   // nbviz.makeFilterAndDimensions(winnersData)
