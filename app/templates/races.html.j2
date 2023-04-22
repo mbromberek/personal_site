@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% from 'bootstrap4/form.html' import render_form %}
+
+{% block app_content %}
+
+<div class="dashboard_page">
+    <div style="overflow:auto; width:100%; ">
+    {#{% if dash_lst_dict['moly_mileage_lst'] %}
+    {% include 'dashboard_widgets/_monthly_mileage_widget.html' %}
+    {% endif %}
+    </div>#}
+    
+    <div id="monthly_mileage_bar" style="overflow:auto; width:75%; ">
+    </div>
+
+    <br/>
+    <div style="overflow:auto; width:100%; ">
+    {% if dash_lst_dict['race_lst'] %}
+    {% include 'dashboard_widgets/_race_widget.html.j2' %}
+    {% endif %}
+    </div>
+
+</div>
+
+<script>
+    month_mileage_lst = {{ dash_lst_dict['moly_mileage_lst']|tojson|safe }};
+</script>
+
+<script type="module" src="{{ url_for('static', filename='js/viz_dashboard.mjs') }}"></script>
+
+
+{% endblock %}

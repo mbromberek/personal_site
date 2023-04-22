@@ -1,0 +1,53 @@
+    <div class="dashboard_widget" style="width:900px;">
+        <table class="gear_usage">
+            <tr class="gear_usage_hdr">
+                <td  class="gear_usage_hdr" colspan="6">
+                    Races
+                </td>
+            </tr>
+            <tr class="gear_usage_hdr">
+                <td class="gear_usage_hdr">
+                    Race
+                </td>
+                <td class="gear_usage_hdr">
+                    Location
+                </td>
+                <td class="gear_usage_hdr">
+                    Distance
+                </td>
+                <td class="gear_usage_hdr">
+                    Time
+                </td>
+                <td class="gear_usage_hdr">
+                    Pace
+                </td>
+                <td class="gear_usage_hdr">
+                    Date
+                </td>
+            </tr>
+            {% for race in dash_lst_dict['race_lst'] %}
+            <tr >
+                <td class="gear_usage_dtl" style="width:300px;">
+                    {{ race.training_type }}
+                </td>
+                <td class="gear_usage_dtl" style="width:150px;">
+                    {{ race.location}}
+                </td>
+                <td class="gear_usage_dtl" >
+                    {{ race.dist_mi}}
+                </td>
+                <td class="gear_usage_dtl">
+                    {{ race.dur }}
+                    {#{{ '%0.1f' % race.tot_dist|float }}#}
+                </td>
+                <td class="gear_usage_dtl">
+                    {{ race.pace }}&nbsp;{{ race.pace_uom }}
+                </td>
+                <td class="gear_usage_dtl" style="text-align:center">
+                    {{ race.wrkt_dttm }}
+                </td>
+
+            </tr>
+            {% endfor %}
+        </table>
+    </div>

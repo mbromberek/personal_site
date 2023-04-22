@@ -50,7 +50,7 @@ Base HTML code for each web page
         {% endif %}
 
 
-        {% if destPage and (destPage == 'dashboard') %}
+        {% if destPage and (destPage == 'dashboard' or destPage == 'races') %}
           <!-- 3. THE JAVASCRIPT FILES -->
           <!-- THIRD-PARTY JAVASCRIPT LIBRARIES, MAINLY D3  -->
           <script src="{{ url_for('static', filename='libs/d3.min.js') }}"></script>

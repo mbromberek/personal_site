@@ -223,6 +223,13 @@ class Workout(PaginatedAPIMixin, db.Model):
     def __repr__(self):
         return '<Workout {}: {}>'.format(self.type_id, self.wrkt_dttm)
 
+    def __lt__(self, other):
+        return ((self.wrkt_dttm < other.wrkt_dttm))
+
+    def __gt__(self, other):
+        return ((self.wrkt_dttm > other.wrkt_dttm))
+
+
     def pace_str(self):
         # if self.type in ['Cycling','Indoor Cycling']:
         if self.type_det.nm in ['Cycling','Indoor Cycling']:
@@ -387,6 +394,23 @@ class Workout(PaginatedAPIMixin, db.Model):
                     _external=True,
                     _scheme=current_app.config['URL_SCHEME']
                 )
+        return data
+
+    def to_race_graph_dict(self):
+        data = {
+            'id': self.id,
+            'user_id': self.user_id,
+            'type': self.type_det.nm,
+            'wrkt_dttm': self.wrkt_dttm.strftime('%Y-%m-%d'),
+            't_zone': self.t_zone,
+            'dur_sec': self.dur_sec,
+            'dur': self.dur_str(),
+            'dist_mi': str(math.floor(self.dist_mi*10)/10.0),
+            'pace': self.pace_str(),
+            'pace_uom': self.pace_uom(),
+            'location': self.location,
+            'training_type' : self.training_type
+        }
         return data
 
     def from_dict(self, data, user_id):

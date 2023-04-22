@@ -1202,3 +1202,35 @@ def edit_location():
     loc_form.radius.data = location.radius
 
     return render_template('edit_location.html', destPage = 'settings', loc_form=loc_form, label_val=label_val, map_dict=map_dict)
+
+@bp.route('/races', methods=['GET'])
+@login_required
+def races():
+    logger.info('races')
+    title="Mike Races"
+    destPage="races"
+    usr_id = current_user.id
+    user = User.query.get_or_404(usr_id)
+    settings = user.get_settings()
+
+    dash_lst_dict = {}
+
+    min_moly_dt = date.today() - timedelta((const.NBR_MO_COMP+1) * 31) # TODO probably not the best way to do this
+    query = Moly_mileage.query.filter_by(user_id=current_user.id, type='Running')
+    query = query.filter(Moly_mileage.dt_by_mo >=min_moly_dt)
+    moly_mileage_results = sorted(query, reverse=False)
+    moly_mileage_lst = []
+    for mo_mileage in moly_mileage_results:
+        mo_mileage_dict = mo_mileage.to_dict()
+        moly_mileage_lst.append(mo_mileage_dict)
+    dash_lst_dict['moly_mileage_lst'] = moly_mileage_lst
+
+    query = Workout.query.filter_by(user_id=current_user.id, category_id=4)
+    race_results = sorted(query, reverse=False)
+    race_lst = []
+    for race in race_results:
+        if race.training_type != None and race.training_type != '':
+            race_lst.append(race.to_race_graph_dict())
+    dash_lst_dict['race_lst'] = race_lst
+
+    return render_template('races.html.j2', title=title, destPage=destPage, dash_lst_dict=dash_lst_dict)
