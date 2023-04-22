@@ -36,22 +36,25 @@ nbviz.nestDataByYear = function (entries) {
   return keyValues;
 };*/
 
-/*nbviz.makeFilterAndDimensions = function (winnersData) {
+wrkt_viz.makeFilterAndDimensions = function (race_mileage) {
   // ADD OUR FILTER AND CREATE CATEGORY DIMENSIONS
-  nbviz.filter = crossfilter(winnersData);
-  nbviz.countryDim = nbviz.filter.dimension(function (o) {
-    return o.country;
+  wrkt_viz.filter = crossfilter(race_mileage);
+  wrkt_viz.yearDim = wrkt_viz.filter.dimension(function (o) {
+    return o.year;
   });
-
+  wrkt_viz.distDim = wrkt_viz.filter.dimension(function (o) {
+    return o.dist_mi;
+  });
+  /*
   nbviz.categoryDim = nbviz.filter.dimension(function (o) {
     return o.category;
   });
 
   nbviz.genderDim = nbviz.filter.dimension(function (o) {
     return o.gender;
-  });
+  });*/
 };
-
+/*
 nbviz.filterByCountries = function (countryNames) {
   if (!countryNames.length) {
     nbviz.countryDim.filter();
@@ -102,6 +105,38 @@ wrkt_viz.getMonthlyData = function () {
     .sort(function (a, b) {
       return b.value - a.value; // descending
     });*/
+
+  return data;
+};
+
+wrkt_viz.getRaceYearlyData = function () {
+  console.log('getRaceYearlyData');
+  // let raceYrGroups = wrkt_viz.yearDim.group().all();
+  // Group by year and sum distance
+  let raceYrGroups = wrkt_viz.yearDim.group().reduceSum(function(d){
+    return d.dist_mi;
+  }).all();
+  // console.log(raceYrGroups);
+
+  // make main data-ball
+  let data = raceYrGroups
+    .map(function (c) {
+      // let cData = wrkt_viz.data.race_mileage[c.key];
+      let value = c.value;
+      // if per-capita value then divide by pop. size
+      /*if (nbviz.valuePerCapita) {
+        value /= cData.population;
+      }*/
+      return {
+        key: c.key,
+        value: value,
+        code: c.key,
+        // population: cData.population
+      };
+    })
+    .sort(function (a, b) {
+      return a.key - b.key; // ascending
+    });
 
   return data;
 };

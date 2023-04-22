@@ -645,6 +645,11 @@ td.dashboard_row_dtl{
     height: 300px;
     width: 650px;
 }
+#race_mileage_bar{
+    /* top: 510px; */
+    height: 300px;
+    width: 550px;
+}
 .bar.active {
     fill: goldenrod;
   }

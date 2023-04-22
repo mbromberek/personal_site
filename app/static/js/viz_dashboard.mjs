@@ -2,6 +2,7 @@ import wrkt_viz from './wrkt_viz_core.mjs'
 // import { initMenu } from './nbviz_menu.mjs'
 // import { initMap } from './nbviz_map.mjs'
 import './wrkt_mthly_viz_bar.mjs'
+import './wrkt_race_viz_bar.mjs'
 // import './nbviz_details.mjs'
 // import './nbviz_time.mjs'
 
@@ -24,7 +25,7 @@ function initChart(month_mileage, race_mileage) {
   wrkt_viz.data.race_mileage = race_mileage
   // nbviz.data.winnersData = winnersData
   // MAKE OUR FILTER AND ITS DIMENSIONS
-  // nbviz.makeFilterAndDimensions(winnersData)
+  wrkt_viz.makeFilterAndDimensions(race_mileage)
   // INITIALIZE MENU AND MAP
   // initMenu()
   // initMap(worldMap, countryNames)

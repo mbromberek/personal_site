@@ -14,6 +14,10 @@
     </div>
 
     <br/>
+    <div id="race_mileage_bar" style="overflow:auto; width:75%; ">
+    </div>
+
+    <br />
     <div style="overflow:auto; width:100%; ">
     {% if dash_lst_dict['race_lst'] %}
     {% include 'dashboard_widgets/_race_widget.html.j2' %}
@@ -24,6 +28,7 @@
 
 <script>
     month_mileage_lst = {{ dash_lst_dict['moly_mileage_lst']|tojson|safe }};
+    race_mileage_lst = {{ dash_lst_dict['race_lst']|tojson|safe }};
 </script>
 
 <script type="module" src="{{ url_for('static', filename='js/viz_dashboard.mjs') }}"></script>
