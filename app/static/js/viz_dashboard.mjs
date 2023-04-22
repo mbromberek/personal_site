@@ -1,8 +1,8 @@
 import wrkt_viz from './wrkt_viz_core.mjs'
 // import { initMenu } from './nbviz_menu.mjs'
 // import { initMap } from './nbviz_map.mjs'
-import './wrkt_mthly_viz_bar.mjs'
-import './wrkt_race_viz_bar.mjs'
+import './wrkt_viz_mthly_bar.mjs'
+import './wrkt_viz_race_bar.mjs'
 // import './nbviz_details.mjs'
 // import './nbviz_time.mjs'
 
