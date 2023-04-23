@@ -1228,9 +1228,14 @@ def races():
     query = Workout.query.filter_by(user_id=current_user.id, category_id=4)
     race_results = sorted(query, reverse=False)
     race_lst = []
+    race_dist_dict = {}
     for race in race_results:
         if race.training_type != None and race.training_type != '':
-            race_lst.append(race.to_race_graph_dict())
+            race_dict = race.to_race_graph_dict()
+            race_lst.append(race_dict)
+            if race_dict['distance'] not in race_dist_dict:
+                race_dist_dict[race_dict['distance']] = race_dict['dist_mi']
     dash_lst_dict['race_lst'] = race_lst
+    logger.info(race_dist_dict)
 
-    return render_template('races.html.j2', title=title, destPage=destPage, dash_lst_dict=dash_lst_dict)
+    return render_template('races.html.j2', title=title, destPage=destPage, dash_lst_dict=dash_lst_dict, race_dist_dict=race_dist_dict)

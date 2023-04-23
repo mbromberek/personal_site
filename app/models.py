@@ -397,6 +397,8 @@ class Workout(PaginatedAPIMixin, db.Model):
         return data
 
     def to_race_graph_dict(self):
+        distance_map = {'26.2':'Marathon','13.1':'Half Marathon','9.3':'15K','6.2':'10K', '3.1':'5K'}
+        distance = distance_map.get(str(math.floor(self.dist_mi*10)/10.0), str(math.floor(self.dist_mi*10)/10.0) + ' Mile')
         data = {
             'id': self.id,
             'user_id': self.user_id,
@@ -410,7 +412,8 @@ class Workout(PaginatedAPIMixin, db.Model):
             'pace': self.pace_str(),
             'pace_uom': self.pace_uom(),
             'location': self.location,
-            'training_type' : self.training_type
+            'training_type' : self.training_type,
+            'distance':distance
         }
         return data
 
