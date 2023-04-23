@@ -10,6 +10,8 @@ wrkt_viz.data = {};
 // nbviz.activeCountry = null;
 // nbviz.activeCategory = nbviz.ALL_CATS;
 
+wrkt_viz.ALL_DISTANCES = "All Distances";
+wrkt_viz.activeDistance = wrkt_viz.ALL_DISTANCES
 // nbviz.CATEGORIES = [
 //   "Chemistry",
 //   "Economics",
@@ -37,49 +39,40 @@ nbviz.nestDataByYear = function (entries) {
 };*/
 
 wrkt_viz.makeFilterAndDimensions = function (race_mileage) {
-  // ADD OUR FILTER AND CREATE CATEGORY DIMENSIONS
+  console.log('makeFilterAndDimensions Start');
+  // ADD OUR FILTER AND CREATE DIMENSIONS
   wrkt_viz.filter = crossfilter(race_mileage);
+  //Used for bar chart for total mileage per year
   wrkt_viz.yearDim = wrkt_viz.filter.dimension(function (o) {
     return o.year;
   });
+  //Used for filtering to only show certain distances
   wrkt_viz.distDim = wrkt_viz.filter.dimension(function (o) {
-    return o.dist_mi;
-  });
-  /*
-  nbviz.categoryDim = nbviz.filter.dimension(function (o) {
-    return o.category;
+    console.log('wrkt_viz.distDim filter');
+    return o.distance;
+    // return o.dist_mi
   });
 
-  nbviz.genderDim = nbviz.filter.dimension(function (o) {
-    return o.gender;
-  });*/
-};
-/*
-nbviz.filterByCountries = function (countryNames) {
-  if (!countryNames.length) {
-    nbviz.countryDim.filter();
-  } else {
-    nbviz.countryDim.filter(function (name) {
-      return countryNames.indexOf(name) > -1;
-    });
-  }
-
-  if (countryNames.length === 1) {
-    nbviz.activeCountry = countryNames[0];
-  } else {
-    nbviz.activeCountry = null;
-  }
+  console.log('makeFilterAndDimensions End');
 };
 
-nbviz.filterByCategory = function (cat) {
-  nbviz.activeCategory = cat;
+wrkt_viz.filterByDistances = function (distance) {
+  console.log('filterByDistances Start:' +distance + ':');
+  wrkt_viz.activeDistance = distance;
 
-  if (cat === nbviz.ALL_CATS) {
-    nbviz.categoryDim.filter();
-  } else {
-    nbviz.categoryDim.filter(cat);
+  // console.log(wrkt_viz.yearDim.group().all());
+  // console.log(wrkt_viz.distDim.group().all());
+ 
+  if (distance == wrkt_viz.ALL_DISTANCES) {
+    // console.log('filterByDistances ALL_DISTANCES:' + distance + ':');
+    wrkt_viz.distDim.filterAll();
+  }else {
+    // console.log('filterByDistances one distance:' + distance + ':');
+    wrkt_viz.distDim.filter(distance);
   }
-};*/
+  // console.log(wrkt_viz.yearDim.group().all());
+  console.log('filterByDistances End');
+};
 
 wrkt_viz.getMonthlyData = function () {
   console.log('getMonthlyData');
@@ -110,34 +103,29 @@ wrkt_viz.getMonthlyData = function () {
 };
 
 wrkt_viz.getRaceYearlyData = function () {
-  console.log('getRaceYearlyData');
+  console.log('getRaceYearlyData Start');
   // let raceYrGroups = wrkt_viz.yearDim.group().all();
   // Group by year and sum distance
   let raceYrGroups = wrkt_viz.yearDim.group().reduceSum(function(d){
     return d.dist_mi;
   }).all();
-  // console.log(raceYrGroups);
+  console.log(raceYrGroups);
 
   // make main data-ball
   let data = raceYrGroups
     .map(function (c) {
       // let cData = wrkt_viz.data.race_mileage[c.key];
       let value = c.value;
-      // if per-capita value then divide by pop. size
-      /*if (nbviz.valuePerCapita) {
-        value /= cData.population;
-      }*/
       return {
         key: c.key,
         value: value,
         code: c.key,
-        // population: cData.population
       };
     })
     .sort(function (a, b) {
       return a.key - b.key; // ascending
     });
-
+  console.log('getRaceYearlyData End');
   return data;
 };
 

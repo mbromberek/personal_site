@@ -4,14 +4,49 @@
 {% block app_content %}
 
 <div class="dashboard_page">
+
+      <!-- BEGIN MENU-BAR -->
+      <div id="nobel-menu">
+        <div id="dist_select">
+          Distances
+          <select></select>
+        </div>
+        {#<div id="gender-select">
+          Gender
+          <select>
+            <option value="All">All</option>
+            <option value="female">Female</option>
+            <option value="male">Male</option>
+          </select>
+        </div>
+        <div id="country-select">
+          Country
+          <select></select>
+        </div>
+        <div id="metric-radio">
+          Number of Winners:&nbsp;
+          <form>
+            <label
+              >absolute
+              <input type="radio" name="mode" value="0" checked />
+            </label>
+            <label
+              >per-capita
+              <input type="radio" name="mode" value="1" />
+            </label>
+          </form>
+        </div>#}
+      </div>
+      <!-- END MENU-BAR  -->
+
     <div style="overflow:auto; width:100%; ">
     {#{% if dash_lst_dict['moly_mileage_lst'] %}
     {% include 'dashboard_widgets/_monthly_mileage_widget.html' %}
     {% endif %}
     </div>#}
     
-    <div id="monthly_mileage_bar" style="overflow:auto; width:75%; ">
-    </div>
+    {#<div id="monthly_mileage_bar" style="overflow:auto; width:75%; ">
+    </div>#}
 
     <br/>
     <div id="race_mileage_bar" style="overflow:auto; width:75%; ">
@@ -29,9 +64,10 @@
 <script>
     month_mileage_lst = {{ dash_lst_dict['moly_mileage_lst']|tojson|safe }};
     race_mileage_lst = {{ dash_lst_dict['race_lst']|tojson|safe }};
+    race_dist_dict = {{ race_dist_dict|tojson|safe }};
 </script>
 
-<script type="module" src="{{ url_for('static', filename='js/viz_dashboard.mjs') }}"></script>
+<script type="module" src="{{ url_for('static', filename='js/wrkt_viz_races_dashboard.mjs') }}"></script>
 
 
 {% endblock %}

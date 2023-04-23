@@ -76,12 +76,12 @@ let titleHeight=15;
 
 
 let updateBarChart = function (data) {
-  console.log('updateRaceBarChart');
+  console.log('updateRaceBarChart Start');
   console.log(data);
-  /*// filter out any countries with zero prizes by value
+  // filter out any countries with zero prizes by value
   data = data.filter(function (d) {
     return d.value > 0;
-  });*/
+  });
   // change the scale domains to reflect the newly filtered data
   xScale.domain(data.map((d) => d.code));
   yScale.domain([0, d3.max(data, (d) => d.value)+titleHeight]);
@@ -127,6 +127,8 @@ let updateBarChart = function (data) {
     .attr("height", (d) => height - yScale(d.value))
   ;
 
+  console.log(wrkt_viz.yearDim.group().all());
+  console.log(wrkt_viz.distDim.group().all());
   console.log('End updateRaceBarChart');
 };
 
