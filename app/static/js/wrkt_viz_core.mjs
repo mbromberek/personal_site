@@ -11,32 +11,34 @@ wrkt_viz.data = {};
 // nbviz.activeCategory = nbviz.ALL_CATS;
 
 wrkt_viz.ALL_DISTANCES = "All Distances";
-wrkt_viz.activeDistance = wrkt_viz.ALL_DISTANCES
-// nbviz.CATEGORIES = [
-//   "Chemistry",
-//   "Economics",
-//   "Literature",
-//   "Peace",
-//   "Physics",
-//   "Physiology or Medicine",
-// ];
+wrkt_viz.activeDistance = wrkt_viz.ALL_DISTANCES;
+// wrkt_viz.RACE_DISTANCES = [];
+wrkt_viz.RACE_DISTANCES = [
+  "Marathon",
+  "Half Marathon",
+  "10.0 Mile",
+  "15K",
+  "10K",
+  "5K",
+];
 
-// nbviz.categoryFill = function (category) {
-//   let i = nbviz.CATEGORIES.indexOf(category);
+// wrkt_viz.raceFill = function (category) {
+//   let i = wrkt_viz.RACE_DISTANCES.indexOf(category);
 //   return d3.schemeCategory10[i];
 // };
-/*
-nbviz.nestDataByYear = function (entries) {
+
+wrkt_viz.nestDataByYear = function (entries) {
+  console.log('nestDataByYear');
   let yearGroups = d3.group(entries, (d) => d.year);
   let keyValues = Array.from(yearGroups, ([key, values]) => {
     let year = key;
-    let prizes = values;
-    prizes = prizes.sort((p1, p2) => (p1.category > p2.category ? 1 : -1));
-    return { key: year, values: prizes };
+    let races = values;
+    races = races.sort((p1, p2) => (p1.category > p2.category ? 1 : -1));
+    return { key: year, values: races };
   });
   console.log(keyValues);
   return keyValues;
-};*/
+};
 
 wrkt_viz.makeFilterAndDimensions = function (race_mileage) {
   console.log('makeFilterAndDimensions Start');

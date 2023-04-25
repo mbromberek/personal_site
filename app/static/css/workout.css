@@ -650,6 +650,23 @@ td.dashboard_row_dtl{
     height: 300px;
     width: 550px;
 }
+#race_year{
+    /* top: 510px; */
+    height: 280px;
+    width: 330px;
+}
+  /* TIME-LINE */
+  #race_year circle {
+    stroke-width: 0;
+    stroke: black;
+  }
+  /* YEAR CHART */
+  
+  .labels text {
+    font-size: 11px;
+  }
+  
+  
 .bar.active {
     fill: goldenrod;
   }
