@@ -61,13 +61,26 @@ svg
 
 svg.append("g").attr("class", "y axis").call(yAxis);
 
+
+// Title for chart
+svg
+  .append("text")
+  .attr("x", width/2)
+  .attr("y", margin.top-10)
+  .attr("text-anchor", "middle")
+  .style("font-size", "20px")
+  .text("Races by Year")
+;
+let titleHeight=15;
+
+
 let updateRaceLabels = function(){
   // LABELS
   let raceLabels = chartHolder
     .select("svg")
     .append("g")
     .attr("class", "labels")
-    .attr("transform", "translate(10, 10)")
+    .attr("transform", "translate(10, "+ (margin.top+10) +")") //Want legend to start a little below top of chart
     .selectAll("label")
     .data(wrkt_viz.RACE_DISTANCES)
     .join("g")
@@ -75,7 +88,7 @@ let updateRaceLabels = function(){
       return "translate(0," + i * 20 + ")";
     })
   ;
-
+  
   raceLabels
     .append("circle")
     .attr("fill", wrkt_viz.raceFill)
