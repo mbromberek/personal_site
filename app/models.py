@@ -418,7 +418,6 @@ class Workout(PaginatedAPIMixin, db.Model):
             'training_type' : self.training_type,
             'distance':distance
         }
-        logger.info(data)
         return data
 
     def from_dict(self, data, user_id):
