@@ -25,7 +25,7 @@ import GenerateMapImage.gen_map_img as genMap
 # Custom classes
 from app.main import bp
 from app.main.forms import EmptyForm, WorkoutCreateBtnForm, WorkoutForm, WorkoutFilterForm, WorkoutIntervalForm, WorkoutExportForm, UserSettingsForm, GearForm, LocForm
-from app.models import User, Workout, Workout_interval, Gear, Gear_usage, Wrkt_sum, Wkly_mileage, Yrly_mileage, Moly_mileage, User_setting, Workout_type, Workout_category
+from app.models import User, Workout, Workout_interval, Gear, Gear_usage, Wrkt_sum, Wkly_mileage, Moly_mileage, User_setting, Workout_type, Workout_category
 from app import db
 from app.utils import tm_conv, const, nbrConv, dt_conv
 from app import logger
@@ -35,6 +35,7 @@ from app.main import export, filtering
 from app.model.goals import Yrly_goal
 from app.model.workout_zones import Workout_zones
 from app.model.location import Location
+from app.model.yrly_mileage import Yrly_mileage
 from app.model.book import Book
 from app.model.book import CURR_READING_VAL, READ_VAL
 

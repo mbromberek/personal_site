@@ -13,7 +13,7 @@ from datetime import datetime, timedelta, date
 from app import db, login
 from app.utils import tm_conv, const
 from app import logger
-from app.models import Yrly_mileage
+# from app.models import Yrly_mileage
 
 class Yrly_goal(object):
     description = ''
