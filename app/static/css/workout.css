@@ -638,7 +638,17 @@ td.dashboard_row_dtl{
 }
 
 
-
+/* RACE MENU BAR */
+#race_menu div {
+    display: inline-block;
+}
+#dist_select{
+    margin: 0;
+}
+#state_select {
+    margin: 0 20px;
+}
+  
 /* BAR-CHART */
 #monthly_mileage_bar{
     /* top: 510px; */

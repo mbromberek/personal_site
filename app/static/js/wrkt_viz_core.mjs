@@ -12,6 +12,8 @@ wrkt_viz.data = {};
 
 wrkt_viz.ALL_DISTANCES = "All Distances";
 wrkt_viz.activeDistance = wrkt_viz.ALL_DISTANCES;
+wrkt_viz.ALL_STATES = "All States";
+wrkt_viz.activeState = wrkt_viz.ALL_STATES;
 // wrkt_viz.RACE_DISTANCES = [];
 wrkt_viz.RACE_DISTANCES = [
   "Marathon",
@@ -79,6 +81,20 @@ wrkt_viz.filterByDistances = function (distance) {
   // console.log(wrkt_viz.yearDim.group().all());
   console.log('filterByDistances End');
 };
+
+wrkt_viz.filterByStates = function (state) {
+  console.log('filterByStates Start:' +state + ':');
+  wrkt_viz.activeDistance = state;
+
+  if (state == wrkt_viz.ALL_STATES) {
+    wrkt_viz.stateDim.filterAll();
+  }else {
+    wrkt_viz.stateDim.filter(state);
+  }
+  // console.log(wrkt_viz.yearDim.group().all());
+  console.log('filterByStates End');
+};
+
 
 wrkt_viz.getMonthlyData = function () {
   console.log('getMonthlyData');

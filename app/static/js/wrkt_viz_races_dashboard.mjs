@@ -6,7 +6,6 @@ import './wrkt_viz_race_bar.mjs'
 import './wrkt_viz_race_year.mjs'
 
 
-// initChart(race_mileage_lst, race_dist_dict, d3.json('static/data/states-10m.json'), d3.csv('static/data/us_states.csv'));
 Promise.all([
   race_mileage_lst, 
   race_dist_dict, 

@@ -49,21 +49,15 @@ let projection_merc = d3
   .precision(0.1);
 
 let projection_state = d3
-  .geoAlbersUsa().scale(1300).translate([[487.5, 305]])
-;
-let projection_state_2 = d3
   .geoAlbersUsa()
   .scale(700)
   .translate([width /2, height/2 ])
-  // .translate([[487.5, 305]])
-  // .precision(0.01)
 ;
 
 
   // END PROJECTIONS
-// We use the equirectangular projection for the Nobel-viz
-// let projection = projection_eq;
-let projection = projection_state_2;
+
+let projection = projection_state;
 
 let path = d3.geoPath().projection(projection);
 
@@ -73,12 +67,11 @@ let graticule = d3.geoGraticule().step([20, 20]);
 // svg.append("path").datum(graticule).attr("class", "graticule").attr("d", path);
 
 let getCentroid = function (mapData) {
-  console.log("getCentroid: "+mapData.name);
+  // console.log("getCentroid: "+mapData.name);
   let lat = wrkt_viz.data.stateData[mapData.name].lat;
   let lng = wrkt_viz.data.stateData[mapData.name].lon;
-  console.log("lng:"+lng +" lat:"+lat);
-  console.log(projection([lng, lat]));
-  // return projection([latlng[1], latlng[0]]);
+  // console.log("lng:"+lng +" lat:"+lat);
+  // console.log(projection([lng, lat]));
   return projection([lng, lat]);
 };
 
@@ -87,7 +80,7 @@ let radiusScale = d3
   .range([wrkt_viz.MIN_CENTROID_RADIUS, wrkt_viz.MAX_CENTROID_RADIUS]);
 
 let cnameToState = {};
-// called when the Noble-viz is initialised with the Nobel dataset
+
 export let initMap = function (us_country, names) {
   console.log('initMap');
   // console.log(us_country);
@@ -154,7 +147,7 @@ let updateMap = function (stateData) {
     .selectAll(".state")
     .data(mapData, (d) => d.name);
 
-    states
+  states
     .join(
       (enter) => {
         return enter
@@ -208,7 +201,8 @@ let updateMap = function (stateData) {
     .transition()
     .duration(wrkt_viz.TRANS_DURATION)
     .style("opacity", 1)
-    .attr("d", (d) => path(d.geo));
+    .attr("d", (d) => path(d.geo))
+  ;
 
   let centroids = svg
     .select(".centroids")

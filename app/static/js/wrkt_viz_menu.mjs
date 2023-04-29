@@ -79,4 +79,45 @@ export let initMenu = function () {
     console.log("distSelect change End");
   });
 
+
+  let state_lst = (wrkt_viz.stateSelectGroups = wrkt_viz.stateDim
+    .group()
+    .all()
+    .map(function (c) {
+      return {
+        key: c.key,
+        value: c.value,
+        // dist_val: wrkt_viz.race_dist_mapping[c.key]
+      };
+    })
+    .sort(function (a, b) {
+      return b.dist_val - a.dist_val; // descending
+    }));
+
+  let stateSelectData = [wrkt_viz.ALL_STATES];
+  state_lst.forEach(function (o) {
+    stateSelectData.push(o.key);
+  });
+
+  let stateSelect = d3.select("#state_select select");
+
+  stateSelect
+    .selectAll("option")
+    .data(stateSelectData)
+    .join("option")
+    .attr("value", (d) => d)
+    .html((d) => d)
+  ;
+
+  stateSelect.on("change", function (d) {
+    console.log("stateSelect change Start");
+
+    let state = d3.select(this).property("value");
+    console.log('state: ' + state);
+
+    wrkt_viz.filterByStates(state);
+    wrkt_viz.onDataChange();
+    console.log("stateSelect change End");
+  });
+
 };
