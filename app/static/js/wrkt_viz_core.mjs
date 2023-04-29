@@ -1,8 +1,8 @@
 let wrkt_viz = {};
 // nbviz.ALL_CATS = "All Categories";
 wrkt_viz.TRANS_DURATION = 2000;
-// nbviz.MAX_CENTROID_RADIUS = 30;
-// nbviz.MIN_CENTROID_RADIUS = 2;
+wrkt_viz.MAX_CENTROID_RADIUS = 20;
+wrkt_viz.MIN_CENTROID_RADIUS = 2;
 wrkt_viz.COLORS = { palegold: "#E6BE8A" };
 
 wrkt_viz.data = {};
@@ -53,6 +53,10 @@ wrkt_viz.makeFilterAndDimensions = function (race_mileage) {
     console.log('wrkt_viz.distDim filter');
     return o.distance;
     // return o.dist_mi
+  });
+  wrkt_viz.stateDim = wrkt_viz.filter.dimension(function (o) {
+    console.log('wrkt_viz.stateDim filter');
+    return o.state;
   });
 
   console.log('makeFilterAndDimensions End');
@@ -128,6 +132,29 @@ wrkt_viz.getRaceYearlyData = function () {
       return a.key - b.key; // ascending
     });
   console.log('getRaceYearlyData End');
+  return data;
+};
+
+wrkt_viz.getStateData = function () {
+  let stateGroups = wrkt_viz.stateDim.group().all();
+
+  // make main data-ball
+  let data = stateGroups
+    .map(function (c) {
+      let cData = wrkt_viz.data.stateData[c.key];
+      let value = c.value;
+      return {
+        key: c.key,
+        value: value,
+        // code: cData.alpha3Code,
+        code: c.key,
+        // population: cData.population
+      };
+    })
+    .sort(function (a, b) {
+      return b.value - a.value; // descending
+    });
+
   return data;
 };
 
