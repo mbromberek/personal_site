@@ -132,7 +132,7 @@ export let initMap = function (us_country, names) {
     .attr("d", path);
 };
 
-// let tooltip = d3.select("#map-tooltip");
+let tooltip = d3.select("#race_map_tooltip");
 let updateMap = function (stateData) {
   console.log('updateMap');
   let mapData = (wrkt_viz.mapData = stateData
@@ -153,7 +153,7 @@ let updateMap = function (stateData) {
     .select(".states")
     .selectAll(".state")
     .data(mapData, (d) => d.name);
-/*
+
     states
     .join(
       (enter) => {
@@ -170,7 +170,7 @@ let updateMap = function (stateData) {
 
             let cData = state.datum();
             let prize_string =
-              cData.number === 1 ? " prize in " : " prizes in ";
+              cData.number === 1 ? " race in " : " races in ";
             tooltip.select("h2").text(cData.name);
             tooltip
               .select("p")
@@ -209,7 +209,7 @@ let updateMap = function (stateData) {
     .duration(wrkt_viz.TRANS_DURATION)
     .style("opacity", 1)
     .attr("d", (d) => path(d.geo));
-*/
+
   let centroids = svg
     .select(".centroids")
     .selectAll(".centroid")

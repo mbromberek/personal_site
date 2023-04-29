@@ -667,13 +667,12 @@ td.dashboard_row_dtl{
   }
 
 #race_map {
+    position:relative;
     background: azure;
     margin-top:20px;
     /* top: 160px; */
-    width: 700px;
+    width: 550px;
     height: 350px;
-    /* width: 975px;
-    height: 610px; */
 }
 /* MAP */
   
@@ -720,7 +719,30 @@ stroke: #fff;
 stroke-width: 0.5px;
 }
 
-
+/* MAP TOOLTIP */
+#race_map_tooltip {
+    position: absolute;
+    /* min-width: 10px; */
+    /* min-height: 10px; */
+    pointer-events: none;
+    color: #eee;
+    font-size: 12px;
+    /* border:10px; */
+    opacity: 0.7;
+    background: #222;
+    border: 2px solid #555;
+    border-color: goldenrod;
+    padding: 10px;
+    left: -999px;
+  }
+  
+  #race_map_tooltip h2 {
+    font-size: 22px;
+    text-align: center;
+    padding: 0px;
+    margin: 0px;
+  }
+  
   
   
 .bar.active {
