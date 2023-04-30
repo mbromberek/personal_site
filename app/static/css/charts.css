@@ -3,6 +3,10 @@
     display: inline-block;
     font-size: 18px;
 }
+#race_menu select {
+    display: inline-block;
+    font-size: 16px;
+}
 #dist_select{
     margin: 0;
 }
@@ -152,6 +156,10 @@ svg.us_map{
     #race_menu div {
         font-size: 15px;
     }
+    #race_menu select {
+        font-size: 15px;
+    }
+    
     #race_row{
         width:100%;
     }
