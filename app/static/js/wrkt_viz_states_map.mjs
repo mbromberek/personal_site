@@ -98,10 +98,9 @@ export let initMap = function (us_country, names) {
   });
 
   cnameToState = {};
-  names.forEach(function (n) {
-    cnameToState[n.name] = idToState[n.id];
-  });
-
+  for (let n in names){
+    cnameToState[names[n].name] = idToState[names[n].id];
+  }
 
   // MAIN WORLD MAP
   svg

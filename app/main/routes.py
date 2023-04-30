@@ -9,7 +9,7 @@ All rights reserved.
 # First party classes
 from datetime import datetime, timedelta, date
 import time
-import os, math, json
+import os, math, json, csv
 # from datetime import combine
 
 # Third party classes
@@ -1239,8 +1239,18 @@ def races():
     dash_lst_dict['race_lst'] = race_lst
     logger.info(race_dist_dict)
 
-    fname = os.path.join(basedir, "static/data/states-10m.json")
-    with open(fname) as states_file:
+    states_json_fname = os.path.join(basedir, "static/data/states-10m.json")
+    with open(states_json_fname) as states_file:
         states_topo_data = json.load(states_file)
+    states_csv_fname = os.path.join(basedir, "static/data/us_states.csv")
+    states_data_dict = {}
+    with open(states_csv_fname) as states_csv_file:
+        csv_reader = csv.DictReader(states_csv_file)
+        for row in csv_reader:
+            states_data_dict[row['name']] = row
 
-    return render_template('races.html.j2', title=title, destPage=destPage, dash_lst_dict=dash_lst_dict, race_dist_dict=race_dist_dict, states_topo_data=states_topo_data)
+    return render_template('races.html.j2', title=title, 
+        destPage=destPage, dash_lst_dict=dash_lst_dict, 
+        race_dist_dict=race_dist_dict, 
+        states_topo_data=states_topo_data, states_data=states_data_dict
+    )

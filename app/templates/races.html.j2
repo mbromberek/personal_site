@@ -58,6 +58,7 @@
     race_mileage_lst = {{ dash_lst_dict['race_lst']|tojson|safe }};
     race_dist_dict = {{ race_dist_dict|tojson|safe }};
     states_topo_json = {{ states_topo_data|tojson|safe }};
+    states_data = {{ states_data|tojson|safe }};
 </script>
 
 <script type="module" src="{{ url_for('static', filename='js/wrkt_viz_races_dashboard.mjs') }}"></script>
