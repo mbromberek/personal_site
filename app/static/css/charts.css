@@ -151,6 +151,91 @@ svg.us_map{
     fill: black;
 }
 
+/* RACES LIST */
+#race_list {
+    overflow: scroll;
+    overflow-x: hidden;
+    width: 400px;
+    height: 350px;
+}
+  
+#race_list table {
+    font-size: 12px;
+}
+#race_list table th{
+    background-color: aquamarine;
+    font-size: 14px;
+}  
+#race_list table th#race_date {
+    width: 100px;
+}
+#race_list table th#race_name {
+    width: 180px;
+}
+#race_list table th#race_duration {
+    width: 120px;
+    /* padding-right:20px; */
+    /* text-align:right; */
+}
+#race_list h2 {
+    font-size: 18px;
+    margin-top:5px;
+    padding-top:2px;
+    margin-bottom: 0px;
+    text-align: center;
+    background-color: aquamarine;
+}
+#race_list tr:hover {
+    cursor: pointer;
+    background: lightblue;
+}
+#race_list tr {
+    opacity: 1;
+}
+  
+  /* WINNER INFOBOX */
+  #nobel-winner {
+    font-size: 11px;
+    overflow: auto;
+    overflow-x: hidden;
+    border-top: 4px solid;
+  }
+  
+  #nobel-winner #winner-title {
+    font-size: 12px;
+    text-align: center;
+    padding: 2px;
+    font-weight: bold;
+  }
+  
+  #nobel-winner #infobox .label {
+    display: inline-block;
+    width: 60px;
+    font-weight: bold;
+  }
+  
+  #nobel-winner #biobox {
+    font-size: 11px;
+  }
+  #nobel-winner #biobox p {
+    text-align: justify;
+  }
+  #nobel-winner #picbox {
+    /* position:absolute; */
+    /* top:2px; right:2px; */
+    float: right;
+    margin-left: 5px;
+  }
+  
+  #nobel-winner #picbox img {
+    width: 100px;
+  }
+  
+  #nobel-winner #readmore {
+    font-weight: bold;
+    text-align: center;
+  }
+
 /* For mobile phones: */
 @media only screen and (max-width:600px) {
     #race_menu div {

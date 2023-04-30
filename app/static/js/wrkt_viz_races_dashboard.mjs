@@ -2,16 +2,14 @@ import wrkt_viz from './wrkt_viz_core.mjs'
 import { initMenu } from './wrkt_viz_menu.mjs'
 import { initMap } from './wrkt_viz_states_map.mjs'
 import './wrkt_viz_race_bar.mjs'
-// import './nbviz_details.mjs'
+import './wrkt_viz_race_details.mjs'
 import './wrkt_viz_race_year.mjs'
 
 
 Promise.all([
   race_mileage_lst, 
   race_dist_dict, 
-  // d3.json('static/data/states-10m.json'), 
   states_topo_json,
-  // d3.csv('static/data/us_states.csv')
   states_data,
 ]).then(initChart);
 
@@ -24,21 +22,6 @@ function initChart([race_mileage, race_dist_dict, statesMap, stateNames]) {
   // console.log(race_dist_dict);
   wrkt_viz.race_dist_mapping = race_dist_dict;
   wrkt_viz.data.stateData = stateNames;
-  /*wrkt_viz.data.stateData = {};
-  stateNames.forEach(function (n) {
-    wrkt_viz.data.stateData[n.name] = n;
-  });*/
-  // console.log(wrkt_viz.data.stateData);
-
-  /*wrkt_viz.RACE_DISTANCES = Object
-    .keys(wrkt_viz.race_dist_mapping)
-    .sort()
-    .reduce(
-      (obj, key) => {
-        obj[key] = wrkt_viz.race_dist_mapping[key];
-        return obj;
-      }
-    );*/
 
   // Get Race Distances sorted
   let items = Object

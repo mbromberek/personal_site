@@ -405,7 +405,7 @@ class Workout(PaginatedAPIMixin, db.Model):
             'id': self.id,
             'user_id': self.user_id,
             'type': self.type_det.nm,
-            'wrkt_dttm': self.wrkt_dttm.strftime('%Y-%m-%d'),
+            'wrkt_dt': self.wrkt_dttm.strftime('%Y-%m-%d'),
             'year': self.wrkt_dttm.strftime('%Y'),
             't_zone': self.t_zone,
             'dur_sec': self.dur_sec,
