@@ -74,6 +74,10 @@ let display_race = function (wData) {
 };
 
 wrkt_viz.callbacks.push(() => {
-  let data = wrkt_viz.distDim.top(Infinity);
+  let data = wrkt_viz.distDim.top(Infinity)
+    .sort(function(a, b){
+      return Date.parse(b.wrkt_dt) - Date.parse(a.wrkt_dt);//descending
+    })
+  ;
   updateList(data);
 });

@@ -115,8 +115,10 @@ svg.us_map{
 /* Racing mileage chart */
 #race_mileage_bar{
     height: 300px;
-    width: 550px;
+    /* width: 550px; */
     margin-top: 10px;
+    overflow:auto; 
+    width:75%;
 }
 
  
@@ -258,6 +260,10 @@ svg.us_map{
     }
     #race_menu select {
         font-size: 15px;
+    }
+
+    #race_mileage_bar{
+        width:100%;
     }
     
     #race_row{

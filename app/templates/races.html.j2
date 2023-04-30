@@ -83,16 +83,16 @@
       </div>
     </div>
 
-    <br/>
-    <div id="race_mileage_bar" style="overflow:auto; width:75%; ">
+    <div id="race_mileage_bar" ">
     </div>
-
+    {#
     <br />
     <div style="overflow:auto; width:100%; ">
     {% if dash_lst_dict['race_lst'] %}
     {% include 'dashboard_widgets/_race_widget.html.j2' %}
     {% endif %}
     </div>
+    #}
 
 </div>
 
