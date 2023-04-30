@@ -648,7 +648,7 @@ td.dashboard_row_dtl{
 #state_select {
     margin: 0 20px;
 }
-  
+
 /* BAR-CHART */
 #monthly_mileage_bar{
     /* top: 510px; */
@@ -664,12 +664,19 @@ td.dashboard_row_dtl{
     /* top: 510px; */
     height: 280px;
     width: 330px;
+    display: inline-block;
 }
   /* TIME-LINE */
   #race_year circle {
     stroke-width: 0;
     stroke: black;
   }
+
+#race_row{
+    display: inline-block;
+    width:900px;
+}
+
   /* YEAR CHART */
   
   .labels text {
@@ -678,8 +685,10 @@ td.dashboard_row_dtl{
 
 #race_map {
     position:relative;
+    display: inline-block;
     background: azure;
     margin-top:20px;
+    margin-left:15px;
     /* top: 160px; */
     width: 550px;
     height: 350px;
@@ -744,14 +753,14 @@ stroke-width: 0.5px;
     border-color: goldenrod;
     padding: 10px;
     left: -999px;
-  }
+}
   
-  #race_map_tooltip h2 {
+#race_map_tooltip h2 {
     font-size: 22px;
     text-align: center;
     padding: 0px;
     margin: 0px;
-  }
+}
   
   
   
@@ -1015,7 +1024,13 @@ stroke-width: 0.5px;
         width:700px;
     }
     
-
+    #race_row{
+        width:100%;
+    }
+    #race_map {
+        margin-top:20px;
+        margin-left:0px;
+    }
 }
 
 
