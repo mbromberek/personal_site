@@ -638,163 +638,12 @@ td.dashboard_row_dtl{
 }
 
 
-/* RACE MENU BAR */
-#race_menu div {
-    display: inline-block;
-}
-#dist_select{
-    margin: 0;
-}
-#state_select {
-    margin: 0 20px;
-}
-
 /* BAR-CHART */
 #monthly_mileage_bar{
     /* top: 510px; */
     height: 300px;
     width: 650px;
 }
-#race_mileage_bar{
-    /* top: 510px; */
-    height: 300px;
-    width: 550px;
-}
-#race_year{
-    /* top: 510px; */
-    height: 280px;
-    width: 330px;
-    display: inline-block;
-}
-  /* TIME-LINE */
-  #race_year circle {
-    stroke-width: 0;
-    stroke: black;
-  }
-
-#race_row{
-    display: inline-block;
-    width:900px;
-}
-
-  /* YEAR CHART */
-  
-  .labels text {
-    font-size: 11px;
-  }
-
-#race_map {
-    position:relative;
-    display: inline-block;
-    background: azure;
-    margin-top:20px;
-    margin-left:15px;
-    /* top: 160px; */
-    width: 550px;
-    height: 350px;
-}
-/* MAP */
-  
-.graticule {
-fill: none;
-stroke: #777;
-stroke-width: 0.5px;
-stroke-opacity: 0.5;
-}
-
-.land {
-/*fill: #b8c8b6;*/
-fill: #ddd;
-}
-svg.us_map{
-    width:100%;
-    height:100%;
-}
-
-.state {
-fill: rgb(175, 195, 186);
-/* fill: rgb(255, 255, 0); */
-}
-
-.state.active {
-fill: rgb(155, 175, 166);
-/* fill: rgb(255, 255, 0); */
-}
-
-.centroid {
-fill: red;
-fill-opacity: 0.3;
-pointer-events: none;
-}
-
-.centroid.active {
-fill: goldenrod;
-fill-opacity: 0.6;
-}
-
-.boundary {
-fill: none;
-stroke: #fff;
-stroke-width: 0.5px;
-}
-
-/* MAP TOOLTIP */
-#race_map_tooltip {
-    position: absolute;
-    /* min-width: 10px; */
-    /* min-height: 10px; */
-    pointer-events: none;
-    color: #eee;
-    font-size: 12px;
-    /* border:10px; */
-    opacity: 0.7;
-    background: #222;
-    border: 2px solid #555;
-    border-color: goldenrod;
-    padding: 10px;
-    left: -999px;
-}
-  
-#race_map_tooltip h2 {
-    font-size: 22px;
-    text-align: center;
-    padding: 0px;
-    margin: 0px;
-}
-  
-  
-  
-.bar.active {
-    fill: goldenrod;
-  }
-  .bar {
-    fill: steelblue;
-  }
-  .bar:hover {
-    fill: brown;
-  }
-  
-  .axis {
-    font: 10px sans-serif;
-  }
-  
-  .axis-label {
-  }
-  
-  .axis path,
-  .axis line {
-    fill: none;
-    stroke: #000;
-    shape-rendering: crispEdges;
-  }
-  
-  .x.axis path {
-    display: none;
-  }
-  #y-axis-label {
-    font-size: 11px;
-    fill: black;
-  }
 
 
 /* For mobile phones: */
@@ -1024,13 +873,6 @@ stroke-width: 0.5px;
         width:700px;
     }
     
-    #race_row{
-        width:100%;
-    }
-    #race_map {
-        margin-top:20px;
-        margin-left:0px;
-    }
 }
 
 
