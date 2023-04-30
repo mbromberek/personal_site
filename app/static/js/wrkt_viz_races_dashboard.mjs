@@ -10,23 +10,21 @@ Promise.all([
   race_mileage_lst, 
   race_dist_dict, 
   d3.json('static/data/states-10m.json'), 
-  // d3.json('static/data/states-albers-10m.json'), 
   d3.csv('static/data/us_states.csv')
 ]).then(initChart);
 
 function initChart([race_mileage, race_dist_dict, statesMap, stateNames]) {
   console.log('initChart');
-  console.log(stateNames);
 
   // Store Race Dataset
   wrkt_viz.data.race_mileage = race_mileage;
-  console.log(race_dist_dict);
+  // console.log(race_dist_dict);
   wrkt_viz.race_dist_mapping = race_dist_dict;
   wrkt_viz.data.stateData = {};
   stateNames.forEach(function (n) {
     wrkt_viz.data.stateData[n.name] = n;
   });
-  console.log(wrkt_viz.data.stateData);
+  // console.log(wrkt_viz.data.stateData);
 
   /*wrkt_viz.RACE_DISTANCES = Object
     .keys(wrkt_viz.race_dist_mapping)
