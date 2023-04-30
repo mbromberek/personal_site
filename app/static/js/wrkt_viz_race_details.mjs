@@ -15,7 +15,7 @@ let updateList = function (data) {
   rows.join(
     (enter) => {
       return enter.append("tr").on("click", function (event, d) {
-        console.log("You clicked a row " + JSON.stringify(d));
+        // console.log("You clicked a row " + JSON.stringify(d));
         display_race(d);
       });
     },
@@ -44,7 +44,7 @@ let updateList = function (data) {
 };
 
 let display_race = function (wData) {
-  console.log('display_race');
+  // console.log('display_race');
   
   let nw = d3.select("#race_det");
 
@@ -56,16 +56,17 @@ let display_race = function (wData) {
     return wData[property];
   });
 
-  /*nw.select("#biobox").html(wData.mini_bio);
-  // Add an image if available, otherwise remove the old one
-  if (wData.bio_image) {
-    nw.select("#picbox img")
-      .attr("src", "static/images/winners/" + wData.bio_image)
+
+  // nw.select("#mapbox").html(wData.mini_bio);
+  // Add map if available, otherwise remove the old one
+  if (wData._links.map_thumb) {
+    nw.select("#mapbox img")
+      .attr("src", wData._links.map_thumb)
       .style("display", "inline");
   } else {
-    nw.select("#picbox img").style("display", "none");
+    nw.select("#mapbox img").style("display", "none");
   }
-
+  /*
   nw.select("#readmore a").attr(
     "href",
     "http://en.wikipedia.org/wiki/" + wData.name
