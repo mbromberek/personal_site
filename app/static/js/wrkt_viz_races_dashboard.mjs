@@ -9,7 +9,8 @@ import './wrkt_viz_race_year.mjs'
 Promise.all([
   race_mileage_lst, 
   race_dist_dict, 
-  d3.json('static/data/states-10m.json'), 
+  // d3.json('static/data/states-10m.json'), 
+  states_topo_json,
   d3.csv('static/data/us_states.csv')
 ]).then(initChart);
 

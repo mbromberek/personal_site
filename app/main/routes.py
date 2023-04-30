@@ -28,7 +28,7 @@ from app.main.forms import EmptyForm, WorkoutCreateBtnForm, WorkoutForm, Workout
 from app.models import User, Workout, Workout_interval, Gear, Gear_usage, Wrkt_sum, Wkly_mileage, Moly_mileage, User_setting, Workout_type, Workout_category
 from app import db
 from app.utils import tm_conv, const, nbrConv, dt_conv
-from app import logger
+from app import logger, basedir
 from app.utils import wrkt_summary
 from app.utils import wrkt_split
 from app.main import export, filtering
@@ -1239,4 +1239,8 @@ def races():
     dash_lst_dict['race_lst'] = race_lst
     logger.info(race_dist_dict)
 
-    return render_template('races.html.j2', title=title, destPage=destPage, dash_lst_dict=dash_lst_dict, race_dist_dict=race_dist_dict)
+    fname = os.path.join(basedir, "static/data/states-10m.json")
+    with open(fname) as states_file:
+        states_topo_data = json.load(states_file)
+
+    return render_template('races.html.j2', title=title, destPage=destPage, dash_lst_dict=dash_lst_dict, race_dist_dict=race_dist_dict, states_topo_data=states_topo_data)
