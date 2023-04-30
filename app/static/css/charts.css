@@ -155,6 +155,7 @@ svg.us_map{
 #race_list {
     overflow: scroll;
     overflow-x: hidden;
+    display: inline-block;
     width: 400px;
     height: 350px;
 }
@@ -193,45 +194,53 @@ svg.us_map{
     opacity: 1;
 }
   
-  /* WINNER INFOBOX */
-  #nobel-winner {
-    font-size: 11px;
+/* RACE INFOBOX */
+#race_det {
+    font-size: 14px;
     overflow: auto;
     overflow-x: hidden;
-    border-top: 4px solid;
-  }
+    border-top: 10px solid;
+    display: inline-block;
+    width:400px;
+    height: 350px;
+    margin-top:5px;
+}
   
-  #nobel-winner #winner-title {
-    font-size: 12px;
+#race_det #race_name {
+    font-size: 18px;
     text-align: center;
     padding: 2px;
     font-weight: bold;
-  }
+}
   
-  #nobel-winner #infobox .label {
+#race_det #infobox .label {
     display: inline-block;
     width: 60px;
     font-weight: bold;
-  }
+}
+
+#race_det .label {
+    margin-right: 10px;
+}
   
-  #nobel-winner #biobox {
+  #race_det #biobox {
     font-size: 11px;
   }
-  #nobel-winner #biobox p {
+  #race_det #biobox p {
     text-align: justify;
   }
-  #nobel-winner #picbox {
+#race_det #picbox {
     /* position:absolute; */
     /* top:2px; right:2px; */
     float: right;
     margin-left: 5px;
-  }
+}
   
-  #nobel-winner #picbox img {
+  #race_det #picbox img {
     width: 100px;
   }
   
-  #nobel-winner #readmore {
+  #race_det #readmore {
     font-weight: bold;
     text-align: center;
   }

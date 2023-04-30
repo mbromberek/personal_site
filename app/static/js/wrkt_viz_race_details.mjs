@@ -45,18 +45,18 @@ let updateList = function (data) {
 
 let display_race = function (wData) {
   console.log('display_race');
-  /*
-  let nw = d3.select("#nobel-winner");
+  
+  let nw = d3.select("#race_det");
 
-  nw.select("#winner-title").text(wData.name);
-  nw.style("border-color", wrkt_viz.categoryFill(wData.category));
+  nw.select("#race_name").text(wData.training_type);
+  nw.style("border-color", wrkt_viz.raceFill(wData.distance));
 
   nw.selectAll(".property span").text(function (d) {
     var property = d3.select(this).attr("name");
     return wData[property];
   });
 
-  nw.select("#biobox").html(wData.mini_bio);
+  /*nw.select("#biobox").html(wData.mini_bio);
   // Add an image if available, otherwise remove the old one
   if (wData.bio_image) {
     nw.select("#picbox img")
