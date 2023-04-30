@@ -4,7 +4,7 @@ import wrkt_viz from "./wrkt_viz_core.mjs";
 var chartHolder = d3.select("#race_year");
 
 // var margin = { top: 20, right: 20, bottom: 30, left: 40 };
-var margin = { top: 20, right: 20, bottom: 30, left: 125 };
+var margin = { top: 20, right: 20, bottom: 35, left: 125 };
 var boundingRect = chartHolder.node().getBoundingClientRect();
 var width = boundingRect.width - margin.left - margin.right,
   height = boundingRect.height - margin.top - margin.bottom;

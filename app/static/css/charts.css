@@ -1,12 +1,13 @@
 /* RACE MENU BAR */
 #race_menu div {
     display: inline-block;
+    font-size: 18px;
 }
 #dist_select{
     margin: 0;
 }
 #state_select {
-    margin: 0 20px;
+    margin-left: 20px;
 }
 
 #race_row{
@@ -14,15 +15,9 @@
     width:900px;
 }
 
-/* Racing mileage chart */
-#race_mileage_bar{
-    height: 300px;
-    width: 550px;
-}
-
 /* TIME-LINE */
 #race_year{
-    height: 280px;
+    height: 290px;
     width: 330px;
     display: inline-block;
 }
@@ -30,10 +25,8 @@
     stroke-width: 0;
     stroke: black;
 }
-
-/* YEAR CHART */
 .labels text {
-    font-size: 11px;
+    font-size: 12px;
 }
 
 /* MAP */  
@@ -115,7 +108,13 @@ svg.us_map{
 }
   
   
-  
+/* Racing mileage chart */
+#race_mileage_bar{
+    height: 300px;
+    width: 550px;
+}
+
+ 
 .bar.active {
     fill: goldenrod;
 }
@@ -127,7 +126,7 @@ svg.us_map{
 }
   
 .axis {
-    font: 10px sans-serif;
+    font: 11px sans-serif;
 }
   
 .axis-label {
@@ -150,9 +149,15 @@ svg.us_map{
 
 /* For mobile phones: */
 @media only screen and (max-width:600px) {
+    #race_menu div {
+        font-size: 15px;
+    }
     #race_row{
         width:100%;
     }
+    #state_select {
+        margin-left: 5px;
+    }    
     #race_map {
         margin-top:20px;
         margin-left:0px;
