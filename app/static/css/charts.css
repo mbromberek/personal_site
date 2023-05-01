@@ -176,7 +176,7 @@ svg.us_map{
     /* padding-left:5px; */
 }
 #race_list table th#race_name {
-    width: 180px;
+    width: 200px;
 }
 #race_list table th#race_duration {
     width: 120px;
@@ -212,6 +212,7 @@ svg.us_map{
     width:400px;
     height: 350px;
     margin-top:5px;
+    margin-left:20px;
 }
   
 #race_det #race_name {
@@ -300,4 +301,14 @@ svg.us_map{
         width:400px;
         margin-left:-15px;
     }   
+}
+
+@media screen and (min-width: 600px) and (max-width: 900px) {
+    #race_det {
+        margin-left: 0px;
+        width:370px;
+    }
+    #race_list table th#race_name {
+        width: 180px;
+    }
 }
