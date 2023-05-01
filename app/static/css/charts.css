@@ -161,6 +161,7 @@ svg.us_map{
     display: inline-block;
     width: 400px;
     height: 350px;
+    /* border-top:1px solid aquamarine; */
 }
   
 #race_list table {
@@ -172,6 +173,7 @@ svg.us_map{
 }  
 #race_list table th#race_date {
     width: 100px;
+    /* padding-left:5px; */
 }
 #race_list table th#race_name {
     width: 180px;
