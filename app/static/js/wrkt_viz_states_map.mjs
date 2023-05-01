@@ -3,6 +3,14 @@ import wrkt_viz from './wrkt_viz_core.mjs'
 let defaultMapWidth = 960,
   defaultMapHeight = 480;
 
+// let browserWidth = window.innerWidth;
+// console.log('Browser Width:' +browserWidth);
+if (window.innerWidth <=400){
+  wrkt_viz.MAP_SCALE = 480;
+  wrkt_viz.MAX_CENTROID_RADIUS = 15;
+}
+
+
 // DIMENSIONS AND SVG
 let mapContainer = d3.select("#race_map");
 let boundingRect = mapContainer.node().getBoundingClientRect();
@@ -50,7 +58,7 @@ let projection_merc = d3
 
 let projection_state = d3
   .geoAlbersUsa()
-  .scale(700)
+  .scale(wrkt_viz.MAP_SCALE)
   .translate([width /2, height/2 ])
 ;
 

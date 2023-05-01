@@ -3,6 +3,7 @@ let wrkt_viz = {};
 wrkt_viz.TRANS_DURATION = 2000;
 wrkt_viz.MAX_CENTROID_RADIUS = 20;
 wrkt_viz.MIN_CENTROID_RADIUS = 2;
+wrkt_viz.MAP_SCALE = 700;
 wrkt_viz.COLORS = { palegold: "#E6BE8A" };
 
 wrkt_viz.data = {};
