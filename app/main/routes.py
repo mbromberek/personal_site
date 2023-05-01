@@ -16,7 +16,6 @@ import os, math, json, csv
 from flask import render_template, flash, redirect, url_for, request, g, \
     jsonify, current_app, send_file, send_from_directory
 from flask_login import current_user, login_required
-from sqlalchemy import or_
 import pandas as pd
 
 # Custom classes from GitHub
@@ -1210,17 +1209,22 @@ def races():
     logger.info('races')
     title="Mike Races"
     destPage="races"
-    usr_id = current_user.id
+    # usr_id = current_user.id
+    usr_id = 1
 
     dash_lst_dict = {}
-
-    query = Workout.query.filter_by(user_id=usr_id, category_id=4)
+    # query = Workout_category.query.filter(user_id=usr_id,  Workout_category.nm.in_(['Race', 'Virtual Race']))
+    query = Workout.query.filter_by(user_id=usr_id).filter(Workout.category_id.in_([4,8]))
     race_results = sorted(query, reverse=False)
     race_lst = []
     race_dist_dict = {}
     for race in race_results:
         if race.training_type != None and race.training_type != '':
             race_dict = race.to_race_graph_dict()
+            if race.id == 904:
+                # remove map for race that was around house
+                logger.info(race_dict)
+                race_dict['_links'].pop('map_thumb')
             race_lst.append(race_dict)
             if race_dict['distance'] not in race_dist_dict:
                 race_dist_dict[race_dict['distance']] = race_dict['dist_mi']
