@@ -976,9 +976,15 @@ def edit_workout_interval():
 @bp.route('/wrkt_images/<path:filename>', methods=['GET'])
 @login_required
 def wrkt_img_file(filename):
-    # logger.info('wrkt_img_file')
+    logger.info('wrkt_img_file')
     return send_from_directory(os.path.join(current_app.config['MEDIA_DIR'], \
         str(current_user.id),'thumbnails'), filename, as_attachment=False)
+
+@bp.route('/public_images/<path:filename>', methods=['GET'])
+def public_img_file(filename):
+    logger.info('public_img_file')
+    return send_from_directory(os.path.join(current_app.config['PUBLIC_FILE_DIR'], \
+        '1','thumbnails'), filename, as_attachment=False)
 
 @bp.route('/settings', methods=['GET','POST'])
 @login_required
@@ -1204,23 +1210,20 @@ def edit_location():
     return render_template('edit_location.html', destPage = 'settings', loc_form=loc_form, label_val=label_val, map_dict=map_dict)
 
 @bp.route('/races', methods=['GET'])
-@login_required
 def races():
     logger.info('races')
     title="Mike Races"
     destPage="races"
-    # usr_id = current_user.id
     usr_id = 1
 
     dash_lst_dict = {}
-    # query = Workout_category.query.filter(user_id=usr_id,  Workout_category.nm.in_(['Race', 'Virtual Race']))
     query = Workout.query.filter_by(user_id=usr_id).filter(Workout.category_id.in_([4,8]))
     race_results = sorted(query, reverse=False)
     race_lst = []
     race_dist_dict = {}
     for race in race_results:
         if race.training_type != None and race.training_type != '':
-            race_dict = race.to_race_graph_dict()
+            race_dict = race.to_race_graph_dict(public_img_link=True)
             if race.id == 904:
                 # remove map for race that was around house
                 logger.info(race_dict)

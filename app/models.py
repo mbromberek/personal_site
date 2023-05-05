@@ -397,7 +397,7 @@ class Workout(PaginatedAPIMixin, db.Model):
                 )
         return data
 
-    def to_race_graph_dict(self, for_web=True):
+    def to_race_graph_dict(self, for_web=True, public_img_link=False):
         distance_map = {'26.2':'Marathon','13.1':'Half Marathon','9.3':'15K','6.2':'10K', '3.1':'5K'}
         distance = distance_map.get(str(math.floor(self.dist_mi*10)/10.0), str(round(self.dist_mi,0)) + ' Mile')
         loc_rec = Location.query.filter_by(name=self.location, user_id=self.user_id).first()
@@ -421,11 +421,18 @@ class Workout(PaginatedAPIMixin, db.Model):
         data['_links'] = {}
         if self.thumb_path is not None:
             if for_web:
-                data['_links']['map_thumb'] = url_for('main.wrkt_img_file', 
-                    filename= self.thumb_path, 
-                    _external=True,
-                    _scheme=current_app.config['URL_SCHEME']
-                )
+                if public_img_link:
+                    data['_links']['map_thumb'] = url_for('main.public_img_file', 
+                        filename= self.thumb_path, 
+                        _external=True,
+                        _scheme=current_app.config['URL_SCHEME']
+                    )
+                else:
+                    data['_links']['map_thumb'] = url_for('main.wrkt_img_file', 
+                        filename= self.thumb_path, 
+                        _external=True,
+                        _scheme=current_app.config['URL_SCHEME']
+                    )
             else:
                 data['_links']['map_thumb'] = url_for('api.wrkt_images_api', 
                     filename= self.thumb_path, 
