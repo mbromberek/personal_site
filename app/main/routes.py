@@ -976,13 +976,13 @@ def edit_workout_interval():
 @bp.route('/wrkt_images/<path:filename>', methods=['GET'])
 @login_required
 def wrkt_img_file(filename):
-    logger.info('wrkt_img_file')
+    # logger.info('wrkt_img_file')
     return send_from_directory(os.path.join(current_app.config['MEDIA_DIR'], \
         str(current_user.id),'thumbnails'), filename, as_attachment=False)
 
 @bp.route('/public_images/<path:filename>', methods=['GET'])
 def public_img_file(filename):
-    logger.info('public_img_file')
+    # logger.info('public_img_file')
     return send_from_directory(os.path.join(current_app.config['PUBLIC_FILE_DIR'], \
         '1','thumbnails'), filename, as_attachment=False)
 
@@ -1215,6 +1215,11 @@ def races():
     title="Mike Races"
     destPage="races"
     usr_id = 1
+    logger.info(current_user.is_authenticated)
+    if current_user.is_authenticated and current_user.id == usr_id :
+        usr_logged_in = True
+    else:
+        usr_logged_in = False
 
     dash_lst_dict = {}
     query = Workout.query.filter_by(user_id=usr_id).filter(Workout.category_id.in_([4,8]))
@@ -1228,6 +1233,8 @@ def races():
                 # remove map for race that was around house
                 logger.info(race_dict)
                 race_dict['_links'].pop('map_thumb')
+            if not usr_logged_in and 'workout_link' in race_dict['_links']:
+                race_dict['_links'].pop('workout_link')
             race_lst.append(race_dict)
             if race_dict['distance'] not in race_dist_dict:
                 race_dist_dict[race_dict['distance']] = race_dict['dist_mi']

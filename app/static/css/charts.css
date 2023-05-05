@@ -251,9 +251,10 @@ svg.us_map{
     width: 150px;
 }
   
-  #race_det #readmore {
-    font-weight: bold;
-    text-align: center;
+  #race_det #workout_link {
+    margin-left: 5px;
+    margin-top: 10px;
+    text-align: left;
   }
 
 /* For mobile phones: */
@@ -288,7 +289,7 @@ svg.us_map{
     }
     #race_det{
         width:100%;
-        height: 200px;
+        height: 225px;
         margin-left:0px;
     }
 

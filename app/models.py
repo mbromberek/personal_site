@@ -433,12 +433,16 @@ class Workout(PaginatedAPIMixin, db.Model):
                         _external=True,
                         _scheme=current_app.config['URL_SCHEME']
                     )
+                data['_links']['workout_link'] = url_for('main.workout', workout=self.id, 
+                    _external=True, 
+                    _scheme=current_app.config['URL_SCHEME'])
             else:
                 data['_links']['map_thumb'] = url_for('api.wrkt_images_api', 
                     filename= self.thumb_path, 
                     _external=True,
                     _scheme=current_app.config['URL_SCHEME']
                 )
+        
 
         return data
 

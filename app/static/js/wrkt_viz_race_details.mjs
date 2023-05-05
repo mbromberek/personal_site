@@ -59,18 +59,22 @@ let display_race = function (wData) {
 
   // nw.select("#mapbox").html(wData.mini_bio);
   // Add map if available, otherwise remove the old one
-  if (wData._links.map_thumb) {
+  if ('map_thumb' in wData._links) {
     nw.select("#mapbox img")
       .attr("src", wData._links.map_thumb)
       .style("display", "inline");
   } else {
     nw.select("#mapbox img").style("display", "none");
   }
-  /*
-  nw.select("#readmore a").attr(
-    "href",
-    "http://en.wikipedia.org/wiki/" + wData.name
-  );*/
+  
+  if ('workout_link' in wData._links) {
+    nw.select("#workout_link a").attr(
+      "href",
+      wData._links.workout_link
+    );
+  }else {
+    nw.select("#workout_link a").style("display", "none");
+  }
 };
 
 wrkt_viz.callbacks.push(() => {
