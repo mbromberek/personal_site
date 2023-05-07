@@ -9,6 +9,13 @@ body {
     width:100vw;
 }
 
+#elevation_chart{
+    width:600px;
+    height:400px;
+    margin-left:20px;
+    /* background-color:aquamarine; */
+}
+
 #fullButton{
     position: absolute;
     top: 10px;

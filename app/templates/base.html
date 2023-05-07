@@ -37,6 +37,7 @@ Base HTML code for each web page
         <script type="text/javascript" src="{{ url_for('static', filename='js/thirdparty/leaflet-tooltip-layout.js') }}"></script>
         <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
         <script src="{{ url_for('static', filename='js/maps.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/workout_chart.js') }}"></script>
         {% endif %}
 
         {% if destPage and (destPage == 'leaflet_testing') %}
@@ -52,7 +53,9 @@ Base HTML code for each web page
 
         {% if destPage and (destPage == 'dashboard' or destPage == 'races') %}
         <link rel="stylesheet" href="{{ url_for('static', filename='css/charts.css') }}">
-          <!-- 3. THE JAVASCRIPT FILES -->
+        {% endif %}
+        {% if destPage and (destPage == 'dashboard' or destPage == 'races' or destPage=='workout') %}
+        <!-- 3. THE JAVASCRIPT FILES -->
           <!-- THIRD-PARTY JAVASCRIPT LIBRARIES, MAINLY D3  -->
           {#<script src="{{ url_for('static', filename='libs/d3.min.js') }}"></script>
           <script src="{{ url_for('static', filename='libs/topojson.min.js') }}"></script>

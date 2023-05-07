@@ -635,6 +635,7 @@ def workout():
         intrvl_dict['segment_sum'] = wrkt_summary.get_lap_sum(segment_intrvl_lst)
 
     map_dict = {}
+    wrkt_data_lst = []
     if len(mile_intrvl_lst) >1:
         intrvl_dict['mile_sum'] = wrkt_summary.get_mile_sum(mile_intrvl_lst)
     if workout.wrkt_dir != None:
@@ -663,6 +664,9 @@ def workout():
 
                 map_dict['lat_lon'] = wrkt_df[['latitude', 'longitude']].dropna().values.tolist()
 
+                wrkt_df['altitude_ft'].fillna(-1, inplace=True)
+                wrkt_data_lst = wrkt_df[['dur_sec','altitude_ft','dist_mi']].to_dict('records')
+
                 if len(lap_marker_lst) >0:
                     # Remove last record for lap since that is the end of the workout
                     map_dict['lap_markers'] = lap_marker_lst[:-1]
@@ -685,10 +689,13 @@ def workout():
     if 'map_full' in request.args and request.args.get('map_full') == 'Y':
         logger.info('map_full')
         return render_template('map_full.html', workout=workout, \
-        mile_intrvl_lst=mile_intrvl_lst, segment_intrvl_lst=segment_intrvl_lst, destPage = 'workout', pause_intrvl_lst=pause_intrvl_lst, lap_intrvl_lst=lap_intrvl_lst, intrvls=intrvl_dict, map_dict=map_dict)
+        mile_intrvl_lst=mile_intrvl_lst, segment_intrvl_lst=segment_intrvl_lst, destPage = 'workout', pause_intrvl_lst=pause_intrvl_lst, lap_intrvl_lst=lap_intrvl_lst, intrvls=intrvl_dict, map_dict=map_dict, \
+        wrkt_data_lst=wrkt_data_lst)
 
     return render_template('workout.html', workout=workout, \
-      mile_intrvl_lst=mile_intrvl_lst, segment_intrvl_lst=segment_intrvl_lst, destPage = 'workout', pause_intrvl_lst=pause_intrvl_lst, lap_intrvl_lst=lap_intrvl_lst, intrvls=intrvl_dict, map_dict=map_dict)
+      mile_intrvl_lst=mile_intrvl_lst, segment_intrvl_lst=segment_intrvl_lst, destPage = 'workout', pause_intrvl_lst=pause_intrvl_lst, lap_intrvl_lst=lap_intrvl_lst, intrvls=intrvl_dict, map_dict=map_dict, \
+      wrkt_data_lst=wrkt_data_lst \
+    )
 
 
 def get_splits_by_group(df, group_field, skip_first=True):

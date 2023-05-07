@@ -254,6 +254,16 @@
         </form>
     </div>
 
+    {% if wrkt_data_lst|length >0 %}
+    <div id="elevation_chart">
+
+    </div>
+    
+    <script>
+        JavaScript:initChart({{ wrkt_data_lst|tojson|safe }});
+    </script>
+    {% endif %}
+
     {% if 'zoom' in map_dict %}
     <div id="map" style="height:600px;margin-top:25px;">
         <a id="fullButton" href="{{ url_for('main.workout', workout=workout.id, map_full='Y') }}" >
