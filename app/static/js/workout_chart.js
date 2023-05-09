@@ -15,16 +15,32 @@ function initChart(wrkt_json){
     let boundingRect = elevation_chart.node().getBoundingClientRect();
     let width = boundingRect.width - margin.left - margin.right;
     let height = boundingRect.height - margin.top - margin.bottom;
-    // let width = 500 - margin.left - margin.right;
-    // let height = 200 - margin.top - margin.bottom;
     let xPaddingLeft = 20; //padding for y-axis label
 
+    let dist_max = Math.round(d3.max(data, function(d) {return +d.dist_mi})*100)/100;
+    /*console.log(dist_max);
+    console.log(typeof(dist_max));
+    console.log('width:'+width);
+    console.log(d3.range(xPaddingLeft, width));
+    console.log('dist_max');
+    console.log(d3.range(0, dist_max));
+    console.log([0, dist_max]);*/
+    let duration_min_max = d3.extent(data, function(d) {return +d.dur_sec});
+    console.log(duration_min_max);
     // SCALES
-    let xScale = d3.scaleBand()
-        .range([xPaddingLeft, width]).padding(0.1)
-        .domain(d3.range(0,6000))
-        // .domain(d3.range(0,14))
+    let xScale = d3.scaleLinear()
+        .domain([0, dist_max]) //0 to 13
+        .range([xPaddingLeft, width])
     ;
+    // console.log(xScale(13));
+
+    /*
+    let run2pixels = d3.scaleLinear()
+        .domain([0, 42.195]) // unit: km
+        .range([0, 600]) // unit: pixels
+    ;
+    console.log(run2pixels(42));
+    */
 
     let ele_min_max = d3.extent(data, function(d) {return +d.altitude_ft});
     console.log(ele_min_max);
@@ -35,19 +51,23 @@ function initChart(wrkt_json){
         // .domain(d3.range(400,d3.max(data, function(d){return d.altitude_ft})))
         // .domain(d3.range(400, 800))
         // .domain(d3.extent(data, function(d) {return +d.altitude_ft}))
-        .domain([ele_min_max[0], ele_min_max[1]+20])
+        .domain([ele_min_max[0]-10, ele_min_max[1]+20])
     ;
 
     // AXES
     let xAxis = d3
         .axisBottom()
         .scale(xScale)
-        .tickValues(
+        /*.tickValues(
             xScale.domain().filter(function (d, i){
-                return !(d %500);
-                // return !(d %2);
+                // return !(d %500);
+                return !(d %1);
             })
-        )
+        )*/
+        .ticks(10)
+        .tickFormat(function (d) {
+            return d;
+        })
     ;
 
     let yAxis = d3
@@ -117,7 +137,7 @@ function initChart(wrkt_json){
     let titleHeight=15;
 
     let line = d3.line()
-        .x(function(d) { return xScale(d.dur_sec) })
+        .x(function(d) { return xScale(d.dist_mi) })
         .y(function(d) { return yScale(d.altitude_ft) })
         // .curve(d3.curveMonotoneX)
     ;
