@@ -7,15 +7,16 @@ function initChart(wrkt_json){
     // console.log(elevation_chart);
     // console.log(wrkt_json);
     let data = wrkt_json.filter(function(d){
-        return d.altitude_ft > -1
+        // return d.altitude_ft > -1
+        return !(isNaN(d.ele_roll))
     });
-    console.log(data);
+    // console.log(data);
 
     let margin = { top: 20, right: 20, bottom: 45, left: 40 };
     let boundingRect = elevation_chart.node().getBoundingClientRect();
     let width = boundingRect.width - margin.left - margin.right;
     let height = boundingRect.height - margin.top - margin.bottom;
-    let xPaddingLeft = 20; //padding for y-axis label
+    let xPaddingLeft = 0; //padding for y-axis label
 
     let dist_max = Math.round(d3.max(data, function(d) {return +d.dist_mi})*100)/100;
     /*console.log(dist_max);
@@ -42,7 +43,8 @@ function initChart(wrkt_json){
     console.log(run2pixels(42));
     */
 
-    let ele_min_max = d3.extent(data, function(d) {return +d.altitude_ft});
+    // let ele_min_max = d3.extent(data, function(d) {return +d.altitude_ft});
+    let ele_min_max = d3.extent(data, function(d) {return +d.ele_roll});
     console.log(ele_min_max);
     console.log((ele_min_max[0]-20) + ' ' + (ele_min_max[1]+20));
     let yScale = d3
@@ -102,9 +104,16 @@ function initChart(wrkt_json){
         .selectAll("text")
         .style("text-anchor", "end")
         .style("font-size","10px")
-        .attr("dx", "-.8em")
-        .attr("dy", ".15em")
-        // .attr("transform", "rotate(-65)")
+        .attr("dx", ".3em")
+    ;
+    // Label for X-axis
+    svg
+        .append("text")
+        .attr("x", width/2)
+        .attr("y", height + margin.top + 18 ) //Need to adjust
+        .attr("text-anchor", "middle")
+        .style("font-size", "16px")
+        .text("Mileage")
     ;
 
     svg.append("g").attr("class", "y axis").call(yAxis);
@@ -138,7 +147,8 @@ function initChart(wrkt_json){
 
     let line = d3.line()
         .x(function(d) { return xScale(d.dist_mi) })
-        .y(function(d) { return yScale(d.altitude_ft) })
+        // .y(function(d) { return yScale(d.altitude_ft) })
+        .y(function(d) { return yScale(d.ele_roll) })
         // .curve(d3.curveMonotoneX)
     ;
 
