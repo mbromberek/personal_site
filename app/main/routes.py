@@ -667,7 +667,9 @@ def workout():
                 wrkt_df['altitude_ft'].fillna(method='ffill', inplace=True)
                 wrkt_df['altitude_ft'].fillna(method='bfill', inplace=True)
                 wrkt_df['ele_roll'] = wrkt_df['altitude_ft'].rolling(15).mean()
-                wrkt_data_lst = wrkt_df[['dur_sec','altitude_ft','ele_roll','dist_mi']].to_dict('records')
+                wrkt_df['hr'].fillna(method='ffill', inplace=True)
+                wrkt_df['hr'].fillna(method='bfill', inplace=True)
+                wrkt_data_lst = wrkt_df[['dur_sec','altitude_ft','ele_roll','dist_mi','hr']].to_dict('records')
 
                 if len(lap_marker_lst) >0:
                     # Remove last record for lap since that is the end of the workout

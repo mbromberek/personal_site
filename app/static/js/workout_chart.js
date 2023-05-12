@@ -12,7 +12,7 @@ function initChart(wrkt_json){
     });
     // console.log(data);
 
-    let margin = { top: 20, right: 20, bottom: 45, left: 40 };
+    let margin = { top: 20, right: 40, bottom: 45, left: 40 };
     let boundingRect = elevation_chart.node().getBoundingClientRect();
     let width = boundingRect.width - margin.left - margin.right;
     let height = boundingRect.height - margin.top - margin.bottom;
@@ -45,6 +45,7 @@ function initChart(wrkt_json){
 
     // let ele_min_max = d3.extent(data, function(d) {return +d.altitude_ft});
     let ele_min_max = d3.extent(data, function(d) {return +d.ele_roll});
+    let hr_min_max = d3.extent(data, function(d) {return +d.hr});
     console.log(ele_min_max);
     console.log((ele_min_max[0]-20) + ' ' + (ele_min_max[1]+20));
     let yScale = d3
@@ -54,6 +55,12 @@ function initChart(wrkt_json){
         // .domain(d3.range(400, 800))
         // .domain(d3.extent(data, function(d) {return +d.altitude_ft}))
         .domain([ele_min_max[0]-10, ele_min_max[1]+20])
+    ;
+    let yRightScale = d3
+        .scaleLinear()
+        .range([height, 0])
+        // .domain([0, 200]) //hardcode heart rate range at 0 to 200
+        .domain([hr_min_max[0]-10, hr_min_max[1]+10]) //hardcode heart rate range at 50 to 200
     ;
 
     // AXES
@@ -75,6 +82,15 @@ function initChart(wrkt_json){
     let yAxis = d3
         .axisLeft()
         .scale(yScale)
+        .ticks(10)
+        .tickFormat(function (d) {
+            return d;
+        })
+    ;
+
+    let yRightAxis = d3
+        .axisRight()
+        .scale(yRightScale)
         .ticks(10)
         .tickFormat(function (d) {
             return d;
@@ -134,6 +150,25 @@ function initChart(wrkt_json){
         .style("text-anchor", "end")
     ;
 
+    svg.append("g").attr("class", "y axis").attr("transform", "translate("+(width)+",0)").call(yRightAxis);
+
+    // Setup Y Axis
+    svg
+        .append("g")
+        .attr("class", "y axis")
+        .append("text")
+        .text("Heart Rate")
+        .attr("id", "y-axis-label")
+        .attr("transform", "rotate(-90)")
+        .attr("y", width+30)
+        .attr("x", -(height/2)+40)
+        // .attr("x", 750)
+        .attr("dy", ".71em")
+        .style("font-size","15px")
+        .style("text-anchor", "end")
+    ;
+
+
     // Title for chart
     svg
         .append("text")
@@ -162,6 +197,23 @@ function initChart(wrkt_json){
         .transition()
         .duration(2000)
     ;
+
+    let lineHr = d3.line()
+        .x(function(d) { return xScale(d.dist_mi) })
+        .y(function(d) { return yRightScale(d.hr) })
+    ;
+
+    let linesHr = svg
+        .append("path")
+        .datum(data)
+        .attr("fill", "none")
+        .attr("stroke", "red")
+        .attr("stroke-width", 1.5)
+        .attr("d", lineHr)
+        .transition()
+        .duration(2000)
+    ;
+
     console.log('End initChart');
 
 }
