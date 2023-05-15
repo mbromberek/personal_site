@@ -46,6 +46,7 @@ function initChart(wrkt_json){
     // let ele_min_max = d3.extent(data, function(d) {return +d.altitude_ft});
     let ele_min_max = d3.extent(data, function(d) {return +d.ele_roll});
     let hr_min_max = d3.extent(data, function(d) {return +d.hr});
+    let curr_pace_minute_min_max = d3.extent(data, function(d) {return +d.curr_pace_minute});
     console.log(ele_min_max);
     console.log((ele_min_max[0]-20) + ' ' + (ele_min_max[1]+20));
     let yScale = d3
@@ -56,11 +57,17 @@ function initChart(wrkt_json){
         // .domain(d3.extent(data, function(d) {return +d.altitude_ft}))
         .domain([ele_min_max[0]-10, ele_min_max[1]+20])
     ;
-    let yRightScale = d3
+    let yHeartRateScale = d3
         .scaleLinear()
         .range([height, 0])
         // .domain([0, 200]) //hardcode heart rate range at 0 to 200
-        .domain([hr_min_max[0]-10, hr_min_max[1]+10]) //hardcode heart rate range at 50 to 200
+        .domain([hr_min_max[0]-10, hr_min_max[1]+10]) 
+    ;
+    let yPaceScale = d3
+        .scaleLinear()
+        .range([height, 0])
+        // .domain([0, 200]) //hardcode heart rate range at 0 to 200
+        .domain([curr_pace_minute_min_max[0]-1, curr_pace_minute_min_max[1]+1]) 
     ;
 
     // AXES
@@ -88,14 +95,23 @@ function initChart(wrkt_json){
         })
     ;
 
-    let yRightAxis = d3
+    let yHeartRateAxis = d3
         .axisRight()
-        .scale(yRightScale)
+        .scale(yHeartRateScale)
         .ticks(10)
         .tickFormat(function (d) {
             return d;
         })
     ;
+
+    let yPaceAxis = d3
+    .axisRight()
+    .scale(yPaceScale)
+    .ticks(10)
+    .tickFormat(function (d) {
+        return d;
+    })
+;
 
     let svg = elevation_chart
         .append("svg")
@@ -150,14 +166,16 @@ function initChart(wrkt_json){
         .style("text-anchor", "end")
     ;
 
-    svg.append("g").attr("class", "y axis").attr("transform", "translate("+(width)+",0)").call(yRightAxis);
+    svg.append("g").attr("class", "y axis").attr("transform", "translate("+(width)+",0)").call(yPaceAxis);
 
-    // Setup Y Axis
+    svg.append("g").attr("class", "y axis").call(yHeartRateAxis);
+
+    // Setup Y Axis Right Side Title
     svg
         .append("g")
         .attr("class", "y axis")
         .append("text")
-        .text("Heart Rate")
+        .text("Pace")
         .attr("id", "y-axis-label")
         .attr("transform", "rotate(-90)")
         .attr("y", width+30)
@@ -200,7 +218,7 @@ function initChart(wrkt_json){
 
     let lineHr = d3.line()
         .x(function(d) { return xScale(d.dist_mi) })
-        .y(function(d) { return yRightScale(d.hr) })
+        .y(function(d) { return yHeartRateScale(d.hr) })
     ;
 
     let linesHr = svg
@@ -210,6 +228,22 @@ function initChart(wrkt_json){
         .attr("stroke", "red")
         .attr("stroke-width", 1.5)
         .attr("d", lineHr)
+        .transition()
+        .duration(2000)
+    ;
+
+    let linePace = d3.line()
+        .x(function(d) { return xScale(d.dist_mi) })
+        .y(function(d) { return yPaceScale(d.curr_pace_minute) })
+    ;
+
+    let linesPace = svg
+        .append("path")
+        .datum(data)
+        .attr("fill", "none")
+        .attr("stroke", "green")
+        .attr("stroke-width", 1.5)
+        .attr("d", linePace)
         .transition()
         .duration(2000)
     ;
