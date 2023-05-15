@@ -17,6 +17,7 @@ from flask import render_template, flash, redirect, url_for, request, g, \
     jsonify, current_app, send_file, send_from_directory
 from flask_login import current_user, login_required
 import pandas as pd
+import numpy as np
 
 # Custom classes from GitHub
 import GenerateMapImage.gen_map_img as genMap
@@ -669,7 +670,24 @@ def workout():
                 wrkt_df['ele_roll'] = wrkt_df['altitude_ft'].rolling(15).mean()
                 wrkt_df['hr'].fillna(method='ffill', inplace=True)
                 wrkt_df['hr'].fillna(method='bfill', inplace=True)
-                wrkt_data_lst = wrkt_df[['dur_sec','altitude_ft','ele_roll','dist_mi','hr']].to_dict('records')
+
+                
+                # Get Current pace in minutes with decimal for seconds
+                wrkt_df['dist_mi_diff'] = wrkt_df['dist_mi'].diff()
+                wrkt_df['dist_mi_roll'] = wrkt_df['dist_mi_diff'].rolling(min_periods=1, window=11).sum()
+                wrkt_df['dur_sec_diff'] = wrkt_df['dur_sec'].diff()
+                wrkt_df['dur_sec_roll'] = wrkt_df['dur_sec_diff'].rolling(min_periods=1, window=11).sum()
+                wrkt_df['curr_pace_sec'] = wrkt_df['dur_sec_roll'] / wrkt_df['dist_mi_roll']
+                # Set infinite or NaN to 0
+                wrkt_df['curr_pace_sec'].replace(np.inf, 0)
+                wrkt_df['curr_pace_sec'].fillna(0, inplace=True)
+                # Set curr_pace_sec of first 10 records to pace for 11th record
+                wrkt_df.iloc[:10, wrkt_df.columns.get_loc('curr_pace_sec')] = wrkt_df.iloc[10:11, wrkt_df.columns.get_loc('curr_pace_sec')].values[0]
+                wrkt_df['curr_pace_minute'] = wrkt_df['curr_pace_sec'] / 60
+                # Remove calculation columns that are no longer needed
+                # wrkt_df.drop(['dist_mi_diff','dist_mi_roll','dur_sec_diff','dur_sec_roll','curr_pace_sec'], axis=1, inplace=True)
+
+                wrkt_data_lst = wrkt_df[['dur_sec','altitude_ft','ele_roll','dist_mi','hr','curr_pace_minute']].to_dict('records')
 
                 if len(lap_marker_lst) >0:
                     # Remove last record for lap since that is the end of the workout
