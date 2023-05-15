@@ -684,8 +684,9 @@ def workout():
                 # Set curr_pace_sec of first 10 records to pace for 11th record
                 wrkt_df.iloc[:10, wrkt_df.columns.get_loc('curr_pace_sec')] = wrkt_df.iloc[10:11, wrkt_df.columns.get_loc('curr_pace_sec')].values[0]
                 wrkt_df['curr_pace_minute'] = wrkt_df['curr_pace_sec'] / 60
+                wrkt_df['curr_pace_minute'] = wrkt_df['curr_pace_minute'].rolling(15).mean()
                 # Remove calculation columns that are no longer needed
-                # wrkt_df.drop(['dist_mi_diff','dist_mi_roll','dur_sec_diff','dur_sec_roll','curr_pace_sec'], axis=1, inplace=True)
+                wrkt_df.drop(['dist_mi_diff','dist_mi_roll','dur_sec_diff','dur_sec_roll','curr_pace_sec'], axis=1, inplace=True)
 
                 wrkt_data_lst = wrkt_df[['dur_sec','altitude_ft','ele_roll','dist_mi','hr','curr_pace_minute']].to_dict('records')
 
