@@ -56,19 +56,20 @@ function initChart(wrkt_json){
         // .domain(d3.range(400, 800))
         // .domain(d3.extent(data, function(d) {return +d.altitude_ft}))
         .domain([ele_min_max[0]-10, ele_min_max[1]+190])
+        // .domain([ele_min_max[0]-80, 1200])
     ;
     let yHeartRateScale = d3
         .scaleLinear()
         .range([height, 0])
-        // .domain([0, 200]) //hardcode heart rate range at 0 to 200
-        .domain([hr_min_max[0]-10, hr_min_max[1]+10]) 
+        .domain([15,  hr_min_max[1]+10]) //hardcode heart rate range at 0 to 200
+        // .domain([hr_min_max[0]-10, hr_min_max[1]+10]) 
     ;
     let yPaceScale = d3
         .scaleLinear()
         .range([height, 0])
         // .domain([0, 200]) //hardcode heart rate range at 0 to 200
         // .domain([curr_pace_minute_min_max[0]-1, curr_pace_minute_min_max[1]+1]) 
-        .domain([curr_pace_minute_min_max[1]+3, curr_pace_minute_min_max[0]-1]) 
+        .domain([curr_pace_minute_min_max[1]+3, curr_pace_minute_min_max[0]-2]) 
     ;
 
     // AXES
