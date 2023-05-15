@@ -49,13 +49,13 @@ function initChart(wrkt_json){
     let curr_pace_minute_min_max = d3.extent(data, function(d) {return +d.curr_pace_minute});
     console.log(ele_min_max);
     console.log((ele_min_max[0]-20) + ' ' + (ele_min_max[1]+20));
-    let yScale = d3
+    let yElevationScale = d3
         .scaleLinear()
         .range([height, 0])
         // .domain(d3.range(400,d3.max(data, function(d){return d.altitude_ft})))
         // .domain(d3.range(400, 800))
         // .domain(d3.extent(data, function(d) {return +d.altitude_ft}))
-        .domain([ele_min_max[0]-10, ele_min_max[1]+20])
+        .domain([ele_min_max[0]-10, ele_min_max[1]+190])
     ;
     let yHeartRateScale = d3
         .scaleLinear()
@@ -67,7 +67,8 @@ function initChart(wrkt_json){
         .scaleLinear()
         .range([height, 0])
         // .domain([0, 200]) //hardcode heart rate range at 0 to 200
-        .domain([curr_pace_minute_min_max[0]-1, curr_pace_minute_min_max[1]+1]) 
+        // .domain([curr_pace_minute_min_max[0]-1, curr_pace_minute_min_max[1]+1]) 
+        .domain([curr_pace_minute_min_max[1]+3, curr_pace_minute_min_max[0]-1]) 
     ;
 
     // AXES
@@ -86,9 +87,9 @@ function initChart(wrkt_json){
         })
     ;
 
-    let yAxis = d3
+    let yElevationAxis = d3
         .axisLeft()
-        .scale(yScale)
+        .scale(yElevationScale)
         .ticks(10)
         .tickFormat(function (d) {
             return d;
@@ -148,7 +149,7 @@ function initChart(wrkt_json){
         .text("Mileage")
     ;
 
-    svg.append("g").attr("class", "y axis").call(yAxis);
+    svg.append("g").attr("class", "y axis").call(yElevationAxis);
 
     // Setup Y Axis
     svg
@@ -188,7 +189,7 @@ function initChart(wrkt_json){
 
 
     // Title for chart
-    svg
+    /*svg
         .append("text")
         .attr("x", width/2)
         .attr("y", 0)
@@ -196,12 +197,12 @@ function initChart(wrkt_json){
         .style("font-size", "20px")
         .text("Workout Elevation")
     ;
-    let titleHeight=15;
+    let titleHeight=15;*/
 
     let line = d3.line()
         .x(function(d) { return xScale(d.dist_mi) })
         // .y(function(d) { return yScale(d.altitude_ft) })
-        .y(function(d) { return yScale(d.ele_roll) })
+        .y(function(d) { return yElevationScale(d.ele_roll) })
         // .curve(d3.curveMonotoneX)
     ;
 
