@@ -255,22 +255,12 @@ function initChart(wrkt_json, wrkt_miles_json){
     // Setup tooltip logic
     const xAxisLine = svg
         .append("g")
+        .append("rect")
         .attr("class","dotted")
         .attr("stroke-width", "1px")
         .attr("width", ".5px")
         .attr("height", height)
-    ;
-    let vertical = svg
-        .append("div")
-        .attr("class", "remove")
-        .style("position", "absolute")
-        .style("z-index", "100")
-        .style("width", "15px")
-        .style("height", height)
-        .style("top", "10px")
-        .style("bottom", "30px")
-        .style("left", "0px")
-        .style("background", "#fff")
+        // .attr("x", "100px")
     ;
 
     const tooltip = d3.select('#tooltip');
@@ -279,51 +269,46 @@ function initChart(wrkt_json, wrkt_miles_json){
     onMouseMove = function(event, d){
         console.log("onMouseMove");
         const mousePosition = d3.pointer(event);
-        console.log(mousePosition);
+        console.log(`Mouse Location: ${mousePosition[0]} ${mousePosition[1]}`);
         let hoverMile = xScale.invert(mousePosition[0]);
-        // let dist = `${d3.format("~.2f")(hoverMile)}`;
         let dist = Math.round(hoverMile*100)/100;
-        console.log(hoverMile);
-        console.log(dist);
-        console.log(wrkt_miles_json[dist]);
-        let hoverElevation = yElevationScale.invert(mousePosition[1]);
+        // console.log(hoverMile);
+        // console.log(dist);
+        // console.log(wrkt_miles_json[dist]);
+        /*let hoverElevation = yElevationScale.invert(mousePosition[1]);
         let hoverPace = yPaceScale.invert(mousePosition[0]);
-        let hoverHr = yHeartRateScale.invert(mousePosition[0]);
+        let hoverHr = yHeartRateScale.invert(mousePosition[0]);*/
         /*console.log(`Mile: ${d3.format(".2f")(hoverMile)} `+
             `\nElevation: ${d3.format(".2f")(hoverElevation)}` + 
             `\nPace: `+hoverPace
         );*/
-        console.log(`Mouse Location: ${mousePosition[0]} ${mousePosition[1]}`);
         tooltip.select('#elevation').html(`Elevation: ${d3.format(".2f")(wrkt_miles_json[dist]['ele_roll'])} feet`);
         tooltip.select('#distance').html(`Distance: ${d3.format(".2f")(wrkt_miles_json[dist]['dist_mi'])} miles`);
         tooltip.select('#heartrate').html(`Heart Rate: ${d3.format(".0f")(wrkt_miles_json[dist]['hr'])}`);
         tooltip.select('#pace').html(`Pace: ${d3.format(".2f")(wrkt_miles_json[dist]['curr_pace_minute'])} /mile`);
-        /*tooltip.style("transform", `translate( ` + 
-            `calc(-50% + ${mousePosition[0]}px), ` + 
-            `calc(-100% + ${(mousePosition[1] )}px)`
-        );*/
+        console.log(`lat: ${wrkt_miles_json[dist]['latitude']}, lon: ${wrkt_miles_json[dist]['longitude']}`)
+
+        // Show tooltip and have it left of mouse if close to right side of chart
         tooltip.style("top", 10 + "px");
-        tooltip.style("left", (mousePosition[0] + 50) + "px");
-        /*tooltip.style("transform", `translate( ` + 
-            `calc(-50% + ${mousePosition[0] + 120}px), ` + 
-            `calc(-100% + ${(70 )}px)`
-        );*/
-
+        let toolTipPosition = mousePosition[0]+50
+        if ((toolTipPosition) > (width*0.75)){
+            toolTipPosition = mousePosition[0] - 150;
+        }
+        tooltip.style("left", toolTipPosition + "px");
         tooltip.style("opacity", 0.9);
-        // console.log(xScale(mousePosition[0]))
 
-        // This allows to find the closest X index of the mouse:
-        // var bisect = d3.bisector(function(d) { return d.x; }).left;
-        // var bisect = d3.bisector(function(d) {return +d.dist_mi}).left;
+        // Draw vertical line where mouse pointer is
+        xAxisLine.attr("x", mousePosition[0]);
+        xAxisLine.style("opacity", 1);
 
-        // console.log(bisect(data, mousePosition[0], 1));
-        // xAxisLine.attr("x", "135");
-        vertical.style("left", mousePosition[0] + "px" );
+
 
     }
     ;
     onMouseLeave = function(event, d){
         tooltip.style("opacity", 0);
+        // xAxisLine.attr("x", 0);
+        xAxisLine.style("opacity", 0);
     }
 
     const listeningRect = svg
@@ -341,12 +326,3 @@ function initChart(wrkt_json, wrkt_miles_json){
 
 }
 
-/*function onMouseMove(){
-    console.log("onMouseMove");
-    const mousePosition = d3.pointer(this);
-    const hoveredData = xScale.invert(mousePosition[0]);
-    console.log(hoveredData);
-}*/
-// function onMouseLeave(){
-//     console.log("onMouseLeave");
-// }
