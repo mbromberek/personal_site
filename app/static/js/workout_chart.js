@@ -1,7 +1,6 @@
 let elevation_chart;
 let TRANS_DURATION = 2000;
-
-
+var currentLocMarker;
 
 function initChart(wrkt_json, wrkt_miles_json){
     console.log('workout_chart.js initChart');
@@ -266,6 +265,8 @@ function initChart(wrkt_json, wrkt_miles_json){
     const tooltip = d3.select('#tooltip');
 
 
+
+
     onMouseMove = function(event, d){
         console.log("onMouseMove");
         const mousePosition = d3.pointer(event);
@@ -301,7 +302,27 @@ function initChart(wrkt_json, wrkt_miles_json){
         xAxisLine.attr("x", mousePosition[0]);
         xAxisLine.style("opacity", 1);
 
+        // console.log(startCircle);
 
+        let currLocationList = [];
+        currLocationList[0] = {};
+        currLocationList[0]['lat'] = wrkt_miles_json[dist]['latitude'];
+        currLocationList[0]['lon'] = wrkt_miles_json[dist]['longitude'];
+        currLocationList[0]['nbr'] = 1;
+        currLocation = [];
+        currLocationList.forEach(function(marker, index){
+            currLocation.push(create_marker(marker, 'yellow'));
+        });
+        if (currentLocMarker !== undefined ){
+            map.removeLayer(currentLocMarker);
+        }
+        currentLocMarker = new L.geoJson(currLocation, {
+            pointToLayer: function(feature, latlng) {
+                return new L.CircleMarker([latlng.lng, latlng.lat],  feature.properties);
+            } 
+        });
+   
+        currentLocMarker.addTo(map);
 
     }
     ;
@@ -309,6 +330,9 @@ function initChart(wrkt_json, wrkt_miles_json){
         tooltip.style("opacity", 0);
         // xAxisLine.attr("x", 0);
         xAxisLine.style("opacity", 0);
+        if (currentLocMarker !== undefined ){
+            map.removeLayer(currentLocMarker);
+        }
     }
 
     const listeningRect = svg
