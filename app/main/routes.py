@@ -695,7 +695,9 @@ def workout():
                 wrkt_miles_df['dist'] = wrkt_miles_df.round({'dist_mi':2})[['dist_mi']].astype(str)
                 wrkt_miles_df.set_index('dist', inplace=True)
                 wrkt_miles_df.drop_duplicates(keep='first', inplace=True)
-                wrkt_miles_dict = wrkt_miles_df[~wrkt_miles_df.index.duplicated(keep='first')][['dist_mi','dur_sec','altitude_ft','ele_roll','hr','curr_pace_minute']].to_dict('index')
+                wrkt_miles_dict = wrkt_miles_df[~wrkt_miles_df.index.duplicated(keep='first')][[\
+                    'dist_mi','dur_sec','altitude_ft','ele_roll','hr','curr_pace_minute','latitude','longitude','lap'\
+                    ]].to_dict('index')
 
                 if len(lap_marker_lst) >0:
                     # Remove last record for lap since that is the end of the workout
