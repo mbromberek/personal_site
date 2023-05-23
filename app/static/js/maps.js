@@ -109,7 +109,7 @@ function initMap(map_json, show_laps, show_miles, track_clicks) {
         // console.log(marker);
         milePoints.push(create_marker(marker, mile_marker_color));
     });
-    console.log(milePoints);
+    // console.log(milePoints);
     map_json.lap_markers.forEach(function(marker, index){
         // console.log(marker);
         lapPoints.push(create_marker(marker, lap_marker_color));
@@ -212,8 +212,11 @@ function initMap(map_json, show_laps, show_miles, track_clicks) {
     console.log('End: leaflet_maps initMap');
 }
 
-function create_marker(marker, marker_color){
-    var mile_marker_json = {
+function create_marker(marker, marker_color, fill_opacity){
+    if (fill_opacity === undefined){
+        fill_opacity = "0.8";
+    }
+    let mile_marker_json = {
         "type": "Feature",
         "geometry": {
             "type": "Point",
@@ -226,7 +229,7 @@ function create_marker(marker, marker_color){
             "color": '#000',
             "weight": 1,
             "opacity": 1,
-            "fillOpacity": "0.8"
+            "fillOpacity": fill_opacity
         }
     };
     return mile_marker_json
