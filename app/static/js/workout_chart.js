@@ -28,7 +28,7 @@ function initChart(wrkt_json, wrkt_miles_json){
     console.log(d3.range(0, dist_max));
     console.log([0, dist_max]);*/
     let duration_min_max = d3.extent(data, function(d) {return +d.dur_sec});
-    console.log(duration_min_max);
+    // console.log(duration_min_max);
     // SCALES
     let xScale = d3.scaleLinear()
         .domain([0, dist_max]) //0 to 13
@@ -48,8 +48,7 @@ function initChart(wrkt_json, wrkt_miles_json){
     let ele_min_max = d3.extent(data, function(d) {return +d.ele_roll});
     let hr_min_max = d3.extent(data, function(d) {return +d.hr});
     let curr_pace_minute_min_max = d3.extent(data, function(d) {return +d.curr_pace_minute});
-    console.log(ele_min_max);
-    console.log((ele_min_max[0]-20) + ' ' + (ele_min_max[1]+20));
+    
     let yElevationScale = d3
         .scaleLinear()
         .range([height, 0])
@@ -178,7 +177,7 @@ function initChart(wrkt_json, wrkt_miles_json){
         .append("g")
         .attr("class", "y axis")
         .append("text")
-        .text("Pace")
+        .text("Pace (minutes)")
         .attr("id", "y-axis-label")
         .attr("transform", "rotate(-90)")
         .attr("y", width+30)
@@ -203,9 +202,7 @@ function initChart(wrkt_json, wrkt_miles_json){
 
     let line = d3.line()
         .x(function(d) { return xScale(d.dist_mi) })
-        // .y(function(d) { return yScale(d.altitude_ft) })
         .y(function(d) { return yElevationScale(d.ele_roll) })
-        // .curve(d3.curveMonotoneX)
     ;
 
     let lines = svg
@@ -268,26 +265,20 @@ function initChart(wrkt_json, wrkt_miles_json){
 
 
     onMouseMove = function(event, d){
-        console.log("onMouseMove");
         const mousePosition = d3.pointer(event);
-        console.log(`Mouse Location: ${mousePosition[0]} ${mousePosition[1]}`);
+        // console.log(`Mouse Location: ${mousePosition[0]} ${mousePosition[1]}`);
         let hoverMile = xScale.invert(mousePosition[0]);
         let dist = Math.round(hoverMile*100)/100;
-        // console.log(hoverMile);
-        // console.log(dist);
-        // console.log(wrkt_miles_json[dist]);
-        /*let hoverElevation = yElevationScale.invert(mousePosition[1]);
-        let hoverPace = yPaceScale.invert(mousePosition[0]);
-        let hoverHr = yHeartRateScale.invert(mousePosition[0]);*/
-        /*console.log(`Mile: ${d3.format(".2f")(hoverMile)} `+
-            `\nElevation: ${d3.format(".2f")(hoverElevation)}` + 
-            `\nPace: `+hoverPace
-        );*/
-        tooltip.select('#elevation').html(`Elevation: ${d3.format(".2f")(wrkt_miles_json[dist]['ele_roll'])} feet`);
-        tooltip.select('#distance').html(`Distance: ${d3.format(".2f")(wrkt_miles_json[dist]['dist_mi'])} miles`);
-        tooltip.select('#heartrate').html(`Heart Rate: ${d3.format(".0f")(wrkt_miles_json[dist]['hr'])}`);
-        tooltip.select('#pace').html(`Pace: ${d3.format(".2f")(wrkt_miles_json[dist]['curr_pace_minute'])} /mile`);
-        console.log(`lat: ${wrkt_miles_json[dist]['latitude']}, lon: ${wrkt_miles_json[dist]['longitude']}`)
+
+        if (dist in wrkt_miles_json){
+            tooltip.select('#elevation').html(`Elevation: ${d3.format(".2f")(wrkt_miles_json[dist]['ele_roll'])} feet`);
+            tooltip.select('#distance').html(`Distance: ${d3.format(".2f")(wrkt_miles_json[dist]['dist_mi'])} miles`);
+            tooltip.select('#heartrate').html(`Heart Rate: ${d3.format(".0f")(wrkt_miles_json[dist]['hr'])}`);
+            // tooltip.select('#pace').html(`Pace: ${d3.format(".2f")(wrkt_miles_json[dist]['curr_pace_minute'])} /mile`);
+            tooltip.select('#pace').html(`Pace: ${wrkt_miles_json[dist]['curr_pace_str']} /mile`);
+            // console.log(`lat: ${wrkt_miles_json[dist]['latitude']}, lon: ${wrkt_miles_json[dist]['longitude']}`)
+            tooltip.select('#duration').html(`${wrkt_miles_json[dist]['dur_str']}`);
+        }
 
         // Show tooltip and have it left of mouse if close to right side of chart
         tooltip.style("top", 10 + "px");
@@ -302,38 +293,34 @@ function initChart(wrkt_json, wrkt_miles_json){
         xAxisLine.attr("x", mousePosition[0]);
         xAxisLine.style("opacity", 1);
 
-        // console.log(startCircle);
-
-        let currLocationList = [];
-        currLocationList[0] = {};
-        currLocationList[0]['lat'] = wrkt_miles_json[dist]['latitude'];
-        currLocationList[0]['lon'] = wrkt_miles_json[dist]['longitude'];
-        currLocationList[0]['nbr'] = 1;
-        currLocation = [];
-        currLocationList.forEach(function(marker, index){
-            currLocation.push(create_marker(marker, 'yellow'));
-        });
-        if (currentLocMarker !== undefined ){
-            map.removeLayer(currentLocMarker);
+        if (dist in wrkt_miles_json){
+            let currLocationDict = {
+                'lat':wrkt_miles_json[dist]['latitude'],
+                'lon':wrkt_miles_json[dist]['longitude'],
+                'nbr':1
+            };    
+            currLocation = [];
+            currLocation.push(create_marker(currLocationDict, 'lightblue', "0.7"));
+            if (currentLocMarker !== undefined ){
+                map.removeLayer(currentLocMarker);
+            }
+            currentLocMarker = new L.geoJson(currLocation, {
+                pointToLayer: function(feature, latlng) {
+                    return new L.CircleMarker([latlng.lng, latlng.lat],  feature.properties);
+                } 
+            });
+            currentLocMarker.addTo(map);
         }
-        currentLocMarker = new L.geoJson(currLocation, {
-            pointToLayer: function(feature, latlng) {
-                return new L.CircleMarker([latlng.lng, latlng.lat],  feature.properties);
-            } 
-        });
-   
-        currentLocMarker.addTo(map);
 
-    }
-    ;
+    };
+    
     onMouseLeave = function(event, d){
         tooltip.style("opacity", 0);
-        // xAxisLine.attr("x", 0);
         xAxisLine.style("opacity", 0);
         if (currentLocMarker !== undefined ){
             map.removeLayer(currentLocMarker);
         }
-    }
+    };
 
     const listeningRect = svg
         .append("rect")
@@ -343,10 +330,7 @@ function initChart(wrkt_json, wrkt_miles_json){
         .on("mousemove", onMouseMove)
         .on("mouseleave", onMouseLeave)
     ;
-    // let listeningRects = svg.append("path").attr("d",listeningRect);
 
     console.log('End initChart');
-    console.log(wrkt_miles_json);
-
 }
 
