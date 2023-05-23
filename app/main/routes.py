@@ -661,8 +661,8 @@ def workout():
                 map_dict['center'] = genMap.calc_center(lats=[lat_max, lat_min], lons=[lon_max, lon_min])
                 map_dict['zoom'] = genMap.calc_zoom(lats=[lat_min, lat_max], lons=[lon_min, lon_max], img_dim={'height':1300, 'width':1600})
 
-                print('zoom: ' + str(map_dict['zoom']))
-                print('center:' + str(map_dict['center']))
+                # print('zoom: ' + str(map_dict['zoom']))
+                # print('center:' + str(map_dict['center']))
 
                 map_dict['lat_lon'] = wrkt_df[['latitude', 'longitude']].dropna().values.tolist()
 
@@ -687,17 +687,25 @@ def workout():
                 wrkt_df['curr_pace_minute'] = wrkt_df['curr_pace_sec'] / 60
                 wrkt_df['curr_pace_minute'] = wrkt_df['curr_pace_minute'].rolling(15).mean()
                 # Remove calculation columns that are no longer needed
-                wrkt_df.drop(['dist_mi_diff','dist_mi_roll','dur_sec_diff','dur_sec_roll','curr_pace_sec'], axis=1, inplace=True)
+                wrkt_df.drop(['dist_mi_diff','dist_mi_roll','dur_sec_diff','dur_sec_roll'], axis=1, inplace=True)
 
-                wrkt_data_lst = wrkt_df[['dur_sec','altitude_ft','ele_roll','dist_mi','hr','curr_pace_minute']].to_dict('records')
+                wrkt_data_lst = wrkt_df[['ele_roll','dist_mi','hr','curr_pace_minute']].to_dict('records')
 
                 wrkt_miles_df = wrkt_df.copy()
+                wrkt_miles_df['curr_pace_str'] = wrkt_miles_df.apply(\
+                    lambda x: tm_conv.sec_to_time(x['curr_pace_sec'], format='ms'), axis=1\
+                )
+                wrkt_miles_df['dur_str'] = wrkt_miles_df.apply(\
+                    lambda x: tm_conv.sec_to_time(x['dur_sec'], format='hms-auto'), axis=1\
+                )
                 wrkt_miles_df['dist'] = wrkt_miles_df.round({'dist_mi':2})[['dist_mi']].astype(str)
                 wrkt_miles_df.set_index('dist', inplace=True)
                 wrkt_miles_df.drop_duplicates(keep='first', inplace=True)
                 wrkt_miles_dict = wrkt_miles_df[~wrkt_miles_df.index.duplicated(keep='first')][[\
-                    'dist_mi','dur_sec','altitude_ft','ele_roll','hr','curr_pace_minute','latitude','longitude','lap'\
-                    ]].to_dict('index')
+                    'dist_mi','dur_str','ele_roll','hr'\
+                    ,'curr_pace_str','latitude','longitude','lap'\
+                    # ,'dur_sec','curr_pace_minute','altitude_ft'\ # fields are not currently used 
+                ]].to_dict('index')
 
                 if len(lap_marker_lst) >0:
                     # Remove last record for lap since that is the end of the workout
@@ -712,8 +720,9 @@ def workout():
                     # map_dict['mile_markers'] = get_splits_by_group(wrkt_df, 'mile')
                     map_dict['mile_markers'] = []
                 map_dict['pause_markers'] = []
-        except:
+        except Exception as e:
             logger.error('missing pickle file: {}'.format(workout.wrkt_dir))
+            logger.error(str(e))
 
     elif len(mile_intrvl_lst) >1:
         intrvl_dict['mile_sum'] = wrkt_summary.get_mile_sum(mile_intrvl_lst)
