@@ -13,7 +13,7 @@ function initChart(wrkt_json, wrkt_miles_json){
     });
     // console.log(data);
 
-    let margin = { top: 20, right: 40, bottom: 45, left: 40 };
+    let margin = { top: 20, right: 45, bottom: 45, left: 40 };
     let boundingRect = elevation_chart.node().getBoundingClientRect();
     let width = boundingRect.width - margin.left - margin.right;
     let height = boundingRect.height - margin.top - margin.bottom;
@@ -170,7 +170,7 @@ function initChart(wrkt_json, wrkt_miles_json){
 
     svg.append("g").attr("class", "y axis").attr("transform", "translate("+(width)+",0)").call(yPaceAxis);
 
-    svg.append("g").attr("class", "y axis").call(yHeartRateAxis);
+    //svg.append("g").attr("class", "y axis").call(yHeartRateAxis);
 
     // Setup Y Axis Right Side Title
     svg
@@ -259,11 +259,38 @@ function initChart(wrkt_json, wrkt_miles_json){
         // .attr("x", "100px")
     ;
 
+    // Legend
+    /*svg
+        .append("text")
+        .attr("x", width/2)
+        .attr("y", 0)
+        .attr("text-anchor", "middle")
+        .style("font-size", "15px")
+        .style("font-color","blue")
+        .text("Elevation")
+    ;*/
+    //let legendHeight=15;
+
+    /*var legend_keys = ["Elevation", "Pace", "Heart Rate"]
+
+    var lineLegend = svg.selectAll(".lineLegend").data(legend_keys)
+        .enter().append("g")
+        .attr("class","lineLegend")
+        .attr("transform", function (d,i) {
+                return "translate(" + width + "," + (i*20)+")";
+            });
+    
+    lineLegend.append("text").text(function (d) {return d;})
+        .attr("transform", "translate(15,9)"); //align texts with boxes
+    
+    lineLegend.append("rect")
+        .attr("fill", function (d, i) {return color_scale(d); })
+        .attr("width", 10).attr("height", 10);*/
+
+    
+
+
     const tooltip = d3.select('#tooltip');
-
-
-
-
     onMouseMove = function(event, d){
         const mousePosition = d3.pointer(event);
         // console.log(`Mouse Location: ${mousePosition[0]} ${mousePosition[1]}`);

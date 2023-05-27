@@ -10,7 +10,7 @@ body {
 }
 
 #elevation_chart{
-    width:700px;
+    width:900px;
     height:400px;
     margin-left:20px;
     margin-top:20px;
@@ -934,6 +934,10 @@ td.dashboard_row_dtl{
     div.wrkt_intrvl_edit{
         width:700px;
     }
+
+    #elevation_chart{
+        width:100%;
+    }    
     
 }
 
