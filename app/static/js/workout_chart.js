@@ -197,14 +197,21 @@ function initChart(wrkt_json, wrkt_miles_json){
         .x(function(d) { return xScale(d.dist_mi) })
         .y(function(d) { return yElevationScale(d.ele_roll) })
     ;
+    let areaElevation = d3.area()
+        .x(function(d) { return xScale(d.dist_mi) })
+        .y0(height)
+        .y1(function(d) { return yElevationScale(d.ele_roll) })
+    ;
 
     let linesElevation = svg
         .append("path")
         .datum(data)
-        .attr("fill", "none")
+        // .attr("fill", "none") //Use if only show line
+        .attr("fill", "lightsteelblue")
         .attr("stroke", "steelblue")
         .attr("stroke-width", 1.5)
-        .attr("d", lineElevation)
+        // .attr("d", lineElevation) //Show just line
+        .attr("d", areaElevation) //Show line and fill
         .transition()
         .duration(2000)
     ;
