@@ -653,6 +653,7 @@ def workout():
             lat_min = wrkt_df['latitude'].min()
             lon_max = wrkt_df['longitude'].max()
             lon_min = wrkt_df['longitude'].min()
+
             if not math.isnan(lat_max):
                 map_dict = {}
                 map_dict['key'] = current_app.config['MAPBOX_API_KEY']
@@ -672,7 +673,6 @@ def workout():
                 wrkt_df['hr'].fillna(method='ffill', inplace=True)
                 wrkt_df['hr'].fillna(method='bfill', inplace=True)
 
-                
                 # Get Current pace in minutes with decimal for seconds
                 wrkt_df['dist_mi_diff'] = wrkt_df['dist_mi'].diff()
                 wrkt_df['dist_mi_roll'] = wrkt_df['dist_mi_diff'].rolling(min_periods=1, window=11).sum()
@@ -680,8 +680,10 @@ def workout():
                 wrkt_df['dur_sec_roll'] = wrkt_df['dur_sec_diff'].rolling(min_periods=1, window=11).sum()
                 wrkt_df['curr_pace_sec'] = wrkt_df['dur_sec_roll'] / wrkt_df['dist_mi_roll']
                 # Set infinite or NaN to 0
-                wrkt_df['curr_pace_sec'].replace(np.inf, 0)
+                wrkt_df['curr_pace_sec'].replace(np.inf, 0, inplace=True)
                 wrkt_df['curr_pace_sec'].fillna(0, inplace=True)
+                # If pace was slower than slowest pace set to that
+                wrkt_df['curr_pace_sec'].values[wrkt_df['curr_pace_sec'].values >const.SLOWEST_PACE] = const.SLOWEST_PACE 
                 # Set curr_pace_sec of first 10 records to pace for 11th record
                 wrkt_df.iloc[:10, wrkt_df.columns.get_loc('curr_pace_sec')] = wrkt_df.iloc[10:11, wrkt_df.columns.get_loc('curr_pace_sec')].values[0]
                 wrkt_df['curr_pace_minute'] = wrkt_df['curr_pace_sec'] / 60
@@ -698,6 +700,7 @@ def workout():
                 wrkt_miles_df['dur_str'] = wrkt_miles_df.apply(\
                     lambda x: tm_conv.sec_to_time(x['dur_sec'], format='hms-auto'), axis=1\
                 )
+
                 wrkt_miles_df['dist'] = wrkt_miles_df.round({'dist_mi':2})[['dist_mi']].astype(str)
                 wrkt_miles_df.set_index('dist', inplace=True)
                 wrkt_miles_df.drop_duplicates(keep='first', inplace=True)
@@ -721,8 +724,8 @@ def workout():
                     map_dict['mile_markers'] = []
                 map_dict['pause_markers'] = []
         except Exception as e:
+            logger.error(e, exc_info=True)
             logger.error('missing pickle file: {}'.format(workout.wrkt_dir))
-            logger.error(str(e))
 
     elif len(mile_intrvl_lst) >1:
         intrvl_dict['mile_sum'] = wrkt_summary.get_mile_sum(mile_intrvl_lst)
@@ -734,6 +737,7 @@ def workout():
             pause_intrvl_lst=pause_intrvl_lst, lap_intrvl_lst=lap_intrvl_lst, intrvls=intrvl_dict, map_dict=map_dict, \
             wrkt_data_lst=wrkt_data_lst, wrkt_miles_dict=wrkt_miles_dict)
 
+    # logger.info(map_dict)
     return render_template('workout.html', workout=workout, \
       mile_intrvl_lst=mile_intrvl_lst, segment_intrvl_lst=segment_intrvl_lst, destPage = 'workout', pause_intrvl_lst=pause_intrvl_lst, lap_intrvl_lst=lap_intrvl_lst, intrvls=intrvl_dict, map_dict=map_dict, \
       wrkt_data_lst=wrkt_data_lst, wrkt_miles_dict=wrkt_miles_dict \
