@@ -21,6 +21,30 @@ body {
     display: inline-block;
 }
 
+.chart_legend{
+    position: absolute;
+    bottom:0px;
+    /* bottom:-30px; */
+    right:20px;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top:3px;
+    padding-bottom:3px;
+    border:1px black solid;
+    font-size:12px;
+}
+.elevation_legend{
+    color:steelblue;
+    padding-right:20px;
+}
+.pace_legend{
+    color:green;
+    padding-right:20px;
+}
+.heart_rate_legend{
+    color:red;
+}
+
 /* for tooltip on workout chart */
 .chart_listening_rect{
     /* background-color:aquamarine; */
@@ -940,6 +964,11 @@ td.dashboard_row_dtl{
     #elevation_chart{
         width:100%;
     }    
+    .chart_legend{
+        position: absolute;
+        bottom:-30px;
+        left:20px;
+    }
     
 }
 

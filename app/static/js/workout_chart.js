@@ -20,14 +20,7 @@ function initChart(wrkt_json, wrkt_miles_json){
     let xPaddingLeft = 0; //padding for y-axis label
 
     let dist_max = Math.round(d3.max(data, function(d) {return +d.dist_mi})*100)/100;
-    /*console.log(dist_max);
-    console.log(typeof(dist_max));
-    console.log('width:'+width);
-    console.log(d3.range(xPaddingLeft, width));
-    console.log('dist_max');
-    console.log(d3.range(0, dist_max));
-    console.log([0, dist_max]);*/
-    let duration_min_max = d3.extent(data, function(d) {return +d.dur_sec});
+    // let duration_min_max = d3.extent(data, function(d) {return +d.dur_sec});
     // console.log(duration_min_max);
     // SCALES
     let xScale = d3.scaleLinear()
@@ -157,7 +150,7 @@ function initChart(wrkt_json, wrkt_miles_json){
         .append("g")
         .attr("class", "y axis")
         .append("text")
-        .text("Pace (minutes)")
+        .text("Pace")
         .attr("id", "y-axis-label")
         .attr("transform", "rotate(-90)")
         .attr("y", -40)
@@ -177,7 +170,7 @@ function initChart(wrkt_json, wrkt_miles_json){
         .append("g")
         .attr("class", "y axis")
         .append("text")
-        .text("Elevation (ft)")
+        .text("Elevation")
         .attr("id", "y-axis-label")
         .attr("transform", "rotate(-90)")
         .attr("y", width+30)
@@ -200,18 +193,18 @@ function initChart(wrkt_json, wrkt_miles_json){
     ;
     let titleHeight=15;*/
 
-    let line = d3.line()
+    let lineElevation = d3.line()
         .x(function(d) { return xScale(d.dist_mi) })
         .y(function(d) { return yElevationScale(d.ele_roll) })
     ;
 
-    let lines = svg
+    let linesElevation = svg
         .append("path")
         .datum(data)
         .attr("fill", "none")
         .attr("stroke", "steelblue")
         .attr("stroke-width", 1.5)
-        .attr("d", line)
+        .attr("d", lineElevation)
         .transition()
         .duration(2000)
     ;
@@ -258,34 +251,6 @@ function initChart(wrkt_json, wrkt_miles_json){
         .attr("height", height)
         // .attr("x", "100px")
     ;
-
-    // Legend
-    /*svg
-        .append("text")
-        .attr("x", width/2)
-        .attr("y", 0)
-        .attr("text-anchor", "middle")
-        .style("font-size", "15px")
-        .style("font-color","blue")
-        .text("Elevation")
-    ;*/
-    //let legendHeight=15;
-
-    /*var legend_keys = ["Elevation", "Pace", "Heart Rate"]
-
-    var lineLegend = svg.selectAll(".lineLegend").data(legend_keys)
-        .enter().append("g")
-        .attr("class","lineLegend")
-        .attr("transform", function (d,i) {
-                return "translate(" + width + "," + (i*20)+")";
-            });
-    
-    lineLegend.append("text").text(function (d) {return d;})
-        .attr("transform", "translate(15,9)"); //align texts with boxes
-    
-    lineLegend.append("rect")
-        .attr("fill", function (d, i) {return color_scale(d); })
-        .attr("width", 10).attr("height", 10);*/
 
     
 

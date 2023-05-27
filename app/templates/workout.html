@@ -266,6 +266,7 @@
     {% endif %}
 
     {% if wrkt_data_lst|length >0 %}
+
     <div id="elevation_chart">
         <div id="tooltip" class="tooltip">
             <div id="duration" class="tip_header"></div>
@@ -275,8 +276,13 @@
             <div id="pace"></div>
             <div id="duration"></div>
         </div>
+        <div class="chart_legend">
+            <span class="elevation_legend">Elevation (ft)</span>
+            <span class="pace_legend">Pace (minutes per mile)</span>
+            <span class="heart_rate_legend">Heart Rate</span>
+        </div>
     </div>
-    
+
     <script>
         JavaScript:initChart({{ wrkt_data_lst|tojson|safe }}, {{ wrkt_miles_dict|tojson|safe }} );
     </script>
