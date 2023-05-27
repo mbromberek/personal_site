@@ -89,7 +89,7 @@ function initChart(wrkt_json, wrkt_miles_json){
     ;
 
     let yElevationAxis = d3
-        .axisLeft()
+        .axisRight()
         .scale(yElevationScale)
         .ticks(10)
         .tickFormat(function (d) {
@@ -107,11 +107,11 @@ function initChart(wrkt_json, wrkt_miles_json){
     ;
 
     let yPaceAxis = d3
-    .axisRight()
-    .scale(yPaceScale)
-    .ticks(10)
-    .tickFormat(function (d) {
-        return d;
+        .axisLeft()
+        .scale(yPaceScale)
+        .ticks(10)
+        .tickFormat(function (d) {
+            return d;
     })
 ;
 
@@ -150,14 +150,14 @@ function initChart(wrkt_json, wrkt_miles_json){
         .text("Mileage")
     ;
 
-    svg.append("g").attr("class", "y axis").call(yElevationAxis);
+    svg.append("g").attr("class", "y axis").call(yPaceAxis);
 
     // Setup Y Axis
     svg
         .append("g")
         .attr("class", "y axis")
         .append("text")
-        .text("Elevation Feet")
+        .text("Pace (minutes)")
         .attr("id", "y-axis-label")
         .attr("transform", "rotate(-90)")
         .attr("y", -40)
@@ -168,7 +168,7 @@ function initChart(wrkt_json, wrkt_miles_json){
         .style("text-anchor", "end")
     ;
 
-    svg.append("g").attr("class", "y axis").attr("transform", "translate("+(width)+",0)").call(yPaceAxis);
+    svg.append("g").attr("class", "y axis").attr("transform", "translate("+(width)+",0)").call(yElevationAxis);
 
     //svg.append("g").attr("class", "y axis").call(yHeartRateAxis);
 
@@ -177,7 +177,7 @@ function initChart(wrkt_json, wrkt_miles_json){
         .append("g")
         .attr("class", "y axis")
         .append("text")
-        .text("Pace (minutes)")
+        .text("Elevation (ft)")
         .attr("id", "y-axis-label")
         .attr("transform", "rotate(-90)")
         .attr("y", width+30)
@@ -304,7 +304,7 @@ function initChart(wrkt_json, wrkt_miles_json){
             // tooltip.select('#pace').html(`Pace: ${d3.format(".2f")(wrkt_miles_json[dist]['curr_pace_minute'])} /mile`);
             tooltip.select('#pace').html(`Pace: ${wrkt_miles_json[dist]['curr_pace_str']} /mile`);
             // console.log(`lat: ${wrkt_miles_json[dist]['latitude']}, lon: ${wrkt_miles_json[dist]['longitude']}`)
-            tooltip.select('#duration').html(`${wrkt_miles_json[dist]['dur_str']}`);
+            tooltip.select('#duration').html(`Lap ${wrkt_miles_json[dist]['lap']} - ${wrkt_miles_json[dist]['dur_str']}`);
         }
 
         // Show tooltip and have it left of mouse if close to right side of chart

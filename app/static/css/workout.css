@@ -10,10 +10,12 @@ body {
 }
 
 #elevation_chart{
-    width:900px;
+    width:1000px;
+    /* width:90%; */
     height:400px;
     margin-left:20px;
     margin-top:20px;
+    margin-bottom:100px;
     /* background-color:aquamarine; */
     position:relative;
     display: inline-block;
