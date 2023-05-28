@@ -26,7 +26,8 @@ function initChart(wrkt_json, wrkt_miles_json){
          margin = { top: 20, right: 8, bottom: 75, left: 30 }; 
          pace_chart_bottom = curr_pace_minute_min_max[1]+1;
          pace_chart_top = curr_pace_minute_min_max[0]-0.5;
-     
+    }else if (boundingRect.width < 850){
+        margin = { top: 20, right: 45, bottom: 75, left: 40 }; 
     }
 
     let width = boundingRect.width - margin.left - margin.right;

@@ -1067,4 +1067,14 @@ td.dashboard_row_dtl{
         /* display:inline-block; */
     }
 
+    #elevation_chart{
+        width:90%;
+    }  
+    .chart_legend{
+        position: absolute;
+        /* bottom:-30px; */
+        left:5px;
+        width:100%;
+    }
+
 }
