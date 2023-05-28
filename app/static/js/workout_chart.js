@@ -1,10 +1,10 @@
-let elevation_chart;
+let workout_chart;
 let TRANS_DURATION = 2000;
 var currentLocMarker;
 
 function initChart(wrkt_json, wrkt_miles_json){
     console.log('workout_chart.js initChart');
-    elevation_chart = d3.select("#elevation_chart");
+    workout_chart = d3.select("#elevation_chart");
     // console.log(elevation_chart);
     // console.log(wrkt_json);
     let data = wrkt_json.filter(function(d){
@@ -12,9 +12,23 @@ function initChart(wrkt_json, wrkt_miles_json){
         return !(isNaN(d.ele_roll))
     });
     // console.log(data);
+    let ele_min_max = d3.extent(data, function(d) {return +d.ele_roll});
+    let hr_min_max = d3.extent(data, function(d) {return +d.hr});
+    let curr_pace_minute_min_max = d3.extent(data, function(d) {return +d.curr_pace_minute});
+    let pace_chart_bottom = curr_pace_minute_min_max[1]+3;
+    let pace_chart_top = curr_pace_minute_min_max[0]-2;
 
-    let margin = { top: 20, right: 45, bottom: 45, left: 40 };
-    let boundingRect = elevation_chart.node().getBoundingClientRect();
+    let boundingRect = workout_chart.node().getBoundingClientRect();
+    let margin = { top: 20, right: 45, bottom: 45, left: 40 }; 
+    let hide_yAxis_labels = false;
+    if (boundingRect.width < 600){
+         hide_yAxis_labels = true;
+         margin = { top: 20, right: 8, bottom: 75, left: 30 }; 
+         pace_chart_bottom = curr_pace_minute_min_max[1]+1;
+         pace_chart_top = curr_pace_minute_min_max[0]-0.5;
+     
+    }
+
     let width = boundingRect.width - margin.left - margin.right;
     let height = boundingRect.height - margin.top - margin.bottom;
     let xPaddingLeft = 0; //padding for y-axis label
@@ -37,10 +51,6 @@ function initChart(wrkt_json, wrkt_miles_json){
     console.log(run2pixels(42));
     */
 
-    // let ele_min_max = d3.extent(data, function(d) {return +d.altitude_ft});
-    let ele_min_max = d3.extent(data, function(d) {return +d.ele_roll});
-    let hr_min_max = d3.extent(data, function(d) {return +d.hr});
-    let curr_pace_minute_min_max = d3.extent(data, function(d) {return +d.curr_pace_minute});
     
     let yElevationScale = d3
         .scaleLinear()
@@ -54,15 +64,14 @@ function initChart(wrkt_json, wrkt_miles_json){
     let yHeartRateScale = d3
         .scaleLinear()
         .range([height, 0])
-        .domain([15,  hr_min_max[1]+10]) //hardcode heart rate range at 0 to 200
-        // .domain([hr_min_max[0]-10, hr_min_max[1]+10]) 
+        .domain([15,  hr_min_max[1]+10]) //hardcode heart rate range at 15 to max+10
     ;
     let yPaceScale = d3
         .scaleLinear()
         .range([height, 0])
         // .domain([0, 200]) //hardcode heart rate range at 0 to 200
         // .domain([curr_pace_minute_min_max[0]-1, curr_pace_minute_min_max[1]+1]) 
-        .domain([curr_pace_minute_min_max[1]+3, curr_pace_minute_min_max[0]-2]) 
+        .domain([pace_chart_bottom, pace_chart_top]) 
     ;
 
     // AXES
@@ -108,7 +117,7 @@ function initChart(wrkt_json, wrkt_miles_json){
     })
 ;
 
-    let svg = elevation_chart
+    let svg = workout_chart
         .append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
@@ -145,41 +154,42 @@ function initChart(wrkt_json, wrkt_miles_json){
 
     svg.append("g").attr("class", "y axis").call(yPaceAxis);
 
-    // Setup Y Axis
-    svg
-        .append("g")
-        .attr("class", "y axis")
-        .append("text")
-        .text("Pace")
-        .attr("id", "y-axis-label")
-        .attr("transform", "rotate(-90)")
-        .attr("y", -40)
-        .attr("x", -(height/2)+40)
-        // .attr("x", 750)
-        .attr("dy", ".71em")
-        .style("font-size","15px")
-        .style("text-anchor", "end")
-    ;
-
-    svg.append("g").attr("class", "y axis").attr("transform", "translate("+(width)+",0)").call(yElevationAxis);
-
     //svg.append("g").attr("class", "y axis").call(yHeartRateAxis);
 
-    // Setup Y Axis Right Side Title
-    svg
-        .append("g")
-        .attr("class", "y axis")
-        .append("text")
-        .text("Elevation")
-        .attr("id", "y-axis-label")
-        .attr("transform", "rotate(-90)")
-        .attr("y", width+30)
-        .attr("x", -(height/2)+40)
-        // .attr("x", 750)
-        .attr("dy", ".71em")
-        .style("font-size","15px")
-        .style("text-anchor", "end")
-    ;
+    if (!hide_yAxis_labels){
+        svg
+            .append("g")
+            .attr("class", "y axis")
+            .append("text")
+            .text("Pace")
+            .attr("id", "y-axis-label")
+            .attr("transform", "rotate(-90)")
+            .attr("y", -40)
+            .attr("x", -(height/2)+40)
+            // .attr("x", 750)
+            .attr("dy", ".71em")
+            .style("font-size","15px")
+            .style("text-anchor", "end")
+        ;
+
+        svg.append("g").attr("class", "y axis").attr("transform", "translate("+(width)+",0)").call(yElevationAxis);
+
+        // Setup Y Axis Right Side Title
+        svg
+            .append("g")
+            .attr("class", "y axis")
+            .append("text")
+            .text("Elevation")
+            .attr("id", "y-axis-label")
+            .attr("transform", "rotate(-90)")
+            .attr("y", width+30)
+            .attr("x", -(height/2)+40)
+            // .attr("x", 750)
+            .attr("dy", ".71em")
+            .style("font-size","15px")
+            .style("text-anchor", "end")
+        ;
+    }
 
 
     // Title for chart
@@ -223,6 +233,7 @@ function initChart(wrkt_json, wrkt_miles_json){
 
     let linesHr = svg
         .append("path")
+        .style("stroke-dasharray",("5,3"))
         .datum(data)
         .attr("fill", "none")
         .attr("stroke", "red")
