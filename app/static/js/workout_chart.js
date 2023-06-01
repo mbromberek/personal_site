@@ -23,7 +23,7 @@ function initChart(wrkt_json, wrkt_miles_json){
     let hide_yAxis_labels = false;
     if (boundingRect.width < 600){
          hide_yAxis_labels = true;
-         margin = { top: 20, right: 8, bottom: 75, left: 30 }; 
+         margin = { top: 20, right: 3, bottom: 75, left: 3 }; 
          pace_chart_bottom = curr_pace_minute_min_max[1]+1;
          pace_chart_top = curr_pace_minute_min_max[0]-0.5;
     }else if (boundingRect.width < 850){
@@ -153,11 +153,11 @@ function initChart(wrkt_json, wrkt_miles_json){
         .text("Mileage")
     ;
 
-    svg.append("g").attr("class", "y axis").call(yPaceAxis);
-
-    //svg.append("g").attr("class", "y axis").call(yHeartRateAxis);
 
     if (!hide_yAxis_labels){
+        svg.append("g").attr("class", "y axis").call(yPaceAxis);
+        
+        //svg.append("g").attr("class", "y axis").call(yHeartRateAxis);
         svg
             .append("g")
             .attr("class", "y axis")
@@ -268,7 +268,7 @@ function initChart(wrkt_json, wrkt_miles_json){
         .attr("stroke-width", "1px")
         .attr("width", ".5px")
         .attr("height", height)
-        // .attr("x", "100px")
+        .style("opacity", 0);
     ;
 
     

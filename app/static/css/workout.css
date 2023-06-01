@@ -962,13 +962,14 @@ td.dashboard_row_dtl{
     }
 
     #elevation_chart{
-        width:90%;
+        width:100%;
+        margin-left:0px;
     }    
     .chart_legend{
         position: absolute;
         /* bottom:-30px; */
-        left:5px;
-        width:100%;
+        left:3%;
+        width:94%;
     }
     
 }
