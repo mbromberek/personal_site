@@ -14,7 +14,7 @@ body {
     /* width:90%; */
     height:400px;
     margin-left:20px;
-    margin-top:20px;
+    margin-top:5px;
     margin-bottom:100px;
     /* background-color:aquamarine; */
     position:relative;
@@ -197,6 +197,7 @@ header.workout{
     font-weight:bold;
     font-size: 20pt;
     text-align: left;
+    margin-left:5px;
 }
 .wrkts_hdr_row{
     overflow:auto;
@@ -354,12 +355,15 @@ input.workout_filter_btn_container:hover{
 }
 
 .workout_notes{
+    /* Used to limit size of notes section on workouts list */
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow:hidden;
     width:100%;
 }
+
+
 
 
 .workouts_weather{
@@ -390,16 +394,122 @@ input.workout_filter_btn_container:hover{
     padding-right:30px;
     width:100%;
 }
+
 .workout_page_detail{
-    padding-left:30px;
-    padding-right:30px;
+    padding-left:5px;
+    /* margin-right:5px; */
     width:100%;
+    display:block;
+    /* border:1px blue solid; */
+    /* background-color: red; */
 }
+#wrkt_page_detail_left{
+    /* float:left; */
+    width:475px;
+    display:inline-block;
+    vertical-align: top;
+}
+#wrkt_page_detail_right{
+    /* float:left; */
+    /* width:500px; */
+    display:inline-block;
+    /* width:450px; */
+    width:calc((100% - 500px));
+}
+
+.wrkt_section{
+    width:450px;
+    margin-left:0px;
+}
+.wrkt_notes{
+    height: 400px;
+    overflow: scroll;
+    overflow-x: hidden;
+    display: inline-block;
+}
+#wrkt_page_gear{
+    height:143px;
+    overflow:hidden;
+    /* display: inline-block; */
+}
+
+/* Style the tab */
+.wrktPage_splits{
+    display:inline-block;
+    margin-top:10px;
+    margin-left:0px;
+    width:380px;
+    /* border:1px solid green; */
+}
+.wrktPage_splits_tab {
+  overflow: hidden;
+  /* border: 1px solid #ccc; */
+  /* background-color: #f1f1f1; */
+  /* background-color:black; */
+  /* width:450px; */
+  /* margin-top:100px; */
+  /* margin-left:5px; */
+  display:block;
+}
+.wrktPage_splits_data{
+    /* width:450px; */
+    height: 570px;
+    overflow: scroll;
+    overflow-x: hidden;
+    /* display: inline-block; */
+    display: block;
+}
+
+/* Style the buttons that are used to open the tab content */
+.wrktPage_splits_tab button {
+  background-color: lightgray;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding-left: 16px;
+  padding-right: 16px;
+  transition: 0.3s;
+  height:30px;
+}
+
+/* Change background color of buttons on hover */
+.wrktPage_splits_tab button:hover {
+  background-color: gray;
+}
+
+/* Create an active/current tablink class */
+.wrktPage_splits_tab button.active {
+  background-color: #43d9b8;
+}
+
+/* Style the tab content */
+.tabcontent {
+  display: none;
+  /* padding: 6px 12px; */
+  /* border: 1px solid #ccc; */
+  border-top: none;
+  animation: fadeEffect 1s; /* Fading effect takes 1 second */
+} 
+/* Go from zero to full opacity */
+@keyframes fadeEffect {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+/* style the tab */
+
+
 .workout_page_splits{
     margin-left:30px;
     margin-right:30px;
     width: 1100px;
     vertical-align:top;
+}
+.wrktPage_map{
+    display:inline-block;
+    width:calc((100% - 395px));
+    float:right;
+    margin-top:10px;
 }
 .workout_page_buttons{
     padding-left:30px;
@@ -439,17 +549,39 @@ input.workout_filter_btn_container:hover{
 
 td.workout-intrvl{
     font-weight:normal;
-    font-size: 12pt;
+    font-size: 10pt;
     text-align: center;
-    padding-left:4px;
-    padding-right:4px;
+    padding-left:1px;
+    padding-right:1px;
     padding-top:1px;
     padding-bottom:0px;
-    border: 1px black solid;
+    border-top: 1px lightgray solid;
 }
 td.workout-intrvl-hdr{
     font-weight:bold;
     font-size: 12pt;
+    padding-left:2px;
+    padding-right:2px;
+    background-color:#43d9b8;
+    border:0px;
+}
+#intrvl_det{
+    width:70px;
+}
+#intrvl_duration{
+    width:65px;
+}
+#intrvl_dist_mi{
+    width:60px;
+}
+#intrvl_pace{
+    width:60px;
+}
+#intrvl_hr{
+    width:40px;
+}
+#intrvl_elev{
+    width:80px;
 }
 div.wrkt_intrvl_edit{
     width:900px;
@@ -492,7 +624,9 @@ div.wrkt_intrvl_edit{
 
 
 td.workout_intrvl_sum{
-    font-weight:bold;
+    font-weight:normal;
+    background-color:#43d9b8;
+    border:0px;
 }
 
 div.wrkt_type_description{
@@ -503,6 +637,7 @@ div.wrkt_type_description{
     padding-right:0px;
     padding-top:5px;
     padding-bottom:5px;
+    margin-left:5px;
 }
 
 a.workout_lnk{
@@ -594,11 +729,9 @@ legend.wrkt_det{
     width:auto;
 }
 
-.wrkt_section{
-    width:600px;
-}
 
-.wrkt_section_notes{
+
+.edit_wrkt_section_notes{
     width:600px;
     height:125px;
 }
@@ -798,6 +931,12 @@ td.dashboard_row_dtl{
         padding-right:15px;
         width:100%;
     }
+    #wrkt_page_detail_left{
+        float:left;
+        width:100%;
+    }
+
+    
     .workout_page_splits{
         width:100%;
         margin-left:0px;
@@ -810,6 +949,13 @@ td.dashboard_row_dtl{
         padding-right:15px;
         width:100%;
     }
+    .wrktPage_map{
+        display:block;
+        width:100%
+        float:left;
+        margin-top:10px;
+    }
+
     .dashboard_page{
         margin-left:15px;
         margin-right:15px;
@@ -1078,4 +1224,9 @@ td.dashboard_row_dtl{
         width:100%;
     }
 
+}
+@media screen and (min-width: 1900px) {
+    #wrkt_page_detail_right{
+        width:1400px;
+    }
 }

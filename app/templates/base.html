@@ -38,6 +38,7 @@ Base HTML code for each web page
         <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
         <script src="{{ url_for('static', filename='js/maps.js') }}"></script>
         <script src="{{ url_for('static', filename='js/workout_chart.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/wrktPage_splits.js') }}"></script>
         {% endif %}
 
         {% if destPage and (destPage == 'leaflet_testing') %}

@@ -1,25 +1,22 @@
 <table>
     <tr style="font-weight:bold">
-        <td class="workout-intrvl workout-intrvl-hdr">
+        <td class="workout-intrvl workout-intrvl-hdr" id="intrvl_det">
             {{ intrvl_nm }}
         </td>
-        <td class="workout-intrvl workout-intrvl-hdr">
-            Duration
+        <td class="workout-intrvl workout-intrvl-hdr" id="intrvl_duration">
+            Time
         </td>
-        <td class="workout-intrvl workout-intrvl-hdr">
-            Dist<span class="hide_mobile">ance</span>
+        <td class="workout-intrvl workout-intrvl-hdr" id="intrvl_dist_mi">
+            Dist{#<span class="hide_mobile">ance</span>#}
         </td>
-        <td class="workout-intrvl workout-intrvl-hdr">
+        <td class="workout-intrvl workout-intrvl-hdr" id="intrvl_pace">
             Pace
         </td>
-        <td class="workout-intrvl workout-intrvl-hdr">
+        <td class="workout-intrvl workout-intrvl-hdr" id="intrvl_hr">
             HR
         </td>
-        <td class="workout-intrvl workout-intrvl-hdr hide_mobile">
-            Ele↑
-        </td>
-        <td class="workout-intrvl workout-intrvl-hdr hide_mobile">
-            Ele↓
+        <td class="workout-intrvl workout-intrvl-hdr hide_mobile" id="intrvl_elev">
+            Elev
         </td>
     </tr>
 {% for intrvl in intrvl_lst %}
@@ -40,10 +37,8 @@
             {{ intrvl.hr }}
         </td>
         <td class="workout-intrvl hide_mobile">
-            {{ intrvl.ele_up }}
-        </td>
-        <td class="workout-intrvl hide_mobile">
-            {{ intrvl.ele_down }}
+            {{ "%.0f"|format(intrvl.ele_up|float) }}↑
+            {{ "%.0f"|format(intrvl.ele_down|abs|float)  }}↓
         </td>
     </tr>
 {% endfor %}
@@ -66,10 +61,8 @@
             {{ intrvl_sum.hr|round|int }}
         </td>
         <td class="workout-intrvl workout_intrvl_sum hide_mobile">
-            {{ "%.2f"|format(intrvl_sum.ele_up|float) }}
-        </td>
-        <td class="workout-intrvl workout_intrvl_sum hide_mobile">
-            {{ "%.2f"|format(intrvl_sum.ele_down|float) }}
+            {{ "%.0f"|format(intrvl_sum.ele_up|float) }}↑
+            {{ "%.0f"|format(intrvl_sum.ele_down|abs|float) }}↓
         </td>
     </tr>
     {% endfor %}
