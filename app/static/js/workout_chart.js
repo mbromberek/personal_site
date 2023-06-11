@@ -1,13 +1,39 @@
-let workout_chart;
+// let workout_chart;
 let TRANS_DURATION = 2000;
 var currentLocMarker;
 
+var wrkt_chart_dict;
+var wrkt_miles_dict;
+var wrkt_chart_svg;
+
 function initChart(wrkt_json, wrkt_miles_json){
     console.log('workout_chart.js initChart');
-    workout_chart = d3.select("#elevation_chart");
+    wrkt_chart_dict = wrkt_json;
+    wrkt_miles_dict = wrkt_miles_json;
+    drawChart();
+    
+    /*window.onresize = function(){
+        console.log('onresize');
+        wrkt_chart_svg.remove();
+        drawChart();
+        // let boundingRect = workout_chart.node().getBoundingClientRect();
+        // console.log(`Width: ${boundingRect.width} Height: ${boundingRect.height}`);
+        // if (boundingRect.width < 600){
+        //     //iPhone vertical
+        //     
+        // }
+        
+    
+    }*/
+
+}
+
+function drawChart(){
+    let workout_chart = d3.select("#elevation_chart");
+    // workout_chart.innerHTML = "";
     // console.log(elevation_chart);
-    // console.log(wrkt_json);
-    let data = wrkt_json.filter(function(d){
+    // console.log(wrkt_chart_dict);
+    let data = wrkt_chart_dict.filter(function(d){
         // return d.altitude_ft > -1
         return !(isNaN(d.ele_roll))
     });
@@ -32,6 +58,8 @@ function initChart(wrkt_json, wrkt_miles_json){
 
     let width = boundingRect.width - margin.left - margin.right;
     let height = boundingRect.height - margin.top - margin.bottom;
+    /*let width = 1000 - margin.left - margin.right;
+    let height = 400 - margin.top - margin.bottom;*/
     let xPaddingLeft = 0; //padding for y-axis label
 
     let dist_max = Math.round(d3.max(data, function(d) {return +d.dist_mi})*100)/100;
@@ -115,25 +143,47 @@ function initChart(wrkt_json, wrkt_miles_json){
         .ticks(10)
         .tickFormat(function (d) {
             return d;
-    })
-;
+        })
+    ;
 
-    let svg = workout_chart
+    /*wrkt_chart_svg = workout_chart
+        .append("svg")
+        .attr("preserveAspectRatio", "xMinYMin meet")
+        .attr("viewBox", "0 0 " + (1000) + " " + (400))
+        // .attr("viewBox", "0 0 300 300")
+        .classed("svg-content", true);
+    */
+    // if (wrkt_chart_svg == null){
+    //     console.log("create wrkt_chart_svg");
+    wrkt_chart_svg = workout_chart
         .append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
     ;
+    // }else{
+    //     console.log("update wrkt_chart_svg");
+    //     // wrkt_chart_svg.remove();
+    //     // workout_chart.innerHTML = "";
+    //     // wrkt_chart_svg.selectAll("*").remove();
+    //     d3.selectAll("g > *").remove();
+    //     wrkt_chart_svg 
+    //         .attr("width", width + margin.left + margin.right)
+    //         .attr("height", height + margin.top + margin.bottom)
+    //         .append("g")
+    //         .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+    //     ;
+    // }
     // ADD AXES
-    svg
+    wrkt_chart_svg
         .append("g")
         .attr("class", "x axis")
         .attr("transform", "translate(0," + height + ")")
     ;
     
     // change the x and y axes smoothly with a transition
-    svg
+    wrkt_chart_svg
         .select(".x.axis")
         .transition()
         .duration(TRANS_DURATION)
@@ -144,7 +194,7 @@ function initChart(wrkt_json, wrkt_miles_json){
         .attr("dx", ".3em")
     ;
     // Label for X-axis
-    svg
+    wrkt_chart_svg
         .append("text")
         .attr("x", width/2)
         .attr("y", height + margin.top + 18 ) //Need to adjust
@@ -155,10 +205,10 @@ function initChart(wrkt_json, wrkt_miles_json){
 
 
     if (!hide_yAxis_labels){
-        svg.append("g").attr("class", "y axis").call(yPaceAxis);
+        wrkt_chart_svg.append("g").attr("class", "y axis").call(yPaceAxis);
         
-        //svg.append("g").attr("class", "y axis").call(yHeartRateAxis);
-        svg
+        //wrkt_chart_svg.append("g").attr("class", "y axis").call(yHeartRateAxis);
+        wrkt_chart_svg
             .append("g")
             .attr("class", "y axis")
             .append("text")
@@ -173,10 +223,10 @@ function initChart(wrkt_json, wrkt_miles_json){
             .style("text-anchor", "end")
         ;
 
-        svg.append("g").attr("class", "y axis").attr("transform", "translate("+(width)+",0)").call(yElevationAxis);
+        wrkt_chart_svg.append("g").attr("class", "y axis").attr("transform", "translate("+(width)+",0)").call(yElevationAxis);
 
         // Setup Y Axis Right Side Title
-        svg
+        wrkt_chart_svg
             .append("g")
             .attr("class", "y axis")
             .append("text")
@@ -194,7 +244,7 @@ function initChart(wrkt_json, wrkt_miles_json){
 
 
     // Title for chart
-    /*svg
+    /*wrkt_chart_svg
         .append("text")
         .attr("x", width/2)
         .attr("y", 0)
@@ -214,7 +264,7 @@ function initChart(wrkt_json, wrkt_miles_json){
         .y1(function(d) { return yElevationScale(d.ele_roll) })
     ;
 
-    let linesElevation = svg
+    let linesElevation = wrkt_chart_svg
         .append("path")
         .datum(data)
         // .attr("fill", "none") //Use if only show line
@@ -232,7 +282,7 @@ function initChart(wrkt_json, wrkt_miles_json){
         .y(function(d) { return yHeartRateScale(d.hr) })
     ;
 
-    let linesHr = svg
+    let linesHr = wrkt_chart_svg
         .append("path")
         .style("stroke-dasharray",("5,3"))
         .datum(data)
@@ -249,7 +299,7 @@ function initChart(wrkt_json, wrkt_miles_json){
         .y(function(d) { return yPaceScale(d.curr_pace_minute) })
     ;
 
-    let linesPace = svg
+    let linesPace = wrkt_chart_svg
         .append("path")
         .datum(data)
         .attr("fill", "none")
@@ -261,7 +311,7 @@ function initChart(wrkt_json, wrkt_miles_json){
     ;
 
     // Setup tooltip logic
-    const xAxisLine = svg
+    const xAxisLine = wrkt_chart_svg
         .append("g")
         .append("rect")
         .attr("class","dotted")
@@ -281,14 +331,14 @@ function initChart(wrkt_json, wrkt_miles_json){
         let hoverMile = xScale.invert(mousePosition[0]);
         let dist = Math.round(hoverMile*100)/100;
 
-        if (dist in wrkt_miles_json){
-            tooltip.select('#elevation').html(`Elevation: ${d3.format(".2f")(wrkt_miles_json[dist]['ele_roll'])} feet`);
-            tooltip.select('#distance').html(`Distance: ${d3.format(".2f")(wrkt_miles_json[dist]['dist_mi'])} miles`);
-            tooltip.select('#heartrate').html(`Heart Rate: ${d3.format(".0f")(wrkt_miles_json[dist]['hr'])}`);
-            // tooltip.select('#pace').html(`Pace: ${d3.format(".2f")(wrkt_miles_json[dist]['curr_pace_minute'])} /mile`);
-            tooltip.select('#pace').html(`Pace: ${wrkt_miles_json[dist]['curr_pace_str']} /mile`);
-            // console.log(`lat: ${wrkt_miles_json[dist]['latitude']}, lon: ${wrkt_miles_json[dist]['longitude']}`)
-            tooltip.select('#duration').html(`Lap ${wrkt_miles_json[dist]['lap']} - ${wrkt_miles_json[dist]['dur_str']}`);
+        if (dist in wrkt_miles_dict){
+            tooltip.select('#elevation').html(`Elevation: ${d3.format(".2f")(wrkt_miles_dict[dist]['ele_roll'])} feet`);
+            tooltip.select('#distance').html(`Distance: ${d3.format(".2f")(wrkt_miles_dict[dist]['dist_mi'])} miles`);
+            tooltip.select('#heartrate').html(`Heart Rate: ${d3.format(".0f")(wrkt_miles_dict[dist]['hr'])}`);
+            // tooltip.select('#pace').html(`Pace: ${d3.format(".2f")(wrkt_miles_dict[dist]['curr_pace_minute'])} /mile`);
+            tooltip.select('#pace').html(`Pace: ${wrkt_miles_dict[dist]['curr_pace_str']} /mile`);
+            // console.log(`lat: ${wrkt_miles_dict[dist]['latitude']}, lon: ${wrkt_miles_dict[dist]['longitude']}`)
+            tooltip.select('#duration').html(`Lap ${wrkt_miles_dict[dist]['lap']} - ${wrkt_miles_dict[dist]['dur_str']}`);
         }
 
         // Show tooltip and have it left of mouse if close to right side of chart
@@ -304,10 +354,10 @@ function initChart(wrkt_json, wrkt_miles_json){
         xAxisLine.attr("x", mousePosition[0]);
         xAxisLine.style("opacity", 1);
 
-        if (dist in wrkt_miles_json){
+        if (dist in wrkt_miles_dict){
             let currLocationDict = {
-                'lat':wrkt_miles_json[dist]['latitude'],
-                'lon':wrkt_miles_json[dist]['longitude'],
+                'lat':wrkt_miles_dict[dist]['latitude'],
+                'lon':wrkt_miles_dict[dist]['longitude'],
                 'nbr':1
             };    
             currLocation = [];
@@ -333,7 +383,7 @@ function initChart(wrkt_json, wrkt_miles_json){
         }
     };
 
-    const listeningRect = svg
+    const listeningRect = wrkt_chart_svg
         .append("rect")
         .attr("class", "chart_listening_rect")
         .attr("width", width)
