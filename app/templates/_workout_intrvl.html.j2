@@ -15,7 +15,7 @@
         <td class="workout-intrvl workout-intrvl-hdr" id="intrvl_hr">
             HR
         </td>
-        <td class="workout-intrvl workout-intrvl-hdr hide_mobile" id="intrvl_elev">
+        <td class="workout-intrvl workout-intrvl-hdr " id="intrvl_elev">
             Elev
         </td>
     </tr>
@@ -36,7 +36,7 @@
         <td class="workout-intrvl {{ intrvl.hr_zone }}">
             {{ intrvl.hr }}
         </td>
-        <td class="workout-intrvl hide_mobile">
+        <td class="workout-intrvl ">
             {{ "%.0f"|format(intrvl.ele_up|float) }}↑
             {{ "%.0f"|format(intrvl.ele_down|abs|float)  }}↓
         </td>
@@ -60,7 +60,7 @@
         <td class="workout-intrvl workout_intrvl_sum">
             {{ intrvl_sum.hr|round|int }}
         </td>
-        <td class="workout-intrvl workout_intrvl_sum hide_mobile">
+        <td class="workout-intrvl workout_intrvl_sum ">
             {{ "%.0f"|format(intrvl_sum.ele_up|float) }}↑
             {{ "%.0f"|format(intrvl_sum.ele_down|abs|float) }}↓
         </td>
