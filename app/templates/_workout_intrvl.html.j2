@@ -20,7 +20,7 @@
         </td>
     </tr>
 {% for intrvl in intrvl_lst %}
-    <tr>
+    <tr class="{{ loop.cycle('workout_intrvl_odd','workout_intrvl_even') }}">
         <td class="workout-intrvl">
             {{ intrvl.det }}
         </td>
@@ -37,7 +37,7 @@
             {{ intrvl.hr }}
         </td>
         <td class="workout-intrvl ">
-            {{ "%.0f"|format(intrvl.ele_up|float) }}↑
+            {{ "%.0f"|format(intrvl.ele_up|float) }}↑<br/>
             {{ "%.0f"|format(intrvl.ele_down|abs|float)  }}↓
         </td>
     </tr>

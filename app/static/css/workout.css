@@ -556,7 +556,7 @@ td.workout-intrvl{
     padding-right:1px;
     padding-top:1px;
     padding-bottom:0px;
-    border-top: 1px lightgray solid;
+    /* border-top: 1px lightgray solid; */
 }
 td.workout-intrvl-hdr{
     font-weight:bold;
@@ -570,7 +570,7 @@ td.workout-intrvl-hdr{
     width:70px;
 }
 #intrvl_duration{
-    width:65px;
+    width:75px;
 }
 #intrvl_dist_mi{
     width:60px;
@@ -582,7 +582,7 @@ td.workout-intrvl-hdr{
     width:40px;
 }
 #intrvl_elev{
-    width:80px;
+    width:50px;
 }
 div.wrkt_intrvl_edit{
     width:900px;
@@ -623,11 +623,20 @@ div.wrkt_intrvl_edit{
 }
 
 
-
+tr.workout_intrvl_odd{
+    background-color:lightblue;
+}
+tr.workout_intrvl_even{
+    background-color:white;
+}
+tr.workout_intrvl_odd:hover,tr.workout_intrvl_even:hover{
+    background-color:#43d9b8;
+}
 td.workout_intrvl_sum{
     font-weight:normal;
     background-color:#43d9b8;
-    border:0px;
+    /* border:0px; */
+    border-top: 1px black solid;
 }
 
 div.wrkt_type_description{
@@ -716,16 +725,16 @@ label.wrkt_export_chk{
 }
 
 fieldset.wrkt_det{
-    border: 1px solid gray;
+    /* border: 1px solid #43d9b8; */
+    border: 1px solid teal;
     padding: 0px 15px;
     padding-bottom: 15px;
     width: 100%;
 }
 legend.wrkt_det{
     padding: 0.5em 0.5em;
-    border: 0px solid green;
-    color: gray;
-    font-size: 90%;
+    color: teal;
+    font-size: 95%;
     text-align: left;
     width:auto;
 }
@@ -839,7 +848,7 @@ td.dashboard_row_dtl{
     background-color: red;
 }
 
-.zone_1{
+/*.zone_1{
     background-color: lightblue;
 }
 .zone_2{
@@ -853,7 +862,7 @@ td.dashboard_row_dtl{
 }
 .zone_5{
     background-color: red;
-}
+}*/
 
 .retired{
     background-color: lightgray;

@@ -203,8 +203,15 @@
 
     <div class="wrktPage_splits" >
         <div class="wrktPage_splits_tab">
+          {% if lap_intrvl_lst|length >1 %}
           <button id="defaultOpen" class="tablinks" onclick="openSplit(event, 'Lap_Splits')">Lap Splits</button>
+          {% endif %}
+          {% if segment_intrvl_lst|length >0 %}
+          <button class="tablinks" onclick="openSplit(event, 'Segment_Splits')">Segment Splits</button>
+          {% endif %}
+          {% if mile_intrvl_lst|length >0 %}
           <button class="tablinks" onclick="openSplit(event, 'Mile_Splits')">Mile Splits</button>
+          {% endif %}
         </div>
         
         <div class="wrktPage_splits_data">
