@@ -635,6 +635,17 @@ def workout():
     if len(segment_intrvl_lst) >1:
         intrvl_dict['segment_sum'] = wrkt_summary.get_lap_sum(segment_intrvl_lst)
 
+    # Set default tab to show on workout page
+    if len(lap_intrvl_lst) >1 and workout.show_map_laps and (\
+        workout.category_det.nm == 'Training' or not workout.show_map_miles):
+        intrvl_dict['default_lap_tab'] = 'id=defaultOpen'
+    elif len(segment_intrvl_lst) >1 and (\
+        workout.category_det.nm == 'Training' or not workout.show_map_miles):
+        intrvl_dict['default_segment_tab'] = 'id=defaultOpen'
+    else:
+        intrvl_dict['default_mile_tab'] = 'id=defaultOpen'
+        
+
     map_dict = {}
     wrkt_data_lst = []
     wrkt_miles_dict = {}
