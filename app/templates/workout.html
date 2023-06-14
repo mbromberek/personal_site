@@ -293,17 +293,16 @@
     </div>
 #}
     <div class="wrktPage_map" >
-
-    {% if 'zoom' in map_dict %}
-    <div id="map" style="height:600px;">
-        <a id="fullButton" href="{{ url_for('main.workout', workout=workout.id, map_full='Y') }}" >
-            Full
-        </a>
-    </div>
-    <script>
-        JavaScript:initMap({{ map_dict|tojson|safe }}, {{ workout.show_map_laps|tojson|safe }}, {{ workout.show_map_miles|tojson|safe }}, false);
-    </script>
-    {% endif %}
+        {% if 'zoom' in map_dict %}
+        <div id="map" style="height:600px;">
+            <a id="fullButton" href="{{ url_for('main.workout', workout=workout.id, map_full='Y') }}" >
+                Full
+            </a>
+        </div>
+        <script>
+            JavaScript:initMap({{ map_dict|tojson|safe }}, {{ workout.show_map_laps|tojson|safe }}, {{ workout.show_map_miles|tojson|safe }}, false);
+        </script>
+        {% endif %}
     </div>
 
     {% if wrkt_data_lst|length >0 %}
