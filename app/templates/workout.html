@@ -29,12 +29,12 @@
                         Summary
                     </legend>
                     <table width="100%" style="text-align: center;">
-                        <tr class="workout-detail" style="border-bottom: 1px gray solid;">
+                        <tr class="workout-detail" style="border-bottom: 1px teal solid;">
                             <td  class="workout-detail" width="100px">
                                 Distance <br>
                                 {{ workout.dist_mi }} mi
                             </td>
-                            <td class="workout-detail" width="100px" style="border-right: 1px gray solid; border-left: 1px gray solid">
+                            <td class="workout-detail" width="100px" style="border-right: 1px teal solid; border-left: 1px teal solid">
                                 Duration <br>
                                 {{ workout.duration }}
                             </td>
@@ -58,7 +58,7 @@
                                 {{ workout.ele_down|round|int }}&darr;
                                 {% endif %}
                             </td>
-                            <td class="workout-detail" style="border-right: 1px gray solid; border-left: 1px gray solid">
+                            <td class="workout-detail" style="border-right: 1px teal solid; border-left: 1px teal solid">
                                 Calories<br>
                                 {{ workout.cal_burn }}
                             </td>
