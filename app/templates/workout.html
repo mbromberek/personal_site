@@ -23,18 +23,18 @@
     
     <div class="workout_page_detail">
         <div id="wrkt_page_detail_left">
-            <div class="form-row wrkt_section" >
+            <div class=" wrkt_section" >
                 <fieldset class="wrkt_det pb-4">
                     <legend class="wrkt_det">
                         Summary
                     </legend>
                     <table width="100%" style="text-align: center;">
-                        <tr class="workout-detail" style="border-bottom: 1px teal solid;">
+                        <tr class="workout-detail" style="border-bottom: 2px #43d9b8 solid;">
                             <td  class="workout-detail" width="100px">
                                 Distance <br>
                                 {{ workout.dist_mi }} mi
                             </td>
-                            <td class="workout-detail" width="100px" style="border-right: 1px teal solid; border-left: 1px teal solid">
+                            <td class="workout-detail" width="100px" style="border-right: 2px #43d9b8 solid; border-left: 2px #43d9b8 solid">
                                 Duration <br>
                                 {{ workout.duration }}
                             </td>
@@ -58,7 +58,7 @@
                                 {{ workout.ele_down|round|int }}&darr;
                                 {% endif %}
                             </td>
-                            <td class="workout-detail" style="border-right: 1px teal solid; border-left: 1px teal solid">
+                            <td class="workout-detail" style="border-right: 2px #43d9b8 solid; border-left: 2px #43d9b8 solid">
                                 Calories<br>
                                 {{ workout.cal_burn }}
                             </td>
@@ -83,7 +83,7 @@
             {% endif %}
         
             {% if workout.intrvl_tot_dist_mi != None %}
-            <div class="form-row wrkt_section">
+            <div class="wrkt_section">
                 <fieldset class="wrkt_det">
                     <legend class="wrkt_det">
                         Training Summary
@@ -153,7 +153,7 @@
             </div>
             {% endif %}
         
-            <div class="form-row wrkt_section" id="wrkt_page_gear">
+            <div class=" wrkt_section" id="wrkt_page_gear">
                 <fieldset class="wrkt_det">
                     <legend class="wrkt_det">
                         Gear

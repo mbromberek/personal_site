@@ -120,8 +120,8 @@
             <div style="margin-left:auto;margin-right:auto;">
                 Gear
             </div>
-            <div style="margin-left:auto;margin-right:10px;">
-                <a class="workout_edit_lnk"  href="{{ url_for('main.edit_gear') }}">
+            <div style="margin-left:auto;margin-right:10px;font-size:12pt;">
+                <a class="setting_edit_lnk"  href="{{ url_for('main.edit_gear') }}">
                     Create
                 </a>
             </div>
@@ -131,68 +131,68 @@
 
             <table>
                 <tr style="font-weight:bold">
-                    <td class="workout-intrvl workout-intrvl-hdr" >
+                    <td class="setting_row setting_hdr" style="width:355px;">
                         Name
                     </td>
-                    <td class="workout-intrvl workout-intrvl-hdr" >
+                    <td class="setting_row setting_hdr" >
                         Count
                     </td>
-                    <td class="workout-intrvl workout-intrvl-hdr" >
+                    <td class="setting_row setting_hdr" >
                         Distance
                     </td>
-                    <td class="workout-intrvl workout-intrvl-hdr" >
+                    <td class="setting_row setting_hdr" >
                         Duration
                     </td>
-                    <td class="workout-intrvl workout-intrvl-hdr">
+                    <td class="setting_row setting_hdr">
                         Last Used
                     </td>
-                    <td class="workout-intrvl workout-intrvl-hdr hide_mobile">
+                    <td class="setting_row setting_hdr hide_mobile">
                         Retired
                     </td>
-                    <td class="workout-intrvl workout-intrvl-hdr ">
+                    <td class="setting_row setting_hdr ">
                         Gear Type
                     </td>
                 </tr>
 
             {% for gear in gear_lst %}
                 <tr>
-                    <td class="workout-intrvl {% if gear.retired==True %} retired {% endif %}" style="text-align:left;">
-                        <a class="workout_edit_lnk"  href="{{ url_for('main.edit_gear', gear=gear.gear_id) }}">
+                    <td class="setting_row {% if gear.retired==True %} retired {% endif %}" style="text-align:left;">
+                        <a class="setting_edit_lnk"  href="{{ url_for('main.edit_gear', gear=gear.gear_id) }}">
                             {{ gear.nm }}
                         </a>
                     </td>
-                    <td class="workout-intrvl {% if gear.retired==True %} retired {% endif %}" >
+                    <td class="setting_row {% if gear.retired==True %} retired {% endif %}" >
                         {% if gear.usage_count != None %}
                         {{ gear.usage_count }}
                         {% else %}
                         0
                         {% endif %}
                     </td>
-                    <td class="workout-intrvl {% if gear.retired==True %} retired {% endif %}" >
+                    <td class="setting_row {% if gear.retired==True %} retired {% endif %}" >
                         {% if gear.tot_dist != None %}
                         {{ gear.tot_dist }}
                         {% else %}
                         0
                         {% endif %}
                     </td>
-                    <td class="workout-intrvl {% if gear.retired==True %} retired {% endif %}" >
+                    <td class="setting_row {% if gear.retired==True %} retired {% endif %}" >
                         {{ gear.tot_dur }}
                     </td>
-                    <td class="workout-intrvl {% if gear.retired==True %} retired {% endif %}">
+                    <td class="setting_row {% if gear.retired==True %} retired {% endif %}">
                         {% if gear.latest_workout != None %}
                         {{ gear.latest_workout.strftime('%Y-%m-%d') }}
                         {% else %}
                         &nbsp;
                         {% endif %}
                     </td>
-                    <td class="workout-intrvl {% if gear.retired==True %} retired {% endif %} hide_mobile"  >
+                    <td class="setting_row {% if gear.retired==True %} retired {% endif %} hide_mobile"  >
                         {% if gear.retired == True %}
                         Y
                         {% else %}
                         N
                         {% endif %}
                     </td>
-                    <td class="workout-intrvl {% if gear.retired==True %} retired {% endif %}">
+                    <td class="setting_row {% if gear.retired==True %} retired {% endif %}">
                         {{ gear.type }}
                     </td>
                 </tr>
@@ -213,7 +213,7 @@
             </div>
             {#
             <div style="margin-left:auto;margin-right:10px;">
-                <a class="workout_edit_lnk"  href="{{ url_for('main.edit_gear') }}">
+                <a class="setting_edit_lnk"  href="{{ url_for('main.edit_gear') }}">
                     Create
                 </a>
             </div>
@@ -224,34 +224,34 @@
 
             <table>
                 <tr style="font-weight:bold">
-                    <td class="workout-intrvl workout-intrvl-hdr" style="width:350px;" >
+                    <td class="setting_row setting_hdr" style="width:350px;" >
                         Name
                     </td>
-                    <td class="workout-intrvl workout-intrvl-hdr" >
+                    <td class="setting_row setting_hdr" >
                         Latitude
                     </td>
-                    <td class="workout-intrvl workout-intrvl-hdr" >
+                    <td class="setting_row setting_hdr" >
                         Longitude
                     </td>
-                    <td class="workout-intrvl workout-intrvl-hdr" >
+                    <td class="setting_row setting_hdr" >
                         Radius (miles)
                     </td>
                 </tr>
 
             {% for loc in loc_lst %}
                 <tr>
-                    <td class="workout-intrvl " style="text-align:left;">
-                        <a class="workout_edit_lnk"  href="{{ url_for('main.edit_location', location=loc.id) }}">
+                    <td class="setting_row " style="text-align:left;">
+                        <a class="setting_edit_lnk"  href="{{ url_for('main.edit_location', location=loc.id) }}">
                             {{ loc.name }}
                         </a>
                     </td>
-                    <td class="workout-intrvl " >
+                    <td class="setting_row " >
                         {{ '%0.12f'|format(loc.lat|float) }}
                     </td>
-                    <td class="workout-intrvl " >
+                    <td class="setting_row " >
                         {{ '%0.12f'|format(loc.lon|float) }}
                     </td>
-                    <td class="workout-intrvl " >
+                    <td class="setting_row " >
                         {{ '%0.2f'|format(loc.radius|float) }}
                     </td>
                 </tr>

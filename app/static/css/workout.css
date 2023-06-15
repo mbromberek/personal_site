@@ -7,6 +7,8 @@ body {
     padding: 0;
     height:100vh;
     width:100vw;
+    /* background-color: black; */
+    /* color:white; */
 }
 
 #elevation_chart{
@@ -397,7 +399,7 @@ input.workout_filter_btn_container:hover{
 }
 
 .workout_page_detail{
-    padding-left:5px;
+    padding-left:10px;
     /* margin-right:5px; */
     width:100%;
     display:block;
@@ -406,16 +408,17 @@ input.workout_filter_btn_container:hover{
 }
 #wrkt_page_detail_left{
     /* float:left; */
-    width:475px;
+    width:460px;
     display:inline-block;
     vertical-align: top;
+    /* border:1px solid black; */
 }
 #wrkt_page_detail_right{
     /* float:left; */
     /* width:500px; */
     display:inline-block;
     /* width:450px; */
-    width:calc((100% - 500px));
+    width:calc((100% - 490px));
 }
 
 .wrkt_section{
@@ -551,6 +554,21 @@ input.workout_filter_btn_container:hover{
     width: 275px;
 }
 
+td.setting_row{
+    font-weight:normal;
+    font-size: 11pt;
+    text-align: center;
+    padding-left:4px;
+    padding-right:4px;
+    padding-top:1px;
+    padding-bottom:0px;
+    border: 1px black solid;
+}
+td.setting_hdr{
+    font-weight:bold;
+    font-size: 12pt;
+}
+
 td.workout-intrvl{
     font-weight:normal;
     font-size: 10pt;
@@ -667,6 +685,11 @@ a.workout_edit_lnk{
     font-weight:normal;
     font-size:12pt;
 }
+a.setting_edit_lnk{
+    color:black;
+    text-decoration: underline;
+    font-weight:normal;
+}
 
 label.workout_lbl{
     font-weight:bold;
@@ -684,7 +707,7 @@ label.wrkt_export_chk{
     margin-bottom: 0px;
     width: 200px;
 }
-.setting_hdr{
+div.setting_hdr{
     font-weight:bold;
     font-size:20pt;
     padding-left:160px;
@@ -728,15 +751,18 @@ label.wrkt_export_chk{
 }
 
 fieldset.wrkt_det{
-    /* border: 1px solid #43d9b8; */
-    border: 1px solid teal;
+    border: 2px solid #43d9b8;
+    /* border: 2px solid #32c8a7; */
     padding: 0px 15px;
     padding-bottom: 15px;
     width: 100%;
 }
 legend.wrkt_det{
     padding: 0.5em 0.5em;
-    color: teal;
+    /* color: #43d9b8; */
+    /* color: #32c8a7; */
+    color: black;
+    font-weight:bold;
     font-size: 95%;
     text-align: left;
     width:auto;
