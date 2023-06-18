@@ -588,6 +588,7 @@ def workout():
     segment_intrvl_lst = []
     pause_intrvl_lst = []
     lap_intrvl_lst = []
+    wrkt_stats_lst = []
 
     lap_marker_lst = []
     mile_marker_lst = []
@@ -632,8 +633,10 @@ def workout():
 
     if len(lap_intrvl_lst) >1:
         intrvl_dict['lap_sum'] = wrkt_summary.get_lap_sum(lap_intrvl_lst)
+        wrkt_stats_lst.extend(intrvl_dict['lap_sum'])
     if len(segment_intrvl_lst) >1:
         intrvl_dict['segment_sum'] = wrkt_summary.get_lap_sum(segment_intrvl_lst)
+        wrkt_stats_lst.extend(intrvl_dict['segment_sum'])
 
     # Set default tab to show on workout page
     if len(lap_intrvl_lst) >1 and workout.show_map_laps and (\
@@ -649,16 +652,12 @@ def workout():
     map_dict = {}
     wrkt_data_lst = []
     wrkt_miles_dict = {}
-    if len(mile_intrvl_lst) >1:
-        intrvl_dict['mile_sum'] = wrkt_summary.get_mile_sum(mile_intrvl_lst)
+
     if workout.wrkt_dir != None:
         try:
             wrkt_df = pd.read_pickle(os.path.join(current_app.config['WRKT_FILE_DIR'], str(workout.user_id), workout.wrkt_dir, 'workout.pickle'))
             intrvl_dict['mile_sum'] = wrkt_summary.get_mile_sum_from_df(wrkt_df)
-            # TODO Eventually remove, but this also adds the Total section so need to split out
-            # if len(mile_intrvl_lst) >1:
-            #     intrvl_dict['mile_sum'].extend( wrkt_summary.get_mile_sum(mile_intrvl_lst))
-
+            wrkt_stats_lst.extend(intrvl_dict['mile_sum'])
 
             lat_max = wrkt_df['latitude'].max()
             lat_min = wrkt_df['latitude'].min()
@@ -740,18 +739,22 @@ def workout():
 
     elif len(mile_intrvl_lst) >1:
         intrvl_dict['mile_sum'] = wrkt_summary.get_mile_sum(mile_intrvl_lst)
+        wrkt_stats_lst.extend(intrvl_dict['mile_sum'])
 
     if 'map_full' in request.args and request.args.get('map_full') == 'Y':
         logger.info('map_full')
         return render_template('map_full.html', workout=workout, \
             mile_intrvl_lst=mile_intrvl_lst, segment_intrvl_lst=segment_intrvl_lst, destPage = 'workout', \
             pause_intrvl_lst=pause_intrvl_lst, lap_intrvl_lst=lap_intrvl_lst, intrvls=intrvl_dict, map_dict=map_dict, \
-            wrkt_data_lst=wrkt_data_lst, wrkt_miles_dict=wrkt_miles_dict)
+            wrkt_data_lst=wrkt_data_lst, wrkt_miles_dict=wrkt_miles_dict,\
+            wrkt_stats_lst=wrkt_stats_lst
+        )
 
-    # logger.info(map_dict)
+    logger.info(wrkt_stats_lst)
     return render_template('workout.html', workout=workout, \
       mile_intrvl_lst=mile_intrvl_lst, segment_intrvl_lst=segment_intrvl_lst, destPage = 'workout', pause_intrvl_lst=pause_intrvl_lst, lap_intrvl_lst=lap_intrvl_lst, intrvls=intrvl_dict, map_dict=map_dict, \
-      wrkt_data_lst=wrkt_data_lst, wrkt_miles_dict=wrkt_miles_dict \
+      wrkt_data_lst=wrkt_data_lst, wrkt_miles_dict=wrkt_miles_dict, \
+      wrkt_stats_lst=wrkt_stats_lst
     )
 
 

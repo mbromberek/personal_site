@@ -212,6 +212,9 @@
           {% if mile_intrvl_lst|length >0 %}
           <button {{ intrvls['default_mile_tab'] }} class="tablinks" onclick="openSplit(event, 'Mile_Splits')">Mile Splits</button>
           {% endif %}
+          {% if mile_intrvl_lst|length >0 %}
+            <button {{ intrvls['default_stats_tab'] }} class="tablinks" onclick="openSplit(event, 'Stats')">Stats</button>
+            {% endif %}
         </div>
         
         <div class="wrktPage_splits_data">
@@ -245,6 +248,13 @@
                     {% include "_workout_intrvl.html.j2" %}
                 {% endwith %}
             
+            </div>
+            {% endif %}
+            {% if wrkt_stats_lst|length >0 %}
+            <div id="Stats" class="tabcontent" >
+                {% with intrvl_lst=wrkt_stats_lst, intrvl_sum_lst={}, intrvl_nm='Stat' %}
+                    {% include "_workout_intrvl.html.j2" %}
+                {% endwith %}
             </div>
             {% endif %}
         </div>

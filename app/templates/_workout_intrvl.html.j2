@@ -28,17 +28,33 @@
             {{ intrvl.duration }}
         </td>
         <td class="workout-intrvl">
-            {{ intrvl.dist_mi }}
+            {% if intrvl.dist_mi %}
+            {{ "%.2f"|format(intrvl.dist_mi|float) }}
+            {% else %}
+            &nbsp;
+            {% endif %}
         </td>
         <td class="workout-intrvl {{ intrvl.pace_zone }}">
+            {% if intrvl.pace %}
             {{ intrvl.pace }}
+            {% else %}
+            &nbsp;
+            {% endif %}
         </td>
         <td class="workout-intrvl {{ intrvl.hr_zone }}">
-            {{ intrvl.hr }}
+            {% if intrvl.hr %}
+            {{ intrvl.hr|round|int }}
+            {% else %}
+            &nbsp;
+            {% endif %}
         </td>
         <td class="workout-intrvl ">
+            {% if intrvl.ele_up %}
             {{ "%.0f"|format(intrvl.ele_up|float) }}↑<br/>
             {{ "%.0f"|format(intrvl.ele_down|abs|float)  }}↓
+            {% else %}
+            &nbsp;
+            {% endif %}
         </td>
     </tr>
 {% endfor %}
@@ -52,17 +68,33 @@
             {{ intrvl_sum.duration }}
         </td>
         <td class="workout-intrvl workout_intrvl_sum">
+            {% if intrvl_sum.dist_mi %}
             {{ "%.2f"|format(intrvl_sum.dist_mi|float) }}
+            {% else %}
+            &nbsp;
+            {% endif %}
         </td>
         <td class="workout-intrvl workout_intrvl_sum">
+            {% if intrvl_sum.pace %}
             {{ intrvl_sum.pace }}
+            {% else %}
+            &nbsp;
+            {% endif %}
         </td>
         <td class="workout-intrvl workout_intrvl_sum">
+            {% if intrvl_sum.hr %}
             {{ intrvl_sum.hr|round|int }}
+            {% else %}
+            &nbsp;
+            {% endif %}
         </td>
         <td class="workout-intrvl workout_intrvl_sum ">
-            {{ "%.0f"|format(intrvl_sum.ele_up|float) }}↑
+            {% if 'ele_up' in intrvl_sum %}
+            {{ "%.0f"|format(intrvl_sum.ele_up|float) }}↑<br/>
             {{ "%.0f"|format(intrvl_sum.ele_down|abs|float) }}↓
+            {% else %}
+            &nbsp;
+            {% endif %}            
         </td>
     </tr>
     {% endfor %}
