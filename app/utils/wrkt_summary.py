@@ -117,7 +117,17 @@ def get_mile_sum_from_df(wrkt_df):
     tot_dist = tot_df['dist_mi'].values[-1]
     tot_df.loc[tot_df['dist_mi'] <=tot_dist/2, 'break_type'] = 'First½'
     tot_df.loc[tot_df['dist_mi'] >tot_dist/2, 'break_type'] = 'Sec½'
-    sum_lst.extend( summarize_workout_section(tot_df))
+    first_second_half_split = summarize_workout_section(tot_df)
+    sum_lst.extend(first_second_half_split)
+    half_split_dur_sec = first_second_half_split[1]['dur_sec'] - first_second_half_split[0]['dur_sec']
+    half_split_dur_str = tm_conv.sec_to_time(abs(half_split_dur_sec),'ms')
+    
+    if half_split_dur_sec <0:
+        sum_lst.append({'det':'Negative Splits','duration':half_split_dur_str})
+    elif half_split_dur_sec >0:
+        sum_lst.append({'det':'Positive Splits','duration':half_split_dur_str})
+    else:
+        sum_lst.append({'det':'Even Splits','duration':half_split_dur_str})
 
     tot_df['break_type'] = 'Total'
     sum_lst.extend(summarize_workout_section(tot_df, 'Total'))
@@ -144,15 +154,15 @@ def get_sum_by_intrvl(df):
     )
     intrvl_sum_lst = grouped_df.to_dict(orient='records')
     intrvl_sum_edit_lst = []
-    print(intrvl_sum_lst)
+    # print(intrvl_sum_lst)
     for intrvl_sum in intrvl_sum_lst:
-        print(intrvl_sum)
+        # print(intrvl_sum)
         if intrvl_sum['ct'] >1 and intrvl_sum['interval_desc'] != '':
             intrvl_sum['det'] = intrvl_sum['interval_desc']
             intrvl_sum['duration'] = tm_conv.sec_to_time(intrvl_sum['dur_sec'],'ms')
             intrvl_sum['pace'] = tm_conv.sec_to_time(tm_conv.pace_calc(intrvl_sum['dist_mi'], intrvl_sum['dur_sec']), 'ms')
             intrvl_sum_edit_lst.append(intrvl_sum)
 
-    print('intrvl_sum_edit_lst')
-    print(intrvl_sum_edit_lst)
+    # print('intrvl_sum_edit_lst')
+    # print(intrvl_sum_edit_lst)
     return intrvl_sum_edit_lst
