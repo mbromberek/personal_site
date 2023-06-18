@@ -72,10 +72,6 @@ def get_lap_sum(intrvl_lst):
     # logger.debug(tot_df.info())
     # logger.debug(tot_df)
 
-    # Calculate summary for total intervals
-    itrvl_sum_tot = summarize_workout(tot_df, 'Total')
-    sum_lst.append(itrvl_sum_tot)
-
     # Calculate without warm up and cool down intervals
     non_wrkt_lbl_lst = ['Warm Up','Cool Down','Jog','Recovery','Rest']
     if (tot_df['interval_desc'].isin(non_wrkt_lbl_lst)).any():
@@ -88,13 +84,15 @@ def get_lap_sum(intrvl_lst):
     # get_sum_by_intrvl(itrvl_sum_tot)
     sum_lst.extend(get_sum_by_intrvl(tot_df))
 
+    # Calculate summary for total intervals
+    itrvl_sum_tot = summarize_workout(tot_df, 'Total')
+    sum_lst.append(itrvl_sum_tot)
+    
     return sum_lst
 
 def get_mile_sum(intrvl_lst):
     sum_lst = []
     tot_df = pd.DataFrame(Workout_interval.to_intrvl_lst_dict(intrvl_lst))
-    itrvl_sum_tot = summarize_workout(tot_df, 'Total')
-    sum_lst.append(itrvl_sum_tot)
 
 
     # subtract 1 from result of (nbr rows /2) since interval_order starts at 0
@@ -107,20 +105,22 @@ def get_mile_sum(intrvl_lst):
     itrvl_sum_secondhalf = summarize_workout(secondhalf_df, 'Sec½')
     sum_lst.append(itrvl_sum_secondhalf)
 
+    itrvl_sum_tot = summarize_workout(tot_df, 'Total')
+    sum_lst.append(itrvl_sum_tot)
+
     return sum_lst
 
 def get_mile_sum_from_df(wrkt_df):
     sum_lst = []
     tot_df = wrkt_df.copy()
-    # tot_df['workout_id'] = ''
-    tot_df['break_type'] = 'Total'
-    # itrvl_sum_tot = summarize_workout(tot_df, 'Total')
-    sum_lst.extend(summarize_workout_section(tot_df, 'Total'))
 
     tot_dist = tot_df['dist_mi'].values[-1]
     tot_df.loc[tot_df['dist_mi'] <=tot_dist/2, 'break_type'] = 'First½'
     tot_df.loc[tot_df['dist_mi'] >tot_dist/2, 'break_type'] = 'Sec½'
     sum_lst.extend( summarize_workout_section(tot_df))
+
+    tot_df['break_type'] = 'Total'
+    sum_lst.extend(summarize_workout_section(tot_df, 'Total'))
 
     nbr_rows = round(tot_df.shape[0]/2)
     return sum_lst
