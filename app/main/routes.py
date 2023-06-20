@@ -186,32 +186,32 @@ def workouts():
     for filter_type in filter_type_lst:
         type_filter.append(filter_type.id)
     if filterVal['type'] == 'run':
-        btn_classes['run'] = 'btn btn-primary'
+        btn_classes['run'] = 'btn btn_selected'
     if filterVal['type'] == 'cycle':
-        btn_classes['cycle'] = 'btn btn-primary'
+        btn_classes['cycle'] = 'btn btn_selected'
     if filterVal['type'] == 'swim':
-        btn_classes['swim'] = 'btn btn-primary'
+        btn_classes['swim'] = 'btn btn_selected'
 
     if filterVal['category'] == 'training':
         filter_cat_lst = Workout_category.query.filter( Workout_category.nm.in_(['Training', 'Hard']))
         for filter_cat in filter_cat_lst:
             category_filter.append(filter_cat.id)
-        btn_classes['training'] = 'btn btn-primary'
+        btn_classes['training'] = 'btn btn_selected'
     if filterVal['category'] == 'long':
         filter_cat_lst = Workout_category.query.filter( Workout_category.nm.in_(['Long Run', 'Long']))
         for filter_cat in filter_cat_lst:
             category_filter.append(filter_cat.id)
-        btn_classes['long'] = 'btn btn-primary'
+        btn_classes['long'] = 'btn btn_selected'
     if filterVal['category'] == 'easy':
         filter_cat_lst = Workout_category.query.filter( Workout_category.nm.in_(['Easy']))
         for filter_cat in filter_cat_lst:
             category_filter.append(filter_cat.id)
-        btn_classes['easy'] = 'btn btn-primary'
+        btn_classes['easy'] = 'btn btn_selected'
     if filterVal['category'] == 'race':
         filter_cat_lst = Workout_category.query.filter( Workout_category.nm.in_(['Race', 'Virtual Race']))
         for filter_cat in filter_cat_lst:
             category_filter.append(filter_cat.id)
-        btn_classes['race'] = 'btn btn-primary'
+        btn_classes['race'] = 'btn btn_selected'
 
     # logger.info('type_filter ' + str(type_filter))
 

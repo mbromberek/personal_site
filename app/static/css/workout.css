@@ -129,6 +129,7 @@ body {
 .workout_card {
     width: 800px;
     box-shadow: 3px 3px 5px black;
+    /* box-shadow: 3px 3px 5px #43d9b8; */
     border-radius: 20px;
     padding-left:15px;
     padding-right:15px;
@@ -137,6 +138,12 @@ body {
     position:relative;
     /* height: 300px; */
 }
+.btn_selected{
+  background-color:#43d9b8;
+  color:black;
+  border:black 1px solid;
+}
+
 .workout_card_desktop_height_7{
     height: 200px;
 }
@@ -408,13 +415,16 @@ input.workout_filter_btn_container:hover{
 
 .workouts_detail_separators{
     height:1px;
-    border-top:1px gray solid;
+    border-top:2px #43d9b8 solid;
     float:left;
     margin-top:8px;
     margin-bottom:8px;
     width:50%;
     margin-left:25%;
     margin-right:25%;
+}
+.wrkt_separator{
+  border:2px #43d9b8 solid;
 }
 
 .default_page{
