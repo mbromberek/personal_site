@@ -196,12 +196,37 @@ body {
     padding-top:15px;
     margin-right:20px;
 }
+div.workout_hdr{
+  display:inline-block;
+  width:550px;
+}
 header.workout{
     font-weight:bold;
     font-size: 20pt;
     text-align: left;
     margin-left:5px;
 }
+div.wrkt_type_description{
+    font-weight:bold;
+    font-size: 15pt;
+    text-align: left;
+    padding-left:0px;
+    padding-right:0px;
+    padding-top:5px;
+    padding-bottom:5px;
+    margin-left:5px;
+}
+div.wrkt_tags{
+  font-size: 11pt;
+  text-align:right;
+  margin-right:30px;
+  display:inline-block;
+  width:100%-575px;
+  vertical-align: top;
+  float:right;
+}
+
+
 .wrkts_hdr_row{
     overflow:auto;
     position:relative;
@@ -660,16 +685,6 @@ td.workout_intrvl_sum{
     border-top: 1px black solid;
 }
 
-div.wrkt_type_description{
-    font-weight:bold;
-    font-size: 15pt;
-    text-align: left;
-    padding-left:0px;
-    padding-right:0px;
-    padding-top:5px;
-    padding-bottom:5px;
-    margin-left:5px;
-}
 
 a.workout_lnk{
     color:black;
@@ -919,6 +934,16 @@ td.dashboard_row_dtl{
     div.wrkt_type_description{
         font-size: 13pt;
     }
+    div.wrkt_tags{
+      font-size: 10pt;
+      text-align:left;
+      margin-left:20px;
+      display:block;
+      width:100%;
+      vertical-align: top;
+      float:left;
+    }
+
     .workout_card{
         width:100%;
 

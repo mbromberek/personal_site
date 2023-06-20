@@ -657,6 +657,14 @@ def workout():
         try:
             wrkt_df = pd.read_pickle(os.path.join(current_app.config['WRKT_FILE_DIR'], str(workout.user_id), workout.wrkt_dir, 'workout.pickle'))
             intrvl_dict['mile_sum'] = wrkt_summary.get_mile_sum_from_df(wrkt_df)
+            workout.pos_neg_splits = intrvl_dict['mile_sum'][2]['det']
+            workout.pos_neg_splits_amt = intrvl_dict['mile_sum'][2]['duration']
+            if workout.pos_neg_splits == 'Negative Splits':
+                workout.pos_neg_splits_icon = '✅'
+            elif workout.pos_neg_splits == 'Positive Splits':
+                workout.pos_neg_splits_icon = '👍'
+            else:
+                workout.pos_neg_splits_icon = '😮'
             wrkt_stats_lst.extend(intrvl_dict['mile_sum'])
 
             lat_max = wrkt_df['latitude'].max()
