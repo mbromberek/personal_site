@@ -128,7 +128,7 @@ body {
 
 .workout_card {
     width: 800px;
-    box-shadow: 3px 3px 5px black;
+    box-shadow: 3px 3px 5px teal;
     /* box-shadow: 3px 3px 5px #43d9b8; */
     border-radius: 20px;
     padding-left:15px;
