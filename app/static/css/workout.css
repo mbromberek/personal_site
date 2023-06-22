@@ -463,8 +463,8 @@ input.workout_filter_btn_container:hover{
 .wrkt_notes{
     height: 400px;
     overflow: scroll;
-    overflow-x: hidden;
     display: inline-block;
+    width:100%;
 }
 
 #wrkt_page_gear{
