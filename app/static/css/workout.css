@@ -205,7 +205,19 @@ body {
 }
 div.workout_hdr{
   display:inline-block;
-  width:550px;
+  width:800px;
+  /* border: 1px solid darkblue; */
+}
+div.workout_hdr_type{
+  /* width:730px;  */
+  /* overflow: hidden; */
+  /* border: 1px solid red; */
+  margin-right:10px;
+}
+div.workout_hdr_link{
+  /* width:100px;  */
+  /* overflow: hidden;  */
+  float:right
 }
 header.workout{
     font-weight:bold;
@@ -228,7 +240,7 @@ div.wrkt_tags{
   text-align:right;
   margin-right:30px;
   display:inline-block;
-  width:100%-575px;
+  width:100%-805px;
   vertical-align: top;
   float:right;
 }
@@ -944,6 +956,9 @@ td.dashboard_row_dtl{
     }
     header.workout{
         font-size: 13pt;
+    }
+    div.workout_hdr{
+      width:100%;
     }
     div.wrkt_type_description{
         font-size: 13pt;

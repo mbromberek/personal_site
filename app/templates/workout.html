@@ -3,11 +3,11 @@
 {% block app_content %}
     <div  class="workout_hdr">
         <header class="workout " style="overflow:auto; display: flex; ">
-            <div  style="width:430px; overflow: hidden; ">
+            <div  class="workout_hdr_type">
                 {{ workout.type_det.nm }}&nbsp;{{ workout.wrkt_dttm.strftime('%Y-%m-%d %H:%M:%S') }}
             </div>
-            <div style="width:100px; overflow: hidden; float:right" >
-                <a class="workout_lnk" style="font-weight:normal;font-size: 12pt;" href="{{ url_for('main.edit_workout', workout=workout.id) }}">
+            <div class="workout_hdr_link" >
+                <a class="workout_edit_lnk" href="{{ url_for('main.edit_workout', workout=workout.id) }}">
                     edit
                 </a>
             </div>
