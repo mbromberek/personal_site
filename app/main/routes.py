@@ -844,6 +844,7 @@ def dashboard():
         yrly_mileage_lst.append(yr_mileage)
     yrly_goals_lst = Yrly_goal.generate_nonstarted_goals(yrly_goals_lst)
     dash_lst_dict['yrly_goals_lst'] = yrly_goals_lst
+    dash_lst_dict['yrly_goals_dict_lst'] = Yrly_goal.lst_to_dict(yrly_goals_lst)
     dash_lst_dict['yrly_mileage_lst'] = yrly_mileage_lst
 
     min_moly_dt = date.today() - timedelta((const.NBR_MO_COMP+1) * 31) # TODO probably not the best way to do this

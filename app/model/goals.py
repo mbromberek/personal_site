@@ -33,6 +33,24 @@ class Yrly_goal(object):
         if days_remaining == 0:
             return self.remaining()
         return self.remaining() / (days_remaining)
+    
+    def to_dict(self):
+        d = {
+            'description':self.description,
+            'goal':self.goal,
+            'tot':self.tot,
+            'uom':self.uom,
+            'pct_comp':self.calc_pct_comp(),
+            'remaining':self.remaining()
+        }
+        return d
+    
+    @staticmethod 
+    def lst_to_dict(goal_lst):
+        goal_dict_lst = []
+        for goal in goal_lst:
+            goal_dict_lst.append(goal.to_dict())
+        return goal_dict_lst
 
     @staticmethod
     def create_goal(yr_mileage):
