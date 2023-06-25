@@ -53,8 +53,13 @@
     <div id="monthly_mileage_bar" style="overflow:auto; width:75%; ">
     </div>#}
     
-    <svg id="goal_pie" style="overflow:auto; width:300px; height:200px; ">
-    </svg>
+    <div  id="goal_chart" style="overflow:auto; width:300px; height:400px;" >
+        <button onclick="update_goal_chart(0)">Running Mileage</button>
+        <button onclick="update_goal_chart(1)">Cycling Mileage</button>
+        <svg id="goal_pie" style="overflow:auto; width:300px; height:240px; ">
+        </svg>
+    </div>
+    
 
 </div>
 
@@ -67,7 +72,7 @@
 #}
 <script>
     initGoalChart({{ dash_lst_dict['yrly_goals_dict_lst']|tojson|safe }});
-    
+    init_donut_chart();
 </script>
 
 

@@ -23,8 +23,8 @@ function initChart(month_mileage) {
   // STORE OUR COUNTRY-DATA DATASET
   wrkt_viz.data.month_mileage = month_mileage;
   // wrkt_viz.data.race_mileage = race_mileage;
-  console.log(race_dist_dict);
-  wrkt_viz.race_dist_mapping = race_dist_dict;
+  // console.log(race_dist_dict);
+  // wrkt_viz.race_dist_mapping = race_dist_dict;
   // wrkt_viz.race_dist_mapping = d3.json(race_dist_dict);
   // nbviz.data.winnersData = winnersData
   // MAKE OUR FILTER AND ITS DIMENSIONS
