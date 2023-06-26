@@ -10,18 +10,38 @@
     text-align:center;
     width:100%;
 }
+#goal_chart_container{
+    display:block;
+    /* width:445px; */
+    width:400px;
+    border:3px solid black;
+}
+#goal_chart_container_left{
+    display:inline-block;
+    vertical-align: top;
+    width:275px;
+}
+.goal_chart_btn{
+    display:inline-block;
+    margin-top:25px;
+    margin-bottom:5px;
+    width:110px;
+    text-align:left;
+}
 .goal_chart_btn button {
   background-color: lightgreen;
   /* float: center; */
   border: 1px black solid;
   outline: black;
   cursor: pointer;
-  margin-left: 3px;
+  /* margin-left: 3px;
   margin-right: 3px;
   padding-left:5px;
-  padding-right:5px;
-  transition: 0.3s;
+  padding-right:5px;*/
+  margin-bottom:15px;
+  transition: 0.3s; 
   height:30px;
+  width:100px;
 }
 
 /* RACE MENU BAR */
