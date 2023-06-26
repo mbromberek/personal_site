@@ -53,13 +53,21 @@
     <div id="monthly_mileage_bar" style="overflow:auto; width:75%; ">
     </div>#}
     
-    <div  id="goal_chart" style="overflow:auto; width:300px; height:400px;" >
-        <button onclick="update_goal_chart(0)">Running Mileage</button>
-        <button onclick="update_goal_chart(1)">Cycling Mileage</button>
-        <svg id="goal_pie" style="overflow:auto; width:300px; height:240px; ">
-        </svg>
+    <div style="width:300px;">
+        <div id="goal_chart_title">
+            2023 Yearly Workout Goals 
+        </div>
+        <div id="goal_chart_desc">
+            &nbsp;
+        </div>
+        <div style="margin-top:0px;margin-bottom:5px;width:100%;text-align:center;">
+            <button onclick="update_goal_chart(0)">Run Miles</button>
+            <button onclick="update_goal_chart(1)">Cycle Miles</button>
+            <button onclick="update_goal_chart(2)">Cycle Ct</button>
+        </div>
+        <div  id="goal_chart" style="overflow:auto; width:300px; height:300px;" >
+        </div>
     </div>
-    
 
 </div>
 
@@ -72,7 +80,7 @@
 #}
 <script>
     initGoalChart({{ dash_lst_dict['yrly_goals_dict_lst']|tojson|safe }});
-    init_donut_chart();
+    // init_donut_chart();
 </script>
 
 

@@ -1,3 +1,16 @@
+#goal_chart_title{
+    font-size:18px;
+    font-weight: bold;
+    text-align:center;
+    width:100%;
+}
+#goal_chart_desc{
+    font-size:16px;
+    font-weight: bold;
+    text-align:center;
+    width:100%;
+}
+
 /* RACE MENU BAR */
 #race_menu div {
     display: inline-block;
