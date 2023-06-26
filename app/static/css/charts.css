@@ -10,6 +10,19 @@
     text-align:center;
     width:100%;
 }
+.goal_chart_btn button {
+  background-color: lightgreen;
+  /* float: center; */
+  border: 1px black solid;
+  outline: black;
+  cursor: pointer;
+  margin-left: 3px;
+  margin-right: 3px;
+  padding-left:5px;
+  padding-right:5px;
+  transition: 0.3s;
+  height:30px;
+}
 
 /* RACE MENU BAR */
 #race_menu div {
