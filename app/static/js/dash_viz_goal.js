@@ -52,7 +52,7 @@ function initGoalChart(goal_lst) {
     .attr('cy', 0)
     .attr('r', '.5em');
   legend.append('text') //labels
-    .attr('x', legendRectSize + legendSpacing)
+    .attr('x', legendRectSize + legendSpacing-5)
     .attr('y', legendRectSize - legendSpacing)
     .text(function (d) {
        return d;
@@ -122,7 +122,6 @@ function update_goal_chart(goal_val){
       })
       .text(function(d, i) {return goal_data[i]['value_str']; })
       .style('text-anchor','middle')
-      .style('font-size',10)
     ;
   }else{
     text = d3.select('#goal_chart')
@@ -135,7 +134,6 @@ function update_goal_chart(goal_val){
       })
       .text(function(d, i) {return goal_data[i]['value_str']; })
       .style('text-anchor','middle')
-      .style('font-size',10)
     ;
   }
   text.transition().duration(500).attr("d", arc);
