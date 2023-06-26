@@ -27,7 +27,7 @@ function initGoalChart(goal_lst) {
   ;
   
 
-  update_goal_chart(1);
+  update_goal_chart(0);
   
   let legendRectSize = 13;
   let legendSpacing = 7;
@@ -61,7 +61,7 @@ function initGoalChart(goal_lst) {
 }  
 
 function update_goal_chart(goal_val){
-  console.log('update_goal_chart');
+  // console.log('update_goal_chart');
   run_goal = goals_data[goal_val];
   let goal_data = [
       {'amt':run_goal['tot'], 'desc':'Complete', 'color':'#4daf4a', 'value_str':Math.round(run_goal['tot'])},
@@ -140,83 +140,6 @@ function update_goal_chart(goal_val){
   }
   text.transition().duration(500).attr("d", arc);
   
-  /*
-  let legend;
-  let legendRectSize = 13;
-  let legendSpacing = 7;
-  console.log(d3.select('#goal_chart').selectAll('circle-legend'));
-  if (d3.select('#goal_chart').selectAll('circle-legend')._groups[0].length == 0){
-    // legend = d3.select('#goal_chart').selectAll('legend') //the legend and placement
-    legend = d3.select('#goal_chart').selectAll('g').selectAll('.legend')
-      .data(graph_color.domain())
-      .enter()
-      .append('g')
-      .attr('class', 'circle-legend')
-      .attr('transform', function (d, i) {
-        var height = legendRectSize + legendSpacing;
-        var offset = height * graph_color.domain().length / 2;
-        var horz = -2 * legendRectSize - 13;
-        var vert = i * height - offset;
-        return 'translate(' + horz + ',' + vert + ')';
-      })
-    ;
-    
-    legend.append('circle') //keys
-      .style('fill', graph_color)
-      .style('stroke', graph_color)
-      .attr('cx', 0)
-      .attr('cy', 0)
-      .attr('r', '.5em');
-    legend.append('text') //labels
-      .attr('x', legendRectSize + legendSpacing)
-      .attr('y', legendRectSize - legendSpacing)
-      .text(function (d) {
-         return d;
-      })
-    ;
-
-  }
-  */
-  /*
-  //Generate groups
-  let arcs = g.selectAll("arc")
-        .data(pie(goal_data))
-        // .data(pie(
-        //   goal_data.map((d) => d.amt)
-        // ))
-        .enter()
-        .append("g")
-        .attr("class", "arc")
-  ;
-  
-  //Draw arc paths
-  arcs.append("path")
-    .attr("fill", function(d, i) {
-      // return graph_color(i);
-      return goal_data[i]['color'];
-    })
-    .attr("d", arc)
-  ;
-  
-  
-  
-  arcs.append("text")
-    .attr("transform", function(d){
-      return "translate(" + label.centroid(d) + ")";
-    })
-    .text(function(d, i) {return goal_data[i]['desc']; })
-    .style('text-anchor','middle')
-    .style('font-size',12)
-  ;
-  
-  arcs.append("text")
-    // .text("Goal: " + run_goal['goal'] + ' ' + run_goal['uom'])
-    .text("Goal")
-    .text(run_goal['goal'] + ' ' + run_goal['uom'])
-    .style('text-anchor','middle')
-    .style('font-size',12)
-  ;
-  */
   
   
 }
