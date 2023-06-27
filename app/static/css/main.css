@@ -30,6 +30,9 @@ div.home_section_content{
 h2.home{
     text-align:center;
 }
+.desktop_margin_left{
+  margin-left:90px;
+}
 
 
 
@@ -239,6 +242,9 @@ div.cat_img_right {
         width: 100%;
         margin-left: 0px;
         margin-right: 0px;
+    }
+    .desktop_margin_left{
+      margin-left:0;
     }
 
     .books_current {
