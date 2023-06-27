@@ -52,10 +52,10 @@ Base HTML code for each web page
         {% endif %}
 
 
-        {% if destPage and (destPage == 'dashboard' or destPage == 'races') %}
+        {% if destPage and (destPage == 'dashboard' or destPage == 'races' or destPage=='home') %}
         <link rel="stylesheet" href="{{ url_for('static', filename='css/charts.css') }}">
         {% endif %}
-        {% if destPage and (destPage == 'dashboard' or destPage == 'races' or destPage=='workout') %}
+        {% if destPage and (destPage == 'dashboard' or destPage == 'races' or destPage=='workout' or destPage=='home') %}
         <!-- 3. THE JAVASCRIPT FILES -->
           <!-- THIRD-PARTY JAVASCRIPT LIBRARIES, MAINLY D3  -->
           {#<script src="{{ url_for('static', filename='libs/d3.min.js') }}"></script>

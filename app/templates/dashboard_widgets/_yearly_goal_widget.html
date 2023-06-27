@@ -1,4 +1,4 @@
-    <div class="dashboard_widget {% if destPage and destPage == 'dashboard' %}dashboard_widget_wide{% else %}dashboard_widget_goal{% endif %}">
+    <div class="dashboard_widget dashboard_widget_goal">
         <table class="gear_usage">
             <tr class="gear_usage_hdr">
                 <td  class="gear_usage_hdr" colspan="4">
@@ -29,7 +29,8 @@
                 {% if yr_goal.uom=='times' %}
                 <td class="dashboard_row_dtl">
                     {{ '%0.0f' % yr_goal.tot|float }} {{ yr_goal.uom }}
-                    <span class="hide_desktop"><br></span>
+                    {#<span class="hide_desktop"><br></span>#}
+                    <br>
                     ({{ '%0.1f' % yr_goal.pct_comp|float }}%)
                 </td>
                 <td class="dashboard_row_dtl hide_mobile">
@@ -41,7 +42,8 @@
                 {% else %}
                 <td class="dashboard_row_dtl">
                     {{ '%0.2f' % yr_goal.tot|float }} {{ yr_goal.uom }}
-                    <span class="hide_desktop"><br></span>
+                    {#<span class="hide_desktop"><br></span>#}
+                    <br>
                     ({{ '%0.2f' % yr_goal.pct_comp|float }}%)
                 </td>
                 <td class="dashboard_row_dtl hide_mobile">

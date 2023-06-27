@@ -118,7 +118,8 @@
 
             {# Fitness Goals for 2022 #}
             {% if dash_lst_dict['yrly_goals_lst'] %}
-            {% include 'dashboard_widgets/_yearly_goal_widget.html' %}
+            {#{% include 'dashboard_widgets/_yearly_goal_widget.html' %}#}
+            {% include 'dashboard_widgets/_yearly_goal_chart_widget.html' %}
             {% endif %}
         </div>
 
@@ -191,4 +192,8 @@
         <h2 class="home">Contact</h2>
     </div>
 #}
+<script>
+    initGoalChart({{ dash_lst_dict['yrly_goals_dict_lst']|tojson|safe }});
+</script>
+
 {% endblock %}

@@ -68,6 +68,7 @@ def index():
         yrly_mileage_lst.append(yr_mileage)
     yrly_goals_lst = Yrly_goal.generate_nonstarted_goals(yrly_goals_lst)
     dash_lst_dict['yrly_goals_lst'] = yrly_goals_lst
+    dash_lst_dict['yrly_goals_dict_lst'] = Yrly_goal.lst_to_dict(yrly_goals_lst)
     # dash_lst_dict['yrly_mileage_lst'] = yrly_mileage_lst
 
     wrkt_sum_results = Wrkt_sum.query.filter_by(user_id=1, type='Running').all()

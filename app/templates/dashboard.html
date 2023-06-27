@@ -18,10 +18,12 @@
     </div>
 
     <div style="overflow:auto; width:100%; ">
-    {# Fitness Goals for 2022 #}
-    {% if dash_lst_dict['yrly_goals_lst'] %}
-    {% include 'dashboard_widgets/_yearly_goal_widget.html' %}
-    {% endif %}
+        {# Fitness Goals for 2022 #}
+        {% if dash_lst_dict['yrly_goals_lst'] %}
+        {% include 'dashboard_widgets/_yearly_goal_widget.html' %}
+        {% endif %}
+
+        {% include 'dashboard_widgets/_yearly_goal_chart_widget.html' %}
     </div>
 
     <div style="overflow:auto; width:100%; ">
@@ -53,23 +55,15 @@
     <div id="monthly_mileage_bar" style="overflow:auto; width:75%; ">
     </div>#}
     
-    <div id="goal_chart_container">
-        <div id="goal_chart_title">
-            2023 Workout Goals 
-        </div>
-        <div id="goal_chart_desc">
-            &nbsp;
-        </div>
-        <div id="goal_chart_container_left">
-            <div  id="goal_chart" style="overflow:auto; width:275px; height:270px;" >
-            </div>
-        </div>
-        <div class="goal_chart_btn" >
-            <button onclick="update_goal_chart(0)">Run Miles</button>
-            <button onclick="update_goal_chart(1)">Cycle Miles</button>
-            <button onclick="update_goal_chart(2)">Cycle Ct</button>
-        </div>
+ 
+    {#
+    <div id="donut"></div>
+    <div >
+         <button id="everyone">Everyone surveyed</button>
+         <button id="women">Only women surveyed</button>
+         <button id="men">Only men surveyed</button>
     </div>
+    #}
 
 </div>
 

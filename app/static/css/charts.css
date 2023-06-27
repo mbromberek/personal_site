@@ -11,16 +11,15 @@
     width:100%;
 }
 #goal_chart_container{
-    display:block;
-    /* width:445px; */
-    width:400px;
+    display:inline-block;
+    width:375px;
     border:3px solid black;
     font-size:12pt;
 }
 #goal_chart_container_left{
     display:inline-block;
     vertical-align: top;
-    width:275px;
+    width:250px;
 }
 .goal_chart_btn{
     display:inline-block;
@@ -30,20 +29,17 @@
     text-align:left;
 }
 .goal_chart_btn button {
-  background-color: lightgreen;
-  /* float: center; */
-  border: 1px black solid;
-  outline: black;
-  cursor: pointer;
-  /* margin-left: 3px;
-  margin-right: 3px;
-  padding-left:5px;
-  padding-right:5px;*/
-  margin-bottom:15px;
-  transition: 0.3s; 
-  height:30px;
-  width:100px;
+    background-color: aqua;
+    /* float: center; */
+    border: 1px black solid;
+    outline: black;
+    cursor: pointer;
+    margin-bottom:15px;
+    transition: 0.3s; 
+    height:30px;
+    width:100px;
 }
+
 
 /* RACE MENU BAR */
 #race_menu div {
@@ -349,7 +345,21 @@ svg.us_map{
     #race_map {
         width:400px;
         margin-left:-15px;
-    }   
+    }
+    
+    #goal_chart_container{
+        /* width:360px; */
+        width:100%;
+    }
+    .goal_chart_btn{
+        width:85px;
+    }
+    .goal_chart_btn button {
+      width:85px;
+      font-size:10pt;
+      margin-left:-5px;
+    }
+
 }
 
 @media screen and (min-width: 600px) and (max-width: 900px) {
