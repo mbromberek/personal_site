@@ -107,7 +107,7 @@ function update_goal_chart(goal_val){
   }
   // console.log('path');
   // console.log(path);
-  path.transition().duration(500).attr("d", arc);
+  path.transition().duration(300).attr("d", arc);
   
   let text;
   if (d3.select('#goal_chart').selectAll('text')._groups[0].length == 0){
@@ -136,7 +136,7 @@ function update_goal_chart(goal_val){
       .style('text-anchor','middle')
     ;
   }
-  text.transition().duration(500).attr("d", arc);
+  text.transition().duration(100).attr("d", arc);
   
   
   

@@ -527,6 +527,7 @@ input.workout_filter_btn_container:hover{
   padding-right: 16px;
   transition: 0.3s;
   height:30px;
+  color:black;
 }
 
 /* Change background color of buttons on hover */

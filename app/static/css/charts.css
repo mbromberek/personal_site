@@ -38,6 +38,7 @@
     transition: 0.3s; 
     height:30px;
     width:100px;
+    color:black;
 }
 
 
@@ -358,6 +359,9 @@ svg.us_map{
       width:85px;
       font-size:10pt;
       margin-left:-5px;
+      font-family:Arial;
+      padding-left:0px;
+      padding-right:0px;
     }
 
 }
