@@ -374,4 +374,16 @@ svg.us_map{
     #race_list table th#race_name {
         width: 180px;
     }
+    
+    .goal_chart_btn{
+        width:85px;
+    }
+    .goal_chart_btn button {
+      width:85px;
+      font-size:10pt;
+      margin-left:-5px;
+      font-family:Arial;
+      padding-left:0px;
+      padding-right:0px;
+    }
 }

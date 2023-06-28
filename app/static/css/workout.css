@@ -1331,6 +1331,12 @@ td.dashboard_row_dtl{
         left:5px;
         width:100%;
     }
+    .dashboard_widget_thin{
+        width:375px;
+    
+    }
+
+    
 
 }
 @media screen and (min-width: 1900px) {

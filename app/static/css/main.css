@@ -208,6 +208,10 @@ div.cat_img_right {
     .books_read {
         width:300px;
     }
+    .desktop_margin_left{
+      margin-left:0;
+    }
+
 }
 
 /* For mobile phones: */
