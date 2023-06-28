@@ -1,4 +1,3 @@
-// let workout_chart;
 let TRANS_DURATION = 2000;
 var currentLocMarker;
 
@@ -7,7 +6,7 @@ var wrkt_miles_dict;
 var wrkt_chart_svg;
 
 function initChart(wrkt_json, wrkt_miles_json){
-    console.log('workout_chart.js initChart');
+    // console.log('workout_chart.js initChart');
     wrkt_chart_dict = wrkt_json;
     wrkt_miles_dict = wrkt_miles_json;
     drawChart();
@@ -15,24 +14,13 @@ function initChart(wrkt_json, wrkt_miles_json){
     window.onresize = function(){
         console.log('onresize');
         wrkt_chart_svg.remove();
-        drawChart();
-        // let boundingRect = workout_chart.node().getBoundingClientRect();
-        // console.log(`Width: ${boundingRect.width} Height: ${boundingRect.height}`);
-        // if (boundingRect.width < 600){
-        //     //iPhone vertical
-        //     
-        // }
-        
-    
+        drawChart();    
     }
 
 }
 
 function drawChart(){
     let workout_chart = d3.select("#elevation_chart");
-    // workout_chart.innerHTML = "";
-    // console.log(elevation_chart);
-    // console.log(wrkt_chart_dict);
     let data = wrkt_chart_dict.filter(function(d){
         // return d.altitude_ft > -1
         return !(isNaN(d.ele_roll))
@@ -58,28 +46,15 @@ function drawChart(){
 
     let width = boundingRect.width - margin.left - margin.right;
     let height = boundingRect.height - margin.top - margin.bottom;
-    /*let width = 1000 - margin.left - margin.right;
-    let height = 400 - margin.top - margin.bottom;*/
     let xPaddingLeft = 0; //padding for y-axis label
 
     let dist_max = Math.round(d3.max(data, function(d) {return +d.dist_mi})*100)/100;
-    // let duration_min_max = d3.extent(data, function(d) {return +d.dur_sec});
-    // console.log(duration_min_max);
+
     // SCALES
     let xScale = d3.scaleLinear()
         .domain([0, dist_max]) //0 to 13
         .range([xPaddingLeft, width])
     ;
-    // console.log(xScale(13));
-
-    /*
-    let run2pixels = d3.scaleLinear()
-        .domain([0, 42.195]) // unit: km
-        .range([0, 600]) // unit: pixels
-    ;
-    console.log(run2pixels(42));
-    */
-
     
     let yElevationScale = d3
         .scaleLinear()
@@ -146,9 +121,6 @@ function drawChart(){
         })
     ;
 
-
-    console.log("workout_chart");
-    console.log(workout_chart.selectAll("svg"));
     if (workout_chart.selectAll('svg')._groups[0].length > 0){
         wrkt_chart_svg = workout_chart.selectAll('svg')
             .attr("width", width + margin.left + margin.right)
@@ -384,6 +356,6 @@ function drawChart(){
         .on("mouseleave", onMouseLeave)
     ;
 
-    console.log('End initChart');
+    // console.log('End initChart');
 }
 

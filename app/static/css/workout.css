@@ -12,8 +12,8 @@ body {
 }
 
 #elevation_chart{
-    width:1000px;
-    /* width:90%; */
+    /* width:1000px; */
+    width:95%;
     height:400px;
     margin-left:20px;
     margin-top:5px;
@@ -1322,9 +1322,6 @@ td.dashboard_row_dtl{
         /* display:inline-block; */
     }
 
-    #elevation_chart{
-        width:90%;
-    }  
     .chart_legend{
         position: absolute;
         /* bottom:-30px; */
@@ -1343,4 +1340,5 @@ td.dashboard_row_dtl{
     #wrkt_page_detail_right{
         width:1400px;
     }
+
 }
