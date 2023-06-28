@@ -4,8 +4,8 @@ var goal_radius;
 var graph_color = d3.scaleOrdinal(['#4daf4a','#377eb8','#ff7f00','#984ea3','#e41a1c']);  
 
 function initGoalChart(goal_lst) {
-  console.log('initGoalChart');
-  console.log(goal_lst);
+  // console.log('initGoalChart');
+  // console.log(goal_lst);
   goals_data = goal_lst;
   
   let goal_chart = d3.select('#goal_chart');
@@ -14,7 +14,7 @@ function initGoalChart(goal_lst) {
   let boundingRect = goal_chart.node().getBoundingClientRect();
   let width = boundingRect.width - margin.right - margin.left;
   let height = boundingRect.height - margin.top - margin.bottom; 
-  console.log('width: ' + boundingRect.width + ' height: ' + boundingRect.height);
+  // console.log('width: ' + boundingRect.width + ' height: ' + boundingRect.height);
   goal_radius = Math.min(width, height) / 2;
   inner_goal_radius = goal_radius / 2;
   
