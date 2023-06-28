@@ -39,6 +39,8 @@
     height:30px;
     width:100px;
     color:black;
+    padding-left:0px;
+    padding-right:0px;
 }
 
 
@@ -376,11 +378,11 @@ svg.us_map{
     }
     
     .goal_chart_btn{
-        width:85px;
+        width:100px;
     }
     .goal_chart_btn button {
-      width:85px;
-      font-size:10pt;
+      width:95px;
+      font-size:11pt;
       margin-left:-5px;
       font-family:Arial;
       padding-left:0px;
