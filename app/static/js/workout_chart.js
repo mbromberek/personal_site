@@ -12,7 +12,7 @@ function initChart(wrkt_json, wrkt_miles_json){
     wrkt_miles_dict = wrkt_miles_json;
     drawChart();
     
-    /*window.onresize = function(){
+    window.onresize = function(){
         console.log('onresize');
         wrkt_chart_svg.remove();
         drawChart();
@@ -24,7 +24,7 @@ function initChart(wrkt_json, wrkt_miles_json){
         // }
         
     
-    }*/
+    }
 
 }
 
@@ -146,35 +146,27 @@ function drawChart(){
         })
     ;
 
-    /*wrkt_chart_svg = workout_chart
-        .append("svg")
-        .attr("preserveAspectRatio", "xMinYMin meet")
-        .attr("viewBox", "0 0 " + (1000) + " " + (400))
-        // .attr("viewBox", "0 0 300 300")
-        .classed("svg-content", true);
-    */
-    // if (wrkt_chart_svg == null){
-    //     console.log("create wrkt_chart_svg");
-    wrkt_chart_svg = workout_chart
-        .append("svg")
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
-        .append("g")
-        .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
-    ;
-    // }else{
-    //     console.log("update wrkt_chart_svg");
-    //     // wrkt_chart_svg.remove();
-    //     // workout_chart.innerHTML = "";
-    //     // wrkt_chart_svg.selectAll("*").remove();
-    //     d3.selectAll("g > *").remove();
-    //     wrkt_chart_svg 
-    //         .attr("width", width + margin.left + margin.right)
-    //         .attr("height", height + margin.top + margin.bottom)
-    //         .append("g")
-    //         .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
-    //     ;
-    // }
+
+    console.log("workout_chart");
+    console.log(workout_chart.selectAll("svg"));
+    if (workout_chart.selectAll('svg')._groups[0].length > 0){
+        wrkt_chart_svg = workout_chart.selectAll('svg')
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+        ;
+    }else{
+        wrkt_chart_svg = workout_chart
+            .append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+        ;
+    }
+
+
     // ADD AXES
     wrkt_chart_svg
         .append("g")
