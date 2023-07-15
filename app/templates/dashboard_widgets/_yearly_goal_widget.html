@@ -1,7 +1,7 @@
-    <div class="dashboard_widget dashboard_widget_goal">
+    <div class="dashboard_widget dashboard_widget_wide">
         <table class="gear_usage">
             <tr class="gear_usage_hdr">
-                <td  class="gear_usage_hdr" colspan="4">
+                <td  class="gear_usage_hdr" colspan="5">
                     2023 Yearly Workout Goals
                 </td>
             </tr>
@@ -17,6 +17,9 @@
                 </td>
                 <td class="gear_usage_hdr" >
                     Avg need <br>(month)
+                </td>
+                <td class="gear_usage_hdr hide_mobile">
+                    Avg need<br>(week)
                 </td>
             </tr>
             {% for yr_goal in dash_lst_dict['yrly_goals_lst'] %}
@@ -39,9 +42,12 @@
                 <td class="dashboard_row_dtl">
                     {{ '%0.0f' % yr_goal.miles_needed_per_month|round(0) }} {{ yr_goal.uom }}
                 </td>
+                <td class="dashboard_row_dtl hide_mobile">
+                    &nbsp;
+                </td>
                 {% else %}
                 <td class="dashboard_row_dtl">
-                    {{ '%0.2f' % yr_goal.tot|float }} {{ yr_goal.uom }}
+                    {{ '%0.0f' % yr_goal.tot|float }} {{ yr_goal.uom }}
                     {#<span class="hide_desktop"><br></span>#}
                     <br>
                     ({{ '%0.2f' % yr_goal.pct_comp|float }}%)
@@ -51,6 +57,9 @@
                 </td>
                 <td class="dashboard_row_dtl">
                     {{ '%0.2f' % yr_goal.miles_needed_per_month|float }} {{ yr_goal.uom }}
+                </td>
+                <td class="dashboard_row_dtl hide_mobile">
+                    {{ '%0.2f' % yr_goal.miles_needed_per_week|float }} {{ yr_goal.uom }}
                 </td>
                 {% endif %}
             </tr>
