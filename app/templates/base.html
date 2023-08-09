@@ -26,6 +26,9 @@ Base HTML code for each web page
         {% if destPage and destPage == 'settings' %}
         <script type="text/javascript" src="{{ url_for('static', filename='js/settings.js') }}"></script>
         {% endif %}
+        {% if destPage and destPage == 'ai' %}
+        <script type="text/javascript" src="{{ url_for('static', filename='js/ai_schedule.js') }}"></script>
+        {% endif %}
         {{ bootstrap.load_css() }}
         <link rel="stylesheet" href="{{ url_for('static', filename='css/workout.css') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
@@ -51,6 +54,9 @@ Base HTML code for each web page
         <script src="{{ url_for('static', filename='js/leaflet_maps.js') }}"></script>
         {% endif %}
 
+        {% if destPage and destPage == 'ai' %}
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/ai_schedule.css') }}">
+        {% endif %}
 
         {% if destPage and (destPage == 'dashboard' or destPage == 'races' or destPage=='home') %}
         <link rel="stylesheet" href="{{ url_for('static', filename='css/charts.css') }}">
