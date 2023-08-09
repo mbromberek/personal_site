@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% from 'bootstrap4/form.html' import render_form, render_field %}
+
+{% block app_content %}
+    <div class="sch_lst" id="sch_lst">
+    <template id="sch_template">
+        <div class="sch_card" id="sch_card">
+            <div style="overflow:auto">
+                <div class="sch_header" id="title">
+                    {#<a id="title" class="sch_lnk" href="#">
+                        &nbsp;
+                    </a>#}
+                </div>
+            </div>
+
+            <div class="sch_detail" >
+                <span id="room">
+                  &nbsp;
+                </span>:
+                <span id="day">
+                    &nbsp;
+                </span>
+                <span id="start_time">
+                    &nbsp;
+                </span>
+                to
+                <span id="end_time">
+                    &nbsp;
+                </span>
+            </div>
+            <!--<div class="sch_detail_separators" >
+                &nbsp;
+            </div>-->
+
+            <div class="sch_detail" style="display:none;" >
+                Panelists: 
+                <span id="panelists">
+                    &nbsp;
+                </span>
+            </div>
+            <div class="sch_detail sch_description" >
+                <span id="description">
+                    &nbsp;
+                </span>
+            </div>
+
+        </div>
+    </template>
+    </div>
+    <div class="panel_det" style="display:none;" id="panel_det">
+      <div class="panel_hdr_row">
+        <span id='title'>
+          &nbsp;
+        </span>
+      </div>
+      <div class="panel_det_row">
+        <span id='room'>
+          &nbsp;
+        </span>
+        <br />
+        <span id="day">
+            &nbsp;
+        </span>
+        <span id="start_time">
+            &nbsp;
+        </span>
+        to
+        <span id="end_time">
+            &nbsp;
+        </span>
+      </div>
+      <div class="panel_det_row" >
+        Panelists: 
+        <span id="panelists">
+            &nbsp;
+        </span>
+      </div>
+      <div class="panel_det_row">
+        Description: 
+        <span id="description">
+            &nbsp;
+        </span>
+      </div>
+
+    </div>
+<script>
+    JavaScript:loadSchedule({{ sch_json|tojson|safe }})
+
+</script>
+{% endblock %}

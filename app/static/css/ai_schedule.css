@@ -1,0 +1,118 @@
+.sch_lst{
+  /* position:relative; */
+  display:inline-block;
+  margin-left:5px;
+  margin-top:5px;
+  width: 500px;
+
+}
+.panel_det{
+  position:fixed;
+  right:10px;
+  top:60px;
+  padding-left:15px;
+  padding-right:15px;
+  
+  /* display:inline-block;
+  vertical-align: top;
+  padding-top:20px; */
+  border: 1px black solid;
+  width:calc((100% - 550px));
+  height:90%;
+}
+.panel_det_row{
+  margin-bottom:10px;
+  font-weight:normal;
+  font-size:12pt;
+  text-align: left;  
+}
+.panel_hdr_row{
+  font-weight:bold;
+  font-size:15pt;
+  margin-bottom:10px;
+}
+
+.sch_card {
+    padding-left:15px;
+    padding-right:15px;
+    padding-top:10px;
+    padding-bottom:10px;
+    /* position:relative; */
+    /* height: 300px;  */
+    border: 1px lightblue solid;
+}
+.sch_card:hover{
+  cursor:pointer;
+}
+.sch_card_color_0{
+  background-color:lightblue;
+}
+.sch_card_color_1{
+  background-color:white;
+}
+.selected_panel{
+  background-color: lightgreen;
+}
+
+.sch_header{
+  font-weight:bold;
+  font-size:15pt;
+  text-align: left;
+}
+
+.sch_detail{
+  font-weight:normal;
+  font-size:12pt;
+  text-align: left;  
+}
+.sch_description{
+  /* Used to limit size of notes section on workouts list */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow:hidden;
+  width:100%;
+}
+
+.sch_detail_separators{
+    height:1px;
+    border-top:2px lightblue solid;
+    float:left;
+    margin-top:8px;
+    margin-bottom:8px;
+    width:100%;
+    /* margin-left:5%; */
+    /* margin-right:5%; */
+}
+
+
+a.sch_lnk{
+  color:black;
+  text-decoration: none;
+}
+
+a.sch_lnk:hover{
+  text-decoration: underline;
+}
+
+/* For phones */
+@media only screen and (max-width:600px) {
+  .sch_card{
+    width:100%;
+  }
+}
+
+/* For tablets */
+@media screen and (min-width: 600px) and (max-width: 900px) {
+  .sch_card{
+      width:100%;
+  }
+}
+
+/* Wide windows */
+@media screen and (min-width: 1100px) {
+  .panel_det{
+      width:800px;
+      right:calc((100% - 1350px));
+  }
+}
