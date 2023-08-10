@@ -24,7 +24,7 @@ from app.main import bp
 from app import logger, basedir
 
 @bp.route('/schedule')
-# @login_required
+@login_required
 def schedule():
     logger.info('schedule')
     
