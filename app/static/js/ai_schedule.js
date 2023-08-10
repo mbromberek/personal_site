@@ -29,7 +29,7 @@ function loadSchedule(response){
     sch_lst_ele.appendChild(template_clone);
     j++;
   }
-  showDescription("card_0");
+  // showDescription("card_0");
 
 }
 
