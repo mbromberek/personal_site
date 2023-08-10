@@ -4,6 +4,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
     <script type="text/javascript" src="{{ url_for('static', filename='js/ai_schedule.js') }}"></script>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/ai_schedule.css') }}">
     <title>
@@ -56,7 +57,12 @@
         </div>
     </template>
     </div>
-    <div class="panel_det" style="display:none;" id="panel_det">
+    <div class="panel_det" id="panel_det">
+      <div class="close_btn_area" >
+        <span class="close_btn" onclick="JavaScript:closeDescription();" >
+          Close
+        </span>
+      </div>
       <div class="panel_hdr_row">
         <span id='title'>
           &nbsp;
@@ -78,11 +84,18 @@
             &nbsp;
         </span>
       </div>
+      <div class="sch_detail_separators" >
+          &nbsp;
+      </div>
+
       <div class="panel_det_row" >
         Panelists: 
         <span id="panelists">
             &nbsp;
         </span>
+      </div>
+      <div class="sch_detail_separators" >
+          &nbsp;
       </div>
       <div class="panel_det_row">
         Description: 
