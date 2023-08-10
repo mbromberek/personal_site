@@ -12,6 +12,7 @@
   top:60px;
   padding-left:15px;
   padding-right:15px;
+  overflow:scroll;
   
   /* display:inline-block;
   vertical-align: top;
@@ -100,6 +101,22 @@ a.sch_lnk:hover{
   .sch_card{
     width:100%;
   }
+  .sch_lst{
+    /* position:relative; */
+    /* display:inline-block; */
+    margin-left:-15px;
+    margin-top:0px;
+    width: 100%;
+  
+  }
+
+  .panel_det{
+    right:0px;
+    width:100%;
+    background-color: white;
+    height:100%;
+  }
+
 }
 
 /* For tablets */
