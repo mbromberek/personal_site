@@ -1,6 +1,16 @@
-{% extends "base.html" %}
-
-{% block app_content %}
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script type="text/javascript" src="{{ url_for('static', filename='js/ai_schedule.js') }}"></script>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/ai_schedule.css') }}">
+    <title>
+      AI Programming Schedule
+    </title>
+</head>
+<body>
     <div class="sch_lst" id="sch_lst">
     <template id="sch_template">
         <div class="sch_card" id="sch_card">
@@ -86,4 +96,5 @@
     JavaScript:loadSchedule({{ sch_json|tojson|safe }})
 
 </script>
-{% endblock %}
+</body>
+</html>
