@@ -41,17 +41,18 @@ function loadSchedule(response){
 }
 
 var showDescription = function(panel_id){
-  console.log(panel_id);
+  // console.log(panel_id);
   let panel_ele = document.getElementById('panel_det');
+  let sel_sch_det = prog_schedule[panel_id];
 
   let sch_ele = document.getElementById('card_' + panel_id);
   sch_ele.classList.add("selected_panel");
   if (curr_sch_id != ''){
     document.getElementById('card_'+curr_sch_id).classList.remove("selected_panel");
-    // panel_ele.classList.remove("sch_card_panel_staff");
+    // console.log('Remove:'+prog_schedule[curr_sch_id]['panel_type']);
+    panel_ele.classList.remove("sch_card_panel_"+prog_schedule[curr_sch_id]['panel_type']);
   }
   curr_sch_id = panel_id;
-  let sel_sch_det = prog_schedule[panel_id];
 
   panel_ele.querySelector("#title").innerHTML = sel_sch_det['title'];
   panel_ele.querySelector("#room").innerHTML = sel_sch_det["room"];
@@ -60,6 +61,8 @@ var showDescription = function(panel_id){
   panel_ele.querySelector("#end_time").innerHTML = sel_sch_det["end_time"];
   panel_ele.querySelector("#panelists").innerHTML = sel_sch_det["panelists"];
   panel_ele.querySelector("#description").innerHTML = sel_sch_det["description"];
+  // console.log(sel_sch_det['panel_type']);
+  panel_ele.classList.add('sch_card_panel_' + sel_sch_det['panel_type']);
   panel_ele.style.display = 'inline-block';
   
   

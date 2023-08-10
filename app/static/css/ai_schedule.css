@@ -25,7 +25,7 @@ body {
   vertical-align: top;
   padding-top:20px; */
   border: 1px black solid;
-  /* border-top: 20px black solid; */
+  border-top: 20px black solid;
   width:calc((100% - 560px));
   height:100%;
 }
@@ -63,19 +63,19 @@ body {
   background-color:#eeeeee;
 }
 .sch_card_panel_guest{
-  border-color: yellow;
+  border-color: darkorange;
 }
 .sch_card_panel_staff{
   border-color: green;
 }
 .sch_card_panel_attendee{
-  border-left-color: darkblue;
+  border-color: darkblue;
 }
 .sch_card_panel_convention{
-  border-left-color: darkred;
+  border-color: darkred;
 }
 .sch_card_panel_family{
-  border-left-color: purple;
+  border-color: purple;
 }
 .selected_panel{
   background-color: lightgreen;
