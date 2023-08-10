@@ -1,15 +1,20 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
 .sch_lst{
   /* position:relative; */
   display:inline-block;
   margin-left:5px;
-  margin-top:5px;
+  margin-top:0px;
   width: 500px;
 
 }
 .panel_det{
   position:fixed;
   right:10px;
-  top:60px;
+  top:0px;
   padding-left:15px;
   padding-right:15px;
   overflow:scroll;
@@ -18,8 +23,8 @@
   vertical-align: top;
   padding-top:20px; */
   border: 1px black solid;
-  width:calc((100% - 550px));
-  height:90%;
+  width:calc((100% - 560px));
+  height:100%;
 }
 .panel_det_row{
   margin-bottom:10px;
@@ -98,13 +103,13 @@ a.sch_lnk:hover{
 
 /* For phones */
 @media only screen and (max-width:600px) {
-  .sch_card{
+  /* .sch_card{
     width:100%;
-  }
+  } */
   .sch_lst{
     /* position:relative; */
     /* display:inline-block; */
-    margin-left:-15px;
+    margin-left:0px;
     margin-top:0px;
     width: 100%;
   
@@ -112,7 +117,7 @@ a.sch_lnk:hover{
 
   .panel_det{
     right:0px;
-    width:100%;
+    width:calc((100% - 32px));
     background-color: white;
     height:100%;
   }
@@ -121,9 +126,9 @@ a.sch_lnk:hover{
 
 /* For tablets */
 @media screen and (min-width: 600px) and (max-width: 900px) {
-  .sch_card{
+  /* .sch_card{
       width:100%;
-  }
+  } */
 }
 
 /* Wide windows */
