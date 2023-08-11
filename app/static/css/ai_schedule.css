@@ -1,20 +1,69 @@
 body {
     margin: 0;
-    padding: 0;
+    /* padding-left: 5px; */
+    padding-right: 0;
+    /* padding-top:5px; */
+    padding-bottom:5px;
+}
+
+.sch_nav_bar{
+  position:fixed;
+  /* height:40px; */
+  width:100%;
+  background-color: #1F4E78;
+  color:white;
+  /* margin-bottom:5px; */
+  vertical-align: top;
+  /* padding:15px; */
+}
+.sch_nav_img{
+  display:inline-block;
+  padding-right:15px;
+  padding-left:15px;
+  vertical-align: middle;
+  padding-top:0px;
+  
+  /* height:40px; */
+  /* width:100px; */
+}
+
+.sch_nav_item{
+  display:inline-block;
+  font-weight:normal;
+  font-size:14pt;
+  text-align: center;
+  text-decoration: underline;
+  padding-top:15px;
+  padding-right:15px;
+  padding-left:15px;
+  padding-bottom:0px;
+  vertical-align: middle;
+  
+  height:40px;
+  /* height:100%; */
+  /* margin:auto; */
+  /* width:100px; */
+}
+.sch_nav_item:hover{
+  cursor:pointer;
+  background-color:black;
 }
 
 .sch_lst{
   /* position:relative; */
   display:inline-block;
-  margin-left:5px;
-  margin-top:0px;
+  /* margin-left:5px; */
+  margin-top:55px;
   width: 500px;
+  height:100%;
 
 }
 .panel_det{
   position:fixed;
+  /* vertical-align: top;margin-top:5px;margin-left:5px; */
   right:10px;
-  top:0px;
+  /* top:5px; */
+  top:60px;
   padding-left:15px;
   padding-right:15px;
   padding-top:25px;
@@ -27,7 +76,8 @@ body {
   border: 1px black solid;
   border-top: 20px black solid;
   width:calc((100% - 560px));
-  height:100%;
+  /* height:95%; */
+  height:500px;
 }
 .panel_det_row{
   margin-top:10px;
@@ -139,6 +189,15 @@ a.sch_lnk:hover{
 
 /* For phones */
 @media only screen and (max-width:600px) {
+  body {
+      padding-top:0px;
+      padding-bottom:0px;
+      padding-left:0px;
+  }
+  .sch_nav_item{
+    padding-left:5px;
+    padding-right:5px;
+  }
   /* .sch_card{
     width:100%;
   } */
@@ -146,13 +205,14 @@ a.sch_lnk:hover{
     /* position:relative; */
     /* display:inline-block; */
     margin-left:0px;
-    margin-top:0px;
+    /* margin-top:0px; */
     width: 100%;
   
   }
 
   .panel_det{
     right:0px;
+    top:0px;
     width:calc((100% - 32px));
     background-color: white;
     height:100%;
@@ -162,6 +222,12 @@ a.sch_lnk:hover{
     display:inline-block;
   }
 
+}
+@media only screen and (max-height:500px){
+  .panel_det{
+    height:300px;
+    top:55px;
+  }
 }
 
 /* For tablets */
