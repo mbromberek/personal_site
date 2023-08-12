@@ -5,9 +5,16 @@ var time_breaks = ['5:00am','6:00am','7:00am','8:00am','9:00am','10:00am','11:00
 
 function loadSchedule(response){
   console.log(response);
-  
   prog_schedule = response['prog_schedule'];
+  
+  loadScheduleForDay('Friday');
+}
+
+function loadScheduleForDay(day_val){
   let sch_lst_ele = document.getElementById('sch_lst');
+  sch_lst_ele.innerHTML = '';
+  curr_sch_id = '';
+  let firstEle = '';
   
   let fillerEle = document.createElement('div');
   fillerEle.setAttribute("id", "nav_space_filler");
@@ -24,6 +31,9 @@ function loadSchedule(response){
   
   for (let i=0; i<prog_schedule.length; i++){
     let panel = prog_schedule[i];
+    if (panel['day'] != day_val){
+      continue;
+    }
     // Put time marker above the last entry before the time change so the correct entry is not covered by nav bar
     let panel_start_time_floor = panel['start_time'].replace(':30',':00');
     while (panel_start_time_floor != time_breaks[time_break_pos] && 
@@ -42,6 +52,9 @@ function loadSchedule(response){
 
     if (panel['title'] == 'CLOSED'){
       continue;
+    }
+    if (firstEle == ''){
+      firstEle = i;
     }
         
     let template_clone = document.getElementsByTagName("template")[0].content.cloneNode(true);
@@ -72,7 +85,7 @@ function loadSchedule(response){
 
   //Default show panel description on page load for Desktop
   if (getWidth() >=600){
-    showDescription("0");
+    showDescription(firstEle);
   }
 
 }

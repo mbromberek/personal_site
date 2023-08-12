@@ -16,20 +16,19 @@
       <a class="sch_nav_img" href="https://animeiowa.com/">
         <img src="static/images/AI_logo_small_2.png" alt="Anime Iowa Logo" width="71px" height="40px"/>
       </a>
-      <span class="sch_nav_item">
+      <span class="sch_nav_item" onclick="JavaScript:loadScheduleForDay('Friday');">
         Friday
       </span>
-      <span class="sch_nav_item">
+      <span class="sch_nav_item" onclick="JavaScript:loadScheduleForDay('Saturday');">
         Saturday
       </span>
-      <span class="sch_nav_item">
+      <span class="sch_nav_item" onclick="JavaScript:loadScheduleForDay('Sunday');">
         Sunday
       </span>
       <span class="sch_nav_item" onclick="JavaScript:jumpToCurrTm();">
         Now
       </span>
     </nav>
-    <div class="sch_lst" id="sch_lst">
     <template id="sch_template">
         <div class="sch_card" id="sch_card">
             <div style="overflow:auto">
@@ -37,7 +36,7 @@
                   &nbsp;
                 </div>
             </div>
-
+    
             <div class="sch_detail" >
                 <span id="room">
                   &nbsp;
@@ -56,15 +55,17 @@
             <!--<div class="sch_detail_separators" >
                 &nbsp;
             </div>-->
-
+    
             <div class="sch_detail sch_description" >
                 <span id="description">
                     &nbsp;
                 </span>
             </div>
-
+    
         </div>
     </template>
+    <div class="sch_lst" id="sch_lst">
+      &nbsp;
     </div>
     <div class="panel_det" id="panel_det">
       <div class="close_btn_area" >

@@ -389,6 +389,126 @@
         "panelists":"WhoWhatWaifus and DoTheMacarena",
         "description":"Help us create some truly terrible doujin translations. We’ve blocked out some choice words from several doujins to be filled in by the audience and presented.",
         "panel_type":"staff"
+      },
+      {
+        "title": "Cosplay Contest Orientation",
+        "room":"Mainstage! Coral C",
+        "day":"Saturday",
+        "start_time": "9:00am",
+        "end_time":"10:30am",
+        "panelists":"convention",
+        "description":"*Closed to Cosplay Masquerade participants* Mandatory orientation for those competing in Saturday night's cosplay contest! No need to come in costume unless you want to test your shoes or a prop on the stage. Please show up promptly! Cosplay staff will be going over the agenda for the show and any last minute questions from contestants.",
+        "panel_type":"attendee"
+      },
+      {
+        "title": "Sports Anime Stretch Hour",
+        "room":"Mainstage! Coral C",
+        "day":"Saturday",
+        "start_time": "10:30am",
+        "end_time":"11:00am",
+        "panelists":"WhoWhatWaifus and DoTheMacarena",
+        "description":"Sore from having too much fun at the con? Stretch your muscles with some floor stretches and light exercises from some favorite sports anime.",
+        "panel_type":"attendee"
+      },
+      {
+        "title": "Crossplay and Genderbend 101",
+        "room":"Mainstage! Coral C",
+        "day":"Saturday",
+        "start_time": "11:00am",
+        "end_time":"12:00pm",
+        "panelists":"Semetary Cosplay",
+        "description":"Join Semetary Cosplay as he teaches the art of perfecting the skill of the crossplay and genderbending world. Tips such as safe binding, makeup skills, and getting the right palette to represent the character that you want to bring to life will be presented in this informative educational panel.",
+        "panel_type":"guest"
+      },
+      {
+        "title": "Anime Game Show Explosion",
+        "room":"Mainstage! Coral C",
+        "day":"Saturday",
+        "start_time": "12:00pm",
+        "end_time":"1:30pm",
+        "panelists":"Con Men Productions",
+        "description":"We're back with more trivia, more prizes, moar shenanigans, and more free pocky than you can shake a shojo mallet at!",
+        "panel_type":"attendee"
+      },
+      {
+        "title": "No Means No Self Defense Class",
+        "room":"Mainstage! Coral C",
+        "day":"Saturday",
+        "start_time": "1:30pm",
+        "end_time":"2:30pm",
+        "panelists":"Samurai Dan",
+        "description":"People have a right to personal space and safety. This self defense class teaches easy to use concepts and techniques to ensure those rights.",
+        "panel_type":"guest"
+      },
+      {
+        "title": "Avatar: Kung Fu Elements ",
+        "room":"Mainstage! Coral C",
+        "day":"Saturday",
+        "start_time": "2:30pm",
+        "end_time":"3:30pm",
+        "panelists":"Celtic Honey",
+        "description":"Join Korra on an adventure through the Kung Fu styles that inspired the elements in Avatar: The Last Airbender! As a practitioner of Kung Fu for well over a decade, see two of the styles (water and air) in demonstration form and learn some moves to show your friends! A beginner course into the mechanics behind the internal fighting arts. We'll touch on all four inspirations behind the styles of earth, fire, water and air. You will also learn basics that translate to easy self defense as well as philosophies in life.",
+        "panel_type":"guest"
+      },
+      {
+        "title": "Positivity Speed Dating",
+        "room":"Mainstage! Coral C",
+        "day":"Saturday",
+        "start_time": "3:30pm",
+        "end_time":"5:00pm",
+        "panelists":"Semetary Cosplay",
+        "description":"(Limit 24 People, please show up early for panel if you want to get in!) Let's take the concept of speed 'dating', but make it....speed positivity! Join moderator Semetary Cosplay as you meet new friends and individuals and spend the next hour building people up through the power of compliments and create confidence! Notebooks and pens will be provided to every participant, that way you will have your own confidence notebook to bring home at the end of the panel.",
+        "panel_type":"attendee"
+      },
+      {
+        "title": "CLOSED",
+        "room":"Mainstage! Coral C",
+        "day":"Saturday",
+        "start_time": "5:00pm",
+        "end_time":"6:00pm",
+        "panelists":"",
+        "description":"",
+        "panel_type":"staff"
+      },
+      {
+        "title": "Seating for Cosplay Masquerade",
+        "room":"Mainstage! Coral C",
+        "day":"Saturday",
+        "start_time": "6:00pm",
+        "end_time":"6:30pm",
+        "panelists":"",
+        "description":"",
+        "panel_type":"convention"
+      },
+      {
+        "title": "Cosplay Masquerade",
+        "room":"Mainstage! Coral C",
+        "day":"Saturday",
+        "start_time": "6:30pm",
+        "end_time":"9:00pm",
+        "panelists":"",
+        "description":"",
+        "panel_type":"convention"
+      },
+      {
+        "title": "CLOSED",
+        "room":"Mainstage! Coral C",
+        "day":"Saturday",
+        "start_time": "9:00pm",
+        "end_time":"10:00pm",
+        "panelists":"",
+        "description":"",
+        "panel_type":"staff"
+      },
+      {
+        "title": "AnimeIowa’s Dance Party and Light Show",
+        "room":"Mainstage! Coral C",
+        "day":"Saturday",
+        "start_time": "10:00pm",
+        "end_time":"2:00am",
+        "panelists":"The Pseudoreality and Mr.Pixxul",
+        "description":"Come out and shake it to some of AnimeIowa’s favorite tunes! Party starts at 10pm, don’t be late.",
+        "panel_type":"convention"
       }
   ]
 }
