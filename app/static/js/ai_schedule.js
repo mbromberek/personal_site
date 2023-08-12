@@ -1,28 +1,52 @@
 var curr_sch_id = '';
 var prog_schedule = '';
+var time_breaks = ['5:00am','6:00am','7:00am','8:00am','9:00am','10:00am','11:00am','12:00pm','1:00pm','2:00pm','3:00pm','4:00pm','5:00pm','6:00pm','7:00pm','8:00pm','9:00pm','10:00pm','11:00pm','12:00am','1:00am','2:00am','3:00am','4:00am'];
+
 
 function loadSchedule(response){
   console.log(response);
   
   prog_schedule = response['prog_schedule'];
   let sch_lst_ele = document.getElementById('sch_lst');
+  
+  let time_break_pos = 0;
+  let newEle = document.createElement('span');
+  newEle.setAttribute("id", time_breaks[time_break_pos]);
+  sch_lst_ele.appendChild(newEle);
+  
   let j=0;
   //Get Current Day and Current Time to find first element that is close to current day/time to highlight
   
   for (let i=0; i<prog_schedule.length; i++){
     let panel = prog_schedule[i];
+    // Put time marker at last entry before the time change so the correct entry is not covered by nav bar
+    if (i+1 < prog_schedule.length){
+      let panel_start_time_floor = prog_schedule[i+1]['start_time'].replace(':30',':00');
+      while (panel_start_time_floor != time_breaks[time_break_pos] && 
+          time_break_pos+1<time_breaks.length){
+        /*console.log('panel time actual: ' + panel['start_time']);
+        console.log('panel time round: ' + panel_start_time_floor);
+        console.log('time_break: ' + time_breaks[time_break_pos]);*/
+        time_break_pos++;
+        let newEle = document.createElement('span');
+        newEle.setAttribute("id", time_breaks[time_break_pos]);
+        sch_lst_ele.appendChild(newEle);
+      }
+    }
+
     if (panel['title'] == 'CLOSED'){
       continue;
     }
+        
     let template_clone = document.getElementsByTagName("template")[0].content.cloneNode(true);
     template_clone.querySelector("#title").innerHTML = panel['title'];
     template_clone.querySelector("#room").innerHTML = panel['room'];
     template_clone.querySelector("#day").innerHTML = panel['day'];
     template_clone.querySelector("#start_time").innerHTML = panel['start_time'];
+    
     template_clone.querySelector("#end_time").innerHTML = panel['end_time'];
     
     template_clone.querySelector("#description").innerHTML = panel['description'];
-    // template_clone.querySelector("#sch_card").setAttribute("onclick", "javascript: showDescription('card_"+j+"');");
     template_clone.querySelector("#sch_card").setAttribute("onclick", "javascript: showDescription('"+i+"');");
     template_clone.querySelector("#sch_card").classList.add('sch_card_color_'+j%2);
     template_clone.querySelector("#sch_card").classList.add('sch_card_panel_' + panel['panel_type']);
@@ -31,6 +55,12 @@ function loadSchedule(response){
     
     sch_lst_ele.appendChild(template_clone);
     j++;
+  }
+  while (time_break_pos+1<time_breaks.length){
+    time_break_pos++;
+    let newEle = document.createElement('span');
+    newEle.setAttribute("id", time_breaks[time_break_pos]);
+    sch_lst_ele.appendChild(newEle);
   }
 
   //Default show panel description on page load for Desktop
@@ -84,4 +114,20 @@ function getWidth() {
     document.documentElement.offsetWidth,
     document.documentElement.clientWidth
   );
+}
+
+function jumpToCurrTm(){
+  const date = new Date();
+  const hr = date.getHours();
+  let tm_period = 'pm';
+  if (hr < 12){
+    tm_period = 'am';
+  }
+  let hr_12 = hr%12 || 12;
+  let tm_floor_str = hr_12 + ':00' + tm_period;
+  
+  console.log(tm_floor_str);
+  
+  document.getElementById(tm_floor_str).scrollIntoView({behavior: 'smooth'});
+  // document.getElementById("7:00pm").scrollIntoView({behavior: 'smooth'});
 }
