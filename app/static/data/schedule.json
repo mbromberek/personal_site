@@ -11,6 +11,16 @@
         "panel_type":"attendee"
       },
       {
+        "title": "Coloring Contest",
+        "room":"Family Prog Oakdale 1",
+        "day":"Friday",
+        "start_time": "12:00pm",
+        "end_time":"2:00pm",
+        "panelists":"Summer",
+        "description":"Come all ages and color our cool coloring sheet featuring Buu-Chan and his fellow Ghost Friends. Prizes will be given to 1st , 2nd , and 3rd place in all four age groups (10 and below, 11-17, 18-24, and 25 and up). You will also get a chance to vote for your favorite to win the Anime Iowa Attendees Choice award. *Winners will be announced on the AnimeIowa Facebook page and can be seen on the wall in the Family Programming room. Prizes can be picked up in person by the winner (NO Proxies), in the Family Programming room during Family Programming hours of operation.",
+        "panel_type":"family"
+      },
+      {
         "title": "Opening Ceremonies",
         "room":"Mainstage! Coral C",
         "day":"Friday",
@@ -121,6 +131,16 @@
         "panel_type":"attendee"
       },
       {
+        "title": "8- Bit Perler Beads",
+        "room":"Family Prog Oakdale 1",
+        "day":"Friday",
+        "start_time": "3:00pm",
+        "end_time":"5:00pm",
+        "panelists":"Summer",
+        "description":"Want to make the 8- bit character of your dreams come to life? So do I... let’s make some awesome creations!",
+        "panel_type":"family"
+      },
+      {
         "title": "Iowa Pokemon League",
         "room":"Programming 3 / Oakdale 3",
         "day":"Friday",
@@ -221,6 +241,16 @@
         "panel_type":"attendee"
       },
       {
+        "title": "Paper Lanterns",
+        "room":"Family Prog Oakdale 1",
+        "day":"Friday",
+        "start_time": "6:00pm",
+        "end_time":"8:00pm",
+        "panelists":"Summer",
+        "description":"Attendees will have the opportunity to decorate their own paper lantern to celebrate the festival that is AnimeIowa. While Supplies Last.",
+        "panel_type":"family"
+      },
+      {
         "title": "CLOSED",
         "room":"Mainstage! Coral C",
         "day":"Friday",
@@ -299,6 +329,16 @@
         "panelists":"",
         "description":"",
         "panel_type":"convention"
+      },
+      {
+        "title": "Green Room",
+        "room":"Family Prog Oakdale 1",
+        "day":"Friday",
+        "start_time": "9:30pm",
+        "end_time":"12:00am",
+        "panelists":"Summer",
+        "description":"",
+        "panel_type":"family"
       },
       {
         "title": "Knights of the Round Pasties’ Buu-lesque!",
@@ -421,6 +461,16 @@
         "panel_type":"attendee"
       },
       {
+        "title": "Uchiwa Fans",
+        "room":"Family Prog Oakdale 1",
+        "day":"Saturday",
+        "start_time": "9:00am",
+        "end_time":"1:00pm",
+        "panelists":"Summer",
+        "description":"Iowa Summers can be hot. Come and decorate your own traditional Japanese Fan, also called an uchiwa, to keep cool at the convention. While Supplies Last.",
+        "panel_type":"family"
+      },
+      {
         "title": "Evolving Webcomics: What was popular then and what's hot now!",
         "room":"Programming 2 / Coral E",
         "day":"Saturday",
@@ -539,6 +589,16 @@
         "panelists":"Thunder",
         "description":"You know Thunder from being your Tip Kitten at the Knights of the Round Pasties Burlesque Show but did you know Thunder is a wonderfully skilled Closet Cosplayer too!? Join them as they talk about the value of Closet Cosplay in the community and How To put together your own amazing Closet Cosplay!",
         "panel_type":"guest"
+      },
+      {
+        "title": "Shrinky Dinks",
+        "room":"Family Prog Oakdale 1",
+        "day":"Saturday",
+        "start_time": "12:00pm",
+        "end_time":"2:00pm",
+        "panelists":"Summer",
+        "description":"Draw something huge and then shrink it down to make a key chain or magnet. While Supplies Last.",
+        "panel_type":"family"
       },
       {
         "title": "Cosplaying Historically",
@@ -701,6 +761,16 @@
         "panel_type":"guest"
       },
       {
+        "title": "Jewelry Making",
+        "room":"Family Prog Oakdale 1",
+        "day":"Saturday",
+        "start_time": "4:00pm",
+        "end_time":"4:00pm",
+        "panelists":"Summer",
+        "description":"Make a necklace or bracelet for you or your friend with lots of colorful beads.",
+        "panel_type":"family"
+      },
+      {
         "title": "I Love Your Dress! Lolita Fashion School",
         "room":"Programming 4 / Oakdale 5",
         "day":"Saturday",
@@ -841,6 +911,16 @@
         "panel_type":"guest"
       },
       {
+        "title": "Art Jam",
+        "room":"Family Prog Oakdale 1",
+        "day":"Saturday",
+        "start_time": "9:00pm",
+        "end_time":"12:00am",
+        "panelists":"Summer",
+        "description":"Late night programming is not for everyone. Sometimes you just want to sit down and relax with other fellow artists. Grab your supplies or borrow ours, settle down for one awesome group art/ craft session with friends old and new! No matter your skill level, this panel is for fun. Welcome to bring an unfinished cosplay, a game, or just yourself. See you there.",
+        "panel_type":"family"
+      },
+      {
         "title": "AnimeIowa’s Dance Party and Light Show",
         "room":"Mainstage! Coral C",
         "day":"Saturday",
@@ -952,6 +1032,16 @@
         "panel_type":"attendee"
       },
       {
+        "title": "Bookmarks",
+        "room":"Family Prog Oakdale 1",
+        "day":"Sunday",
+        "start_time": "9:00am",
+        "end_time":"10:00am",
+        "panelists":"Summer",
+        "description":"Come decorate a bookmark. Draw, Color, or just Sticker-it-Up to make your own personally unique bookmark. While Supplies Last",
+        "panel_type":"family"
+      },
+      {
         "title": "Just Dance- Genshin Impact edition",
         "room":"Mainstage! Coral C",
         "day":"Sunday",
@@ -1000,6 +1090,16 @@
         "panelists":"kt",
         "description":"Can't get enough of BL?  Come join fellow fans as we gush over popular and beloved boys love shows, books, and fandom moments from the past year.",
         "panel_type":"attendee"
+      },
+      {
+        "title": "Potions",
+        "room":"Family Prog Oakdale 1",
+        "day":"Sunday",
+        "start_time": "11:00am",
+        "end_time":"1:00pm",
+        "panelists":"Summer",
+        "description":"Want to make your own potion to go? Brew up a potion, cork it, and decorate the jar. Start to finish in no time at all! Mix up some strength, mana, life or even some liquid luck. While Supplies Last.",
+        "panel_type":"family"
       },
       {
         "title": "3D Printing: 101 *Cosplay Judge Panel*",
@@ -1091,6 +1191,16 @@
         "panelists":"Fuwakumo Idols",
         "description":"FuwaKumo idols return to AnimeIowa! We have another fun show for you this year with a total of five Love Live cover dances from our idol group. Get to know the members and play a game with us if time allows!",
         "panel_type":"attendee"
+      },
+      {
+        "title": "Anime Bingo",
+        "room":"Family Prog Oakdale 1",
+        "day":"Sunday",
+        "start_time": "2:00pm",
+        "end_time":"4:00pm",
+        "panelists":"Summer",
+        "description":"Join us for a few rounds of Bingo with your fellow AnimeIowa Attendees! Try your luck at winning a prize. Come have fun!",
+        "panel_type":"family"
       },
       {
         "title": "Closing Ceremonies",
