@@ -48,12 +48,15 @@ body {
   cursor:pointer;
   background-color:black;
 }
+#nav_space_filler{
+  height:55px;
+}
 
 .sch_lst{
   /* position:relative; */
   display:inline-block;
   /* margin-left:5px; */
-  margin-top:55px;
+  /* margin-top:55px; */
   width: 500px;
   height:100%;
 

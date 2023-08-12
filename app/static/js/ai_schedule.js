@@ -9,35 +9,34 @@ function loadSchedule(response){
   prog_schedule = response['prog_schedule'];
   let sch_lst_ele = document.getElementById('sch_lst');
   
+  let fillerEle = document.createElement('div');
+  fillerEle.setAttribute("id", "nav_space_filler");
+  sch_lst_ele.appendChild(fillerEle);
+  
   let time_break_pos = 0;
   let newEle = document.createElement('span');
   newEle.setAttribute("id", time_breaks[time_break_pos]);
-  sch_lst_ele.appendChild(newEle);
+  sch_lst_ele.insertBefore(newEle, fillerEle);
   
   let j=0;
   let prev_ele = 0;
-  //Get Current Day and Current Time to find first element that is close to current day/time to highlight
+  //TODO Get Current Day and Current Time to find first element that is close to current day/time to highlight
   
   for (let i=0; i<prog_schedule.length; i++){
     let panel = prog_schedule[i];
     // Put time marker above the last entry before the time change so the correct entry is not covered by nav bar
-    
     let panel_start_time_floor = panel['start_time'].replace(':30',':00');
     while (panel_start_time_floor != time_breaks[time_break_pos] && 
         time_break_pos+1<time_breaks.length){
-      /*console.log('panel time actual: ' + panel['start_time']);
-      console.log('panel time round: ' + panel_start_time_floor);
-      console.log('time_break: ' + time_breaks[time_break_pos]);*/
       time_break_pos++;
       let newEle = document.createElement('span');
       newEle.setAttribute("id", time_breaks[time_break_pos]);
       if (j>0){
-        console.log("insertBefore:"+"#card_"+prev_ele_id);
         let prev_ele = sch_lst_ele.querySelector("#card_"+prev_ele_id);
         sch_lst_ele.insertBefore(newEle, prev_ele);
       }else{
-        console.log("append:"+j);
-        sch_lst_ele.appendChild(newEle);
+        let prev_ele = sch_lst_ele.querySelector("#nav_space_filler");
+        sch_lst_ele.insertBefore(newEle, prev_ele);
       }
     }
 
@@ -136,6 +135,6 @@ function jumpToCurrTm(){
   
   console.log(tm_floor_str);
   
-  // document.getElementById(tm_floor_str).scrollIntoView({behavior: 'smooth'});
-  document.getElementById("7:00pm").scrollIntoView({behavior: 'smooth'});
+  document.getElementById(tm_floor_str).scrollIntoView({behavior: 'smooth'});
+  // document.getElementById("7:00pm").scrollIntoView({behavior: 'smooth'});
 }
