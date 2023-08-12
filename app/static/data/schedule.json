@@ -401,6 +401,26 @@
         "panel_type":"attendee"
       },
       {
+        "title": "Anime, Couture & Streetwear",
+        "room":"Programming 1 / Coral D",
+        "day":"Saturday",
+        "start_time": "9:00am",
+        "end_time":"10:00am",
+        "panelists":"Susie",
+        "description":"An exploration of how anime and fashion influence each other. This panel will cover JoJo and Gucci, Sailor Moon and Dior, and more!",
+        "panel_type":"attendee"
+      },
+      {
+        "title": "Kyudo - All about modern Japanese archery",
+        "room":"Programming 1 / Coral D",
+        "day":"Saturday",
+        "start_time": "10:00am",
+        "end_time":"11:00am",
+        "panelists":"Hunter Gott",
+        "description":"A discussion and demonstration of Japanese archery in the modern day.  Followed by a Q&A and hands-on with the equipment for attendees.",
+        "panel_type":"attendee"
+      },
+      {
         "title": "Sports Anime Stretch Hour",
         "room":"Mainstage! Coral C",
         "day":"Saturday",
@@ -421,6 +441,16 @@
         "panel_type":"guest"
       },
       {
+        "title": "Samurai VS Ninja",
+        "room":"Programming 1 / Coral D",
+        "day":"Saturday",
+        "start_time": "11:00am",
+        "end_time":"12:00pm",
+        "panelists":"Samurai Dan",
+        "description":"Everyone knows the two iconic groups of warriors from Japanese history. Come learn which warrior resides within you; panel comes with a complete psych profile (yikes!)",
+        "panel_type":"attendee"
+      },
+      {
         "title": "Anime Game Show Explosion",
         "room":"Mainstage! Coral C",
         "day":"Saturday",
@@ -428,6 +458,26 @@
         "end_time":"1:30pm",
         "panelists":"Con Men Productions",
         "description":"We're back with more trivia, more prizes, moar shenanigans, and more free pocky than you can shake a shojo mallet at!",
+        "panel_type":"attendee"
+      },
+      {
+        "title": "Thunder’s Closet Cosplay How To",
+        "room":"Programming 1 / Coral D",
+        "day":"Saturday",
+        "start_time": "12:00pm",
+        "end_time":"1:00pm",
+        "panelists":"Thunder",
+        "description":"You know Thunder from being your Tip Kitten at the Knights of the Round Pasties Burlesque Show but did you know Thunder is a wonderfully skilled Closet Cosplayer too!? Join them as they talk about the value of Closet Cosplay in the community and How To put together your own amazing Closet Cosplay!",
+        "panel_type":"guest"
+      },
+      {
+        "title": "The Anime Dating Game!",
+        "room":"Programming 1 / Coral D",
+        "day":"Saturday",
+        "start_time": "1:00pm",
+        "end_time":"2:00pm",
+        "panelists":"imbetterlive",
+        "description":"Are you single and lonely? Well that's too bad! Bring your in character, cosplayed self to our stage and find (fictional) love today! (anime iowa will not be held responsible for broken hearts)",
         "panel_type":"attendee"
       },
       {
@@ -441,6 +491,16 @@
         "panel_type":"guest"
       },
       {
+        "title": "Cosplay A to Z",
+        "room":"Programming 1 / Coral D",
+        "day":"Saturday",
+        "start_time": "2:00pm",
+        "end_time":"3:00pm",
+        "panelists":"Semetary Cosplay",
+        "description":"Learn about different areas of the cosplay realm, from logistics such as wig styling and contacts, to things such as participating in cosplay contests or even becoming a guest yourself one day. Join Semetary Cosplay as he goes from each letter of the alphabet, touching on a different component of the cosplay and convention world - tips and tricks from beginners to professionals!",
+        "panel_type":"guest"
+      },
+      {
         "title": "Avatar: Kung Fu Elements ",
         "room":"Mainstage! Coral C",
         "day":"Saturday",
@@ -448,6 +508,16 @@
         "end_time":"3:30pm",
         "panelists":"Celtic Honey",
         "description":"Join Korra on an adventure through the Kung Fu styles that inspired the elements in Avatar: The Last Airbender! As a practitioner of Kung Fu for well over a decade, see two of the styles (water and air) in demonstration form and learn some moves to show your friends! A beginner course into the mechanics behind the internal fighting arts. We'll touch on all four inspirations behind the styles of earth, fire, water and air. You will also learn basics that translate to easy self defense as well as philosophies in life.",
+        "panel_type":"guest"
+      },
+      {
+        "title": "Rhinestoning 101 with the Dragon and her MidnightSnack",
+        "room":"Programming 1 / Coral D",
+        "day":"Saturday",
+        "start_time": "3:00pm",
+        "end_time":"4:00pm",
+        "panelists":"Eden Draconis and Luna Macaroon",
+        "description":"Eden Draconis with The Knights of the Round Pasties and Luna Macaroon from Naughty Nerds Cabaret are the Queens of Rhinestoning and are sharing their knowledge with you! Join them to learn the tips and tricks to adding a sparkle flair to your life!! Bring your own project to razzle dazzle or rhinestone something of Eden’s, either way you’re sure to have fun!",
         "panel_type":"guest"
       },
       {
@@ -461,6 +531,16 @@
         "panel_type":"attendee"
       },
       {
+        "title": "History of Pointy Things",
+        "room":"Programming 1 / Coral D",
+        "day":"Saturday",
+        "start_time": "4:00pm",
+        "end_time":"5:00pm",
+        "panelists":"Samurai Dan",
+        "description":"Show and Tell beats a slide presentation any day! Come see REAL Japanese blades, up close and personal.",
+        "panel_type":"guewst"
+      },
+      {
         "title": "CLOSED",
         "room":"Mainstage! Coral C",
         "day":"Saturday",
@@ -469,6 +549,16 @@
         "panelists":"",
         "description":"",
         "panel_type":"staff"
+      },
+      {
+        "title": "CLOSED",
+        "room":"Programming 1 / Coral D",
+        "day":"Saturday",
+        "start_time": "5:00pm",
+        "end_time":"2:00am",
+        "panelists":"",
+        "description":"",
+        "panel_type":"convention"
       },
       {
         "title": "Seating for Cosplay Masquerade",

@@ -32,7 +32,7 @@ body {
   font-weight:normal;
   font-size:14pt;
   text-align: center;
-  text-decoration: underline;
+  text-decoration: none;
   padding-top:15px;
   padding-right:15px;
   padding-left:15px;
@@ -46,6 +46,10 @@ body {
 }
 .sch_nav_item:hover{
   cursor:pointer;
+  background-color:black;
+  text-decoration: underline;
+}
+.sch_nav_item_selected{
   background-color:black;
 }
 #nav_space_filler{

@@ -16,6 +16,11 @@ function loadScheduleForDay(day_val){
   curr_sch_id = '';
   let firstEle = '';
   
+  document.getElementById('Friday').classList.remove('sch_nav_item_selected');
+  document.getElementById('Saturday').classList.remove('sch_nav_item_selected');
+  document.getElementById('Sunday').classList.remove('sch_nav_item_selected');
+  document.getElementById(day_val).classList.add('sch_nav_item_selected');
+  
   let fillerEle = document.createElement('div');
   fillerEle.setAttribute("id", "nav_space_filler");
   sch_lst_ele.appendChild(fillerEle);
