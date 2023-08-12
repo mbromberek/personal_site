@@ -1,7 +1,8 @@
 var curr_sch_id = '';
 var prog_schedule = '';
-var time_breaks = ['5:00am','6:00am','7:00am','8:00am','9:00am','10:00am','11:00am','12:00pm','1:00pm','2:00pm','3:00pm','4:00pm','5:00pm','6:00pm','7:00pm','8:00pm','9:00pm','10:00pm','11:00pm','12:00am','1:00am','2:00am','3:00am','4:00am'];
-
+var sel_day = '';
+const time_breaks = ['5:00am','6:00am','7:00am','8:00am','9:00am','10:00am','11:00am','12:00pm','1:00pm','2:00pm','3:00pm','4:00pm','5:00pm','6:00pm','7:00pm','8:00pm','9:00pm','10:00pm','11:00pm','12:00am','1:00am','2:00am','3:00am','4:00am'];
+const weekday = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
 
 function loadSchedule(response){
   console.log(response);
@@ -20,6 +21,7 @@ function loadScheduleForDay(day_val){
   document.getElementById('Saturday').classList.remove('sch_nav_item_selected');
   document.getElementById('Sunday').classList.remove('sch_nav_item_selected');
   document.getElementById(day_val).classList.add('sch_nav_item_selected');
+  sel_day = day_val;
   
   let fillerEle = document.createElement('div');
   fillerEle.setAttribute("id", "nav_space_filler");
@@ -116,6 +118,9 @@ var showDescription = function(panel_id){
   panel_ele.querySelector("#end_time").innerHTML = sel_sch_det["end_time"];
   panel_ele.querySelector("#panelists").innerHTML = sel_sch_det["panelists"];
   panel_ele.querySelector("#description").innerHTML = sel_sch_det["description"];
+  panel_ele.querySelector("#panel_type").innerHTML = 
+    sel_sch_det["panel_type"].charAt(0).toUpperCase() 
+    + sel_sch_det["panel_type"].slice(1);
   // console.log(sel_sch_det['panel_type']);
   panel_ele.classList.add('sch_card_panel_' + sel_sch_det['panel_type']);
   panel_ele.style.display = 'inline-block';
@@ -142,8 +147,13 @@ function getWidth() {
 }
 
 function jumpToCurrTm(){
-  const date = new Date();
-  const hr = date.getHours();
+  const dt = new Date();
+  //Update select day to current day of week
+  console.log(weekday[dt.getDay()]);
+  if (weekday[dt.getDay()] != sel_day){
+    loadScheduleForDay(weekday[dt.getDay()]);
+  }
+  const hr = dt.getHours();
   let tm_period = 'pm';
   if (hr < 12){
     tm_period = 'am';
