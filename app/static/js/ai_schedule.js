@@ -91,7 +91,7 @@ function loadScheduleForDay(day_val){
   }
 
   //Default show panel description on page load for Desktop
-  if (getWidth() >=600){
+  if (getWidth() >=700){
     showDescription(firstEle);
   }
 

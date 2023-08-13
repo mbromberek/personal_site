@@ -74,6 +74,7 @@ body {
   padding-left:15px;
   padding-right:15px;
   padding-top:25px;
+  padding-bottom:10px;
   overflow:scroll;
   display:none;
   
@@ -195,7 +196,7 @@ a.sch_lnk:hover{
 }
 
 /* For phones */
-@media only screen and (max-width:600px) {
+@media only screen and (max-width:700px) {
   body {
       padding-top:0px;
       padding-bottom:0px;
@@ -245,7 +246,7 @@ a.sch_lnk:hover{
 }
 
 /* Wide windows */
-@media screen and (min-width: 1100px) {
+@media screen and (min-width: 1400px) {
   .panel_det{
       width:800px;
       right:calc((100% - 1350px));
