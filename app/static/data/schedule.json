@@ -931,7 +931,7 @@
         "panel_type":"convention"
       },
       {
-        "title": "18+ Gaming with the Guests",
+        "title": "Gaming with the Guests 18+",
         "room":"Programming 3 / Oakdale 3",
         "day":"Saturday",
         "start_time": "10:00pm",
@@ -941,17 +941,17 @@
         "panel_type":"guest"
       },
       {
-        "title": "The Best of the Breast: Boobs in Anime",
+        "title": "The Best of the Breast: Boobs in Anime 18+",
         "room":"Programming 4 / Oakdale 5",
         "day":"Saturday",
         "start_time": "10:00pm",
         "end_time":"11:00pm",
         "panelists":"WhoWhatWaifus and DoTheMacarena",
         "description":"Boobs are a part of anime. We’ll look at some good and bad portrayals of breasts in anime and manga, and critique them. Drawing demo included.",
-        "panel_type":"attendee"
+        "panel_type":"staff"
       },
       {
-        "title": "Welcome to Helluva Hotel",
+        "title": "Welcome to Helluva Hotel 18+",
         "room":"Programming 4 / Oakdale 5",
         "day":"Saturday",
         "start_time": "11:00pm",
@@ -961,7 +961,7 @@
         "panel_type":"attendee"
       },
       {
-        "title": "I Can't Believe It's Not Hentai",
+        "title": "I Can't Believe It's Not Hentai 18+",
         "room":"Programming 4 / Oakdale 5",
         "day":"Saturday",
         "start_time": "12:00am",
