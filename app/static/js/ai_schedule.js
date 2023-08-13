@@ -153,10 +153,11 @@ function getWidth() {
 function jumpToCurrTm(){
   const dt = new Date();
   //Update select day to current day of week
-  console.log(weekday[dt.getDay()]);
+  //UNCOMMENT to jump to current day before current time
+  /*console.log(weekday[dt.getDay()]);
   if (weekday[dt.getDay()] != sel_day){
     loadScheduleForDay(weekday[dt.getDay()]);
-  }
+  }*/
   const hr = dt.getHours();
   let tm_period = 'pm';
   if (hr < 12){
