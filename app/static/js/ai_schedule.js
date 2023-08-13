@@ -3,6 +3,7 @@ var prog_schedule = '';
 var sel_day = '';
 const time_breaks = ['5:00am','6:00am','7:00am','8:00am','9:00am','10:00am','11:00am','12:00pm','1:00pm','2:00pm','3:00pm','4:00pm','5:00pm','6:00pm','7:00pm','8:00pm','9:00pm','10:00pm','11:00pm','12:00am','1:00am','2:00am','3:00am','4:00am'];
 const weekday = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+const MIN_DESKTOP_WIDTH = 700;
 
 function loadSchedule(response){
   console.log(response);
@@ -91,7 +92,7 @@ function loadScheduleForDay(day_val){
   }
 
   //Default show panel description on page load for Desktop
-  if (getWidth() >=700){
+  if (getWidth() >=MIN_DESKTOP_WIDTH){
     showDescription(firstEle);
   }
 
@@ -125,12 +126,15 @@ var showDescription = function(panel_id){
   panel_ele.classList.add('sch_card_panel_' + sel_sch_det['panel_type']);
   panel_ele.style.display = 'inline-block';
   
-  
+  if (getWidth() <MIN_DESKTOP_WIDTH){
+    sch_ele.classList.add('hidden_ele');
+  }
 }
 
 function closeDescription(){
   console.log("closeDescription");
   document.getElementById("card_"+curr_sch_id).classList.remove("selected_panel");
+  document.getElementById("card_"+curr_sch_id).classList.remove("hidden_ele");
   document.getElementById('panel_det').style.display = 'none';
   curr_sch_id = '';
   
