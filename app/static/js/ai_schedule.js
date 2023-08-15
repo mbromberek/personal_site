@@ -5,15 +5,26 @@ const time_breaks = ['5:00am','6:00am','7:00am','8:00am','9:00am','10:00am','11:
 const weekday = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
 const MIN_DESKTOP_WIDTH = 700;
 
+/**
+Called on page load. 
+Saves programming schedule list to global variable prog_schedule
+Loads programming schedule for Friday. 
+ */
 function loadSchedule(response){
   console.log(response);
   prog_schedule = response['prog_schedule'];
-  
+
+  //TODO change to use show current day and default to Friday if not a day with schedules
   loadScheduleForDay('Friday');
 }
 
+/**
+Loads schedule for passed day_val
+ */
 function loadScheduleForDay(day_val){
   let sch_lst_ele = document.getElementById('sch_lst');
+
+  //Clear out existing schedule from other day
   sch_lst_ele.innerHTML = '';
   curr_sch_id = '';
   let firstEle = '';
@@ -98,18 +109,21 @@ function loadScheduleForDay(day_val){
 
 }
 
+/**
+show description element for passed in panel id
+ */
 var showDescription = function(panel_id){
   // console.log(panel_id);
   let panel_ele = document.getElementById('panel_det');
   let sel_sch_det = prog_schedule[panel_id];
 
   let sch_ele = document.getElementById('card_' + panel_id);
-  sch_ele.classList.add("selected_panel");
   if (curr_sch_id != ''){
     document.getElementById('card_'+curr_sch_id).classList.remove("selected_panel");
     // console.log('Remove:'+prog_schedule[curr_sch_id]['panel_type']);
     panel_ele.classList.remove("sch_card_panel_"+prog_schedule[curr_sch_id]['panel_type']);
   }
+  sch_ele.classList.add("selected_panel");
   curr_sch_id = panel_id;
 
   panel_ele.querySelector("#title").innerHTML = sel_sch_det['title'];
@@ -126,20 +140,33 @@ var showDescription = function(panel_id){
   panel_ele.classList.add('sch_card_panel_' + sel_sch_det['panel_type']);
   panel_ele.style.display = 'inline-block';
   
-  if (getWidth() <MIN_DESKTOP_WIDTH){
-    sch_ele.classList.add('hidden_ele');
-  }
+  /**
+    Hide schedule list on mobile. 
+    Element should already be hidden by description element 
+    but this might help with issues from scrolling on mobile
+
+    Removed since it causes the list to go to the top after closing Description
+  */
+  /*if (getWidth() <MIN_DESKTOP_WIDTH){
+    document.getElementById('sch_lst').classList.add('hidden_ele');
+  }*/
 }
 
+/**
+Hide description element and make sure schedule is shown
+ */
 function closeDescription(){
   console.log("closeDescription");
   document.getElementById("card_"+curr_sch_id).classList.remove("selected_panel");
-  document.getElementById("card_"+curr_sch_id).classList.remove("hidden_ele");
+  // document.getElementById('sch_lst').classList.remove('hidden_ele');
   document.getElementById('panel_det').style.display = 'none';
   curr_sch_id = '';
   
 }
 
+/**
+Get width of current page, logic came from jQuery
+ */
 function getWidth() {
   return Math.max(
     document.body.scrollWidth,
@@ -150,10 +177,14 @@ function getWidth() {
   );
 }
 
+/**
+Change to current day and jump to time 
+ */
 function jumpToCurrTm(){
   const dt = new Date();
-  //Update select day to current day of week
+  
   //UNCOMMENT to jump to current day before current time
+  //TODO setup to work when current time is before 4am so want to use previous day
   /*console.log(weekday[dt.getDay()]);
   if (weekday[dt.getDay()] != sel_day){
     loadScheduleForDay(weekday[dt.getDay()]);
