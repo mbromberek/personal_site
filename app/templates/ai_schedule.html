@@ -28,6 +28,16 @@
       <span class="sch_nav_item" onclick="JavaScript:jumpToCurrTm();">
         Now
       </span>
+      <span class="dropdown">
+        <button class="dropbtn">All Panels&nbsp;&#9660;</button>
+        <span class="dropdown_content">
+          <a href="#">Attendee</a>
+          <a href="#">Convention</a>
+          <a href="#">Family</a>
+          <a href="#">Guest</a>
+          <a href="#">Staff</a>
+        </span>
+      </span>
     </nav>
     <template id="sch_template">
         <div class="sch_card" id="sch_card">
@@ -123,7 +133,7 @@
 
     </div>
 <script>
-    JavaScript:loadSchedule({{ sch_json|tojson|safe }})
+    JavaScript:initialize({{ sch_json|tojson|safe }})
 
 </script>
 </body>

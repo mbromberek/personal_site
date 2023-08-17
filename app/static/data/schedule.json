@@ -1,4 +1,11 @@
 {
+  "prog_key":[
+    "attendee",
+    "convention",
+    "family",
+    "guest",
+    "staff"
+  ],
   "prog_schedule":[
       {
         "title": "AnimeIowa Idol Fest",

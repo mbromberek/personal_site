@@ -1,5 +1,6 @@
 var curr_sch_id = '';
 var prog_schedule = '';
+var prog_key = '';
 var sel_day = '';
 const time_breaks = ['5:00am','6:00am','7:00am','8:00am','9:00am','10:00am','11:00am','12:00pm','1:00pm','2:00pm','3:00pm','4:00pm','5:00pm','6:00pm','7:00pm','8:00pm','9:00pm','10:00pm','11:00pm','12:00am','1:00am','2:00am','3:00am','4:00am'];
 const weekday = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
@@ -10,9 +11,10 @@ Called on page load.
 Saves programming schedule list to global variable prog_schedule
 Loads programming schedule for Friday. 
  */
-function loadSchedule(response){
+function initialize(response){
   console.log(response);
   prog_schedule = response['prog_schedule'];
+  prog_key = response['prog_key'];
 
   //TODO change to use show current day and default to Friday if not a day with schedules
   loadScheduleForDay('Friday');
