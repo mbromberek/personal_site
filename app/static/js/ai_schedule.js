@@ -2,6 +2,7 @@ var curr_sch_id = '';
 var prog_schedule = '';
 var prog_key = '';
 var sel_day = '';
+var sel_panel_type = '';
 const time_breaks = ['5:00am','6:00am','7:00am','8:00am','9:00am','10:00am','11:00am','12:00pm','1:00pm','2:00pm','3:00pm','4:00pm','5:00pm','6:00pm','7:00pm','8:00pm','9:00pm','10:00pm','11:00pm','12:00am','1:00am','2:00am','3:00am','4:00am'];
 const weekday = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
 const MIN_DESKTOP_WIDTH = 700;
@@ -18,13 +19,33 @@ function initialize(response){
   prog_key = response['prog_key'];
 
   //TODO change to use show current day and default to Friday if not a day with schedules
-  loadScheduleForDay('Friday');
+  updateScheduleForDay('Friday');
+}
+
+function updateScheduleForPanel(panel_type){
+  sel_panel_type = panel_type;
+  ele = document.getElementById('panel_type_filter');
+  if (sel_panel_type == ''){
+    ele.innerHTML = 'All Panels';
+  }else{
+    ele.innerHTML = sel_panel_type.charAt(0).toUpperCase() 
+      + sel_panel_type.slice(1);
+  }
+  loadSchedule();
 }
 
 /**
 Loads schedule for passed day_val
  */
-function loadScheduleForDay(day_val){
+function updateScheduleForDay(day_val){
+  sel_day = day_val;
+  loadSchedule();
+}
+
+/**
+Load schedule based on sel_day and sel_panel_type
+ */
+function loadSchedule(){
   let sch_lst_ele = document.getElementById('sch_lst');
 
   //Clear out existing schedule from other day
@@ -35,8 +56,7 @@ function loadScheduleForDay(day_val){
   document.getElementById('Friday').classList.remove('sch_nav_item_selected');
   document.getElementById('Saturday').classList.remove('sch_nav_item_selected');
   document.getElementById('Sunday').classList.remove('sch_nav_item_selected');
-  document.getElementById(day_val).classList.add('sch_nav_item_selected');
-  sel_day = day_val;
+  document.getElementById(sel_day).classList.add('sch_nav_item_selected');
   
   let fillerEle = document.createElement('div');
   fillerEle.setAttribute("id", "nav_space_filler");
@@ -50,10 +70,11 @@ function loadScheduleForDay(day_val){
   let j=0;
   let prev_ele = 0;
   //TODO Get Current Day and Current Time to find first element that is close to current day/time to highlight
-  
+  //TODO Check if there were no items for filter and display a message about that
   for (let i=0; i<prog_schedule.length; i++){
     let panel = prog_schedule[i];
-    if (panel['day'] != day_val){
+    if (panel['day'] != sel_day || 
+      (sel_panel_type != '' && panel['panel_type'] != sel_panel_type)){
       continue;
     }
     // Put time marker above the last entry before the time change so the correct entry is not covered by nav bar

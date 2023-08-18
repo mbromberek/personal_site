@@ -19,23 +19,44 @@
       <span class="sch_nav_item" onclick="JavaScript:jumpToCurrTm();">
         Now
       </span>
-      <span class="sch_nav_item" id="Friday" onclick="JavaScript:loadScheduleForDay('Friday');">
+      <span class="sch_nav_item" id="Friday" onclick="JavaScript:updateScheduleForDay('Friday');">
         Friday
       </span>
-      <span class="sch_nav_item" id="Saturday" onclick="JavaScript:loadScheduleForDay('Saturday');">
+      <span class="sch_nav_item" id="Saturday" onclick="JavaScript:updateScheduleForDay('Saturday');">
         Saturday
       </span>
-      <span class="sch_nav_item" id="Sunday" onclick="JavaScript:loadScheduleForDay('Sunday');">
+      <span class="sch_nav_item" id="Sunday" onclick="JavaScript:updateScheduleForDay('Sunday');">
         Sunday
       </span>
       <span class="dropdown">
-        <span class="sch_nav_item">All Panels&nbsp;&#9660;</span>
+        <span class="sch_nav_item">
+          <span id="panel_type_filter">All Panels</span>&nbsp;&#9660;
+        </span>
         <span class="dropdown_content">
-          <div class="sch_nav_item drop_sch_nav_item sch_card_panel_attendee" >Attendee</div>
-          <div class="sch_nav_item drop_sch_nav_item sch_card_panel_convention" >Convention</div>
-          <div class="sch_nav_item drop_sch_nav_item sch_card_panel_family">Family</div>
-          <div class="sch_nav_item drop_sch_nav_item sch_card_panel_guest">Guest</div>
-          <div class="sch_nav_item drop_sch_nav_item sch_card_panel_staff">Staff</div>
+          <div class="sch_nav_item drop_sch_nav_item " 
+            onclick="JavaScript:updateScheduleForPanel('')">
+            All Panels
+          </div>
+          <div class="sch_nav_item drop_sch_nav_item sch_card_panel_attendee" 
+            onclick="JavaScript:updateScheduleForPanel('attendee')">
+            Attendee
+          </div>
+          <div class="sch_nav_item drop_sch_nav_item sch_card_panel_convention" 
+          onclick="JavaScript:updateScheduleForPanel('convention')">
+            Convention
+          </div>
+          <div class="sch_nav_item drop_sch_nav_item sch_card_panel_family" 
+            onclick="JavaScript:updateScheduleForPanel('family')">
+            Family
+          </div>
+          <div class="sch_nav_item drop_sch_nav_item sch_card_panel_guest" 
+            onclick="JavaScript:updateScheduleForPanel('guest')">
+            Guest
+          </div>
+          <div class="sch_nav_item drop_sch_nav_item sch_card_panel_staff" 
+            onclick="JavaScript:updateScheduleForPanel('staff')">
+            Staff
+          </div>
         </span>
       </span>
     </nav>
