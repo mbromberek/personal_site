@@ -5,6 +5,7 @@ var sel_day = '';
 const time_breaks = ['5:00am','6:00am','7:00am','8:00am','9:00am','10:00am','11:00am','12:00pm','1:00pm','2:00pm','3:00pm','4:00pm','5:00pm','6:00pm','7:00pm','8:00pm','9:00pm','10:00pm','11:00pm','12:00am','1:00am','2:00am','3:00am','4:00am'];
 const weekday = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
 const MIN_DESKTOP_WIDTH = 700;
+const PANEL_COLOR = {"guest":"darkorange", "staff":"green", "attendee":"darkblue", "convention":"darkred","family":"purple"};
 
 /**
 Called on page load. 
@@ -123,7 +124,7 @@ var showDescription = function(panel_id){
   if (curr_sch_id != ''){
     document.getElementById('card_'+curr_sch_id).classList.remove("selected_panel");
     // console.log('Remove:'+prog_schedule[curr_sch_id]['panel_type']);
-    panel_ele.classList.remove("sch_card_panel_"+prog_schedule[curr_sch_id]['panel_type']);
+    // panel_ele.classList.remove("sch_card_panel_"+prog_schedule[curr_sch_id]['panel_type']); //Set panel_det color
   }
   sch_ele.classList.add("selected_panel");
   curr_sch_id = panel_id;
@@ -139,7 +140,8 @@ var showDescription = function(panel_id){
     sel_sch_det["panel_type"].charAt(0).toUpperCase() 
     + sel_sch_det["panel_type"].slice(1);
   // console.log(sel_sch_det['panel_type']);
-  panel_ele.classList.add('sch_card_panel_' + sel_sch_det['panel_type']);
+  //panel_ele.classList.add('sch_card_panel_' + sel_sch_det['panel_type']); //Set panel_det color
+  panel_ele.style.borderColor = PANEL_COLOR[sel_sch_det['panel_type']];
   panel_ele.style.display = 'inline-block';
   
   /**
