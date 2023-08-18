@@ -16,6 +16,9 @@
       <a class="sch_nav_img" href="https://animeiowa.com/">
         <img src="static/images/AI_logo_small_2.png" alt="Anime Iowa Logo" width="71px" height="40px"/>
       </a>
+      <span class="sch_nav_item" onclick="JavaScript:jumpToCurrTm();">
+        Now
+      </span>
       <span class="sch_nav_item" id="Friday" onclick="JavaScript:loadScheduleForDay('Friday');">
         Friday
       </span>
@@ -24,9 +27,6 @@
       </span>
       <span class="sch_nav_item" id="Sunday" onclick="JavaScript:loadScheduleForDay('Sunday');">
         Sunday
-      </span>
-      <span class="sch_nav_item" onclick="JavaScript:jumpToCurrTm();">
-        Now
       </span>
       <span class="dropdown">
         <span class="sch_nav_item">All Panels&nbsp;&#9660;</span>
@@ -108,13 +108,14 @@
           &nbsp;
       </div>
 
-      <div class="panel_det_row" >
+      <div class="panel_det_row">
         Panelists: 
         <span id="panelists">
             &nbsp;
         </span>
-      </div>
-      <div class="panel_det_row" >
+        <br />
+      <!-- </div>
+      <div class="panel_det_row"  style="margin-top:0px;"> -->
         Panel Type: 
         <span id="panel_type">
             &nbsp;
