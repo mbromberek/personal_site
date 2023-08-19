@@ -69,7 +69,7 @@ function loadSchedule(){
   newEle.setAttribute("id", time_breaks[time_break_pos]);
   sch_lst_ele.insertBefore(newEle, fillerEle);
   
-  let j=0;
+  let itm_load_ct=0;
   let prev_ele = 0;
   //TODO Get Current Day and Current Time to find first element that is close to current day/time to highlight
   //TODO Check if there were no items for filter and display a message about that
@@ -86,7 +86,7 @@ function loadSchedule(){
       time_break_pos++;
       let newEle = document.createElement('span');
       newEle.setAttribute("id", time_breaks[time_break_pos]);
-      if (j>0){
+      if (itm_load_ct>0){
         let prev_ele = sch_lst_ele.querySelector("#card_"+prev_ele_id);
         sch_lst_ele.insertBefore(newEle, prev_ele);
       }else{
@@ -112,20 +112,26 @@ function loadSchedule(){
     
     template_clone.querySelector("#description").innerHTML = panel['description'];
     template_clone.querySelector("#sch_card").setAttribute("onclick", "javascript: showDescription('"+i+"');");
-    template_clone.querySelector("#sch_card").classList.add('sch_card_color_'+j%2);
+    template_clone.querySelector("#sch_card").classList.add('sch_card_color_'+itm_load_ct%2);
     template_clone.querySelector("#sch_card").classList.add('sch_card_panel_' + panel['panel_type']);
     // template_clone.querySelector("#sch_card").classList.add('sch_card_panel_guest');
     template_clone.querySelector("#sch_card").setAttribute("id", 'card_'+i);
     prev_ele_id = i;
     
     sch_lst_ele.appendChild(template_clone);
-    j++;
+    itm_load_ct++;
   }
   while (time_break_pos+1<time_breaks.length){
     time_break_pos++;
     let newEle = document.createElement('span');
     newEle.setAttribute("id", time_breaks[time_break_pos]);
     sch_lst_ele.appendChild(newEle);
+  }
+  if (itm_load_ct<=0){
+    let template_clone = document.getElementsByTagName("template")[0].content.cloneNode(true);
+    template_clone.querySelector("#title").innerHTML = 'No panels matched your filter';
+    template_clone.querySelector(".sch_detail").innerHTML = '';
+    sch_lst_ele.appendChild(template_clone);
   }
 
   //Default show panel description on page load for Desktop
