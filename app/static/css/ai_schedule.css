@@ -19,20 +19,19 @@ body {
 }
 .sch_nav_img{
   display:inline-block;
-  padding-right:15px;
-  padding-left:15px;
+  padding-right:5px;
+  padding-left:10px;
   vertical-align: middle;
   padding-top:0px;
   
   /* height:40px; */
   /* width:100px; */
 }
-
-.sch_nav_item{
+.sch_nav_hdr{
   display:inline-block;
   font-weight:normal;
   font-size:14pt;
-  text-align: center;
+  text-align: left;
   text-decoration: none;
   padding-top:18px;
   padding-right:15px;
@@ -41,9 +40,26 @@ body {
   vertical-align: middle;
   
   height:37px;
-  /* height:100%; */
-  /* margin:auto; */
-  /* width:100px; */
+  /* width:150px; */
+}
+.sch_nav_hdr:hover{
+  cursor:pointer;
+  background-color:black;
+}
+
+.sch_nav_item{
+  display:inline-block;
+  font-weight:normal;
+  font-size:14pt;
+  text-align: left;
+  text-decoration: none;
+  padding-top:18px;
+  padding-right:15px;
+  padding-left:15px;
+  padding-bottom:0px;
+  vertical-align: middle;
+  
+  height:37px;
 }
 .sch_nav_item:hover{
   cursor:pointer;
@@ -66,9 +82,18 @@ body {
   border-left:3px solid lightblue; 
   margin-top:10px;
   margin-bottom:10px;
-  margin-left:5px;
-  margin-right:5px;
+  margin-left:1px;
+  margin-right:1px;
 }
+.nav_now{
+  width:40px;
+}
+.nav_day{
+  width:90px;
+}
+.nav_panel{
+  width:100px;
+} 
 
 .sch_lst{
   /* position:relative; */
@@ -105,6 +130,8 @@ body {
 .dropdown {
   position: relative;
   display: inline-block;
+  /* border:1px solid greenyellow; */
+
 }
 
 /* Dropdown Content (Hidden by Default) */
@@ -118,27 +145,30 @@ body {
 }
 
 /* Links inside the dropdown */
-.dropdown_content a {
+/*.dropdown_content a {
   color: black;
   padding: 12px 16px;
   text-decoration: none;
   display: block;
-}
+}*/
 
 /* Change color of dropdown links on hover */
 /* .dropdown_content a:hover {background-color: #f1f1f1} */
 
 /* Show the dropdown menu on hover */
-.dropdown:hover .dropdown_content {
+/* .dropdown:hover .dropdown_content {
   display: block;
-}
+} */
 
 /* Change the background color of the dropdown button when the dropdown content is shown */
 .dropdown:hover .dropbtn {
   /* background-color: #3e8e41; */
 }
 
-
+/* Show the dropdown menu */
+.nav_show {
+  display:block;
+}
 
 
 
@@ -296,6 +326,21 @@ a.sch_lnk:hover{
     padding-left:5px;
     padding-right:5px;
   }
+  
+  .sch_nav_hdr{
+    padding-left:5px;
+    padding-right:5px;
+  }
+  .nav_now{
+    width:35px;
+  }
+  .nav_day{
+    width:80px;
+  }
+  .nav_panel{
+    width:100px;
+  } 
+
   /* .sch_card{
     width:100%;
   } */
@@ -329,7 +374,7 @@ a.sch_lnk:hover{
 }
 
 /* For tablets */
-@media screen and (min-width: 600px) and (max-width: 900px) {
+@media screen and (min-width: 700px) and (max-width: 900px) {
   /* .sch_card{
       width:100%;
   } */
@@ -341,4 +386,22 @@ a.sch_lnk:hover{
       width:800px;
       right:calc((100% - 1350px));
   }
+}
+
+/* Very thin screens */
+@media only screen and (max-width:375px) {
+  .nav_separator{
+    display:none;
+  }
+  .sch_nav_hdr{
+    font-size:12pt;
+    padding-left:0px;
+    padding-right:0px;
+  }
+  .sch_nav_item{
+    font-size:12pt;
+    padding-left:0px;
+    padding-right:0px;
+  }
+  
 }

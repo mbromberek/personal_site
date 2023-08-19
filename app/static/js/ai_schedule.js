@@ -19,7 +19,7 @@ function initialize(response){
   prog_key = response['prog_key'];
 
   //TODO change to use show current day and default to Friday if not a day with schedules
-  updateScheduleForDay('Friday');
+  updateScheduleForDay('Saturday');
 }
 
 function updateScheduleForPanel(panel_type){
@@ -229,3 +229,44 @@ function jumpToCurrTm(){
   document.getElementById(tm_floor_str).scrollIntoView({behavior: 'smooth'});
   // document.getElementById("7:00pm").scrollIntoView({behavior: 'smooth'});
 }
+
+function showDropdown(nav_nm){
+  console.log("showDropdown");
+  /*console.log(ele);
+  dropDown = document.getElementById(ele);
+  if (dropDown.classList.contains('nav_show')) {
+    dropDown.classList.remove('nav_show');
+  }else{
+    dropDown.classList.add('nav_show');
+  }*/
+
+  // document.getElementById(ele).classList.toggle("nav_show");
+  // document.getElementById(ele).classList.add("nav_show");
+  
+  if (nav_nm == 'day'){
+    document.getElementById('panelDropdown').classList.remove('nav_show');
+    document.getElementById('dayDropdown').classList.toggle('nav_show');
+  }else if (nav_nm == 'panel'){
+    document.getElementById('dayDropdown').classList.remove('nav_show');
+    document.getElementById('panelDropdown').classList.toggle('nav_show');
+  }else {
+    document.getElementById('dayDropdown').classList.remove('nav_show');
+    document.getElementById('panelDropdown').classList.remove('nav_show');
+  }
+}
+
+
+// Close the dropdown menu if the user clicks outside of it
+window.onclick = function(event) {
+  console.log('onclick');
+  if (!event.target.matches('.dropbtn')) {
+    let dropdowns = document.getElementsByClassName("dropdown_content");
+    for (let i = 0; i < dropdowns.length; i++) {
+      let openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('nav_show')) {
+        openDropdown.classList.remove('nav_show');
+      }
+    }
+  }
+} 
+

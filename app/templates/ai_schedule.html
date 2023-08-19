@@ -16,17 +16,19 @@
       <a class="sch_nav_img" href="https://animeiowa.com/">
         <img src="static/images/AI_logo_small_2.png" alt="Anime Iowa Logo" width="71px" height="40px"/>
       </a>
-      <span class="sch_nav_item" onclick="JavaScript:jumpToCurrTm();">
+      <span class="sch_nav_hdr nav_now" onclick="JavaScript:jumpToCurrTm();">
         Now
       </span>
-
       <span class="nav_separator" ></span>
       
-      <span class="dropdown" >
-        <span class="sch_nav_item">
-          <span id="day_filter">&nbsp;</span>&nbsp;<span style="font-size:12pt;">&#9660;</span>
+      <span class="dropdown  " onclick="JavaScript:showDropdown('day')">
+        <span class="nav_day sch_nav_hdr dropbtn">
+          <span class="dropbtn" id="day_filter">&nbsp;</span><span style="font-size:12pt;" class="dropbtn">&nbsp;&#9660;</span>
         </span>
-        <span class="dropdown_content">
+        <!-- <span class="sch_nav_item dropbtn" id="day_filter">
+          &#9660;
+        </span> -->
+        <span class="dropdown_content" id="dayDropdown">
           <div class="sch_nav_item drop_sch_nav_item " style="border-left:0px;" 
             onclick="JavaScript:updateScheduleForDay('Friday')">
             Friday
@@ -44,11 +46,11 @@
       
       <span class="nav_separator" ></span>
       
-      <span class="dropdown" >
-        <span class="sch_nav_item">
-          <span id="panel_type_filter">All Panels</span>&nbsp;<span style="font-size:12pt;">&#9660;</span>
+      <span class="dropdown " onclick="JavaScript:showDropdown('panel')">
+        <span class="nav_panel sch_nav_hdr dropbtn">
+          <span class="dropbtn" id="panel_type_filter">All Panels</span><span style="font-size:12pt;" class="dropbtn">&nbsp;&#9660;</span>
         </span>
-        <span class="dropdown_content">
+        <span class="dropdown_content dropbtn" id="panelDropdown">
           <div class="sch_nav_item drop_sch_nav_item " 
             onclick="JavaScript:updateScheduleForPanel('')">
             All Panels
