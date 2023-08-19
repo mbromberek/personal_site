@@ -39,6 +39,8 @@ Loads schedule for passed day_val
  */
 function updateScheduleForDay(day_val){
   sel_day = day_val;
+  ele = document.getElementById('day_filter');
+  ele.innerHTML = sel_day;
   loadSchedule();
 }
 
@@ -53,10 +55,10 @@ function loadSchedule(){
   curr_sch_id = '';
   let firstEle = '';
   
-  document.getElementById('Friday').classList.remove('sch_nav_item_selected');
+  /*document.getElementById('Friday').classList.remove('sch_nav_item_selected');
   document.getElementById('Saturday').classList.remove('sch_nav_item_selected');
   document.getElementById('Sunday').classList.remove('sch_nav_item_selected');
-  document.getElementById(sel_day).classList.add('sch_nav_item_selected');
+  document.getElementById(sel_day).classList.add('sch_nav_item_selected');*/
   
   let fillerEle = document.createElement('div');
   fillerEle.setAttribute("id", "nav_space_filler");

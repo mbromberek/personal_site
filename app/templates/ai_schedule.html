@@ -19,18 +19,34 @@
       <span class="sch_nav_item" onclick="JavaScript:jumpToCurrTm();">
         Now
       </span>
-      <span class="sch_nav_item" id="Friday" onclick="JavaScript:updateScheduleForDay('Friday');">
-        Friday
-      </span>
-      <span class="sch_nav_item" id="Saturday" onclick="JavaScript:updateScheduleForDay('Saturday');">
-        Saturday
-      </span>
-      <span class="sch_nav_item" id="Sunday" onclick="JavaScript:updateScheduleForDay('Sunday');">
-        Sunday
-      </span>
-      <span class="dropdown">
+
+      <span class="nav_separator" ></span>
+      
+      <span class="dropdown" >
         <span class="sch_nav_item">
-          <span id="panel_type_filter">All Panels</span>&nbsp;&#9660;
+          <span id="day_filter">&nbsp;</span>&nbsp;<span style="font-size:12pt;">&#9660;</span>
+        </span>
+        <span class="dropdown_content">
+          <div class="sch_nav_item drop_sch_nav_item " style="border-left:0px;" 
+            onclick="JavaScript:updateScheduleForDay('Friday')">
+            Friday
+          </div>
+          <div class="sch_nav_item drop_sch_nav_item "  style="border-left:0px;"
+          onclick="JavaScript:updateScheduleForDay('Saturday')">
+            Saturday
+          </div>
+          <div class="sch_nav_item drop_sch_nav_item "  style="border-left:0px;"
+            onclick="JavaScript:updateScheduleForDay('Sunday')">
+            Sunday
+          </div>
+        </span>
+      </span>
+      
+      <span class="nav_separator" ></span>
+      
+      <span class="dropdown" >
+        <span class="sch_nav_item">
+          <span id="panel_type_filter">All Panels</span>&nbsp;<span style="font-size:12pt;">&#9660;</span>
         </span>
         <span class="dropdown_content">
           <div class="sch_nav_item drop_sch_nav_item " 

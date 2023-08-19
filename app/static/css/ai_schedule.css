@@ -34,13 +34,13 @@ body {
   font-size:14pt;
   text-align: center;
   text-decoration: none;
-  padding-top:15px;
+  padding-top:18px;
   padding-right:15px;
   padding-left:15px;
   padding-bottom:0px;
   vertical-align: middle;
   
-  height:40px;
+  height:37px;
   /* height:100%; */
   /* margin:auto; */
   /* width:100px; */
@@ -48,13 +48,26 @@ body {
 .sch_nav_item:hover{
   cursor:pointer;
   background-color:black;
-  text-decoration: underline;
+  /* text-decoration: underline; */
 }
 .sch_nav_item_selected{
   background-color:black;
 }
 #nav_space_filler{
   height:55px;
+}
+.nav_separator{
+  display:inline-block;
+  font-weight:normal;
+  font-size:14pt;
+  text-align: center;
+  vertical-align: middle;  
+  height:37px;
+  border-left:3px solid lightblue; 
+  margin-top:10px;
+  margin-bottom:10px;
+  margin-left:5px;
+  margin-right:5px;
 }
 
 .sch_lst{
@@ -236,7 +249,6 @@ body {
     margin-bottom:10px;
     width:100%;
 }
-
 
 a.sch_lnk{
   color:black;
