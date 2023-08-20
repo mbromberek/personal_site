@@ -8,7 +8,7 @@
     <script type="text/javascript" src="{{ url_for('static', filename='js/ai_schedule.js') }}"></script>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/ai_schedule.css') }}">
     <title>
-      AI Programming Schedule
+      AI Schedule
     </title>
 </head>
 <body>
@@ -25,9 +25,6 @@
         <span class="nav_day sch_nav_hdr dropbtn">
           <span class="dropbtn" id="day_filter">&nbsp;</span><span style="font-size:12pt;" class="dropbtn">&nbsp;&#9660;</span>
         </span>
-        <!-- <span class="sch_nav_item dropbtn" id="day_filter">
-          &#9660;
-        </span> -->
         <span class="dropdown_content" id="dayDropdown">
           <div class="sch_nav_item drop_sch_nav_item " style="border-left:0px;" 
             onclick="JavaScript:updateScheduleForDay('Friday')">
@@ -153,8 +150,6 @@
             &nbsp;
         </span>
         <br />
-      <!-- </div>
-      <div class="panel_det_row"  style="margin-top:0px;"> -->
         Panel Type: 
         <span id="panel_type">
             &nbsp;

@@ -22,6 +22,10 @@ function initialize(response){
   updateScheduleForDay('Saturday');
 }
 
+/**
+Set the selected panel to be filtered and reloads the schedule. 
+If panel_type passed is empty sets to All Panels
+ */
 function updateScheduleForPanel(panel_type){
   sel_panel_type = panel_type;
   ele = document.getElementById('panel_type_filter');
@@ -35,7 +39,7 @@ function updateScheduleForPanel(panel_type){
 }
 
 /**
-Loads schedule for passed day_val
+Set the selected day to be used and reloads the schedule. 
  */
 function updateScheduleForDay(day_val){
   sel_day = day_val;
@@ -46,6 +50,7 @@ function updateScheduleForDay(day_val){
 
 /**
 Load schedule based on sel_day and sel_panel_type
+If there are no matching entries will have a message saying no panels for selection
  */
 function loadSchedule(){
   let sch_lst_ele = document.getElementById('sch_lst');
@@ -54,11 +59,6 @@ function loadSchedule(){
   sch_lst_ele.innerHTML = '';
   curr_sch_id = '';
   let firstEle = '';
-  
-  /*document.getElementById('Friday').classList.remove('sch_nav_item_selected');
-  document.getElementById('Saturday').classList.remove('sch_nav_item_selected');
-  document.getElementById('Sunday').classList.remove('sch_nav_item_selected');
-  document.getElementById(sel_day).classList.add('sch_nav_item_selected');*/
   
   let fillerEle = document.createElement('div');
   fillerEle.setAttribute("id", "nav_space_filler");
@@ -72,7 +72,6 @@ function loadSchedule(){
   let itm_load_ct=0;
   let prev_ele = 0;
   //TODO Get Current Day and Current Time to find first element that is close to current day/time to highlight
-  //TODO Check if there were no items for filter and display a message about that
   for (let i=0; i<prog_schedule.length; i++){
     let panel = prog_schedule[i];
     if (panel['day'] != sel_day || 
@@ -236,19 +235,12 @@ function jumpToCurrTm(){
   // document.getElementById("7:00pm").scrollIntoView({behavior: 'smooth'});
 }
 
+/**
+show dropdown menu for passed in navigation item
+Closes other menus if open
+ */
 function showDropdown(nav_nm){
   console.log("showDropdown");
-  /*console.log(ele);
-  dropDown = document.getElementById(ele);
-  if (dropDown.classList.contains('nav_show')) {
-    dropDown.classList.remove('nav_show');
-  }else{
-    dropDown.classList.add('nav_show');
-  }*/
-
-  // document.getElementById(ele).classList.toggle("nav_show");
-  // document.getElementById(ele).classList.add("nav_show");
-  
   if (nav_nm == 'day'){
     document.getElementById('panelDropdown').classList.remove('nav_show');
     document.getElementById('dayDropdown').classList.toggle('nav_show');
@@ -262,7 +254,9 @@ function showDropdown(nav_nm){
 }
 
 
-// Close the dropdown menu if the user clicks outside of it
+/**
+Close the dropdown menu if the user clicks outside of it
+ */
 window.onclick = function(event) {
   console.log('onclick');
   if (!event.target.matches('.dropbtn')) {
