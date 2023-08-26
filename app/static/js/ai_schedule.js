@@ -1,4 +1,4 @@
-var curr_sch_id = '';
+var curr_sch_id = '-1';
 var prog_schedule = '';
 var prog_key = '';
 var sel_day = '';
@@ -53,12 +53,13 @@ Load schedule based on sel_day and sel_panel_type
 If there are no matching entries will have a message saying no panels for selection
  */
 function loadSchedule(){
+  console.log('loadSchedule');
   let sch_lst_ele = document.getElementById('sch_lst');
 
   //Clear out existing schedule from other day
   sch_lst_ele.innerHTML = '';
-  curr_sch_id = '';
-  let firstEle = '';
+  curr_sch_id = '-1';
+  let firstEle = '-1';
   
   let fillerEle = document.createElement('div');
   fillerEle.setAttribute("id", "nav_space_filler");
@@ -97,7 +98,7 @@ function loadSchedule(){
     if (panel['title'] == 'CLOSED'){
       continue;
     }
-    if (firstEle == ''){
+    if (firstEle == '-1'){
       firstEle = i;
     }
         
@@ -149,7 +150,7 @@ var showDescription = function(panel_id){
   let sel_sch_det = prog_schedule[panel_id];
 
   let sch_ele = document.getElementById('card_' + panel_id);
-  if (curr_sch_id != ''){
+  if (curr_sch_id != '-1'){
     document.getElementById('card_'+curr_sch_id).classList.remove("selected_panel");
     // console.log('Remove:'+prog_schedule[curr_sch_id]['panel_type']);
     // panel_ele.classList.remove("sch_card_panel_"+prog_schedule[curr_sch_id]['panel_type']); //Set panel_det color
@@ -192,7 +193,7 @@ function closeDescription(){
   document.getElementById("card_"+curr_sch_id).classList.remove("selected_panel");
   // document.getElementById('sch_lst').classList.remove('hidden_ele');
   document.getElementById('panel_det').style.display = 'none';
-  curr_sch_id = '';
+  curr_sch_id = '-1';
   
 }
 
