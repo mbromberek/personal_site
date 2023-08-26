@@ -35,6 +35,7 @@ python3 -m venv $HOME/.virtualenvironments/p_site
 source $HOME/.virtualenvironments/p_site/bin/activate
 pip install -r requirements.txt
 pip install wheel
+pip install gunicorn
 deactivate
 ```
 
