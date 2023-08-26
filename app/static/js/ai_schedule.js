@@ -1,4 +1,4 @@
-var curr_sch_id = '';
+var curr_sch_id = '-1';
 var prog_schedule = '';
 var prog_key = '';
 var sel_day = '';
@@ -42,6 +42,7 @@ function updateScheduleForPanel(panel_type){
 Set the selected day to be used and reloads the schedule. 
  */
 function updateScheduleForDay(day_val){
+  // console.log('updateScheduleForDay: ' + day_val);
   sel_day = day_val;
   ele = document.getElementById('day_filter');
   ele.innerHTML = sel_day;
@@ -53,12 +54,13 @@ Load schedule based on sel_day and sel_panel_type
 If there are no matching entries will have a message saying no panels for selection
  */
 function loadSchedule(){
+  // console.log('loadSchedule');
   let sch_lst_ele = document.getElementById('sch_lst');
 
   //Clear out existing schedule from other day
   sch_lst_ele.innerHTML = '';
-  curr_sch_id = '';
-  let firstEle = '';
+  curr_sch_id = '-1';
+  let firstEle = '-1';
   
   let fillerEle = document.createElement('div');
   fillerEle.setAttribute("id", "nav_space_filler");
@@ -97,7 +99,7 @@ function loadSchedule(){
     if (panel['title'] == 'CLOSED'){
       continue;
     }
-    if (firstEle == ''){
+    if (firstEle == '-1'){
       firstEle = i;
     }
         
@@ -149,7 +151,7 @@ var showDescription = function(panel_id){
   let sel_sch_det = prog_schedule[panel_id];
 
   let sch_ele = document.getElementById('card_' + panel_id);
-  if (curr_sch_id != ''){
+  if (curr_sch_id != '-1'){
     document.getElementById('card_'+curr_sch_id).classList.remove("selected_panel");
     // console.log('Remove:'+prog_schedule[curr_sch_id]['panel_type']);
     // panel_ele.classList.remove("sch_card_panel_"+prog_schedule[curr_sch_id]['panel_type']); //Set panel_det color
@@ -192,7 +194,7 @@ function closeDescription(){
   document.getElementById("card_"+curr_sch_id).classList.remove("selected_panel");
   // document.getElementById('sch_lst').classList.remove('hidden_ele');
   document.getElementById('panel_det').style.display = 'none';
-  curr_sch_id = '';
+  curr_sch_id = '-1';
   
 }
 
@@ -213,13 +215,22 @@ function getWidth() {
 Change to current day and jump to time 
  */
 function jumpToCurrTm(){
+  console.log('jumpToCurrTm');
   const dt = new Date();
+  let decrement_day = 0;
+
+  // If current hour is before the first hour of time_breaks then use previous day
+  // This is needed since currently setup for a day to start at 5am. 
+  //  Do not have to worry about hour being in 24-hour format
+  if (dt.getHours() < time_breaks[0].split(':')[0]){
+    decrement_day = 1;
+  }
   
   //UNCOMMENT to jump to current day before current time
-  //TODO setup to work when current time is before 4am so want to use previous day
+  //TODO how to handle if current day is not Fri, Sat, Sun
   /*console.log(weekday[dt.getDay()]);
-  if (weekday[dt.getDay()] != sel_day){
-    loadScheduleForDay(weekday[dt.getDay()]);
+  if (weekday[dt.getDay() -decrement_day] != sel_day){
+    updateScheduleForDay(weekday[dt.getDay() -decrement_day]);
   }*/
   const hr = dt.getHours();
   let tm_period = 'pm';
@@ -229,7 +240,7 @@ function jumpToCurrTm(){
   let hr_12 = hr%12 || 12;
   let tm_floor_str = hr_12 + ':00' + tm_period;
   
-  console.log(tm_floor_str);
+  // console.log(tm_floor_str);
   
   document.getElementById(tm_floor_str).scrollIntoView({behavior: 'smooth'});
   // document.getElementById("7:00pm").scrollIntoView({behavior: 'smooth'});
@@ -240,7 +251,7 @@ show dropdown menu for passed in navigation item
 Closes other menus if open
  */
 function showDropdown(nav_nm){
-  console.log("showDropdown");
+  // console.log("showDropdown");
   if (nav_nm == 'day'){
     document.getElementById('panelDropdown').classList.remove('nav_show');
     document.getElementById('dayDropdown').classList.toggle('nav_show');
@@ -258,7 +269,7 @@ function showDropdown(nav_nm){
 Close the dropdown menu if the user clicks outside of it
  */
 window.onclick = function(event) {
-  console.log('onclick');
+  // console.log('onclick');
   if (!event.target.matches('.dropbtn')) {
     let dropdowns = document.getElementsByClassName("dropdown_content");
     for (let i = 0; i < dropdowns.length; i++) {
