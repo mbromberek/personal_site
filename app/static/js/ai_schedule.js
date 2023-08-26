@@ -18,8 +18,7 @@ function initialize(response){
   prog_schedule = response['prog_schedule'];
   prog_key = response['prog_key'];
 
-  //TODO change to use show current day and default to Friday if not a day with schedules
-  updateScheduleForDay('Saturday');
+  updateScheduleForToday();
 }
 
 /**
@@ -39,11 +38,37 @@ function updateScheduleForPanel(panel_type){
 }
 
 /**
+  Call updateScheduleForDay passing it current day
+ */
+function updateScheduleForToday(){
+  // console.log('updateScheduleForToday');
+  const dt = new Date();  
+  let decrement_day = 0;
+  
+  // If current hour is before the first hour of time_breaks then use previous day
+  // This is needed since currently setup for a day to start at 5am. 
+  //  Do not have to worry about hour being in 24-hour format
+  if (dt.getHours() < time_breaks[0].split(':')[0]){
+    decrement_day = 1;
+  }
+  
+  updateScheduleForDay(weekday[dt.getDay() -decrement_day]);
+}
+
+/**
 Set the selected day to be used and reloads the schedule. 
+Does nothing if new day is same as selected day
  */
 function updateScheduleForDay(day_val){
   // console.log('updateScheduleForDay: ' + day_val);
-  sel_day = day_val;
+  if (day_val == sel_day){
+    return;
+  }
+  if (["Friday","Saturday","Sunday"].includes(day_val) ){
+    sel_day = day_val;
+  }else{
+    sel_day = 'Friday';
+  }
   ele = document.getElementById('day_filter');
   ele.innerHTML = sel_day;
   loadSchedule();
@@ -215,23 +240,12 @@ function getWidth() {
 Change to current day and jump to time 
  */
 function jumpToCurrTm(){
-  console.log('jumpToCurrTm');
-  const dt = new Date();
-  let decrement_day = 0;
+  // console.log('jumpToCurrTm');
 
-  // If current hour is before the first hour of time_breaks then use previous day
-  // This is needed since currently setup for a day to start at 5am. 
-  //  Do not have to worry about hour being in 24-hour format
-  if (dt.getHours() < time_breaks[0].split(':')[0]){
-    decrement_day = 1;
-  }
-  
   //UNCOMMENT to jump to current day before current time
-  //TODO how to handle if current day is not Fri, Sat, Sun
-  /*console.log(weekday[dt.getDay()]);
-  if (weekday[dt.getDay() -decrement_day] != sel_day){
-    updateScheduleForDay(weekday[dt.getDay() -decrement_day]);
-  }*/
+  updateScheduleForToday();
+  
+  const dt = new Date();
   const hr = dt.getHours();
   let tm_period = 'pm';
   if (hr < 12){
