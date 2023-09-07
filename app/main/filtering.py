@@ -140,11 +140,12 @@ def get_workouts(current_user_id, page, per_page, filterVal, endpoint, wrkt_filt
         wrkt_dict = workout.to_dict(for_web=for_web)
         wrkt_dict['duration'] = workout.dur_str()
 
-        wrkt_category_training_loc = [wrkt_dict['category']]
-        if workout.training_type != None and len(workout.training_type) > 0:
-            wrkt_category_training_loc.append(workout.training_type)
+        wrkt_category_training_loc = []
         if workout.location != None and len(workout.location) > 0:
             wrkt_category_training_loc.append(workout.location)
+        if workout.training_type != None and len(workout.training_type) > 0:
+            wrkt_category_training_loc.append(workout.training_type)
+        wrkt_category_training_loc.append(wrkt_dict['category'])
         wrkt_dict['category_training_loc'] = ' - '.join(wrkt_category_training_loc)
 
 
