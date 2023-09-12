@@ -372,7 +372,7 @@ class Workout(PaginatedAPIMixin, db.Model):
                 'self': url_for('main.workout', workout=self.id, _external=True, _scheme=current_app.config['URL_SCHEME']) if for_web else url_for('api.get_workout', id=self.id),
             }
         }
-        logger.debug('for_web' + str(for_web))
+        # logger.debug('for_web' + str(for_web))
         if for_web:
             data['_links']['edit'] = url_for('main.edit_workout', 
                 workout=self.id, 
