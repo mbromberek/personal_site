@@ -176,6 +176,12 @@ def get_workouts(current_user_id, page, per_page, filterVal, endpoint, wrkt_filt
         'using_extra_search_fields':usingSearch
     }
     endpoint = 'main.workout'
+    
+    filterVal.pop('location',None)
+    filterVal.pop('text',None)
+    filterVal.pop('notes',None)
+    filterVal.pop('training',None)
+    
     kwargs = filterVal
     kwargs.pop('page', None)
     links_dict = {
@@ -229,7 +235,7 @@ def getFilterValuesFromGet(request):
     filterVal = {}
     filterVal['type'] = request.args.get('type')
     filterVal['category'] = request.args.get('category')
-    if 'text' in request.args:
+    if 'text_NOT_USED' in request.args:
         # get new fields derived form text field
         filterVal['text'] = request.args.get('text')
         filterVal['location'] = request.args.get('location')
