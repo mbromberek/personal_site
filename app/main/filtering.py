@@ -9,6 +9,8 @@ All rights reserved.
 # First party classes
 from datetime import datetime, timedelta, date
 # from datetime import combine
+import re
+
 
 # Third party classes
 from flask import render_template, flash, redirect, url_for, request, g, \
@@ -48,8 +50,9 @@ def get_workouts_from_filter(usr_id, type_filter, category_filter, filterVal, wr
         *(1+current_app.config['DISTANCE_RANGE']))
         if wrkt_filter_form != None:
             wrkt_filter_form.distance_search.data = filterVal['distance']
-    if filterVal['txt_search'] != '' and filterVal['txt_search'] != None:
-        txt_srch_lst = filterVal['txt_search'].split(' ')
+    if filterVal['text'] != '' and filterVal['text'] != None:
+        # txt_srch_lst = filterVal['txt_search'].split(' ')
+        txt_srch_lst = filterVal['text']
         for txt_srch in txt_srch_lst:
             txt_srch = txt_srch.strip()
             query = query.filter(
@@ -57,6 +60,19 @@ def get_workouts_from_filter(usr_id, type_filter, category_filter, filterVal, wr
             )
         if wrkt_filter_form != None:
             wrkt_filter_form.txt_search.data = filterVal['txt_search']
+
+
+    if 'location' in filterVal and filterVal['location'] != '' and filterVal['location'] != None:
+            txt_srch_lst = filterVal['location']
+            for txt_srch in txt_srch_lst:
+                txt_srch = txt_srch.strip()
+                query = query.filter(
+                    Workout.location.ilike('%'+txt_srch+'%')
+                )
+            # if wrkt_filter_form != None:
+                # wrkt_filter_form.txt_search.data = filterVal['location']
+
+
 
     if filterVal['min_strt_temp'] != '' and filterVal['min_strt_temp'] != None:
         usingSearch = True
@@ -213,7 +229,17 @@ def getFilterValuesFromGet(request):
     filterVal = {}
     filterVal['type'] = request.args.get('type')
     filterVal['category'] = request.args.get('category')
-    filterVal['txt_search'] = request.args.get('txt_search')
+    if 'text' in request.args:
+        # get new fields derived form text field
+        filterVal['text'] = request.args.get('text')
+        filterVal['location'] = request.args.get('location')
+        filterVal['training'] = request.args.get('training')
+        filterVal['notes'] = request.args.get('notes')
+    else:
+        text_search_split = split_search_query(request.args.get('txt_search'))
+        filterVal.update(text_search_split)
+        filterVal['txt_search'] = request.args.get('txt_search')
+    # filterVal['txt_search'] = request.args.get('txt_search')
     try:
         filterVal['temperature'] = request.args.get('temperature', '', type=int)
     except ValueError:
@@ -248,3 +274,47 @@ def getFilterValuesFromGet(request):
     except ValueError:
         filterVal['page'] = 1
     return filterVal
+
+
+TXT_SEARCH_TERMS = {'loc:':'location', 'location:':'location', 'type:':'training'\
+      , 'training:':'training', 'notes:':'notes'}
+'''
+'''
+def split_search_query(query_orig):
+    ret = {'text':[]}
+    if query_orig == '' and query_orig == None:
+        return ret
+    search_txt = []
+    query = query_orig.lower()
+    query_split = split_str(query)
+    
+    curr_query_key = 'text'
+    for query_itm in query_split:
+        query_itm = query_itm.replace('"','')
+        # If current query item is is special search terms, mark that to be 
+        #  the field to add the next query item into
+        if query_itm in TXT_SEARCH_TERMS:
+          curr_query_key = TXT_SEARCH_TERMS[query_itm]
+          if curr_query_key not in ret:
+            ret[curr_query_key] = []
+          continue
+        ret[curr_query_key].append(query_itm)
+        curr_query_key = 'text'
+    return ret
+
+'''
+Returns split string
+'''
+def split_str(query):
+    # Split by space or : preserving contents of ""
+    # regex_pattern = r'[ :]\s*(?=(?:[^"]*"[^"]*")*[^"]*$)'
+    
+    # Substitute : with ': ' when not surrounded by ""
+    regex_sub_pattern = r':\s*(?=(?:[^"]*"[^"]*")*[^"]*$)'
+    query = re.sub(regex_sub_pattern, ': ', query)
+    
+    # Split by space preserving contents of ""
+    regex_pattern = r' \s*(?=(?:[^"]*"[^"]*")*[^"]*$)'
+    query_split = re.split(regex_pattern, query)
+    
+    return query_split
