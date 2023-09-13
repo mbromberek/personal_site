@@ -50,7 +50,7 @@ def get_workouts_from_filter(usr_id, type_filter, category_filter, filterVal, wr
         *(1+current_app.config['DISTANCE_RANGE']))
         if wrkt_filter_form != None:
             wrkt_filter_form.distance_search.data = filterVal['distance']
-    if filterVal['text'] != '' and filterVal['text'] != None:
+    if 'text' in filterVal and filterVal['text'] != '' and filterVal['text'] != None:
         # txt_srch_lst = filterVal['txt_search'].split(' ')
         txt_srch_lst = filterVal['text']
         for txt_srch in txt_srch_lst:
@@ -71,6 +71,20 @@ def get_workouts_from_filter(usr_id, type_filter, category_filter, filterVal, wr
                 )
             # if wrkt_filter_form != None:
                 # wrkt_filter_form.txt_search.data = filterVal['location']
+    if 'training' in filterVal and filterVal['training'] != '' and filterVal['training'] != None:
+            txt_srch_lst = filterVal['training']
+            for txt_srch in txt_srch_lst:
+                txt_srch = txt_srch.strip()
+                query = query.filter(
+                    Workout.training_type.ilike('%'+txt_srch+'%')
+                )
+    if 'notes' in filterVal and filterVal['notes'] != '' and filterVal['notes'] != None:
+            txt_srch_lst = filterVal['notes']
+            for txt_srch in txt_srch_lst:
+                txt_srch = txt_srch.strip()
+                query = query.filter(
+                    Workout.notes.ilike('%'+txt_srch+'%')
+                )
 
 
 
@@ -195,7 +209,11 @@ def getFilterValuesFromPost(form):
     filterVal = {}
     filterVal['temperature'] = form.strt_temp_search.data
     filterVal['distance'] = form.distance_search.data
+
+    text_search_split = split_search_query(form.txt_search.data)
+    filterVal.update(text_search_split)
     filterVal['txt_search'] = form.txt_search.data
+    
     filterVal['strt_dt'] = form.strt_dt_srch.data
     logger.debug(str(filterVal['strt_dt']))
     filterVal['end_dt'] = form.end_dt_srch.data
@@ -216,6 +234,9 @@ def getFilterValuesFromUrl():
     filterVal['temperature'] = request.args.get('temperature', default='', type=int)
     distance = request.args.get('distance', default='', type=str)
     filterVal['distance'] = round(float(distance),2) if nbrConv.isFloat(distance) else ''
+    
+    text_search_split = split_search_query(request.args.get('txt_search', default='', type=str))
+    filterVal.update(text_search_split)
     filterVal['txt_search'] = request.args.get('txt_search', default='', type=str)
 
     filterVal['strt_dt'] = request.args.get('strt_dt', default='', type=str)
