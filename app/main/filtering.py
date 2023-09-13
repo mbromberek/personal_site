@@ -189,7 +189,6 @@ def get_workouts(current_user_id, page, per_page, filterVal, endpoint, wrkt_filt
         'total_items':workoutPages.total,
         'using_extra_search_fields':usingSearch
     }
-    endpoint = 'main.workout'
     
     filterVal.pop('location',None)
     filterVal.pop('text',None)
@@ -266,7 +265,7 @@ def getFilterValuesFromGet(request):
         text_search_split = split_search_query(request.args.get('txt_search'))
         filterVal.update(text_search_split)
         filterVal['txt_search'] = request.args.get('txt_search')
-    # filterVal['txt_search'] = request.args.get('txt_search')
+    
     try:
         filterVal['temperature'] = request.args.get('temperature', '', type=int)
     except ValueError:
@@ -309,9 +308,10 @@ TXT_SEARCH_TERMS = {'loc:':'location', 'location:':'location', 'type:':'training
 '''
 def split_search_query(query_orig):
     ret = {'text':[]}
-    if query_orig == '' and query_orig == None:
+    if query_orig == '' or query_orig == None:
         return ret
     search_txt = []
+    logger.debug(query_orig)
     query = query_orig.lower()
     query_split = split_str(query)
     
