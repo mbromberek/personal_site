@@ -215,7 +215,7 @@ def getFilterValuesFromPost(form):
     filterVal['txt_search'] = form.txt_search.data
     
     filterVal['strt_dt'] = form.strt_dt_srch.data
-    logger.debug(str(filterVal['strt_dt']))
+    # logger.debug(str(filterVal['strt_dt']))
     filterVal['end_dt'] = form.end_dt_srch.data
     filterVal['min_dist'] = form.min_dist_srch.data
     filterVal['max_dist'] = form.max_dist_srch.data

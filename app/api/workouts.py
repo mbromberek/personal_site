@@ -70,6 +70,7 @@ def get_workouts():
     user = User.query.get_or_404(current_user_id)
     per_page = min(request.args.get('per_page', current_app.config['POSTS_PER_PAGE'], type=int), 100)
     filterVal = filtering.getFilterValuesFromGet(request)
+    logger.debug(filterVal)
     page = filterVal['page']
     filterVal.pop('page',None)
 
