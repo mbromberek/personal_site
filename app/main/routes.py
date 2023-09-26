@@ -657,6 +657,19 @@ def workout():
     if workout.wrkt_dir != None:
         try:
             wrkt_df = pd.read_pickle(os.path.join(current_app.config['WRKT_FILE_DIR'], str(workout.user_id), workout.wrkt_dir, 'workout.pickle'))
+            
+            
+            '''
+            wrkt_df['lat_lon'] = wrkt_df[['latitude','longitude']].apply(tuple, axis=1)
+            lap_dur_min_max = wrkt_df.groupby('lap')[['dur_sec']].agg(['min','max'])
+            lap_dur_min_max.columns = [c[0] + '_' + c[1] for c in lap_dur_min_max.columns]
+            lap_lat_lon = wrkt_df.groupby('lap').agg({'lat_lon': lambda x:list(x)})
+            lap_agg = pd.merge(lap_dur_min_max, lap_lat_lon, how='inner', left_index=True, right_index=True)
+            lap_dict = lap_agg.to_dict('records')
+            '''
+            
+            
+            
             intrvl_dict['mile_sum'] = wrkt_summary.get_mile_sum_from_df(wrkt_df)
             workout.pos_neg_splits = intrvl_dict['mile_sum'][2]['det']
             workout.pos_neg_splits_amt = intrvl_dict['mile_sum'][2]['duration']

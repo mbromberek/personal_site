@@ -19,8 +19,8 @@ import pandas as pd
 
 # Custom Classes from github
 import NormalizeWorkout.dao.files as fao
-import NormalizeWorkout.parse.rungapParse as rgNorm
 import NormalizeWorkout.parse.fitParse as fitParse
+import NormalizeWorkout.parse.hkParse as hkNorm
 import NormalizeWorkout.parse.rungapMetadata as rungapMeta
 import NormalizeWorkout.WrktSplits as wrktSplits
 import GenerateMapImage.gen_map_img as genMap
@@ -246,7 +246,7 @@ def generate_workout_from_file():
     elif fao.file_with_ext(workDir, ext='rungap.json') != '':
         logger.info('Rungap JSON file')
         data = fao.get_workout_data(workDir)
-        actv_df = rgNorm.normalize_activity(data)
+        actv_df, pause_times_df = hkNorm.normalize_activity(data)
     else:
         logger.info('No file to process')
         fao.clean_dir(workDir)
