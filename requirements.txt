@@ -20,7 +20,7 @@ Flask-HTTPAuth==4.8.0
 Flask-Login==0.6.2
 Flask-SQLAlchemy==3.0.5
 Flask-WTF==1.1.1
-GenerateMapImage @ git+https://github.com/mbromberek/GenerateMapImage.git@fcde5372eed98f69998c25c4f0f90f6da6228c65
+git+https://github.com/mbromberek/GenerateMapImage.git
 geographiclib==2.0
 geopy==2.3.0
 greenlet==2.0.2
@@ -36,7 +36,7 @@ MarkupSafe==2.1.3
 mccabe==0.6.1
 mypy==1.3.0
 mypy-extensions==1.0.0
-NormalizeWorkout @ git+https://github.com/mbromberek/NormalizeWorkout.git@d690829ce4b3c66a947327637e8f80d7e018a731
+git+https://github.com/mbromberek/NormalizeWorkout.git
 numpy==1.25.2
 packaging==23.1
 pandas==2.0.3
@@ -75,7 +75,7 @@ tomlkit==0.11.8
 typing_extensions==4.7.1
 tzdata==2023.3
 ujson==5.7.0
-urllib3==2.0.4
+urllib3==2.0.6
 visitor==0.1.3
 Werkzeug==2.3.7
 wrapt==1.15.0
