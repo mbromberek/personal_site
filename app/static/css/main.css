@@ -11,7 +11,7 @@ div.home_section_1{
 div.home_section_2{
     /*background-color:lightblue;*/
     background-color:#43d9b8;
-    color:white;
+    color:black;
 }
 div.home_section{
     overflow:auto;
@@ -121,6 +121,24 @@ div.cat_img_right {
 .skills_item {
     float: left;
     width: 100px;
+    overflow: hidden;
+    border: 0px solid red;
+    padding-left: 7.5px;
+    padding-right: 7.5px;
+    margin-top: 15px;
+}
+
+.projects{
+    overflow:auto;
+    max-width: 775px;
+    margin-left: auto;
+    margin-right: auto;
+    /* display: flex; */
+    border: 1px solid red;
+}
+.projects_item {
+    float: left;
+    width: 150px;
     overflow: hidden;
     border: 0px solid red;
     padding-left: 7.5px;
