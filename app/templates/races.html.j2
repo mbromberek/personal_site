@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+{% from 'bootstrap4/form.html' import render_form %}
+
+{% block app_content %}
+
+<div class="dashboard_page">
+
+      <!-- BEGIN MENU-BAR -->
+      <div id="race_menu">
+        <div id="dist_select">
+          Distance
+          <select></select>
+        </div>
+        <div id="state_select">
+          State
+          <select></select>
+        </div>
+      </div>
+      <!-- END MENU-BAR  -->
+
+    <div style="overflow:auto; width:100%; ">
+    {#{% if dash_lst_dict['moly_mileage_lst'] %}
+    {% include 'dashboard_widgets/_monthly_mileage_widget.html' %}
+    {% endif %}
+    </div>#}
+    
+    {#<div id="monthly_mileage_bar" style="overflow:auto; width:75%; ">
+    </div>#}
+
+    <div class="race_row">
+      <!-- Time line of Races -->
+      <div id="race_year"></div>
+
+      <!-- MAP AND TOOLTIP -->
+      <div id="race_map">
+        <div id="race_map_tooltip">
+          <h2></h2>
+          <p></p>
+        </div>
+      </div>
+    </div>
+
+    <div id="race_row">
+      <!-- LIST OF RACES -->
+      <div id="race_list">
+        <h2>Races</h2>
+        <table>
+          <thead>
+            <tr>
+              <th id="race_date">Date</th>
+              <th id="race_name">Name</th>
+              <th id="race_duration">Duration</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    
+      <!-- RACES BOX -->
+      <div id="race_det">
+        <div id="mapbox"><img /></div>
+        <div id="race_name"></div>
+        <div id="infobox">
+          <div class="property">
+            <div class="label">Date:</div>
+            <span name="wrkt_dt"></span>
+          </div>
+          <div class="property">
+            <div class="label">Distance:</div>
+            <span name="dist_mi"></span> miles
+          </div>
+          <div class="property">
+            <div class="label">Duration:</div>
+            <span name="dur"></span>
+          </div>
+          <div class="property">
+            <div class="label">Pace:</div>
+            <span name="pace"></span> /mi
+          </div>
+          <div class="property">
+            <div class="label">Location:</div>
+            <span name="location"></span>
+          </div>
+        </div>
+        {#<div class="property">
+          <div id="workout_link"><a href="#">Race Details</a></div>
+        </div>#}
+      </div>
+    </div>
+
+    <div id="race_mileage_bar" >
+    </div>
+    {#
+    <br />
+    <div style="overflow:auto; width:100%; ">
+    {% if dash_lst_dict['race_lst'] %}
+    {% include 'dashboard_widgets/_race_widget.html.j2' %}
+    {% endif %}
+    </div>
+    #}
+
+</div>
+
+<script>
+    race_mileage_lst = {{ dash_lst_dict['race_lst']|tojson|safe }};
+    race_dist_dict = {{ race_dist_dict|tojson|safe }};
+    states_topo_json = {{ states_topo_data|tojson|safe }};
+    states_data = {{ states_data|tojson|safe }};
+</script>
+
+<script type="module" src="{{ url_for('static', filename='js/wrkt_viz_races_dashboard.mjs') }}"></script>
+
+
+{% endblock %}

@@ -2,7 +2,8 @@
 	"info": {
 		"_postman_id": "6d2d30ad-7715-42a1-ac69-5a05aacecb6e",
 		"name": "personal_site",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "8430378"
 	},
 	"item": [
 		{
@@ -80,11 +81,9 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://mikebromberek.com/api/users",
-					"protocol": "https",
+					"raw": "{{server}}/api/users",
 					"host": [
-						"mikebromberek",
-						"com"
+						"{{server}}"
 					],
 					"path": [
 						"api",
@@ -120,14 +119,61 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{server}}/api/workout/1364",
+					"raw": "{{server}}/api/workout/1733",
 					"host": [
 						"{{server}}"
 					],
 					"path": [
 						"api",
 						"workout",
-						"1364"
+						"1733"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "run_summary",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{server}}/api/run_summary/",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"run_summary",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "run_summary auth_alt",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization-Alt",
+						"value": "Bearer {{token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{server}}/api/run_summary/",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"run_summary",
+						""
 					]
 				}
 			},
@@ -146,14 +192,14 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{server}}/api/workout_intervals/1349",
+					"raw": "{{server}}/api/workout_intervals/1557",
 					"host": [
 						"{{server}}"
 					],
 					"path": [
 						"api",
 						"workout_intervals",
-						"1349"
+						"1557"
 					]
 				}
 			},
@@ -193,7 +239,34 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "[\n    {\n    \"dist_mi\": \"6.32\",\n    \"dur_sec\": 3330,\n    \"type\": \"Running\",\n    \"wrkt_dttm\": \"2021-04-27T07:21:08Z\",\n    \"gear\": \"dummy shoes\",\n    \"clothes\": \"Shorts, coat\",\n    \"category\": \"Easy\"\n    }\n]",
+					"raw": "[\n    {\n    \"dist_mi\": \"6.32\",\n    \"dur_sec\": 3330,\n    \"type\": \"Running\",\n    \"wrkt_dttm\": \"2022-04-28T07:21:08Z\",\n    \"clothes\": \"Shorts, coat\",\n    \"category\": \"Training\"\n    }\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server}}/api/workout",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"workout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create_workout Cycle",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n    {\n    \"dist_mi\": \"6.32\",\n    \"dur_sec\": 3330,\n    \"type\": \"Indoor Cycling\",\n    \"wrkt_dttm\": \"2022-04-29T07:21:08Z\",\n    \"clothes\": \"Shorts, coat\",\n    \"category\": \"Training\"\n    }\n]",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -275,7 +348,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"dist_mi\": \"15.02\",\n    \"dur_sec\": 7200,\n    \"type\": \"Running\",\n    \"wrkt_dttm\": \"2021-04-14T15:21:07Z\",\n    \"gear\": \"mizuno slime\",\n    \"clothes\": \"Shorts, t-shirt\",\n    \"category\": \"Long Run\",\n    \"notes\": \"Tired after run\",\n\n    \"cal_burn\": 640,\n    \"ele_down\": 160.80,\n    \"ele_up\": 216.50,\n    \"hr\": 100,\n    \"location\":\"RC Outfitters\",\n    \"wethr_end\": {\n        \"wethr_cond\": \"Clear\",\n        \"hmdty\": 0.83,\n        \"temp\": 19.18,\n        \"temp_feels_like\": 12.70,\n        \"wind_gust\": 5.95,\n        \"wind_speed\": 4.26\n    },\n    \"wethr_start\": {\n        \"wethr_cond\": \"Clear\",\n        \"hmdty\": 0.78,\n        \"temp\": 20.89,\n        \"temp_feels_like\": 17.95,\n        \"wind_gust\": 5.07,\n        \"wind_speed\": 3.57\n    }\n\n}",
+					"raw": "[\n    {\n    \"dist_mi\": \"15.02\",\n    \"dur_sec\": 7200,\n    \"type\": \"Running\",\n    \"wrkt_dttm\": \"2021-04-14T15:21:07Z\",\n    \"gear\": \"mizuno slime\",\n    \"clothes\": \"Shorts, t-shirt\",\n    \"category\": \"Long Run\",\n    \"notes\": \"Tired after run\",\n\n    \"cal_burn\": 640,\n    \"ele_down\": 160.80,\n    \"ele_up\": 216.50,\n    \"hr\": 100,\n    \"location\":\"RC Outfitters\",\n    \"wethr_end\": {\n        \"wethr_cond\": \"Clear\",\n        \"hmdty\": 0.83,\n        \"temp\": 19.18,\n        \"temp_feels_like\": 12.70,\n        \"wind_gust\": 5.95,\n        \"wind_speed\": 4.26\n    },\n    \"wethr_start\": {\n        \"wethr_cond\": \"Clear\",\n        \"hmdty\": 0.78,\n        \"temp\": 20.89,\n        \"temp_feels_like\": 17.95,\n        \"wind_gust\": 5.07,\n        \"wind_speed\": 3.57\n    }\n\n}\n]",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -297,19 +370,46 @@
 			"response": []
 		},
 		{
-			"name": "get_workouts",
+			"name": "create_workout Indoor",
 			"request": {
-				"method": "GET",
+				"method": "POST",
 				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n{\n    \"cal_burn\": 227,\n    \"category\": \"Easy\",\n    \"clothes\": \"Shorts.\",\n    \"dist_mi\": \"4.26\",\n    \"dur_sec\": 2126,\n    \"ele_down\": \"0.00\",\n    \"ele_up\": \"218.00\",\n    \"gear\": \"Brooks Adrenaline GTS22 - 8 Surf the Web Blue\",\n    \"hr\": \"126\",\n    \"id\": 1733,\n    \"location\": \"\",\n    \"location_coordinates\": {\n        \"end\": {\n            \"lat\": \"None\",\n            \"long\": \"None\"\n        },\n        \"start\": {\n            \"lat\": \"None\",\n            \"long\": \"None\"\n        }\n    },\n    \"notes\": \"\",\n    \"pace\": \"8m 19s\",\n    \"pace_uom\": \"/mi\",\n    \"t_zone\": \"America/Chicago\",\n    \"training_type\": \"\",\n    \"type\": \"Indoor Running\",\n    \"user_id\": 1,\n    \"wrkt_dttm\": \"2023-02-09T04:24:04Z\"\n}\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
 				"url": {
-					"raw": "{{server}}/api/workouts/",
+					"raw": "{{server}}/api/workout",
 					"host": [
 						"{{server}}"
 					],
 					"path": [
 						"api",
-						"workouts",
-						""
+						"workout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "workout map",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{server}}/api/wrkt_images_api/thumb_200_200_5HF5F8QMKKKTOZJTYHG51V4WY7E62OLCRPLFY05X6SEYAV027O.png",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"wrkt_images_api",
+						"thumb_200_200_5HF5F8QMKKKTOZJTYHG51V4WY7E62OLCRPLFY05X6SEYAV027O.png"
 					]
 				}
 			},
@@ -329,32 +429,6 @@
 						"api",
 						"workouts",
 						"2021-07-04T08:29:00Z"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "get_workout_since_dt",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{server}}/api/workouts/since/2022-01-20?sort=desc",
-					"host": [
-						"{{server}}"
-					],
-					"path": [
-						"api",
-						"workouts",
-						"since",
-						"2022-01-20"
-					],
-					"query": [
-						{
-							"key": "sort",
-							"value": "desc"
-						}
 					]
 				}
 			},

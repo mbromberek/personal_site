@@ -2,7 +2,7 @@
 WITH workout_streaks as (
 select distinct
   workout_curr.user_id
-  , workout_curr.type
+  , wrkt_type.nm as type
   , workout_curr.wrkt_dttm::date as wrkt_dt
   , case
       when workout_prev_day.id is not null then 'Y'
@@ -13,18 +13,20 @@ select distinct
       else 'N'
     end ran_next_day
 from fitness.workout workout_curr
+inner join fitness.workout_type wrkt_type
+  on workout_curr.type_id = wrkt_type.id
 left outer join fitness.workout workout_prev_day
   on workout_curr.user_id = workout_prev_day.user_id
-  and workout_curr.type = workout_prev_day.type
+  and workout_curr.type_id = workout_prev_day.type_id
   and workout_curr.wrkt_dttm::date - INTERVAL '1 DAY' = workout_prev_day.wrkt_dttm::date
   and workout_prev_day.dist_mi >2
 left outer join fitness.workout workout_next_day
   on workout_curr.user_id = workout_next_day.user_id
-  and workout_curr.type = workout_next_day.type
+  and workout_curr.type_id = workout_next_day.type_id
   and workout_curr.wrkt_dttm::date + INTERVAL '1 DAY' = workout_next_day.wrkt_dttm::date
   and workout_next_day.dist_mi >2
 where workout_curr.dist_mi >2
-  and workout_curr.type = 'Running'
+  and wrkt_type.grp = 'run'
 )
 select
   workout_streaks_start.user_id, workout_streaks_start.type

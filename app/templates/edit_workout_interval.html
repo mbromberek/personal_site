@@ -4,78 +4,145 @@
     {# <h1>{{ label_val.title }}</h1> #}
     <div class="row mb-5 workout_page_detail">
         <div class="col-md-12">
-            <form action="" method="post">
+            <form action="" method="post" id="intrvl_form" onsubmit="return validate_data();">
                 {{ form.hidden_tag() }}
 
                 {% if form.wrkt_intrvl_segment_form|length >0 %}
-                <div class="form-group mt-3 mr-2" style="width:800px; vertical-align:top;">
+                <div class="form-group mt-3 mr-2 wrkt_intrvl_edit">
                     Segment Splits<br>
-                    <table>
-                        <tr style="font-weight:bold">
-                            <td class="workout-intrvl workout-intrvl-hdr" >
-                                Order
-                            </td>
-                            <td class="workout-intrvl workout-intrvl-hdr" style="width:220px;">
-                                Duration
-                            </td>
-                            <td class="workout-intrvl workout-intrvl-hdr">
-                                Dist<span class="hide_mobile">ance</span>
-                            </td>
-                            <td class="workout-intrvl workout-intrvl-hdr">
-                                HR
-                            </td>
-                            <td class="workout-intrvl workout-intrvl-hdr hide_mobile">
-                                Ele↑
-                            </td>
-                            <td class="workout-intrvl workout-intrvl-hdr hide_mobile">
-                                Ele↓
-                            </td>
-                            <td class="workout-intrvl workout-intrvl-hdr ">
-                                Description
-                            </td>
-                        </tr>
+
+                    <div style="width:100%;display:inline-flex;">
+                        {#<span class="wrkt_intrvl wrkt_intrvl_hdr" style="width:40px;" >
+                            Order
+                        </span>#}
+                        <span class="wrkt_intrvl_hdr wrkt_intrvl  wrkt_intrvl_dur">
+                            Duration
+                        </span>
+                        <span class="wrkt_intrvl wrkt_intrvl_hdr wrkt_intrvl_dist">
+                            Dist<span class="hide_mobile">ance</span>
+                        </span>
+                        <span class="wrkt_intrvl wrkt_intrvl_hdr wrkt_intrvl_dist">
+                            HR
+                        </span>
+                        <span class="wrkt_intrvl wrkt_intrvl_hdr wrkt_intrvl_dist hide_mobile">
+                            Ele↑
+                        </span>
+                        <span class="wrkt_intrvl wrkt_intrvl_hdr wrkt_intrvl_dist hide_mobile">
+                            Ele↓
+                        </span>
+                        <span class="wrkt_intrvl wrkt_intrvl_hdr wrkt_intrvl_desc">
+                            Description
+                        </span>
+                        <span class="wrkt_intrvl wrkt_intrvl_hdr wrkt_intrvl_new_dist">
+                            Split Dist
+                        </span>
+                        <span class="wrkt_intrvl wrkt_intrvl_hdr wrkt_intrvl_new_dist">
+                            Merge
+                        </span>
+                    </div>
                     {% for intrvl in form.wrkt_intrvl_segment_form %}
-                        <tr>
-                            {{ intrvl.hidden_tag() }}
-                            <td class="workout-intrvl" >
-                                {{ intrvl.interval_order(class="txt_field_size_2", disabled=True) }}
-                            </td>
-                            <td class="workout-intrvl" >
-                                {{ intrvl.dur_h(class="txt_field_size_2", disabled=True) }}h&nbsp;
-                                {{ intrvl.dur_m(class="txt_field_size_2", disabled=True) }}m&nbsp;
-                                {{ intrvl.dur_s(class="txt_field_size_2", disabled=True) }}s
-                            </td>
-                            <td class="workout-intrvl">
-                                {{ intrvl.dist(class="txt_field_size_5", disabled=True) }}
-                            </td>
-                            <td class="workout-intrvl">
-                                {{ intrvl.hr(class="txt_field_size_3", disabled=True) }}
-                            </td>
-                            <td class="workout-intrvl hide_mobile">
-                                {{ intrvl.ele_up(class="txt_field_size_5", disabled=True) }}
-                            </td>
-                            <td class="workout-intrvl hide_mobile">
-                                {{ intrvl.ele_down(class="txt_field_size_5", disabled=True) }}
-                            </td>
-                            <td class="workout-intrvl ">
-                                {% if intrvl.interval_desc != None %}
-                                {{ intrvl.interval_desc(class="txt_field_size_10") }}
-                                {% else %}
-                                &nbsp;
-                                {% endif %}
-                            </td>
-                        </tr>
+                    <div id="orig_intrvl_row_{{intrvl.wrkt_intrvl_id.data}}" style="display:inline-flex;">
+                        {{ intrvl.wrkt_intrvl_id }}
+
+                        <span class='wrkt_intrvl wrkt_intrvl_dur' >
+                            {{ intrvl.dur_h.data }}h&nbsp;
+                            {{ intrvl.dur_m.data }}m&nbsp;
+                            {{ intrvl.dur_s.data }}s
+                        </span>
+                        <span class='wrkt_intrvl wrkt_intrvl_dist' id="dist">
+                            {{ intrvl.dist.data }}
+                        </span>
+                        <span class='wrkt_intrvl wrkt_intrvl_dist' >
+                            {{ intrvl.hr.data }}
+                        </span>
+                        <span class='wrkt_intrvl wrkt_intrvl_dist hide_mobile' >
+                            {{ intrvl.ele_up.data }}
+                        </span>
+                        <span class='wrkt_intrvl wrkt_intrvl_dist hide_mobile' >
+                            {{ intrvl.ele_down.data }}
+                        </span>
+
+                        <span class="wrkt_intrvl wrkt_intrvl_desc" style="padding-top:4px;">
+                            
+                            {% if intrvl.interval_desc != None %}
+                            {{ intrvl.interval_desc(class="txt_field_size_10") }}
+                            {% else %}
+                            &nbsp;
+                            {% endif %}
+                        </span>
+                        <span class="wrkt_intrvl wrkt_intrvl_new_dist" style="padding-top:4px;">
+                            {{ intrvl.split_dist(class="txt_field_size_5") }}
+                        </span>
+                        <span class="wrkt_intrvl wrkt_intrvl_new_dist" style="padding-top:4px;">
+                            {% if not loop.last %}
+                            {{ intrvl.merge_laps_chk(alt="Merge with lap below", title="Merge with lap below") }}
+                            {% else %}
+                            &nbsp;
+                            {% endif %}
+
+                        </span>
+                    </div>
+
+                    <div id='row_{{intrvl.wrkt_intrvl_id.data}}_1' 
+                        style="display:none;">
+                        <span class='wrkt_intrvl wrkt_intrvl_dur' id="dur">
+                            &nbsp;
+                        </span>
+                        <span class='wrkt_intrvl wrkt_intrvl_dist' id="dist">
+                            &nbsp;
+                        </span>
+                        <span class='wrkt_intrvl wrkt_intrvl_dist' id="hr">
+                            &nbsp;
+                        </span>
+                        <span class='wrkt_intrvl wrkt_intrvl_dist hide_mobile' id="ele_up" >
+                            &nbsp;
+                        </span>
+                        <span class='wrkt_intrvl wrkt_intrvl_dist hide_mobile' id="ele_down">
+                            &nbsp;
+                        </span>
+
+                        <span class="wrkt_intrvl wrkt_intrvl_desc, wrkt_intrvl_msg" id="updt_rec_msg">
+                            New Split Record
+                        </span>
+                    </div>
+                    <div id='row_{{intrvl.wrkt_intrvl_id.data}}_2' 
+                        style="display:none;">
+                        <span class='wrkt_intrvl wrkt_intrvl_dur' id="dur">
+                            &nbsp;
+                        </span>
+                        <span class='wrkt_intrvl wrkt_intrvl_dist' id="dist">
+                            &nbsp;
+                        </span>
+                        <span class='wrkt_intrvl wrkt_intrvl_dist' id="hr">
+                            &nbsp;
+                        </span>
+                        <span class='wrkt_intrvl wrkt_intrvl_dist hide_mobile' id="ele_up" >
+                            &nbsp;
+                        </span>
+                        <span class='wrkt_intrvl wrkt_intrvl_dist hide_mobile' id="ele_down">
+                            &nbsp;
+                        </span>
+
+                        <span class="wrkt_intrvl wrkt_intrvl_desc, wrkt_intrvl_msg"  id="updt_rec_msg">
+                            New Split Record
+                        </span>
+                    </div>
+
                     {% endfor %}
-                    </table>
                 </div>
             {% endif %}
 
                 <div>
                     {{ form.submit(class='mr-3') }}
                     {{ form.cancel(class='mr-3') }}
+                    {{ form.restore_btn(class='mr-3') }}
                 </div>
 
 
+            </form>
+            <br/>
+            <form action="JavaScript:preview_split_intrvl({{ wrktDet.wrkt_id }});">
+                <input type="submit" value="Preview Split" style='font-size:12pt;', button_style='btn'>
             </form>
         </div>
     </div>

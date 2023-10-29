@@ -1,0 +1,52 @@
+    <div class="dashboard_widget">
+        <table class="gear_usage">
+            <tr class="gear_usage_hdr">
+                <td  class="gear_usage_hdr" colspan="6">
+                    Running Mileage by Month
+                </td>
+            </tr>
+            <tr class="gear_usage_hdr">
+                <td class="gear_usage_hdr">
+                    Month
+                </td>
+                <td class="gear_usage_hdr hide_mobile">
+                    Ct
+                </td>
+                <td class="gear_usage_hdr">
+                    Dist
+                </td>
+                <td class="gear_usage_hdr">
+                    Dur
+                </td>
+                <td class="gear_usage_hdr">
+                    Dist Delta
+                </td>
+                <td class="gear_usage_hdr hide_mobile">
+                    Dur Delta
+                </td>
+            </tr>
+            {% for mo in dash_lst_dict['moly_mileage_lst'] %}
+            <tr >
+                <td class="gear_usage_dtl">
+                    {{ mo.dt_yr_mo}}
+                </td>
+                <td class="gear_usage_dtl hide_mobile">
+                    {{ mo.nbr }}
+                </td>
+                <td class="gear_usage_dtl">
+                    {{ '%0.1f' % mo.tot_dist|float }}
+                </td>
+                <td class="gear_usage_dtl">
+                    {{ mo.duration }}
+                </td>
+                <td class="gear_usage_dtl" style="text-align:center">
+                    {{ '%0.1f' % mo.dist_delta_pct|float }}
+                </td>
+                <td class="gear_usage_dtl hide_mobile" style="text-align:center">
+                    {{ '%0.1f' % mo.tm_delta_pct|float }}
+                </td>
+
+            </tr>
+            {% endfor %}
+        </table>
+    </div>

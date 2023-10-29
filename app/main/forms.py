@@ -13,9 +13,9 @@ from datetime import datetime
 from flask import request
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, TextAreaField, DecimalField, HiddenField, SelectField, FieldList, FormField, BooleanField
-from wtforms.fields.html5 import DateField, TimeField, IntegerField
+from wtforms.fields import DateField, TimeField, IntegerField
 from wtforms.validators import Length, NumberRange, InputRequired, Optional
-from wtforms.widgets import html5 as h5widgets
+from wtforms import widgets as h5widgets
 
 # Custom classes
 from app import logger
@@ -42,7 +42,7 @@ class WorkoutFilterForm(FlaskForm):
     distance_search = DecimalField('Distance', validators=[Optional()], places=2, rounding=decimal.ROUND_UP)
     submit_search_btn = SubmitField('🔎')
 
-    text_search = StringField('Text', validators=[Optional()])
+    txt_search = StringField('Text', validators=[Optional()])
 
     show_filter_btn = SubmitField(label='Show Filters')
 
@@ -99,6 +99,9 @@ class WorkoutIntervalForm(FlaskForm):
     ele_up = DecimalField('Elevation Up', validators=[Optional()], places=2, rounding=decimal.ROUND_UP)
     ele_down = DecimalField('Elevation Down', validators=[Optional()], places=2, rounding=decimal.ROUND_UP)
     notes = TextAreaField('Notes', validators=[Length(min=0, max=30000)])
+
+    split_dist = DecimalField('Split Distance', validators=[Optional()], places=2, rounding=decimal.ROUND_UP)
+    merge_laps_chk = BooleanField("Merge with below lap")
     # submit = SubmitField('Submit')
     # cancel = SubmitField('Cancel')
     def __repr__(self):
@@ -107,9 +110,11 @@ class WorkoutIntervalForm(FlaskForm):
 
 class WorkoutForm(FlaskForm):
     wrkt_id = HiddenField()
-    type = StringField('Type', validators=[InputRequired()])
+    # type = StringField('Type', validators=[InputRequired()])
+    type_lst = SelectField('Type', validate_choice=True, coerce=int)
     wrkt_dt = DateField('Date', format='%Y-%m-%d', default=datetime.now(), validators=[InputRequired("Workout date is required")])
     wrkt_tm = TimeField('Time', format='%H:%M', default=datetime.now())
+    t_zone = StringField('Timezone', default='America/Chicago')
 
     duration_h = IntegerField('h ', widget=h5widgets.NumberInput(min=0,max=29),
         default=0, validators=[InputRequired()])
@@ -124,6 +129,7 @@ class WorkoutForm(FlaskForm):
     cancel = SubmitField('Cancel')
     edit_interval = SubmitField('Edit Intervals')
     delete_btn = SubmitField('Delete')
+    restore_btn = SubmitField('Restore to orginal')
 
     # gear = StringField('Gear')
     gear_lst = SelectField('Gear', validate_choice=True, coerce=int)
@@ -133,7 +139,8 @@ class WorkoutForm(FlaskForm):
     ele_down = DecimalField('Elevation Down', validators=[Optional()], places=2, rounding=decimal.ROUND_UP)
     hr = IntegerField('Heart Rate', validators=[Optional()])
     cal_burn = IntegerField('Calories Burned', validators=[Optional()])
-    category = StringField('Category')
+    # category = StringField('Category')
+    cat_lst = SelectField('Category', validate_choice=True, coerce=int)
     location = StringField('Location')
     training_type = StringField('Training Type')
 
@@ -214,6 +221,7 @@ class GearForm(FlaskForm):
     prchse_dt = DateField('Purchase Date', format='%Y-%m-%d',validators=[InputRequired()])
     price = DecimalField('Price', validators=[Optional()], places=2, rounding=decimal.ROUND_UP)
     retired = BooleanField("Retired")
+    no_suggest = BooleanField("Do not suggest")
     confirmed = BooleanField("Confirmed")
     type = SelectField('Gear Type', validate_choice=True, coerce=int)
     company = StringField('Company', validators=[Optional()])

@@ -3,18 +3,20 @@
 WITH MILES_BY_YR AS (
     SELECT
       user_id
-      , CASE type
+      , CASE wrkt_type.nm
           WHEN 'Indoor Running' THEN 'Running'
           WHEN 'Indoor Cycling' THEN 'Cycling'
-          ELSE type
+          ELSE wrkt_type.nm
         END AS TYPE
       , date_trunc('YEAR',wrkt_dttm) DT_BY_YR
       , count(1) NBR
       , sum(dur_sec) TOT_SEC
       , sum(DIST_mi) TOT_DIST
     FROM fitness.workout
+    inner join fitness.workout_type wrkt_type
+      on workout.type_id = wrkt_type.id
     GROUP BY date_trunc('YEAR',wrkt_dttm), user_id
-      , CASE type WHEN 'Indoor Running' THEN 'Running' WHEN 'Indoor Cycling' THEN 'Cycling' ELSE type END
+      , CASE wrkt_type.nm WHEN 'Indoor Running' THEN 'Running' WHEN 'Indoor Cycling' THEN 'Cycling' ELSE wrkt_type.nm END
 )
 SELECT CURR_YR.user_id
   , CURR_YR.type

@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+    <script type="text/javascript" src="{{ url_for('static', filename='js/ai_schedule.js') }}"></script>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/ai_schedule.css') }}">
+    <title>
+      AI Schedule
+    </title>
+</head>
+<body>
+    <nav class="sch_nav_bar">
+      <a class="sch_nav_img" href="https://animeiowa.com/">
+        <img src="static/images/AI_logo_small_2.png" alt="Anime Iowa Logo" width="71px" height="40px"/>
+      </a>
+      <span class="sch_nav_hdr nav_now" onclick="JavaScript:jumpToCurrTm();">
+        Now
+      </span>
+      <span class="nav_separator" ></span>
+      
+      <span class="dropdown  " onclick="JavaScript:showDropdown('day')">
+        <span class="nav_day sch_nav_hdr dropbtn">
+          <span class="dropbtn" id="day_filter">&nbsp;</span><span style="font-size:12pt;" class="dropbtn">&nbsp;&#9660;</span>
+        </span>
+        <span class="dropdown_content" id="dayDropdown">
+          <div class="sch_nav_item drop_sch_nav_item " style="border-left:0px;" 
+            onclick="JavaScript:updateScheduleForDay('Friday')">
+            Friday
+          </div>
+          <div class="sch_nav_item drop_sch_nav_item "  style="border-left:0px;"
+          onclick="JavaScript:updateScheduleForDay('Saturday')">
+            Saturday
+          </div>
+          <div class="sch_nav_item drop_sch_nav_item "  style="border-left:0px;"
+            onclick="JavaScript:updateScheduleForDay('Sunday')">
+            Sunday
+          </div>
+        </span>
+      </span>
+      
+      <span class="nav_separator" ></span>
+      
+      <span class="dropdown " onclick="JavaScript:showDropdown('panel')">
+        <span class="nav_panel sch_nav_hdr dropbtn">
+          <span class="dropbtn" id="panel_type_filter">All Panels</span><span style="font-size:12pt;" class="dropbtn">&nbsp;&#9660;</span>
+        </span>
+        <span class="dropdown_content dropbtn" id="panelDropdown">
+          <div class="sch_nav_item drop_sch_nav_item " 
+            onclick="JavaScript:updateScheduleForPanel('')">
+            All Panels
+          </div>
+          <div class="sch_nav_item drop_sch_nav_item sch_card_panel_attendee" 
+            onclick="JavaScript:updateScheduleForPanel('attendee')">
+            Attendee
+          </div>
+          <div class="sch_nav_item drop_sch_nav_item sch_card_panel_convention" 
+          onclick="JavaScript:updateScheduleForPanel('convention')">
+            Convention
+          </div>
+          <div class="sch_nav_item drop_sch_nav_item sch_card_panel_family" 
+            onclick="JavaScript:updateScheduleForPanel('family')">
+            Family
+          </div>
+          <div class="sch_nav_item drop_sch_nav_item sch_card_panel_guest" 
+            onclick="JavaScript:updateScheduleForPanel('guest')">
+            Guest
+          </div>
+          <div class="sch_nav_item drop_sch_nav_item sch_card_panel_staff" 
+            onclick="JavaScript:updateScheduleForPanel('staff')">
+            Staff
+          </div>
+        </span>
+      </span>
+    </nav>
+    <template id="sch_template">
+        <div class="sch_card" id="sch_card">
+            <div style="overflow:auto">
+                <div class="sch_header" id="title">
+                  &nbsp;
+                </div>
+            </div>
+    
+            <div class="sch_detail" >
+                <span id="room">
+                  &nbsp;
+                </span>:
+                <span id="day">
+                    &nbsp;
+                </span>
+                <span id="start_time">
+                    &nbsp;
+                </span>
+                to
+                <span id="end_time">
+                    &nbsp;
+                </span>
+            </div>
+            <!--<div class="sch_detail_separators" >
+                &nbsp;
+            </div>-->
+    
+            <div class="sch_detail sch_description" >
+                <span id="description">
+                    &nbsp;
+                </span>
+            </div>
+    
+        </div>
+    </template>
+    <div class="sch_lst" id="sch_lst">
+      &nbsp;
+    </div>
+    <div class="panel_det" id="panel_det">
+      <div class="close_btn_area" >
+        <span class="close_btn" onclick="JavaScript:closeDescription();" >
+          Close
+        </span>
+      </div>
+      <div class="panel_hdr_row">
+        <span id='title'>
+          &nbsp;
+        </span>
+      </div>
+      <div class="panel_det_row">
+        <span id='room'>
+          &nbsp;
+        </span>
+        <br />
+        <span id="day">
+            &nbsp;
+        </span>
+        <span id="start_time">
+            &nbsp;
+        </span>
+        to
+        <span id="end_time">
+            &nbsp;
+        </span>
+      </div>
+      <div class="sch_detail_separators" >
+          &nbsp;
+      </div>
+
+      <div class="panel_det_row">
+        Panelists: 
+        <span id="panelists">
+            &nbsp;
+        </span>
+        <br />
+        Panel Type: 
+        <span id="panel_type">
+            &nbsp;
+        </span>
+      </div>
+
+      <div class="sch_detail_separators" >
+          &nbsp;
+      </div>
+      <div class="panel_det_row">
+        <span id="description">
+            &nbsp;
+        </span>
+        <br/>&nbsp;<br/>&nbsp;
+      </div>
+
+    </div>
+<script>
+    JavaScript:initialize({{ sch_json|tojson|safe }})
+
+</script>
+</body>
+</html>

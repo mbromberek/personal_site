@@ -1,0 +1,391 @@
+#goal_chart_title{
+    font-size:18px;
+    font-weight: bold;
+    text-align:center;
+    width:100%;
+}
+#goal_chart_desc{
+    font-size:16px;
+    font-weight: bold;
+    text-align:center;
+    width:100%;
+}
+#goal_chart_container{
+    display:inline-block;
+    width:375px;
+    border:3px solid black;
+    font-size:12pt;
+}
+#goal_chart_container_left{
+    display:inline-block;
+    vertical-align: top;
+    width:250px;
+}
+.goal_chart_btn{
+    display:inline-block;
+    margin-top:25px;
+    margin-bottom:5px;
+    width:110px;
+    text-align:left;
+}
+.goal_chart_btn button {
+    background-color: aqua;
+    /* float: center; */
+    border: 1px black solid;
+    outline: black;
+    cursor: pointer;
+    margin-bottom:15px;
+    transition: 0.3s; 
+    height:30px;
+    width:100px;
+    color:black;
+    padding-left:0px;
+    padding-right:0px;
+}
+
+
+/* RACE MENU BAR */
+#race_menu div {
+    display: inline-block;
+    font-size: 18px;
+}
+#race_menu select {
+    display: inline-block;
+    font-size: 16px;
+}
+#dist_select{
+    margin: 0;
+}
+#state_select {
+    margin-left: 20px;
+}
+
+#race_row{
+    display: inline-block;
+    width:900px;
+}
+
+/* TIME-LINE */
+#race_year{
+    height: 290px;
+    width: 330px;
+    display: inline-block;
+}
+#race_year circle {
+    stroke-width: 0;
+    stroke: black;
+}
+.labels text {
+    font-size: 12px;
+}
+
+/* MAP */  
+#race_map {
+    position:relative;
+    display: inline-block;
+    /* background: azure; */
+    background: white;
+    margin-top:20px;
+    margin-left:15px;
+    /* top: 160px; */
+    width: 550px;
+    height: 350px;
+}
+
+.graticule {
+    fill: none;
+    stroke: #777;
+    stroke-width: 0.5px;
+    stroke-opacity: 0.5;
+}
+
+.land {
+    /*fill: #b8c8b6;*/
+    fill: #ddd;
+}
+svg.us_map{
+    width:100%;
+    height:100%;
+}
+
+.state {
+    fill: rgb(175, 195, 186);
+}
+
+.state.active {
+    fill: rgb(155, 175, 166);
+}
+
+.centroid {
+    fill: red;
+    fill-opacity: 0.3;
+    pointer-events: none;
+}
+
+.centroid.active {
+    fill: goldenrod;
+    fill-opacity: 0.6;
+}
+
+.boundary {
+    fill: none;
+    stroke: #fff;
+    stroke-width: 0.5px;
+}
+
+/* MAP TOOLTIP */
+#race_map_tooltip {
+    position: absolute;
+    /* min-width: 10px; */
+    /* min-height: 10px; */
+    pointer-events: none;
+    color: #eee;
+    font-size: 12px;
+    /* border:10px; */
+    opacity: 0.7;
+    background: #222;
+    border: 2px solid #555;
+    border-color: goldenrod;
+    padding: 10px;
+    left: -999px;
+}
+  
+#race_map_tooltip h2 {
+    font-size: 22px;
+    text-align: center;
+    padding: 0px;
+    margin: 0px;
+}
+  
+  
+/* Racing mileage chart */
+#race_mileage_bar{
+    height: 300px;
+    /* width: 550px; */
+    margin-top: 10px;
+    overflow:auto; 
+    width:75%;
+}
+
+ 
+.bar.active {
+    fill: goldenrod;
+}
+.bar {
+    fill: steelblue;
+}
+.bar:hover {
+    fill: brown;
+}
+  
+.axis {
+    font: 11px sans-serif;
+}
+  
+/* .axis-label {
+} */
+  
+.axis path,
+.axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+}
+  
+.x.axis path {
+    display: none;
+}
+#y-axis-label {
+    font-size: 11px;
+    fill: black;
+}
+
+/* RACES LIST */
+#race_list {
+    overflow: scroll;
+    overflow-x: hidden;
+    display: inline-block;
+    width: 400px;
+    height: 350px;
+    /* border-top:1px solid aquamarine; */
+}
+  
+#race_list table {
+    font-size: 12px;
+}
+#race_list table th{
+    background-color: aquamarine;
+    font-size: 14px;
+}  
+#race_list table th#race_date {
+    width: 100px;
+    /* padding-left:5px; */
+}
+#race_list table th#race_name {
+    width: 200px;
+}
+#race_list table th#race_duration {
+    width: 120px;
+    /* padding-right:20px; */
+    /* text-align:right; */
+}
+#race_list h2 {
+    font-size: 18px;
+    margin-top:5px;
+    padding-top:2px;
+    margin-bottom: 0px;
+    text-align: center;
+    background-color: aquamarine;
+}
+#race_list tr:hover {
+    cursor: pointer;
+    background: lightblue;
+}
+#race_list tr {
+    opacity: 1;
+}
+  
+/* RACE INFOBOX */
+#race_det {
+    font-size: 14px;
+    overflow: auto;
+    overflow-x: hidden;
+    border-top: 15px solid;
+    border-left:1px solid black;
+    border-right:1px solid black;
+    border-bottom:1px solid black;
+    display: inline-block;
+    width:400px;
+    height: 350px;
+    margin-top:5px;
+    margin-left:20px;
+}
+  
+#race_det #race_name {
+    font-size: 18px;
+    text-align: center;
+    padding: 2px;
+    font-weight: bold;
+}
+  
+#race_det #infobox .label {
+    display: inline-block;
+    width: 60px;
+    font-weight: bold;
+    margin-left:5px;
+}
+
+#race_det .label {
+    margin-right: 10px;
+}
+  
+  #race_det #biobox {
+    font-size: 11px;
+  }
+  #race_det #biobox p {
+    text-align: justify;
+  }
+#race_det #mapbox {
+    /* position:absolute; */
+    /* top:2px; right:2px; */
+    float: right;
+    /* margin-top:5px; */
+    margin-left: 5px;
+}
+  
+#race_det #mapbox img {
+    width: 150px;
+}
+  
+  #race_det #workout_link {
+    margin-left: 5px;
+    margin-top: 10px;
+    text-align: left;
+  }
+
+/* For mobile phones: */
+@media only screen and (max-width:600px) {
+    #race_menu div {
+        font-size: 15px;
+    }
+    #race_menu select {
+        font-size: 15px;
+    }
+
+    #race_mileage_bar{
+        width:100%;
+    }
+    
+    #race_row{
+        width:100%;
+    }
+    #state_select {
+        margin-left: 5px;
+    }    
+    #race_map {
+        margin-top:20px;
+        margin-left:0px;
+    }
+
+    #race_list {
+        width:100%;
+    }
+    #race_list table th#race_duration {
+        width: 100px;
+    }
+    #race_det{
+        width:100%;
+        height: 225px;
+        margin-left:0px;
+    }
+
+    #race_det #mapbox img {
+        width: 125px;
+    }
+    
+}
+@media only screen and (max-width:400px) {
+    #race_map {
+        width:400px;
+        margin-left:-15px;
+    }
+    
+    #goal_chart_container{
+        /* width:360px; */
+        width:100%;
+    }
+    .goal_chart_btn{
+        width:85px;
+    }
+    .goal_chart_btn button {
+      width:85px;
+      font-size:10pt;
+      margin-left:-5px;
+      font-family:Arial;
+      padding-left:0px;
+      padding-right:0px;
+    }
+
+}
+
+@media screen and (min-width: 600px) and (max-width: 900px) {
+    #race_det {
+        margin-left: 0px;
+        width:370px;
+    }
+    #race_list table th#race_name {
+        width: 180px;
+    }
+    
+    .goal_chart_btn{
+        width:100px;
+    }
+    .goal_chart_btn button {
+      width:95px;
+      font-size:11pt;
+      margin-left:-5px;
+      font-family:Arial;
+      padding-left:0px;
+      padding-right:0px;
+    }
+}

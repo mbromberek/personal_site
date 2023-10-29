@@ -15,7 +15,7 @@ import os
 
 # Third party imports
 from flask import Flask
-from flask_bootstrap import Bootstrap
+from flask_bootstrap import Bootstrap4
 from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 # from flask_migrate import Migrate
@@ -28,7 +28,7 @@ db = SQLAlchemy()
 login = LoginManager()
 login.login_view = 'auth.login'
 login.login_message = 'Please log in to access this page.'
-bootstrap = Bootstrap()
+bootstrap = Bootstrap4()
 
 logging.config.fileConfig('logging.conf')
 logger = logging.getLogger()

@@ -1,0 +1,1224 @@
+{
+  "prog_key":[
+    "attendee",
+    "convention",
+    "family",
+    "guest",
+    "staff"
+  ],
+  "prog_schedule":[
+      {
+        "title": "AnimeIowa Idol Fest",
+        "room":"Mainstage! Coral C",
+        "day":"Friday",
+        "start_time": "12:00pm",
+        "end_time":"1:00pm",
+        "panelists":"Jillveon and King.Rxdsxils",
+        "description":"A talented lineup of idol dance groups and individuals are ready to perform a variety of Japanese idol pop dances! Come cheer them on!",
+        "panel_type":"attendee"
+      },
+      {
+        "title": "Coloring Contest",
+        "room":"Family Prog Oakdale 1",
+        "day":"Friday",
+        "start_time": "12:00pm",
+        "end_time":"2:00pm",
+        "panelists":"Summer",
+        "description":"Come all ages and color our cool coloring sheet featuring Buu-Chan and his fellow Ghost Friends. Prizes will be given to 1st , 2nd , and 3rd place in all four age groups (10 and below, 11-17, 18-24, and 25 and up). You will also get a chance to vote for your favorite to win the Anime Iowa Attendees Choice award. *Winners will be announced on the AnimeIowa Facebook page and can be seen on the wall in the Family Programming room. Prizes can be picked up in person by the winner (NO Proxies), in the Family Programming room during Family Programming hours of operation.",
+        "panel_type":"family"
+      },
+      {
+        "title": "Opening Ceremonies",
+        "room":"Mainstage! Coral C",
+        "day":"Friday",
+        "start_time": "1:00pm",
+        "end_time":"2:30pm",
+        "panelists":"MC: Absassin",
+        "description":"",
+        "panel_type":"convention"
+      },
+      {
+        "title": "Vocaloid At Home",
+        "room":"Programming 1 / Coral D",
+        "day":"Friday",
+        "start_time": "1:00pm",
+        "end_time":"2:00pm",
+        "panelists":"Ghostie and Ajax",
+        "description":"Have you ever wanted to go to Magical Mirai or any Vocaloid concert? We don't have the holograms, but we do have cosplayers! Come watch your favorite vocaloids perform some of our favorite songs as a concert for you!",
+        "panel_type":"attendee"
+      },
+      {
+        "title": "Cosplay for Spoonies",
+        "room":"Programming 2 / Coral E",
+        "day":"Friday",
+        "start_time": "1:00pm",
+        "end_time":"2:00pm",
+        "panelists":"Twilight Jasmine Cosplay and Prismatic Cosplay",
+        "description":"Cosplaying with chronic, mental, or invisible illnesses: time management, organization, accommodating mobility aides and medical devices.",
+        "panel_type":"attendee"
+      },
+      {
+        "title": "So you would like to be in the cosplay contest?",
+        "room":"Programming 3 / Oakdale 3",
+        "day":"Friday",
+        "start_time": "1:30pm",
+        "end_time":"2:30pm",
+        "panelists":"Cosplay Department",
+        "description":"Join us for this Q&A panel on AnimeIowa’s Cosplay Competition! Get information on how to compete and sign up for one of the remaining slots!",
+        "panel_type":"staff"
+      },
+      {
+        "title": "Anime Alphabet",
+        "room":"Programming 1 / Coral D",
+        "day":"Friday",
+        "start_time": "2:00pm",
+        "end_time":"3:00pm",
+        "panelists":"DT and Z",
+        "description":"Can you complete the entire alphabet with anime titles?  Walk through the alphabet with us, you may win a prize!  But be careful, others may know that anime too!",
+        "panel_type":"attendee"
+      },
+      {
+        "title": "Patterns and Pattern Alterations",
+        "room":"Programming 2 / Coral E",
+        "day":"Friday",
+        "start_time": "2:00pm",
+        "end_time":"3:00pm",
+        "panelists":"Nikki and Bridget",
+        "description":"Having trouble finding or fitting a pattern for your cosplay? We have answers! We'll be covering an assortment of resources, pattern alteration, and fitting techniques to help build your patterning skills.",
+        "panel_type":"attendee"
+      },
+      {
+        "title": "Freya’s Protection: A Chain Mailing Journey",
+        "room":"Mainstage! Coral C",
+        "day":"Friday",
+        "start_time": "2:30pm",
+        "end_time":"3:00pm",
+        "panelists":"Eleanor",
+        "description":"Join Eleanor (Cutie PaBooty from Knights of the Round Pasties) as she shares about her chain mailing techniques, how she got into this unique art and history behind the art of chainmail.",
+        "panel_type":"guest"
+      },
+      {
+        "title": "Six Degrees of Shinji Ikari",
+        "room":"Programming 3 / Oakdale 3",
+        "day":"Friday",
+        "start_time": "2:30pm",
+        "end_time":"3:30pm",
+        "panelists":"Doctor Vox and Fwee",
+        "description":"The court is corrupt, the witnesses can lie, and the evidence doesn't exist! Put your debate skill and quick thinking to the test in this mock trial.",
+        "panel_type":"attendee"
+      },
+      {
+        "title": "Cosplay Consent",
+        "room":"Mainstage! Coral C",
+        "day":"Friday",
+        "start_time": "3:00pm",
+        "end_time":"4:00pm",
+        "panelists":"Celtic Honey",
+        "description":"Did you know that consent extends beyond intimate circumstances? Spreading the word of consent is a passion and mission of Celtic Honey.  Join in, as fae encourages you to participate in learning the types of consent and how best to navigate environments especially within the cosplay community.  Help spread the word of consent with a ribbon handed out the end that can be attached to your badge.  \"Ask First!\"",
+        "panel_type":"guest"
+      },
+      {
+        "title": "Samurai Squid Games",
+        "room":"Programming 1 / Coral D",
+        "day":"Friday",
+        "start_time": "3:00pm",
+        "end_time":"4:00pm",
+        "panelists":"Samurai Dan",
+        "description":"You thought the hit show was crazy? Come join Samurai Dan and try HIS version of the Squid Games! All ages appropriate.",
+        "panel_type":"guest"
+      },
+      {
+        "title": "Fractured But Whole: Who will you decide?",
+        "room":"Programming 2 / Coral E",
+        "day":"Friday",
+        "start_time": "3:00pm",
+        "end_time":"4:00pm",
+        "panelists":"Rylan",
+        "description":"Have you wanted to be the greatest hero? Now is your chance to come prove who the greatest team is out there, what side will you choose?",
+        "panel_type":"attendee"
+      },
+      {
+        "title": "8- Bit Perler Beads",
+        "room":"Family Prog Oakdale 1",
+        "day":"Friday",
+        "start_time": "3:00pm",
+        "end_time":"5:00pm",
+        "panelists":"Summer",
+        "description":"Want to make the 8- bit character of your dreams come to life? So do I... let’s make some awesome creations!",
+        "panel_type":"family"
+      },
+      {
+        "title": "Iowa Pokemon League",
+        "room":"Programming 3 / Oakdale 3",
+        "day":"Friday",
+        "start_time": "3:30pm",
+        "end_time":"4:30pm",
+        "panelists":"",
+        "description":"Seoulkat, BulbaDream, Broodmother, Nightstorm, Spirit, Str-Ogre, and DibtheAwesome. Do you think you are the very best? Well come try your luck against the Iowa Pokemon League! 8 gyms to face! Can you beat us all? S/V Ver. used. ",
+        "panel_type":"attendee"
+      },
+      {
+        "title": "Drag it Up: A beginners guide to drag show etiquette, the art of drag, and more!",
+        "room":"Mainstage! Coral C",
+        "day":"Friday",
+        "start_time": "4:00pm",
+        "end_time":"5:30pm",
+        "panelists":"Anna Mae, Sage Umbra, Emo Knievel, Kawaii Canary, Malaiya Marvel and Melee",
+        "description":"Explore the world of Drag with a host of experienced Drag Performers from all different spectrums who dive into the art of drag, the history of drag, drag show etiquette, finding your drag persona, body contouring, wig styling, makeup, and more!",
+        "panel_type":"guest"
+      },
+      {
+        "title": "Iron Cosplay",
+        "room":"Programming 1 / Coral D",
+        "day":"Friday",
+        "start_time": "4:00pm",
+        "end_time":"5:00pm",
+        "panelists":"Con Men Productions",
+        "description":"Teams will be challenged to create themed costumes using only the materials provided within the time limit, as well as adapt to twists along the way!",
+        "panel_type":"attendee"
+      },
+      {
+        "title": "Name That OST!",
+        "room":"Programming 2 / Coral E",
+        "day":"Friday",
+        "start_time": "4:00pm",
+        "end_time":"5:00pm",
+        "panelists":"Minty and epbrittain",
+        "description":"OST (original soundtrack) has the power to tug at your heartstrings or hype you up. Join us as we play instrumental music from anime, games and cartoons and allow attendees to guess their source. There will be prizes for winners! At the end of the panel we'll open up sharing and discussion of our favorite pieces.",
+        "panel_type":"attendee"
+      },
+      {
+        "title": "Ouran You Glad the Host Club is Here?",
+        "room":"Programming 4 / Oakdale 5",
+        "day":"Friday",
+        "start_time": "4:00pm",
+        "end_time":"5:00pm",
+        "panelists":"Ouran You Glad the Host Club is Here?",
+        "description":"Come join the host club yet again at AnimeIowa! Come watch the hosts of Ouran Highschool's host club guess commonfolk slang and phrases.",
+        "panel_type":"attendee"
+      },
+      {
+        "title": "Ball Jointed Dolls Intro and Meetup",
+        "room":"Programming 3 / Oakdale 3",
+        "day":"Friday",
+        "start_time": "4:30pm",
+        "end_time":"5:30pm",
+        "panelists":"Nikki and Bridget",
+        "description":"Ever wonder about the dolls you sometimes see people carrying at the convention or collect dolls and want to meet up with others in the hobby? The main focus will be on resin ball jointed dolls, but other types of dolls are also welcome!",
+        "panel_type":"attendee"
+      },
+      {
+        "title": "Samurai Sword Class",
+        "room":"Mainstage! Coral C",
+        "day":"Friday",
+        "start_time": "5:30pm",
+        "end_time":"6:30pm",
+        "panelists":"Samurai Dan",
+        "description":"Actual Samurai battlefield techniques, taught by a professional swordsman. Weapons (bokken) provided.",
+        "panel_type":"guest"
+      },
+      {
+        "title": "Anime Name That Tune",
+        "room":"Programming 1 / Coral D",
+        "day":"Friday",
+        "start_time": "5:30pm",
+        "end_time":"6:30pm",
+        "panelists":"Avant-Garden Cosplay and Blushing Violet Cosplay",
+        "description":"Test your anime tune skills in this tournament-style competition! Audience members can play along too, no knowledge needed!",
+        "panel_type":"attendee"
+      },
+      {
+        "title": "The Samurai battlefield in the Sengoku era",
+        "room":"Programming 2 / Coral E",
+        "day":"Friday",
+        "start_time": "5:30pm",
+        "end_time":"6:30pm",
+        "panelists":"Hunter Gott",
+        "description":"We will discuss the realities of the battlefield for the samurai including communication, weapons!",
+        "panel_type":"attendee"
+      },
+      {
+        "title": "Fate Grand Order! Let's go!",
+        "room":"Programming 3 / Oakdale 3",
+        "day":"Friday",
+        "start_time": "6:00pm",
+        "end_time":"7:00pm",
+        "panelists":"Jillyfoo",
+        "description":"A dive into the obsession, character development, historical inaccuracy, gameplay, AND MEMES we can make together! Unofficial fan run panel.",
+        "panel_type":"attendee"
+      },
+      {
+        "title": "Paper Lanterns",
+        "room":"Family Prog Oakdale 1",
+        "day":"Friday",
+        "start_time": "6:00pm",
+        "end_time":"8:00pm",
+        "panelists":"Summer",
+        "description":"Attendees will have the opportunity to decorate their own paper lantern to celebrate the festival that is AnimeIowa. While Supplies Last.",
+        "panel_type":"family"
+      },
+      {
+        "title": "CLOSED",
+        "room":"Mainstage! Coral C",
+        "day":"Friday",
+        "start_time": "6:30pm",
+        "end_time":"7:30pm",
+        "panelists":"",
+        "description":"",
+        "panel_type":""
+      },
+      {
+        "title": "CLOSED",
+        "room":"Programming 1 / Coral D",
+        "day":"Friday",
+        "start_time": "6:30pm",
+        "end_time":"2:00am",
+        "panelists":"",
+        "description":"",
+        "panel_type":""
+      },
+      {
+        "title": "CLOSED",
+        "room":"Programming 2 / Coral E",
+        "day":"Friday",
+        "start_time": "6:30pm",
+        "end_time":"2:00am",
+        "panelists":"",
+        "description":"",
+        "panel_type":""
+      },
+      {
+        "title": "Annamaniacs",
+        "room":"Mainstage! Coral C",
+        "day":"Friday",
+        "start_time": "7:00pm",
+        "end_time":"9:30pm",
+        "panelists":"Hosted and MC'd by Anna Mae, starring: Sage Umbra, Emo Knievel, Kawaii Canary, Malaiya Marvel and Melee",
+        "description":"Join the maniacs of Cirque du Buque for one night only!  Drag artists from across the Midwest come together to share their penchant for the darkness with cosplay and horror themed acts stretching from anime to cult classics.  Kings, queens, and non-binary things, we've got a little something for everyone!",
+        "panel_type":"guest"
+      },
+      {
+        "title": "Anime Anatomy",
+        "room":"Programming 3 / Oakdale 3",
+        "day":"Friday",
+        "start_time": "7:00pm",
+        "end_time":"8:00pm",
+        "panelists":"WhoWhatWaifus and DoTheMacarena",
+        "description":"Just what would it take for humans to evolve cat ears? We’ll tell you if your fave character is valid from a scientific viewpoint.",
+        "panel_type":"staff"
+      },
+      {
+        "title": "History of Horror",
+        "room":"Programming 3 / Oakdale 3",
+        "day":"Friday",
+        "start_time": "8:00pm",
+        "end_time":"9:00pm",
+        "panelists":"Semetary Cosplay",
+        "description":"Join horror expert Semetary Cosplay and travel down the world of vampires, werewolves, slashers, and more in this educational panel of how certain horror genres got started, best horrors to watch for those just wanting to dip their toes into the genre, and delve into the world of horror cosplay.",
+        "panel_type":"guest"
+      },
+      {
+        "title": "How to Incorporate Kimono into Cosplay",
+        "room":"Programming 3 / Oakdale 3",
+        "day":"Friday",
+        "start_time": "9:00pm",
+        "end_time":"10:00pm",
+        "panelists":"Tangerine Mountain: Tiffany Erickson and Lisa Truong",
+        "description":"Join Tangerine Mountain for an in-depth discussion about kimono and the role it can have in cosplay!  We will cover topics such as how to cosplay responsibly while being culturally sensitive; cultural exchange vs. cultural appropriation as it pertains to representing popular characters utilizing kimono; and use examples of creative ways of bringing characters to life from presenters Tiffany Erickson and Lisa Troung’s experiences modeling and participating in the World Cosplay Summit. Bring your cosplay ideas to further the discussion.",
+        "panel_type":"guest"
+      },
+      {
+        "title": "Transition time",
+        "room":"Mainstage! Coral C",
+        "day":"Friday",
+        "start_time": "9:30pm",
+        "end_time":"10:00pm",
+        "panelists":"",
+        "description":"",
+        "panel_type":"convention"
+      },
+      {
+        "title": "Green Room",
+        "room":"Family Prog Oakdale 1",
+        "day":"Friday",
+        "start_time": "9:30pm",
+        "end_time":"12:00am",
+        "panelists":"Summer",
+        "description":"",
+        "panel_type":"family"
+      },
+      {
+        "title": "Knights of the Round Pasties’ Buu-lesque!",
+        "room":"Mainstage! Coral C",
+        "day":"Friday",
+        "start_time": "10:00pm",
+        "end_time":"12:00am",
+        "panelists":"Absassin, Eden Draconis, Princess Slaya, Luna Macaroon, M'Lady Rae, and Largo Lyrical",
+        "description":"Stage Kittens: Cutie Pa Booty, Thunder, All Hallows Eve, and Short Stacked King (Muscles). The Knights bring Buu’s Boos and Baes to the stage! But wait, There’s MORE!! In a steamy mash up the Knights have teamed up with Naughty Nerds Cabaret to bring you an evening of Naughty Nerdom and Monsters that go Bump and Grind in the night!!",
+        "panel_type":"convention"
+      },
+      {
+        "title": "I'm So Dumb 18+",
+        "room":"Programming 3 / Oakdale 3",
+        "day":"Friday",
+        "start_time": "10:00pm",
+        "end_time":"11:00pm",
+        "panelists":"Samurai Dan",
+        "description":"Life lessons don’t come easy to Samurai Dan. Hear him relive his most traumatic con moments during his stand up show.",
+        "panel_type":"guest"
+      },
+      {
+        "title": "Let's talk about mature comics",
+        "room":"Programming 4 / Oakdale 5",
+        "day":"Friday",
+        "start_time": "10:00pm",
+        "end_time":"11:00pm",
+        "panelists":"Jillyfoo",
+        "description":"Discuss favorite adult webcomics, seinen manga, yaoi/yuri and anything nsfw comics. Come with recommendations.",
+        "panel_type":"attendee"
+      },
+      {
+        "title": "You Don't Know Japan 18+",
+        "room":"Programming 3 / Oakdale 3",
+        "day":"Friday",
+        "start_time": "11:00pm",
+        "end_time":"12:00am",
+        "panelists":"Con Men Productions",
+        "description":"Think you know Japan? Think again! We'll explore the crazy wild side of our neighbors to the East in this trivia based game show. IYKYK.",
+        "panel_type":"attendee"
+      },
+      {
+        "title": "Sexiest Characters of Anime",
+        "room":"Programming 4 / Oakdale 5",
+        "day":"Friday",
+        "start_time": "11:00pm",
+        "end_time":"12:00am",
+        "panelists":"Killer Cosplays",
+        "description":"Ever wanted to see a live show from the hottest characters of your favorite animes? Well now you can! We have a line up you'll never forget!",
+        "panel_type":"attendee"
+      },
+      {
+        "title": "NO! V: The Final Frontier",
+        "room":"Mainstage! Coral C",
+        "day":"Friday",
+        "start_time": "12:00am",
+        "end_time":"1:00am",
+        "panelists":"Adam Brower",
+        "description":"Comedy-improv gameshow where the contestants vie for prizes, but if they lose they go to the audience. Hilarity ensues.",
+        "panel_type":"staff"
+      },
+      {
+        "title": "The Best of AO3 tags",
+        "room":"Programming 3 / Oakdale 3",
+        "day":"Friday",
+        "start_time": "12:00am",
+        "end_time":"1:00am",
+        "panelists":"Ajax",
+        "description":"Join us as we talk about our favorite AO3 tags and rate them! Feel free to bring your own. This will be an hour of just giggles and pure chaos, maybe choking.",
+        "panel_type":"attendee"
+      },
+      {
+        "title": "Shin Kangaroo Saiban - Zero Justice",
+        "room":"Programming 4 / Oakdale 5",
+        "day":"Friday",
+        "start_time": "12:00am",
+        "end_time":"1:00am",
+        "panelists":"Doctor Vox and Fwee",
+        "description":"The court is corrupt, the witnesses can lie, and the evidence doesn't exist! Put your debate skill and quick thinking to the test in this mock trial.",
+        "panel_type":"attendee"
+      },
+      {
+        "title": "Doujin Mad Libs",
+        "room":"Mainstage! Coral C",
+        "day":"Friday",
+        "start_time": "1:00am",
+        "end_time":"2:00am",
+        "panelists":"WhoWhatWaifus and DoTheMacarena",
+        "description":"Help us create some truly terrible doujin translations. We’ve blocked out some choice words from several doujins to be filled in by the audience and presented.",
+        "panel_type":"staff"
+      },
+      {
+        "title": "Cosplay Contest Orientation",
+        "room":"Mainstage! Coral C",
+        "day":"Saturday",
+        "start_time": "9:00am",
+        "end_time":"10:30am",
+        "panelists":"",
+        "description":"*Closed to Cosplay Masquerade participants* Mandatory orientation for those competing in Saturday night's cosplay contest! No need to come in costume unless you want to test your shoes or a prop on the stage. Please show up promptly! Cosplay staff will be going over the agenda for the show and any last minute questions from contestants.",
+        "panel_type":"convention"
+      },
+      {
+        "title": "Anime, Couture & Streetwear",
+        "room":"Programming 1 / Coral D",
+        "day":"Saturday",
+        "start_time": "9:00am",
+        "end_time":"10:00am",
+        "panelists":"Susie",
+        "description":"An exploration of how anime and fashion influence each other. This panel will cover JoJo and Gucci, Sailor Moon and Dior, and more!",
+        "panel_type":"attendee"
+      },
+      {
+        "title": "Japanese Mask presentation",
+        "room":"Programming 3 / Oakdale 3",
+        "day":"Saturday",
+        "start_time": "9:00am",
+        "end_time":"10:00am",
+        "panelists":"Tanis Sotelo",
+        "description":"Come see a number of Japanese traditional and Anime themed masks that are sold and used in a number of Japanese festivals.",
+        "panel_type":"attendee"
+      },
+      {
+        "title": "Uchiwa Fans",
+        "room":"Family Prog Oakdale 1",
+        "day":"Saturday",
+        "start_time": "9:00am",
+        "end_time":"1:00pm",
+        "panelists":"Summer",
+        "description":"Iowa Summers can be hot. Come and decorate your own traditional Japanese Fan, also called an uchiwa, to keep cool at the convention. While Supplies Last.",
+        "panel_type":"family"
+      },
+      {
+        "title": "Evolving Webcomics: What was popular then and what's hot now!",
+        "room":"Programming 2 / Coral E",
+        "day":"Saturday",
+        "start_time": "9:30am",
+        "end_time":"10:30am",
+        "panelists":"Jillyfoo",
+        "description":"A veteran webcomic creator presents the changing trends of webcomics over the last 20 years+ and makes predictions. Come with webcomics to share and questions to ask.",
+        "panel_type":"attendee"
+      },
+      {
+        "title": "Kyudo - All about modern Japanese archery",
+        "room":"Programming 1 / Coral D",
+        "day":"Saturday",
+        "start_time": "10:00am",
+        "end_time":"11:00am",
+        "panelists":"Hunter Gott",
+        "description":"A discussion and demonstration of Japanese archery in the modern day.  Followed by a Q&A and hands-on with the equipment for attendees.",
+        "panel_type":"attendee"
+      },
+      {
+        "title": "My Hero Madness",
+        "room":"Programming 3 / Oakdale 3",
+        "day":"Saturday",
+        "start_time": "10:00am",
+        "end_time":"11:00am",
+        "panelists":"DuelistDucthieCosplay, Jirou, Amara, Mystix.Cosplays, Alexander Axel",
+        "description":"All For One's plan has succeeded and the villains have taken over completely! Join Overhaul and the rest of the villains in their victory with Games and Q and A as well as a few other things as well! Come join the League of Villains.",
+        "panel_type":"attendee"
+      },
+      {
+        "title": "Sports Anime Stretch Hour",
+        "room":"Mainstage! Coral C",
+        "day":"Saturday",
+        "start_time": "10:30am",
+        "end_time":"11:00am",
+        "panelists":"WhoWhatWaifus and DoTheMacarena",
+        "description":"Sore from having too much fun at the con? Stretch your muscles with some floor stretches and light exercises from some favorite sports anime.",
+        "panel_type":"attendee"
+      },
+      {
+        "title": "Lolita Fashion History: Past to Present",
+        "room":"Programming 4 / Oakdale 5",
+        "day":"Saturday",
+        "start_time": "10:30am",
+        "end_time":"11:30am",
+        "panelists":"Emily and Susie",
+        "description":"Join us for a deep dive into the origins of this unique fashion and learn how it has developed into the distinctive style that it is today.",
+        "panel_type":"attendee"
+      },
+      {
+        "title": "Crossplay and Genderbend 101",
+        "room":"Mainstage! Coral C",
+        "day":"Saturday",
+        "start_time": "11:00am",
+        "end_time":"12:00pm",
+        "panelists":"Semetary Cosplay",
+        "description":"Join Semetary Cosplay as he teaches the art of perfecting the skill of the crossplay and genderbending world. Tips such as safe binding, makeup skills, and getting the right palette to represent the character that you want to bring to life will be presented in this informative educational panel.",
+        "panel_type":"guest"
+      },
+      {
+        "title": "Samurai VS Ninja",
+        "room":"Programming 1 / Coral D",
+        "day":"Saturday",
+        "start_time": "11:00am",
+        "end_time":"12:00pm",
+        "panelists":"Samurai Dan",
+        "description":"Everyone knows the two iconic groups of warriors from Japanese history. Come learn which warrior resides within you; panel comes with a complete psych profile (yikes!)",
+        "panel_type":"attendee"
+      },
+      {
+        "title": "Charity auction",
+        "room":"Programming 2 / Coral E",
+        "day":"Saturday",
+        "start_time": "11:00am",
+        "end_time":"12:00pm",
+        "panelists":"",
+        "description":"Charity YSS One of Iowa's oldest and largest youth-serving nonprofit organizations, YSS's mission is to provide hope and opportunity by putting kids first. We offer education to build healthy minds and bodies; counseling to overcome life’s challenges; and stability to focus on the future. Come out and support a good cause.",
+        "panel_type":"convention"
+      },
+      {
+        "title": "Cafè Ai, an immersive maid cafe",
+        "room":"Programming 3 / Oakdale 3",
+        "day":"Saturday",
+        "start_time": "11:30am",
+        "end_time":"12:30pm",
+        "panelists":"Maid Iris, Maid Agawa, and Maid Sakura",
+        "description":"Café Ai is a fully immersive maid cafe for all ages and is inspired by the cosplay cafes found in the Akihabara district of Tokyo, Japan.  Relax your aching feet while your maids serve you a treat, play games with you, and perform a dance routine for your entertainment.  Each maid’s persona will represent a trope you might see in anime but above all your maids will be aggressively kawaii.  Okaerinasaimase goshujinsama!",
+        "panel_type":"attendee"
+      },
+      {
+        "title": "Cosplay...But Make it Fashion",
+        "room":"Programming 4 / Oakdale 5",
+        "day":"Saturday",
+        "start_time": "11:30am",
+        "end_time":"12:30pm",
+        "panelists":"Alys Belyn and Discordia Cosplay",
+        "description":"Do you have a passion for fashion and want to add it to your cosplays? We'll talk about everything from sourcing items to making mock-ups and watching your vision come to life.",
+        "panel_type":"attendee"
+      },
+      {
+        "title": "Anime Game Show Explosion",
+        "room":"Mainstage! Coral C",
+        "day":"Saturday",
+        "start_time": "12:00pm",
+        "end_time":"1:30pm",
+        "panelists":"Con Men Productions",
+        "description":"We're back with more trivia, more prizes, moar shenanigans, and more free pocky than you can shake a shojo mallet at!",
+        "panel_type":"attendee"
+      },
+      {
+        "title": "Thunder’s Closet Cosplay How To",
+        "room":"Programming 1 / Coral D",
+        "day":"Saturday",
+        "start_time": "12:00pm",
+        "end_time":"1:00pm",
+        "panelists":"Thunder",
+        "description":"You know Thunder from being your Tip Kitten at the Knights of the Round Pasties Burlesque Show but did you know Thunder is a wonderfully skilled Closet Cosplayer too!? Join them as they talk about the value of Closet Cosplay in the community and How To put together your own amazing Closet Cosplay!",
+        "panel_type":"guest"
+      },
+      {
+        "title": "Shrinky Dinks",
+        "room":"Family Prog Oakdale 1",
+        "day":"Saturday",
+        "start_time": "12:00pm",
+        "end_time":"2:00pm",
+        "panelists":"Summer",
+        "description":"Draw something huge and then shrink it down to make a key chain or magnet. While Supplies Last.",
+        "panel_type":"family"
+      },
+      {
+        "title": "Cosplaying Historically",
+        "room":"Programming 4 / Oakdale 5",
+        "day":"Saturday",
+        "start_time": "12:30pm",
+        "end_time":"1:30pm",
+        "panelists":"Avant-Garden Cosplay",
+        "description":"Take some lessons from how we used to clothe ourselves in centuries past, to make your next cosplays look and feel their very best!",
+        "panel_type":"attendee"
+      },
+      {
+        "title": "The Anime Dating Game!",
+        "room":"Programming 1 / Coral D",
+        "day":"Saturday",
+        "start_time": "1:00pm",
+        "end_time":"2:00pm",
+        "panelists":"imbetterlive",
+        "description":"Are you single and lonely? Well that's too bad! Bring your in character, cosplayed self to our stage and find (fictional) love today! (anime iowa will not be held responsible for broken hearts)",
+        "panel_type":"attendee"
+      },
+      {
+        "title": "Japanese Festival dance workshop",
+        "room":"Programming 3 / Oakdale 3",
+        "day":"Saturday",
+        "start_time": "1:00pm",
+        "end_time":"2:00pm",
+        "panelists":"Tanis Sotelo",
+        "description":"Come learn about a few Japanese traditional dances that are performed at a number of Japanese festivals and learn 2 festival dances.",
+        "panel_type":"attendee"
+      },
+      {
+        "title": "No Means No Self Defense Class",
+        "room":"Mainstage! Coral C",
+        "day":"Saturday",
+        "start_time": "1:30pm",
+        "end_time":"2:30pm",
+        "panelists":"Samurai Dan",
+        "description":"People have a right to personal space and safety. This self defense class teaches easy to use concepts and techniques to ensure those rights.",
+        "panel_type":"guest"
+      },
+      {
+        "title": "Lolita Fashion Trivia",
+        "room":"Programming 4 / Oakdale 5",
+        "day":"Saturday",
+        "start_time": "1:30pm",
+        "end_time":"2:30pm",
+        "panelists":"Susie and Bonnie",
+        "description":"Join a team and have fun with categories like Name That Print, Which Brand? and Emoji Quiz. For both style experts and fashion newbies.",
+        "panel_type":"attendee"
+      },
+      {
+        "title": "Cosplay A to Z",
+        "room":"Programming 1 / Coral D",
+        "day":"Saturday",
+        "start_time": "2:00pm",
+        "end_time":"3:00pm",
+        "panelists":"Semetary Cosplay",
+        "description":"Learn about different areas of the cosplay realm, from logistics such as wig styling and contacts, to things such as participating in cosplay contests or even becoming a guest yourself one day. Join Semetary Cosplay as he goes from each letter of the alphabet, touching on a different component of the cosplay and convention world - tips and tricks from beginners to professionals!",
+        "panel_type":"guest"
+      },
+      {
+        "title": "Hope's Peak Academy Class Reunion!",
+        "room":"Programming 3 / Oakdale 3",
+        "day":"Saturday",
+        "start_time": "2:00pm",
+        "end_time":"3:00pm",
+        "panelists":"DuelistDutchieCosplay",
+        "description":"Join the classes as they reunite to take down Junko and Monokuma and take back what is theirs! there will be games, Q and A and more!",
+        "panel_type":"attendee"
+      },
+      {
+        "title": "Avatar: Kung Fu Elements ",
+        "room":"Mainstage! Coral C",
+        "day":"Saturday",
+        "start_time": "2:30pm",
+        "end_time":"3:30pm",
+        "panelists":"Celtic Honey",
+        "description":"Join Korra on an adventure through the Kung Fu styles that inspired the elements in Avatar: The Last Airbender! As a practitioner of Kung Fu for well over a decade, see two of the styles (water and air) in demonstration form and learn some moves to show your friends! A beginner course into the mechanics behind the internal fighting arts. We'll touch on all four inspirations behind the styles of earth, fire, water and air. You will also learn basics that translate to easy self defense as well as philosophies in life.",
+        "panel_type":"guest"
+      },
+      {
+        "title": "Um, Actually... Unofficial",
+        "room":"Programming 2 / Coral E",
+        "day":"Saturday",
+        "start_time": "2:30pm",
+        "end_time":"3:00pm",
+        "panelists":"Hanna Campbell and Nathan Hall",
+        "description":"Trivia gameshow where contestants correct false statements to earn points and prove they are the most knowledgeable nerd. Come play with us!",
+        "panel_type":"attendee"
+      },
+      {
+        "title": "Isekai: what is it and why is there so much of it?",
+        "room":"Programming 4 / Oakdale 5",
+        "day":"Saturday",
+        "start_time": "2:30pm",
+        "end_time":"3:30pm",
+        "panelists":"Paul Price",
+        "description":"Isekai is a popular category of anime and manga. This talk explains where isekai stories come from, the different types, and why there are so many of them.",
+        "panel_type":"attendee"
+      },
+      {
+        "title": "Rhinestoning 101 with the Dragon and her MidnightSnack",
+        "room":"Programming 1 / Coral D",
+        "day":"Saturday",
+        "start_time": "3:00pm",
+        "end_time":"4:00pm",
+        "panelists":"Eden Draconis and Luna Macaroon",
+        "description":"Eden Draconis with The Knights of the Round Pasties and Luna Macaroon from Naughty Nerds Cabaret are the Queens of Rhinestoning and are sharing their knowledge with you! Join them to learn the tips and tricks to adding a sparkle flair to your life!! Bring your own project to razzle dazzle or rhinestone something of Eden’s, either way you’re sure to have fun!",
+        "panel_type":"guest"
+      },
+      {
+        "title": "Kyujutsu - Kyudo as practiced by the old schools",
+        "room":"Programming 2 / Coral E",
+        "day":"Saturday",
+        "start_time": "3:00pm",
+        "end_time":"4:00pm",
+        "panelists":"Hunter Gott",
+        "description":"Discussion and demonstration about old schools of Japanese archery.  Saddle, Lacquered Yumi, quiver, war arrows, and hats will be on display.",
+        "panel_type":"attendee"
+      },
+      {
+        "title": "Positivity Speed Dating",
+        "room":"Mainstage! Coral C",
+        "day":"Saturday",
+        "start_time": "3:30pm",
+        "end_time":"5:00pm",
+        "panelists":"Semetary Cosplay",
+        "description":"(Limit 24 People, please show up early for panel if you want to get in!) Let's take the concept of speed 'dating', but make it....speed positivity! Join moderator Semetary Cosplay as you meet new friends and individuals and spend the next hour building people up through the power of compliments and create confidence! Notebooks and pens will be provided to every participant, that way you will have your own confidence notebook to bring home at the end of the panel.",
+        "panel_type":"attendee"
+      },
+      {
+        "title": "Iowa Fighting Game Community Kumite",
+        "room":"Programming 4 / Oakdale 5",
+        "day":"Saturday",
+        "start_time": "3:30pm",
+        "end_time":"4:30pm",
+        "panelists":"NGamer3k and TopHat",
+        "description":"Get into fighting games by learning from Iowa’s finest. From discords to your first tournament. Best us in a game of your choice for prizes!",
+        "panel_type":"attendee"
+      },
+      {
+        "title": "History of Pointy Things",
+        "room":"Programming 1 / Coral D",
+        "day":"Saturday",
+        "start_time": "4:00pm",
+        "end_time":"5:00pm",
+        "panelists":"Samurai Dan",
+        "description":"Show and Tell beats a slide presentation any day! Come see REAL Japanese blades, up close and personal.",
+        "panel_type":"guewst"
+      },
+      {
+        "title": "Cosplaying and Burlesque with Disabilities; Tips and Challenges (Roundtable Style)",
+        "room":"Programming 2 / Coral E",
+        "day":"Saturday",
+        "start_time": "4:00pm",
+        "end_time":"5:00pm",
+        "panelists":"M’Lady Rae and Absassin",
+        "description":"Naughty Nerds Cabaret’s  M'Lady Rae, and Knights of the Round Pasties Absassin shed some light on the challenges of living your best life with disabilities and hope that some of the tips they use can help you too. Join the conversation and share some of your adaptations so together we can all learn how to safely be the rockstars we are! Allies and Community Leaders this is also a great panel for you to learn what can help your community as a whole and prevent barriers to entry.",
+        "panel_type":"guest"
+      },
+      {
+        "title": "Jewelry Making",
+        "room":"Family Prog Oakdale 1",
+        "day":"Saturday",
+        "start_time": "4:00pm",
+        "end_time":"4:00pm",
+        "panelists":"Summer",
+        "description":"Make a necklace or bracelet for you or your friend with lots of colorful beads.",
+        "panel_type":"family"
+      },
+      {
+        "title": "I Love Your Dress! Lolita Fashion School",
+        "room":"Programming 4 / Oakdale 5",
+        "day":"Saturday",
+        "start_time": "4:30pm",
+        "end_time":"5:30pm",
+        "panelists":"Susie and Emily",
+        "description":"Learn the secrets of EGL fashion- shopping on a budget, finding cute plus size dresses, accessorizing, tips and hacks.",
+        "panel_type":"attendee"
+      },
+      {
+        "title": "CLOSED",
+        "room":"Mainstage! Coral C",
+        "day":"Saturday",
+        "start_time": "5:00pm",
+        "end_time":"6:00pm",
+        "panelists":"",
+        "description":"",
+        "panel_type":"staff"
+      },
+      {
+        "title": "CLOSED",
+        "room":"Programming 1 / Coral D",
+        "day":"Saturday",
+        "start_time": "5:00pm",
+        "end_time":"2:00am",
+        "panelists":"",
+        "description":"",
+        "panel_type":"convention"
+      },
+      {
+        "title": "CLOSED",
+        "room":"Programming 2 / Coral E",
+        "day":"Saturday",
+        "start_time": "5:00pm",
+        "end_time":"2:00am",
+        "panelists":"",
+        "description":"",
+        "panel_type":"convention"
+      },
+      {
+        "title": "Japanese Traditional Instruments presentation",
+        "room":"Programming 3 / Oakdale 3",
+        "day":"Saturday",
+        "start_time": "5:00pm",
+        "end_time":"6:00pm",
+        "panelists":"Tanis Sotelo",
+        "description":"Come learn about 3 Japanese traditional instruments, the Shamisen, the Shinobue, and Koto. After the presentation, participants can try and play the Shamisen or Koto.",
+        "panel_type":"attendee"
+      },
+      {
+        "title": "Kpop Random Dance",
+        "room":"Programming 4 / Oakdale 5",
+        "day":"Saturday",
+        "start_time": "5:30pm",
+        "end_time":"6:30pm",
+        "panelists":"Seven, Mason, and Maxie",
+        "description":"Come and dance to some of our favorite Kpop songs, new and old! There's something here for everyone, and don't be afraid to jump in even if you only know a little.",
+        "panel_type":"attendee"
+      },
+      {
+        "title": "Seating for Cosplay Masquerade",
+        "room":"Mainstage! Coral C",
+        "day":"Saturday",
+        "start_time": "6:00pm",
+        "end_time":"6:30pm",
+        "panelists":"",
+        "description":"",
+        "panel_type":"convention"
+      },
+      {
+        "title": "Equip Your Art with Heart!",
+        "room":"Programming 3 / Oakdale 3",
+        "day":"Saturday",
+        "start_time": "6:00pm",
+        "end_time":"7:00pm",
+        "panelists":"JetFalco and AtomicKawaii",
+        "description":"New artists! Experienced artists! Creators of all styles and levels! Gearing up to take on art professionally? Let’s have a chat and properly equip you for your art journey! Tips and tricks on artist life! Setting achievable goals on your quest! Finding the right gear! Get the how-to on Commissions, Fresh Inspiration, Crazy Ideas, and MORE to brave the challenges of the art world!",
+        "panel_type":"attendee"
+      },
+      {
+        "title": "Cosplay Masquerade",
+        "room":"Mainstage! Coral C",
+        "day":"Saturday",
+        "start_time": "6:30pm",
+        "end_time":"9:00pm",
+        "panelists":"",
+        "description":"",
+        "panel_type":"convention"
+      },
+      {
+        "title": "Otome Gaming 101",
+        "room":"Programming 4 / Oakdale 5",
+        "day":"Saturday",
+        "start_time": "6:30pm",
+        "end_time":"7:30pm",
+        "panelists":"Brianna",
+        "description":"Interested in otome games but don't know where to start? Already play otome games and want to talk about favorites? Then come join this discussion! ",
+        "panel_type":"attendee"
+      },
+      {
+        "title": "J-fashion Swap Meet",
+        "room":"Programming 3 / Oakdale 3",
+        "day":"Saturday",
+        "start_time": "7:00pm",
+        "end_time":"8:00pm",
+        "panelists":"Susie",
+        "description":"Bring your Japanese clothing to swap! Any style is welcome, including lolita fashion, fairy kei, gyaru, etc.",
+        "panel_type":"attendee"
+      },
+      {
+        "title": "How to Build Insane Props",
+        "room":"Programming 4 / Oakdale 5",
+        "day":"Saturday",
+        "start_time": "8:00pm",
+        "end_time":"9:00pm",
+        "panelists":"CMD Studios",
+        "description":"An in-depth look into how one can go about making absolutely crazy props. We will instead be on how woodworking, epoxy, etc. can be incorporated into prop design to save costs, improve quality, or make customizations.",
+        "panel_type":"attendee"
+      },
+      {
+        "title": "CLOSED",
+        "room":"Mainstage! Coral C",
+        "day":"Saturday",
+        "start_time": "9:00pm",
+        "end_time":"10:00pm",
+        "panelists":"",
+        "description":"",
+        "panel_type":"staff"
+      },
+      {
+        "title": "How Bootlegs Are Trying to Destroy the Anime Industry, and What You Can Do About It",
+        "room":"Programming 3 / Oakdale 3",
+        "day":"Saturday",
+        "start_time": "9:00pm",
+        "end_time":"10:00pm",
+        "panelists":"John Santellano of Fast Food Anime and Cheri Santellano or Tangerine Mountain",
+        "description":"Including \"Bring Your Merch for a Free Personal \"Antiques Roadshow\"-style Evaluation!\" People are actively working to destroy the entire anime industry as we know it, and they’re doing this by creating bootlegs.  Bootlegs are unauthorized merchandise created to fool the end buyer that they’re purchasing an authorized piece of merchandise approved by the creator or the company the creator works with to license merchandise.  Learn how to identify bootlegs, how bootlegs nearly killed the anime industry, how bootlegs hurt the creators who work so hard on their creations, and what you can do to help protect what we all love. \nThe panel lasts about 30-40 minutes, after which attendees can bring any piece of merchandise and the experts at Fast Food Anime and Tangerine Mountain will evaluate it to tell you if it is legit.  Collectible cards, plush, books, video games, DVDs, CDs, posters, wall scrolls, figures, clothing, and more are all able to be evaluated.  (To ensure everyone has a turn, if you have a large collection, please talk to the presenters about setting up an appointment.) Fast Food Anime owner John Santellano is a 20-year veteran of the foreign and domestic video game sales industry, providing authentic video games, consoles, and anime merchandise to convention attendees and wholesale buyers throughout the country.  His experiences in Japan have enhanced his knowledge of the broad range of authentic Japanese goods and how to identify them.  Tangerine Mountain owners Cheri Santellano and Teri Noto have been educated about intellectual property at their father’s knee since they were little kids.  Their father, Arthur Fakes, is an intellectual property and commercial negotiations expert, specializing in international and domestic copyright, trademark, trade secret, and commercial interests, with a particular focus on Japan and East Asia for the past 50 years.",
+        "panel_type":"guest"
+      },
+      {
+        "title": "Art Jam",
+        "room":"Family Prog Oakdale 1",
+        "day":"Saturday",
+        "start_time": "9:00pm",
+        "end_time":"12:00am",
+        "panelists":"Summer",
+        "description":"Late night programming is not for everyone. Sometimes you just want to sit down and relax with other fellow artists. Grab your supplies or borrow ours, settle down for one awesome group art/ craft session with friends old and new! No matter your skill level, this panel is for fun. Welcome to bring an unfinished cosplay, a game, or just yourself. See you there.",
+        "panel_type":"family"
+      },
+      {
+        "title": "AnimeIowa’s Dance Party and Light Show",
+        "room":"Mainstage! Coral C",
+        "day":"Saturday",
+        "start_time": "10:00pm",
+        "end_time":"2:00am",
+        "panelists":"The Pseudoreality and Mr.Pixxul",
+        "description":"Come out and shake it to some of AnimeIowa’s favorite tunes! Party starts at 10pm, don’t be late.",
+        "panel_type":"convention"
+      },
+      {
+        "title": "Gaming with the Guests 18+",
+        "room":"Programming 3 / Oakdale 3",
+        "day":"Saturday",
+        "start_time": "10:00pm",
+        "end_time":"11:00pm",
+        "panelists":"All guests",
+        "description":"Come hang out with the guests while they play a card game, share some laughs and probably an inappropriate story or two.",
+        "panel_type":"guest"
+      },
+      {
+        "title": "The Best of the Breast: Boobs in Anime 18+",
+        "room":"Programming 4 / Oakdale 5",
+        "day":"Saturday",
+        "start_time": "10:00pm",
+        "end_time":"11:00pm",
+        "panelists":"WhoWhatWaifus and DoTheMacarena",
+        "description":"Boobs are a part of anime. We’ll look at some good and bad portrayals of breasts in anime and manga, and critique them. Drawing demo included.",
+        "panel_type":"attendee"
+      },
+      {
+        "title": "Welcome to Helluva Hotel 18+",
+        "room":"Programming 4 / Oakdale 5",
+        "day":"Saturday",
+        "start_time": "11:00pm",
+        "end_time":"12:00am",
+        "panelists":"Rylan",
+        "description":"Ever had a question for the imps and pricks who run hell? Come join the characters, ask whatever question your hearts may desire to the characters of hell. ",
+        "panel_type":"attendee"
+      },
+      {
+        "title": "I Can't Believe It's Not Hentai 18+",
+        "room":"Programming 4 / Oakdale 5",
+        "day":"Saturday",
+        "start_time": "12:00am",
+        "end_time":"1:00am",
+        "panelists":"Cait, John and Elliot",
+        "description":"As anime grows ever closer to the line of legal decency, play a kahoot-style quiz to try and decide if you've been horribly described some trashy anime or not. ",
+        "panel_type":"attendee"
+      },
+      {
+        "title": "Simping Made Simple: Jeopardy Edition",
+        "room":"Programming 3 / Oakdale 3",
+        "day":"Saturday",
+        "start_time": "1:00am",
+        "end_time":"2:00am",
+        "panelists":"Weekly Weebs Podcast: Frenchie, Crimson, Xeriomachini, and WickWicky",
+        "description":"Everyone simps, but can you name your crush by their eyes, chest, or even butt? Test your skills with Simping Made Simple: Jeopardy Edition",
+        "panel_type":"attendee"
+      },
+      {
+        "title": "Smash or Pass Genshin Edition",
+        "room":"Programming 4 / Oakdale 5",
+        "day":"Saturday",
+        "start_time": "1:00am",
+        "end_time":"2:00am",
+        "panelists":"Ajax and Felix",
+        "description":"Hi welcome back to year 2 of smash or pass genshin edition!! Please join Ajax and Felix dressed as the archons as we played smash or pass! Last year was a hit and full  of laughter.",
+        "panel_type":"attendee"
+      },
+      
+      {
+        "title": "Cosplay Contest Feedback",
+        "room":"Chapman-Catt",
+        "day":"Sunday",
+        "start_time": "9:00am",
+        "end_time":"10:00am",
+        "panelists":"",
+        "description":"Were you in the Saturday cosplay contest? Would you like to get some feedback about your costume or performance from the judges? Here is your opportunity to do so!",
+        "panel_type":"staff"
+      },
+      {
+        "title": "How to Wear a Kimono",
+        "room":"Mainstage! Coral C",
+        "day":"Sunday",
+        "start_time": "9:00am",
+        "end_time":"10:00am",
+        "panelists":"Tangerine Mountain: Cheri Santellano",
+        "description":"Yes, you can wear kimono! Tangerine Mountain invites you to join us as we make wearing kimono approachable for everyone. Whether you're new to kimono or a seasoned veteran, there's plenty for you to learn and experience. We dress volunteers from the audience in a variety of kimono, explaining the differences in fabrics and formalities along the way. We also discuss foreigners wearing kimono in Japan, Japanese street fashion, and techniques that make wearing kimono and tying obi easier.",
+        "panel_type":"guest"
+      },
+      {
+        "title": "Sponsor Brunch",
+        "room":"Programming 2 / Coral E",
+        "day":"Sunday",
+        "start_time": "9:00am",
+        "end_time":"12:00pm",
+        "panelists":"",
+        "description":"",
+        "panel_type":"convention"
+      },
+      {
+        "title": "Learn to Spin Yarn",
+        "room":"Programming 3 / Oakdale 3",
+        "day":"Sunday",
+        "start_time": "9:00am",
+        "end_time":"10:00am",
+        "panelists":"Nikki and Bridget",
+        "description":"Ever have a hard time finding the right yarn for a cosplay?  Or finding yarn thin enough to make doll clothes? Learn the basics of spinning with a drop spindle in this panel!  Basic wooden drop spindles and a variety of options for fibers to spin (wool, alpaca, acrylic, and soy silk) will be provided.",
+        "panel_type":"attendee"
+      },
+      {
+        "title": "Bookmarks",
+        "room":"Family Prog Oakdale 1",
+        "day":"Sunday",
+        "start_time": "9:00am",
+        "end_time":"10:00am",
+        "panelists":"Summer",
+        "description":"Come decorate a bookmark. Draw, Color, or just Sticker-it-Up to make your own personally unique bookmark. While Supplies Last",
+        "panel_type":"family"
+      },
+      {
+        "title": "Just Dance- Genshin Impact edition",
+        "room":"Mainstage! Coral C",
+        "day":"Sunday",
+        "start_time": "10:00am",
+        "end_time":"11:00am",
+        "panelists":"Ajax and Levi",
+        "description":"Welcome back to year 2 with your favorite genshin impact characters! Join us as we dance our hearts out to your favorite Just Dance songs! Come Dance along!",
+        "panel_type":"attendee"
+      },
+      {
+        "title": "Project Sekai Shenanigans!!",
+        "room":"Programming 1 / Coral D",
+        "day":"Sunday",
+        "start_time": "10:00am",
+        "end_time":"11:00am",
+        "panelists":"Asche",
+        "description":"Come join Vivid Bad Squad, WonderlandsxShowtime, and Nightcord in truth or dare and other games! Bring your device for a Kahoot.",
+        "panel_type":"guest"
+      },
+      {
+        "title": "That Sky Game Meet and Play",
+        "room":"Programming 3 / Oakdale 3",
+        "day":"Sunday",
+        "start_time": "10:00am",
+        "end_time":"11:00am",
+        "panelists":"Jillyfoo",
+        "description":"Calling all to meet and make friends in Sky by Thatgamecompany. We will be doing an avatar fashion show and challenges in game so bring your device fully charged. This is an unofficial fan run panel.",
+        "panel_type":"attendee"
+      },
+      {
+        "title": "Absassin’s Chaos & Curiosities : Q & A",
+        "room":"Mainstage! Coral C",
+        "day":"Sunday",
+        "start_time": "11:00am",
+        "end_time":"12:00pm",
+        "panelists":"Absassin",
+        "description":"Absassin of Knights of the Round Pasties invites you to join him for an hour of unscripted madness! (As if he could stick to a script anyways) Ask him anything from Burlesque questions to why he eats Doritos with Ice Cream and everything in between! If you’re too shy to ask a question he’ll be spinning his Dragon Staff or playing with other flow toys as his idol stance.",
+        "panel_type":"guest"
+      },
+      {
+        "title": "Love 4 Boys Love: A Year in Review",
+        "room":"Programming 3 / Oakdale 3",
+        "day":"Sunday",
+        "start_time": "11:00am",
+        "end_time":"12:00pm",
+        "panelists":"kt",
+        "description":"Can't get enough of BL?  Come join fellow fans as we gush over popular and beloved boys love shows, books, and fandom moments from the past year.",
+        "panel_type":"attendee"
+      },
+      {
+        "title": "Potions",
+        "room":"Family Prog Oakdale 1",
+        "day":"Sunday",
+        "start_time": "11:00am",
+        "end_time":"1:00pm",
+        "panelists":"Summer",
+        "description":"Want to make your own potion to go? Brew up a potion, cork it, and decorate the jar. Start to finish in no time at all! Mix up some strength, mana, life or even some liquid luck. While Supplies Last.",
+        "panel_type":"family"
+      },
+      {
+        "title": "3D Printing: 101 *Cosplay Judge Panel*",
+        "room":"Mainstage! Coral C",
+        "day":"Sunday",
+        "start_time": "12:00pm",
+        "end_time":"1:00pm",
+        "panelists":"Hamster.Daydream",
+        "description":"3D printing is starting to hit the cosplay mainstream but it looks so hard. What do I do, what do the terms mean? Come learn, from files to having a fully finished prop.",
+        "panel_type":"guest"
+      },
+      {
+        "title": "Cosplay: A History *Cosplay Judge Panel*",
+        "room":"Programming 1 / Coral D",
+        "day":"Sunday",
+        "start_time": "12:00pm",
+        "end_time":"1:00pm",
+        "panelists":"Laughing Rat Cosplay",
+        "description":"Cosplay is convention staple, but who was the first to dress up in costume at a con? At this panel, meet your cosplay ancestors  and hear about the shenanigans they got into.",
+        "panel_type":"guest"
+      },
+      {
+        "title": "Sew an Outfit For Your Doll or Stuffed Animal",
+        "room":"Programming 3 / Oakdale 3",
+        "day":"Sunday",
+        "start_time": "12:00pm",
+        "end_time":"1:00pm",
+        "panelists":"Nikki and Bridget",
+        "description":"A relaxed sewing panel where patterns, materials, and other supplies are provided for anyone who would like to make an outfit for your doll or stuffed animal. All experience levels welcome, and we'll have several experienced sewists on hand to assist as needed.",
+        "panel_type":"attendee"
+      },
+      {
+        "title": "Ronin Sword Class",
+        "room":"Mainstage! Coral C",
+        "day":"Sunday",
+        "start_time": "1:00pm",
+        "end_time":"2:00pm",
+        "panelists":"Samurai Dan",
+        "description":"Masterless warriors had no code of conduct ruling their combat. Come learn the “dirty tricks” of samurai sword combat.",
+        "panel_type":"guest"
+      },
+      {
+        "title": "Eden Ranks her Hoard of Otome Lovers",
+        "room":"Programming 1 / Coral D",
+        "day":"Sunday",
+        "start_time": "1:00pm",
+        "end_time":"2:00pm",
+        "panelists":"Eden Draconis",
+        "description":"Help Eden Draconis of Knights of the Round Pasties rank her beloved Otome Heart Throbs. From ones that love donuts and call you “Poochi” to one’s that think you are the Literal World (iykyk) Eden rants and raves over her not so guilty pleasure and you get to help her decide!",
+        "panel_type":"attendee"
+      },
+      {
+        "title": "Demon Slayer Shenanigans",
+        "room":"Programming 2 / Coral E",
+        "day":"Sunday",
+        "start_time": "1:00pm",
+        "end_time":"2:00pm",
+        "panelists":"Zombifykingz, PhantomsRealms, MystixCosplays, Rlmiitsuba, RaccoonBlitz, Katsucosplay",
+        "description":"\"And Cut!\" What do the Hashira or even the Demons do after scenes for the next episode? Do they goof off with each other or constantly scream fight me with a lasting head butt! Join us for a fun filled time playing games and having the chance to earn prizes from the demonslayer Shenanigans!!",
+        "panel_type":"attendee"
+      },
+      
+      {
+        "title": "Mindbridge Meeting",
+        "room":"Programming 3 / Oakdale 3",
+        "day":"Sunday",
+        "start_time": "1:00pm",
+        "end_time":"2:00pm",
+        "panelists":"",
+        "description":"Meeting for AnimeIowa’s parent company Mindbridge Foundation. Open to the public.",
+        "panel_type":"staff"
+      },
+      {
+        "title": "Cosplay: From Beginning to Branding",
+        "room":"Mainstage! Coral C",
+        "day":"Sunday",
+        "start_time": "2:00pm",
+        "end_time":"3:00pm",
+        "panelists":"Semetary Cosplay",
+        "description":"Have you ever wanted to step your foot into the world of 'professional cosplayer' but are scared you're too much of a beginner? Come to this informative panel to learn the basics of cosplay and how these can be expanded to the branding side in order to dip your foot into the realm of making this a long-term career.",
+        "panel_type":"guest"
+      },
+      {
+        "title": "FuwaKumo Idol Performance!",
+        "room":"Programming 1 / Coral D",
+        "day":"Sunday",
+        "start_time": "2:00pm",
+        "end_time":"3:00pm",
+        "panelists":"Fuwakumo Idols",
+        "description":"FuwaKumo idols return to AnimeIowa! We have another fun show for you this year with a total of five Love Live cover dances from our idol group. Get to know the members and play a game with us if time allows!",
+        "panel_type":"attendee"
+      },
+      {
+        "title": "Anime Bingo",
+        "room":"Family Prog Oakdale 1",
+        "day":"Sunday",
+        "start_time": "2:00pm",
+        "end_time":"4:00pm",
+        "panelists":"Summer",
+        "description":"Join us for a few rounds of Bingo with your fellow AnimeIowa Attendees! Try your luck at winning a prize. Come have fun!",
+        "panel_type":"family"
+      },
+      {
+        "title": "Closing Ceremonies",
+        "room":"Mainstage! Coral C",
+        "day":"Sunday",
+        "start_time": "3:00pm",
+        "end_time":"4:00pm",
+        "panelists":"",
+        "description":"",
+        "panel_type":"convention"
+      }
+  ]
+}
+

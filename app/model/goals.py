@@ -13,7 +13,7 @@ from datetime import datetime, timedelta, date
 from app import db, login
 from app.utils import tm_conv, const
 from app import logger
-from app.models import Yrly_mileage
+# from app.models import Yrly_mileage
 
 class Yrly_goal(object):
     description = ''
@@ -33,6 +33,24 @@ class Yrly_goal(object):
         if days_remaining == 0:
             return self.remaining()
         return self.remaining() / (days_remaining)
+    
+    def to_dict(self):
+        d = {
+            'description':self.description,
+            'goal':self.goal,
+            'tot':self.tot,
+            'uom':self.uom,
+            'pct_comp':self.calc_pct_comp(),
+            'remaining':self.remaining()
+        }
+        return d
+    
+    @staticmethod 
+    def lst_to_dict(goal_lst):
+        goal_dict_lst = []
+        for goal in goal_lst:
+            goal_dict_lst.append(goal.to_dict())
+        return goal_dict_lst
 
     @staticmethod
     def create_goal(yr_mileage):
@@ -41,25 +59,27 @@ class Yrly_goal(object):
 
         if yr_mileage.type == 'Running':
             yr_goal.description = 'Run'
-            yr_goal.goal = 2023
+            yr_goal.goal = 2024
             yr_goal.tot = yr_mileage.tot_dist
             yr_goal.uom = 'miles'
             yr_goal.pct_comp = yr_goal.calc_pct_comp() *100
-            yr_goal.miles_per_day = yr_goal.calc_miles_per_day(365-datetime.now().timetuple().tm_yday)
+            yr_goal.miles_per_day = yr_goal.calc_miles_per_day(365-datetime.now().timetuple().tm_yday) if yr_goal.pct_comp <100 else 0
             yr_goal.miles_needed_per_month = yr_goal.miles_per_day * 30
             # logger.debug(yr_goal.description + ' ' + str(yr_goal.tot) + ' ' + str(round(yr_goal.pct_comp,4)) + ' ' + str(round(yr_goal.miles_per_day,4)) + ' ' + str(round(yr_goal.miles_needed_per_month,4)))
+            yr_goal.miles_needed_per_week = yr_goal.miles_per_day * 7
             yrly_goals_lst.append(yr_goal)
             run_set = True
         elif yr_mileage.type == 'Cycling':
             yr_goal = Yrly_goal()
-            yr_goal.goal = 150
+            yr_goal.goal = 200
             yr_goal.uom = 'miles'
             yr_goal.description = 'Cycle'
             yr_goal.tot = yr_mileage.tot_dist
             yr_goal.pct_comp = yr_goal.calc_pct_comp() *100
-            yr_goal.miles_per_day = yr_goal.calc_miles_per_day(365-datetime.now().timetuple().tm_yday)
+            yr_goal.miles_per_day = yr_goal.calc_miles_per_day(365-datetime.now().timetuple().tm_yday) if yr_goal.pct_comp <100 else 0
             yr_goal.miles_needed_per_month = yr_goal.miles_per_day * 30
             # logger.debug(yr_goal.description + ' ' + str(yr_goal.tot) + ' ' + str(round(yr_goal.pct_comp,4)) + ' ' + str(round(yr_goal.miles_per_day,4)) + ' ' + str(round(yr_goal.miles_needed_per_month,4)))
+            yr_goal.miles_needed_per_week = yr_goal.miles_per_day * 7
             yrly_goals_lst.append(yr_goal)
             cycle_set = True
 
@@ -70,7 +90,7 @@ class Yrly_goal(object):
             yr_goal.tot = yr_mileage.nbr
             yr_goal.pct_comp = yr_goal.calc_pct_comp() *100
 
-            yr_goal.miles_per_day = yr_goal.calc_miles_per_day(365-datetime.now().timetuple().tm_yday)
+            yr_goal.miles_per_day = yr_goal.calc_miles_per_day(365-datetime.now().timetuple().tm_yday) if yr_goal.pct_comp <100 else 0
             yr_goal.miles_needed_per_month = yr_goal.miles_per_day * 30
 
             yrly_goals_lst.append(yr_goal)

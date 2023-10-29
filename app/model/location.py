@@ -27,6 +27,8 @@ class Location(db.Model):
     radius = db.Column(db.Numeric(8,2), nullable=True)
     isrt_ts = db.Column(db.DateTime, nullable=False, index=True, default=datetime.utcnow)
     updt_ts = db.Column(db.DateTime, nullable=False, index=True, default=datetime.utcnow)
+    state = db.Column(db.String(50), index=False, nullable=True)
+    country = db.Column(db.String(50), index=False, nullable=True)
 
     def __repr__(self):
         return '<Location Name: {}, lat: {}, lon: {}>'.format( self.name, self.lat, self.lon)

@@ -30,6 +30,9 @@ div.home_section_content{
 h2.home{
     text-align:center;
 }
+.desktop_margin_left{
+  margin-left:90px;
+}
 
 
 
@@ -109,7 +112,7 @@ div.cat_img_right {
 
 .skills{
     overflow:auto;
-    max-width: 550px;
+    max-width: 650px;
     margin-left: auto;
     margin-right: auto;
     /* display: flex; */
@@ -124,6 +127,43 @@ div.cat_img_right {
     padding-right: 7.5px;
     margin-top: 15px;
 }
+
+.books_current {
+    float: left;
+    width: 450px;
+    overflow: hidden;
+    margin-right: 30px;
+    font-size:18px;
+    /* border: 1px solid black; */
+    /* margin-left:50px; */
+}
+.books_read {
+    float: left;
+    width:400px;
+    font-size:14px;
+    border: 0px solid red;
+}
+.book_section_title{
+    font-size:20px;
+    font-weight:bold;
+    margin-top:10px;
+}
+.book_current_cover_img{
+    float:left; 
+    width:100px; 
+    margin-right:15px;
+}
+.book_read_cover_img{
+    float:left; 
+    width:50px; 
+    margin-right:15px;
+}
+.book_detail{
+    margin-bottom: 10px;
+    float:left;
+    width:100%;
+}
+
 
 /* For tablets and horizontal mobile: */
 @media  screen and (max-width:900px),
@@ -162,6 +202,16 @@ div.cat_img_right {
         margin-left: 0px;
         margin-right: 0px;
     }
+    .books_current {
+        width:400px;
+    }
+    .books_read {
+        width:300px;
+    }
+    .desktop_margin_left{
+      margin-left:0;
+    }
+
 }
 
 /* For mobile phones: */
@@ -197,4 +247,15 @@ div.cat_img_right {
         margin-left: 0px;
         margin-right: 0px;
     }
+    .desktop_margin_left{
+      margin-left:0;
+    }
+
+    .books_current {
+        width:100%;
+    }
+    .books_read {
+        width:100%;
+    }
+
 }

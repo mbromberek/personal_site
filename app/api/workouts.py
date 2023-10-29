@@ -13,27 +13,28 @@ import string
 import random
 
 # 3rd Party classes
-from flask import jsonify, request, url_for, abort, current_app
+from flask import jsonify, request, url_for, abort, current_app, send_from_directory
 from werkzeug.utils import secure_filename
 import pandas as pd
 
 # Custom Classes from github
 import NormalizeWorkout.dao.files as fao
-import NormalizeWorkout.parse.rungapParse as rgNorm
 import NormalizeWorkout.parse.fitParse as fitParse
+import NormalizeWorkout.parse.hkParse as hkNorm
 import NormalizeWorkout.parse.rungapMetadata as rungapMeta
 import NormalizeWorkout.WrktSplits as wrktSplits
 import GenerateMapImage.gen_map_img as genMap
 
 # Custom Classes
 from app import db
-from app.models import Workout, User, Workout_interval, Gear
+from app.models import Workout, User, Workout_interval, Gear, Wrkt_sum
 from app.api import bp
 from app.api.auth import token_auth
 from app.api.errors import bad_request
 from app import logger
 from app.utils import dt_conv
 from app.model.location import Location
+from app.main import filtering
 
 
 @bp.route('/workout/<int:id>', methods=['GET'])
@@ -47,12 +48,33 @@ def get_workout(id):
 @bp.route('/workouts/', methods=['GET'])
 @token_auth.login_required
 def get_workouts():
+    '''
+    Get workouts based on passed in arguements
+    Optional arguments:
+        page: page of date to return
+        per_page: number of records per page to return, max of 100
+        type: type of workout, possible values are run | cycle | swim
+        category: category of workout, possible values are training | long | east | race
+        txt_search: text search of training type, location, and notes
+        temperature: Get workouts within +/- 5 degrees of the temperature sent
+        distance: Get workouts within +/- 10% of the distance sent
+        min_strt_temp: min temperature at start of workouts
+        max_strt_temp: max temperature at start of workouts
+        min_dist: min distance of workouts
+        max_dist: max distance of workouts
+        strt_dt: first date of workouts
+        end_dt: last date of workouts
+    '''
     logger.info('get_workouts')
     current_user_id = token_auth.current_user().id
     user = User.query.get_or_404(current_user_id)
-    page = request.args.get('page', 1, type=int)
-    per_page = min(request.args.get('per_page', 10, type=int), 100)
-    data = User.to_collection_dict(user.workouts, page, per_page, 'api.get_workouts')
+    per_page = min(request.args.get('per_page', current_app.config['POSTS_PER_PAGE'], type=int), 100)
+    filterVal = filtering.getFilterValuesFromGet(request)
+    logger.debug(filterVal)
+    page = filterVal['page']
+    filterVal.pop('page',None)
+
+    data = filtering.get_workouts(current_user_id, page, per_page, filterVal, 'api.get_workouts')
     return jsonify(data)
 
 @bp.route('/workout', methods=['POST'])
@@ -77,7 +99,7 @@ def create_workout():
         workout.from_dict(data, current_user_id)
         if workout.gear_id is None:
             logger.debug('no gear passed')
-            predicted_gear = Gear.predict_gear(current_user_id, workout.category, workout.type)
+            predicted_gear = Gear.predict_gear(current_user_id, workout.category_id, workout.type_id)
             logger.debug('Gear predicted to be used: {}'.format(predicted_gear['nm']))
             workout.gear_id = predicted_gear['id']
         else:
@@ -143,40 +165,6 @@ def get_workouts_by_dt(dttm_str):
         return jsonify(wrkt_dict_lst), 200
     else:
         return jsonify("No records found"), 400
-
-@bp.route('/workouts/since/<dt>', methods=['GET'])
-@token_auth.login_required
-def get_workouts_since_dt(dt):
-    '''
-    Get list of workouts since the passed in date
-    Date formats is %Y-%m-%d
-    Arguments:
-        page: page of data to return
-        per_page: number of records to return (default 10), max=100
-        sort: order to return workouts in by date. Possible values are asc or desc. (default asc)
-    '''
-    logger.info('get_workouts_since_dt')
-    current_user_id = token_auth.current_user().id
-    try:
-        workout_since_dt = dt_conv.get_date(dt)
-    except Exception as e:
-        return jsonify(str(e)), 400
-    logger.info("Get workouts for User: " + str(current_user_id) + " since date: " + str(workout_since_dt))
-    sort_order = request.args.get('sort', 'asc', type=str)
-
-    query = Workout.query.filter_by(user_id=current_user_id)
-    query = query.filter(Workout.wrkt_dttm>=workout_since_dt)
-    if sort_order == 'desc':
-        query = query.order_by(Workout.wrkt_dttm.desc())
-    else:
-        query = query.order_by(Workout.wrkt_dttm.asc())
-        sort_order='asc'
-    page = request.args.get('page', 1, type=int)
-    per_page = min(request.args.get('per_page', 10, type=int), 100)
-    data = Workout.to_collection_dict(query, page, per_page, 'api.get_workouts_since_dt', dt=dt, sort=sort_order)
-
-    return jsonify(data), 200
-
 
 @bp.route('/workout', methods=['PUT'])
 @token_auth.login_required
@@ -258,7 +246,7 @@ def generate_workout_from_file():
     elif fao.file_with_ext(workDir, ext='rungap.json') != '':
         logger.info('Rungap JSON file')
         data = fao.get_workout_data(workDir)
-        actv_df = rgNorm.normalize_activity(data)
+        actv_df, pause_times_df = hkNorm.normalize_activity(data)
     else:
         logger.info('No file to process')
         fao.clean_dir(workDir)
@@ -302,7 +290,7 @@ def generate_workout_from_file():
         genMap.generate_map_img(actv_df, tumbnailDir, img_dim={'height':200, 'width':200}, img_name=thumbnail_nm)
         orig_workout.thumb_path = thumbnail_nm
         orig_workout.show_map_laps = True
-        if orig_workout.category == 'Training':
+        if orig_workout.category_det.nm == 'Training':
             orig_workout.show_map_miles = False
         else:
             orig_workout.show_map_miles = True
@@ -367,3 +355,27 @@ def update_workout_from_pickle():
         db.session.commit()
 
     return jsonify('Success'), 200
+
+@bp.route('/run_summary/', methods=['GET'])
+@token_auth.login_required
+def run_summary():
+    logger.info('run_summary')
+    current_user_id = token_auth.current_user().id
+    # user = User.query.get_or_404(current_user_id)
+
+    wrkt_sum_results = Wrkt_sum.query.filter_by(user_id=current_user_id, type='Running').all()
+    wrkt_sum_mod_lst = Wrkt_sum.generate_missing_summaries(wrkt_sum_results, 'Running')
+    wrkt_sum_dict = {}
+    for wrkt_sum in wrkt_sum_mod_lst:
+        wrkt_sum_dict[wrkt_sum.rng] = wrkt_sum.to_dict()
+
+    return jsonify(wrkt_sum_dict), 200
+
+@bp.route('/wrkt_images_api/<path:filename>', methods=['GET'])
+@token_auth.login_required
+def wrkt_images_api(filename):
+    # logger.info(filename)
+    current_user_id = token_auth.current_user().id
+    return send_from_directory(os.path.join(current_app.config['MEDIA_DIR'], \
+        str(current_user_id),'thumbnails'), filename, as_attachment=False)
+    # return jsonify({}), 200

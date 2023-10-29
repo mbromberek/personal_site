@@ -11,6 +11,8 @@ SECONDS_IN_HOUR = 3600
 SECONDS_IN_MINUTE = 60
 NBR_WK_COMP = 10
 MIN_YR_COMP = 2018
+NBR_MO_COMP = 15
+SLOWEST_PACE = 1800
 
 EXPORT_FIELDS = ['Type','Date','Duration h:m:s','Duration Seconds','Distance','Pace', 'Pace Seconds', 'Gear','HR','Category','Calories', 'Notes','Notes+','Elevation', 'Elevation Up', 'Elevation Down', 'Location', 'Training Type', 'Weather','Clothes']
 EXPORT_FIELD_MAPPING = {

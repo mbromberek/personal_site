@@ -11,6 +11,7 @@ SELECT gear.nm,
     gear.confirmed,
     gear.type,
     gear.company,
+    gear.no_suggest,
     gear.id AS gear_id,
     gear.user_id
 FROM fitness.gear gear

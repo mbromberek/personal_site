@@ -1,203 +1,284 @@
 {% extends "base.html" %}
 
 {% block app_content %}
+    <div  class="workout_hdr">
+        <header class="workout " style="overflow:auto; display: flex; ">
+            <div  class="workout_hdr_type">
+                {{ workout.type_det.nm }}&nbsp;{{ workout.wrkt_dttm.strftime('%Y-%m-%d %H:%M:%S') }}
+            </div>
+            <div class="workout_hdr_link" >
+                <a class="workout_edit_lnk" href="{{ url_for('main.edit_workout', workout=workout.id) }}">
+                    edit
+                </a>
+            </div>
+        </header>
+        <div class="wrkt_type_description">
+            {{ workout.category_det.nm }}
+            {% if workout.training_type is defined and workout.training_type is not none and workout.training_type|length %}
+            - {{ workout.training_type }}
+            {% endif %}
+            {% if workout.location is defined and workout.location is not none and workout.location|length %}
+            - {{ workout.location }}
+            {% endif %}
+        </div>
+    </div>
+    <div class="wrkt_tags">
+        {% if workout.pos_neg_splits and workout.category_det.nm != 'Training' %}
+        {{ workout.pos_neg_splits }}&nbsp;{{ workout.pos_neg_splits_icon }}
+        {% endif %}
+    </div>
+    
     <div class="workout_page_detail">
-    <header class="workout " style="overflow:auto; display: flex; ">
-        <div  style="width:430px; overflow: hidden; ">
-            {{ workout.type }}, {{ workout.wrkt_dttm.strftime('%Y-%m-%d %H:%M:%S') }}
-        </div>
-        <div style="width:100px; overflow: hidden; float:right" >
-            <a class="workout_lnk" style="font-weight:normal;font-size: 12pt;" href="{{ url_for('main.edit_workout', workout=workout.id) }}">
-                edit
-            </a>
-        </div>
-    </header>
-    <div class="wrkt_type_description">
-        {{ workout.category }}
-        {% if workout.training_type is defined and workout.training_type is not none and workout.training_type|length %}
-        - {{ workout.training_type }}
-        {% endif %}
-        {% if workout.location is defined and workout.location is not none and workout.location|length %}
-        - {{ workout.location }}
-        {% endif %}
-    </div>
-
-    <div class="form-row wrkt_section" >
-        <fieldset class="wrkt_det pb-4">
-            <legend class="wrkt_det">
-                Total
-            </legend>
-    <table width="100%" style="text-align: center;">
-        <tr class="workout-detail" style="border-bottom: 1px gray solid;">
-            <td  class="workout-detail" width="100px">
-                Distance <br>
-                {{ workout.dist_mi }} mi
-            </td>
-            <td class="workout-detail" width="100px" style="border-right: 1px gray solid; border-left: 1px gray solid">
-                Duration <br>
-                {{ workout.duration }}
-            </td>
-            <td class="workout-detail"  width="100px" >
-                Pace <br>
-                {{ workout.pace }}
-                {% if workout.type in ['Cycling','Indoor Cycling'] %}
-                mph
-                {% else %}
-                /mile
-                {% endif %}
-            </td>
-        </tr>
-        <tr class="workout-detail" >
-            <td  class="workout-detail" >
-                Elevation<br>
-                {% if workout.ele_up != None %}
-                {{ workout.ele_up|round|int }}&uarr;&nbsp;
-                {% endif %}
-                {% if workout.ele_down != None %}
-                {{ workout.ele_down|round|int }}&darr;
-                {% endif %}
-            </td>
-            <td class="workout-detail" style="border-right: 1px gray solid; border-left: 1px gray solid">
-                Calories<br>
-                {{ workout.cal_burn }}
-            </td>
-            <td class="workout-detail" >
-                Heart Rate <br>
-                {{ workout.hr }}
-            </td>
-        </tr>
-    </table>
-    </fieldset>
-    </div>
-
-    {% if workout.temp_strt != None %}
-    <div class="form-row wrkt_section" >
-        <fieldset class="wrkt_det">
-            <legend class="wrkt_det">
-                Weather
-            </legend>
-            {% include '_weather_summary.html' %}
-        </fieldset>
-    </div>
-    {% endif %}
-
-    {% if workout.intrvl_tot_dist_mi != None %}
-    <div class="form-row wrkt_section">
-        <fieldset class="wrkt_det">
-            <legend class="wrkt_det">
-                Training Summary
-            </legend>
-            <div class="form-row">
-                <table width="100%" style="text-align: center;">
-                    <tr class="workout-detail">
-                        <td width="100px">
+        <div id="wrkt_page_detail_left">
+            <div class=" wrkt_section" >
+                <fieldset class="wrkt_det pb-4">
+                    <legend class="wrkt_det">
+                        Summary
+                    </legend>
+                    <table width="100%" style="text-align: center;">
+                        <tr class="workout-detail wrkt_separator" style="border-top: 0px;border-right:0px;border-left:0px;">
+                            <td  class="workout-detail" width="100px">
+                                Distance <br>
+                                {{ workout.dist_mi }} mi
+                            </td>
+                            <td class="workout-detail wrkt_separator" width="100px" style="border-top:0px;border-bottom:0px;">
+                                Duration <br>
+                                {{ workout.duration }}
+                            </td>
+                            <td class="workout-detail"  width="100px" >
+                                Pace <br>
+                                {{ workout.pace }}
+                                {% if workout.type in ['Cycling','Indoor Cycling'] %}
+                                mph
+                                {% else %}
+                                /mile
+                                {% endif %}
+                            </td>
+                        </tr>
+                        <tr class="workout-detail"  >
+                            <td  class="workout-detail" >
+                                Elevation<br>
+                                {% if workout.ele_up != None %}
+                                {{ workout.ele_up|round|int }}&uarr;&nbsp;
+                                {% endif %}
+                                {% if workout.ele_down != None %}
+                                {{ workout.ele_down|round|int }}&darr;
+                                {% endif %}
+                            </td>
+                            <td class="workout-detail wrkt_separator" style="border-top:0px;border-bottom:0px;">
+                                Calories<br>
+                                {{ workout.cal_burn }}
+                            </td>
+                            <td class="workout-detail" >
+                                Heart Rate <br>
+                                {{ workout.hr }}
+                            </td>
+                        </tr>
+                        <!-- <tr class="workout-detail">
+                            <td class="workout-detail" width="100px">
+                                {{ workout.pos_neg_splits }}<br/>
+                                {{ workout.pos_neg_splits_amt }}
+                            </td>
+                            <td class="workout-detail" style="border-left: 2px #43d9b8 solid" cellspan="2">
+                                &nbsp;
+                            </td>
+                        </tr> -->
+                    </table>
+                </fieldset>
+            </div>
+        
+            {% if workout.temp_strt != None %}
+            <div class="form-row wrkt_section" >
+                <fieldset class="wrkt_det">
+                    <legend class="wrkt_det">
+                        Weather
+                    </legend>
+                    {% include '_weather_summary.html' %}
+                </fieldset>
+            </div>
+            {% endif %}
+        
+            {% if workout.intrvl_tot_dist_mi != None %}
+            <div class="wrkt_section">
+                <fieldset class="wrkt_det">
+                    <legend class="wrkt_det">
+                        Training Summary
+                    </legend>
+                    <div class="form-row">
+                        <table width="100%" style="text-align: center;">
+                            <tr class="workout-detail">
+                                <td width="100px">
+                                    &nbsp;
+                                </td>
+                                <td  class="workout-detail" width="100px">
+                                    Distance
+                                </td>
+                                <td class="workout-detail" width="100px" style="border-right: 1px gray solid; border-left: 1px gray solid">
+                                    Duration
+                                </td>
+                                <td class="workout-detail"  width="100px">
+                                    Pace
+                                </td>
+                            </tr>
+                            <tr class="workout-detail" >
+                                <td>
+                                    Warm Up:
+                                </td>
+                                <td  class="workout-detail" >
+                                    {{ workout.warm_up_tot_dist_mi }} mi
+                                </td>
+                                <td class="workout-detail" style="border-right: 1px gray solid; border-left: 1px gray solid">
+                                    {{ workout.warm_up_dur_str }}
+                                </td>
+                                <td class="workout-detail">
+                                    {{ workout.warm_up_pace }} /mile
+                                </td>
+                            </tr>
+                            <tr class="workout-detail" >
+                                <td >
+                                    Intervals:
+                                </td>
+                                <td  class="workout-detail" >
+                                    {{ workout.intrvl_tot_dist_mi }} mi
+                                </td>
+                                <td class="workout-detail" style="border-right: 1px gray solid; border-left: 1px gray solid">
+                                    {{ workout.intrvl_dur_str }}
+                                </td>
+                                <td class="workout-detail">
+                                    {{ workout.intrvl_pace }} /mile
+                                </td>
+                            </tr>
+                            <tr class="workout-detail" >
+                                <td >
+                                    Cool Down:
+                                </td>
+                                <td  class="workout-detail" >
+                                    {{ workout.cool_down_tot_dist_mi }} mi
+                                </td>
+                                <td class="workout-detail" style="border-right: 1px gray solid; border-left: 1px gray solid">
+                                    {{ workout.cool_down_dur_str }}
+                                </td>
+                                <td class="workout-detail">
+                                    {{ workout.cool_down_pace }} /mile
+                                </td>
+                            </tr>
+        
+                        </table>
+                    </div>
+                </fieldset>
+            </div>
+            {% endif %}
+        
+            <div class=" wrkt_section" id="wrkt_page_gear">
+                <fieldset class="wrkt_det">
+                    <legend class="wrkt_det">
+                        Gear
+                    </legend>
+                    <div class="form-row">
+                        Clothes:&nbsp;
+        
+                        {% if workout.notes != None %}
+                            <span id='workout_clothes' >{{ workout.clothes }}</span>
+                        {% else %}
                             &nbsp;
-                        </td>
-                        <td  class="workout-detail" width="100px">
-                            Distance
-                        </td>
-                        <td class="workout-detail" width="100px" style="border-right: 1px gray solid; border-left: 1px gray solid">
-                            Duration
-                        </td>
-                        <td class="workout-detail"  width="100px">
-                            Pace
-                        </td>
-                    </tr>
-                    <tr class="workout-detail" >
-                        <td>
-                            Warm Up:
-                        </td>
-                        <td  class="workout-detail" >
-                            {{ workout.warm_up_tot_dist_mi }} mi
-                        </td>
-                        <td class="workout-detail" style="border-right: 1px gray solid; border-left: 1px gray solid">
-                            {{ workout.warm_up_dur_str }}
-                        </td>
-                        <td class="workout-detail">
-                            {{ workout.warm_up_pace }} /mile
-                        </td>
-                    </tr>
-                    <tr class="workout-detail" >
-                        <td >
-                            Intervals:
-                        </td>
-                        <td  class="workout-detail" >
-                            {{ workout.intrvl_tot_dist_mi }} mi
-                        </td>
-                        <td class="workout-detail" style="border-right: 1px gray solid; border-left: 1px gray solid">
-                            {{ workout.intrvl_dur_str }}
-                        </td>
-                        <td class="workout-detail">
-                            {{ workout.intrvl_pace }} /mile
-                        </td>
-                    </tr>
-                    <tr class="workout-detail" >
-                        <td >
-                            Cool Down:
-                        </td>
-                        <td  class="workout-detail" >
-                            {{ workout.cool_down_tot_dist_mi }} mi
-                        </td>
-                        <td class="workout-detail" style="border-right: 1px gray solid; border-left: 1px gray solid">
-                            {{ workout.cool_down_dur_str }}
-                        </td>
-                        <td class="workout-detail">
-                            {{ workout.cool_down_pace }} /mile
-                        </td>
-                    </tr>
-
-                </table>
+                        {% endif %}
+                    </div>
+                    <div class="form-row">
+                        {% if 'run' in workout.type_det.grp.lower() %}
+                        Shoes:
+                        {% elif 'cycl' in workout.type_det.grp.lower() %}
+                        Bike:
+                        {% endif %}
+                        {{ workout.gear_det.nm }}
+                        <!-- TODO add insole or other related gear -->
+                    </div>
+                </fieldset>
             </div>
-        </fieldset>
-    </div>
-    {% endif %}
+    
+        </div>
 
-    <div class="form-row wrkt_section" >
-        <fieldset class="wrkt_det">
-            <legend class="wrkt_det">
-                Gear
-            </legend>
-            <div class="form-row">
-                Clothes:
-
-                {% if workout.notes != None %}
-                    <span id='workout_clothes' >{{ workout.clothes }}</span>
-                {% else %}
-                    &nbsp;
-                {% endif %}
-            </div>
-            <div class="form-row">
-                {% if 'run' in workout.type.lower() %}
-                Shoes:
-                {% elif 'cycl' in workout.type.lower() %}
-                Bike:
-                {% endif %}
-                {{ workout.gear_det.nm }}
-                <!-- TODO add insole or other related gear -->
-            </div>
-        </fieldset>
+        {% if workout.notes != None and workout.notes|length >1 %}
+        <div id="wrkt_page_detail_right" >
+            <fieldset class="wrkt_det">
+                <legend class="wrkt_det">
+                    Notes
+                </legend>
+                <div class="wrkt_notes">
+                        <span id='workout_notes' >
+                        {% autoescape false %}
+                        {{ workout.notes | replace('&','&#38;') | replace('<','&#60;') | replace('>','&#62;') | replace('"','&#34;') | replace('\'','&#39;') | replace('\n', '<br/>') }}
+                        {% endautoescape %}
+                        </span>
+                </div>
+            </fieldset>
+        </div>
+        {% else %}
+            &nbsp;
+        {% endif %}
     </div>
 
-    <div class="form-row wrkt_section">
-        <fieldset class="wrkt_det">
-            <legend class="wrkt_det">
-                notes
-            </legend>
-            <div>
-                {% if workout.notes != None %}
-                    <span id='workout_notes' >
-                    {% autoescape false %}
-                    {{ workout.notes | replace('&','&#38;') | replace('<','&#60;') | replace('>','&#62;') | replace('"','&#34;') | replace('\'','&#39;') | replace('\n', '<br/>') }}
-                    {% endautoescape %}
-                    </span>
-                {% else %}
-                    &nbsp;
-                {% endif %}
+    <div class="wrktPage_splits" >
+        <div class="wrktPage_splits_tab">
+          {% if lap_intrvl_lst|length >1 %}
+          <button {{ intrvls['default_lap_tab'] }} class="tablinks" onclick="openSplit(event, 'Lap_Splits')">Lap Splits</button>
+          {% endif %}
+          {% if segment_intrvl_lst|length >0 %}
+          <button class="tablinks" onclick="openSplit(event, 'Segment_Splits')">Segment Splits</button>
+          {% endif %}
+          {% if mile_intrvl_lst|length >0 %}
+          <button {{ intrvls['default_mile_tab'] }} class="tablinks" onclick="openSplit(event, 'Mile_Splits')">Mile Splits</button>
+          {% endif %}
+          {% if mile_intrvl_lst|length >0 %}
+            <button {{ intrvls['default_stats_tab'] }} class="tablinks" onclick="openSplit(event, 'Stats')">Stats</button>
+            {% endif %}
+        </div>
+        
+        <div class="wrktPage_splits_data">
+            <!-- Tab content -->
+            {% if lap_intrvl_lst|length >1 %}
+            <div id="Lap_Splits" class="tabcontent" >
+                {% with intrvl_lst=lap_intrvl_lst, intrvl_sum_lst=intrvls['lap_sum'], intrvl_nm='Lap' %}
+                    {% include "_workout_intrvl.html.j2" %}
+                {% endwith %}
             </div>
-        </fieldset>
-    </div>
+            {% endif %}
+            {% if segment_intrvl_lst|length >0 %}
+            <div id="Segment_Splits" class="tabcontent">
+                {% with intrvl_lst=segment_intrvl_lst, intrvl_sum_lst=intrvls['segment_sum'], intrvl_nm='Segment' %}
+                    {% include "_workout_intrvl.html.j2" %}
+                {% endwith %}
+            </div>
+            {% endif %}
+    
+            
+            {% if mile_intrvl_lst|length >0 %}
+            <div id="Mile_Splits" class="tabcontent" >
+                {% with intrvl_lst=mile_intrvl_lst, intrvl_sum_lst=intrvls['mile_sum'], intrvl_nm='Mile' %}
+                    {% include "_workout_intrvl.html.j2" %}
+                {% endwith %}
+            </div>
+            {% endif %}
+            {% if pause_intrvl_lst|length >0 %}
+            <div id="Pause_Splits" class="tabcontent">
+                {% with intrvl_lst=pause_intrvl_lst, intrvl_sum_lst=intrvls['pause_sum'], intrvl_nm='Pause' %}
+                    {% include "_workout_intrvl.html.j2" %}
+                {% endwith %}
+            
+            </div>
+            {% endif %}
+            {% if wrkt_stats_lst|length >0 %}
+            <div id="Stats" class="tabcontent" >
+                {% with intrvl_lst=wrkt_stats_lst, intrvl_sum_lst={}, intrvl_nm='Stat' %}
+                    {% include "_workout_intrvl.html.j2" %}
+                {% endwith %}
+            </div>
+            {% endif %}
+        </div>
     </div>
 
+
+
+{#
     <div class="form-row workout_page_splits">
         {% if segment_intrvl_lst|length >0 %}
         <div class="form-group mt-3 mr-2" style="width:500px; vertical-align:top;">
@@ -236,11 +317,50 @@
         </div>
         {% endif %}
     </div>
+#}
+    <div class="wrktPage_map" >
+        {% if 'zoom' in map_dict %}
+        <div id="map" style="height:600px;">
+            <a id="fullButton" href="{{ url_for('main.workout', workout=workout.id, map_full='Y') }}" >
+                Full
+            </a>
+        </div>
+        <script>
+            JavaScript:initMap({{ map_dict|tojson|safe }}, {{ workout.show_map_laps|tojson|safe }}, {{ workout.show_map_miles|tojson|safe }}, false);
+        </script>
+        {% endif %}
+    </div>
+
+    {% if wrkt_data_lst|length >0 %}
+
+    <div id="elevation_chart">
+        <div id="tooltip" class="tooltip">
+            <div id="duration" class="tip_header"></div>
+            <div id="elevation"></div>
+            <div id="distance"></div>
+            <div id="heartrate"></div>
+            <div id="pace"></div>
+            <div id="duration"></div>
+        </div>
+        <div class="chart_legend">
+            <span class="elevation_legend">Elevation (ft)</span>
+            <span class="pace_legend">Pace (minutes per mile)</span>
+            <span class="heart_rate_legend">Heart Rate</span>
+        </div>
+    </div>
+
+    <script>
+        JavaScript:initChart({{ wrkt_data_lst|tojson|safe }}, {{ wrkt_miles_dict|tojson|safe }} );
+    </script>
+    {% endif %}
+    <script>
+        document.getElementById("defaultOpen").click();
+    </script>
 
     <div class="workout_page_buttons">
         <form action="JavaScript:copyNotes()" role="form" class="form" style="margin-top:15px;">
             <input type="submit" value="Copy Notes +">
-
+    
             {% if map_dict['lap_markers']|length >0 %}
             &nbsp;&nbsp;
             <input id="show_laps" name="show_laps" type="checkbox" onclick="toggleMapMarker('show_laps')" {% if workout.show_map_laps %}checked{% endif %}>
@@ -253,19 +373,5 @@
             {% endif %}
         </form>
     </div>
-
-    {% if 'zoom' in map_dict %}
-    <div id="map" style="height:600px;margin-top:25px;">
-        <a id="fullButton" href="{{ url_for('main.workout', workout=workout.id, map_full='Y') }}" >
-            Full
-        </a>
-        <button id="fullButton2" onclick="mapSize(true)" }}" >
-            Full
-        </button>
-    </div>
-    <script>
-        JavaScript:initMap({{ map_dict|tojson|safe }}, {{ workout.show_map_laps|tojson|safe }}, {{ workout.show_map_miles|tojson|safe }}, false);
-    </script>
-    {% endif %}
 
 {% endblock %}

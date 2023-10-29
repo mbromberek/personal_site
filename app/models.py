@@ -22,6 +22,7 @@ from sqlalchemy import or_
 # Custom Classes
 from app import db, login
 from app.utils import tm_conv, const
+from app.model.location import Location
 from app import logger
 
 
@@ -32,7 +33,7 @@ def load_user(id):
 class PaginatedAPIMixin(object):
     @staticmethod
     def to_collection_dict(query, page, per_page, endpoint, **kwargs):
-        resources = query.paginate(page, per_page, False)
+        resources = query.paginate(page=page, per_page=per_page, error_out=False)
         data = {
             'items': [item.to_dict() for item in resources.items],
             '_meta': {
@@ -152,8 +153,10 @@ class Workout(PaginatedAPIMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('fitness.user.id'))
     # Running | Cycling | Swimming | Indoor Running
-    type = db.Column(db.String(50), index=True, nullable=False)
+    # type = db.Column(db.String(50), index=True, nullable=False)
+    type_id = db.Column(db.Integer, db.ForeignKey('fitness.workout_type.id'))
     wrkt_dttm = db.Column(db.DateTime, index=True, nullable=False)
+    t_zone = db.Column(db.String(255))
     dur_sec = db.Column(db.Integer())
     dist_mi = db.Column(db.Numeric(8,2))
     pace_sec = db.Column(db.Integer())# replace with function
@@ -166,7 +169,8 @@ class Workout(PaginatedAPIMixin, db.Model):
     cal_burn = db.Column(db.Integer())
 
     # Training | Easy | Long Run
-    category = db.Column(db.String(50))
+    # category = db.Column(db.String(50))
+    category_id = db.Column(db.Integer, db.ForeignKey('fitness.workout_category.id'))
     location = db.Column(db.String(50))
     # 800m repeats | hills
     training_type = db.Column(db.String(50))
@@ -218,16 +222,28 @@ class Workout(PaginatedAPIMixin, db.Model):
     workout_intervals = db.relationship('Workout_interval', backref='author', lazy='dynamic')
 
     def __repr__(self):
-        return '<Workout {}: {}>'.format(self.type, self.wrkt_dttm)
+        return '<Workout {}: {}>'.format(self.type_id, self.wrkt_dttm)
+
+    def __lt__(self, other):
+        return ((self.wrkt_dttm < other.wrkt_dttm))
+
+    def __gt__(self, other):
+        return ((self.wrkt_dttm > other.wrkt_dttm))
+
 
     def pace_str(self):
-        if self.type in ['Cycling','Indoor Cycling']:
+        # if self.type in ['Cycling','Indoor Cycling']:
+        if self.type_det.nm in ['Cycling','Indoor Cycling']:
             return str(round(tm_conv.mph_calc(self.dist_mi, self.dur_sec),2))
         else:
             return tm_conv.sec_to_time(self.pace_sec(), 'ms')
+    def pace_uom(self):
+        if self.type_det.nm in ['Cycling','Indoor Cycling']:
+            return 'mph'
+        else:
+            return '/mi'
     def pace_sec(self):
         return tm_conv.pace_calc(self.dist_mi, self.dur_sec)
-
     def dur_str(self):
         return tm_conv.sec_to_time(self.dur_sec)
     def intrvl_dur_str(self):
@@ -248,6 +264,13 @@ class Workout(PaginatedAPIMixin, db.Model):
         weather_strt_str = 'Start: {} degrees {}, {} percent humidity, wind speed {} mph, wind gust {} mpn, feels like {} degrees, dew point {}.'.format(self.temp_strt, self.wethr_cond_strt, self.hmdty_strt, self.wind_speed_strt, self.wind_gust_strt, self.temp_feels_like_strt, self.dew_point_strt)
         weather_end_str = 'End: {} degrees {}, {} percent humidity, wind speed {} mph, wind gust {} mpn, feels like {} degrees, dew point {}.'.format(self.temp_end, self.wethr_cond_end, self.hmdty_end, self.wind_speed_end, self.wind_gust_end, self.temp_feels_like_end, self.dew_point_end)
         return '{}\n{}'.format(weather_strt_str,weather_end_str)
+    def weather_summary(self, sctn):
+        if sctn == 'end':
+            wthr_sum_lst = ['End: ']
+        else:
+            wthr_sum_lst = ['Start: ']
+        return ''.join(wthr_sum_lst)
+
 
     # Parameter export_fields is a list of the fields to export
     def to_dict_export(self, export_fields):
@@ -261,6 +284,10 @@ class Workout(PaginatedAPIMixin, db.Model):
             elif const.EXPORT_FIELD_MAPPING.get(field) == 'gear':
                 gear_rec = Gear.query.filter_by(id=self.gear_id, user_id=self.user_id).first()
                 data[field] = gear_rec.nm if gear_rec != None else ''
+            elif const.EXPORT_FIELD_MAPPING.get(field) == 'type':
+                data[field] = self.type_det.nm
+            elif const.EXPORT_FIELD_MAPPING.get(field) == 'category':
+                data[field] = self.category_det.nm
             elif const.EXPORT_FIELD_MAPPING.get(field) == 'duration':
                 data[field] = self.dur_str()
             elif const.EXPORT_FIELD_MAPPING.get(field) == 'pace':
@@ -277,23 +304,25 @@ class Workout(PaginatedAPIMixin, db.Model):
                 data[field] = getattr(self, const.EXPORT_FIELD_MAPPING.get(field,''), '')
         return data
 
-    def to_dict(self, include_calc_fields=False):
+    def to_dict(self, include_calc_fields=False, for_web=False):
         gear_rec = Gear.query.filter_by(id=self.gear_id, user_id=self.user_id).first()
         data = {
             'id': self.id,
             'user_id': self.user_id,
-            'type': self.type,
+            'type': self.type_det.nm,
             'wrkt_dttm': self.wrkt_dttm.isoformat() + 'Z',
+            't_zone': self.t_zone,
             'dur_sec': self.dur_sec,
             'dist_mi': str(self.dist_mi),
             'pace': self.pace_str(),
+            'pace_uom': self.pace_uom(),
             'gear': gear_rec.nm if gear_rec != None else None,
-            'clothes': self.clothes,
+            'clothes': self.clothes, 
             'ele_up': str(self.ele_up),
             'ele_down': str(self.ele_down),
             'hr': str(self.hr),
             'cal_burn': self.cal_burn,
-            'category': self.category,
+            'category': self.category_det.nm if self.category_det != None else '',
             'location': self.location,
             'training_type': self.training_type,
             'weather_start': {
@@ -314,7 +343,7 @@ class Workout(PaginatedAPIMixin, db.Model):
                 'wind_gust': str(self.wind_gust_end),
                 'dew_point' : str(self.dew_point_end)
             },
-            'notes': self.notes,
+            'notes': self.notes if self.notes != None else '',
 
             'warm_up_tot_dist_mi': str(self.warm_up_tot_dist_mi),
             'warm_up_tot_tm_sec': str(self.warm_up_tot_tm_sec),
@@ -340,14 +369,86 @@ class Workout(PaginatedAPIMixin, db.Model):
 
             'isrt_ts': self.isrt_ts.isoformat() + 'Z',
             '_links':{
-                'self': url_for('api.get_workout', id=self.id)
+                'self': url_for('main.workout', workout=self.id, _external=True, _scheme=current_app.config['URL_SCHEME']) if for_web else url_for('api.get_workout', id=self.id),
             }
         }
+        # logger.debug('for_web' + str(for_web))
+        if for_web:
+            data['_links']['edit'] = url_for('main.edit_workout', 
+                workout=self.id, 
+                _external=True,
+                _scheme=current_app.config['URL_SCHEME']
+            )
+        else:
+            data['_links']['intervals'] =  url_for('api.get_workout_intervals', wrkt_id=self.id)
+        
+        if self.thumb_path is not None:
+            if for_web:
+                data['_links']['map_thumb'] = url_for('main.wrkt_img_file', 
+                    filename= self.thumb_path, 
+                    _external=True,
+                    _scheme=current_app.config['URL_SCHEME']
+                )
+            else:
+                data['_links']['map_thumb'] = url_for('api.wrkt_images_api', 
+                    filename= self.thumb_path, 
+                    _external=True,
+                    _scheme=current_app.config['URL_SCHEME']
+                )
+        return data
+
+    def to_race_graph_dict(self, for_web=True, public_img_link=False):
+        distance_map = {'26.2':'Marathon','13.1':'Half Marathon','9.3':'15K','6.2':'10K', '3.1':'5K'}
+        distance = distance_map.get(str(math.floor(self.dist_mi*10)/10.0), str(round(self.dist_mi,0)) + ' Mile')
+        loc_rec = Location.query.filter_by(name=self.location, user_id=self.user_id).first()
+        data = {
+            'id': self.id,
+            'user_id': self.user_id,
+            'type': self.type_det.nm,
+            'wrkt_dt': self.wrkt_dttm.strftime('%Y-%m-%d'),
+            'year': self.wrkt_dttm.strftime('%Y'),
+            't_zone': self.t_zone,
+            'dur_sec': self.dur_sec,
+            'dur': self.dur_str(),
+            'dist_mi': str(math.floor(self.dist_mi*10)/10.0),
+            'pace': self.pace_str(),
+            'pace_uom': self.pace_uom(),
+            'location': self.location,
+            'state': loc_rec.state,
+            'training_type' : self.training_type,
+            'distance':distance
+        }
+        data['_links'] = {}
+        if self.thumb_path is not None:
+            if for_web:
+                if public_img_link:
+                    data['_links']['map_thumb'] = url_for('main.public_img_file', 
+                        filename= self.thumb_path, 
+                        _external=True,
+                        _scheme=current_app.config['URL_SCHEME']
+                    )
+                else:
+                    data['_links']['map_thumb'] = url_for('main.wrkt_img_file', 
+                        filename= self.thumb_path, 
+                        _external=True,
+                        _scheme=current_app.config['URL_SCHEME']
+                    )
+                data['_links']['workout_link'] = url_for('main.workout', workout=self.id, 
+                    _external=True, 
+                    _scheme=current_app.config['URL_SCHEME'])
+            else:
+                data['_links']['map_thumb'] = url_for('api.wrkt_images_api', 
+                    filename= self.thumb_path, 
+                    _external=True,
+                    _scheme=current_app.config['URL_SCHEME']
+                )
+        
+
         return data
 
     def from_dict(self, data, user_id):
 
-        str_fields = ['type','gear', 'clothes', 'category', 'location', 'training_type', 'notes']
+        str_fields = ['clothes', 'location', 'training_type', 'notes','t_zone']
         int_fields = ['dur_sec','hr','cal_burn','warm_up_tot_tm_sec', 'cool_down_tot_tm_sec', 'intrvl_tot_tm_sec']
         float_fields = ['dist_mi','ele_up','ele_down','warm_up_tot_dist_mi','cool_down_tot_dist_mi','intrvl_tot_dist_mi','intrvl_tot_ele_up','intrvl_tot_ele_down']
 
@@ -377,6 +478,12 @@ class Workout(PaginatedAPIMixin, db.Model):
                 db.session.commit()
                 self.gear_id = Gear.get_gear_id(data['gear'])
 
+        if 'type' in data and data['type'] != None and data['type'] != '' :
+            self.type_id = Workout_type.get_wrkt_type_id(data['type'])
+        logger.debug('from_dict category: ' + str(data['category']))
+        if 'category' in data and data['category'] != None and data['category'] != '' :
+            self.category_id = Workout_category.get_wrkt_cat_id(data['category'])
+
         # Populate Weather data
         wethr_float_fields = ['temp','temp_feels_like','hmdty', 'wind_speed','wind_gust','dew_point']
         wethr_str_fields = ['wethr_cond']
@@ -399,7 +506,7 @@ class Workout(PaginatedAPIMixin, db.Model):
 
 
     def update(self, updt_wrkt):
-        merge_fields = ['type', 'wrkt_dttm', 'dur_sec', 'dist_mi', 'clothes', 'category', 'location', 'training_type', 'notes','hr','cal_burn','warm_up_tot_tm_sec', 'cool_down_tot_tm_sec', 'intrvl_tot_tm_sec','ele_up','ele_down','warm_up_tot_dist_mi','cool_down_tot_dist_mi','intrvl_tot_dist_mi','intrvl_tot_ele_up','intrvl_tot_ele_down', 'gear_id']
+        merge_fields = ['type_id', 'wrkt_dttm', 'dur_sec', 'dist_mi', 'clothes', 'category_id', 'location', 'training_type', 'notes','hr','cal_burn','warm_up_tot_tm_sec', 'cool_down_tot_tm_sec', 'intrvl_tot_tm_sec','ele_up','ele_down','warm_up_tot_dist_mi','cool_down_tot_dist_mi','intrvl_tot_dist_mi','intrvl_tot_ele_up','intrvl_tot_ele_down', 'gear_id']
         for field in merge_fields:
             if getattr(updt_wrkt, field) != None:
                 setattr(self, field, getattr(updt_wrkt, field))
@@ -454,7 +561,7 @@ class Workout_interval(db.Model):
         setattr(self, 'break_type', break_type)
 
         for field in str_fields:
-            if field in data:
+            if field in data and (isinstance(data[field],str) or not math.isnan(data[field])):
                 setattr(self, field, data[field])
 
         for field in int_fields:
@@ -523,6 +630,7 @@ class Gear(db.Model):
     prchse_dt = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     price = db.Column(db.Numeric(8,2))
     retired = db.Column(db.Boolean, nullable=True, default=False)
+    no_suggest = db.Column(db.Boolean, nullable=False, default=False)
     confirmed = db.Column(db.Boolean, nullable=True, default=False)
     type = db.Column(db.String(50), index=True, nullable=False)
     company = db.Column(db.String(50))
@@ -539,18 +647,18 @@ class Gear(db.Model):
         return gear_rec.id
 
     @staticmethod
-    def predict_gear(user_id, category, type):
-        if type in ['Running','Indoor Running']:
-            return Gear.get_next_shoe(user_id, category)
-        elif type in ['Cycling','Indoor Cycling']:
+    def predict_gear(user_id, category_id, type_id):
+        if Workout_type.query.filter_by(id=type_id, grp='run').first() != None:
+            return Gear.get_next_shoe(user_id, category_id)
+        elif Workout_type.query.filter_by(id=type_id, grp='cycle').first() != None:
             dft_cycl_gear = current_app.config['DFT_CYCL_GEAR']
             return {'nm':dft_cycl_gear, 'id':Gear.get_gear_id(dft_cycl_gear)}
-        elif type in ['Swimming']:
+        elif Workout_type.query.filter_by(id=type_id, grp='swim').first() != None:
             dft_swim_gear = current_app.config['DFT_SWIM_GEAR']
             return {'nm':dft_swim_gear, 'id':Gear.get_gear_id(dft_swim_gear)}
 
     @staticmethod
-    def get_next_shoe(user_id, category, dt=datetime.today()):
+    def get_next_shoe(user_id, category_id, dt=datetime.today()):
         '''
         Gets suggestion for shoe to wear on next run based on passed in category
         The number of miles run in shoes and number of times they were used determines which category they fit into.
@@ -569,17 +677,20 @@ class Gear(db.Model):
         gear_lst = []
         gear_ct = -1
 
-        if category in ['Training', 'Long Run', 'Race']:
-            # Use gear that has <300 miles on them and used more than 5 times
-            gear_lst = sorted(Gear_usage.query.filter(Gear_usage.user_id==user_id, Gear_usage.retired==False, Gear_usage.type==type, Gear_usage.tot_dist <shoe_age_warning, Gear_usage.usage_count >nbr_brk_in_runs), reverse=False)
-            gear_ct = len(gear_lst)
-        elif category in ['Easy']:
-            # Use gear with >=300 miles on them or used <=5 times
-            gear_lst = sorted(Gear_usage.query.filter(Gear_usage.user_id==user_id, Gear_usage.retired==False, Gear_usage.type==type, or_( Gear_usage.tot_dist >=shoe_age_warning, Gear_usage.usage_count <=nbr_brk_in_runs)), reverse=False)
-            gear_ct = len(gear_lst)
+        if category_id != '':
+            cat_rec = Workout_category.query.filter_by(id=category_id).first()
+
+            if cat_rec.nm in ['Training', 'Long Run', 'Race', 'Hard']:
+                # Use gear that has <300 miles on them and used more than 5 times
+                gear_lst = sorted(Gear_usage.query.filter(Gear_usage.user_id==user_id, Gear_usage.retired==False, Gear_usage.no_suggest==False, Gear_usage.type==type, Gear_usage.tot_dist <shoe_age_warning, Gear_usage.usage_count >nbr_brk_in_runs), reverse=False)
+                gear_ct = len(gear_lst)
+            elif cat_rec.nm in ['Easy']:
+                # Use gear with >=300 miles on them or used <=5 times
+                gear_lst = sorted(Gear_usage.query.filter(Gear_usage.user_id==user_id, Gear_usage.retired==False, Gear_usage.no_suggest==False, Gear_usage.type==type, or_( Gear_usage.tot_dist >=shoe_age_warning, Gear_usage.usage_count <=nbr_brk_in_runs)), reverse=False)
+                gear_ct = len(gear_lst)
         if gear_ct <1:
             # If not a known Category or no records returned for Category
-            gear_lst = sorted(Gear_usage.query.filter(Gear_usage.user_id==user_id, Gear_usage.retired==False, Gear_usage.type==type), reverse=False)
+            gear_lst = sorted(Gear_usage.query.filter(Gear_usage.user_id==user_id, Gear_usage.retired==False, Gear_usage.no_suggest==False, Gear_usage.type==type), reverse=False)
             gear_ct = len(gear_lst)
         if gear_ct >0:
             gear_nm = gear_lst[0].nm
@@ -628,6 +739,7 @@ class Gear_usage(db.Model):
     prchse_dt = db.Column(db.DateTime)
     price = db.Column(db.Numeric(8,2))
     retired = db.Column(db.Boolean)
+    no_suggest = db.Column(db.Boolean)
     confirmed = db.Column(db.Boolean)
     type = db.Column(db.String(50))
     company = db.Column(db.String(50))
@@ -658,7 +770,54 @@ class Gear_usage(db.Model):
     def tot_dur_str(self):
         return tm_conv.sec_to_time(self.tot_dur_sec, 'hms')
 
+class Workout_type(db.Model):
+    __table_args__ = {"schema": "fitness", 'comment':'Type of workout: Running, Cycling, Swimming, Indoor Running'}
+    id = db.Column(db.Integer, primary_key=True)
+    workouts = db.relationship('Workout', backref='type_det', lazy='dynamic')
+    nm = db.Column(db.String(50), index=True, nullable=False, unique=True)
+    grp = db.Column(db.String(50), nullable=True)
+    ordr = db.Column(db.Integer, nullable=False)
+    isrt_ts = db.Column(db.DateTime, nullable=False, index=True, default=datetime.utcnow)
 
+    def __repr__(self):
+        return '<Workout Type {}: id {}>'.format( self.nm, self.id)
+
+    @staticmethod
+    def get_wrkt_type_id(wrkt_nm):
+        type_rec = Workout_type.query.filter_by(nm=wrkt_nm).first()
+        if type_rec is None:
+            return None
+        return type_rec.id
+
+    def __lt__(self, other):
+        return ((self.ordr < other.ordr))
+
+    def __gt__(self, other):
+        return ((self.ordr > other.ordr))
+
+class Workout_category(db.Model):
+    __table_args__ = {"schema": "fitness", 'comment':'Category of workout: Easy, Long Run, Training'}
+    id = db.Column(db.Integer, primary_key=True)
+    workouts = db.relationship('Workout', backref='category_det', lazy='dynamic')
+    nm = db.Column(db.String(50), index=True, nullable=False, unique=True)
+    ordr = db.Column(db.Integer, nullable=False)
+    isrt_ts = db.Column(db.DateTime, nullable=False, index=True, default=datetime.utcnow)
+
+    def __repr__(self):
+        return '<Workout Category {}: id {}>'.format( self.nm, self.id)
+
+    @staticmethod
+    def get_wrkt_cat_id(wrkt_nm):
+        type_rec = Workout_category.query.filter_by(nm=wrkt_nm).first()
+        if type_rec is None:
+            return None
+        return type_rec.id
+
+    def __lt__(self, other):
+        return ((self.ordr < other.ordr))
+
+    def __gt__(self, other):
+        return ((self.ordr > other.ordr))
 
 
 class Wrkt_sum(db.Model):
@@ -677,6 +836,23 @@ class Wrkt_sum(db.Model):
 
     def dur_str(self):
         return tm_conv.sec_to_time(self.tot_sec, 'hms')
+
+    def to_dict(self):
+        old_wrkt_dt = self.oldest_workout.isoformat() + 'Z' if self.oldest_workout != None else ''
+        new_wrkt_dt = self.newest_workout.isoformat() + 'Z' if self.newest_workout != None else ''
+
+        data = {
+            'user_id': self.user_id,
+            'type': self.type,
+            'rng': self.rng,
+            'tot_sec': self.tot_sec,
+            'duration_str': self.dur_str(),
+            'tot_dist': self.tot_dist,
+            'nbr': self.nbr,
+            'oldest_workout': old_wrkt_dt,
+            'newest_workout': new_wrkt_dt
+        }
+        return data
 
     @staticmethod
     def generate_missing_summaries(sum_lst, sum_typ):
@@ -741,40 +917,51 @@ class Wkly_mileage(db.Model):
     def __gt__(self, other):
         return ((self.dt_by_wk > other.dt_by_wk))
 
-class Yrly_mileage(db.Model):
-    __table_args__ = {"schema": "fitness", 'comment':'summary of workouts by type and year'}
+
+class Moly_mileage(db.Model):
+    __table_args__ = {"schema": "fitness", 'comment':'summary of workouts by type and month'}
     user_id = db.Column(db.Integer, primary_key=True)
     type = db.Column(db.String(50), primary_key=True)
     nbr = db.Column(db.Integer())
-    dt_by_yr = db.Column(db.DateTime, primary_key=True)
+    dt_by_mo = db.Column(db.DateTime, primary_key=True)
     tot_dist = db.Column(db.Numeric(8,2))
     tot_sec = db.Column(db.Integer())
     dist_delta_pct = db.Column(db.Numeric(8,2))
     tm_delta_pct = db.Column(db.Numeric(8,2))
 
     def __repr__(self):
-        return '<Yearly_mileage {}: type {}>'.format(str(self.dt_by_yr), self.type)
+        return '<Weekly_mileage {}: type {}>'.format(str(self.dt_by_mo), self.type)
 
     def dur_str(self):
-        return tm_conv.sec_to_time(self.tot_sec, 'dhms')
-
-    def pace_str(self):
-        return tm_conv.sec_to_time(tm_conv.pace_calc(self.tot_dist, self.tot_sec), 'ms')
+        return tm_conv.sec_to_time(self.tot_sec, 'hms')
 
     def __lt__(self, other):
-        if self.type == other.type:
-            return ((self.dt_by_yr < other.dt_by_yr))
-        else:
-            return ((self.type < other.type))
+        return ((self.dt_by_mo < other.dt_by_mo))
 
     def __gt__(self, other):
-        if self.type == other.type:
-            return ((self.dt_by_yr > other.dt_by_yr))
-        else:
-            return ((self.type > other.type))
+        return ((self.dt_by_mo > other.dt_by_mo))
 
-    def dt_year(self):
-        return self.dt_by_yr.strftime('%Y')
+    def to_dict(self):
+        data = {
+            'user_id': self.user_id,
+            'type': self.type,
+            'nbr': self.nbr,
+            'dt_by_mo': self.dt_by_mo.isoformat() + 'Z',
+            'dt_yr_mo': self.dt_by_mo.strftime('%Y-%m'),
+            'tot_dist': self.tot_dist,
+            'tot_sec': self.tot_sec,
+            'duration': self.dur_str(),
+            'dist_delta_pct': self.dist_delta_pct,
+            'tm_delta_pct': self.tm_delta_pct
+            ,
+            'code': self.dt_by_mo.strftime('%Y-%m'),
+            'value': float(self.tot_dist)
+
+
+        }
+        return data
+
+
 
 class Workout_zone(db.Model):
     __table_args__ = {"schema": "fitness", 'comment':'workout zones'}

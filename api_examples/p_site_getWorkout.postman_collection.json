@@ -1,0 +1,221 @@
+{
+	"info": {
+		"_postman_id": "62a74833-3847-492e-9180-f5193360d899",
+		"name": "p_site_getWorkout",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "8430378"
+	},
+	"item": [
+		{
+			"name": "get_workouts",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{server}}/api/workouts/?page=1",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"workouts",
+						""
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get_workouts loc_type",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{server}}/api/workouts/?page=1&txt_search=hill loc:\"tower Park\" type:bishop",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"workouts",
+						""
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "txt_search",
+							"value": "hill loc:\"tower Park\" type:bishop"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get_workouts notes",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{server}}/api/workouts/?page=1&txt_search=notes:knoxville&category=training",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"workouts",
+						""
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "txt_search",
+							"value": "notes:knoxville"
+						},
+						{
+							"key": "category",
+							"value": "training"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get_workouts last one",
+			"protocolProfileBehavior": {
+				"strictSSL": false
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{server}}/api/workouts/?page=1&per_page=1&type=run",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"workouts",
+						""
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "per_page",
+							"value": "1"
+						},
+						{
+							"key": "type",
+							"value": "run"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get_workout since date",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{server}}/api/workouts/?strt_dt=2023-07-20",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"workouts",
+						""
+					],
+					"query": [
+						{
+							"key": "strt_dt",
+							"value": "2023-07-20"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get_workouts type category",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{server}}/api/workouts/?page=1&type=run&category=long",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"workouts",
+						""
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "type",
+							"value": "run"
+						},
+						{
+							"key": "category",
+							"value": "long"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

@@ -23,6 +23,12 @@ Base HTML code for each web page
         <script type="text/javascript" src="{{ url_for('static', filename='js/workout_export.js') }}"></script>
         {% endif %}
         <script type="text/javascript" src="{{ url_for('static', filename='js/workout_edit.js') }}"></script>
+        {% if destPage and destPage == 'settings' %}
+        <script type="text/javascript" src="{{ url_for('static', filename='js/settings.js') }}"></script>
+        {% endif %}
+        {% if destPage and destPage == 'ai' %}
+        <script type="text/javascript" src="{{ url_for('static', filename='js/ai_schedule.js') }}"></script>
+        {% endif %}
         {{ bootstrap.load_css() }}
         <link rel="stylesheet" href="{{ url_for('static', filename='css/workout.css') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
@@ -34,6 +40,8 @@ Base HTML code for each web page
         <script type="text/javascript" src="{{ url_for('static', filename='js/thirdparty/leaflet-tooltip-layout.js') }}"></script>
         <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
         <script src="{{ url_for('static', filename='js/maps.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/workout_chart.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/wrktPage_splits.js') }}"></script>
         {% endif %}
 
         {% if destPage and (destPage == 'leaflet_testing') %}
@@ -45,6 +53,29 @@ Base HTML code for each web page
         <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
         <script src="{{ url_for('static', filename='js/leaflet_maps.js') }}"></script>
         {% endif %}
+
+        {% if destPage and destPage == 'ai' %}
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/ai_schedule.css') }}">
+        {% endif %}
+
+        {% if destPage and (destPage == 'dashboard' or destPage == 'races' or destPage=='home') %}
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/charts.css') }}">
+        {% endif %}
+        {% if destPage and (destPage == 'dashboard' or destPage == 'races' or destPage=='workout' or destPage=='home') %}
+        <!-- 3. THE JAVASCRIPT FILES -->
+          <!-- THIRD-PARTY JAVASCRIPT LIBRARIES, MAINLY D3  -->
+          {#<script src="{{ url_for('static', filename='libs/d3.min.js') }}"></script>
+          <script src="{{ url_for('static', filename='libs/topojson.min.js') }}"></script>
+          <script src="{{ url_for('static', filename='libs/crossfilter.min.js') }}"></script>#}
+
+          <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.4/d3.min.js"></script>
+          <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
+          <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/crossfilter/1.3.12/crossfilter.min.js"></script>
+
+          <script src="{{ url_for('static', filename='js/dash_viz_goal.js') }}"></script>
+          {#<script src="{{ url_for('static', filename='js/dash_viz_goal_2.js') }}"></script>#}
+        {% endif %}
+
     {% endblock %}
 
     <title>
@@ -56,7 +87,8 @@ Base HTML code for each web page
 
 <body {% if onLoad %} onLoad="{{ onLoad }}"{% endif %}>
 {% block navbar %}
-    {#}<nav class="navbar navbar-expand-lg navbar-light " style="background-color:#43d9b8;">#}
+    <!-- <nav class="navbar navbar-expand-lg navbar-light " style="background-color:#43c8a7;z-index:1500;"> -->
+    <!-- <nav class="navbar navbar-expand-lg navbar-light " style="background-color:#43d9b8;z-index:1500;"> -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style='z-index:1500;' >
         <a class="navbar-brand" href="{{ url_for('main.index') }}">Mike Bromberek</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -66,6 +98,11 @@ Base HTML code for each web page
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ml-auto ">
             {% if current_user.is_anonymous %}
+            <li class="nav-item active">
+                <a class="nav-link" href="{{ url_for('main.races') }}">
+                    Races
+                </a>
+            </li>
             <li class="nav-item active">
                 <a class="nav-link" href="{{ url_for('main.calculate') }}">
                     Calculations
@@ -92,6 +129,11 @@ Base HTML code for each web page
                 </a>
             </li>
             <li class="nav-item active">
+                <a class="nav-link" rel="me" href="https://twit.social/@mikebromberek" target="_blank">
+                    <img src="{{ url_for('static', filename='images/Mastodon_Logotype_small.png') }}" width="25" height="25" alt="Mike Mastodon" title="Mike Mastodon">
+                </a>
+            </li>
+            <li class="nav-item active">
                 <a class="nav-link" href="{{ url_for('auth.login') }}">Login</a>
             </li>
             {% else %}
@@ -103,6 +145,11 @@ Base HTML code for each web page
             <li class="nav-item active">
                 <a class="nav-link" href="{{ url_for('main.dashboard') }}">
                     Dashboard
+                </a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="{{ url_for('main.races') }}">
+                    Races
                 </a>
             </li>
             <li class="nav-item active">
