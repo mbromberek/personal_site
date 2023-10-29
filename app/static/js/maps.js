@@ -386,3 +386,26 @@ function mapSize(fullScreen){
     map = document.getElementById('map');
     map.style.height='1000px';
 }
+
+function showMap(map_json, track_clicks) {
+    console.log('maps.js showMap');
+    /*
+    // console.log(map_json);
+    apiKey = map_json.key;
+    zoom = map_json.zoom;
+    center_lon = map_json.center.lon;
+    center_lat = map_json.center.lat;
+    lat_lon = map_json.lat_lon;
+    
+    var run_map_center = { pos:[center_lat, center_lon], zoom:zoom };
+    var greenIcon = new L.Icon({
+        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
+        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+        // iconSize: [25, 41],
+        iconSize: [12, 20],
+        iconAnchor: [6, 20],
+        popupAnchor: [1, -17],
+        shadowSize: [20, 20]
+    });
+    */
+}
