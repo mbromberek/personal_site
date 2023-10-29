@@ -10,13 +10,11 @@
     </div>
 
     <div class="wrktPage_map" >
-        {% if 'zoom' in map_dict %}
         <div id="map" style="height:600px;">
         </div>
         <script>
             JavaScript:showMap({{ map_json|tojson|safe }}, true);
         </script>
-        {% endif %}
     </div>
 
     {#
