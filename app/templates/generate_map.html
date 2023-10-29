@@ -7,9 +7,12 @@
                 Generate Workout Route
             </div>
         </header>
+        <div>
+            Total Distance: {{ '%0.2f' | format(map_json.total_distance|float) }} {{ map_json.distance_uom }}
+        </div>
     </div>
 
-    <div class="wrktPage_map" >
+    <div class="generate_map" >
         <div id="map" style="height:600px;">
         </div>
         <script>

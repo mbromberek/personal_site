@@ -35,36 +35,56 @@ def generate_map():
     direction_json_fname = os.path.join(basedir, "static/data/direction.json")
     with open(direction_json_fname) as direction_file:
         direction_data = json.load(direction_file)
-    map_json = parse_directions(direction_data)
+    map_dict = parse_directions(direction_data)
+    
+    map_dict['key'] = current_app.config['MAPBOX_API_KEY']
+    map_dict['max_zoom'] = current_app.config['MAP_MAX_ZOOM']
     
     return render_template('generate_map.html', title='Generate Workout map' \
-      ,  map_json=map_json, destPage='maps')
+      ,  map_json=map_dict, destPage='maps')
 
 def parse_directions(data):
-      meters_to_miles = float(const.METERS_TO_MILES)
-      
-      waypoints = data['waypoints']
-      logger.info('*** Waypoints ***')
-      for waypoint in waypoints:
-          logger.info(waypoint['name'] + str(waypoint['distance']))
-      
-      route = data['routes'][0]
-      logger.info('Route: ' + route['weight_name'])
-      dist_mi = float(route['distance']) * meters_to_miles
-      logger.info('Distance: ' + str(dist_mi))
-      
-      
-      leg = route['legs'][0]
-      steps = leg['steps']
-      coordinate_lst = []
-      for idx, step in enumerate(steps):
-          dist_mi = round(float(step['distance']) * meters_to_miles, 2)
-          coordinates = step['geometry']['coordinates']
-          logger.info('Step {}: {} {} miles, {} coordinates'.format(\
-              idx, step['name'], dist_mi, len(coordinates)))
-          for coordinate in coordinates:
-              # longitude, latitude
-              coordinate_lst.append([coordinate[0],coordinate[1], idx])
-      
-      return {'total_distance':dist_mi, 'distance_uom':'miles','coordinates':coordinate_lst}
-      # return {'total_distance':dist_mi, 'distance_uom':'miles','coordinates':coordinate_lst, 'zoom':zoom, 'center':{'lon':center_lon, 'lat':center_lat}}
+    meters_to_miles = float(const.METERS_TO_MILES)
+    
+    waypoints = data['waypoints']
+    logger.info('*** Waypoints ***')
+    for waypoint in waypoints:
+      logger.info(waypoint['name'] + str(waypoint['distance']))
+    
+    route = data['routes'][0]
+    logger.info('Route: ' + route['weight_name'])
+    tot_dist_mi = float(route['distance']) * meters_to_miles
+    logger.info('Distance: ' + str(tot_dist_mi))
+    
+    
+    leg = route['legs'][0]
+    steps = leg['steps']
+    coordinate_lst = []
+    lon_max = -999
+    lat_max = -999
+    lon_min = 999
+    lat_min = 999
+
+    for idx, step in enumerate(steps):
+        dist_mi = round(float(step['distance']) * meters_to_miles, 2)
+        coordinates = step['geometry']['coordinates']
+        logger.info('Step {}: {} {} miles, {} coordinates'.format(\
+            idx, step['name'], dist_mi, len(coordinates)))
+        for coordinate in coordinates:
+            if lon_max < coordinate[0]: lon_max = coordinate[0]
+            if lon_min > coordinate[0]: lon_min = coordinate[0]
+            if lat_max < coordinate[1]: lat_max = coordinate[1]
+            if lat_min > coordinate[1]: lat_min = coordinate[1]
+            # [0]=longitude, [1]=latitude
+            coordinate_lst.append([coordinate[1],coordinate[0], idx])
+    
+    map_dict = {}
+    map_dict['total_distance'] = tot_dist_mi
+    map_dict['distance_uom'] = 'miles'
+    map_dict['coordinates'] = coordinate_lst
+    map_dict['center'] = genMap.calc_center(lats=[lat_max, lat_min], lons=[lon_max, lon_min])
+    map_dict['zoom'] = genMap.calc_zoom(lats=[lat_min, lat_max], lons=[lon_min, lon_max], img_dim={'height':1300, 'width':1600})
+     
+    return map_dict
+    # return {'total_distance':dist_mi, 'distance_uom':'miles','coordinates':coordinate_lst}
+    # return {'total_distance':dist_mi, 'distance_uom':'miles','coordinates':coordinate_lst, 'zoom':zoom, 'center':{'lon':center_lon, 'lat':center_lat}}

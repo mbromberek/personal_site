@@ -389,15 +389,15 @@ function mapSize(fullScreen){
 
 function showMap(map_json, track_clicks) {
     console.log('maps.js showMap');
-    /*
-    // console.log(map_json);
+
     apiKey = map_json.key;
     zoom = map_json.zoom;
     center_lon = map_json.center.lon;
     center_lat = map_json.center.lat;
-    lat_lon = map_json.lat_lon;
+    lat_lon = map_json.coordinates;
     
     var run_map_center = { pos:[center_lat, center_lon], zoom:zoom };
+    
     var greenIcon = new L.Icon({
         iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
         shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
@@ -407,5 +407,38 @@ function showMap(map_json, track_clicks) {
         popupAnchor: [1, -17],
         shadowSize: [20, 20]
     });
-    */
+
+    var polylinePoints = lat_lon;
+    var start_mark = {position:lat_lon[0], icon:startCircle, popup: 'Run Start'}
+    end_lat_lon = lat_lon[lat_lon.length -1]
+    var end_mark = {position:end_lat_lon, icon:endCircle, popup: 'Run End'};
+
+    map = L.map('map', {scrollWheelZoom: false} ).setView(run_map_center['pos'], run_map_center['zoom']);
+    
+    L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+      attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+      maxZoom: map_json.max_zoom,
+      id: 'mapbox/streets-v11',
+      tileSize: 512,
+      zoomOffset: -1,
+      accessToken: apiKey
+    }).addTo(map);
+    
+    
+    var polyline = L.polyline(polylinePoints, wrktLine).addTo(map);
+    
+    // L.marker(start_mark['position'], {icon: start_mark['icon']}).addTo(map).bindPopup(start_mark['popup']);
+    L.circleMarker(start_mark['position'], start_mark['icon']) .addTo(map).bindPopup(start_mark['popup']);
+    L.circleMarker(end_mark['position'], end_mark['icon']) .addTo(map).bindPopup(end_mark['popup']);
+    
+
+
+    if (track_clicks == true){
+        map.on('click', function(ev){
+            saveMapClick(ev)
+        });
+    }
+    
+    console.log('End: showMap');
+
 }
