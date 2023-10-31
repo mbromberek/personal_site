@@ -1,6 +1,8 @@
 var map;
 var lapMarkers;
 var mileMarkers;
+var mapbox_url_parms;
+var end_mark;
 
 var endCircle = {
     radius: 6,
@@ -97,7 +99,7 @@ function initMap(map_json, show_laps, show_miles, track_clicks) {
 
     var polylinePoints = lat_lon;
     var start_mark = {position:lat_lon[0], icon:startCircle, popup: 'Run Start'}
-    var end_mark = {position:lat_lon[lat_lon.length -1], icon:endCircle, popup: 'Run End'};
+    end_mark = {position:lat_lon[lat_lon.length -1], icon:endCircle, popup: 'Run End'};
     // var mile_one_mark = {position:[40.732828164473200, -89.57437014207240], icon:whiteCircle, popup: 'Mile 1'};
 
     var milePoints = [];
@@ -285,18 +287,6 @@ function locationMap(map_json, lat, lon, radius){
     L.circleMarker(location_mark['position'], location_mark['icon']).addTo(map);
 }
 
-function logMapClick(ev){
-    /**
-    Log latitude and longitude of point clicked on map
-    */
-    var latlng = map.mouseEventToLatLng(ev.originalEvent);
-    console.log(latlng.lat + ', ' + latlng.lng);
-}
-
-function saveMapClick(ev){
-    logMapClick(ev);
-}
-
 
 function initEventMap(map_json, track_clicks) {
     console.log('maps.js initEventMap');
@@ -395,6 +385,7 @@ function showMap(map_json, track_clicks) {
     center_lon = map_json.center.lon;
     center_lat = map_json.center.lat;
     lat_lon = map_json.coordinates;
+    mapbox_url_parms = map_json.mapbox_url_parms;
     
     var run_map_center = { pos:[center_lat, center_lon], zoom:zoom };
     
@@ -411,7 +402,7 @@ function showMap(map_json, track_clicks) {
     var polylinePoints = lat_lon;
     var start_mark = {position:lat_lon[0], icon:startCircle, popup: 'Run Start'}
     end_lat_lon = lat_lon[lat_lon.length -1]
-    var end_mark = {position:end_lat_lon, icon:endCircle, popup: 'Run End'};
+    end_mark = {position:end_lat_lon, icon:endCircle, popup: 'Run End'};
 
     map = L.map('map', {scrollWheelZoom: false} ).setView(run_map_center['pos'], run_map_center['zoom']);
     
@@ -442,3 +433,66 @@ function showMap(map_json, track_clicks) {
     console.log('End: showMap');
 
 }
+
+function saveMapClick(ev){
+    logMapClick(ev);
+    //TODO Might need a check for double click and ignore second click. 
+    console.log('Current End: ' + end_lat_lon);
+    let lat_lon = map.mouseEventToLatLng(ev.originalEvent);
+    let new_lat = Math.round(lat_lon.lat *10000) /10000;
+    let new_lon = Math.round(lat_lon.lng *10000) /10000;
+    let url_coord = end_lat_lon[1] + ',' + end_lat_lon[0] + ';' + new_lon + ',' + new_lat;
+    console.log('url_coord:' + url_coord);
+    
+    base_url = 'https://api.mapbox.com/directions/v5/mapbox/walking'
+    url = base_url + '/' + url_coord + '?' + mapbox_url_parms
+    console.log(url);
+    
+    //Call OpenBox to get direction from current end point to new point
+    $.get(url
+        
+    ).done(function(response){
+        new_end_point(response);
+    }).fail(function(){
+        console.error("Error: Could not contact server.");
+    })
+    ;
+}
+
+function logMapClick(ev){
+    /**
+    Log latitude and longitude of point clicked on map
+    */
+    let latlng = map.mouseEventToLatLng(ev.originalEvent);
+    console.log(latlng.lat + ', ' + latlng.lng);
+}
+
+function new_end_point(response){
+    console.log(response);
+    let route = response['routes'][0];
+    let leg = route['legs'][0];
+    let steps = leg['steps'];
+    let coordinate_lst = [];
+    // console.log(steps);
+    for (i=0; i<steps.length; i++){
+        // dist_mi = round(float(step['distance']) * meters_to_miles, 2)
+        coordinates = steps[i]['geometry']['coordinates']
+        // console.log(coordinates);
+        for (j=0; j<coordinates.length; j++){
+            coordinate = coordinates[j];
+            // longitude, latitude
+            coordinate_lst.push([coordinate[1],coordinate[0]]);
+        }
+    }
+    console.log(coordinate_lst);
+
+    //TODO fix error with removing end_mark
+    //map.removeLayer(end_mark);
+    end_lat_lon = coordinate_lst[coordinate_lst.length -1];
+    console.log('New End: ' + end_lat_lon);
+    var end_mark = {position:end_lat_lon, icon:endCircle, popup: 'Run End'};
+    L.circleMarker(end_mark['position'], end_mark['icon']) .addTo(map).bindPopup(end_mark['popup']);
+
+
+}
+

@@ -40,6 +40,14 @@ def generate_map():
     map_dict['key'] = current_app.config['MAPBOX_API_KEY']
     map_dict['max_zoom'] = current_app.config['MAP_MAX_ZOOM']
     
+    mapbox_url_parms_lst = []
+    mapbox_url_parms_lst.append('access_token={}'.format(current_app.config['MAPBOX_API_KEY']))
+    mapbox_url_parms_lst.append('annotations=distance')
+    mapbox_url_parms_lst.append('steps=true')
+    mapbox_url_parms_lst.append('geometries=geojson')
+    mapbox_url_parms = '&'.join(mapbox_url_parms_lst)
+    map_dict['mapbox_url_parms'] = mapbox_url_parms
+    
     return render_template('generate_map.html', title='Generate Workout map' \
       ,  map_json=map_dict, destPage='maps')
 
@@ -76,7 +84,9 @@ def parse_directions(data):
             if lat_max < coordinate[1]: lat_max = coordinate[1]
             if lat_min > coordinate[1]: lat_min = coordinate[1]
             # [0]=longitude, [1]=latitude
-            coordinate_lst.append([coordinate[1],coordinate[0], idx])
+            # coordinate_lst.append([coordinate[1],coordinate[0], idx])
+            # TODO determine how to pass Step start coordinates and determine if they are useful
+            coordinate_lst.append([coordinate[1],coordinate[0]])
     
     map_dict = {}
     map_dict['total_distance'] = tot_dist_mi
