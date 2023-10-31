@@ -8,7 +8,7 @@
             </div>
         </header>
         <div>
-            Total Distance: {{ '%0.2f' | format(map_json.total_distance|float) }} {{ map_json.distance_uom }}
+            Total Distance: <span id='tot_dist'>{{ '%0.2f' | format(map_json.total_distance|float) }}</span> {{ map_json.distance_uom }}
         </div>
     </div>
 

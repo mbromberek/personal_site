@@ -4,6 +4,8 @@ var mileMarkers;
 var mapbox_url_parms;
 var end_mark;
 var end_circle_marker;
+const METERS_TO_MILES = 0.000621371;
+var tot_dist_mi = 0;
 
 var endCircle = {
     radius: 6,
@@ -388,6 +390,10 @@ function showMap(map_json, track_clicks) {
     lat_lon = map_json.coordinates;
     mapbox_url_parms = map_json.mapbox_url_parms;
     
+    tot_dist_mi = Math.round(map_json.total_distance *100)/100;
+    tot_dist_elem = document.getElementById('tot_dist');
+    tot_dist_elem.innerHTML = tot_dist_mi;
+    
     var run_map_center = { pos:[center_lat, center_lon], zoom:zoom };
     
     var greenIcon = new L.Icon({
@@ -475,9 +481,10 @@ function new_end_point(response){
     let leg = route['legs'][0];
     let steps = leg['steps'];
     let coordinate_lst = [];
+    new_dist_m = 0;
     // console.log(steps);
     for (i=0; i<steps.length; i++){
-        // dist_mi = round(float(step['distance']) * meters_to_miles, 2)
+        new_dist_m += steps[i]['distance'];
         coordinates = steps[i]['geometry']['coordinates']
         // console.log(coordinates);
         for (j=0; j<coordinates.length; j++){
@@ -487,6 +494,8 @@ function new_end_point(response){
         }
     }
     console.log(coordinate_lst);
+    tot_dist_mi += new_dist_m * METERS_TO_MILES;
+    document.getElementById('tot_dist').innerHTML = Math.round(tot_dist_mi *100)/ 100;
     
     let polylinePoints = coordinate_lst;
     let polyline = L.polyline(polylinePoints, wrktLine).addTo(map);
