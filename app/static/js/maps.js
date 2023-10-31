@@ -3,6 +3,7 @@ var lapMarkers;
 var mileMarkers;
 var mapbox_url_parms;
 var end_mark;
+var end_circle_marker;
 
 var endCircle = {
     radius: 6,
@@ -404,6 +405,7 @@ function showMap(map_json, track_clicks) {
     end_lat_lon = lat_lon[lat_lon.length -1]
     end_mark = {position:end_lat_lon, icon:endCircle, popup: 'Run End'};
 
+
     map = L.map('map', {scrollWheelZoom: false} ).setView(run_map_center['pos'], run_map_center['zoom']);
     
     L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
@@ -420,7 +422,7 @@ function showMap(map_json, track_clicks) {
     
     // L.marker(start_mark['position'], {icon: start_mark['icon']}).addTo(map).bindPopup(start_mark['popup']);
     L.circleMarker(start_mark['position'], start_mark['icon']) .addTo(map).bindPopup(start_mark['popup']);
-    L.circleMarker(end_mark['position'], end_mark['icon']) .addTo(map).bindPopup(end_mark['popup']);
+    end_circle_marker = L.circleMarker(end_mark['position'], end_mark['icon']) .addTo(map).bindPopup(end_mark['popup']);
     
 
 
@@ -491,10 +493,12 @@ function new_end_point(response){
 
     //TODO fix error with removing end_mark
     //map.removeLayer(end_mark);
+    // console.log(end_circle_marker);
+    map.removeLayer(end_circle_marker);
     end_lat_lon = coordinate_lst[coordinate_lst.length -1];
     console.log('New End: ' + end_lat_lon);
-    var end_mark = {position:end_lat_lon, icon:endCircle, popup: 'Run End'};
-    L.circleMarker(end_mark['position'], end_mark['icon']) .addTo(map).bindPopup(end_mark['popup']);
+    let end_mark = {position:end_lat_lon, icon:endCircle, popup: 'Run End'};
+    end_circle_marker = L.circleMarker(end_mark['position'], end_mark['icon']) .addTo(map).bindPopup(end_mark['popup']);
 
 
 }
