@@ -485,6 +485,9 @@ function new_end_point(response){
         }
     }
     console.log(coordinate_lst);
+    
+    let polylinePoints = coordinate_lst;
+    let polyline = L.polyline(polylinePoints, wrktLine).addTo(map);
 
     //TODO fix error with removing end_mark
     //map.removeLayer(end_mark);
