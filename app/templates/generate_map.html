@@ -7,8 +7,13 @@
                 Generate Workout Route
             </div>
         </header>
-        <div>
+        <span>
             Total Distance: <span id='tot_dist'>{{ '%0.2f' | format(map_json.total_distance|float) }}</span> {{ map_json.distance_uom }}
+        </span>
+        <div>
+            <form action="JavaScript:undo_new_point()" role="form" class="form" style="margin-top:15px;">
+                <input type="submit" value="Undo">
+            </form>
         </div>
     </div>
 
