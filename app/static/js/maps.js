@@ -457,21 +457,27 @@ function saveMapClick(ev){
     let lat_lon = map.mouseEventToLatLng(ev.originalEvent);
     let new_lat = Math.round(lat_lon.lat *10000) /10000;
     let new_lon = Math.round(lat_lon.lng *10000) /10000;
-    let url_coord = end_lat_lon[1] + ',' + end_lat_lon[0] + ';' + new_lon + ',' + new_lat;
-    console.log('url_coord:' + url_coord);
-    
-    base_url = 'https://api.mapbox.com/directions/v5/mapbox/walking'
-    url = base_url + '/' + url_coord + '?' + mapbox_url_parms
-    console.log(url);
-    
-    //Call OpenBox to get direction from current end point to new point
-    $.get(url
-    ).done(function(response){
-        new_end_point(response);
-    }).fail(function(){
-        console.error("Error: Could not contact server.");
-    })
-    ;
+    if (document.getElementById('follow_roads').checked){
+        let url_coord = end_lat_lon[1] + ',' + end_lat_lon[0] + ';' + new_lon + ',' + new_lat;
+        console.log('url_coord:' + url_coord);
+        
+        base_url = 'https://api.mapbox.com/directions/v5/mapbox/walking'
+        url = base_url + '/' + url_coord + '?' + mapbox_url_parms
+        console.log(url);
+        
+        //Call OpenBox to get direction from current end point to new point
+        $.get(url
+        ).done(function(response){
+            new_directions(response);
+        }).fail(function(){
+            console.error("Error: Could not contact server.");
+        })
+        ;
+    }else{
+        new_points = [end_lat_lon, [new_lat,new_lon]]
+        //Draw straight line between end coord and new point
+        new_point_to_point(new_points, 1931);
+    }
 }
 
 function logMapClick(ev){
@@ -482,7 +488,7 @@ function logMapClick(ev){
     console.log(latlng.lat + ', ' + latlng.lng);
 }
 
-function new_end_point(response){
+function new_directions(response){
     // console.log(response);
     let route = response['routes'][0];
     let leg = route['legs'][0];
@@ -500,22 +506,30 @@ function new_end_point(response){
             coordinate_lst.push([coordinate[1],coordinate[0]]);
         }
     }
-    // map_coord_lst.push(coordinate_lst);
-    map_coord_lst.push( new Map([['lat_lon',coordinate_lst],['dist',new_dist_m * METERS_TO_MILES]]) );
+    new_end_point(coordinate_lst, new_dist_m*METERS_TO_MILES);
+}
+
+function new_point_to_point(new_points, dist_m){
+    new_end_point(new_points, dist_m*METERS_TO_MILES);
+    
+}
+
+function new_end_point(coordinate_lst, dist_mi){
+    map_coord_lst.push( new Map([['lat_lon',coordinate_lst],['dist',dist_mi]]) );
     // console.log(coordinate_lst);
-    tot_dist_mi += new_dist_m * METERS_TO_MILES;
+    tot_dist_mi += dist_mi;
     document.getElementById('tot_dist').innerHTML = Math.round(tot_dist_mi *100)/ 100;
     
-    let polylinePoints = coordinate_lst;
-    let polyline = L.polyline(polylinePoints, wrktLine).addTo(map);
+    // let polylinePoints = coordinate_lst;
+    let polyline = L.polyline(coordinate_lst, wrktLine).addTo(map);
     map_line_lst.push(polyline);
-
+    
     map.removeLayer(end_circle_marker);
     end_lat_lon = coordinate_lst[coordinate_lst.length -1];
     console.log('New End: ' + end_lat_lon);
     let end_mark = {position:end_lat_lon, icon:endCircle, popup: 'Workout End'};
     end_circle_marker = L.circleMarker(end_mark['position'], end_mark['icon']) .addTo(map).bindPopup(end_mark['popup']);
-
+    
     console.log(map_coord_lst);
 }
 
