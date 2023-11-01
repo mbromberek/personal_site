@@ -474,9 +474,8 @@ function saveMapClick(ev){
         })
         ;
     }else{
-        new_points = [end_lat_lon, [new_lat,new_lon]]
         //Draw straight line between end coord and new point
-        new_point_to_point(new_points, 1931);
+        new_point_to_point(end_lat_lon, [new_lat,new_lon]);
     }
 }
 
@@ -509,9 +508,37 @@ function new_directions(response){
     new_end_point(coordinate_lst, new_dist_m*METERS_TO_MILES);
 }
 
-function new_point_to_point(new_points, dist_m){
-    new_end_point(new_points, dist_m*METERS_TO_MILES);
+function new_point_to_point(start_pt, end_pt){
+    let dist_m = get_distance(start_pt, end_pt);
     
+    new_end_point([start_pt, end_pt], dist_m*METERS_TO_MILES);
+}
+
+/**
+Uses Haverstine method to get distance between start_pt and end_pt
+distance is returned in meters
+ */
+function get_distance(start_pt, end_pt){
+    const R = 6371e3; // metres
+    const lat = 0;
+    const lon = 1
+
+    let lat_radian_1 = start_pt[lat]  * Math.PI/180;
+    let lat_radian_2 = end_pt[lat]  * Math.PI/180;
+    // const φ1 = lat1 * Math.PI/180; // φ, λ in radians
+    // const φ2 = lat2 * Math.PI/180;
+    // const Δφ = (lat2-lat1) * Math.PI/180;
+    // const Δλ = (lon2-lon1) * Math.PI/180;
+    const delta_lat = (end_pt[lat] - start_pt[lat]) * Math.PI/180;
+    const delta_lon = (end_pt[lon] - start_pt[lon]) * Math.PI/180;
+    
+    const a = Math.sin(delta_lat/2) * Math.sin(delta_lat/2) +
+              Math.cos(lat_radian_1) * Math.cos(lat_radian_2) *
+              Math.sin(delta_lon/2) * Math.sin(delta_lon/2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    
+    const d = R * c; // in metres
+    return d;
 }
 
 function new_end_point(coordinate_lst, dist_mi){
