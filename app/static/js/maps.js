@@ -385,6 +385,13 @@ function mapSize(fullScreen){
     map.style.height='1000px';
 }
 
+
+
+
+
+/**
+CODE FOR CREATING ROUTES
+ */
 function showMap(map_json, track_clicks) {
     console.log('maps.js showMap');
 
@@ -412,7 +419,8 @@ function showMap(map_json, track_clicks) {
     });
 
     var polylinePoints = lat_lon;
-    map_coord_lst.push( new Map([['lat_lon',lat_lon],['dist',tot_dist_mi]]) );
+    // map_coord_lst.push( new Map([['lat_lon',lat_lon],['dist',tot_dist_mi]]) );
+    map_coord_lst.push({'lat_lon':lat_lon, 'dist':tot_dist_mi});
     
     var start_mark = {position:lat_lon[0], icon:startCircle, popup: 'Run Start'}
     end_lat_lon = lat_lon[lat_lon.length -1]
@@ -542,7 +550,8 @@ function get_distance(start_pt, end_pt){
 }
 
 function new_end_point(coordinate_lst, dist_mi){
-    map_coord_lst.push( new Map([['lat_lon',coordinate_lst],['dist',dist_mi]]) );
+    // map_coord_lst.push( new Map([['lat_lon',coordinate_lst],['dist',dist_mi]]) );
+    map_coord_lst.push({'lat_lon':coordinate_lst, 'dist':dist_mi});
     // console.log(coordinate_lst);
     tot_dist_mi += dist_mi;
     document.getElementById('tot_dist').innerHTML = Math.round(tot_dist_mi *100)/ 100;
@@ -571,9 +580,10 @@ function undo_new_point(){
         
         let last_coord_lst = map_coord_lst[map_coord_lst.length-1];
         console.log(last_coord_lst);
-        end_lat_lon = last_coord_lst.get('lat_lon')[last_coord_lst.get('lat_lon').length-1];
+        // end_lat_lon = last_coord_lst.get('lat_lon')[last_coord_lst.get('lat_lon').length-1];
+        end_lat_lon = last_coord_lst['lat_lon'][last_coord_lst['lat_lon'].length-1];
         
-        tot_dist_mi -= rm_coord_lst.get('dist');
+        tot_dist_mi -= rm_coord_lst['dist'];
         document.getElementById('tot_dist').innerHTML = Math.round(tot_dist_mi *100)/ 100;
         
         let end_mark = {position:end_lat_lon, icon:endCircle, popup: 'Workout End'};
@@ -584,3 +594,36 @@ function undo_new_point(){
     }
 }
 
+function save_route(){
+    console.log('save_route')
+    route_name = document.getElementById('route_name').value;
+    console.log('Save \'' + route_name + '\' distance of ' + tot_dist_mi + ' miles.');
+    console.log(map_coord_lst[0]['dist']);
+    route_json = JSON.stringify(map_coord_lst) 
+    console.log(route_json)
+    d = {
+        route_name: route_name,
+        dist: tot_dist_mi,
+        route_coord_lst: route_json,
+        dist_uom: 'mile'
+    };
+    console.log(d)
+    $.post('/save_route', d
+    ).done(function(response){
+        console.log('save_route response received');
+    }).fail(function(){
+        console.error("Error: Could not contact server.");
+    })
+    ;
+    // $.post('/save_route', {
+    //     route_name: route_name,
+    //     dist: tot_dist_mi,
+    //     route_coord_lst: json(map_coord_lst),
+    //     dist_uom: 'mile'
+    // }).done(function(response){
+    //     console.log('save_route response received');
+    // }).fail(function(){
+    //     console.error("Error: Could not contact server.");
+    // })
+    // ;
+}

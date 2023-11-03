@@ -10,12 +10,25 @@
         <span>
             Total Distance: <span id='tot_dist'>{{ '%0.2f' | format(map_json.total_distance|float) }}</span> {{ map_json.distance_uom }}
         </span>
-        <div>
-            <form action="JavaScript:undo_new_point()" role="form" class="form" style="margin-top:15px;">
-                <input type="submit" value="Undo">
-                &nbsp;
-                <input id="follow_roads" name="follow_roads" type="checkbox" checked>
-                <label for="follow_roads">Follow Roads/Trails</label>
+        <div style='margin-bottom:20px;'>
+            <form action="JavaScript:save_route()" role="form" class="form" style="margin-top:15px;">
+                
+                <span style="width:60px;">
+                    <input style="border: 1px solid black;width: 200px;" type="string" id="route_name" name="Route Name" required>
+                </span>
+                <span>
+                    <input type="submit" value="Save">
+                </span>
+                                    
+                <span style='margin-left:20px;'>
+                    <input id="follow_roads" name="follow_roads" type="checkbox" checked>
+                    <label for="follow_roads">Follow Roads/Trails</label>
+                </span>
+                
+                <span style="margin-left:20px;">
+                    <input id="undo" type="button" onclick="JavaScript:undo_new_point()" value="Undo">
+                </span>
+                
             </form>
         </div>
     </div>

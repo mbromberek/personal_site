@@ -51,6 +51,22 @@ def generate_map():
     return render_template('generate_map.html', title='Generate Workout map' \
       ,  map_json=map_dict, destPage='maps')
 
+@bp.route('/save_route', methods=['GET','POST'])
+@login_required
+def save_route():
+    logger.info('save_route POST')
+    data = request.form
+    logger.info(data.keys())
+    req_route_name = data['route_name']
+    req_dist = data['dist']
+    req_dist_uom = data['dist_uom']
+    req_coord_dict = json.loads(data['route_coord_lst'])
+    logger.info('Route {} is {} {}'.format(\
+        req_route_name, req_dist, req_dist_uom))
+    logger.info(req_coord_dict)
+    logger.info(data['route_coord_lst'])
+    return jsonify({})
+
 def parse_directions(data):
     meters_to_miles = float(const.METERS_TO_MILES)
     
