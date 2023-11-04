@@ -63,8 +63,8 @@ def save_route():
     req_coord_dict = json.loads(data['route_coord_lst'])
     logger.info('Route {} is {} {}'.format(\
         req_route_name, req_dist, req_dist_uom))
-    logger.info(req_coord_dict)
-    logger.info(data['route_coord_lst'])
+    # logger.info(req_coord_dict)
+    # logger.info(len(req_coord_dict))
     return jsonify({})
 
 def parse_directions(data):
