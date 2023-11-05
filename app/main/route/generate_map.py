@@ -52,6 +52,64 @@ def generate_map():
     return render_template('generate_map.html', title='Generate Workout map' \
       ,  map_json=map_dict, destPage='maps')
 
+@bp.route('/edit_route', methods=['GET'])
+@login_required
+def edit_route():
+    logger.info('edit_route')
+    usr_id = current_user.id
+    route_id = ''
+    if 'route' in request.args:
+        route_id = request.args.get('route')
+    
+    map_dict = {}
+    map_dict['key'] = current_app.config['MAPBOX_API_KEY']
+    map_dict['max_zoom'] = current_app.config['MAP_MAX_ZOOM']
+    
+    map_dict['mapbox_url_parms'] = gen_mapbox_parms_url()
+    
+    mapbox_url_parms_lst = []
+    mapbox_url_parms_lst.append('access_token={}'.format(current_app.config['MAPBOX_API_KEY']))
+    mapbox_url_parms_lst.append('annotations=distance')
+    mapbox_url_parms_lst.append('steps=true')
+    mapbox_url_parms_lst.append('geometries=geojson')
+    mapbox_url_parms = '&'.join(mapbox_url_parms_lst)
+    map_dict['mapbox_url_parms'] = mapbox_url_parms
+    
+    # Morton Trail Start
+    lat_center = 40.619374
+    lon_center = -89.471065
+    # RCO
+    lat_center = 40.6877
+    lon_center = -89.5905
+
+
+    # Start with blank route or load from DB if there is a route ID
+    if route_id == '':
+        map_dict['total_distance'] = 0
+        map_dict['distance_uom'] = 'miles'
+        map_dict['coordinates'] = []
+        map_dict['center'] = {'lat':lat_center, 'lon':lon_center}
+        map_dict['zoom'] = 16
+    else:
+        direction_json_fname = os.path.join(basedir, "static/data/direction.json")
+        with open(direction_json_fname) as direction_file:
+            direction_data = json.load(direction_file)
+        map_dict.update(parse_directions(direction_data))
+    
+    return render_template('generate_map.html', title='Generate Workout map' \
+        ,  map_json=map_dict, destPage='maps')
+
+@bp.route('/route', methods=['GET'])
+@login_required
+def route():
+    logger.info('route')
+
+@bp.route('/routes', methods=['GET'])
+@login_required
+def routes():
+    logger.info('routes')
+
+
 @bp.route('/save_route', methods=['GET','POST'])
 @login_required
 def save_route():
@@ -164,3 +222,12 @@ def parse_directions(data):
     return map_dict
     # return {'total_distance':dist_mi, 'distance_uom':'miles','coordinates':coordinate_lst}
     # return {'total_distance':dist_mi, 'distance_uom':'miles','coordinates':coordinate_lst, 'zoom':zoom, 'center':{'lon':center_lon, 'lat':center_lat}}
+
+def gen_mapbox_parms_url():
+    mapbox_url_parms_lst = []
+    mapbox_url_parms_lst.append('access_token={}'.format(current_app.config['MAPBOX_API_KEY']))
+    mapbox_url_parms_lst.append('annotations=distance')
+    mapbox_url_parms_lst.append('steps=true')
+    mapbox_url_parms_lst.append('geometries=geojson')
+    mapbox_url_parms = '&'.join(mapbox_url_parms_lst)
+    return mapbox_url_parms

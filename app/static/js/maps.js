@@ -5,11 +5,14 @@ var mileMarkers;
 //For generating map
 var mapbox_url_parms;
 var end_mark;
+var start_circle_marker;
 var end_circle_marker;
 const METERS_TO_MILES = 0.000621371;
 var tot_dist_mi = 0;
 var map_coord_lst = [];
 var map_line_lst = [];
+var end_lat_lon = [];
+var remove_first_map_line = true;
 //End of For generating map
 
 var endCircle = {
@@ -418,15 +421,6 @@ function showMap(map_json, track_clicks) {
         shadowSize: [20, 20]
     });
 
-    var polylinePoints = lat_lon;
-    // map_coord_lst.push( new Map([['lat_lon',lat_lon],['dist',tot_dist_mi]]) );
-    map_coord_lst.push({'lat_lon':lat_lon, 'dist':tot_dist_mi});
-    
-    var start_mark = {position:lat_lon[0], icon:startCircle, popup: 'Run Start'}
-    end_lat_lon = lat_lon[lat_lon.length -1]
-    end_mark = {position:end_lat_lon, icon:endCircle, popup: 'Run End'};
-
-
     map = L.map('map', {scrollWheelZoom: false} ).setView(run_map_center['pos'], run_map_center['zoom']);
     
     L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
@@ -437,16 +431,23 @@ function showMap(map_json, track_clicks) {
       zoomOffset: -1,
       accessToken: apiKey
     }).addTo(map);
-    
-    
-    let polyline = L.polyline(polylinePoints, wrktLine).addTo(map);
-    map_line_lst.push(polyline);
-    
-    // L.marker(start_mark['position'], {icon: start_mark['icon']}).addTo(map).bindPopup(start_mark['popup']);
-    L.circleMarker(start_mark['position'], start_mark['icon']) .addTo(map).bindPopup(start_mark['popup']);
-    end_circle_marker = L.circleMarker(end_mark['position'], end_mark['icon']) .addTo(map).bindPopup(end_mark['popup']);
-    
 
+    if (lat_lon.length >0){
+        var polylinePoints = lat_lon;
+        // map_coord_lst.push( new Map([['lat_lon',lat_lon],['dist',tot_dist_mi]]) );
+        map_coord_lst.push({'lat_lon':lat_lon, 'dist':tot_dist_mi});
+        
+        var start_mark = {position:lat_lon[0], icon:startCircle, popup: 'Run Start'}
+        end_lat_lon = lat_lon[lat_lon.length -1]
+        end_mark = {position:end_lat_lon, icon:endCircle, popup: 'Run End'};
+    
+        let polyline = L.polyline(polylinePoints, wrktLine).addTo(map);
+        map_line_lst.push(polyline);
+        
+        // L.marker(start_mark['position'], {icon: start_mark['icon']}).addTo(map).bindPopup(start_mark['popup']);
+        start_circle_marker = L.circleMarker(start_mark['position'], start_mark['icon']) .addTo(map).bindPopup(start_mark['popup']);
+        end_circle_marker = L.circleMarker(end_mark['position'], end_mark['icon']) .addTo(map).bindPopup(end_mark['popup']);
+    }
 
     if (track_clicks == true){
         map.on('click', function(ev){
@@ -462,10 +463,16 @@ function saveMapClick(ev){
     logMapClick(ev);
     //TODO Might need a check for double click and ignore second click. 
     console.log('Current End: ' + end_lat_lon);
+    
     let lat_lon = map.mouseEventToLatLng(ev.originalEvent);
     let new_lat = Math.round(lat_lon.lat *10000) /10000;
     let new_lon = Math.round(lat_lon.lng *10000) /10000;
-    if (document.getElementById('follow_roads').checked){
+    if (end_lat_lon.length == 0){
+        var start_mark = {position:[new_lat,new_lon], icon:startCircle, popup: 'Run Start'}
+        start_circle_marker = L.circleMarker(start_mark['position'], start_mark['icon']) .addTo(map).bindPopup(start_mark['popup']);
+        end_lat_lon = [new_lat,new_lon];
+    } 
+    else if (document.getElementById('follow_roads').checked){
         let url_coord = end_lat_lon[1] + ',' + end_lat_lon[0] + ';' + new_lon + ',' + new_lat;
         console.log('url_coord:' + url_coord);
         
@@ -494,6 +501,7 @@ function logMapClick(ev){
     let latlng = map.mouseEventToLatLng(ev.originalEvent);
     console.log(latlng.lat + ', ' + latlng.lng);
 }
+
 
 function new_directions(response){
     // console.log(response);
@@ -560,7 +568,9 @@ function new_end_point(coordinate_lst, dist_mi){
     let polyline = L.polyline(coordinate_lst, wrktLine).addTo(map);
     map_line_lst.push(polyline);
     
-    map.removeLayer(end_circle_marker);
+    if (typeof end_circle_marker !== 'undefined'){
+        map.removeLayer(end_circle_marker);
+    }
     end_lat_lon = coordinate_lst[coordinate_lst.length -1];
     console.log('New End: ' + end_lat_lon);
     let end_mark = {position:end_lat_lon, icon:endCircle, popup: 'Workout End'};
@@ -571,26 +581,34 @@ function new_end_point(coordinate_lst, dist_mi){
 
 function undo_new_point(){
     console.log('undo_new_point');
-    if (map_line_lst.length >1){
-        let rm_line = map_line_lst.pop();
-        let rm_coord_lst = map_coord_lst.pop();
-        map.removeLayer(rm_line);
-        map.removeLayer(end_circle_marker);
-        
-        
-        let last_coord_lst = map_coord_lst[map_coord_lst.length-1];
-        console.log(last_coord_lst);
-        // end_lat_lon = last_coord_lst.get('lat_lon')[last_coord_lst.get('lat_lon').length-1];
-        end_lat_lon = last_coord_lst['lat_lon'][last_coord_lst['lat_lon'].length-1];
-        
-        tot_dist_mi -= rm_coord_lst['dist'];
-        document.getElementById('tot_dist').innerHTML = Math.round(tot_dist_mi *100)/ 100;
-        
-        let end_mark = {position:end_lat_lon, icon:endCircle, popup: 'Workout End'};
-        end_circle_marker = L.circleMarker(end_mark['position'], end_mark['icon']) .addTo(map)   .bindPopup(end_mark['popup']);
-        console.log(map_coord_lst);
+    if (map_line_lst.length >1 || remove_first_map_line){
+        if (map_line_lst.length == 0){
+            //REMOVE START MARKER
+            map.removeLayer(start_circle_marker);
+        }else{
+            let rm_line = map_line_lst.pop();
+            let rm_coord_lst = map_coord_lst.pop();
+            map.removeLayer(rm_line);
+            map.removeLayer(end_circle_marker);
+            
+            
+            let last_coord_lst = map_coord_lst[map_coord_lst.length-1];
+            if (typeof last_coord_lst !== 'undefined'){
+                console.log(last_coord_lst);
+                // end_lat_lon = last_coord_lst.get('lat_lon')[last_coord_lst.get('lat_lon').length-1];
+                end_lat_lon = last_coord_lst['lat_lon'][last_coord_lst['lat_lon'].length-1];
+
+                let end_mark = {position:end_lat_lon, icon:endCircle, popup: 'Workout End'};
+                end_circle_marker = L.circleMarker(end_mark['position'], end_mark['icon']) .addTo(map)   .bindPopup(end_mark['popup'])
+            }else{
+                end_lat_lon = [];
+                end_circle_marker = undefined;
+            }
+            tot_dist_mi -= rm_coord_lst['dist'];
+            document.getElementById('tot_dist').innerHTML = Math.round(tot_dist_mi *100)/ 100;
+        }
     }else{
-        alert('Cannot remove initial line');
+        alert('Cannot remove start of route');
     }
 }
 
@@ -601,7 +619,7 @@ function save_route(){
     console.log(map_coord_lst[0]['dist']);
     route_json = JSON.stringify(map_coord_lst) 
     console.log(route_json)
-    # TODO include ID if there was one meaning this is updating an existing route
+    // TODO include ID if there was one meaning this is updating an existing route
     d = {
         route_name: route_name,
         dist: tot_dist_mi,
