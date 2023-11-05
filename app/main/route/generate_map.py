@@ -116,13 +116,14 @@ def routes():
 @bp.route('/save_route', methods=['GET','POST'])
 @login_required
 def save_route():
-    
+    usr_id = current_user.id
     # TODO Check if USER_ID, NAME already exist and if they do ask user about override
     logger.info('save_route POST')
     data = request.form
     logger.info(data.keys())
     if 'route_id' in data:
         req_route_id = data['route_id']
+        # Check if route exists for user name
     else:
         req_route_id = ''
     req_route_name = data['route_name']
@@ -145,8 +146,16 @@ def save_route():
     coord_str = str(coord_lst)
     logger.info('Length of Coordinates String: ' + str(len(coord_str))) # Max size is 10,485,760
     
-    route = Route()
-    route.user_id = current_user.id
+    if req_route_id == '':
+        route = Route()
+    else:
+        route = Route.query.filter_by(id=req_route_id, user_id=usr_id).first_or_404(description="Route not found for current user")
+        route_coord_lst = sorted(Route_coord.query.filter_by( \
+          route_id=req_route_id, user_id=usr_id))
+        for route_coord in route_coord_lst:
+            db.session.delete(route_coord)
+    
+    route.user_id = usr_id
     if len(req_route_name) <= 255:
         route.name = req_route_name
     else:

@@ -454,6 +454,7 @@ function showMap(map_json, track_clicks) {
         route_id = map_json.route_id;
         document.getElementById('save_btn').value = 'Update';
         document.getElementById('route_name').value = map_json.name;
+        remove_first_map_line = false; //Cannot remove line from before workout loaded
     }
 
     if (track_clicks == true){
@@ -627,14 +628,17 @@ function save_route(){
     route_json = JSON.stringify(map_coord_lst) 
     console.log(route_json)
     // TODO include ID if there was one meaning this is updating an existing route
-    d = {
+    route_dict = {
         route_name: route_name,
         dist: tot_dist_mi,
         route_coord_lst: route_json,
         dist_uom: 'mile'
     };
-    console.log(d)
-    $.post('/save_route', d
+    if (route_id != ''){
+        route_dict['route_id'] = route_id;
+    }
+    console.log(route_dict)
+    $.post('/save_route', route_dict
     ).done(function(response){
         console.log('save_route response received');
     }).fail(function(){
