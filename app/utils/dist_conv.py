@@ -19,4 +19,12 @@ def dist_to_meters(dist_orig, dist_orig_uom):
     return dist_orig / METERS_TO_MILES
   elif dist_orig_uom.lower() in ['meter','meters']:
     return dist_orig
-  return dist_orig
+  raise ValueError('Invalid Source Unit of Measure')
+
+def dist_to_miles(dist_orig, dist_orig_uom):
+  dist_float = float(dist_orig)
+  if dist_orig_uom.lower() in ['mile','miles']:
+    return dist_float
+  elif dist_orig_uom.lower() in ['meter','meters']:
+    return dist_float * METERS_TO_MILES
+  raise ValueError('Invalid Source Unit of Measure')
