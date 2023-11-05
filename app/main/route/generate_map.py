@@ -91,10 +91,13 @@ def edit_route():
         map_dict['center'] = {'lat':lat_center, 'lon':lon_center}
         map_dict['zoom'] = 16
     else:
-        direction_json_fname = os.path.join(basedir, "static/data/direction.json")
-        with open(direction_json_fname) as direction_file:
-            direction_data = json.load(direction_file)
-        map_dict.update(parse_directions(direction_data))
+        route = Route.query.filter_by(id=route_id, user_id=usr_id).first_or_404(description="Route not found for current user")
+        route_coord_lst = sorted(Route_coord.query.filter_by( \
+          route_id=route_id, user_id=usr_id))
+        # direction_json_fname = os.path.join(basedir, "static/data/direction.json")
+        # with open(direction_json_fname) as direction_file:
+            # direction_data = json.load(direction_file)
+        map_dict.update(parse_route(route, route_coord_lst))
     
     return render_template('generate_map.html', title='Generate Workout map' \
         ,  map_json=map_dict, destPage='maps')
@@ -175,6 +178,44 @@ def save_route():
     
     return jsonify({})
 
+'''
+Parse data for route read from database
+Combine all rows that are in route_coord_lst to get one list with all coordinates
+'''
+def parse_route(route, route_coord_lst):
+    map_dict = {}
+    map_dict['total_distance'] = dist_conv.dist_to_miles(route.dist, route.dist_uom)
+    map_dict['distance_uom'] = 'miles'
+    map_dict['name'] = route.name
+    map_dict['route_id'] = route.id
+    
+    coordinate_lst = []
+    lon_max = -999
+    lat_max = -999
+    lon_min = 999
+    lat_min = 999
+    
+    for idx, step in enumerate(route_coord_lst):
+        coordinates = json.loads(step.coordinates)
+        # coordinates = list(step.coordinates)
+        logger.info('Step {}: {} coordinates'.format(\
+            step.step, len(coordinates)))
+        for coordinate in coordinates:
+            lon = float(coordinate[1])
+            lat = float(coordinate[0])
+            if lon_max < lon: lon_max = lon
+            if lon_min > lon: lon_min = lon
+            if lat_max < lat: lat_max = lat
+            if lat_min > lat: lat_min = lat
+            
+            coordinate_lst.append([lat,lon])
+
+    map_dict['coordinates'] = coordinate_lst
+    map_dict['center'] = genMap.calc_center(lats=[lat_max, lat_min], lons=[lon_max, lon_min])
+    map_dict['zoom'] = genMap.calc_zoom(lats=[lat_min, lat_max], lons=[lon_min, lon_max], img_dim={'height':1300, 'width':1600})
+     
+    return map_dict
+    
 def parse_directions(data):
     meters_to_miles = float(const.METERS_TO_MILES)
     
