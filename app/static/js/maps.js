@@ -13,6 +13,7 @@ var map_coord_lst = [];
 var map_line_lst = [];
 var end_lat_lon = [];
 var remove_first_map_line = true;
+var route_id = '';
 //End of For generating map
 
 var endCircle = {
@@ -447,6 +448,12 @@ function showMap(map_json, track_clicks) {
         // L.marker(start_mark['position'], {icon: start_mark['icon']}).addTo(map).bindPopup(start_mark['popup']);
         start_circle_marker = L.circleMarker(start_mark['position'], start_mark['icon']) .addTo(map).bindPopup(start_mark['popup']);
         end_circle_marker = L.circleMarker(end_mark['position'], end_mark['icon']) .addTo(map).bindPopup(end_mark['popup']);
+    }
+    
+    if ('route_id' in map_json){
+        route_id = map_json.route_id;
+        document.getElementById('save_btn').value = 'Update';
+        document.getElementById('route_name').value = map_json.name;
     }
 
     if (track_clicks == true){
