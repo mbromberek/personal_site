@@ -601,6 +601,7 @@ function save_route(){
     console.log(map_coord_lst[0]['dist']);
     route_json = JSON.stringify(map_coord_lst) 
     console.log(route_json)
+    # TODO include ID if there was one meaning this is updating an existing route
     d = {
         route_name: route_name,
         dist: tot_dist_mi,

@@ -23,9 +23,10 @@ import GenerateMapImage.gen_map_img as genMap
 
 # Custom classes
 from app.main import bp
-# from app import db
+from app import db
+from app.model.mapping_route import Route, Route_coord
 from app import logger, basedir
-from app.utils import const
+from app.utils import const, dist_conv
 
 @bp.route('/generate_map', methods=['GET'])
 @login_required
@@ -54,17 +55,66 @@ def generate_map():
 @bp.route('/save_route', methods=['GET','POST'])
 @login_required
 def save_route():
+    
+    # TODO Check if USER_ID, NAME already exist and if they do ask user about override
     logger.info('save_route POST')
     data = request.form
     logger.info(data.keys())
+    if 'route_id' in data:
+        req_route_id = data['route_id']
+    else:
+        req_route_id = ''
     req_route_name = data['route_name']
-    req_dist = data['dist']
+    req_dist = float(data['dist']) #TODO handle string to float
     req_dist_uom = data['dist_uom']
     req_coord_dict = json.loads(data['route_coord_lst'])
-    logger.info('Route {} is {} {}'.format(\
+    logger.info('Route \'{}\' is {} {}'.format(\
         req_route_name, req_dist, req_dist_uom))
     # logger.info(req_coord_dict)
-    # logger.info(len(req_coord_dict))
+    logger.info(len(req_coord_dict))
+    req_coord_str = str(req_coord_dict)
+    
+    coord_lst = []
+    
+    for coord in req_coord_dict:
+        coord_lst.extend(coord['lat_lon'])
+        logger.info('Group distance: ' + str(coord['dist']))
+    logger.info(len(coord_lst))
+    logger.info(coord_lst[0])
+    coord_str = str(coord_lst)
+    logger.info('Length of Coordinates String: ' + str(len(coord_str))) # Max size is 10,485,760
+    
+    route = Route()
+    route.user_id = current_user.id
+    if len(req_route_name) <= 255:
+        route.name = req_route_name
+    else:
+        logger.error('Route Name: {} is longer than max of 255'.format(req_route_name))
+    POSTGRES_VARCHAR_MAX_LENGTH = 10485760
+    if (len(coord_str) > POSTGRES_VARCHAR_MAX_LENGTH):
+        err_msg = 'Route contains too many coordinates'
+        logger.error(err_msg)
+        return jsonify({'ERR_MSG':err_msg})
+    route.dist = dist_conv.dist_to_meters(req_dist, req_dist_uom)
+    route.dist_uom = 'meters'
+    route.public = False
+    route.lat_start = coord_lst[0][0]
+    route.lon_start = coord_lst[0][1]
+    route.lat_end = coord_lst[-1][0]
+    route.lon_end = coord_lst[-1][1]
+    route.updt_ts = datetime.utcnow()
+    db.session.add(route)
+    db.session.commit()
+    db.session.refresh(route)
+    
+    route_coord = Route_coord()
+    route_coord.route_id = route.id
+    route_coord.step = 1
+    route_coord.user_id = current_user.id
+    route_coord.coordinates = coord_str
+    db.session.add(route_coord)
+    db.session.commit()
+    
     return jsonify({})
 
 def parse_directions(data):
