@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+    <div  class="workout_hdr">
+        <header class="workout " style="overflow:auto; display: flex; ">
+            <div  class="workout_hdr_type">
+                Generate Workout Route
+            </div>
+        </header>
+        <span>
+            Total Distance: <span id='tot_dist'>{{ '%0.2f' | format(map_json.total_distance|float) }}</span> {{ map_json.distance_uom }}
+        </span>
+        <div style='margin-bottom:20px;'>
+            <form action="JavaScript:save_route()" role="form" class="form" style="margin-top:15px;">
+                
+                <span style="width:60px;">
+                    <input style="border: 1px solid black;width: 200px;" type="string" id="route_name" name="Route Name" required>
+                </span>
+                <span>
+                    <input id='save_btn' type="submit" value="Save">
+                </span>
+                                    
+                <span style='margin-left:20px;'>
+                    <input id="follow_roads" name="follow_roads" type="checkbox" checked>
+                    <label for="follow_roads">Follow Roads/Trails</label>
+                </span>
+                
+                <span style="margin-left:20px;">
+                    <input id="undo" type="button" onclick="JavaScript:undo_new_point()" value="Undo">
+                </span>
+                
+            </form>
+        </div>
+    </div>
+
+    <div class="generate_map" >
+        <div id="map" style="height:600px;">
+        </div>
+        <script>
+            JavaScript:showMap({{ map_json|tojson|safe }}, true);
+        </script>
+    </div>
+
+    {#
+    {% if wrkt_data_lst|length >0 %}
+
+    <div id="elevation_chart">
+        <div id="tooltip" class="tooltip">
+            <div id="duration" class="tip_header"></div>
+            <div id="elevation"></div>
+            <div id="distance"></div>
+            <div id="heartrate"></div>
+            <div id="pace"></div>
+            <div id="duration"></div>
+        </div>
+        <div class="chart_legend">
+            <span class="elevation_legend">Elevation (ft)</span>
+            <span class="pace_legend">Pace (minutes per mile)</span>
+            <span class="heart_rate_legend">Heart Rate</span>
+        </div>
+    </div>
+    <script>
+        JavaScript:initChart({{ wrkt_data_lst|tojson|safe }}, {{ wrkt_miles_dict|tojson|safe }} );
+    </script>
+    {% endif %}
+    #}
+
+
+
+{% endblock %}
