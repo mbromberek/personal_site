@@ -50,7 +50,7 @@ def generate_map():
     map_dict['mapbox_url_parms'] = mapbox_url_parms
     
     return render_template('generate_map.html', title='Generate Workout map' \
-      ,  map_json=map_dict, destPage='maps')
+      ,  map_json=map_dict, destPage='generate_map')
 
 @bp.route('/edit_route', methods=['GET'])
 @login_required
@@ -100,7 +100,7 @@ def edit_route():
         map_dict.update(parse_route(route, route_coord_lst))
     
     return render_template('generate_map.html', title='Generate Workout map' \
-        ,  map_json=map_dict, destPage='maps')
+        ,  map_json=map_dict, destPage='generate_map')
 
 @bp.route('/route', methods=['GET'])
 @login_required
