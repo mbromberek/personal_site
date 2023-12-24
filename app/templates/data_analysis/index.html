@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+
+<div class="data_analysis_flex_container">
+  <div class="data_analysis_flex_item">
+    <a class="data_analysis_lnk" href="{{ url_for('main.data_analysis', id=1) }}" >
+      <img src="static/images/data_analysis/15K_Average_male_finisher_times_5yr_age_goups_2_vs_3_loops.png" width="350" height="175" alt="Steamboat 15K chart" title="Steamboat 15K chart"><br/>
+      Steamboat 15K Race Data Analysis
+    </a>
+  </div>
+  <div class="data_analysis_flex_item">
+    <a class="data_analysis_lnk" href="{{ url_for('main.data_analysis', id=2) }}" >
+      <img src="static/images/data_analysis/4mi_Median_male_finisher_times_5yr_age_goups_2_vs_3_loops.png" width="350" height="175" alt="Steamboat 4 mile chart" title="Steamboat 4 mile chart"><br/>
+      Steamboat 4 mile Race Data Analysis
+    </a>
+  </div>
+</div>
+
+{% endblock %}

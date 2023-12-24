@@ -27,7 +27,8 @@ def data_analysis():
     if 'id' in request.args:
       id = request.args.get('id')
     else:
-      id = '1'
+      return render_template(os.path.join('data_analysis','index.html'), title='Data Analysis' \
+        ,  destPage='data_analysis')
     
     if id == '1':
       fname = 'Steamboat_15K_Race_analysis.html'
