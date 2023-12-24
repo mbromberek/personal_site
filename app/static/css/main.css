@@ -137,7 +137,7 @@ div.cat_img_right {
     /* border: 1px solid red; */
     text-align: center;
     /* vertical-align: center;*/
-    height: 250px;
+    height: auto;
 }
 .projects_item {
     float: left;
@@ -300,9 +300,6 @@ a.projects_lnk:hover{
         width:100%;
     }
     
-    .projects{
-      height: auto;
-    }
     .data_analysis_flex_container{
       padding: 10px;
     }
