@@ -2,8 +2,8 @@
 
 {% block app_content %}
 <!-- <div id="map" style="height:100%;width:100%;"></div> -->
-<div style="position: absolute;top:0px;bottom: 0px;padding-top:55px;width:100%;">
-    <div id="map" >
+<div id="mapContainer" style="position: absolute;top:0px;bottom: 0px;padding-top:55px;width:100%;">
+    <div id="map">
         <a id="fullButton" href="{{ url_for('main.workout', workout=workout.id) }}" >
             X
         </a>

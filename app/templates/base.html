@@ -32,7 +32,7 @@ Base HTML code for each web page
         {{ bootstrap.load_css() }}
         <link rel="stylesheet" href="{{ url_for('static', filename='css/workout.css') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
-        {% if destPage and (destPage == 'workout' or destPage == 'settings' or destPage=='event') %}
+        {% if destPage and (destPage == 'workout' or destPage == 'settings' or destPage=='event' or destPage=='maps' or destPage=='generate_map') %}
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/leaflet_maps.css') }}" />
 
@@ -43,6 +43,11 @@ Base HTML code for each web page
         <script src="{{ url_for('static', filename='js/workout_chart.js') }}"></script>
         <script src="{{ url_for('static', filename='js/wrktPage_splits.js') }}"></script>
         {% endif %}
+        
+        {% if destPage and (destPage=='generate_map') %}
+        <script src="{{ url_for('static', filename='js/map_generation.js') }}"></script>
+        {% endif %}
+        
 
         {% if destPage and (destPage == 'leaflet_testing') %}
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>

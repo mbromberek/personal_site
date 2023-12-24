@@ -97,7 +97,7 @@ function initMap(map_json, show_laps, show_miles, track_clicks) {
 
     var polylinePoints = lat_lon;
     var start_mark = {position:lat_lon[0], icon:startCircle, popup: 'Run Start'}
-    var end_mark = {position:lat_lon[lat_lon.length -1], icon:endCircle, popup: 'Run End'};
+    end_mark = {position:lat_lon[lat_lon.length -1], icon:endCircle, popup: 'Run End'};
     // var mile_one_mark = {position:[40.732828164473200, -89.57437014207240], icon:whiteCircle, popup: 'Mile 1'};
 
     var milePoints = [];
@@ -129,7 +129,7 @@ function initMap(map_json, show_laps, show_miles, track_clicks) {
       zoomOffset: -1,
       accessToken: apiKey
     }).addTo(map);
-    
+
 
     var polyline = L.polyline(polylinePoints, wrktLine).addTo(map);
 
@@ -285,18 +285,6 @@ function locationMap(map_json, lat, lon, radius){
     L.circleMarker(location_mark['position'], location_mark['icon']).addTo(map);
 }
 
-function logMapClick(ev){
-    /**
-    Log latitude and longitude of point clicked on map
-    */
-    var latlng = map.mouseEventToLatLng(ev.originalEvent);
-    console.log(latlng.lat + ', ' + latlng.lng);
-}
-
-function saveMapClick(ev){
-    logMapClick(ev);
-}
-
 
 function initEventMap(map_json, track_clicks) {
     console.log('maps.js initEventMap');
@@ -379,3 +367,16 @@ function initEventMap(map_json, track_clicks) {
 
     console.log('End: initEventMap');
 }
+
+function mapSize(fullScreen){
+    console.log(fullScreen);
+
+    map = document.getElementById('map');
+    map.style.height='1000px';
+}
+
+
+
+
+
+
