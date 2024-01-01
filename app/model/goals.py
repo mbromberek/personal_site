@@ -13,7 +13,7 @@ from datetime import datetime, timedelta, date
 from app import db, login
 from app.utils import tm_conv, const
 from app import logger
-# from app.models import Yrly_mileage
+from app.model.yrly_mileage import Yrly_mileage
 
 class Yrly_goal(object):
     description = ''
@@ -49,6 +49,7 @@ class Yrly_goal(object):
     def lst_to_dict(goal_lst):
         goal_dict_lst = []
         for goal in goal_lst:
+            logger.info(goal)
             goal_dict_lst.append(goal.to_dict())
         return goal_dict_lst
 
@@ -99,19 +100,19 @@ class Yrly_goal(object):
     @staticmethod
     def generate_nonstarted_goals(yrly_goals_lst):
         yrly_goals_mod_lst = yrly_goals_lst
-        if not (any(yr_goal.description == "Cycle" for yr_goal in yrly_goals_lst)):
-            # Create entry for cycling that has 0 miles and 0 times
-            yr = Yrly_mileage()
-            yr.type = 'Cycling'
-            yr.nbr = 0
-            yr.tot_dist = 0
-            yr.tot_sec = 0
-            yrly_goals_mod_lst.extend(Yrly_goal.create_goal(yr))
-
         if not (any(yr_goal.description == "Run" for yr_goal in yrly_goals_lst)):
             # Create entry for running that has 0 miles and 0 times
             yr = Yrly_mileage()
             yr.type = 'Running'
+            yr.nbr = 0
+            yr.tot_dist = 0
+            yr.tot_sec = 0
+            yrly_goals_mod_lst.extend(Yrly_goal.create_goal(yr))
+        
+        if not (any(yr_goal.description == "Cycle" for yr_goal in yrly_goals_lst)):
+            # Create entry for cycling that has 0 miles and 0 times
+            yr = Yrly_mileage()
+            yr.type = 'Cycling'
             yr.nbr = 0
             yr.tot_dist = 0
             yr.tot_sec = 0
