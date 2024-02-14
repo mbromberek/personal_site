@@ -323,7 +323,10 @@ function drawChart(){
                 'lat':wrkt_miles_dict[dist]['latitude'],
                 'lon':wrkt_miles_dict[dist]['longitude'],
                 'nbr':1
-            };    
+            };
+            //GET GPS
+            // console.log(wrkt_miles_dict[dist]);
+            // console.log(currLocationDict);
             currLocation = [];
             currLocation.push(create_marker(currLocationDict, 'lightblue', "0.7"));
             if (currentLocMarker !== undefined ){
@@ -346,6 +349,17 @@ function drawChart(){
             map.removeLayer(currentLocMarker);
         }
     };
+    onMouseClick = function(event, d){
+        const mousePosition = d3.pointer(event);
+        // console.log(`Mouse Location: ${mousePosition[0]} ${mousePosition[1]}`);
+        let hoverMile = xScale.invert(mousePosition[0]);
+        let dist = Math.round(hoverMile*100)/100;
+        if (dist in wrkt_miles_dict){
+            let coordStr = wrkt_miles_dict[dist]['ele_roll'] + "feet, " + wrkt_miles_dict[dist]['longitude'] + "lon, " + wrkt_miles_dict[dist]['latitude'] + "lat, " + wrkt_miles_dict[dist]['dist_mi'] + "miles, " + wrkt_miles_dict[dist]['dur_str'];
+            console.log(coordStr);
+        }
+
+    }
 
     const listeningRect = wrkt_chart_svg
         .append("rect")
@@ -354,6 +368,7 @@ function drawChart(){
         .attr("height", height)
         .on("mousemove", onMouseMove)
         .on("mouseleave", onMouseLeave)
+        // .on("click", onMouseClick)
     ;
 
     // console.log('End initChart');
