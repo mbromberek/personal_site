@@ -313,7 +313,7 @@ class Workout(PaginatedAPIMixin, db.Model):
             'wrkt_dttm': self.wrkt_dttm.isoformat() + 'Z',
             't_zone': self.t_zone,
             'dur_sec': self.dur_sec,
-            'dist_mi': str(self.dist_mi),
+            'dist_mi': str(self.dist_mi) if self.dist_mi != None else None,
             'pace': self.pace_str(),
             'pace_uom': self.pace_uom(),
             'gear': gear_rec.nm if gear_rec != None else None,
@@ -581,7 +581,7 @@ class Workout_interval(db.Model):
             'interval_order': self.interval_order,
             'interval_desc': self.interval_desc,
             'dur_sec': self.dur_sec,
-            'dist_mi': str(self.dist_mi),
+            'dist_mi': str(self.dist_mi) if self.dist_mi != None else "",
             'hr': str(self.hr),
             'ele_up': str(self.ele_up),
             'ele_down': str(self.ele_down),
@@ -590,6 +590,7 @@ class Workout_interval(db.Model):
             'lon': self.lon,
             'isrt_ts': self.isrt_ts.isoformat() + 'Z'
         }
+        
         return data
 
     @staticmethod
@@ -656,6 +657,8 @@ class Gear(db.Model):
         elif Workout_type.query.filter_by(id=type_id, grp='swim').first() != None:
             dft_swim_gear = current_app.config['DFT_SWIM_GEAR']
             return {'nm':dft_swim_gear, 'id':Gear.get_gear_id(dft_swim_gear)}
+        else:
+            return {'nm':None, 'id':None}
 
     @staticmethod
     def get_next_shoe(user_id, category_id, dt=datetime.today()):

@@ -88,6 +88,7 @@ def create_workout():
     for data in dataLst:
         # Make sure the required fields are in the data dict
         req_fields = ['type', 'wrkt_dttm', 'dur_sec', 'dist_mi']
+        req_fields = ['type', 'wrkt_dttm', 'dur_sec']
         for field in req_fields:
             if field not in data:
                 return bad_request('must include ' + field + ' field')
