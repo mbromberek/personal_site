@@ -133,7 +133,8 @@ def get_workouts_from_filter(usr_id, type_filter, category_filter, filterVal, wr
 def get_workouts(current_user_id, page, per_page, filterVal, endpoint, wrkt_filter_form=None):
     type_filter = []
     category_filter = []
-    filter_type_lst = Workout_type.query.filter_by(grp=filterVal['type'])
+    # filter_type_lst = Workout_type.query.filter_by(grp=filterVal['type'])
+    filter_type_lst = Workout_type.query.filter(Workout_type.grp.in_(filterVal['type']))
     for filter_type in filter_type_lst:
         type_filter.append(filter_type.id)
 
@@ -253,7 +254,16 @@ def getFilterValuesFromUrl():
 
 def getFilterValuesFromGet(request):
     filterVal = {}
-    filterVal['type'] = request.args.get('type')
+    # filterVal['type'] = request.args.get('type')
+    if request.args.get('type') == 'endurance':
+        filterVal['type'] = ['run','cycle','swim','walk']
+    elif request.args.get('type') != None:
+        filterVal['type'] = request.args.get('type').split(",")
+    else:
+        filterVal['type'] = []
+        
+    # if filterVal['type'] == None:
+       # filterVal['type'] = 'endurance' 
     filterVal['category'] = request.args.get('category')
     if 'text_NOT_USED' in request.args:
         # get new fields derived form text field

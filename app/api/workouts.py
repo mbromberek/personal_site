@@ -50,10 +50,11 @@ def get_workout(id):
 def get_workouts():
     '''
     Get workouts based on passed in arguements
+    endurance type includes run, cycle, swim, walk
     Optional arguments:
         page: page of date to return
         per_page: number of records per page to return, max of 100
-        type: type of workout, possible values are run | cycle | swim
+        type: type of workout, possible values are run | cycle | swim | strength | endurance
         category: category of workout, possible values are training | long | east | race
         txt_search: text search of training type, location, and notes
         temperature: Get workouts within +/- 5 degrees of the temperature sent
