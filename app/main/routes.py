@@ -131,15 +131,19 @@ def workouts():
     if wrkt_filter_form.category_run_btn.data:
         logger.debug('Run Type Pressed')
         url_change = True
-        filterVal['type'] = 'run'
+        filterVal['type'] = {'run'}
     elif wrkt_filter_form.category_cycle_btn.data:
         logger.debug('Cycle Type Pressed')
         url_change = True
-        filterVal['type'] = 'cycle'
+        filterVal['type'] = {'cycle'}
     elif wrkt_filter_form.category_swim_btn.data:
         logger.debug('Swim Type Pressed')
         url_change = True
-        filterVal['type']='swim'
+        filterVal['type']={'swim'}
+    if 'endurance' in filterVal['type']:
+        filterVal['type'].discard('endurance')
+        # filterVal['type'] = {'run','cycle','swim'}
+        filterVal['type'] = filterVal['type'].union({'run','cycle','swim'})
 
     # Redirect if category button was pressed
     if wrkt_filter_form.category_training_btn.data:
@@ -175,22 +179,25 @@ def workouts():
         else:
             end_dt_str = filterVal['end_dt']
 
-        return redirect(url_for('main.workouts', page=1, type=filterVal['type'], category=filterVal['category'], temperature=filterVal['temperature'], distance=filterVal['distance'], txt_search=filterVal['txt_search'], min_strt_temp=filterVal['min_strt_temp'], max_strt_temp=filterVal['max_strt_temp'], min_dist=filterVal['min_dist'], max_dist=filterVal['max_dist'],
+        return redirect(url_for('main.workouts', page=1, type=list(filterVal['type']), category=filterVal['category'], temperature=filterVal['temperature'], distance=filterVal['distance'], txt_search=filterVal['txt_search'], min_strt_temp=filterVal['min_strt_temp'], max_strt_temp=filterVal['max_strt_temp'], min_dist=filterVal['min_dist'], max_dist=filterVal['max_dist'],
         strt_dt=strt_dt_str,
         end_dt=end_dt_str   ))
 
     type_filter = []
     category_filter = []
     btn_classes = {}
-    filter_type_lst = Workout_type.query.filter_by(grp=filterVal['type'])
-    for filter_type in filter_type_lst:
-        type_filter.append(filter_type.id)
-    if filterVal['type'] == 'run':
+    logger.debug("type: " + str(filterVal['type']))
+    for filter_type_grp in filterVal['type']:
+        filter_type_lst = Workout_type.query.filter_by(grp=filter_type_grp)
+        for filter_type in filter_type_lst:
+            type_filter.append(filter_type.id)
+    if 'run' in filterVal['type']:
         btn_classes['run'] = 'btn btn_selected'
-    if filterVal['type'] == 'cycle':
+    if 'cycle' in filterVal['type']:
         btn_classes['cycle'] = 'btn btn_selected'
-    if filterVal['type'] == 'swim':
+    if 'swim' in filterVal['type']:
         btn_classes['swim'] = 'btn btn_selected'
+    filterVal['type'] = list(filterVal['type'])
 
     if filterVal['category'] == 'training':
         filter_cat_lst = Workout_category.query.filter( Workout_category.nm.in_(['Training', 'Hard']))

@@ -228,7 +228,11 @@ def getFilterValuesFromUrl():
     filterVal = {}
 
     filterVal['page'] = request.args.get('page', default=1, type=int)
-    filterVal['type'] = request.args.get('type', default='')
+
+    filter_item = request.args.get('type', default='')
+    filterVal['type'] = set()
+    for filter in filter_item.split(','):
+        filterVal['type'].add(filter)
     filterVal['category'] = request.args.get('category', default='')
 
     filterVal['temperature'] = request.args.get('temperature', default='', type=int)
