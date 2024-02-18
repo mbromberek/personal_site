@@ -117,27 +117,40 @@ function loadItems(response){
     for (var i=0; i<wrkts.length; i++){
         let row_ct = 6; //Should always be at least 6
         let wrkt_dttm_formatted = formatDate(wrkts[i]['wrkt_dttm']);
+        let template_clone;
+        console.log(wrkts[i]['type']);
 
-        let template_clone = document.getElementsByTagName("template")[0].content.cloneNode(true);
+        if (wrkts[i]['type'] == 'Strength Training'){
+            template_clone = document.getElementsByTagName("template")[1].content.cloneNode(true);
+            row_ct = row_ct -1;
+        }else{
+            template_clone = document.getElementsByTagName("template")[0].content.cloneNode(true);
+        }
         template_clone.querySelector("#wrkt_lnk").innerHTML = wrkt_dttm_formatted + ' - ' + wrkts[i]['type'];
         template_clone.querySelector("#wrkt_lnk").href = wrkts[i]['_links']['self'];
         template_clone.querySelector("#wrkt_edit_lnk").href = wrkts[i]['_links']['edit'];
 
         template_clone.querySelector("#category_training_loc").innerHTML = wrkts[i]['category_training_loc'];
 
-        if (wrkts[i]['_links'].hasOwnProperty('map_thumb')){
-            template_clone.querySelector("#map_thumb").innerHTML = '<img src="'+ wrkts[i]['_links']['map_thumb'] +'" style="width:100%; height:auto;" >';
-        }
-        template_clone.querySelector("#distance").innerHTML = wrkts[i]['dist_mi'];
-        template_clone.querySelector("#duration").innerHTML = wrkts[i]['duration'];
-        template_clone.querySelector("#pace").innerHTML = wrkts[i]['pace'] + ' ' + wrkts[i]['pace_uom'];
-
-        if (wrkts[i]['clothes'] != null && wrkts[i]['clothes'] != ''){
-            template_clone.querySelector("#clothes").innerHTML = 'Wore: ' +  wrkts[i]['clothes'];
+        if (wrkts[i]['type'] == 'Strength Training'){
+            template_clone.querySelector("#duration").innerHTML = wrkts[i]['duration'];
+            template_clone.querySelector("#heart_rate").innerHTML = wrkts[i]['hr'];
         }else{
-            template_clone.querySelector("#clothes").classList.add('workout_data_missing')
+            if (wrkts[i]['_links'].hasOwnProperty('map_thumb')){
+                template_clone.querySelector("#map_thumb").innerHTML = '<img src="'+ wrkts[i]['_links']['map_thumb'] +'" style="width:100%; height:auto;" >';
+            }
+            template_clone.querySelector("#distance").innerHTML = wrkts[i]['dist_mi'];
+            template_clone.querySelector("#duration").innerHTML = wrkts[i]['duration'];
+            template_clone.querySelector("#pace").innerHTML = wrkts[i]['pace'] + ' ' + wrkts[i]['pace_uom'];
+            
+            if (wrkts[i]['clothes'] != null && wrkts[i]['clothes'] != ''){
+                template_clone.querySelector("#clothes").innerHTML = 'Wore: ' +  wrkts[i]['clothes'];
+            }else{
+                template_clone.querySelector("#clothes").classList.add('workout_data_missing')
+            }
+            template_clone.querySelector("#gear").innerHTML = wrkts[i]['gear'];
         }
-        template_clone.querySelector("#gear").innerHTML = wrkts[i]['gear'];
+        
         row_ct = row_ct + 1;
         if (wrkts[i]['notes'] != null && wrkts[i]['notes'] != ''){
             template_clone.querySelector("#notes").innerHTML = 'Notes: ' +  wrkts[i]['notes'];

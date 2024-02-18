@@ -403,6 +403,12 @@ input.workout_filter_btn_container:hover{
     margin-left:245px;
     margin-right:245px;
 }
+.workout-detail-measures-section-strength{
+    width:310px;
+    margin-left:245px;
+    margin-right:245px;
+}
+
 .workout_map{
     position:absolute;
     right:15px;
