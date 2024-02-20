@@ -1097,7 +1097,8 @@ td.dashboard_row_dtl{
     }
 
     .workout-header{
-        font-size: 13pt;
+        font-size: 12pt;
+        /* font-weight: normal; */
         width:100%;
     }
     .workout_detail_type{
@@ -1118,6 +1119,11 @@ td.dashboard_row_dtl{
         margin-left:5px;
         margin-right:5px;
     }
+    .workout-detail-measures-section-strength{
+        margin-left:20px;
+        margin-right:20px;
+    }
+
     .hide_mobile{
         display:none;
     }
