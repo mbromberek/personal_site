@@ -206,7 +206,7 @@
                 <div class="wrkt_notes">
                         <span id='workout_notes' >
                         {% autoescape false %}
-                        {{ workout.notes | replace('&','&#38;') | replace('<','&#60;') | replace('>','&#62;') | replace('"','&#34;') | replace('\'','&#39;') | replace('\n', '<br/>') | replace(' ','&nbsp;') }}
+                        {{ workout.notes | replace('&','&#38;') | replace('<','&#60;') | replace('>','&#62;') | replace('"','&#34;') | replace('\'','&#39;') | replace('\n', '<br/>') | replace('  ','&nbsp;&nbsp;') }}
                         {% endautoescape %}
                         </span>
                 </div>
