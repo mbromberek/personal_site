@@ -72,8 +72,9 @@ function showDownload(element){
 function getNextWrkts(filter){
     console.log("getNextWrkts");
     console.log(filter);
+    let typeStr = filter['type'].join(',')
     $.get('/more_workouts', {
-        type: filter['type'],
+        type: typeStr,
         category: filter['category'],
         distance: filter['distance'],
         end_dt: filter['end_dt'],

@@ -10,7 +10,7 @@ All rights reserved.
 from datetime import datetime, timedelta, date
 # from datetime import combine
 import re
-
+import json
 
 # Third party classes
 from flask import render_template, flash, redirect, url_for, request, g, \
@@ -257,14 +257,24 @@ def getFilterValuesFromUrl():
     return filterVal
 
 def getFilterValuesFromGet(request):
+    logger.debug('getFilterValuesFromGet')
+    logger.debug(request.args)
+    logger.debug(request.args.get('type'))
+    logger.debug(request.args.get('type[]'))
     filterVal = {}
     # filterVal['type'] = request.args.get('type')
-    if request.args.get('type') == 'endurance':
+    getType = request.args.get('type')
+    logger.debug('getType:' + str(getType))
+    for t in getType:
+        logger.debug(t)
+    # getType = json.loads(getType)
+    if 'endurance' in getType:
         filterVal['type'] = ['run','cycle','swim','walk']
-    elif request.args.get('type') != None:
-        filterVal['type'] = request.args.get('type').split(",")
+    elif len(getType) > 0:
+        filterVal['type'] = getType.split(',')
     else:
         filterVal['type'] = []
+    logger.debug(filterVal)
         
     # if filterVal['type'] == None:
        # filterVal['type'] = 'endurance' 
