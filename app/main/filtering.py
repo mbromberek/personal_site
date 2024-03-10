@@ -269,11 +269,11 @@ def getFilterValuesFromGet(request):
         logger.debug(t)
     # getType = json.loads(getType)
     if 'endurance' in getType:
-        filterVal['type'] = ['run','cycle','swim','walk']
+        filterVal['type'] = {'run','cycle','swim','walk'}
     elif len(getType) > 0:
-        filterVal['type'] = getType.split(',')
+        filterVal['type'] = set(getType.split(','))
     else:
-        filterVal['type'] = []
+        filterVal['type'] = {}
     logger.debug(filterVal)
         
     # if filterVal['type'] == None:

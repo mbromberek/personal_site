@@ -179,7 +179,7 @@ def workouts():
         else:
             end_dt_str = filterVal['end_dt']
 
-        return redirect(url_for('main.workouts', page=1, type=list(filterVal['type']), category=filterVal['category'], temperature=filterVal['temperature'], distance=filterVal['distance'], txt_search=filterVal['txt_search'], min_strt_temp=filterVal['min_strt_temp'], max_strt_temp=filterVal['max_strt_temp'], min_dist=filterVal['min_dist'], max_dist=filterVal['max_dist'],
+        return redirect(url_for('main.workouts', page=1, type=','.join(filterVal['type']), category=filterVal['category'], temperature=filterVal['temperature'], distance=filterVal['distance'], txt_search=filterVal['txt_search'], min_strt_temp=filterVal['min_strt_temp'], max_strt_temp=filterVal['max_strt_temp'], min_dist=filterVal['min_dist'], max_dist=filterVal['max_dist'],
         strt_dt=strt_dt_str,
         end_dt=end_dt_str   ))
 
