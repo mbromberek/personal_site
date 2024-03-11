@@ -133,7 +133,7 @@ def get_workouts_from_filter(usr_id, type_filter, category_filter, filterVal, wr
 def get_workouts(current_user_id, page, per_page, filterVal, endpoint, wrkt_filter_form=None):
     type_filter = []
     category_filter = []
-    # filter_type_lst = Workout_type.query.filter_by(grp=filterVal['type'])
+    
     filter_type_lst = Workout_type.query.filter(Workout_type.grp.in_(filterVal['type']))
     for filter_type in filter_type_lst:
         type_filter.append(filter_type.id)
@@ -195,6 +195,7 @@ def get_workouts(current_user_id, page, per_page, filterVal, endpoint, wrkt_filt
     filterVal.pop('text',None)
     filterVal.pop('notes',None)
     filterVal.pop('training',None)
+    filterVal['type'] = ','.join(filterVal['type']) # Change type to string for use in other URLs
     
     kwargs = filterVal
     kwargs.pop('page', None)
@@ -258,15 +259,15 @@ def getFilterValuesFromUrl():
 
 def getFilterValuesFromGet(request):
     logger.debug('getFilterValuesFromGet')
-    logger.debug(request.args)
-    logger.debug(request.args.get('type'))
-    logger.debug(request.args.get('type[]'))
+    # logger.debug(request.args)
+    # logger.debug(request.args.get('type'))
+    # logger.debug(request.args.get('type[]'))
     filterVal = {}
     # filterVal['type'] = request.args.get('type')
     getType = request.args.get('type')
-    logger.debug('getType:' + str(getType))
-    for t in getType:
-        logger.debug(t)
+    # logger.debug('getType:' + str(getType))
+    # for t in getType:
+    #     logger.debug(t)
     # getType = json.loads(getType)
     if 'endurance' in getType:
         filterVal['type'] = {'run','cycle','swim','walk'}
