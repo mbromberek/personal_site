@@ -562,8 +562,6 @@ class Workout_interval(db.Model):
         
         logger.debug(data)
         for field in str_fields:
-            logger.debug(field)
-            # logger.debug(data[field])
             if field in data and (\
                 isinstance(data[field],str) or \
                 ( data[field] != None and not math.isnan(data[field]) )\

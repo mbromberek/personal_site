@@ -53,14 +53,17 @@ def create_workout_intervals():
     response.headers['Location'] = url_for('api.get_workout_intervals', wrkt_id=wrkt_id)
     return response
 
+
+'''
+Passed workout needs to contain the below required fields. All other fields are optional and if not passed will use existing value.
+'''
 @bp.route('/workout_intervals', methods=['PUT'])
 @token_auth.login_required
 def update_workout_intervals():
-    '''
-    Passed workout needs to contain the below required fields. All other fields are optional and if not passed will use existing value.
-    '''
     logger.info('update_workout_intervals')
     current_user_id = token_auth.current_user().id
+    return '', 405
+    '''
     data = request.get_json() or [{}]
     req_fields = ['workout_id', 'break_type', 'intervals']
     ret_data_lst = []
@@ -89,3 +92,4 @@ def update_workout_intervals():
     response = jsonify(ret_data_lst)
     response.status_code = 200
     return response
+    '''

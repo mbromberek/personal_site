@@ -315,9 +315,12 @@ def update_workout_from_pickle():
     '''
     Receives a list of workout ids to perform update on
     Used for OTO updates
+    DISABLED until needed in future
     '''
     logger.info('update_workout_from_pickle')
     current_user_id = token_auth.current_user().id
+    return jsonify('Disabled'), 405
+    '''
     data = request.get_json() or {}
     req_fields = ['workout_id']
     ret_data_lst = []
@@ -357,6 +360,7 @@ def update_workout_from_pickle():
         db.session.commit()
 
     return jsonify('Success'), 200
+    '''
 
 @bp.route('/run_summary/', methods=['GET'])
 @token_auth.login_required
