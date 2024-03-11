@@ -559,9 +559,15 @@ class Workout_interval(db.Model):
         setattr(self, 'user_id', user_id)
         setattr(self, 'workout_id', wrkt_id)
         setattr(self, 'break_type', break_type)
-
+        
+        logger.debug(data)
         for field in str_fields:
-            if field in data and (isinstance(data[field],str) or not math.isnan(data[field])):
+            logger.debug(field)
+            # logger.debug(data[field])
+            if field in data and (\
+                isinstance(data[field],str) or \
+                ( data[field] != None and not math.isnan(data[field]) )\
+            ):
                 setattr(self, field, data[field])
 
         for field in int_fields:
