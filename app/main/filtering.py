@@ -265,6 +265,7 @@ def getFilterValuesFromGet(request):
     filterVal = {}
     # filterVal['type'] = request.args.get('type')
     getType = request.args.get('type')
+    getType = getType if getType != None else []
     # logger.debug('getType:' + str(getType))
     # for t in getType:
     #     logger.debug(t)
