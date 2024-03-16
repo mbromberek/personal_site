@@ -625,6 +625,37 @@ class Workout_interval(db.Model):
 
         return wrkt_intrvl_dict_list
 
+    @staticmethod
+    def to_intrvl_lst_dict_v2(wrkt_intrvl_lst):
+        wrkt_dict_intrvl = {}
+        for wrkt_intrvl in wrkt_intrvl_lst:
+            if wrkt_intrvl.break_type in wrkt_dict_intrvl:
+                wrkt_dict_intrvl[wrkt_intrvl.break_type].append(wrkt_intrvl.to_dict())
+            else:
+                wrkt_dict_intrvl[wrkt_intrvl.break_type] = [wrkt_intrvl.to_dict()]
+        return wrkt_dict_intrvl
+    
+    
+    @staticmethod
+    def from_intrvl_type_dict(interval_lst, current_user_id, wrkt_id, intrvl_type=''):
+        # break_type = data['break_type']
+        # interval_lst = data['intervals']
+        wrkt_intrvl_dict_list = []
+    
+        for interval in interval_lst:
+            wrkt_intrvl = Workout_interval()
+            # break_type = intrvl_type if intrvl_type!='' else: interval['break_type']
+            wrkt_intrvl.from_dict(interval, current_user_id, wrkt_id, intrvl_type)
+            db.session.add(wrkt_intrvl)
+    
+        db.session.commit()
+        wrkt_intrvl_list = \
+          Workout_interval.to_intrvl_lst_dict_v2( \
+          Workout_interval.query.filter_by( \
+          workout_id=wrkt_id, user_id=current_user_id, break_type=intrvl_type))
+    
+        return wrkt_intrvl_list
+
 
 class Gear(db.Model):
     __table_args__ = {"schema": "fitness", 'comment':'Details about workout gear: shoes, bike, insoles'}

@@ -55,41 +55,55 @@ def create_workout_intervals():
 
 
 '''
-Passed workout needs to contain the below required fields. All other fields are optional and if not passed will use existing value.
+Input is an array of workout interval dictionaries. 
+Interval types allowed are lap, mile, resume, segment. Any other types will be ignored. 
+Replaced intervals for types passed. 
 '''
 @bp.route('/workout_intervals', methods=['PUT'])
 @token_auth.login_required
 def update_workout_intervals():
     logger.info('update_workout_intervals')
     current_user_id = token_auth.current_user().id
-    return '', 405
-    '''
+
     data = request.get_json() or [{}]
-    req_fields = ['workout_id', 'break_type', 'intervals']
+    req_fields = ['workout_id', 'intervals']
+    interval_types = ['lap','mile','resume','segment']
     ret_data_lst = []
     logger.info(data)
     for wrkt_data in data:
+        # Check required fields are in call
         for field in req_fields:
             if field not in wrkt_data:
                 logger.error('must include ' + field + ' field')
                 return bad_request('must include ' + field + ' field')
         wrkt_id = wrkt_data['workout_id']
-        break_type = wrkt_data['break_type']
-        wrkt_intrvl = wrkt_data['intervals']
-        passed_workout = Workout_interval()
-        passed_workout.from_dict(wrkt_data, current_user_id, wrkt_id, break_type)
-        passed_workout.id = wrkt_id
+        wrkt_intrvls = wrkt_data['intervals']
+        ret_wrkt = {'workout_id':wrkt_id}
+        ret_intrvls = {}
+        for intrvl_type in interval_types:
+            if intrvl_type in wrkt_intrvls:
+                # Delete old workout_interval for wrkt_id, break_type, current_user_id
+                Workout_interval.query.filter_by(user_id=current_user_id, workout_id=wrkt_id, break_type=intrvl_type).delete()
+                # Create new interval
+                ret_intrvls.update(Workout_interval.from_intrvl_type_dict(wrkt_intrvls[intrvl_type], current_user_id, wrkt_id, intrvl_type))
+                # Commit delete and create
+                db.session.commit()
         logger.info('passed wrkt_id:' + str(wrkt_id))
 
-        # Delete old workout_interval for wrkt_id, break_type, current_user_id
-        Workout_interval.query.filter_by(user_id=current_user_id, workout_id=wrkt_id, break_type=break_type).delete()
+        ret_wrkt['intervals'] = ret_intrvls
+        ret_data_lst.append(ret_wrkt)
 
-        # Create new workout_interval for wrkt_id, break_type, current_user_id
-        wrkt_intrvl_dict_list = Workout_interval.from_intrvl_lst_dict(wrkt_data, current_user_id, wrkt_id)
-        ret_data_lst.append(wrkt_intrvl_dict_list)
-
-        db.session.commit()
+        
     response = jsonify(ret_data_lst)
     response.status_code = 200
     return response
-    '''
+
+@bp.route('/v2/workout_intervals/<int:wrkt_id>', methods=['GET'])
+@token_auth.login_required
+def get_workout_intervals_v2(wrkt_id):
+    logger.info('get_workout_intervals_v2')
+    current_user_id = token_auth.current_user().id
+    wrkt_intrvl_dict = Workout_interval.to_intrvl_lst_dict_v2( \
+      sorted(Workout_interval.query.filter_by( \
+      workout_id=wrkt_id, user_id=current_user_id)))
+    return jsonify({'workout_id':wrkt_id, 'intervals':wrkt_intrvl_dict})

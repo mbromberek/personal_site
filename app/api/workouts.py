@@ -111,35 +111,12 @@ def create_workout():
 
         if workout.location != None and workout.location != '' and workout.lat_strt != None and workout.lat_strt != '':
             Location.create_loc_if_not_exist(workout.location, current_user_id, workout.lat_strt, workout.long_strt)
-
-        if 'mile_splits' in data:
-            wrkt_intrvl = {
-                'break_type': 'mile',
-                'intervals': data['mile_splits']
-            }
-            Workout_interval.from_intrvl_lst_dict(wrkt_intrvl, current_user_id, workout.id)
-
-        if 'interval_splits' in data:
-            wrkt_intrvl = {
-                'break_type': 'segment',
-                'intervals': data['interval_splits']
-            }
-            Workout_interval.from_intrvl_lst_dict(wrkt_intrvl, current_user_id, workout.id)
-
-        if 'pause_splits' in data:
-            wrkt_intrvl = {
-                'break_type': 'resume',
-                'intervals': data['pause_splits']
-            }
-            Workout_interval.from_intrvl_lst_dict(wrkt_intrvl, current_user_id, workout.id)
-
-        if 'lap_splits' in data:
-            wrkt_intrvl = {
-                'break_type': 'lap',
-                'intervals': data['lap_splits']
-            }
-            Workout_interval.from_intrvl_lst_dict(wrkt_intrvl, current_user_id, workout.id)
-
+        
+        if 'intervals' in data:
+            interval_types = ['lap','mile','resume','segment']
+            for intrvl_type in interval_types:
+                if intrvl_type in data['intervals']:
+                    Workout_interval.from_intrvl_type_dict(data['intervals'][intrvl_type], current_user_id, workout.id, intrvl_type)
         wrkt_list.append(workout.to_dict())
     response = jsonify(wrkt_list)
     response.status_code = 201
