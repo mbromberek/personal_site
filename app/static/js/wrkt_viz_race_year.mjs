@@ -21,7 +21,7 @@ var xScale = d3
   .scaleBand()
   .range([0, width])
   .padding(0.1)
-  .domain(d3.range(2014, 2024)) //TODO make year range dynamic
+  .domain(d3.range(2014, 2025)) //TODO make year range dynamic
   ;
 
 //13 for range since unlikely to run more than 13 races in a year
