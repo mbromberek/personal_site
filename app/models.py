@@ -306,12 +306,14 @@ class Workout(PaginatedAPIMixin, db.Model):
 
     def to_dict(self, include_calc_fields=False, for_web=False):
         gear_rec = Gear.query.filter_by(id=self.gear_id, user_id=self.user_id).first()
+        wrkt_dttm_str = self.wrkt_dttm.isoformat(sep=' ') + 'Z' if for_web else self.wrkt_dttm.isoformat(sep=' ')
         data = {
             'id': self.id,
             'user_id': self.user_id,
             'type': self.type_det.nm,
-            'wrkt_dttm': self.wrkt_dttm.isoformat() + 'Z',
-            't_zone': self.t_zone,
+            'wrkt_dttm': wrkt_dttm_str,
+            't_zone': self.t_zone if self.t_zone != None else 'America/Chicago',
+            # 't_zone': self.t_zone,
             'dur_sec': self.dur_sec,
             'dist_mi': str(self.dist_mi) if self.dist_mi != None else None,
             'pace': self.pace_str(),
