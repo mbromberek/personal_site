@@ -2,6 +2,7 @@ var goals_data;
 var inner_goal_radius;
 var goal_radius;
 var graph_color = d3.scaleOrdinal(['#4daf4a','#377eb8','#ff7f00','#984ea3','#e41a1c']);  
+var curr_goal = {'complete':100, 'remaining':100};
 
 function initGoalChart(goal_lst) {
   // console.log('initGoalChart');
@@ -60,20 +61,75 @@ function initGoalChart(goal_lst) {
   ;
 }  
 
-function update_goal_chart(goal_val){
-  // console.log('update_goal_chart');
+async function update_goal_chart(goal_val){
+  console.log('update_goal_chart');
   run_goal = goals_data[goal_val];
+  let actual_goal_comp = Math.round(run_goal['tot']);
+  let actual_goal_remaining = Math.round(run_goal['remaining']);
   let goal_data = [
-      {'amt':run_goal['tot'], 'desc':'Complete', 'color':'#4daf4a', 'value_str':Math.round(run_goal['tot'])},
-      {'amt':run_goal['remaining'], 'desc':'Remaining', 'color':'#377eb8', 'value_str':Math.round(run_goal['remaining'])}];
+      {'amt':actual_goal_comp, 'desc':'Complete', 'color':'#4daf4a', 'value_str':actual_goal_comp},
+      {'amt':actual_goal_remaining, 'desc':'Remaining', 'color':'#377eb8', 'value_str':actual_goal_remaining}
+    ];
   
   document.getElementById('goal_chart_desc').innerHTML = run_goal['description'] + ' ' + run_goal['goal'] + ' ' + run_goal['uom'];
+  
+  
+  let tmp_goal_delta_amt = 30;
+  let tmp_comp = curr_goal['complete'];
+  let tmp_remaining = curr_goal['remaining'];
+  
+  let complete_delta_amt = Math.max(Math.ceil(Math.abs(actual_goal_comp - tmp_comp) * 0.05), 1)
+  let remaining_delta_amt = Math.max(Math.ceil(Math.abs(actual_goal_remaining - tmp_remaining) * 0.05), 1)
+  
+  
+  while (tmp_comp != actual_goal_comp || tmp_remaining != actual_goal_remaining){
+    console.log('goal chart animation');
+    if (tmp_comp < actual_goal_comp){
+      tmp_comp += complete_delta_amt;
+      if (tmp_comp > actual_goal_comp){
+        tmp_comp = actual_goal_comp;
+      }
+    }else if (tmp_comp > actual_goal_comp){
+      tmp_comp -= complete_delta_amt;
+      if (tmp_comp < actual_goal_comp){
+        tmp_comp = actual_goal_comp;
+      }
+    }
+    
+    if (tmp_remaining < actual_goal_remaining){
+      tmp_remaining += remaining_delta_amt;
+      if (tmp_remaining > actual_goal_remaining){
+        tmp_remaining = actual_goal_remaining;
+      }
+    }else if (tmp_remaining > actual_goal_remaining){
+      tmp_remaining -= remaining_delta_amt;
+      if (tmp_remaining < actual_goal_remaining){
+        tmp_remaining = actual_goal_remaining;
+      }
+    }
+    console.log("Temp Complete: " + tmp_comp + " Remaining: " + tmp_remaining);
+    // console.log("Actual Complete: " + actual_goal_comp + " Remaining: " + actual_goal_remaining);
+    
+    let tmp_goal_data =  [
+      {'amt':tmp_comp, 'desc':'Complete', 'color':'#4daf4a', 'value_str':actual_goal_comp},
+      {'amt':tmp_remaining, 'desc':'Remaining', 'color':'#377eb8', 'value_str':actual_goal_remaining}
+    ];
+    
+    draw_goal_chart(tmp_goal_data);
+    await sleep(50);
+  }
+  curr_goal = {'complete':actual_goal_comp, 'remaining':actual_goal_remaining};
+  
+  
+  
+}
 
+function draw_goal_chart(sel_goal_data){
   // Generate the pie
   let pie = d3.pie().value(function(d){
     return d.amt;
-  }).sort(null)(goal_data);
-
+  }).sort(null)(sel_goal_data);
+  
   // Generate the arcs
   let arc = d3.arc()
     .innerRadius(inner_goal_radius)
@@ -94,7 +150,7 @@ function update_goal_chart(goal_val){
       .append('path')
       .attr('d', arc)
       .attr('fill', function (d, i) {
-          // return (goal_data[i]['color']);
+          // return (sel_goal_data[i]['color']);
           return graph_color(d.data.desc);
       })
       .attr('transform', 'translate(0, 0)')
@@ -107,7 +163,7 @@ function update_goal_chart(goal_val){
   }
   // console.log('path');
   // console.log(path);
-  path.transition().duration(300).attr("d", arc);
+  path.transition().duration(30).attr("d", arc);
   
   let text;
   if (d3.select('#goal_chart').selectAll('text')._groups[0].length == 0){
@@ -120,7 +176,7 @@ function update_goal_chart(goal_val){
       .attr("transform", function(d){
         return "translate(" + label.centroid(d) + ")";
       })
-      .text(function(d, i) {return goal_data[i]['value_str']; })
+      .text(function(d, i) {return sel_goal_data[i]['value_str']; })
       .style('text-anchor','middle')
     ;
   }else{
@@ -132,14 +188,13 @@ function update_goal_chart(goal_val){
       .attr("transform", function(d){
         return "translate(" + label.centroid(d) + ")";
       })
-      .text(function(d, i) {return goal_data[i]['value_str']; })
+      .text(function(d, i) {return sel_goal_data[i]['value_str']; })
       .style('text-anchor','middle')
     ;
   }
-  text.transition().duration(100).attr("d", arc);
-  
-  
+  text.transition().duration(10).attr("d", arc);
   
 }
-
-
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
