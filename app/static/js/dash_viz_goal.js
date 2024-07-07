@@ -78,8 +78,10 @@ async function update_goal_chart(goal_val){
   let tmp_comp = curr_goal['complete'];
   let tmp_remaining = curr_goal['remaining'];
   
-  let complete_delta_amt = Math.max(Math.ceil(Math.abs(actual_goal_comp - tmp_comp) * 0.05), 1)
-  let remaining_delta_amt = Math.max(Math.ceil(Math.abs(actual_goal_remaining - tmp_remaining) * 0.05), 1)
+  // let complete_delta_amt = Math.max(Math.ceil(Math.abs(actual_goal_comp - tmp_comp) * 0.05), 1)
+  // let remaining_delta_amt = Math.max(Math.ceil(Math.abs(actual_goal_remaining - tmp_remaining) * 0.05), 1)
+  let complete_delta_amt = Math.max(Math.abs(actual_goal_comp - tmp_comp) * 0.05, 1)
+  let remaining_delta_amt = Math.max(Math.abs(actual_goal_remaining - tmp_remaining) * 0.05, 1)
   
   
   while (tmp_comp != actual_goal_comp || tmp_remaining != actual_goal_remaining){
