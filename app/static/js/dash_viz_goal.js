@@ -9,7 +9,7 @@ var debug_goals_data = [
   { description: "Cycle", goal: 20, pct_comp: "1.0", remaining: "-6", tot: "26", uom: "times"}
 ];
 
-const PIE_TRANSITION_DURATION = 10;
+const PIE_TRANSITION_DURATION = 0;
 const SLEEP_TM = 50;
 const TRANSITION_PCT_CHANGE = 0.05;
 
