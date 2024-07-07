@@ -3,11 +3,23 @@ var inner_goal_radius;
 var goal_radius;
 var graph_color = d3.scaleOrdinal(['#4daf4a','#377eb8','#ff7f00','#984ea3','#e41a1c']);  
 var curr_goal = {'complete':100, 'remaining':100};
+var debug_goals_data = [
+  { description: "Run", goal: 1700, pct_comp: "0.1601352941176470588235294118", remaining: "1427.77", tot: "272.23", uom: "miles"}, 
+  { description: "Cycle", goal: 300, pct_comp: "0.3234", remaining: "50", tot: "250", uom: "miles"}, 
+  { description: "Cycle", goal: 20, pct_comp: "1.0", remaining: "-6", tot: "26", uom: "times"}
+];
+
+const PIE_TRANSITION_DURATION = 10;
+const SLEEP_TM = 50;
+const TRANSITION_PCT_CHANGE = 0.05;
 
 function initGoalChart(goal_lst) {
   // console.log('initGoalChart');
   // console.log(goal_lst);
   goals_data = goal_lst;
+  goals_data = debug_goals_data;
+  console.log(goals_data);
+  
   
   let goal_chart = d3.select('#goal_chart');
 
@@ -66,6 +78,10 @@ async function update_goal_chart(goal_val){
   run_goal = goals_data[goal_val];
   let actual_goal_comp = Math.round(run_goal['tot']);
   let actual_goal_remaining = Math.round(run_goal['remaining']);
+  if (actual_goal_comp > run_goal['goal']){
+    actual_goal_comp = run_goal['goal'];
+    actual_goal_remaining = 0;
+  }
   let goal_data = [
       {'amt':actual_goal_comp, 'desc':'Complete', 'color':'#4daf4a', 'value_str':actual_goal_comp},
       {'amt':actual_goal_remaining, 'desc':'Remaining', 'color':'#377eb8', 'value_str':actual_goal_remaining}
@@ -74,14 +90,15 @@ async function update_goal_chart(goal_val){
   document.getElementById('goal_chart_desc').innerHTML = run_goal['description'] + ' ' + run_goal['goal'] + ' ' + run_goal['uom'];
   
   
-  let tmp_goal_delta_amt = 30;
+  // let tmp_goal_delta_amt = 30;
   let tmp_comp = curr_goal['complete'];
   let tmp_remaining = curr_goal['remaining'];
   
   // let complete_delta_amt = Math.max(Math.ceil(Math.abs(actual_goal_comp - tmp_comp) * 0.05), 1)
   // let remaining_delta_amt = Math.max(Math.ceil(Math.abs(actual_goal_remaining - tmp_remaining) * 0.05), 1)
-  let complete_delta_amt = Math.max(Math.abs(actual_goal_comp - tmp_comp) * 0.05, 1)
-  let remaining_delta_amt = Math.max(Math.abs(actual_goal_remaining - tmp_remaining) * 0.05, 1)
+  let complete_delta_amt = Math.max(Math.abs(actual_goal_comp - tmp_comp) * TRANSITION_PCT_CHANGE, 1)
+  let remaining_delta_amt = Math.max(Math.abs(actual_goal_remaining - tmp_remaining) * TRANSITION_PCT_CHANGE, 1)
+  console.log('complete_delta_amt: ' + complete_delta_amt + ' remaining_delta_amt: ' + remaining_delta_amt);
   
   
   while (tmp_comp != actual_goal_comp || tmp_remaining != actual_goal_remaining){
@@ -113,14 +130,14 @@ async function update_goal_chart(goal_val){
     // console.log("Actual Complete: " + actual_goal_comp + " Remaining: " + actual_goal_remaining);
     
     let tmp_goal_data =  [
-      {'amt':tmp_comp, 'desc':'Complete', 'color':'#4daf4a', 'value_str':actual_goal_comp},
+      {'amt':tmp_comp, 'desc':'Complete', 'color':'#4daf4a', 'value_str':Math.round(run_goal['tot'])},
       {'amt':tmp_remaining, 'desc':'Remaining', 'color':'#377eb8', 'value_str':actual_goal_remaining}
     ];
     
     draw_goal_chart(tmp_goal_data);
-    await sleep(50);
+    await sleep(SLEEP_TM);
   }
-  curr_goal = {'complete':actual_goal_comp, 'remaining':actual_goal_remaining};
+  curr_goal = {'complete':tmp_comp, 'remaining':tmp_remaining};
   
   
   
@@ -165,7 +182,7 @@ function draw_goal_chart(sel_goal_data){
   }
   // console.log('path');
   // console.log(path);
-  path.transition().duration(30).attr("d", arc);
+  path.transition().duration(PIE_TRANSITION_DURATION).attr("d", arc);
   
   let text;
   if (d3.select('#goal_chart').selectAll('text')._groups[0].length == 0){
@@ -194,7 +211,7 @@ function draw_goal_chart(sel_goal_data){
       .style('text-anchor','middle')
     ;
   }
-  text.transition().duration(10).attr("d", arc);
+  text.transition().duration(PIE_TRANSITION_DURATION).attr("d", arc);
   
 }
 function sleep(ms) {
