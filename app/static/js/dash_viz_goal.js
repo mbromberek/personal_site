@@ -18,7 +18,7 @@ function initGoalChart(goal_lst) {
   // console.log(goal_lst);
   goals_data = goal_lst;
   // goals_data = debug_goals_data;
-  console.log(goals_data);
+  // console.log(goals_data);
   
   
   let goal_chart = d3.select('#goal_chart');
@@ -74,7 +74,7 @@ function initGoalChart(goal_lst) {
 }  
 
 async function update_goal_chart(goal_val){
-  console.log('update_goal_chart');
+  // console.log('update_goal_chart');
   run_goal = goals_data[goal_val];
   let actual_goal_comp = Math.round(run_goal['tot']);
   let actual_goal_remaining = Math.round(run_goal['remaining']);
@@ -98,11 +98,11 @@ async function update_goal_chart(goal_val){
   // let remaining_delta_amt = Math.max(Math.ceil(Math.abs(actual_goal_remaining - tmp_remaining) * 0.05), 1)
   let complete_delta_amt = Math.max(Math.abs(actual_goal_comp - tmp_comp) * TRANSITION_PCT_CHANGE, 1)
   let remaining_delta_amt = Math.max(Math.abs(actual_goal_remaining - tmp_remaining) * TRANSITION_PCT_CHANGE, 1)
-  console.log('complete_delta_amt: ' + complete_delta_amt + ' remaining_delta_amt: ' + remaining_delta_amt);
+  // console.log('complete_delta_amt: ' + complete_delta_amt + ' remaining_delta_amt: ' + remaining_delta_amt);
   
   
   while (tmp_comp != actual_goal_comp || tmp_remaining != actual_goal_remaining){
-    console.log('goal chart animation');
+    // console.log('goal chart animation');
     if (tmp_comp < actual_goal_comp){
       tmp_comp += complete_delta_amt;
       if (tmp_comp > actual_goal_comp){
@@ -126,7 +126,7 @@ async function update_goal_chart(goal_val){
         tmp_remaining = actual_goal_remaining;
       }
     }
-    console.log("Temp Complete: " + tmp_comp + " Remaining: " + tmp_remaining);
+    // console.log("Temp Complete: " + tmp_comp + " Remaining: " + tmp_remaining);
     // console.log("Actual Complete: " + actual_goal_comp + " Remaining: " + actual_goal_remaining);
     
     let tmp_goal_data =  [
