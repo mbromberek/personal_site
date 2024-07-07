@@ -17,7 +17,7 @@ function initGoalChart(goal_lst) {
   // console.log('initGoalChart');
   // console.log(goal_lst);
   goals_data = goal_lst;
-  goals_data = debug_goals_data;
+  // goals_data = debug_goals_data;
   console.log(goals_data);
   
   
