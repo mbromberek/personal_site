@@ -16,6 +16,7 @@ import random
 from flask import jsonify, request, url_for, abort, current_app, send_from_directory
 from werkzeug.utils import secure_filename
 import pandas as pd
+import numpy as np
 
 # Custom Classes from github
 import NormalizeWorkout.dao.files as fao
@@ -261,10 +262,10 @@ def generate_workout_from_file():
     if coord_df.shape[0] >1:
         strt_coord = actv_df[['latitude','longitude']].dropna().iloc[0]
         end_coord = actv_df[['latitude','longitude']].dropna().iloc[-1]
-        orig_workout.lat_strt = strt_coord['latitude']
-        orig_workout.long_strt = strt_coord['longitude']
-        orig_workout.lat_end = end_coord['latitude']
-        orig_workout.long_end = end_coord['longitude']
+        orig_workout.lat_strt = np.float64(strt_coord['latitude']).item() # Need to convert from np.float64 to Python number
+        orig_workout.long_strt = np.float64(strt_coord['longitude']).item()
+        orig_workout.lat_end = np.float64(end_coord['latitude']).item()
+        orig_workout.long_end = np.float64(end_coord['longitude']).item()
         thumbnail_nm = 'thumb_200_200_' + ''.join(random.choices(string.ascii_uppercase + string.digits, k=50)) + '.png'
         genMap.generate_map_img(actv_df, tumbnailDir, img_dim={'height':200, 'width':200}, img_name=thumbnail_nm)
         orig_workout.thumb_path = thumbnail_nm
