@@ -199,6 +199,8 @@ var showDescription = function(panel_id){
   panel_ele.style.borderColor = PANEL_COLOR[sel_sch_det['panel_type']];
   panel_ele.style.display = 'inline-block';
   
+  panel_ele.querySelector("#myScheduleBtn").setAttribute("onclick", "javascript: toggleMySchedule('"+sel_sch_det["id"]+"');");
+  
   /**
     Hide schedule list on mobile. 
     Element should already be hidden by description element 
@@ -221,6 +223,17 @@ function closeDescription(){
   document.getElementById('panel_det').style.display = 'none';
   curr_sch_id = '-1';
   
+}
+
+/**
+Add or removes Panel ID to list of panels user has added to their schedule.
+- Adds/removes panel ID to a list so can be used in filtering to show My Schedule
+- Updates button to show panel is in My Schedule or not
+- Adds/removes panel ID from cookie file of My Schedule
+ */
+var toggleMySchedule = function(panel_id){
+   console.log("toggleMySchedule ID: " + panel_id);
+   
 }
 
 /**

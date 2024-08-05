@@ -178,11 +178,14 @@ body {
   width:100%;
   display:block;
   height:20px;
-  background-color: aqua;
+  /* background-color: aqua; */
   border: 2px solid black;
   text-align: center;
   padding-top:5px;
   padding-bottom:3px;
+}
+.panel_det_myschedule:hover{
+  cursor:pointer;
 }
 .panel_bottom_bar{
   position:absolute; 
@@ -409,6 +412,9 @@ a.sch_lnk:hover{
   }
   .close_btn_area{
     display:inline-block;
+  }
+  .panel_det_myschedule{
+    display:none;
   }
 
 }
