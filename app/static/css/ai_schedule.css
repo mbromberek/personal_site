@@ -168,8 +168,28 @@ body {
   display:block;
 }
 
-
-
+.mark_panel_unselect{
+  
+}
+.mark_panel_select{
+  
+}
+.panel_det_myschedule{
+  width:100%;
+  display:block;
+  height:20px;
+  background-color: aqua;
+  border: 2px solid black;
+  text-align: center;
+  padding-top:5px;
+  padding-bottom:3px;
+}
+.panel_bottom_bar{
+  position:absolute; 
+  bottom:0px; 
+  left:8px; 
+  width:96%
+}
 
 
 
@@ -288,17 +308,42 @@ a.sch_lnk:hover{
 }
 .close_btn_area{
   width:100%;
-  text-align:right;
+  /* text-align:right; */
   padding-top:10px;
-  padding-bottom:10px;
-  display:none;
-}
-.close_btn{
-  /* border: 1px red solid; */
-  padding-right:20px;
-  padding-left:20px;
   padding-bottom:15px;
-  text-decoration: underline;
+  display:none;
+  /* border: 2px solid pink; */
+}
+.panel_det_myschedule_mobile{
+  float: left;
+  padding-top:8px;
+  padding-bottom:8px;
+  padding-right:12px;
+  padding-left:12px;
+  /* text-decoration: underline; */
+  border:2px solid black;
+  text-align: left;
+  font-size:20px;
+}
+
+.close_btn{
+  float: right;
+  padding-top:8px;
+  padding-right:12px;
+  padding-left:12px;
+  padding-bottom:8px;
+  font-size:20px;
+  /* text-decoration: underline; */
+  border-radius: 50%;
+  border:2px solid black;
+  /* text-align: center; */
+  /* vertical-align: middle; */
+  /* height: 30px; */
+  /* width:30px; */
+}
+.fill_space{
+  display:block;
+  width:5%;
 }
 .close_btn:hover{
   cursor:pointer;
@@ -351,6 +396,9 @@ a.sch_lnk:hover{
   
   }
 
+  .panel_bottom_bar{
+    bottom:35px; 
+  }
   .panel_det{
     right:0px;
     top:0px;
