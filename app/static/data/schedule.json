@@ -52,7 +52,7 @@
         "panel_type":"attendee"
       },
       {
-        "id":"0",
+        "id":"5",
         "title": "Cosplay for Spoonies",
         "room":"Programming 2 / Coral E",
         "day":"Friday",
@@ -63,7 +63,7 @@
         "panel_type":"attendee"
       },
       {
-        "id":"0",
+        "id":"6",
         "title": "So you would like to be in the cosplay contest?",
         "room":"Programming 3 / Oakdale 3",
         "day":"Friday",
@@ -74,7 +74,7 @@
         "panel_type":"staff"
       },
       {
-        "id":"0",
+        "id":"7",
         "title": "Anime Alphabet",
         "room":"Programming 1 / Coral D",
         "day":"Friday",
@@ -85,7 +85,7 @@
         "panel_type":"attendee"
       },
       {
-        "id":"0",
+        "id":"8",
         "title": "Patterns and Pattern Alterations",
         "room":"Programming 2 / Coral E",
         "day":"Friday",
@@ -96,7 +96,7 @@
         "panel_type":"attendee"
       },
       {
-        "id":"0",
+        "id":"9",
         "title": "Freya’s Protection: A Chain Mailing Journey",
         "room":"Mainstage! Coral C",
         "day":"Friday",
@@ -107,7 +107,7 @@
         "panel_type":"guest"
       },
       {
-        "id":"0",
+        "id":"10",
         "title": "Six Degrees of Shinji Ikari",
         "room":"Programming 3 / Oakdale 3",
         "day":"Friday",
@@ -118,7 +118,7 @@
         "panel_type":"attendee"
       },
       {
-        "id":"0",
+        "id":"11",
         "title": "Cosplay Consent",
         "room":"Mainstage! Coral C",
         "day":"Friday",
@@ -129,7 +129,7 @@
         "panel_type":"guest"
       },
       {
-        "id":"0",
+        "id":"12",
         "title": "Samurai Squid Games",
         "room":"Programming 1 / Coral D",
         "day":"Friday",
@@ -140,7 +140,7 @@
         "panel_type":"guest"
       },
       {
-        "id":"0",
+        "id":"13",
         "title": "Fractured But Whole: Who will you decide?",
         "room":"Programming 2 / Coral E",
         "day":"Friday",
@@ -151,7 +151,7 @@
         "panel_type":"attendee"
       },
       {
-        "id":"0",
+        "id":"14",
         "title": "8- Bit Perler Beads",
         "room":"Family Prog Oakdale 1",
         "day":"Friday",
@@ -162,7 +162,7 @@
         "panel_type":"family"
       },
       {
-        "id":"0",
+        "id":"15",
         "title": "Iowa Pokemon League",
         "room":"Programming 3 / Oakdale 3",
         "day":"Friday",
@@ -173,7 +173,7 @@
         "panel_type":"attendee"
       },
       {
-        "id":"0",
+        "id":"16",
         "title": "Drag it Up: A beginners guide to drag show etiquette, the art of drag, and more!",
         "room":"Mainstage! Coral C",
         "day":"Friday",
@@ -184,7 +184,7 @@
         "panel_type":"guest"
       },
       {
-        "id":"0",
+        "id":"17",
         "title": "Iron Cosplay",
         "room":"Programming 1 / Coral D",
         "day":"Friday",
@@ -195,7 +195,7 @@
         "panel_type":"attendee"
       },
       {
-        "id":"0",
+        "id":"18",
         "title": "Name That OST!",
         "room":"Programming 2 / Coral E",
         "day":"Friday",
@@ -206,7 +206,7 @@
         "panel_type":"attendee"
       },
       {
-        "id":"0",
+        "id":"19",
         "title": "Ouran You Glad the Host Club is Here?",
         "room":"Programming 4 / Oakdale 5",
         "day":"Friday",
@@ -217,7 +217,7 @@
         "panel_type":"attendee"
       },
       {
-        "id":"0",
+        "id":"20",
         "title": "Ball Jointed Dolls Intro and Meetup",
         "room":"Programming 3 / Oakdale 3",
         "day":"Friday",
@@ -228,7 +228,7 @@
         "panel_type":"attendee"
       },
       {
-        "id":"0",
+        "id":"21",
         "title": "Samurai Sword Class",
         "room":"Mainstage! Coral C",
         "day":"Friday",
@@ -239,7 +239,7 @@
         "panel_type":"guest"
       },
       {
-        "id":"0",
+        "id":"21",
         "title": "Anime Name That Tune",
         "room":"Programming 1 / Coral D",
         "day":"Friday",
@@ -250,7 +250,7 @@
         "panel_type":"attendee"
       },
       {
-        "id":"0",
+        "id":"22",
         "title": "The Samurai battlefield in the Sengoku era",
         "room":"Programming 2 / Coral E",
         "day":"Friday",
@@ -261,7 +261,7 @@
         "panel_type":"attendee"
       },
       {
-        "id":"0",
+        "id":"23",
         "title": "Fate Grand Order! Let's go!",
         "room":"Programming 3 / Oakdale 3",
         "day":"Friday",
@@ -272,7 +272,7 @@
         "panel_type":"attendee"
       },
       {
-        "id":"0",
+        "id":"24",
         "title": "Paper Lanterns",
         "room":"Family Prog Oakdale 1",
         "day":"Friday",
@@ -283,7 +283,7 @@
         "panel_type":"family"
       },
       {
-        "id":"0",
+        "id":"25",
         "title": "CLOSED",
         "room":"Mainstage! Coral C",
         "day":"Friday",
@@ -294,7 +294,7 @@
         "panel_type":""
       },
       {
-        "id":"0",
+        "id":"26",
         "title": "CLOSED",
         "room":"Programming 1 / Coral D",
         "day":"Friday",
@@ -305,7 +305,7 @@
         "panel_type":""
       },
       {
-        "id":"0",
+        "id":"27",
         "title": "CLOSED",
         "room":"Programming 2 / Coral E",
         "day":"Friday",
@@ -316,7 +316,7 @@
         "panel_type":""
       },
       {
-        "id":"0",
+        "id":"28",
         "title": "Annamaniacs",
         "room":"Mainstage! Coral C",
         "day":"Friday",
@@ -327,7 +327,7 @@
         "panel_type":"guest"
       },
       {
-        "id":"0",
+        "id":"29",
         "title": "Anime Anatomy",
         "room":"Programming 3 / Oakdale 3",
         "day":"Friday",
@@ -338,7 +338,7 @@
         "panel_type":"staff"
       },
       {
-        "id":"0",
+        "id":"30",
         "title": "History of Horror",
         "room":"Programming 3 / Oakdale 3",
         "day":"Friday",
@@ -349,7 +349,7 @@
         "panel_type":"guest"
       },
       {
-        "id":"0",
+        "id":"31",
         "title": "How to Incorporate Kimono into Cosplay",
         "room":"Programming 3 / Oakdale 3",
         "day":"Friday",
@@ -360,7 +360,7 @@
         "panel_type":"guest"
       },
       {
-        "id":"0",
+        "id":"32",
         "title": "Transition time",
         "room":"Mainstage! Coral C",
         "day":"Friday",
@@ -371,7 +371,7 @@
         "panel_type":"convention"
       },
       {
-        "id":"0",
+        "id":"33",
         "title": "Green Room",
         "room":"Family Prog Oakdale 1",
         "day":"Friday",
@@ -382,7 +382,7 @@
         "panel_type":"family"
       },
       {
-        "id":"0",
+        "id":"34",
         "title": "Knights of the Round Pasties’ Buu-lesque!",
         "room":"Mainstage! Coral C",
         "day":"Friday",
@@ -393,7 +393,7 @@
         "panel_type":"convention"
       },
       {
-        "id":"0",
+        "id":"35",
         "title": "I'm So Dumb 18+",
         "room":"Programming 3 / Oakdale 3",
         "day":"Friday",
@@ -404,7 +404,7 @@
         "panel_type":"guest"
       },
       {
-        "id":"0",
+        "id":"36",
         "title": "Let's talk about mature comics",
         "room":"Programming 4 / Oakdale 5",
         "day":"Friday",
@@ -415,7 +415,7 @@
         "panel_type":"attendee"
       },
       {
-        "id":"0",
+        "id":"37",
         "title": "You Don't Know Japan 18+",
         "room":"Programming 3 / Oakdale 3",
         "day":"Friday",
@@ -426,7 +426,7 @@
         "panel_type":"attendee"
       },
       {
-        "id":"0",
+        "id":"38",
         "title": "Sexiest Characters of Anime",
         "room":"Programming 4 / Oakdale 5",
         "day":"Friday",
@@ -437,7 +437,7 @@
         "panel_type":"attendee"
       },
       {
-        "id":"0",
+        "id":"39",
         "title": "NO! V: The Final Frontier",
         "room":"Mainstage! Coral C",
         "day":"Friday",
@@ -448,7 +448,7 @@
         "panel_type":"staff"
       },
       {
-        "id":"0",
+        "id":"40",
         "title": "The Best of AO3 tags",
         "room":"Programming 3 / Oakdale 3",
         "day":"Friday",
@@ -459,7 +459,7 @@
         "panel_type":"attendee"
       },
       {
-        "id":"0",
+        "id":"41",
         "title": "Shin Kangaroo Saiban - Zero Justice",
         "room":"Programming 4 / Oakdale 5",
         "day":"Friday",
@@ -470,7 +470,7 @@
         "panel_type":"attendee"
       },
       {
-        "id":"0",
+        "id":"42",
         "title": "Doujin Mad Libs",
         "room":"Mainstage! Coral C",
         "day":"Friday",
@@ -481,7 +481,7 @@
         "panel_type":"staff"
       },
       {
-        "id":"0",
+        "id":"43",
         "title": "Cosplay Contest Orientation",
         "room":"Mainstage! Coral C",
         "day":"Saturday",
@@ -492,7 +492,7 @@
         "panel_type":"convention"
       },
       {
-        "id":"0",
+        "id":"44",
         "title": "Anime, Couture & Streetwear",
         "room":"Programming 1 / Coral D",
         "day":"Saturday",
@@ -503,7 +503,7 @@
         "panel_type":"attendee"
       },
       {
-        "id":"0",
+        "id":"45",
         "title": "Japanese Mask presentation",
         "room":"Programming 3 / Oakdale 3",
         "day":"Saturday",
@@ -514,7 +514,7 @@
         "panel_type":"attendee"
       },
       {
-        "id":"0",
+        "id":"46",
         "title": "Uchiwa Fans",
         "room":"Family Prog Oakdale 1",
         "day":"Saturday",
@@ -525,7 +525,7 @@
         "panel_type":"family"
       },
       {
-        "id":"0",
+        "id":"47",
         "title": "Evolving Webcomics: What was popular then and what's hot now!",
         "room":"Programming 2 / Coral E",
         "day":"Saturday",
@@ -536,7 +536,7 @@
         "panel_type":"attendee"
       },
       {
-        "id":"0",
+        "id":"48",
         "title": "Kyudo - All about modern Japanese archery",
         "room":"Programming 1 / Coral D",
         "day":"Saturday",
@@ -547,7 +547,7 @@
         "panel_type":"attendee"
       },
       {
-        "id":"0",
+        "id":"49",
         "title": "My Hero Madness",
         "room":"Programming 3 / Oakdale 3",
         "day":"Saturday",
@@ -558,7 +558,7 @@
         "panel_type":"attendee"
       },
       {
-        "id":"0",
+        "id":"50",
         "title": "Sports Anime Stretch Hour",
         "room":"Mainstage! Coral C",
         "day":"Saturday",
@@ -569,7 +569,7 @@
         "panel_type":"attendee"
       },
       {
-        "id":"0",
+        "id":"51",
         "title": "Lolita Fashion History: Past to Present",
         "room":"Programming 4 / Oakdale 5",
         "day":"Saturday",
@@ -580,7 +580,7 @@
         "panel_type":"attendee"
       },
       {
-        "id":"0",
+        "id":"52",
         "title": "Crossplay and Genderbend 101",
         "room":"Mainstage! Coral C",
         "day":"Saturday",
@@ -591,7 +591,7 @@
         "panel_type":"guest"
       },
       {
-        "id":"0",
+        "id":"53",
         "title": "Samurai VS Ninja",
         "room":"Programming 1 / Coral D",
         "day":"Saturday",
@@ -602,7 +602,7 @@
         "panel_type":"attendee"
       },
       {
-        "id":"0",
+        "id":"54",
         "title": "Charity auction",
         "room":"Programming 2 / Coral E",
         "day":"Saturday",
@@ -613,7 +613,7 @@
         "panel_type":"convention"
       },
       {
-        "id":"0",
+        "id":"55",
         "title": "Cafè Ai, an immersive maid cafe",
         "room":"Programming 3 / Oakdale 3",
         "day":"Saturday",
@@ -624,7 +624,7 @@
         "panel_type":"attendee"
       },
       {
-        "id":"0",
+        "id":"56",
         "title": "Cosplay...But Make it Fashion",
         "room":"Programming 4 / Oakdale 5",
         "day":"Saturday",
@@ -635,7 +635,7 @@
         "panel_type":"attendee"
       },
       {
-        "id":"0",
+        "id":"57",
         "title": "Anime Game Show Explosion",
         "room":"Mainstage! Coral C",
         "day":"Saturday",
@@ -646,7 +646,7 @@
         "panel_type":"attendee"
       },
       {
-        "id":"0",
+        "id":"58",
         "title": "Thunder’s Closet Cosplay How To",
         "room":"Programming 1 / Coral D",
         "day":"Saturday",
@@ -657,7 +657,7 @@
         "panel_type":"guest"
       },
       {
-        "id":"0",
+        "id":"59",
         "title": "Shrinky Dinks",
         "room":"Family Prog Oakdale 1",
         "day":"Saturday",
@@ -668,7 +668,7 @@
         "panel_type":"family"
       },
       {
-        "id":"0",
+        "id":"60",
         "title": "Cosplaying Historically",
         "room":"Programming 4 / Oakdale 5",
         "day":"Saturday",
@@ -679,7 +679,7 @@
         "panel_type":"attendee"
       },
       {
-        "id":"0",
+        "id":"61",
         "title": "The Anime Dating Game!",
         "room":"Programming 1 / Coral D",
         "day":"Saturday",
@@ -690,7 +690,7 @@
         "panel_type":"attendee"
       },
       {
-        "id":"0",
+        "id":"62",
         "title": "Japanese Festival dance workshop",
         "room":"Programming 3 / Oakdale 3",
         "day":"Saturday",
@@ -701,7 +701,7 @@
         "panel_type":"attendee"
       },
       {
-        "id":"0",
+        "id":"63",
         "title": "No Means No Self Defense Class",
         "room":"Mainstage! Coral C",
         "day":"Saturday",
@@ -712,7 +712,7 @@
         "panel_type":"guest"
       },
       {
-        "id":"0",
+        "id":"64",
         "title": "Lolita Fashion Trivia",
         "room":"Programming 4 / Oakdale 5",
         "day":"Saturday",
@@ -723,7 +723,7 @@
         "panel_type":"attendee"
       },
       {
-        "id":"0",
+        "id":"65",
         "title": "Cosplay A to Z",
         "room":"Programming 1 / Coral D",
         "day":"Saturday",
@@ -734,7 +734,7 @@
         "panel_type":"guest"
       },
       {
-        "id":"0",
+        "id":"66",
         "title": "Hope's Peak Academy Class Reunion!",
         "room":"Programming 3 / Oakdale 3",
         "day":"Saturday",
@@ -745,7 +745,7 @@
         "panel_type":"attendee"
       },
       {
-        "id":"0",
+        "id":"67",
         "title": "Avatar: Kung Fu Elements ",
         "room":"Mainstage! Coral C",
         "day":"Saturday",
@@ -756,7 +756,7 @@
         "panel_type":"guest"
       },
       {
-        "id":"0",
+        "id":"68",
         "title": "Um, Actually... Unofficial",
         "room":"Programming 2 / Coral E",
         "day":"Saturday",
@@ -767,7 +767,7 @@
         "panel_type":"attendee"
       },
       {
-        "id":"0",
+        "id":"69",
         "title": "Isekai: what is it and why is there so much of it?",
         "room":"Programming 4 / Oakdale 5",
         "day":"Saturday",
@@ -778,7 +778,7 @@
         "panel_type":"attendee"
       },
       {
-        "id":"0",
+        "id":"70",
         "title": "Rhinestoning 101 with the Dragon and her MidnightSnack",
         "room":"Programming 1 / Coral D",
         "day":"Saturday",
@@ -789,7 +789,7 @@
         "panel_type":"guest"
       },
       {
-        "id":"0",
+        "id":"71",
         "title": "Kyujutsu - Kyudo as practiced by the old schools",
         "room":"Programming 2 / Coral E",
         "day":"Saturday",
@@ -800,7 +800,7 @@
         "panel_type":"attendee"
       },
       {
-        "id":"0",
+        "id":"72",
         "title": "Positivity Speed Dating",
         "room":"Mainstage! Coral C",
         "day":"Saturday",
@@ -811,7 +811,7 @@
         "panel_type":"attendee"
       },
       {
-        "id":"0",
+        "id":"73",
         "title": "Iowa Fighting Game Community Kumite",
         "room":"Programming 4 / Oakdale 5",
         "day":"Saturday",
@@ -822,7 +822,7 @@
         "panel_type":"attendee"
       },
       {
-        "id":"0",
+        "id":"74",
         "title": "History of Pointy Things",
         "room":"Programming 1 / Coral D",
         "day":"Saturday",
@@ -833,7 +833,7 @@
         "panel_type":"guewst"
       },
       {
-        "id":"0",
+        "id":"75",
         "title": "Cosplaying and Burlesque with Disabilities; Tips and Challenges (Roundtable Style)",
         "room":"Programming 2 / Coral E",
         "day":"Saturday",
@@ -844,7 +844,7 @@
         "panel_type":"guest"
       },
       {
-        "id":"0",
+        "id":"76",
         "title": "Jewelry Making",
         "room":"Family Prog Oakdale 1",
         "day":"Saturday",
@@ -855,7 +855,7 @@
         "panel_type":"family"
       },
       {
-        "id":"0",
+        "id":"77",
         "title": "I Love Your Dress! Lolita Fashion School",
         "room":"Programming 4 / Oakdale 5",
         "day":"Saturday",
@@ -866,7 +866,7 @@
         "panel_type":"attendee"
       },
       {
-        "id":"0",
+        "id":"78",
         "title": "CLOSED",
         "room":"Mainstage! Coral C",
         "day":"Saturday",
@@ -877,7 +877,7 @@
         "panel_type":"staff"
       },
       {
-        "id":"0",
+        "id":"79",
         "title": "CLOSED",
         "room":"Programming 1 / Coral D",
         "day":"Saturday",
@@ -888,7 +888,7 @@
         "panel_type":"convention"
       },
       {
-        "id":"0",
+        "id":"80",
         "title": "CLOSED",
         "room":"Programming 2 / Coral E",
         "day":"Saturday",
@@ -899,7 +899,7 @@
         "panel_type":"convention"
       },
       {
-        "id":"0",
+        "id":"81",
         "title": "Japanese Traditional Instruments presentation",
         "room":"Programming 3 / Oakdale 3",
         "day":"Saturday",
@@ -910,7 +910,7 @@
         "panel_type":"attendee"
       },
       {
-        "id":"0",
+        "id":"82",
         "title": "Kpop Random Dance",
         "room":"Programming 4 / Oakdale 5",
         "day":"Saturday",
@@ -921,7 +921,7 @@
         "panel_type":"attendee"
       },
       {
-        "id":"0",
+        "id":"83",
         "title": "Seating for Cosplay Masquerade",
         "room":"Mainstage! Coral C",
         "day":"Saturday",
@@ -932,7 +932,7 @@
         "panel_type":"convention"
       },
       {
-        "id":"0",
+        "id":"84",
         "title": "Equip Your Art with Heart!",
         "room":"Programming 3 / Oakdale 3",
         "day":"Saturday",
@@ -943,7 +943,7 @@
         "panel_type":"attendee"
       },
       {
-        "id":"0",
+        "id":"85",
         "title": "Cosplay Masquerade",
         "room":"Mainstage! Coral C",
         "day":"Saturday",
@@ -954,7 +954,7 @@
         "panel_type":"convention"
       },
       {
-        "id":"0",
+        "id":"86",
         "title": "Otome Gaming 101",
         "room":"Programming 4 / Oakdale 5",
         "day":"Saturday",
@@ -965,7 +965,7 @@
         "panel_type":"attendee"
       },
       {
-        "id":"0",
+        "id":"87",
         "title": "J-fashion Swap Meet",
         "room":"Programming 3 / Oakdale 3",
         "day":"Saturday",
@@ -976,7 +976,7 @@
         "panel_type":"attendee"
       },
       {
-        "id":"0",
+        "id":"88",
         "title": "How to Build Insane Props",
         "room":"Programming 4 / Oakdale 5",
         "day":"Saturday",
@@ -987,7 +987,7 @@
         "panel_type":"attendee"
       },
       {
-        "id":"0",
+        "id":"89",
         "title": "CLOSED",
         "room":"Mainstage! Coral C",
         "day":"Saturday",
@@ -998,7 +998,7 @@
         "panel_type":"staff"
       },
       {
-        "id":"0",
+        "id":"90",
         "title": "How Bootlegs Are Trying to Destroy the Anime Industry, and What You Can Do About It",
         "room":"Programming 3 / Oakdale 3",
         "day":"Saturday",
@@ -1009,7 +1009,7 @@
         "panel_type":"guest"
       },
       {
-        "id":"0",
+        "id":"91",
         "title": "Art Jam",
         "room":"Family Prog Oakdale 1",
         "day":"Saturday",
@@ -1020,7 +1020,7 @@
         "panel_type":"family"
       },
       {
-        "id":"0",
+        "id":"92",
         "title": "AnimeIowa’s Dance Party and Light Show",
         "room":"Mainstage! Coral C",
         "day":"Saturday",
@@ -1031,7 +1031,7 @@
         "panel_type":"convention"
       },
       {
-        "id":"0",
+        "id":"93",
         "title": "Gaming with the Guests 18+",
         "room":"Programming 3 / Oakdale 3",
         "day":"Saturday",
@@ -1042,7 +1042,7 @@
         "panel_type":"guest"
       },
       {
-        "id":"0",
+        "id":"94",
         "title": "The Best of the Breast: Boobs in Anime 18+",
         "room":"Programming 4 / Oakdale 5",
         "day":"Saturday",
@@ -1053,7 +1053,7 @@
         "panel_type":"attendee"
       },
       {
-        "id":"0",
+        "id":"95",
         "title": "Welcome to Helluva Hotel 18+",
         "room":"Programming 4 / Oakdale 5",
         "day":"Saturday",
@@ -1064,7 +1064,7 @@
         "panel_type":"attendee"
       },
       {
-        "id":"0",
+        "id":"96",
         "title": "I Can't Believe It's Not Hentai 18+",
         "room":"Programming 4 / Oakdale 5",
         "day":"Saturday",
@@ -1075,7 +1075,7 @@
         "panel_type":"attendee"
       },
       {
-        "id":"0",
+        "id":"97",
         "title": "Simping Made Simple: Jeopardy Edition",
         "room":"Programming 3 / Oakdale 3",
         "day":"Saturday",
@@ -1086,7 +1086,7 @@
         "panel_type":"attendee"
       },
       {
-        "id":"0",
+        "id":"98",
         "title": "Smash or Pass Genshin Edition",
         "room":"Programming 4 / Oakdale 5",
         "day":"Saturday",
@@ -1120,7 +1120,7 @@
         "panel_type":"guest"
       },
       {
-        "id":"0",
+        "id":"101",
         "title": "Sponsor Brunch",
         "room":"Programming 2 / Coral E",
         "day":"Sunday",
@@ -1131,7 +1131,7 @@
         "panel_type":"convention"
       },
       {
-        "id":"0",
+        "id":"102",
         "title": "Learn to Spin Yarn",
         "room":"Programming 3 / Oakdale 3",
         "day":"Sunday",
@@ -1142,7 +1142,7 @@
         "panel_type":"attendee"
       },
       {
-        "id":"0",
+        "id":"103",
         "title": "Bookmarks",
         "room":"Family Prog Oakdale 1",
         "day":"Sunday",
@@ -1153,7 +1153,7 @@
         "panel_type":"family"
       },
       {
-        "id":"0",
+        "id":"104",
         "title": "Just Dance- Genshin Impact edition",
         "room":"Mainstage! Coral C",
         "day":"Sunday",
@@ -1164,7 +1164,7 @@
         "panel_type":"attendee"
       },
       {
-        "id":"0",
+        "id":"105",
         "title": "Project Sekai Shenanigans!!",
         "room":"Programming 1 / Coral D",
         "day":"Sunday",
@@ -1175,7 +1175,7 @@
         "panel_type":"guest"
       },
       {
-        "id":"0",
+        "id":"106",
         "title": "That Sky Game Meet and Play",
         "room":"Programming 3 / Oakdale 3",
         "day":"Sunday",
@@ -1186,7 +1186,7 @@
         "panel_type":"attendee"
       },
       {
-        "id":"0",
+        "id":"107",
         "title": "Absassin’s Chaos & Curiosities : Q & A",
         "room":"Mainstage! Coral C",
         "day":"Sunday",
@@ -1197,7 +1197,7 @@
         "panel_type":"guest"
       },
       {
-        "id":"0",
+        "id":"108",
         "title": "Love 4 Boys Love: A Year in Review",
         "room":"Programming 3 / Oakdale 3",
         "day":"Sunday",
@@ -1208,7 +1208,7 @@
         "panel_type":"attendee"
       },
       {
-        "id":"0",
+      "id":"109",
         "title": "Potions",
         "room":"Family Prog Oakdale 1",
         "day":"Sunday",
@@ -1219,7 +1219,7 @@
         "panel_type":"family"
       },
       {
-        "id":"0",
+        "id":"110",
         "title": "3D Printing: 101 *Cosplay Judge Panel*",
         "room":"Mainstage! Coral C",
         "day":"Sunday",
@@ -1230,7 +1230,7 @@
         "panel_type":"guest"
       },
       {
-        "id":"0",
+        "id":"111",
         "title": "Cosplay: A History *Cosplay Judge Panel*",
         "room":"Programming 1 / Coral D",
         "day":"Sunday",
@@ -1241,7 +1241,7 @@
         "panel_type":"guest"
       },
       {
-        "id":"0",
+        "id":"112",
         "title": "Sew an Outfit For Your Doll or Stuffed Animal",
         "room":"Programming 3 / Oakdale 3",
         "day":"Sunday",
@@ -1252,7 +1252,7 @@
         "panel_type":"attendee"
       },
       {
-        "id":"0",
+        "id":"113",
         "title": "Ronin Sword Class",
         "room":"Mainstage! Coral C",
         "day":"Sunday",
@@ -1263,7 +1263,7 @@
         "panel_type":"guest"
       },
       {
-        "id":"0",
+        "id":"114",
         "title": "Eden Ranks her Hoard of Otome Lovers",
         "room":"Programming 1 / Coral D",
         "day":"Sunday",
@@ -1274,7 +1274,7 @@
         "panel_type":"attendee"
       },
       {
-        "id":"0",
+        "id":"115",
         "title": "Demon Slayer Shenanigans",
         "room":"Programming 2 / Coral E",
         "day":"Sunday",
@@ -1286,7 +1286,7 @@
       },
       
       {
-        "id":"0",
+        "id":"116",
         "title": "Mindbridge Meeting",
         "room":"Programming 3 / Oakdale 3",
         "day":"Sunday",
@@ -1297,7 +1297,7 @@
         "panel_type":"staff"
       },
       {
-        "id":"0",
+        "id":"117",
         "title": "Cosplay: From Beginning to Branding",
         "room":"Mainstage! Coral C",
         "day":"Sunday",
@@ -1308,7 +1308,7 @@
         "panel_type":"guest"
       },
       {
-        "id":"0",
+        "id":"118",
         "title": "FuwaKumo Idol Performance!",
         "room":"Programming 1 / Coral D",
         "day":"Sunday",
@@ -1319,7 +1319,7 @@
         "panel_type":"attendee"
       },
       {
-        "id":"0",
+        "id":"119",
         "title": "Anime Bingo",
         "room":"Family Prog Oakdale 1",
         "day":"Sunday",
@@ -1330,7 +1330,7 @@
         "panel_type":"family"
       },
       {
-        "id":"0",
+        "id":"120",
         "title": "Closing Ceremonies",
         "room":"Mainstage! Coral C",
         "day":"Sunday",
