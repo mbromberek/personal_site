@@ -268,6 +268,10 @@ body {
 .sch_card_panel_family{
   border-color: purple;
 }
+.sch_card_panel_myschedule{
+  border-color: lightblue;
+}
+
 .selected_panel{
   background-color: lightgreen;
 }

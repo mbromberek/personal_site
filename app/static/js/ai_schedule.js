@@ -32,13 +32,13 @@ function initialize(response){
 
   prog_schedule = response['prog_schedule'];
   //Populate every element in prog_schedule with if they are part of MySchedule or not
-  for (let i=0; i<prog_schedule.length; i++){
+  /*for (let i=0; i<prog_schedule.length; i++){
     if (my_schedule_set.has(prog_schedule[i]['id'])){
       prog_schedule[i]['my_schedule'] = true;
     }else{
       prog_schedule[i]['my_schedule'] = false;
     }
-  }
+  }*/
   prog_key = response['prog_key'];
   console.log('prog_schedule');
   console.log(prog_schedule);
@@ -127,12 +127,23 @@ function loadSchedule(){
   for (let i=0; i<prog_schedule.length; i++){
     let panel = prog_schedule[i];
     //TODOMYSCHEDULE: Check if MySchedule filter is selected 
-    if (panel['day'] != sel_day || 
-      (sel_panel_type != '' && panel['panel_type'] != sel_panel_type))
-      //|| (show_myschedule == true && panel['myschedule'] == true)
-      {
+    //Does not use MySchedule filtering
+    /*if (panel['day'] != sel_day || 
+      (sel_panel_type != '' && panel['panel_type'] != sel_panel_type)
+      // || !(my_schedule_set.has(prog_schedule[i]['id'])) 
+      ){
+      continue;
+    }*/
+    
+    if (panel['day'] != sel_day
+      || (sel_panel_type != 'myschedule' && sel_panel_type != '' && panel['panel_type'] != sel_panel_type)
+      || (sel_panel_type == 'myschedule' && !my_schedule_set.has(prog_schedule[i]['id'])) 
+      ){
       continue;
     }
+    
+    
+    
     // Put time marker above the last entry before the time change so the correct entry is not covered by nav bar
     let panel_start_time_floor = panel['start_time'].replace(':30',':00');
     while (panel_start_time_floor != time_breaks[time_break_pos] && 
@@ -290,7 +301,7 @@ var toggleMySchedule = function(panel_id){
   }
 
   //TODOMYSCHEDULE: Is this section needed since tracking in my_schedule_set? 
-  for (let i=0; i<prog_schedule.length; i++){
+  /*for (let i=0; i<prog_schedule.length; i++){
     if (prog_schedule[i]['id'] == panel_id){
       if (my_schedule_set.has(panel_id)){
         prog_schedule[i]['my_schedule'] = true;
@@ -300,7 +311,7 @@ var toggleMySchedule = function(panel_id){
       console.log(prog_schedule[i]);
       break;
     }
-  }
+  }*/
 
 
   //Update buttons to have check mark or Plus on MySchedule buttons
@@ -423,12 +434,3 @@ function getCookie(cname) {
   return "";
 }
 
-/*
-Erase passed in cookie by setting expiration to the past
-Not being used
-*/
-/*
-function eraseCookie(cname){
-    // console.log('eraseCookie: ' + cname);
-    setCookie(cname,"",-1);
-}*/
