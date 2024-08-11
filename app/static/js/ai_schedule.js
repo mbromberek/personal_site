@@ -1,5 +1,6 @@
 var curr_sch_id = '-1';
 var prog_schedule = '';
+var my_schedule_set = [];
 var prog_key = '';
 var sel_day = '';
 var sel_panel_type = '';
@@ -15,8 +16,22 @@ Loads programming schedule for Friday.
  */
 function initialize(response){
   console.log(response);
+
+  //TODOMYSCHEDULE: Read MySchedule cookie file
+  my_schedule_set = new Set(["2", "4"]);
+
   prog_schedule = response['prog_schedule'];
+  //Populate every element in prog_schedule with if they are part of MySchedule or not
+  for (let i=0; i<prog_schedule.length; i++){
+    if (my_schedule_set.has(prog_schedule[i]['id'])){
+      prog_schedule[i]['my_schedule'] = true;
+    }else{
+      prog_schedule[i]['my_schedule'] = false;
+    }
+  }
   prog_key = response['prog_key'];
+  console.log('prog_schedule');
+  console.log(prog_schedule);
 
   updateScheduleForToday();
 }
@@ -101,8 +116,11 @@ function loadSchedule(){
   //TODO Get Current Day and Current Time to find first element that is close to current day/time to highlight
   for (let i=0; i<prog_schedule.length; i++){
     let panel = prog_schedule[i];
+    //TODOMYSCHEDULE: Check if MySchedule filter is selected 
     if (panel['day'] != sel_day || 
-      (sel_panel_type != '' && panel['panel_type'] != sel_panel_type)){
+      (sel_panel_type != '' && panel['panel_type'] != sel_panel_type))
+      //|| (show_myschedule == true && panel['myschedule'] == true)
+      {
       continue;
     }
     // Put time marker above the last entry before the time change so the correct entry is not covered by nav bar
@@ -199,7 +217,9 @@ var showDescription = function(panel_id){
   panel_ele.style.borderColor = PANEL_COLOR[sel_sch_det['panel_type']];
   panel_ele.style.display = 'inline-block';
   
-  panel_ele.querySelector("#myScheduleBtn").setAttribute("onclick", "javascript: toggleMySchedule('"+sel_sch_det["id"]+"');");
+  panel_ele.querySelector("#myScheduleBtn_mobile").setAttribute("onclick", "javascript: toggleMySchedule('"+sel_sch_det["id"]+"');");
+  panel_ele.querySelector("#myScheduleBtn_desktop").setAttribute("onclick", "javascript: toggleMySchedule('"+sel_sch_det["id"]+"');");
+  //TODOMYSCHEDULE: Set My Schedule button to have plus or check
   
   /**
     Hide schedule list on mobile. 
@@ -229,11 +249,45 @@ function closeDescription(){
 Add or removes Panel ID to list of panels user has added to their schedule.
 - Adds/removes panel ID to a list so can be used in filtering to show My Schedule
 - Updates button to show panel is in My Schedule or not
-- Adds/removes panel ID from cookie file of My Schedule
+- Adds/removes panel ID from cookie file of My Schedule 
  */
 var toggleMySchedule = function(panel_id){
-   console.log("toggleMySchedule ID: " + panel_id);
-   
+  console.log("toggleMySchedule ID: " + panel_id);
+
+  //Toggle my_schedule flag in prog_schedule for panel
+  if (my_schedule_set.has(panel_id)){
+    my_schedule_set.delete(panel_id);
+  }else{
+    my_schedule_set.add(panel_id);
+  }
+  for (let i=0; i<prog_schedule.length; i++){
+    // if (my_schedule_set.has(prog_schedule[i]['id'])){
+    if (prog_schedule[i]['id'] == panel_id){
+      if (my_schedule_set.has(panel_id)){
+        prog_schedule[i]['my_schedule'] = true;
+      }else{
+        prog_schedule[i]['my_schedule'] = false;
+      }
+      console.log(prog_schedule[i]);
+      break;
+    }
+  }
+
+
+  //Update buttons to have check mark or Plus on MySchedule buttons
+  let panel_ele = document.getElementById('panel_det');  
+  if (my_schedule_set.has(panel_id)){
+    panel_ele.querySelector("#myScheduleBtnDesktopSymbol").innerHTML = "✔️";
+    panel_ele.querySelector("#myScheduleBtnMobileSymbol").innerHTML = "✔️";
+  }else{
+    panel_ele.querySelector("#myScheduleBtnDesktopSymbol").innerHTML = "➕";
+    panel_ele.querySelector("#myScheduleBtnMobileSymbol").innerHTML = "➕";
+  }
+  
+  //TODOMYSCHEDULE: Save new MySchedule item to cookie
+  
+  console.log("my_schedule_set");
+  console.log(my_schedule_set);
 }
 
 /**
