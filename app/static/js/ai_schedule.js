@@ -200,7 +200,8 @@ function loadSchedule(){
   }
 
   //Default show panel description on page load for Desktop
-  if (getWidth() >=MIN_DESKTOP_WIDTH){
+  // Checkes firstEle has value
+  if (getWidth() >=MIN_DESKTOP_WIDTH && firstEle >=0){
     showDescription(firstEle);
   }
 
