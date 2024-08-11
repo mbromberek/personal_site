@@ -50,11 +50,13 @@ function initialize(response){
 Set the selected panel to be filtered and reloads the schedule. 
 If panel_type passed is empty sets to All Panels
  */
-function updateScheduleForPanel(panel_type){
+function updateScheduleForPanel(panel_type, panel_type_name=''){
   sel_panel_type = panel_type;
   ele = document.getElementById('panel_type_filter');
   if (sel_panel_type == ''){
     ele.innerHTML = 'All Panels';
+  }else if(panel_type_name != ''){
+    ele.innerHTML = panel_type_name;
   }else{
     ele.innerHTML = sel_panel_type.charAt(0).toUpperCase() 
       + sel_panel_type.slice(1);

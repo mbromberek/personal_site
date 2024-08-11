@@ -90,7 +90,7 @@ body {
   width:90px;
 }
 .nav_panel{
-  width:100px;
+  width:120px;
 } 
 
 .sch_lst{
@@ -388,7 +388,7 @@ a.sch_lnk:hover{
     width:80px;
   }
   .nav_panel{
-    width:100px;
+    width:120px;
   } 
 
   /* .sch_card{
