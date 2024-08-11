@@ -219,7 +219,15 @@ var showDescription = function(panel_id){
   
   panel_ele.querySelector("#myScheduleBtn_mobile").setAttribute("onclick", "javascript: toggleMySchedule('"+sel_sch_det["id"]+"');");
   panel_ele.querySelector("#myScheduleBtn_desktop").setAttribute("onclick", "javascript: toggleMySchedule('"+sel_sch_det["id"]+"');");
-  //TODOMYSCHEDULE: Set My Schedule button to have plus or check
+
+  //Set My Schedule button to have plus or check
+  if (my_schedule_set.has(sel_sch_det["id"])){
+    panel_ele.querySelector("#myScheduleBtnDesktopSymbol").innerHTML = "✔️";
+    panel_ele.querySelector("#myScheduleBtnMobileSymbol").innerHTML = "✔️";
+  }else{
+    panel_ele.querySelector("#myScheduleBtnDesktopSymbol").innerHTML = "➕";
+    panel_ele.querySelector("#myScheduleBtnMobileSymbol").innerHTML = "➕";
+  }
   
   /**
     Hide schedule list on mobile. 
@@ -260,8 +268,9 @@ var toggleMySchedule = function(panel_id){
   }else{
     my_schedule_set.add(panel_id);
   }
+
+  //TODOMYSCHEDULE: Is this section needed since tracking in my_schedule_set? 
   for (let i=0; i<prog_schedule.length; i++){
-    // if (my_schedule_set.has(prog_schedule[i]['id'])){
     if (prog_schedule[i]['id'] == panel_id){
       if (my_schedule_set.has(panel_id)){
         prog_schedule[i]['my_schedule'] = true;
