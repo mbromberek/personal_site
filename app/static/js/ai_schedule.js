@@ -1,6 +1,7 @@
 var curr_sch_id = '-1';
 var prog_schedule = '';
-var my_schedule_set = [];
+var my_schedule_set = new Set();
+var using_cookie = false; //Used to track if user has used any cookies or if need to confirm cookie access. 
 var prog_key = '';
 var sel_day = '';
 var sel_panel_type = '';
@@ -8,6 +9,8 @@ const time_breaks = ['5:00am','6:00am','7:00am','8:00am','9:00am','10:00am','11:
 const weekday = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
 const MIN_DESKTOP_WIDTH = 700;
 const PANEL_COLOR = {"guest":"darkorange", "staff":"green", "attendee":"darkblue", "convention":"darkred","family":"purple"};
+var cookie_expire_days = 1;
+const sch_cookie_nm = 'AnimeIowaMySchedule';
 
 /**
 Called on page load. 
@@ -17,8 +20,15 @@ Loads programming schedule for Friday.
 function initialize(response){
   console.log(response);
 
-  //TODOMYSCHEDULE: Read MySchedule cookie file
-  my_schedule_set = new Set(["2", "4"]);
+  //Read MySchedule cookie file. If there is already a cookie then set using_cookie to true
+  // my_schedule_set = new Set(["2", "4"]);
+  let sch_cookie = getCookie(sch_cookie_nm);
+  if (sch_cookie != ""){
+    my_schedule_set = new Set(getCookie(sch_cookie_nm).split(","));
+    using_cookie = true;
+  }
+  console.log('my_schedule_set');
+  console.log(my_schedule_set);
 
   prog_schedule = response['prog_schedule'];
   //Populate every element in prog_schedule with if they are part of MySchedule or not
@@ -266,6 +276,16 @@ var toggleMySchedule = function(panel_id){
   if (my_schedule_set.has(panel_id)){
     my_schedule_set.delete(panel_id);
   }else{
+    
+    if (using_cookie == false){
+      if (confirm("This will store the values you enter as cookies on your computer. Do you agree to them being stored this way?") == false){
+        console.log("Cookie use declined so not using MySchedule");
+        return;
+      }
+    }
+    using_cookie = true;
+    
+    
     my_schedule_set.add(panel_id);
   }
 
@@ -294,6 +314,7 @@ var toggleMySchedule = function(panel_id){
   }
   
   //TODOMYSCHEDULE: Save new MySchedule item to cookie
+  setCookie(sch_cookie_nm, Array.from(my_schedule_set).join(','), cookie_expire_days);
   
   console.log("my_schedule_set");
   console.log(my_schedule_set);
@@ -371,3 +392,43 @@ window.onclick = function(event) {
   }
 } 
 
+
+
+/*
+save cookie for passed in number of days
+*/
+function setCookie(cname, cvalue, exdays) {
+  const d = new Date();
+  d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+  let expires = "expires="+d.toUTCString();
+  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/; SameSite=Strict; Secure;";
+  return true;
+}
+
+/*
+Gets passed in cookie
+*/
+function getCookie(cname) {
+  let name = cname + "=";
+  let ca = document.cookie.split(';');
+  for(let i = 0; i < ca.length; i++) {
+    let c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}
+
+/*
+Erase passed in cookie by setting expiration to the past
+Not being used
+*/
+/*
+function eraseCookie(cname){
+    // console.log('eraseCookie: ' + cname);
+    setCookie(cname,"",-1);
+}*/
