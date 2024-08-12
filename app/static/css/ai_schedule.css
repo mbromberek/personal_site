@@ -343,10 +343,10 @@ a.sch_lnk:hover{
 
 .close_btn{
   float: right;
-  padding-top:8px;
-  padding-right:12px;
-  padding-left:12px;
-  padding-bottom:8px;
+  padding-top:2px;
+  padding-right:8px;
+  padding-left:8px;
+  padding-bottom:1px;
   font-size:20px;
   /* text-decoration: underline; */
   border-radius: 50%;
@@ -428,12 +428,13 @@ a.sch_lnk:hover{
   }
   .panel_det_myschedule_mobile{
     float: left;
-    padding-top:8px;
-    padding-bottom:8px;
+    padding-top:1px;
+    padding-bottom:1px;
     padding-right:12px;
     padding-left:12px;
     /* text-decoration: underline; */
     border:2px solid black;
+    border-radius: 0%;
     text-align: left;
     font-size:20px;
   }
