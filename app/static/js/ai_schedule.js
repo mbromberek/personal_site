@@ -235,14 +235,14 @@ var showDescription = function(panel_id){
   panel_ele.style.display = 'inline-block';
   
   panel_ele.querySelector("#myScheduleBtn_mobile").setAttribute("onclick", "javascript: toggleMySchedule('"+sel_sch_det["id"]+"');");
-  panel_ele.querySelector("#myScheduleBtn_desktop").setAttribute("onclick", "javascript: toggleMySchedule('"+sel_sch_det["id"]+"');");
+  // panel_ele.querySelector("#myScheduleBtn_desktop").setAttribute("onclick", "javascript: toggleMySchedule('"+sel_sch_det["id"]+"');");
 
   //Set My Schedule button to have plus or check
   if (my_schedule_set.has(sel_sch_det["id"])){
-    panel_ele.querySelector("#myScheduleBtnDesktopSymbol").innerHTML = "✔️";
+    // panel_ele.querySelector("#myScheduleBtnDesktopSymbol").innerHTML = "✔️";
     panel_ele.querySelector("#myScheduleBtnMobileSymbol").innerHTML = "✔️";
   }else{
-    panel_ele.querySelector("#myScheduleBtnDesktopSymbol").innerHTML = "➕";
+    // panel_ele.querySelector("#myScheduleBtnDesktopSymbol").innerHTML = "➕";
     panel_ele.querySelector("#myScheduleBtnMobileSymbol").innerHTML = "➕";
   }
   
@@ -313,10 +313,10 @@ var toggleMySchedule = function(panel_id){
   //Update buttons to have check mark or Plus on MySchedule buttons
   let panel_ele = document.getElementById('panel_det');  
   if (my_schedule_set.has(panel_id)){
-    panel_ele.querySelector("#myScheduleBtnDesktopSymbol").innerHTML = "✔️";
+    // panel_ele.querySelector("#myScheduleBtnDesktopSymbol").innerHTML = "✔️";
     panel_ele.querySelector("#myScheduleBtnMobileSymbol").innerHTML = "✔️";
   }else{
-    panel_ele.querySelector("#myScheduleBtnDesktopSymbol").innerHTML = "➕";
+    // panel_ele.querySelector("#myScheduleBtnDesktopSymbol").innerHTML = "➕";
     panel_ele.querySelector("#myScheduleBtnMobileSymbol").innerHTML = "➕";
   }
   
