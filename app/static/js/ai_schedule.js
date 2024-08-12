@@ -40,8 +40,8 @@ function initialize(response){
     }
   }*/
   prog_key = response['prog_key'];
-  console.log('prog_schedule');
-  console.log(prog_schedule);
+  // console.log('prog_schedule');
+  // console.log(prog_schedule);
 
   updateScheduleForToday();
 }
@@ -128,15 +128,8 @@ function loadSchedule(){
   //TODO Get Current Day and Current Time to find first element that is close to current day/time to highlight
   for (let i=0; i<prog_schedule.length; i++){
     let panel = prog_schedule[i];
-    //TODOMYSCHEDULE: Check if MySchedule filter is selected 
-    //Does not use MySchedule filtering
-    /*if (panel['day'] != sel_day || 
-      (sel_panel_type != '' && panel['panel_type'] != sel_panel_type)
-      // || !(my_schedule_set.has(prog_schedule[i]['id'])) 
-      ){
-      continue;
-    }*/
     
+    //If filtering by myschedule then use any panel_type and check for only prog_schedules where id is in my_schedule_set
     if (panel['day'] != sel_day
       || (sel_panel_type != 'myschedule' && sel_panel_type != '' && panel['panel_type'] != sel_panel_type)
       || (sel_panel_type == 'myschedule' && !my_schedule_set.has(prog_schedule[i]['id'])) 
@@ -327,7 +320,7 @@ var toggleMySchedule = function(panel_id){
     panel_ele.querySelector("#myScheduleBtnMobileSymbol").innerHTML = "➕";
   }
   
-  //TODOMYSCHEDULE: Save new MySchedule item to cookie
+  //Save new MySchedule item to cookie
   setCookie(sch_cookie_nm, Array.from(my_schedule_set).join(','), cookie_expire_days);
   
   console.log("my_schedule_set");
