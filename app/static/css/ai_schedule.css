@@ -174,30 +174,10 @@ body {
 .mark_panel_select{
   
 }
-.panel_det_myschedule{
-  width:100%;
-  display:block;
-  height:25px;
-  /* background-color: aqua; */
-  border: 2px solid black;
-  text-align: center;
-  padding-top:5px;
-  padding-bottom:3px;
-}
+
 .panel_det_myschedule:hover{
   cursor:pointer;
-}
-.panel_det_myschedule_mobile:hover{
-  cursor:pointer;
-}
-.panel_bottom_bar{
-  /* position:absolute; 
-  bottom:0px; 
-  left:8px;  */
-  width:96%;
-  vertical-align: middle;
-  
-
+  background-color: lightblue;
 }
 
 
@@ -205,9 +185,7 @@ body {
 
 .panel_det{
   position:fixed;
-  /* vertical-align: top;margin-top:5px;margin-left:5px; */
   right:10px;
-  /* top:5px; */
   top:60px;
   padding-left:15px;
   padding-right:15px;
@@ -217,9 +195,6 @@ body {
   display:none;
   z-index:2;
   
-  /* display:inline-block;
-  vertical-align: top;
-  padding-top:20px; */
   border: 1px black solid;
   border-top: 20px black solid;
   width:calc((100% - 560px));
@@ -328,7 +303,7 @@ a.sch_lnk:hover{
   display:inline-block;
   /* border: 2px solid pink; */
 }
-.panel_det_myschedule_mobile{
+.panel_det_myschedule{
   float: right;
   /* padding-top:3px; */
   /* padding-bottom:3px; */
@@ -412,9 +387,6 @@ a.sch_lnk:hover{
   
   }
 
-  .panel_bottom_bar{
-    bottom:35px; 
-  }
   .panel_det{
     right:0px;
     top:0px;
@@ -426,7 +398,7 @@ a.sch_lnk:hover{
   .close_btn_area{
     display:inline-block;
   }
-  .panel_det_myschedule_mobile{
+  .panel_det_myschedule{
     float: left;
     padding-top:1px;
     padding-bottom:1px;
@@ -440,9 +412,6 @@ a.sch_lnk:hover{
   }
   .close_btn{
     display:inline-block;
-  }
-  .panel_det_myschedule{
-    display:none;
   }
 
 }
