@@ -850,6 +850,7 @@ def dashboard():
 
     min_yrly_dt = datetime(const.MIN_YR_COMP, 1, 1)
     query = Yrly_mileage.query.filter_by(user_id=current_user.id)
+    # query = query.filter(Yrly_mileage.type.in_(['Running','Cycling','Strength Training']))
     query = query.filter(Yrly_mileage.type.in_(['Running','Cycling']))
     query = query.filter(Yrly_mileage.dt_by_yr >=min_yrly_dt)
     yrly_mileage_results = sorted(query, reverse=True)
@@ -867,11 +868,23 @@ def dashboard():
     dash_lst_dict['yrly_goals_lst'] = yrly_goals_lst
     dash_lst_dict['yrly_goals_dict_lst'] = Yrly_goal.lst_to_dict(yrly_goals_lst)
     dash_lst_dict['yrly_mileage_lst'] = yrly_mileage_lst
+    
+
+    query = Yrly_mileage.query.filter_by(user_id=current_user.id)
+    query = query.filter(Yrly_mileage.type.in_(['Strength Training']))
+    query = query.filter(Yrly_mileage.dt_by_yr >=min_yrly_dt)
+    yrly_strength_results = sorted(query, reverse=True)
+    yrly_strength_lst = []
+    for yr_mileage in yrly_strength_results:
+        yr_mileage.duration = yr_mileage.dur_str()
+        yr_mileage.pace = yr_mileage.pace_str()
+        yrly_strength_lst.append(yr_mileage)
+    dash_lst_dict['yrly_strength_lst'] = yrly_strength_lst
 
     min_moly_dt = date.today() - timedelta((const.NBR_MO_COMP+1) * 31) # TODO probably not the best way to do this
     query = Moly_mileage.query.filter_by(user_id=current_user.id, type='Running')
     query = query.filter(Moly_mileage.dt_by_mo >=min_moly_dt)
-    moly_mileage_results = sorted(query, reverse=False)
+    moly_mileage_results = sorted(query, reverse=True)
     moly_mileage_lst = []
     for mo_mileage in moly_mileage_results:
         mo_mileage_dict = mo_mileage.to_dict()

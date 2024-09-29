@@ -1,0 +1,39 @@
+        <div class="dashboard_widget " >
+        <table class="gear_usage">
+            <tr class="gear_usage_hdr">
+                <td  class="gear_usage_hdr" colspan="6">
+                    Strength Training by Year
+                </td>
+            </tr>
+            <tr class="gear_usage_hdr">
+                <td class="gear_usage_hdr">
+                    Type
+                </td>
+                <td class="gear_usage_hdr">
+                    Year
+                </td>
+                <td class="gear_usage_hdr hide_mobile">
+                    Ct
+                </td>
+                <td class="gear_usage_hdr">
+                    Dur
+                </td>
+            </tr>
+            {% for yr in dash_lst_dict['yrly_strength_lst'] %}
+            <tr >
+                <td class="dashboard_row_dtl">
+                    {{ yr.type }}
+                </td>
+                <td class="dashboard_row_dtl">
+                    {{ yr.dt_by_yr.strftime('%Y')}}
+                </td>
+                <td class="dashboard_row_dtl hide_mobile">
+                    {{ yr.nbr }}
+                </td>
+                <td class="dashboard_row_dtl" style="text-align:center">
+                    {{ yr.duration }}
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>

@@ -96,6 +96,17 @@
         "panel_type":"attendee"
       },
       {
+        "id":"201",
+        "title": "Danmei",
+        "room":"Front Garden",
+        "day":"Friday",
+        "start_time": "2:00pm",
+        "end_time":"3:00pm",
+        "panelists":"",
+        "description":"",
+        "panel_type":"attendee"
+      },
+      {
         "id":"9",
         "title": "Freya’s Protection: A Chain Mailing Journey",
         "room":"Mainstage! Coral C",
