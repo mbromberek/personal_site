@@ -13,6 +13,8 @@ WITH MILES_BY_MO AS (
       --Time data types do not work with sum so convert from time to number of seconds
       , sum(dur_sec) TOT_SEC
       , sum(DIST_mi) TOT_DIST
+      , max(dist_mi) MAX_DIST
+      , max(dur_sec) MAX_SEC
     FROM fitness.workout
     inner join fitness.workout_type wrkt_type
       on workout.type_id = wrkt_type.id
@@ -26,6 +28,8 @@ SELECT CURR_MO.user_id
   , round(((CURR_MO.tot_dist / case PREV_MO.tot_dist when 0 then 1 else PREV_MO.tot_dist end) -1) * 100, 1) dist_delta_pct
   , CURR_MO.TOT_SEC
   , round( ( ( (CURR_MO.TOT_SEC::numeric / case PREV_MO.TOT_SEC when 0 then 1 else PREV_MO.TOT_SEC end) -1) * 100), 1) tm_delta_pct
+  , CURR_MO.MAX_DIST
+  , CURR_MO.MAX_SEC
 FROM MILES_BY_MO CURR_MO
 LEFT OUTER JOIN MILES_BY_MO PREV_MO
   on CURR_MO.user_id = PREV_MO.user_id

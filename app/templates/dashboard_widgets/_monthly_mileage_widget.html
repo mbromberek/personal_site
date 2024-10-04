@@ -2,7 +2,7 @@
         <table class="gear_usage">
             <tr class="gear_usage_hdr">
                 <td  class="gear_usage_hdr" colspan="6">
-                    Running Mileage by Month
+                    {{widget_data['header']}} Mileage by Month
                 </td>
             </tr>
             <tr class="gear_usage_hdr">
@@ -19,13 +19,14 @@
                     Dur
                 </td>
                 <td class="gear_usage_hdr">
-                    Dist Delta
+                    Max Dist
                 </td>
                 <td class="gear_usage_hdr hide_mobile">
-                    Dur Delta
+                    Dist Delta
                 </td>
             </tr>
-            {% for mo in dash_lst_dict['moly_mileage_lst'] %}
+            {#{% for mo in dash_lst_dict['moly_run_mileage_lst'] %}#}
+            {% for mo in widget_data['data'] %}
             <tr >
                 <td class="gear_usage_dtl">
                     {{ mo.dt_yr_mo}}
@@ -40,10 +41,10 @@
                     {{ mo.duration }}
                 </td>
                 <td class="gear_usage_dtl" style="text-align:center">
-                    {{ '%0.1f' % mo.dist_delta_pct|float }}
+                    {{ '%0.1f' % mo.max_dist|float }}
                 </td>
                 <td class="gear_usage_dtl hide_mobile" style="text-align:center">
-                    {{ '%0.1f' % mo.tm_delta_pct|float }}
+                    {{ '%0.1f' % mo.dist_delta_pct|float }}
                 </td>
 
             </tr>

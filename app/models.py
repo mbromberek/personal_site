@@ -968,6 +968,8 @@ class Moly_mileage(db.Model):
     tot_sec = db.Column(db.Integer())
     dist_delta_pct = db.Column(db.Numeric(8,2))
     tm_delta_pct = db.Column(db.Numeric(8,2))
+    max_dist = db.Column(db.Numeric(8,2))
+    max_sec = db.Column(db.Integer())
 
     def __repr__(self):
         return '<Weekly_mileage {}: type {}>'.format(str(self.dt_by_mo), self.type)
@@ -992,12 +994,11 @@ class Moly_mileage(db.Model):
             'tot_sec': self.tot_sec,
             'duration': self.dur_str(),
             'dist_delta_pct': self.dist_delta_pct,
-            'tm_delta_pct': self.tm_delta_pct
-            ,
+            'tm_delta_pct': self.tm_delta_pct,
             'code': self.dt_by_mo.strftime('%Y-%m'),
-            'value': float(self.tot_dist)
-
-
+            'value': float(self.tot_dist),
+            'max_dist': self.max_dist,
+            'max_sec': self.max_sec
         }
         return data
 

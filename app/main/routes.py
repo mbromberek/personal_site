@@ -889,7 +889,20 @@ def dashboard():
     for mo_mileage in moly_mileage_results:
         mo_mileage_dict = mo_mileage.to_dict()
         moly_mileage_lst.append(mo_mileage_dict)
-    dash_lst_dict['moly_mileage_lst'] = moly_mileage_lst
+    dash_lst_dict['moly_run_mileage'] = {}
+    dash_lst_dict['moly_run_mileage']['header'] = 'Running'
+    dash_lst_dict['moly_run_mileage']['data'] = moly_mileage_lst
+
+    query = Moly_mileage.query.filter_by(user_id=current_user.id, type='Cycling')
+    query = query.filter(Moly_mileage.dt_by_mo >=min_moly_dt)
+    moly_mileage_results = sorted(query, reverse=True)
+    moly_mileage_lst = []
+    for mo_mileage in moly_mileage_results:
+        mo_mileage_dict = mo_mileage.to_dict()
+        moly_mileage_lst.append(mo_mileage_dict)
+    dash_lst_dict['moly_cycle_mileage'] = {}
+    dash_lst_dict['moly_cycle_mileage']['header'] = 'Cycling'
+    dash_lst_dict['moly_cycle_mileage']['data'] = moly_mileage_lst
 
     dash_lst_dict['nxt_gear'] = {}
     dash_lst_dict['nxt_gear']['training'] = Gear.get_next_shoe(usr_id, Workout_category.get_wrkt_cat_id('Training'))
