@@ -32,10 +32,11 @@
     {% include 'dashboard_widgets/_running_weekly_mileage_widget.html' %}
     {% endif %}
 
-    {% if dash_lst_dict['yrly_mileage_lst'] %}
-    {% include 'dashboard_widgets/_yearly_mileage_widget.html' %}
+    {% if dash_lst_dict['yrly_workout_lst'] %}
+    {% with widget_data = dash_lst_dict['yrly_workout_lst'] %}
+    {% include 'dashboard_widgets/_yearly_workout_widget.html' %}
+    {% endwith %}
     {% endif %}
-
     </div>
 
 
@@ -44,13 +45,30 @@
     {% include 'dashboard_widgets/_next_gear_widget.html' %}
     {% endif %}
 
-    {% if dash_lst_dict['yrly_workout_lst'] %}
-    {% with widget_data = dash_lst_dict['yrly_workout_lst'] %}
-    {% include 'dashboard_widgets/_yearly_strength_widget.html' %}
+    {% if dash_lst_dict['yrly_strength_lst'] %}
+    {% with widget_data = dash_lst_dict['yrly_strength_lst'] %}
+    {% include 'dashboard_widgets/_yearly_workout_widget.html' %}
+    {% endwith %}
+    {% endif %}
+
+    
+    </div>
+
+    <div style="overflow:auto; width:100%; ">
+    {% if dash_lst_dict['yrly_running_lst'] %}
+    {% with widget_data = dash_lst_dict['yrly_running_lst'] %}
+    {% include 'dashboard_widgets/_yearly_workout_widget.html' %}
+    {% endwith %}
+    {% endif %}
+        
+    {% if dash_lst_dict['yrly_cycling_lst'] %}
+    {% with widget_data = dash_lst_dict['yrly_cycling_lst'] %}
+    {% include 'dashboard_widgets/_yearly_workout_widget.html' %}
     {% endwith %}
     {% endif %}
     
     </div>
+
 
     <div style="overflow:auto; width:100%; ">
 
@@ -68,6 +86,15 @@
 
     </div>
 
+    <div style="overflow:auto; width:100%; ">
+    
+    </div>
+
+    {#
+    {% if dash_lst_dict['yrly_mileage_lst'] %}
+    {% include 'dashboard_widgets/_yearly_mileage_widget.html' %}
+    {% endif %}
+    #}
 
 
     

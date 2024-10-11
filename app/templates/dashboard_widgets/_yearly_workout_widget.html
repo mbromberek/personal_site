@@ -6,33 +6,50 @@
                 </td>
             </tr>
             <tr class="gear_usage_hdr">
-                <td class="gear_usage_hdr">
+                {#<td class="gear_usage_hdr">
                     Type
-                </td>
+                </td>#}
                 <td class="gear_usage_hdr">
                     Year
                 </td>
-                <td class="gear_usage_hdr hide_mobile">
+                <td class="gear_usage_hdr ">
                     Ct
+                </td>
+                <td class="gear_usage_hdr">
+                    Dist
                 </td>
                 <td class="gear_usage_hdr">
                     Dur
                 </td>
+                {% if widget_data['header'] == 'Running' or widget_data['header'] == 'Cycling' %}
+                <td class="gear_usage_hdr hide_mobile">
+                    Pace
+                </td>
+                {% endif %}
             </tr>
             {% for yr in widget_data['data'] %}
             <tr >
-                <td class="dashboard_row_dtl">
+                {#<td class="dashboard_row_dtl">
                     {{ yr.type }}
-                </td>
+                </td>#}
                 <td class="dashboard_row_dtl">
                     {{ yr.dt_by_yr.strftime('%Y')}}
                 </td>
-                <td class="dashboard_row_dtl hide_mobile">
+                <td class="dashboard_row_dtl ">
                     {{ yr.nbr }}
+                </td>
+                <td class="dashboard_row_dtl">
+                    {{ '%0.0f' % yr.tot_dist|float }}
                 </td>
                 <td class="dashboard_row_dtl" style="text-align:center">
                     {{ yr.duration }}
                 </td>
+                {% if widget_data['header'] == 'Running' or widget_data['header'] == 'Cycling' %}
+                <td class="dashboard_row_dtl hide_mobile" style="text-align:center">
+                    {{ yr.pace }}
+                </td>
+                {% endif %}
+
             </tr>
             {% endfor %}
         </table>

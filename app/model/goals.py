@@ -23,6 +23,13 @@ class Yrly_goal(object):
     def __repr__(self):
         return '<Yearly_goal {}: type {}>'.format(self.description, str(self.goal))
 
+    def __lt__(self, other):
+        return ((self.description > other.description))
+    
+    def __gt__(self, other):
+        return ((self.description < other.description))
+    
+
     def calc_pct_comp(self):
         return 1-((self.goal - self.tot) / self.goal)
 

@@ -848,6 +848,7 @@ def dashboard():
         wkly_mileage_lst.append(wk_mileage)
     dash_lst_dict['wkly_mileage_lst'] = wkly_mileage_lst
 
+    '''
     min_yrly_dt = datetime(const.MIN_YR_COMP, 1, 1)
     query = Yrly_mileage.query.filter_by(user_id=current_user.id)
     # query = query.filter(Yrly_mileage.type.in_(['Running','Cycling','Strength Training']))
@@ -868,7 +869,9 @@ def dashboard():
     dash_lst_dict['yrly_goals_lst'] = yrly_goals_lst
     dash_lst_dict['yrly_goals_dict_lst'] = Yrly_goal.lst_to_dict(yrly_goals_lst)
     dash_lst_dict['yrly_mileage_lst'] = yrly_mileage_lst
+    '''
     
+    '''
     query = Yrly_mileage.query.filter_by(user_id=current_user.id)
     query = query.filter(Yrly_mileage.type.in_(['Strength Training']))
     query = query.filter(Yrly_mileage.dt_by_yr >=min_yrly_dt)
@@ -881,11 +884,93 @@ def dashboard():
     dash_lst_dict['yrly_workout_lst'] = {}
     dash_lst_dict['yrly_workout_lst']['header'] = 'Strength Training'
     dash_lst_dict['yrly_workout_lst']['data'] = yrly_strength_lst
+    '''
+    
     
     # Get total workouts and duration by year
     # Get yearly totals of all workouts 
     # Sum up Count and Duration for all workouts by year
+    min_yrly_dt = datetime(const.MIN_YR_COMP, 1, 1)
+    query = Yrly_mileage.query.filter_by(user_id=current_user.id)
+    # query = query.filter(Yrly_mileage.type.in_(['Strength Training']))
+    query = query.filter(Yrly_mileage.dt_by_yr >=min_yrly_dt)
+    # yrly_results = sorted(query, reverse=True)
+    yrly_results = sorted(query, key=lambda x: x.dt_by_yr, reverse=True)
+    yrly_strength_lst = []
+    yrly_running_lst = []
+    yrly_cycling_lst = []
+    yrly_swimming_lst = []
+    yrly_workout_lst = []
+    curr_yr_total = ''
+    curr_yr_dict = {}
+    yrly_goals_lst = []
+    for idx, yr_workout_result in enumerate(yrly_results):
+        if yr_workout_result.dt_year() == datetime.now().strftime('%Y'):
+            goal = Yrly_goal.create_goal(yr_workout_result)
+            if len(goal) >0:
+                yrly_goals_lst.extend(goal)
+
+        
+        yr_workout_result.duration = yr_workout_result.dur_str()
+        yr_workout_result.pace = yr_workout_result.pace_str()
+        if curr_yr_total == '':
+            curr_yr_total = yr_workout_result
+        elif yr_workout_result.dt_year() != curr_yr_total.dt_year():
+            curr_yr_total.duration = curr_yr_total.dur_str()
+            # curr_yr_total.pace = curr_yr_total.pace_str()
+            yrly_workout_lst.append(curr_yr_total)
+            
+            if 'Strength Training' in curr_yr_dict:
+                yrly_strength_lst.append(yrly_results[curr_yr_dict['Strength Training']])
+            if 'Running' in curr_yr_dict:
+                yrly_running_lst.append(yrly_results[curr_yr_dict['Running']])
+            if 'Cycling' in curr_yr_dict:
+                yrly_cycling_lst.append(yrly_results[curr_yr_dict['Cycling']])
+            if 'Swimming' in curr_yr_dict:
+                yrly_swimming_lst.append(yrly_results[curr_yr_dict['Swimming']])
+            
+            curr_yr_total = yr_workout_result
+            curr_yr_dict = {}
+        else:
+            curr_yr_total = curr_yr_total + yr_workout_result
+        curr_yr_dict[yr_workout_result.type] = idx
+
+    curr_yr_total.duration = curr_yr_total.dur_str()
+    yrly_workout_lst.append(curr_yr_total)
+    if 'Strength Training' in curr_yr_dict:
+        yrly_strength_lst.append(yrly_results[curr_yr_dict['Strength Training']])
+    if 'Running' in curr_yr_dict:
+        yrly_running_lst.append(yrly_results[curr_yr_dict['Running']])
+    if 'Cycling' in curr_yr_dict:
+        yrly_cycling_lst.append(yrly_results[curr_yr_dict['Cycling']])
+    if 'Swimming' in curr_yr_dict:
+        yrly_swimming_lst.append(yrly_results[curr_yr_dict['Swimming']])
+        
+    yrly_goals_lst = Yrly_goal.generate_nonstarted_goals(yrly_goals_lst)
+    yrly_goals_lst = sorted(yrly_goals_lst)
+    dash_lst_dict['yrly_goals_lst'] = yrly_goals_lst
+    dash_lst_dict['yrly_goals_dict_lst'] = Yrly_goal.lst_to_dict(yrly_goals_lst)
+        
+    dash_lst_dict['yrly_workout_lst'] = {}
+    dash_lst_dict['yrly_workout_lst']['header'] = 'Workouts'
+    dash_lst_dict['yrly_workout_lst']['data'] = yrly_workout_lst
     
+    dash_lst_dict['yrly_strength_lst'] = {}
+    dash_lst_dict['yrly_strength_lst']['header'] = 'Strength Training'
+    dash_lst_dict['yrly_strength_lst']['data'] = yrly_strength_lst
+
+    dash_lst_dict['yrly_running_lst'] = {}
+    dash_lst_dict['yrly_running_lst']['header'] = 'Running'
+    dash_lst_dict['yrly_running_lst']['data'] = yrly_running_lst
+    dash_lst_dict['yrly_cycling_lst'] = {}
+    dash_lst_dict['yrly_cycling_lst']['header'] = 'Cycling'
+    dash_lst_dict['yrly_cycling_lst']['data'] = yrly_cycling_lst
+    dash_lst_dict['yrly_swimming_lst'] = {}
+    dash_lst_dict['yrly_swimming_lst']['header'] = 'Swimming'
+    dash_lst_dict['yrly_swimming_lst']['data'] = yrly_swimming_lst
+
+
+    # End of Get total workouts by year
     
 
     min_moly_dt = date.today() - timedelta((const.NBR_MO_COMP+1) * 31) # TODO probably not the best way to do this

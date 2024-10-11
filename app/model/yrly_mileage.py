@@ -37,3 +37,28 @@ class Yrly_mileage(db.Model):
 
     def dt_year(self):
         return self.dt_by_yr.strftime('%Y')
+
+    '''
+    Adds two years distance, number, and duration together.
+    If entries have different user id than returns empty string for user id
+    If entries have different type then sets type to Total
+    Throws an error if the dates do not match
+    Returns combined yearly mileage
+    '''
+    def __add__(self, new):
+        yr = Yrly_mileage()
+        if self.dt_by_yr != new.dt_by_yr:
+            raise ValidationError('Yearly mileages must have same year')
+        yr.dt_by_yr = self.dt_by_yr
+        yr.user_id = self.user_id if self.user_id == new.user_id else ''
+        yr.type = self.type if self.type == new.type else 'Total'
+        yr.nbr = self.nbr + new.nbr
+        if self.tot_dist is None:
+            yr.tot_dist = new.tot_dist
+        if new.tot_dist is None:
+            yr.tot_dist = self.tot_dist
+        else:
+            yr.tot_dist = self.tot_dist + new.tot_dist
+        
+        yr.tot_sec = self.tot_sec + new.tot_sec
+        return yr
