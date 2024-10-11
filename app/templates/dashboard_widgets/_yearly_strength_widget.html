@@ -2,7 +2,7 @@
         <table class="gear_usage">
             <tr class="gear_usage_hdr">
                 <td  class="gear_usage_hdr" colspan="6">
-                    Strength Training by Year
+                    {{widget_data['header']}} by Year
                 </td>
             </tr>
             <tr class="gear_usage_hdr">
@@ -19,7 +19,7 @@
                     Dur
                 </td>
             </tr>
-            {% for yr in dash_lst_dict['yrly_strength_lst'] %}
+            {% for yr in widget_data['data'] %}
             <tr >
                 <td class="dashboard_row_dtl">
                     {{ yr.type }}

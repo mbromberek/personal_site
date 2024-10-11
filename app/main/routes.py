@@ -869,7 +869,6 @@ def dashboard():
     dash_lst_dict['yrly_goals_dict_lst'] = Yrly_goal.lst_to_dict(yrly_goals_lst)
     dash_lst_dict['yrly_mileage_lst'] = yrly_mileage_lst
     
-
     query = Yrly_mileage.query.filter_by(user_id=current_user.id)
     query = query.filter(Yrly_mileage.type.in_(['Strength Training']))
     query = query.filter(Yrly_mileage.dt_by_yr >=min_yrly_dt)
@@ -877,9 +876,17 @@ def dashboard():
     yrly_strength_lst = []
     for yr_mileage in yrly_strength_results:
         yr_mileage.duration = yr_mileage.dur_str()
-        yr_mileage.pace = yr_mileage.pace_str()
+        # yr_mileage.pace = yr_mileage.pace_str()
         yrly_strength_lst.append(yr_mileage)
-    dash_lst_dict['yrly_strength_lst'] = yrly_strength_lst
+    dash_lst_dict['yrly_workout_lst'] = {}
+    dash_lst_dict['yrly_workout_lst']['header'] = 'Strength Training'
+    dash_lst_dict['yrly_workout_lst']['data'] = yrly_strength_lst
+    
+    # Get total workouts and duration by year
+    # Get yearly totals of all workouts 
+    # Sum up Count and Duration for all workouts by year
+    
+    
 
     min_moly_dt = date.today() - timedelta((const.NBR_MO_COMP+1) * 31) # TODO probably not the best way to do this
     query = Moly_mileage.query.filter_by(user_id=current_user.id, type='Running')

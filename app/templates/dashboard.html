@@ -44,8 +44,10 @@
     {% include 'dashboard_widgets/_next_gear_widget.html' %}
     {% endif %}
 
-    {% if dash_lst_dict['yrly_strength_lst'] %}
+    {% if dash_lst_dict['yrly_workout_lst'] %}
+    {% with widget_data = dash_lst_dict['yrly_workout_lst'] %}
     {% include 'dashboard_widgets/_yearly_strength_widget.html' %}
+    {% endwith %}
     {% endif %}
     
     </div>
