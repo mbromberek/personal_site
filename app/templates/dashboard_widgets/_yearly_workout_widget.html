@@ -1,7 +1,7 @@
         <div class="dashboard_widget " >
         <table class="gear_usage">
             <tr class="gear_usage_hdr">
-                <td  class="gear_usage_hdr" colspan="6">
+                <td  class="gear_usage_hdr" colspan="{% if widget_data['header'] == 'Running' or widget_data['header'] == 'Cycling' %} 5 {% else %} 4 {% endif %}">
                     {{widget_data['header']}} by Year
                 </td>
             </tr>
