@@ -1,4 +1,4 @@
-    <div class="dashboard_widget dashboard_widget_wide">
+    <div class="dashboard_widget ">
         <table class="gear_usage">
             <tr class="gear_usage_hdr">
                 <td  class="gear_usage_hdr" colspan="5">
@@ -6,17 +6,17 @@
                 </td>
             </tr>
             <tr class="gear_usage_hdr">
-                <td class="gear_usage_hdr">
+                <td class="gear_usage_hdr" style="width:100px;">
                     Goal
                 </td>
                 <td class="gear_usage_hdr">
                     Completed
                 </td>
                 <td class="gear_usage_hdr hide_mobile" >
-                    Avg need <br>(day)
+                    Avg need<br>(day)
                 </td>
                 <td class="gear_usage_hdr" >
-                    Avg need <br>(month)
+                    Avg need<br>(month)
                 </td>
                 <td class="gear_usage_hdr hide_mobile">
                     Avg need<br>(week)
@@ -53,13 +53,13 @@
                     ({{ '%0.2f' % yr_goal.pct_comp|float }}%)
                 </td>
                 <td class="dashboard_row_dtl hide_mobile">
-                    {{ '%0.2f' % yr_goal.miles_per_day|float }} {{ yr_goal.uom }}
+                    {{ '%0.2f' % yr_goal.miles_per_day|float }}<br>{{ yr_goal.uom }}
                 </td>
                 <td class="dashboard_row_dtl">
-                    {{ '%0.2f' % yr_goal.miles_needed_per_month|float }} {{ yr_goal.uom }}
+                    {{ '%0.2f' % yr_goal.miles_needed_per_month|float }} <span class="hide_mobile"><br></span>{{ yr_goal.uom }}
                 </td>
                 <td class="dashboard_row_dtl hide_mobile">
-                    {{ '%0.2f' % yr_goal.miles_needed_per_week|float }} {{ yr_goal.uom }}
+                    {{ '%0.2f' % yr_goal.miles_needed_per_week|float }}<br>{{ yr_goal.uom }}
                 </td>
                 {% endif %}
             </tr>
