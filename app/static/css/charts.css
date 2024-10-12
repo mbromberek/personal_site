@@ -12,7 +12,7 @@
 }
 #goal_chart_container{
     display:inline-block;
-    width:375px;
+    /* width:375px; */
     border:3px solid black;
     font-size:12pt;
 }
@@ -20,6 +20,7 @@
     display:inline-block;
     vertical-align: top;
     width:250px;
+    margin-left:40px;
 }
 .goal_chart_btn{
     display:inline-block;
@@ -354,6 +355,7 @@ svg.us_map{
         /* width:360px; */
         width:100%;
     }
+
     .goal_chart_btn{
         width:85px;
     }
@@ -366,6 +368,13 @@ svg.us_map{
       padding-right:0px;
     }
 
+
+}
+
+@media only screen and (max-width:600px) {
+  #goal_chart_container_left{
+      margin-left:0px;
+  }
 }
 
 @media screen and (min-width: 600px) and (max-width: 900px) {
@@ -376,6 +385,10 @@ svg.us_map{
     #race_list table th#race_name {
         width: 180px;
     }
+    #goal_chart_container_left{
+        margin-left:0px;
+    }
+
     
     .goal_chart_btn{
         width:100px;
