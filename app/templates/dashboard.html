@@ -4,8 +4,6 @@
 {% block app_content %}
 
 <div class="dashboard_page">
-    <!-- <div style="overflow:auto; width:100%; margin-top:20px;"> -->
-
     {% if dash_lst_dict['wrkt_sum_lst'] %}
     {% include 'dashboard_widgets/_running_mileage_widget.html' %}
     {% endif %}
@@ -15,18 +13,12 @@
     {% endif %}
 
 
-    <!-- </div>
+    {# Fitness Goals for 2022 #}
+    {% if dash_lst_dict['yrly_goals_lst'] %}
+    {% include 'dashboard_widgets/_yearly_goal_widget.html' %}
+    {% endif %}
 
-    <div style="overflow:auto; width:100%; "> -->
-        {# Fitness Goals for 2022 #}
-        {% if dash_lst_dict['yrly_goals_lst'] %}
-        {% include 'dashboard_widgets/_yearly_goal_widget.html' %}
-        {% endif %}
-
-        {% include 'dashboard_widgets/_yearly_goal_chart_widget.html' %}
-    <!-- </div>
-
-    <div style="overflow:auto; width:100%; "> -->
+    {% include 'dashboard_widgets/_yearly_goal_chart_widget.html' %}
 
     {% if dash_lst_dict['wkly_mileage_lst'] %}
     {% include 'dashboard_widgets/_running_weekly_mileage_widget.html' %}
@@ -37,10 +29,7 @@
     {% include 'dashboard_widgets/_yearly_workout_widget.html' %}
     {% endwith %}
     {% endif %}
-    <!-- </div>
 
-
-    <div style="overflow:auto; width:100%; "> -->
     {% if dash_lst_dict['nxt_gear'] %}
     {% include 'dashboard_widgets/_next_gear_widget.html' %}
     {% endif %}
@@ -50,11 +39,7 @@
     {% include 'dashboard_widgets/_yearly_workout_widget.html' %}
     {% endwith %}
     {% endif %}
-
     
-    <!-- </div>
-
-    <div style="overflow:auto; width:100%; "> -->
     {% if dash_lst_dict['yrly_running_lst'] %}
     {% with widget_data = dash_lst_dict['yrly_running_lst'] %}
     {% include 'dashboard_widgets/_yearly_workout_widget.html' %}
@@ -66,11 +51,6 @@
     {% include 'dashboard_widgets/_yearly_workout_widget.html' %}
     {% endwith %}
     {% endif %}
-    
-    <!-- </div>
-
-
-    <div style="overflow:auto; width:100%; "> -->
 
     {% if dash_lst_dict['moly_run_mileage'] %}
     {% with widget_data = dash_lst_dict['moly_run_mileage'] %}
@@ -84,10 +64,7 @@
     {% endwith %}
     {% endif %}
 
-    <!-- </div> -->
-
     <!-- <div style="overflow:auto; width:100%; ">
-    
     </div> -->
 
     {#

@@ -604,7 +604,6 @@ input.workout_filter_btn_container:hover{
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    /* justify-content: space-around; */
 }
 .generate_map{
     display:inline-block;
