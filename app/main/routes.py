@@ -38,6 +38,7 @@ from app.model.location import Location
 from app.model.yrly_mileage import Yrly_mileage
 from app.model.book import Book
 from app.model.book import CURR_READING_VAL, READ_VAL
+from app.model.tag import Workout_tag, Tag
 
 @bp.route('/')
 @bp.route('/index')
@@ -585,6 +586,12 @@ def workout():
     workout.cool_down_pace = workout.cool_down_pace_str()
     workout.intrvl_pace = workout.intrvl_pace_str()
 
+    # Get workouts tags and sort by when tag was added to workout
+    tags_query = Workout_tag.query.filter_by(workout_id=wrkt_id, user_id=usr_id)
+    tags = sorted(tags_query, key=lambda x: x.isrt_ts)
+    for tag in tags:
+        logger.info(tag)
+        logger.info(tag.workout_tag.nm)
 
     intvl_lst = sorted(Workout_interval.query.filter_by( \
       workout_id=wrkt_id, user_id=usr_id))
