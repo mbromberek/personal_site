@@ -38,7 +38,7 @@ from app.model.location import Location
 from app.model.yrly_mileage import Yrly_mileage
 from app.model.book import Book
 from app.model.book import CURR_READING_VAL, READ_VAL
-from app.model.tag import Workout_tag, Tag
+from app.model.tag import Workout_tag, Tag, Tag_usage
 
 @bp.route('/')
 @bp.route('/index')
@@ -1297,7 +1297,13 @@ def settings():
         if loc.radius == None or loc.radius <=0:
             loc.radius = current_app.config['DFT_LOC_RADIUS']
 
-    return render_template('settings.html', user_setting_form=setting_form, destPage = 'settings', gear_lst=gear_usage_lst, loc_lst=query_loc_lst, api_key_lst=api_key_lst)
+    tag_usage_lst = sorted(Tag_usage.query.filter_by(user_id=usr_id))
+    tag_lst = []
+    for tag in tag_usage_lst:
+        logger.info(tag)
+        tag_lst.append(tag)
+
+    return render_template('settings.html', user_setting_form=setting_form, destPage = 'settings', gear_lst=gear_usage_lst, loc_lst=query_loc_lst, api_key_lst=api_key_lst, tag_lst=tag_lst)
 
 @bp.route('/edit_gear', methods=['GET','POST'])
 @login_required
