@@ -592,6 +592,7 @@ def workout():
     for tag in tags:
         logger.info(tag)
         logger.info(tag.workout_tag.nm)
+    workout.tags = tags
 
     intvl_lst = sorted(Workout_interval.query.filter_by( \
       workout_id=wrkt_id, user_id=usr_id))

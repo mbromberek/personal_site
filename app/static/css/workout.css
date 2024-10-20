@@ -220,9 +220,16 @@ body {
     padding-top:15px;
     margin-right:20px;
 }
+
+div.workout_top_row{
+  width:100%;
+  display:flex; 
+  flex-direction: row; 
+  flex-wrap: wrap;
+}
 div.workout_hdr{
   display:inline-block;
-  width:800px;
+  width:475px;
   /* border: 1px solid darkblue; */
 }
 div.workout_hdr_type{
@@ -230,11 +237,13 @@ div.workout_hdr_type{
   /* overflow: hidden; */
   /* border: 1px solid red; */
   margin-right:10px;
+  display: inline-block;
 }
 div.workout_hdr_link{
   /* width:100px;  */
   /* overflow: hidden;  */
   float:right
+  display: inline-block;
 }
 header.workout{
     font-weight:bold;
@@ -252,7 +261,7 @@ div.wrkt_type_description{
     padding-bottom:5px;
     margin-left:5px;
 }
-div.wrkt_tags{
+/*div.wrkt_tags{
   font-size: 11pt;
   text-align:right;
   margin-right:30px;
@@ -260,7 +269,46 @@ div.wrkt_tags{
   width:100%-805px;
   vertical-align: top;
   float:right;
+  border:1px solid red;
+}*/
+div.wrkt_tags{
+  font-size: 11pt;
+  text-align:right;
+  /* margin-right:30px; */
+  /* width:490px; */
+  width:100%-500px;
+  
+  vertical-align: top;
+  /* border:1px solid red; */
+  
+  display:flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  
 }
+div.wrkt_tag{
+  height: 34px;
+  margin-right:10px;
+  padding:2px;
+  margin-top:5px;
+  text-align:left;
+  border: 3px solid #43d9b8;
+  border-radius: 25%;
+}
+/* div.wrkt_tags{
+  font-size: 11pt;
+  text-align:right; */
+  /* margin-right:30px; */
+  /* display:inline-block; */
+  /* width:100%-805px; */
+  /* width: 100%-805px; */
+  /* vertical-align: top; */
+  /* float:right; */
+  
+  /* display: flex;
+  flex-direction: row;
+  flex-wrap: wrap; */
+/* } */
 
 
 .wrkts_hdr_row{
@@ -994,6 +1042,9 @@ td.dashboard_row_dtl{
     header.workout{
         font-size: 13pt;
     }
+    div.workout_top_row{
+      width:100%;
+    }
     div.workout_hdr{
       width:100%;
     }
@@ -1004,10 +1055,9 @@ td.dashboard_row_dtl{
       font-size: 10pt;
       text-align:left;
       margin-left:20px;
-      display:block;
       width:100%;
-      vertical-align: top;
-      float:left;
+      /* vertical-align: top; */
+      /* float:left; */
     }
 
     .workout_card{

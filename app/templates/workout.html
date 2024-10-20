@@ -1,31 +1,39 @@
 {% extends "base.html" %}
 
 {% block app_content %}
-    <div  class="workout_hdr">
-        <header class="workout " style="overflow:auto; display: flex; ">
-            <div  class="workout_hdr_type">
-                {{ workout.type_det.nm }}&nbsp;{{ workout.wrkt_dttm.strftime('%Y-%m-%d %H:%M:%S') }}
+    <div class="workout_top_row">
+        <div  class="workout_hdr">
+            <header class="workout " style="overflow:auto; display: flex; ">
+                <div  class="workout_hdr_type">
+                    {{ workout.type_det.nm }}&nbsp;{{ workout.wrkt_dttm.strftime('%Y-%m-%d %H:%M:%S') }}
+                </div>
+                <div class="workout_hdr_link" >
+                    <a class="workout_edit_lnk" href="{{ url_for('main.edit_workout', workout=workout.id) }}">
+                        edit
+                    </a>
+                </div>
+            </header>
+            <div class="wrkt_type_description">
+                {{ workout.category_det.nm }}
+                {% if workout.training_type is defined and workout.training_type is not none and workout.training_type|length %}
+                - {{ workout.training_type }}
+                {% endif %}
+                {% if workout.location is defined and workout.location is not none and workout.location|length %}
+                - {{ workout.location }}
+                {% endif %}
             </div>
-            <div class="workout_hdr_link" >
-                <a class="workout_edit_lnk" href="{{ url_for('main.edit_workout', workout=workout.id) }}">
-                    edit
-                </a>
-            </div>
-        </header>
-        <div class="wrkt_type_description">
-            {{ workout.category_det.nm }}
-            {% if workout.training_type is defined and workout.training_type is not none and workout.training_type|length %}
-            - {{ workout.training_type }}
-            {% endif %}
-            {% if workout.location is defined and workout.location is not none and workout.location|length %}
-            - {{ workout.location }}
-            {% endif %}
         </div>
-    </div>
-    <div class="wrkt_tags">
-        {% if workout.pos_neg_splits and workout.category_det.nm != 'Training' %}
-        {{ workout.pos_neg_splits }}&nbsp;{{ workout.pos_neg_splits_icon }}
-        {% endif %}
+        <div class="wrkt_tags">
+            {% for tag in workout.tags %}
+            <div class="wrkt_tag">
+                {{ tag.workout_tag.nm }}
+            </div>
+            {% endfor %}
+            
+            {#{% if workout.pos_neg_splits and workout.category_det.nm != 'Training' %}
+            {{ workout.pos_neg_splits }}&nbsp;{{ workout.pos_neg_splits_icon }}
+            {% endif %}#}
+        </div>
     </div>
     
     <div class="workout_page_detail">
