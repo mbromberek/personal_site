@@ -36,22 +36,27 @@ class Workout_tag(db.Model):
   def __repr__(self):
     return '<Workout {} Tag {}>'.format( self.workout_id, self.tag_id)
 
-'''
+
 class Tag_usage(db.Model):
   __table_args__ = {"schema": "fitness", 'comment':'Tag usage'}
-  id = db.Column(db.Integer, db.ForeignKey('fitness.tag.id'), nullable=False)
+  id = db.Column(db.Integer, db.ForeignKey('fitness.tag.id'), nullable=False, primary_key=True)
   user_id = db.Column(db.Integer, db.ForeignKey('fitness.user.id'))
   nm = db.Column(db.String(50), index=True, nullable=False, unique=True)
   usage_count = db.Column(db.Integer)
 
   def __repr__(self):
     return '<Tag {}: id {}, used {} times>'.format( self.nm, self.id, self.usage_count)
-'''
-# select tag.id, tag.nm, tag.user_id, count(workout_tag.workout_id) usage_count
-#   from fitness.tag
-#   left join fitness.workout_tag
-#     on tag.id = workout_tag.tag_id
-#   group by tag.id, tag.nm, tag.user_id
-#   order by times_tag_used desc, nm asc
-#   ;
+  
+  def __lt__(self, other):
+    if self.usage_count == other.usage_count:
+      return self.nm < other.nm
+    else:
+      return self.usage_count > other.usage_count
+  
+  def __gt__(self, other):
+    if self.usage_count < other.usage_count:
+      return self.nm > other.nm
+    else:
+      return self.usage_count < other.usage_count
+
     

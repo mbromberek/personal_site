@@ -24,8 +24,17 @@ insert into fitness.tag (user_id, nm) values (1, 'Positive Splits 👍');
 insert into fitness.tag (user_id, nm) values (1, 'Even Splits 😮');
 
 
+
+create or replace view fitness.tag_usage as 
+select tag.id, tag.nm, tag.user_id, count(workout_tag.workout_id) usage_count
+from fitness.tag
+left join fitness.workout_tag
+  on tag.id = workout_tag.tag_id
+group by tag.id, tag.nm, tag.user_id
+--order by usage_count desc, nm asc
+;
+
 GRANT SELECT,INSERT,UPDATE,DELETE ON ALL TABLES IN SCHEMA FITNESS TO app_role;
 GRANT USAGE on SCHEMA FITNESS to app_role;
 GRANT USAGE, SELECT ON ALL SEQUENCES in SCHEMA FITNESS TO app_role;
-
 
