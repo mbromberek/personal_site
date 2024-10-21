@@ -24,7 +24,7 @@ import GenerateMapImage.gen_map_img as genMap
 
 # Custom classes
 from app.main import bp
-from app.main.forms import EmptyForm, WorkoutCreateBtnForm, WorkoutForm, WorkoutFilterForm, WorkoutIntervalForm, WorkoutExportForm, UserSettingsForm, GearForm, LocForm
+from app.main.forms import EmptyForm, WorkoutCreateBtnForm, WorkoutForm, WorkoutFilterForm, WorkoutIntervalForm, WorkoutExportForm, UserSettingsForm, GearForm, LocForm, TagForm
 from app.models import User, Workout, Workout_interval, Gear, Gear_usage, Wrkt_sum, Wkly_mileage, Moly_mileage, User_setting, Workout_type, Workout_category
 from app import db
 from app.utils import tm_conv, const, nbrConv, dt_conv
@@ -1301,7 +1301,11 @@ def settings():
     tag_lst = []
     for tag in tag_usage_lst:
         logger.info(tag)
-        tag_lst.append(tag)
+        tag_form = TagForm()
+        tag_form.id.data = tag.id
+        tag_form.nm.data = tag.nm
+        tag_form.usage_count.data = tag.usage_count
+        tag_lst.append(tag_form)
 
     return render_template('settings.html', user_setting_form=setting_form, destPage = 'settings', gear_lst=gear_usage_lst, loc_lst=query_loc_lst, api_key_lst=api_key_lst, tag_lst=tag_lst)
 

@@ -243,3 +243,15 @@ class LocForm(FlaskForm):
     delete = SubmitField('Delete')
     def __repr__(self):
         return '<Location {}: {}>'.format(self.name.data, self.radius.data)
+
+class TagForm(FlaskForm):
+    id = HiddenField()
+    nm = StringField('Name', validators=[InputRequired()])
+    usage_count = IntegerField()
+    
+    submit = SubmitField('Edit')
+    remove = SubmitField('Remove')
+    
+
+    def __repr__(self):
+        return '<Tag {}, {}>'.format(self.tag_id, self.name)

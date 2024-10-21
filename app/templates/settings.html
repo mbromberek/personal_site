@@ -262,6 +262,64 @@
     </div>
 
 </div>
+
+<div style="overflow:auto; width:100%; margin-top:20px;">
+
+    <div class="dashboard_widget" style="border:2px black solid;padding:10px;">
+        <div class="form-row setting_hdr" style="overflow:auto;">
+            <div style="text-align: center;">
+                Tags
+            </div>
+            {#<div style="margin-left:auto;margin-right:10px;font-size:12pt;">
+                <a class="setting_edit_lnk"  href="{{ url_for('main.edit_gear') }}">
+                    Create
+                </a>
+            </div>#}
+        </div>
+
+        <div class="form-group mt-3 mr-2" style="width:875px; height:400px;vertical-align:top;overflow-y:scroll;">
+            <form action="" method="post">
+            <table>
+                <tr style="font-weight:bold">
+                    <td class="setting_row setting_hdr" style="width:230px;">
+                        Name
+                    </td>
+                    <td class="setting_row setting_hdr" >
+                        Count
+                    </td>
+                    <td class="setting_row setting_hdr" >
+                        &nbsp;
+                    </td>
+                </tr>
+
+            {% for tag in tag_lst %}
+                <tr>
+                    {{ tag.id }}
+                    <td class="setting_row " style="text-align:left;">
+                        {{ tag.nm(size=20) }}
+                        {% for error in tag.nm.errors %}
+                        <span style="color: red;">
+                            [{{ error }}]
+                        </span>
+                        {% endfor %}
+                    </td>
+                    <td class="setting_row " >
+                        {{ tag.usage_count.data }}
+                    </td>
+                    <td class="setting_row " >
+                        <span style="margin-right:20px;">{{ tag.submit }}</span>
+                        <span>{{ tag.remove }}</span>
+                    </td>
+                </tr>
+            {% endfor %}
+
+            </table>
+            </form>
+        </div>
+    </div>
+
+</div>
+
 </div>
 
 {% endblock %}
