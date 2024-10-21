@@ -1217,32 +1217,54 @@ def settings():
 
     setting_form = UserSettingsForm()
     user = User.query.get_or_404(usr_id)
+    
+    tag_form_1 = TagForm()
+
 
     if request.method == 'GET':
         logger.info('settings GET')
-    elif request.method == 'POST' and setting_form.cancel.data:
-        logger.info('settings POST Cancel button pressed')
-        return redirect(url_for('main.settings'))
-    elif request.method == 'POST' and setting_form.submit.data:
-        logger.info('settings POST Submit button pressed')
-        user = User.query.get_or_404(usr_id)
-        settings = user.get_settings()
-        settings.shoe_mile_warning = setting_form.shoe_mile_warning.data
-        settings.shoe_mile_max = setting_form.shoe_mile_max.data
-        settings.shoe_min_brkin_ct = setting_form.shoe_min_brkin_ct.data
-        if settings.user_id is None:
-            settings.user_id = usr_id
-            db.session.add(settings)
-        db.session.commit()
-        flash('Settings have been updated')
-        return redirect(url_for('main.settings'))
-    elif request.method == 'POST' and 'submit_full_regen' in request.form:
-        logger.info('Generate new token')
-        user.revoke_token()
-        user.get_token()
-        db.session.commit()
-        flash('Generate new token')
-        return redirect(url_for('main.settings'))
+    elif request.method == 'POST':
+        if setting_form.cancel.data:
+            logger.info('settings POST Cancel button pressed')
+            return redirect(url_for('main.settings'))
+        elif setting_form.submit.data:
+            logger.info('settings POST Submit button pressed')
+            user = User.query.get_or_404(usr_id)
+            settings = user.get_settings()
+            settings.shoe_mile_warning = setting_form.shoe_mile_warning.data
+            settings.shoe_mile_max = setting_form.shoe_mile_max.data
+            settings.shoe_min_brkin_ct = setting_form.shoe_min_brkin_ct.data
+            if settings.user_id is None:
+                settings.user_id = usr_id
+                db.session.add(settings)
+            db.session.commit()
+            flash('Settings have been updated')
+            return redirect(url_for('main.settings'))
+        elif 'submit_full_regen' in request.form:
+            logger.info('Generate new token')
+            user.revoke_token()
+            user.get_token()
+            db.session.commit()
+            flash('Generate new token')
+            return redirect(url_for('main.settings'))
+        elif tag_form_1.edit_tag.data:
+            logger.info('tag_form edit')
+            logger.info(tag_form_1)
+            tag = Tag.query.filter_by(id=tag_form_1.id.data, user_id=usr_id).first_or_404()
+            logger.info(tag)
+            tag.nm = tag_form_1.nm.data
+            db.session.commit()
+            return redirect(url_for('main.settings'))
+        elif tag_form_1.remove_tag.data:
+            logger.info('tag_form remove')
+            # Read in Workout_tag records and delete all of them
+            # workout_tag = workout_tag.query.filter_by(id=tag_form_1.id.data, user_id=usr_id)
+            # Loop
+            # db.session.delete(workout_tag)
+            
+            # Read in Tag and delete it
+            # tag = Tag.query.filter_by(id=tag_form_1.id.data, user_id=usr_id).first_or_404()
+            # db.session.delete(tag)
 
     setting_form.user_id.data = usr_id
     setting_form.displayname.data = user.displayname

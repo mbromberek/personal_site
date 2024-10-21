@@ -249,9 +249,9 @@ class TagForm(FlaskForm):
     nm = StringField('Name', validators=[InputRequired()])
     usage_count = IntegerField()
     
-    submit = SubmitField('Edit')
-    remove = SubmitField('Remove')
+    edit_tag = SubmitField('Edit')
+    remove_tag = SubmitField('Remove')
     
 
     def __repr__(self):
-        return '<Tag {}, {}>'.format(self.tag_id, self.name)
+        return '<Tag {}, {}>'.format(self.id.data, self.nm.data)
