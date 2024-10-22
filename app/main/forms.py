@@ -249,7 +249,7 @@ class TagForm(FlaskForm):
     nm = StringField('Name', validators=[InputRequired()])
     usage_count = IntegerField()
     
-    edit_tag = SubmitField('Edit')
+    edit_tag = SubmitField('Save')
     remove_tag = SubmitField('Remove')
     
 
