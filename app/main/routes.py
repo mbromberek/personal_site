@@ -1250,21 +1250,30 @@ def settings():
         elif tag_form_1.edit_tag.data:
             logger.info('tag_form edit')
             logger.info(tag_form_1)
-            tag = Tag.query.filter_by(id=tag_form_1.id.data, user_id=usr_id).first_or_404()
-            logger.info(tag)
-            tag.nm = tag_form_1.nm.data
+            if tag_form_1.id.data == '':
+                logger.info('create tag')
+                tag = Tag()
+                tag.nm = tag_form_1.nm.data
+                tag.user_id = usr_id
+                db.session.add(tag)
+            else:
+                tag = Tag.query.filter_by(id=tag_form_1.id.data, user_id=usr_id).first_or_404()
+                logger.info(tag)
+                tag.nm = tag_form_1.nm.data
             db.session.commit()
             return redirect(url_for('main.settings'))
         elif tag_form_1.remove_tag.data:
             logger.info('tag_form remove')
             # Read in Workout_tag records and delete all of them
-            # workout_tag = workout_tag.query.filter_by(id=tag_form_1.id.data, user_id=usr_id)
-            # Loop
-            # db.session.delete(workout_tag)
-            
+            wrktTagLst = Workout_tag.query.filter_by(tag_id=tag_form_1.id.data, user_id=usr_id)
+            for wrktTag in wrktTagLst:
+                db.session.delete(wrktTag)
             # Read in Tag and delete it
-            # tag = Tag.query.filter_by(id=tag_form_1.id.data, user_id=usr_id).first_or_404()
-            # db.session.delete(tag)
+            tag = Tag.query.filter_by(id=tag_form_1.id.data, user_id=usr_id).first_or_404()
+            db.session.delete(tag)
+            db.session.commit()
+            flash("Tag Deleted")
+            return redirect(url_for('main.settings'))
 
     setting_form.user_id.data = usr_id
     setting_form.displayname.data = user.displayname
@@ -1319,8 +1328,10 @@ def settings():
         if loc.radius == None or loc.radius <=0:
             loc.radius = current_app.config['DFT_LOC_RADIUS']
 
+    new_tag = TagForm()
     tag_usage_lst = sorted(Tag_usage.query.filter_by(user_id=usr_id))
     tag_lst = []
+    tag_lst.append(new_tag)
     for tag in tag_usage_lst:
         logger.info(tag)
         tag_form = TagForm()
