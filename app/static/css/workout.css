@@ -291,9 +291,16 @@ div.wrkt_tag{
   margin-right:10px;
   padding:2px;
   margin-top:5px;
-  text-align:left;
+  text-align:center;
   border: 3px solid #43d9b8;
   border-radius: 25%;
+  padding-left: 6px;
+  padding-right: 6px;
+}
+div.wrkt_tag_btn{
+  /* border: 3px solid black; */
+  border: 0px;
+  text-decoration: underline;
 }
 /* div.wrkt_tags{
   font-size: 11pt;
