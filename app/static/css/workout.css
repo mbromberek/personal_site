@@ -301,6 +301,10 @@ div.wrkt_tag_btn{
   /* border: 3px solid black; */
   border: 0px;
   text-decoration: underline;
+  cursor: pointer;
+}
+div.wrkt_tag_btn:hover{
+  background-color: #43d9b8;
 }
 /* div.wrkt_tags{
   font-size: 11pt;

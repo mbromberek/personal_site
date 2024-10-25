@@ -15,3 +15,4 @@ from app.main.route import event_pages
 from app.main.route import schedule
 from app.main.route import data_analysis
 from app.main.route import generate_map
+from app.main.route import tag

@@ -199,3 +199,24 @@ function show_split(response){
 
 
 }
+
+function edit_workout_tags(wrkt_id){
+    console.log('edit_workout_tags');
+    
+    //Make API call to get list of workouts
+    $.get('/get_workout_tags', {
+        'wrkt_id': wrkt_id
+    }).done(function(response){
+        show_workout_edit_tags(response);
+        
+    }).fail(function(response){
+        console.error("Error: Could not contact server.");
+    })
+    ;
+}
+
+function show_workout_edit_tags(response){
+    console.log('show_workout_edit_tags');
+    console.log(response);
+    
+}
