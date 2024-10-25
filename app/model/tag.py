@@ -43,20 +43,42 @@ class Tag_usage(db.Model):
   user_id = db.Column(db.Integer, db.ForeignKey('fitness.user.id'))
   nm = db.Column(db.String(50), index=True, nullable=False, unique=True)
   usage_count = db.Column(db.Integer)
+  on_workout = None
 
   def __repr__(self):
     return '<Tag {}: id {}, used {} times>'.format( self.nm, self.id, self.usage_count)
   
   def __lt__(self, other):
+    if self.on_workout != None and other.on_workout != None and self.on_workout != other.on_workout:
+      return self.workout < other.workout
     if self.usage_count == other.usage_count:
       return self.nm < other.nm
     else:
       return self.usage_count > other.usage_count
   
   def __gt__(self, other):
+    if self.on_workout != None and other.on_workout != None and self.on_workout != other.on_workout:
+      return self.on_workout > other.on_workout
     if self.usage_count < other.usage_count:
       return self.nm > other.nm
     else:
       return self.usage_count < other.usage_count
+  
+  def to_dict(self):
+    data = {
+      'id': self.id,
+      'user_id':self.user_id,
+      'nm':self.nm,
+      'usage_count':self.usage_count
+    }
+    if self.on_workout != None:
+      data['on_workout'] = self.on_workout
+    return data
 
+  @staticmethod
+  def to_dict_lst(tag_usage_lst):
+    tag_lst = []
+    for tag in tag_usage_lst:
+      tag_lst.append(tag.to_dict())
+    return tag_lst
     
