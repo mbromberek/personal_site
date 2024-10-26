@@ -229,6 +229,7 @@ div.workout_top_row{
 div.workout_hdr{
   display:inline-block;
   width:475px;
+  /* width:600px; */
   /* border: 1px solid darkblue; */
 }
 div.workout_hdr_type{
@@ -274,8 +275,8 @@ div.wrkt_tags{
   font-size: 11pt;
   text-align:right;
   /* margin-right:30px; */
-   /* width:500px; */
-  width:100%-550px;
+   width:500px;
+  /* width:100%-550px; */
   
   vertical-align: top;
   /* border:1px solid red; */
