@@ -57,3 +57,53 @@ def get_workout_tags():
     # logger.debug(Tag_usage_wrkt.to_dict_lst(tag_usage_for_workout_lst))
     
     return jsonify({'items':Tag_usage_wrkt.to_dict_lst(tag_usage_for_workout_lst), 'wrkt_id':wrkt_id})
+
+@bp.route('/update_workout_tags', methods=['POST'])
+@login_required
+def update_workout_tags():
+    logger.info('update_workout_tags')
+
+    usr_id = current_user.id
+    wrkt_id = request.form['wrkt_id']
+    tag_id_str_lst = json.loads(request.form['tags'])
+    logger.debug(tag_id_str_lst)
+    
+    # Get workouts Tag Ids
+    wrkt_tag_lst = Workout_tag.query.filter_by(user_id=usr_id, workout_id=wrkt_id)
+    
+    tag_id_lst = [int(tag_id) for tag_id in tag_id_str_lst]
+    
+    # Loop through workout tags
+    wrkt_tag_id_lst = []
+    for wrkt_tag in wrkt_tag_lst:
+      # If workout tag is not in tag_lst then delete it
+      if wrkt_tag.tag_id not in tag_id_lst:
+        logger.debug('delete tag ' + str(wrkt_tag.tag_id))
+        db.session.delete(wrkt_tag)
+      else:
+        wrkt_tag_id_lst.append(wrkt_tag.tag_id)
+    
+    # Loop through tag_lst
+    for tag_id in tag_id_lst:
+      # If tag is not in workout tag list then add it
+      if tag_id not in wrkt_tag_id_lst:
+        logger.debug('add tag ' + str(tag_id))
+        new_workout_tag = Workout_tag()
+        new_workout_tag.tag_id = tag_id
+        new_workout_tag.workout_id = wrkt_id
+        new_workout_tag.user_id = usr_id
+        db.session.add(new_workout_tag)
+    
+    db.session.commit()
+    
+    # Get new list of tags for workout and return it or reload the Workout page
+    # Get workouts tags and sort by when tag was added to workout
+    tags_query = Workout_tag.query.filter_by(workout_id=wrkt_id, user_id=usr_id)
+    tags = sorted(tags_query, key=lambda x: x.isrt_ts)
+    tag_name_lst = []
+    for tag in tags:
+        tag_name_lst.append(tag.workout_tag.nm)
+    return jsonify({'wrkt_id':wrkt_id, 'items':tag_name_lst})
+    # return redirect(url_for('main.workout', workout=wrkt_id))
+    # return redirect(url_for('main.workouts'))
+    

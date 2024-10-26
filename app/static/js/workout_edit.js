@@ -239,5 +239,44 @@ function show_workout_edit_tags(response){
 }
 
 function save_workout_tag_edits(wrkt_id){
+    console.log('save_workout_tag_edits')
+    console.log(wrkt_id);
     
+    let wrkt_edit_tags_ele = document.getElementById('workout_edit_tags_body');
+    let wrkt_tags_div = wrkt_edit_tags_ele.getElementsByTagName('div');
+    let tag_id_lst = [];
+    for (let i=0; i<wrkt_tags_div.length; i++){
+        if (wrkt_tags_div[i].querySelector('#tag_chk').checked == true){
+            tag_id_lst.push(wrkt_tags_div[i].querySelector('#tag_id').innerHTML);
+        }
+        /*let tag = {
+            'tag_id':wrkt_tags_div[i].querySelector('#tag_id').innerHTML,
+            'tag_nm' : wrkt_tags_div[i].querySelector('#tag_nm').innerHTML,
+            'tag_chk' : wrkt_tags_div[i].querySelector('#tag_chk').checked
+        };*/
+        // let tag_id = wrkt_tags_div[i].querySelector('#tag_id').innerHTML;
+        // let tag_nm = wrkt_tags_div[i].querySelector('#tag_nm').innerHTML;
+        // let tag_chk = wrkt_tags_div[i].querySelector('#tag_chk').checked;
+        // console.log('Tag:' + tag_id + ' name: ' + tag_nm + ' checked: ' + tag_chk);
+        // console.log(tag);
+        // tags.push(tag);
+    }
+    console.log(tag_id_lst);
+    
+    $('#tagSelectModal').modal('hide');
+    //Make API call to get list of workouts
+    $.post('/update_workout_tags', {
+        'wrkt_id': wrkt_id, 'tags':JSON.stringify(tag_id_lst)
+    }).done(function(response){
+        // show_workout_edit_tags(response);
+        console.log("Success update_workout_tags");
+        // console.log(response['items']);
+        location.reload();
+        
+    }).fail(function(response){
+        console.error("Error: Could not contact server.");
+    })
+    ;
 }
+
+
