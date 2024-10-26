@@ -278,7 +278,7 @@
         </div>
 
         <div class="form-group mt-3 mr-2" style="width:875px; height:400px;vertical-align:top;overflow-y:scroll;">
-            <form action="" method="post">
+            
             <table>
                 <tr style="font-weight:bold">
                     <td class="setting_row setting_hdr" style="width:230px;">
@@ -294,7 +294,8 @@
 
 
             {% for tag in tag_lst %}
-                <tr>
+                <form action="" method="post">
+                    <tr>
                     {{ tag.id }}
                     <td class="setting_row " style="text-align:left;">
                         {% if tag.usage_count.data != None %}
@@ -320,10 +321,10 @@
                         <span>{{ tag.remove_tag(onclick="return confirm('Do you want to delete Tag?')") }}</span>
                     </td>
                 </tr>
+            </form>
             {% endfor %}
 
             </table>
-            </form>
         </div>
     </div>
 
