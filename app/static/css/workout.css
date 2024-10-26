@@ -225,7 +225,6 @@ div.workout_top_row{
   width:100%;
   display:flex; 
   flex-direction: row; 
-  flex-wrap: wrap;
 }
 div.workout_hdr{
   display:inline-block;
@@ -275,8 +274,8 @@ div.wrkt_tags{
   font-size: 11pt;
   text-align:right;
   /* margin-right:30px; */
-  /* width:490px; */
-  width:100%-500px;
+   /* width:500px; */
+  width:100%-550px;
   
   vertical-align: top;
   /* border:1px solid red; */
@@ -1055,6 +1054,7 @@ td.dashboard_row_dtl{
     }
     div.workout_top_row{
       width:100%;
+      flex-wrap: wrap;
     }
     div.workout_hdr{
       width:100%;

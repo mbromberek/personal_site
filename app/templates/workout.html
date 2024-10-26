@@ -32,10 +32,13 @@
             <div class="wrkt_tag wrkt_tag_btn" onclick="JavaScript:edit_workout_tags({{workout.id}})">
                 Edit Tags
             </div>
-            
-            {#{% if workout.pos_neg_splits and workout.category_det.nm != 'Training' %}
-            {{ workout.pos_neg_splits }}&nbsp;{{ workout.pos_neg_splits_icon }}
-            {% endif %}#}
+            {#
+            <div class="wrkt_tag wrkt_tag_btn" onclick="JavaScript:edit_workout_tags({{workout.id}})">
+                Edit Tags2
+            </div>
+            <button type="button" class="btn btn-outline-dark"  style="height:40px;border:0px;padding:0px;" value="Edit Workout Tags" data-toggle="modal" data-target="#tagSelectModal" >
+                Edit Tags
+            </button>#}
         </div>
     </div>
     
@@ -406,4 +409,43 @@
         </form>
     </div>
 
+    <!-- Modal window to popup for selecting tags -->
+    <div class="modal fade" id="tagSelectModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="margin-top:20px;">
+      <div class="modal-dialog">
+        <form action="" method="post" role="form" class="form" id='tags_popup_form'>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Workout Tags</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cancel">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            <template id="workout_edit_tag_row">
+                <div >
+                    <span style="display:none;" id="tag_id">
+                        1
+                    </span>
+                    <label style="margin-left:5px;width:375px;display:inline-block; margin-right:25px;" >
+                        <input type="checkbox" id="tag_chk"  >
+                        <span id="tag_nm">Negative Splits</span>
+                    </label>
+                    <span style="width:50px;display:inline-block;text-align: right;" id="usage_count">
+                        8888
+                    </span>
+                </div>
+            </template>
+                <div class="modal-body" id="workout_edit_tags_body">
+                    &nbsp;
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <input class="btn btn-primary" id="download_csv_btn" name="download_csv_btn" type="submit" value="Save" onclick="JavaScript:save_workout_tag_edits({{workout.id}})" >
+                </div>
+            </div>
+        </form>
+      </div>
+    </div>
+    
+    
+    
 {% endblock %}

@@ -24,7 +24,7 @@ from app import db
 from app.model.mapping_route import Route, Route_coord
 from app import logger, basedir
 from app.utils import const, dist_conv
-from app.model.tag import Workout_tag, Tag_usage
+from app.model.tag import Workout_tag, Tag_usage, Tag_usage_wrkt
 
 
 @bp.route('/get_workout_tags', methods=['GET'])
@@ -45,14 +45,15 @@ def get_workout_tags():
     for workout_tag in workout_tag_lst:
       workout_tags.append(workout_tag.tag_id)
     
-    # Loop through all tags marking 
-    for tag_usage in tag_usage_lst:
+    tag_usage_for_workout_lst = []
+    # Loop through all tags marking if on workout or not
+    for idx, tag_usage in enumerate(tag_usage_lst):
       if tag_usage.id in workout_tags:
-        tag_usage.on_workout = True
+        tag_usage_for_workout_lst.append(Tag_usage_wrkt(tag_usage, tag_on_workout=True))
       else:
-        tag_usage.on_workout = False
+        tag_usage_for_workout_lst.append(Tag_usage_wrkt(tag_usage, tag_on_workout=False))
     
-    tag_usage_lst = sorted(tag_usage_lst)
-    logger.info(Tag_usage.to_dict_lst(tag_usage_lst))
+    tag_usage_for_workout_lst = sorted(tag_usage_for_workout_lst)
+    # logger.debug(Tag_usage_wrkt.to_dict_lst(tag_usage_for_workout_lst))
     
-    return jsonify(Tag_usage.to_dict_lst(tag_usage_lst))
+    return jsonify({'items':Tag_usage_wrkt.to_dict_lst(tag_usage_for_workout_lst), 'wrkt_id':wrkt_id})

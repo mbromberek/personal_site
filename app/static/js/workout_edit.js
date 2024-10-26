@@ -202,6 +202,9 @@ function show_split(response){
 
 function edit_workout_tags(wrkt_id){
     console.log('edit_workout_tags');
+    $('#tagSelectModal').modal('show');
+    let wrkt_edit_tags_ele = document.getElementById('workout_edit_tags_body');
+    wrkt_edit_tags_ele.innerHTML = "<div style='width:100%;align:center;'><img src='static/images/loading.gif' /></div>";
     
     //Make API call to get list of workouts
     $.get('/get_workout_tags', {
@@ -218,5 +221,23 @@ function edit_workout_tags(wrkt_id){
 function show_workout_edit_tags(response){
     console.log('show_workout_edit_tags');
     console.log(response);
+    $('#tagSelectModal').modal('show');
+    
+    let wrkt_edit_tags_ele = document.getElementById('workout_edit_tags_body');
+    wrkt_edit_tags_ele.innerHTML = "";
+    for (let i=0; i<response['items'].length; i++){
+        let tag = response['items'][i]
+        template_clone = document.getElementsByTagName("template")[0].content.cloneNode(true);
+        
+        template_clone.querySelector("#tag_id").innerHTML = tag['id'];
+        template_clone.querySelector("#tag_chk").checked = tag['on_workout'];
+        template_clone.querySelector("#tag_nm").innerHTML = tag['nm'];
+        template_clone.querySelector("#usage_count").innerHTML = tag['usage_count'];
+        
+        wrkt_edit_tags_ele.appendChild(template_clone);
+    }
+}
+
+function save_workout_tag_edits(wrkt_id){
     
 }
