@@ -306,20 +306,12 @@ div.wrkt_tag_btn{
 div.wrkt_tag_btn:hover{
   background-color: #43d9b8;
 }
-/* div.wrkt_tags{
-  font-size: 11pt;
-  text-align:right; */
-  /* margin-right:30px; */
-  /* display:inline-block; */
-  /* width:100%-805px; */
-  /* width: 100%-805px; */
-  /* vertical-align: top; */
-  /* float:right; */
-  
-  /* display: flex;
-  flex-direction: row;
-  flex-wrap: wrap; */
-/* } */
+label.edit_tag{
+  margin-left:5px;
+  width:375px;
+  display:inline-block; 
+  margin-right:25px;
+}
 
 
 .wrkts_hdr_row{
@@ -1070,6 +1062,11 @@ td.dashboard_row_dtl{
       width:100%;
       /* vertical-align: top; */
       /* float:left; */
+    }
+    label.edit_tag{
+      width:270px;
+      margin-right: 3px;
+      
     }
 
     .workout_card{
