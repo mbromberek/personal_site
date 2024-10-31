@@ -13,6 +13,7 @@ import pandas as pd
 from app import logger
 from app.utils import tm_conv
 from app.models import Workout, Workout_interval
+from app.model.tag import Tag
 
 
 def summarize_workout(df, sum_desc=''):
@@ -109,6 +110,16 @@ def get_mile_sum(intrvl_lst):
     sum_lst.append(itrvl_sum_tot)
 
     return sum_lst
+
+def generate_workout_tags(wrkt_df):
+    tag_dict = []
+    split_type_map = {'Negative Splits':'Negative Splits ✅','Positive Splits':'Positive Splits 👍','Even Splits':'Even Splits 😮'}
+    sum_mile = get_mile_sum_from_df(wrkt_df)
+    for summary in sum_mile:
+        if 'det' in summary and summary['det'] in ['Negative Splits','Positive Splits','Even Splits']:
+            tag_dict.append(Tag.get_tag_id(split_type_map[summary['det']]))
+    
+    return tag_dict
 
 def get_mile_sum_from_df(wrkt_df):
     sum_lst = []
