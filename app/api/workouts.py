@@ -36,6 +36,8 @@ from app import logger
 from app.utils import dt_conv
 from app.model.location import Location
 from app.main import filtering
+from app.utils import wrkt_summary
+from app.model.tag import Workout_tag
 
 
 @bp.route('/workout/<int:id>', methods=['GET'])
@@ -254,6 +256,15 @@ def generate_workout_from_file():
     # Update workout passed in wrkt_id for user_id
     orig_workout = Workout.query.filter_by(id=wrkt_id, user_id=user_id).first_or_404(wrkt_id)
     orig_workout.wrkt_dir = os.path.join(wrktStrtTm.strftime('%Y'), wrktStrtTm.strftime('%m'), wrktDirNm)
+    
+    auto_wrkt_tags = wrkt_summary.generate_workout_tags(actv_df)
+    logger.debug(auto_wrkt_tags)
+    for tag in auto_wrkt_tags:
+        new_workout_tag = Workout_tag()
+        new_workout_tag.user_id = user_id
+        new_workout_tag.tag_id = tag
+        new_workout_tag.workout_id = wrkt_id
+        db.session.add(new_workout_tag)
 
     if 'latitude' in actv_df and 'longitude' in actv_df:
         coord_df = actv_df[['latitude','longitude']].dropna()
