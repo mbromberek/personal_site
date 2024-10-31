@@ -25,6 +25,13 @@ class Tag(db.Model):
   
   def __repr__(self):
     return '<Tag {}: id {}>'.format( self.nm, self.id)
+    
+  @staticmethod
+  def get_tag_id(tag_nm):
+      tag_rec = Tag.query.filter_by(nm=tag_nm).first()
+      if tag_rec is None:
+          return None
+      return tag_rec.id
 
 class Workout_tag(db.Model):
   __table_args__ = {"schema": "fitness", 'comment':'Tags that can be used for additional details about a workout. '}
