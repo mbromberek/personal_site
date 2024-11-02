@@ -384,6 +384,11 @@ def edit_workout():
         wrktIntrvlLst = Workout_interval.query.filter_by(id=wrkt_id, user_id=usr_id)
         for wrktIntrvl in wrktIntrvlLst:
             db.session.delete(wrktIntrvl)
+        
+        wrktTagLst = Workout_tag.query.filter_by(workout_id=wrkt_id, user_id=usr_id)
+        for wrktTag in wrktTagLst:
+            db.session.delete(wrktTag)
+            
         wrkt = Workout.query.filter_by(id=wrkt_id, user_id = usr_id).one()
         db.session.delete(wrkt)
         db.session.commit()
@@ -589,9 +594,9 @@ def workout():
     # Get workouts tags and sort by when tag was added to workout
     tags_query = Workout_tag.query.filter_by(workout_id=wrkt_id, user_id=usr_id)
     tags = sorted(tags_query, key=lambda x: x.isrt_ts)
-    for tag in tags:
-        logger.info(tag)
-        logger.info(tag.workout_tag.nm)
+    # for tag in tags:
+    #     logger.info(tag)
+    #     logger.info(tag.workout_tag.nm)
     workout.tags = tags
 
     intvl_lst = sorted(Workout_interval.query.filter_by( \
