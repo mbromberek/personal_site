@@ -24,6 +24,7 @@ from app import db, login
 from app.utils import tm_conv, const
 from app.model.location import Location
 from app import logger
+from app.model.tag import Workout_tag
 
 
 @login.user_loader
@@ -307,6 +308,10 @@ class Workout(PaginatedAPIMixin, db.Model):
     def to_dict(self, include_calc_fields=False, for_web=False):
         gear_rec = Gear.query.filter_by(id=self.gear_id, user_id=self.user_id).first()
         wrkt_dttm_str = self.wrkt_dttm.isoformat(sep=' ') + 'Z' if for_web else self.wrkt_dttm.isoformat(sep=' ')
+        
+        wrkt_tag_lst = Workout_tag.query.filter_by(user_id=self.user_id, workout_id=self.id)
+        workout_tag_nm_lst = [x.workout_tag.nm for x in wrkt_tag_lst]
+        
         data = {
             'id': self.id,
             'user_id': self.user_id,
@@ -368,7 +373,7 @@ class Workout(PaginatedAPIMixin, db.Model):
                     'long': str(self.long_end)
                 }
             },
-
+            'tags': workout_tag_nm_lst,
             'isrt_ts': self.isrt_ts.isoformat() + 'Z',
             '_links':{
                 'self': url_for('main.workout', workout=self.id, _external=True, _scheme=current_app.config['URL_SCHEME']) if for_web else url_for('api.get_workout', id=self.id),

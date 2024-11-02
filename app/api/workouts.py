@@ -37,7 +37,7 @@ from app.utils import dt_conv
 from app.model.location import Location
 from app.main import filtering
 from app.utils import wrkt_summary
-from app.model.tag import Workout_tag
+from app.model.tag import Workout_tag, Tag
 
 
 @bp.route('/workout/<int:id>', methods=['GET'])
@@ -110,6 +110,16 @@ def create_workout():
         else:
             logger.debug('Gear passed ({})'.format(workout.gear_id))
         db.session.add(workout)
+        
+        if 'tags' in data:
+            logger.debug(data['tags'])
+            for tag in data['tags']:
+                new_workout_tag = Workout_tag()
+                new_workout_tag.user_id = current_user_id
+                new_workout_tag.tag_id = Tag.get_tag_id(tag)
+                new_workout_tag.workout_id = workout.id
+                db.session.add(new_workout_tag)
+        
         db.session.commit()
 
         if workout.location != None and workout.location != '' and workout.lat_strt != None and workout.lat_strt != '':
