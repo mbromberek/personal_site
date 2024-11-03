@@ -22,9 +22,11 @@ from sqlalchemy import or_
 from app.main import bp
 from app.main.forms import EmptyForm, WorkoutCreateBtnForm, WorkoutForm, WorkoutFilterForm, WorkoutIntervalForm
 from app.models import User, Workout, Workout_interval, Gear_usage, Wrkt_sum, Wkly_mileage, Workout_type, Workout_category
+from app.model.tag import Tag, Workout_tag
 from app import db
 from app.utils import tm_conv, const, nbrConv, dt_conv
 from app import logger
+
 
 def get_workouts_from_filter(usr_id, type_filter, category_filter, filterVal, wrkt_filter_form):
     usingSearch = False
@@ -61,6 +63,16 @@ def get_workouts_from_filter(usr_id, type_filter, category_filter, filterVal, wr
         if wrkt_filter_form != None:
             wrkt_filter_form.txt_search.data = filterVal['txt_search']
 
+    logger.debug('TAG FILTERING')
+    workout_tag_matches = None
+    if 'tags' in filterVal and len(filterVal['tags']) >0:
+        workout_tag_matches = get_workouts_for_tag_search(filterVal['tags'], usr_id)
+        query = query.filter(Workout.id.in_(workout_tag_matches))
+        
+    logger.debug(workout_tag_matches)
+    # Add list of workouts to ID for filtering using an AND (I think using and everywhere already)
+    logger.debug('TAG FILTERING END')
+    
 
     if 'location' in filterVal and filterVal['location'] != '' and filterVal['location'] != None:
             txt_srch_lst = filterVal['location']
@@ -277,9 +289,15 @@ def getFilterValuesFromGet(request):
     else:
         filterVal['type'] = {}
     logger.debug(filterVal)
-        
-    # if filterVal['type'] == None:
-       # filterVal['type'] = 'endurance' 
+    
+    
+    getTags = request.args.get('tags')
+    getTags = getTags if getTags != None else []
+    if len(getTags) > 0:
+        filterVal['tags'] = set(getTags.split(','))
+    else:
+        filterVal['tags'] = {}
+    
     filterVal['category'] = request.args.get('category')
     if 'text_NOT_USED' in request.args:
         # get new fields derived form text field
@@ -371,3 +389,39 @@ def split_str(query):
     query_split = re.split(regex_pattern, query)
     
     return query_split
+
+'''
+Loops through past in tag values to search for
+Does a like for each tag name in tag_search_lst
+Returns workout IDs for workouts that have tags that match all tag_search_lst
+'''
+def get_workouts_for_tag_search(tag_search_lst, usr_id):
+    # workout_tag_matches = set()
+    # first_tag = True
+    # Get Tags that match any entry in tags
+    workout_tag_matches = None
+    for tag_nm in tag_search_lst:
+        tag_query = Tag.query.filter_by(user_id=usr_id)
+        logger.debug(tag_nm)
+        tag_nm_edit = tag_nm.strip().replace('"','')
+        logger.debug(tag_nm_edit)
+        tag_query = tag_query.filter(
+            Tag.nm.ilike('%'+tag_nm_edit+'%')
+        )
+        curr_tag_matches = set()
+        for read_tag in tag_query:
+            logger.debug(read_tag.id)
+            logger.debug(str(read_tag.workouts))
+            for workout in read_tag.workouts:
+                logger.debug(workout)
+                logger.debug(workout.workout_id)
+                curr_tag_matches.add(workout.workout_id)
+        if workout_tag_matches == None:
+            workout_tag_matches = curr_tag_matches
+        else:
+            # Intersection for set with all current matching workouts and matches for latest tag search.
+            # Should only contain workouts that match for all tag searches
+            workout_tag_matches = workout_tag_matches & curr_tag_matches
+    if workout_tag_matches == None:
+        workout_tag_matches = set()
+    return workout_tag_matches
