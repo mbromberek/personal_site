@@ -207,6 +207,7 @@ def get_workouts(current_user_id, page, per_page, filterVal, endpoint, wrkt_filt
     filterVal.pop('text',None)
     filterVal.pop('notes',None)
     filterVal.pop('training',None)
+    filterVal.pop('tags',None) # TODO NOT SURE IF NEEDED
     filterVal['type'] = ','.join(filterVal['type']) # Change type to string for use in other URLs
     
     kwargs = filterVal
@@ -219,6 +220,7 @@ def get_workouts(current_user_id, page, per_page, filterVal, endpoint, wrkt_filt
     return {'items': wrkt_dict_lst, '_meta':meta_dict, '_links':links_dict}
 
 def getFilterValuesFromPost(form):
+    logger.debug('getFilterValuesFromPost')
     filterVal = {}
     filterVal['temperature'] = form.strt_temp_search.data
     filterVal['distance'] = form.distance_search.data
@@ -238,6 +240,7 @@ def getFilterValuesFromPost(form):
     return filterVal
 
 def getFilterValuesFromUrl():
+    logger.debug('getFilterValuesFromUrl')
     filterVal = {}
 
     filterVal['page'] = request.args.get('page', default=1, type=int)
@@ -347,7 +350,7 @@ def getFilterValuesFromGet(request):
 
 
 TXT_SEARCH_TERMS = {'loc:':'location', 'location:':'location', 'type:':'training'\
-      , 'training:':'training', 'notes:':'notes'}
+      , 'training:':'training', 'notes:':'notes', 'tags:':'tags', 'tag:':'tags'}
 '''
 '''
 def split_search_query(query_orig):
@@ -358,6 +361,7 @@ def split_search_query(query_orig):
     logger.debug(query_orig)
     query = query_orig.lower()
     query_split = split_str(query)
+    logger.debug(query_split)
     
     curr_query_key = 'text'
     for query_itm in query_split:
@@ -365,12 +369,15 @@ def split_search_query(query_orig):
         # If current query item is is special search terms, mark that to be 
         #  the field to add the next query item into
         if query_itm in TXT_SEARCH_TERMS:
+          logger.debug(query_itm)
           curr_query_key = TXT_SEARCH_TERMS[query_itm]
           if curr_query_key not in ret:
             ret[curr_query_key] = []
           continue
-        ret[curr_query_key].append(query_itm)
+        # ret[curr_query_key].append(query_itm)
+        ret[curr_query_key].extend(query_itm.split(','))
         curr_query_key = 'text'
+    logger.debug(ret)
     return ret
 
 '''
@@ -396,10 +403,12 @@ Does a like for each tag name in tag_search_lst
 Returns workout IDs for workouts that have tags that match all tag_search_lst
 '''
 def get_workouts_for_tag_search(tag_search_lst, usr_id):
+    logger.debug('get_workouts_for_tag_search')
     # workout_tag_matches = set()
     # first_tag = True
     # Get Tags that match any entry in tags
     workout_tag_matches = None
+    logger.debug(tag_search_lst)
     for tag_nm in tag_search_lst:
         tag_query = Tag.query.filter_by(user_id=usr_id)
         logger.debug(tag_nm)
