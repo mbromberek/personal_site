@@ -65,15 +65,12 @@ def get_workouts_from_filter(usr_id, type_filter, category_filter, filterVal, wr
         if wrkt_filter_form != None:
             wrkt_filter_form.txt_search.data = filterVal['txt_search']
 
-    logger.debug('TAG FILTERING')
     workout_tag_matches = None
     if 'tags' in filterVal and len(filterVal['tags']) >0:
         workout_tag_matches = get_workouts_for_tag_search(filterVal['tags'], usr_id)
+        # Add list of workouts ID for filtering using an AND
         query = query.filter(Workout.id.in_(workout_tag_matches))
-        
-    logger.debug(workout_tag_matches)
-    # Add list of workouts to ID for filtering using an AND (I think using and everywhere already)
-    logger.debug('TAG FILTERING END')
+    # logger.debug(workout_tag_matches)
     
 
     if 'location' in filterVal and filterVal['location'] != '' and filterVal['location'] != None:
@@ -360,10 +357,10 @@ def split_search_query(query_orig):
     if query_orig == '' or query_orig == None:
         return ret
     search_txt = []
-    logger.debug(query_orig)
+    # logger.debug(query_orig)
     query = query_orig.lower()
     query_split = split_str(query)
-    logger.debug(query_split)
+    # logger.debug(query_split)
     
     curr_query_key = 'text'
     for query_itm in query_split:
@@ -371,7 +368,6 @@ def split_search_query(query_orig):
         # If current query item is is special search terms, mark that to be 
         #  the field to add the next query item into
         if query_itm in TXT_SEARCH_TERMS:
-          logger.debug(query_itm)
           curr_query_key = TXT_SEARCH_TERMS[query_itm]
           if curr_query_key not in ret:
             ret[curr_query_key] = []
@@ -379,7 +375,7 @@ def split_search_query(query_orig):
         # ret[curr_query_key].append(query_itm)
         ret[curr_query_key].extend(query_itm.split(','))
         curr_query_key = 'text'
-    logger.debug(ret)
+    # logger.debug(ret)
     return ret
 
 '''
@@ -405,27 +401,21 @@ Does a like for each tag name in tag_search_lst
 Returns workout IDs for workouts that have tags that match all tag_search_lst
 '''
 def get_workouts_for_tag_search(tag_search_lst, usr_id):
-    logger.debug('get_workouts_for_tag_search')
+    # logger.debug('get_workouts_for_tag_search')
     # workout_tag_matches = set()
     # first_tag = True
     # Get Tags that match any entry in tags
     workout_tag_matches = None
-    logger.debug(tag_search_lst)
+    # logger.debug(tag_search_lst)
     for tag_nm in tag_search_lst:
         tag_query = Tag.query.filter_by(user_id=usr_id)
-        logger.debug(tag_nm)
         tag_nm_edit = tag_nm.strip().replace('"','')
-        logger.debug(tag_nm_edit)
         tag_query = tag_query.filter(
             Tag.nm.ilike('%'+tag_nm_edit+'%')
         )
         curr_tag_matches = set()
         for read_tag in tag_query:
-            logger.debug(read_tag.id)
-            logger.debug(str(read_tag.workouts))
             for workout in read_tag.workouts:
-                logger.debug(workout)
-                logger.debug(workout.workout_id)
                 curr_tag_matches.add(workout.workout_id)
         if workout_tag_matches == None:
             workout_tag_matches = curr_tag_matches
