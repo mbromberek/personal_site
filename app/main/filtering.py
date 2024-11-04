@@ -57,8 +57,10 @@ def get_workouts_from_filter(usr_id, type_filter, category_filter, filterVal, wr
         txt_srch_lst = filterVal['text']
         for txt_srch in txt_srch_lst:
             txt_srch = txt_srch.strip()
+            
+            workout_tag_matches = get_workouts_for_tag_search([txt_srch], usr_id)
             query = query.filter(
-                or_(Workout.training_type.ilike('%'+txt_srch+'%'), Workout.location.ilike('%'+txt_srch+'%'), Workout.notes.ilike('%'+txt_srch+'%'))
+                or_(Workout.training_type.ilike('%'+txt_srch+'%'), Workout.location.ilike('%'+txt_srch+'%'), Workout.notes.ilike('%'+txt_srch+'%'), Workout.id.in_(workout_tag_matches))
             )
         if wrkt_filter_form != None:
             wrkt_filter_form.txt_search.data = filterVal['txt_search']
