@@ -57,8 +57,13 @@ def index():
     yrly_mileage_results = sorted(query, reverse=True)
     yrly_goals_lst = []
     yrly_mileage_lst = []
+    curr_yr_total = ''
     for yr_mileage in yrly_mileage_results:
         if yr_mileage.dt_year() == datetime.now().strftime('%Y'):
+            if curr_yr_total == '':
+                curr_yr_total = yr_mileage
+            else:
+                curr_yr_total = curr_yr_total + yr_mileage
             goal = Yrly_goal.create_goal(yr_mileage)
             if len(goal) >0:
                 yrly_goals_lst.extend(goal)
@@ -66,7 +71,12 @@ def index():
         yr_mileage.duration = yr_mileage.dur_str()
         yr_mileage.pace = yr_mileage.pace_str()
         yrly_mileage_lst.append(yr_mileage)
+    if curr_yr_total != '':
+        goal = Yrly_goal.create_goal(curr_yr_total)
+        if len(goal) >0:
+            yrly_goals_lst.extend(goal)
     yrly_goals_lst = Yrly_goal.generate_nonstarted_goals(yrly_goals_lst)
+    yrly_goals_lst = sorted(yrly_goals_lst)
     dash_lst_dict['yrly_goals_lst'] = yrly_goals_lst
     dash_lst_dict['yrly_goals_dict_lst'] = Yrly_goal.lst_to_dict(yrly_goals_lst)
     # dash_lst_dict['yrly_mileage_lst'] = yrly_mileage_lst
@@ -918,6 +928,8 @@ def dashboard():
     curr_yr_dict = {}
     yrly_goals_lst = []
     for idx, yr_workout_result in enumerate(yrly_results):
+        logger.debug(idx)
+        logger.debug(yr_workout_result)
         if yr_workout_result.dt_year() == datetime.now().strftime('%Y'):
             goal = Yrly_goal.create_goal(yr_workout_result)
             if len(goal) >0:
@@ -950,6 +962,13 @@ def dashboard():
 
     curr_yr_total.duration = curr_yr_total.dur_str()
     yrly_workout_lst.append(curr_yr_total)
+    logger.debug(yrly_workout_lst)
+    
+    if len(yrly_workout_lst) > 0 and yrly_workout_lst[0].dt_year() == datetime.now().strftime('%Y'):
+        goal = Yrly_goal.create_goal(yrly_workout_lst[0])
+        if len(goal) >0:
+            yrly_goals_lst.extend(goal)
+    
     if 'Strength Training' in curr_yr_dict:
         yrly_strength_lst.append(yrly_results[curr_yr_dict['Strength Training']])
     if 'Running' in curr_yr_dict:

@@ -102,6 +102,17 @@ class Yrly_goal(object):
             yr_goal.miles_needed_per_month = yr_goal.miles_per_day * 30
 
             yrly_goals_lst.append(yr_goal)
+        elif yr_mileage.type == 'Total':
+            yr_goal.description = 'Total'
+            yr_goal.goal = 2025
+            yr_goal.tot = yr_mileage.tot_dist
+            yr_goal.uom = 'miles'
+            yr_goal.pct_comp = yr_goal.calc_pct_comp() *100
+            yr_goal.miles_per_day = yr_goal.calc_miles_per_day(365-datetime.now().timetuple().tm_yday) if yr_goal.pct_comp <100 else 0
+            yr_goal.miles_needed_per_month = yr_goal.miles_per_day * 30
+            # logger.debug(yr_goal.description + ' ' + str(yr_goal.tot) + ' ' + str(round(yr_goal.pct_comp,4)) + ' ' + str(round(yr_goal.miles_per_day,4)) + ' ' + str(round(yr_goal.miles_needed_per_month,4)))
+            yr_goal.miles_needed_per_week = yr_goal.miles_per_day * 7
+            yrly_goals_lst.append(yr_goal)
         return yrly_goals_lst
 
     @staticmethod
@@ -120,6 +131,14 @@ class Yrly_goal(object):
             # Create entry for cycling that has 0 miles and 0 times
             yr = Yrly_mileage()
             yr.type = 'Cycling'
+            yr.nbr = 0
+            yr.tot_dist = 0
+            yr.tot_sec = 0
+            yrly_goals_mod_lst.extend(Yrly_goal.create_goal(yr))
+        
+        if not (any(yr_goal.description == "Total" for yr_goal in yrly_goals_lst)):
+            yr = Yrly_mileage()
+            yr.type = 'Total'
             yr.nbr = 0
             yr.tot_dist = 0
             yr.tot_sec = 0
