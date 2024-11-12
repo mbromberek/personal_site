@@ -1,0 +1,55 @@
+    <div class="dashboard_widget ">
+        <table class="gear_usage">
+            <tr class="gear_usage_hdr">
+                <td  class="gear_usage_hdr" colspan="3">
+                    {{ dash_lst_dict['long_run_splits']['year'] }} Long Run Splits
+                </td>
+            </tr>
+            <tr class="gear_usage_hdr">
+                <td class="gear_usage_hdr" style="width:200px;">
+                    Long Run
+                </td>
+                <td class="gear_usage_hdr">
+                    Number
+                </td>
+                <td class="gear_usage_hdr" >
+                    Percent
+                </td>
+            </tr>
+            
+            <tr >
+                <td class="dashboard_row_dtl">
+                    Total
+                </td>
+                <td class="dashboard_row_dtl " style="text-align:center">
+                    {{ dash_lst_dict['long_run_splits']['long_run_ct'] }}
+                </td>
+                <td class="dashboard_row_dtl " style="text-align:center">
+                    &nbsp;
+                </td>
+            </tr>
+            <tr>
+                <td class="dashboard_row_dtl">
+                    Negative Split
+                </td>
+                <td class="dashboard_row_dtl" style="text-align:center">
+                    {{ dash_lst_dict['long_run_splits']['negative_split_ct'] }}
+                </td>
+                <td class="dashboard_row_dtl" style="text-align:center">
+                    {{ '%0.1f' % dash_lst_dict['long_run_splits']['negative_splits_pct']|float }}%
+                </td>
+            </tr>
+            <tr>
+                <td class="dashboard_row_dtl">
+                    Positive Split
+                </td>
+                <td class="dashboard_row_dtl" style="text-align:center">
+                    {{ dash_lst_dict['long_run_splits']['positive_split_ct'] }}
+                </td>
+                <td class="dashboard_row_dtl" style="text-align:center">
+                    {{ '%0.1f' % dash_lst_dict['long_run_splits']['positive_splits_pct']|float }}%
+                </td>
+            </tr>
+            
+        </table>
+    </div>
