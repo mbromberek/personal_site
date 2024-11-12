@@ -19,7 +19,7 @@
             
             <tr >
                 <td class="dashboard_row_dtl">
-                    Total
+                    <a class="workout_lnk" href="{{ dash_lst_dict['long_run_splits']['url'] }}">Total</a>
                 </td>
                 <td class="dashboard_row_dtl " style="text-align:center">
                     {{ dash_lst_dict['long_run_splits']['long_run_ct'] }}
@@ -30,7 +30,7 @@
             </tr>
             <tr>
                 <td class="dashboard_row_dtl">
-                    <a href="{{ dash_lst_dict['long_run_splits']['negative_splits_url'] }}">Negative Split</a>
+                    <a class="workout_lnk" href="{{ dash_lst_dict['long_run_splits']['negative_splits_url'] }}">Negative Split</a>
                 </td>
                 <td class="dashboard_row_dtl" style="text-align:center">
                     {{ dash_lst_dict['long_run_splits']['negative_split_ct'] }}
@@ -41,7 +41,7 @@
             </tr>
             <tr>
                 <td class="dashboard_row_dtl">
-                    <a href="{{ dash_lst_dict['long_run_splits']['positive_splits_url'] }}">Positive Split</a>
+                    <a class="workout_lnk" href="{{ dash_lst_dict['long_run_splits']['positive_splits_url'] }}">Positive Split</a>
                 </td>
                 <td class="dashboard_row_dtl" style="text-align:center">
                     {{ dash_lst_dict['long_run_splits']['positive_split_ct'] }}
