@@ -1039,9 +1039,9 @@ def dashboard():
 
     # dash_lst_dict['long_run_splits']['negative_splits_url'] = 
     # 'http://localhost:5000/workouts?page=1&type=run&category=long&txt_search=tag:%22Negative+Splits+%E2%9C%85%22&strt_dt=2024-01-01&end_dt='
-    
-    dash_lst_dict['long_run_splits']['negative_splits_url'] = request.base_url + url_for('main.workouts', page=1, type='run', category='long', txt_search='tag:"Negative Splits ✅"', strt_dt=dash_lst_dict['long_run_splits']['year']+'-01-01', end_dt='')
-    logger.debug(dash_lst_dict['long_run_splits']['negative_splits_url'])
+    # request.base_url
+    dash_lst_dict['long_run_splits']['negative_splits_url'] = request.url_root + url_for('main.workouts', page=1, type='run', category='long', txt_search='tag:"Negative Splits ✅"', strt_dt=dash_lst_dict['long_run_splits']['year']+'-01-01', end_dt='')
+    dash_lst_dict['long_run_splits']['positive_splits_url'] = request.url_root + url_for('main.workouts', page=1, type='run', category='long', txt_search='tag:"Positive Splits 👍"', strt_dt=dash_lst_dict['long_run_splits']['year']+'-01-01', end_dt='')
     
     
 
