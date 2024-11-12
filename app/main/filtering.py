@@ -460,6 +460,7 @@ def get_long_run_splits(usr_id, yr):
     query = query.filter(Workout.type_id.in_(type_filter))
     
     long_run_ct = query.count()
+    long_run_splits['long_run_total_miles'] = sum(v.dist_mi for v in query)    
     
     # Filter for Negative Splits
     workout_negative_splits = get_workouts_for_tag_search('Negative Splits ✅', usr_id)
@@ -472,9 +473,6 @@ def get_long_run_splits(usr_id, yr):
     wrkout_query_positive = query.filter(Workout.id.in_(workout_positive_splits))
     positive_split_ct = wrkout_query_positive.count()
     
-    logger.debug('Nbr Long Runs:' + str(long_run_ct))
-    logger.debug ('Nbr Negative Split Long Runs: ' + str(negative_split_ct))
-    logger.debug ('Nbr Positive Split Long Runs: ' + str(positive_split_ct))
     long_run_splits['long_run_ct'] = long_run_ct
     long_run_splits['negative_split_ct'] = negative_split_ct
     long_run_splits['positive_split_ct'] = positive_split_ct
