@@ -1031,6 +1031,15 @@ def dashboard():
     dash_lst_dict['nxt_gear'] = {}
     dash_lst_dict['nxt_gear']['training'] = Gear.get_next_shoe(usr_id, Workout_category.get_wrkt_cat_id('Training'))
     dash_lst_dict['nxt_gear']['easy'] = Gear.get_next_shoe(usr_id, Workout_category.get_wrkt_cat_id('Easy'))
+    
+    
+    # Get percent of Negative and Positive Splits Long Runs
+    long_run_splits = filtering.get_long_run_splits(usr_id, datetime.now().strftime('%Y'))
+    dash_lst_dict['long_run_splits'] = long_run_splits
+    # dash_lst_dict['long_run_splits']['negative_splits_url'] = 
+    
+    logger.debug('Negative Split Long Run Percent:' + str(dash_lst_dict['long_run_splits']['negative_splits_pct']))
+    
 
     return render_template('dashboard.html', title=title, destPage=destPage, dash_lst_dict=dash_lst_dict)
 

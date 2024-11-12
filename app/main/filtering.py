@@ -426,3 +426,60 @@ def get_workouts_for_tag_search(tag_search_lst, usr_id):
     if workout_tag_matches == None:
         workout_tag_matches = set()
     return workout_tag_matches
+
+'''
+Get data for passed in user and year for long run negative vs positive splits
+Returns Dictionary with these keys
+    - long_run_ct
+    - negative_split_ct
+    - positive_split_ct
+    - negative_splits_pct
+    - positive_splits_pct
+    - year
+'''
+def get_long_run_splits(usr_id, yr):
+    long_run_splits = {}
+    long_run_splits['year'] = yr
+
+    query = Workout.query.filter_by(user_id=usr_id)
+    
+    # Filter for current year
+    curr_yr_dt = datetime(int(yr), 1, 1)
+    query = query.filter(Workout.wrkt_dttm >= curr_yr_dt)
+    
+    # Filter for Category=Long Run and Type=Run
+    type_filter = []
+    category_filter = []
+    filter_cat_lst = Workout_category.query.filter( Workout_category.nm.in_(['Long Run', 'Long']))
+    for filter_cat in filter_cat_lst:
+        category_filter.append(filter_cat.id)
+    query = query.filter(Workout.category_id.in_(category_filter))    
+    filter_type_lst = Workout_type.query.filter(Workout_type.nm.in_(['Running','Indoor Running']))
+    for filter_type in filter_type_lst:
+        type_filter.append(filter_type.id)
+    query = query.filter(Workout.type_id.in_(type_filter))
+    
+    long_run_ct = query.count()
+    
+    # Filter for Negative Splits
+    workout_negative_splits = get_workouts_for_tag_search('Negative Splits ✅', usr_id)
+    workout_even_splits = get_workouts_for_tag_search('Even Splits 😮', usr_id)
+    workout_negative_splits = workout_negative_splits.union(workout_even_splits)
+    wrkout_query_negtive = query.filter(Workout.id.in_(workout_negative_splits))
+    negative_split_ct = wrkout_query_negtive.count()
+    
+    workout_positive_splits = get_workouts_for_tag_search('Positive Splits 👍', usr_id)
+    wrkout_query_positive = query.filter(Workout.id.in_(workout_positive_splits))
+    positive_split_ct = wrkout_query_positive.count()
+    
+    logger.debug('Nbr Long Runs:' + str(long_run_ct))
+    logger.debug ('Nbr Negative Split Long Runs: ' + str(negative_split_ct))
+    logger.debug ('Nbr Positive Split Long Runs: ' + str(positive_split_ct))
+    long_run_splits['long_run_ct'] = long_run_ct
+    long_run_splits['negative_split_ct'] = negative_split_ct
+    long_run_splits['positive_split_ct'] = positive_split_ct
+    long_run_splits['negative_splits_pct'] = negative_split_ct / long_run_ct
+    long_run_splits['positive_splits_pct'] = positive_split_ct / long_run_ct
+    
+    return long_run_splits
+    
