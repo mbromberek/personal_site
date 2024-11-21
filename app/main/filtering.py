@@ -140,12 +140,9 @@ def get_workouts_from_filter(usr_id, type_filter, category_filter, filterVal, wr
             pass
 
     return query, usingSearch
-
-def get_workouts(current_user_id, page, per_page, filterVal, endpoint, wrkt_filter_form=None):
-    type_filter = []
-    category_filter = []
     
-    logger.debug('filtering.get_workouts')
+def get_type_ids(filterVal):
+    type_filter = []
     logger.debug(filterVal['type'])
     
     query = None
@@ -163,6 +160,16 @@ def get_workouts(current_user_id, page, per_page, filterVal, endpoint, wrkt_filt
     filter_type_lst = query if query != None else []
     for filter_type in filter_type_lst:
         type_filter.append(filter_type.id)
+
+    return type_filter    
+
+def get_workouts(current_user_id, page, per_page, filterVal, endpoint, wrkt_filter_form=None):
+    # type_filter = []
+    category_filter = []
+    
+    logger.debug('filtering.get_workouts')
+        
+    type_filter = get_type_ids(filterVal)
 
     if filterVal['category'] == 'training':
         filter_cat_lst = Workout_category.query.filter( Workout_category.nm.in_(['Training', 'Hard']))
@@ -250,6 +257,8 @@ def getFilterValuesFromPost(form):
     filterVal['max_dist'] = form.max_dist_srch.data
     filterVal['min_strt_temp'] = form.min_strt_temp_srch.data
     filterVal['max_strt_temp'] = form.max_strt_temp_srch.data
+    if form.indoor_srch.data == True:
+        filterVal['indoor'] = 'Y'
 
     return filterVal
 
@@ -283,6 +292,7 @@ def getFilterValuesFromUrl():
 
     filterVal['min_strt_temp'] = request.args.get('min_strt_temp', default='', type=int)
     filterVal['max_strt_temp'] = request.args.get('max_strt_temp', default='', type=int)
+    filterVal['indoor'] = request.args.get('indoor', default='', type=str)
 
     return filterVal
 

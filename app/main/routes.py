@@ -198,17 +198,21 @@ def workouts():
     category_filter = []
     btn_classes = {}
     logger.debug("type: " + str(filterVal['type']))
+    
+    filterVal['type'] = list(filterVal['type'])
+    type_filter = filtering.get_type_ids(filterVal)
+    '''
     for filter_type_grp in filterVal['type']:
         filter_type_lst = Workout_type.query.filter_by(grp=filter_type_grp)
         for filter_type in filter_type_lst:
             type_filter.append(filter_type.id)
+    '''
     if 'run' in filterVal['type']:
         btn_classes['run'] = 'btn btn_selected'
     if 'cycle' in filterVal['type']:
         btn_classes['cycle'] = 'btn btn_selected'
     if 'swim' in filterVal['type']:
         btn_classes['swim'] = 'btn btn_selected'
-    filterVal['type'] = list(filterVal['type'])
 
     if filterVal['category'] == 'training':
         filter_cat_lst = Workout_category.query.filter( Workout_category.nm.in_(['Training', 'Hard']))
