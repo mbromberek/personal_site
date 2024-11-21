@@ -145,15 +145,22 @@ def get_workouts(current_user_id, page, per_page, filterVal, endpoint, wrkt_filt
     type_filter = []
     category_filter = []
     
-    filter_type_lst = Workout_type.query.filter(Workout_type.grp.in_(filterVal['type']))
-    logger.debug(filterVal)
+    logger.debug('filtering.get_workouts')
+    logger.debug(filterVal['type'])
+    
+    query = None
+    if len(filterVal['type']) >0:
+       query = Workout_type.query.filter(Workout_type.grp.in_(filterVal['type']))
     if 'indoor' in filterVal and filterVal['indoor'] != '':
         filter_indoor = True
         if filterVal['indoor'] == 'N':
             filter_indoor = False
         logger.debug('Indoor: ' + str(filter_indoor))
-        filter_type_lst = filter_type_lst.filter_by(indoor = filter_indoor)
-        
+        if query == None:
+            query = Workout_type.query.filter_by(indoor = filter_indoor)
+        else:
+            query = query.filter_by(indoor = filter_indoor)
+    filter_type_lst = query if query != None else []
     for filter_type in filter_type_lst:
         type_filter.append(filter_type.id)
 
@@ -298,7 +305,6 @@ def getFilterValuesFromGet(request):
         filterVal['type'] = set(getType.split(','))
     else:
         filterVal['type'] = {}
-    logger.debug(filterVal)
     
     filterVal['indoor'] = request.args.get('indoor')
     if filterVal['indoor'] == None:
