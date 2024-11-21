@@ -52,6 +52,7 @@ class WorkoutFilterForm(FlaskForm):
     max_dist_srch = DecimalField('Max Dist:', validators=[Optional()], places=0, rounding=decimal.ROUND_UP)
     min_strt_temp_srch = DecimalField('Min Temp:', validators=[Optional()], places=0, rounding=decimal.ROUND_UP)
     max_strt_temp_srch = DecimalField('Max Temp:', validators=[Optional()], places=0, rounding=decimal.ROUND_UP)
+    indoor_srch = BooleanField("Indoor")
 
 class WorkoutExportForm(FlaskForm):
     max_export_records = IntegerField('Max nbr of records', widget=h5widgets.NumberInput(),

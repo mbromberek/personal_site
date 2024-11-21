@@ -822,6 +822,7 @@ class Workout_type(db.Model):
     nm = db.Column(db.String(50), index=True, nullable=False, unique=True)
     grp = db.Column(db.String(50), nullable=True)
     ordr = db.Column(db.Integer, nullable=False)
+    indoor = db.Column(db.Boolean(), nullable=True)
     isrt_ts = db.Column(db.DateTime, nullable=False, index=True, default=datetime.utcnow)
 
     def __repr__(self):

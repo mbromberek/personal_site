@@ -68,6 +68,7 @@ def get_workouts():
         max_dist: max distance of workouts
         strt_dt: first date of workouts
         end_dt: last date of workouts
+        indoor: Y for only workouts indoor, N for only workouts outdoor
     '''
     logger.info('get_workouts')
     current_user_id = token_auth.current_user().id
