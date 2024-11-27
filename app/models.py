@@ -288,7 +288,7 @@ class Workout(PaginatedAPIMixin, db.Model):
             elif const.EXPORT_FIELD_MAPPING.get(field) == 'type':
                 data[field] = self.type_det.nm
             elif const.EXPORT_FIELD_MAPPING.get(field) == 'category':
-                data[field] = self.category_det.nm
+                data[field] = self.category_det.nm if self.category_det != None else ''
             elif const.EXPORT_FIELD_MAPPING.get(field) == 'duration':
                 data[field] = self.dur_str()
             elif const.EXPORT_FIELD_MAPPING.get(field) == 'pace':
