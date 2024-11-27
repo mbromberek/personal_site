@@ -138,6 +138,10 @@ def get_workouts_from_filter(usr_id, type_filter, category_filter, filterVal, wr
             query = query.filter(Workout.wrkt_dttm <= dt)
         except:
             pass
+    if 'indoor' in filterVal and filterVal['indoor'] == 'Y':
+        usingSearch = True
+        if wrkt_filter_form != None:
+            wrkt_filter_form.indoor_srch.data = True
 
     return query, usingSearch
     
