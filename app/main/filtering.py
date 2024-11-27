@@ -366,12 +366,13 @@ def getFilterValuesFromGet(request):
 
     filterVal['strt_dt'] = request.args.get('strt_dt', '', type=str)
     filterVal['end_dt'] = request.args.get('end_dt', '', type=str)
-
+    filterVal['indoor'] = request.args.get('indoor', '', type=str)
 
     try:
         filterVal['page'] = request.args.get('page', 1, type=int)
     except ValueError:
         filterVal['page'] = 1
+    
     return filterVal
 
 
