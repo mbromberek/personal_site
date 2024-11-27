@@ -150,7 +150,8 @@ def get_type_ids(filterVal):
     logger.debug(filterVal['type'])
     
     query = None
-    if len(filterVal['type']) >0:
+    # Need to not filter by type if list of type only contains an empty string
+    if len(filterVal['type']) >0 and (len(filterVal['type']) == 1 and filterVal['type'][0] != ''):
        query = Workout_type.query.filter(Workout_type.grp.in_(filterVal['type']))
     if 'indoor' in filterVal and filterVal['indoor'] != '':
         filter_indoor = True
@@ -161,6 +162,7 @@ def get_type_ids(filterVal):
             query = Workout_type.query.filter_by(indoor = filter_indoor)
         else:
             query = query.filter_by(indoor = filter_indoor)
+    
     filter_type_lst = query if query != None else []
     for filter_type in filter_type_lst:
         type_filter.append(filter_type.id)
