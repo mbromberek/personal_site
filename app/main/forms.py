@@ -238,6 +238,8 @@ class LocForm(FlaskForm):
     lat = StringField('Latitude')
     lon = StringField('Longitude')
     radius = DecimalField('Radius', validators=[InputRequired()], places=2, rounding=decimal.ROUND_UP)
+    state = StringField('State')
+    country = StringField('Country')
 
     submit = SubmitField('Save')
     cancel = SubmitField('Cancel')

@@ -1497,6 +1497,8 @@ def edit_location():
         logger.info('edit_location POST Submit button pressed')
         location.name = loc_form.name.data
         location.radius = loc_form.radius.data
+        location.state = loc_form.state.data
+        location.country = loc_form.country.data
         location.updt_ts = datetime.utcnow()
         db.session.commit()
         flash('Location has been updated')
@@ -1512,6 +1514,8 @@ def edit_location():
     loc_form.lat.data = location.lat
     loc_form.lon.data = location.lon
     loc_form.radius.data = location.radius
+    loc_form.state.data = location.state
+    loc_form.country.data = location.country
 
     return render_template('edit_location.html', destPage = 'settings', loc_form=loc_form, label_val=label_val, map_dict=map_dict)
 
