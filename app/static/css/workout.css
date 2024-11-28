@@ -1005,6 +1005,9 @@ td.dashboard_row_dtl{
 .gear_age_should_retire{
     background-color: red;
 }
+.location_warning{
+    background-color: yellow;
+}
 
 /*.zone_1{
     background-color: lightblue;

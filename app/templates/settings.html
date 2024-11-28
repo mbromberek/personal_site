@@ -240,7 +240,7 @@
 
             {% for loc in loc_lst %}
                 <tr>
-                    <td class="setting_row " style="text-align:left;">
+                    <td class="setting_row {% if loc.country == None or loc.country == '' %} location_warning {% endif %}" style="text-align:left; ">
                         <a class="setting_edit_lnk"  href="{{ url_for('main.edit_location', location=loc.id) }}">
                             {{ loc.name }}
                         </a>
