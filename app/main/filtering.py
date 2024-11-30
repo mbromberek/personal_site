@@ -265,6 +265,8 @@ def getFilterValuesFromPost(form):
     filterVal['max_strt_temp'] = form.max_strt_temp_srch.data
     if form.indoor_srch.data == True:
         filterVal['indoor'] = 'Y'
+    else:
+        filterVal['indoor'] = ''
 
     return filterVal
 
