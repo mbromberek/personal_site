@@ -44,6 +44,19 @@
     padding-right:0px;
 }
 
+#one_ring_run_chart_title{
+    font-size:18px;
+    font-weight: bold;
+    text-align:center;
+    width:100%;
+}
+#one_ring_run_chart_container{
+    display:inline-block;
+    /* width:375px; */
+    border:3px solid black;
+    font-size:12pt;
+}
+
 
 /* RACE MENU BAR */
 #race_menu div {

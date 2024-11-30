@@ -4,6 +4,13 @@
 {% block app_content %}
 
 <div class="dashboard_page">
+
+    {% if dash_lst_dict['yrly_running_lst'] %}
+    {% with widget_data = dash_lst_dict['yrly_running_lst'][0] %}
+    {% include 'dashboard_widgets/_yearly_run_goal_widget.html' %}
+    {% endwith %}
+    {% endif %}
+
     {% if dash_lst_dict['wrkt_sum_lst'] %}
     {% include 'dashboard_widgets/_running_mileage_widget.html' %}
     {% endif %}
@@ -105,6 +112,8 @@
 #}
 <script>
     initGoalChart({{ dash_lst_dict['yrly_goals_dict_lst']|tojson|safe }});
+    // initOneRingChart({{ dash_lst_dict['yrly_goals_dict_lst']|tojson|safe }});
+    initOneRingChart({{ dash_lst_dict['yrly_running_lst']['data'][0].to_dict()|tojson|safe }}); 
     // init_donut_chart();
 </script>
 

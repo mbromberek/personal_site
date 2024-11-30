@@ -79,6 +79,7 @@ Base HTML code for each web page
           <script src="https://cdnjs.cloudflare.com/ajax/libs/crossfilter/1.3.12/crossfilter.min.js" integrity="sha384-qIMAO7hiswCdbLggCimcQKL2VYr4shEpIgnKP+9GL4YQPHJH4tQ/lLHsaLtDFulA" crossorigin="anonymous"></script>
 
           <script src="{{ url_for('static', filename='js/dash_viz_goal.js') }}"></script>
+          <script src="{{ url_for('static', filename='js/dash_viz_one_ring_run.js') }}"></script>
           {#<script src="{{ url_for('static', filename='js/dash_viz_goal_2.js') }}"></script>#}
         {% endif %}
 
@@ -100,7 +101,7 @@ Base HTML code for each web page
     <!-- <nav class="navbar navbar-expand-lg navbar-light " style="background-color:#43d9c9;z-index:1500;font-size:20px;font-family:sans-serif;font-weight:500;"> -->
       
     <!-- Current Menu -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style='background-color:#43d9b8;color:black;z-index:1500;' >
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark" style='background-color:#43d9b8;color:black;z-index:1500;' >
         <a class="navbar-brand" href="{{ url_for('main.index') }}">Mike Bromberek</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>

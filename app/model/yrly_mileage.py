@@ -62,3 +62,16 @@ class Yrly_mileage(db.Model):
         
         yr.tot_sec = self.tot_sec + new.tot_sec
         return yr
+
+    def to_dict(self):
+        d = {
+            'type':self.type,
+            'nbr':self.nbr,
+            'dt_by_yr':self.dt_by_yr,
+            'tot_dist':self.tot_dist,
+            'tot_sec':self.tot_sec,
+            'tot_time':self.dur_str(),
+            'dist_delta_pct':self.dist_delta_pct,
+            'tm_delta_pct':self.tm_delta_pct
+        }
+        return d
