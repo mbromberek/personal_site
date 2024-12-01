@@ -67,11 +67,18 @@ class Yrly_mileage(db.Model):
         d = {
             'type':self.type,
             'nbr':self.nbr,
-            'dt_by_yr':self.dt_by_yr,
-            'tot_dist':self.tot_dist,
+            'year':self.dt_year(),
+            'tot_dist':round(self.tot_dist),
             'tot_sec':self.tot_sec,
             'tot_time':self.dur_str(),
             'dist_delta_pct':self.dist_delta_pct,
             'tm_delta_pct':self.tm_delta_pct
         }
         return d
+
+    @staticmethod 
+    def lst_to_dict(yr_lst):
+        yr_dict_lst = []
+        for yr in yr_lst:
+            yr_dict_lst.append(yr.to_dict())
+        return yr_dict_lst
