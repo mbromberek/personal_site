@@ -999,6 +999,7 @@ def dashboard():
     dash_lst_dict['yrly_running_lst'] = {}
     dash_lst_dict['yrly_running_lst']['header'] = 'Running'
     dash_lst_dict['yrly_running_lst']['data'] = yrly_running_lst
+    dash_lst_dict['yrly_running_dict_lst'] = Yrly_mileage.lst_to_dict(yrly_running_lst)
     dash_lst_dict['yrly_cycling_lst'] = {}
     dash_lst_dict['yrly_cycling_lst']['header'] = 'Cycling'
     dash_lst_dict['yrly_cycling_lst']['data'] = yrly_cycling_lst
