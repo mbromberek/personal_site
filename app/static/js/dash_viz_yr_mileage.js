@@ -9,7 +9,7 @@ function initYrMileageChart(yr_lst, chart_name) {
   // console.log(yr_lst.length);
   // console.log(yr_lst[0]['tot_dist']);
   // console.log(yr_lst[0].year);
-  
+  yr_lst.reverse();
   yr_mileage_chart = d3.select('#' + chart_name), 
     margin = 200,
     chart_width = yr_mileage_chart.attr("width") - margin,
@@ -36,6 +36,7 @@ function initYrMileageChart(yr_lst, chart_name) {
     .attr("transform", "translate(0," + chart_height + ")")
     .call(d3.axisBottom(chart_x))
     .append("text")
+    // .attr("y", chart_height - 260)
     .attr("y", chart_height - 260)
     .attr("x", chart_width - 200)
     .attr("text-anchor", "end")
@@ -51,7 +52,7 @@ function initYrMileageChart(yr_lst, chart_name) {
     .append("text")
     .attr("transform", "rotate(-90)")
     // .attr("y", 6)
-    .attr("dy", "-3.1em")
+    .attr("dy", "-2.1em")
     .attr("text-anchor", "end")
     .attr("fill", "black")
     .attr("font-size", "20px")

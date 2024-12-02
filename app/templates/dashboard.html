@@ -5,12 +5,6 @@
 
 <div class="dashboard_page">
 
-    {% if dash_lst_dict['yrly_running_lst'] %}
-    {% with widget_data = dash_lst_dict['yrly_running_lst'][0] %}
-    {% include 'dashboard_widgets/_yearly_mileage_chart_widget.html' %}
-    {% endwith %}
-    {% endif %}
-
     {% if dash_lst_dict['wrkt_sum_lst'] %}
     {% include 'dashboard_widgets/_running_mileage_widget.html' %}
     {% endif %}
@@ -75,6 +69,8 @@
     {% endwith %}
     {% endif %}
 
+    {% include 'dashboard_widgets/_yearly_mileage_chart_widget.html' %}
+    
 
     <!-- <div style="overflow:auto; width:100%; ">
     </div> -->
