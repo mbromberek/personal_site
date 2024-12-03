@@ -11,15 +11,15 @@ function initYrMileageChart(yr_lst, chart_name) {
   // console.log(yr_lst[0].year);
   yr_lst.reverse();
   yr_mileage_chart = d3.select('#' + chart_name), 
-    margin = 200,
+    margin = 100,
     chart_width = yr_mileage_chart.attr("width") - margin,
-    chart_height = yr_mileage_chart.attr("height") - margin;
+    chart_height = yr_mileage_chart.attr("height") - 150;
   // console.log('width: ' + chart_width + ' height: ' + chart_height);
   
   yr_mileage_chart.append("text")
-    .attr("transform", "translate(100,0)")
-    .attr("x", 150)
-    .attr("y", 50)
+    .attr("transform", "translate(0,0)")
+    .attr("x", chart_width - 225)
+    .attr("y", 40)
     .attr("font-size", "24px")
     .text("Running Mileage");
   
@@ -27,7 +27,7 @@ function initYrMileageChart(yr_lst, chart_name) {
   chart_y = d3.scaleLinear().range([chart_height, 0]);
   
   chart_g = yr_mileage_chart.append("g")
-          .attr("transform", "translate(" + 100 + "," + 100 + ")");
+          .attr("transform", "translate(" + 75 + "," + 75 + ")");
   
   chart_x.domain(yr_lst.map(function(d) { return d.year; }));
   chart_y.domain([0, d3.max(yr_lst, function(d) { return d.tot_dist; })]);
@@ -37,7 +37,7 @@ function initYrMileageChart(yr_lst, chart_name) {
     .call(d3.axisBottom(chart_x))
     .append("text")
     // .attr("y", chart_height - 260)
-    .attr("y", chart_height - 260)
+    .attr("y", chart_height - 200)
     .attr("x", chart_width - 200)
     .attr("text-anchor", "end")
     .attr("fill", "black")
@@ -51,7 +51,7 @@ function initYrMileageChart(yr_lst, chart_name) {
     }).ticks(10))
     .append("text")
     .attr("transform", "rotate(-90)")
-    // .attr("y", 6)
+    .attr("x", chart_height - 300)
     .attr("dy", "-2.1em")
     .attr("text-anchor", "end")
     .attr("fill", "black")
@@ -114,7 +114,7 @@ function onMouseOver(i, d) {
     chart_g.append("text")
      .attr('class', 'val') 
      .attr('x', function() {
-         return chart_x(d.year);
+         return chart_x(d.year) - 5;
      })
      .attr('y', function() {
          return chart_y(d.tot_dist) - 15;
