@@ -58,6 +58,8 @@ function initYrMileageChart(yr_lst, chart_name) {
     .attr("font-size", "20px")
     .text("Distance");
 
+  //Works but has bar start from top and expand down and I wanted them to start at bottom and go up
+  /*
   chart_g.selectAll(".bar")
     .data(yr_lst)
     .enter().append("rect")
@@ -65,7 +67,7 @@ function initYrMileageChart(yr_lst, chart_name) {
     .on("mouseover", onMouseOver) //Add listener for the mouseover event
     .on("mouseout", onMouseOut)   //Add listener for the mouseout event
     .attr("x", function(d) { return chart_x(d.year); })
-    .attr("y", function(d) { return chart_y(d.tot_dist); })
+    .attr("y", function(d) { console.log(chart_y(d.tot_dist)); return chart_y(d.tot_dist); })
     .attr("width", chart_x.bandwidth())
     .transition()
     .ease(d3.easeLinear)
@@ -74,6 +76,28 @@ function initYrMileageChart(yr_lst, chart_name) {
       return i * 50;
     })
     .attr("height", function(d) { return chart_height - chart_y(d.tot_dist); });
+    */
+    
+    chart_g.selectAll(".bar")
+      .data(yr_lst)
+      .enter().append("rect")
+      .attr("class", "bar")
+      .on("mouseover", onMouseOver) //Add listener for the mouseover event
+      .on("mouseout", onMouseOut)   //Add listener for the mouseout event
+      .attr("x", function(d) { return chart_x(d.year); })
+      .attr("width", chart_x.bandwidth())
+      .attr("height", function(d) { return chart_height - chart_y(0); }) //Start with bar height at 0
+      .attr("y", function(d) { return chart_y(0); });
+    chart_g.selectAll("rect")
+      .transition()
+      .ease(d3.easeLinear)
+      .duration(500)
+      .attr("y", function(d) { return chart_y(d.tot_dist); })
+      .attr("height", function(d) { return chart_height - chart_y(d.tot_dist); })
+      .delay(function (d, i) {
+        return i * 50;
+      });
+      
 }
   
 //mouseover event handler function
