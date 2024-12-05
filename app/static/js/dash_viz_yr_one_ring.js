@@ -1,5 +1,5 @@
 var onering_chart;
-const MAX_CHART_HEIGHT = 1800
+const INIT_MAX_CHART_HEIGHT = 1800
 const RIVENDELL_DIST = 458
 
 function initYrOneRingChart(yr_lst, chart_name) {
@@ -30,7 +30,7 @@ function initYrOneRingChart(yr_lst, chart_name) {
   
   chart_x.domain(data.map(function(d) { return d.year; }));
   // chart_y.domain([0, d3.max(data, function(d) { return d.tot_dist; })]);
-  chart_y.domain([0, MAX_CHART_HEIGHT]);
+  chart_y.domain([0, d3.max([INIT_MAX_CHART_HEIGHT, data[0].tot_dist])]);
 
 /*  
   onering_chart_g.append("g")
