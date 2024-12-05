@@ -950,6 +950,10 @@ td.dashboard_row_dtl{
     /* border: 10px solid red; */
     /* flex */
 }
+.onering_chart{
+    height:400px;
+    padding-left:70px;
+}
 .dashboard_widget_goal{
     width:480px;
 }
@@ -1219,6 +1223,10 @@ td.dashboard_row_dtl{
     .dashboard_widget_thin{
         width:100%;
     }
+    .onering_chart{
+        padding-left:30px;
+    }
+
 
     .new_calc_btn{
         width:100%;
@@ -1437,6 +1445,10 @@ td.dashboard_row_dtl{
         width:375px;
     
     }
+    .onering_chart{
+        padding-left:30px;
+    }
+
 
     
 

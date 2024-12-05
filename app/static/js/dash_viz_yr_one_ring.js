@@ -10,19 +10,20 @@ function initYrOneRingChart(yr_lst, chart_name) {
   console.log('initYrOneRingChart');
   let data = [yr_lst[0]];
   onering_chart = d3.select('#' + chart_name), 
-    margin = 100,
+    margin = 200,
     chart_width = onering_chart.attr("width") - margin,
-    chart_height = onering_chart.attr("height") - 150;
+    chart_height = onering_chart.attr("height") - 100;
   // console.log('width: ' + chart_width + ' height: ' + chart_height);
   
   onering_chart.append("text")
     .attr("transform", "translate(0,0)")
-    .attr("x", chart_width - 225)
+    // .attr("x", chart_width - 225)
+    .attr("x", chart_width - 100)
     .attr("y", 40)
     .attr("font-size", "24px")
     .text("Shire to Mount Doom");
   
-  chart_x = d3.scaleBand().range([0, chart_width]).padding(0.4),
+  chart_x = d3.scaleBand().range([0, chart_width]).padding(0.0),
   chart_y = d3.scaleLinear().range([chart_height, 0]);
   
   onering_chart_g = onering_chart.append("g")
@@ -64,26 +65,26 @@ function initYrOneRingChart(yr_lst, chart_name) {
   
 
     
-    onering_chart_g.selectAll(".bar")
-      .data(data)
-      .enter().append("rect")
-      .attr("class", "bar")
-      .on("mouseover", onMouseOver) //Add listener for the mouseover event
-      .on("mouseout", onMouseOut)   //Add listener for the mouseout event
-      .attr("x", function(d) { return chart_x(d.year); })
-      .attr("width", chart_x.bandwidth())
-      .attr("height", function(d) { return chart_height - chart_y(0); }) //Start with bar height at 0
-      .attr("y", function(d) { return chart_y(0); })
-    // onering_chart_g.selectAll("rect")
-      .transition()
-      .ease(d3.easeLinear)
-      .duration(500)
-      .attr("y", function(d) { return chart_y(d.tot_dist); })
-      .attr("height", function(d) { return chart_height - chart_y(d.tot_dist); })
-      .delay(function (d, i) {
-        return i * 50;
-      });
+  onering_chart_g.selectAll(".bar")
+    .data(data)
+    .enter().append("rect")
     .attr("class", "mileage_bar")
+    .on("mouseover", onMouseOver) //Add listener for the mouseover event
+    .on("mouseout", onMouseOut)   //Add listener for the mouseout event
+    .attr("x", function(d) { return chart_x(d.year); })
+    .attr("width", chart_x.bandwidth())
+    // .attr("dx","10em")
+    .attr("height", function(d) { return chart_height - chart_y(0); }) //Start with bar height at 0
+    .attr("y", function(d) { return chart_y(0); })
+  // onering_chart_g.selectAll("rect")
+    .transition()
+    .ease(d3.easeLinear)
+    .duration(1000)
+    .attr("y", function(d) { return chart_y(d.tot_dist); })
+    .attr("height", function(d) { return chart_height - chart_y(d.tot_dist); })
+    .delay(function (d, i) {
+      return i * 50;
+    });
 
     addMilestone(onering_chart_g, chart_width, chart_y, 'Shire', 0);
     addMilestone(onering_chart_g, chart_width, chart_y, 'Rivendell', RIVENDELL_DIST);
@@ -137,7 +138,8 @@ function addMilestone(g, width, y, milestone_name, milestone_dist){
   g.append("g")
       .append("text")
       // .attr("dx", "-4em")
-      .attr("dx", "12em")
+      // .attr("dx", "12em")
+      .attr("dx", "4.5em")
       // .attr("x", )
       .attr("y", y(milestone_dist))
       .attr("text-anchor", "middle")
