@@ -8,11 +8,6 @@ function initYrOneRingChart(yr_lst, chart_name) {
   let onering_onering_chart_g;
 
   console.log('initYrOneRingChart');
-  // console.log(yr_lst);
-  // console.log(yr_lst.length);
-  // console.log(yr_lst[0]['tot_dist']);
-  // console.log(yr_lst[0].year);
-  // yr_lst.reverse();
   let data = [yr_lst[0]];
   onering_chart = d3.select('#' + chart_name), 
     margin = 100,
@@ -37,7 +32,7 @@ function initYrOneRingChart(yr_lst, chart_name) {
   // chart_y.domain([0, d3.max(data, function(d) { return d.tot_dist; })]);
   chart_y.domain([0, MAX_CHART_HEIGHT]);
 
-  
+/*  
   onering_chart_g.append("g")
     .attr("transform", "translate(0," + chart_height + ")")
     .call(d3.axisBottom(chart_x))
@@ -50,7 +45,7 @@ function initYrOneRingChart(yr_lst, chart_name) {
     // .attr("font-size", "20px")
     // .attr("font-family", "Saira")
     // .text("Year")
-  ;
+  ;*/
     
 
   onering_chart_g.append("g")
@@ -89,6 +84,7 @@ function initYrOneRingChart(yr_lst, chart_name) {
         return i * 50;
       });
 
+    addMilestone(onering_chart_g, chart_width, chart_y, 'Shire', 0);
     addMilestone(onering_chart_g, chart_width, chart_y, 'Rivendell', RIVENDELL_DIST);
     addMilestone(onering_chart_g, chart_width, chart_y, 'Lothlorien', 920);
     addMilestone(onering_chart_g, chart_width, chart_y, 'Rouros', 1309);
@@ -139,17 +135,19 @@ function initYrOneRingChart(yr_lst, chart_name) {
 function addMilestone(g, width, y, milestone_name, milestone_dist){
   g.append("g")
       .append("text")
-      .attr("dx", "-4em")
+      // .attr("dx", "-4em")
+      .attr("dx", "12em")
+      // .attr("x", )
       .attr("y", y(milestone_dist))
-      .attr("text-anchor", "end")
+      .attr("text-anchor", "middle")
       .attr("fill", "black")
-      .attr("font-size", "10px")
+      .attr("font-size", "14px")
       .text(milestone_name);
   g.append("g")
       .append("rect")
       .attr("class","dotted")
       .attr("stroke-width", "1px")
-      .attr("dx", "-4em")
+      // .attr("dx", "-4em")
       .attr("width", width)
       .attr("height", ".5px")
       .attr("y", y(milestone_dist))
