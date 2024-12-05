@@ -1,9 +1,9 @@
 var yr_mileage_chart;
-var chart_x, chart_y;
-var chart_height, chart_width;
-var chart_g;
 
 function initYrMileageChart(yr_lst, chart_name) {
+  let chart_g;
+  let chart_x, chart_y;
+  let chart_height, chart_width;
   console.log('initYrMileageChart');
   // console.log(yr_lst);
   // console.log(yr_lst.length);
@@ -97,47 +97,48 @@ function initYrMileageChart(yr_lst, chart_name) {
       .delay(function (d, i) {
         return i * 50;
       });
+
+//mouseover event handler function
+    function onMouseOver(i, d) {
+        d3.select(this).attr('class', 'highlight');
+        //Animation for making hovered bar wider and taller
+        /*d3.select(this)
+          .transition()     // adds animation
+          .duration(400)
+        .attr('width', chart_x.bandwidth() + 5)
+        .attr("y", function(d) { return chart_y(d.tot_dist) - 10; })
+        .attr("height", function(d) { return chart_height - chart_y(d.tot_dist) + 10; });*/
+    
+        chart_g.append("text")
+         .attr('class', 'val') 
+         .attr('x', function() {
+             return chart_x(d.year) - 5;
+         })
+         .attr('y', function() {
+             return chart_y(d.tot_dist) - 15;
+         })
+         .text(function() {
+             return [ '' +d.tot_dist];  // Value of the text
+         });
+    }
+    
+    //mouseout event handler function
+    function onMouseOut(i, d) {
+        // use the text label class to remove label on mouseout
+        d3.select(this).attr('class', 'bar');
+        //Animation for making hovered bar wider and taller
+        /*d3.select(this)
+          .transition()     // adds animation
+          .duration(400)
+          .attr('width', chart_x.bandwidth())
+          .attr("y", function(d) { return chart_y(d.tot_dist); })
+          .attr("height", function(d) { return chart_height - chart_y(d.tot_dist); });*/
+    
+        d3.selectAll('.val')
+          .remove()
+    }
       
 }
   
-//mouseover event handler function
-function onMouseOver(i, d) {
-    d3.select(this).attr('class', 'highlight');
-    //Animation for making hovered bar wider and taller
-    /*d3.select(this)
-      .transition()     // adds animation
-      .duration(400)
-    .attr('width', chart_x.bandwidth() + 5)
-    .attr("y", function(d) { return chart_y(d.tot_dist) - 10; })
-    .attr("height", function(d) { return chart_height - chart_y(d.tot_dist) + 10; });*/
-
-    chart_g.append("text")
-     .attr('class', 'val') 
-     .attr('x', function() {
-         return chart_x(d.year) - 5;
-     })
-     .attr('y', function() {
-         return chart_y(d.tot_dist) - 15;
-     })
-     .text(function() {
-         return [ '' +d.tot_dist];  // Value of the text
-     });
-}
-
-//mouseout event handler function
-function onMouseOut(i, d) {
-    // use the text label class to remove label on mouseout
-    d3.select(this).attr('class', 'bar');
-    //Animation for making hovered bar wider and taller
-    /*d3.select(this)
-      .transition()     // adds animation
-      .duration(400)
-      .attr('width', chart_x.bandwidth())
-      .attr("y", function(d) { return chart_y(d.tot_dist); })
-      .attr("height", function(d) { return chart_height - chart_y(d.tot_dist); });*/
-
-    d3.selectAll('.val')
-      .remove()
-}
   
   
