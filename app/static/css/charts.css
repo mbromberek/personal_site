@@ -56,11 +56,11 @@
     border:3px solid black;
     font-size:12pt;
 }
-.bar {
-    fill: steelblue;
+.mileage_bar {
+    fill: #43d9b8;
 }
 
-.highlight {
+.mileage_highlight {
     fill: orange;
 }
 

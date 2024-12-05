@@ -81,7 +81,7 @@ function initYrMileageChart(yr_lst, chart_name) {
     chart_g.selectAll(".bar")
       .data(yr_lst)
       .enter().append("rect")
-      .attr("class", "bar")
+      .attr("class", "mileage_bar")
       .on("mouseover", onMouseOver) //Add listener for the mouseover event
       .on("mouseout", onMouseOut)   //Add listener for the mouseout event
       .attr("x", function(d) { return chart_x(d.year); })
@@ -100,7 +100,7 @@ function initYrMileageChart(yr_lst, chart_name) {
 
 //mouseover event handler function
     function onMouseOver(i, d) {
-        d3.select(this).attr('class', 'highlight');
+        d3.select(this).attr('class', 'mileage_highlight');
         //Animation for making hovered bar wider and taller
         /*d3.select(this)
           .transition()     // adds animation
@@ -125,7 +125,7 @@ function initYrMileageChart(yr_lst, chart_name) {
     //mouseout event handler function
     function onMouseOut(i, d) {
         // use the text label class to remove label on mouseout
-        d3.select(this).attr('class', 'bar');
+        d3.select(this).attr('class', 'mileage_bar');
         //Animation for making hovered bar wider and taller
         /*d3.select(this)
           .transition()     // adds animation

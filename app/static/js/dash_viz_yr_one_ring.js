@@ -83,6 +83,7 @@ function initYrOneRingChart(yr_lst, chart_name) {
       .delay(function (d, i) {
         return i * 50;
       });
+    .attr("class", "mileage_bar")
 
     addMilestone(onering_chart_g, chart_width, chart_y, 'Shire', 0);
     addMilestone(onering_chart_g, chart_width, chart_y, 'Rivendell', RIVENDELL_DIST);
@@ -92,7 +93,7 @@ function initYrOneRingChart(yr_lst, chart_name) {
     
     //mouseover event handler function
     function onMouseOver(i, d) {
-        d3.select(this).attr('class', 'highlight');
+        d3.select(this).attr('class', 'mileage_highlight');
         //Animation for making hovered bar wider and taller
         /*d3.select(this)
           .transition()     // adds animation
@@ -117,7 +118,7 @@ function initYrOneRingChart(yr_lst, chart_name) {
     //mouseout event handler function
     function onMouseOut(i, d) {
         // use the text label class to remove label on mouseout
-        d3.select(this).attr('class', 'bar');
+        d3.select(this).attr('class', 'mileage_bar');
         //Animation for making hovered bar wider and taller
         /*d3.select(this)
           .transition()     // adds animation
