@@ -70,6 +70,7 @@
     {% endif %}
 
     {% include 'dashboard_widgets/_yearly_mileage_chart_widget.html' %}
+    {% include 'dashboard_widgets/_yearly_goal_one_ring_chart_widget.html' %}
     
 
     <!-- <div style="overflow:auto; width:100%; ">
@@ -109,6 +110,7 @@
 <script>
     initGoalChart({{ dash_lst_dict['yrly_goals_dict_lst']|tojson|safe }});
     initYrMileageChart({{ dash_lst_dict['yrly_running_dict_lst']|tojson|safe }}, 'yr_mileage_chart'); 
+    initYrOneRingChart({{ dash_lst_dict['yrly_running_dict_lst']|tojson|safe }}, 'yr_one_ring_chart'); 
 </script>
 
 
