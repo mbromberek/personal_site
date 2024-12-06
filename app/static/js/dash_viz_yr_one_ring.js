@@ -40,11 +40,6 @@ function initYrOneRingChart(yr_lst, chart_name) {
   chart_x.domain(data.map(function(d) { return d.year; }));
   chart_y.domain([0, d3.max([INIT_MAX_CHART_HEIGHT, data[0].tot_dist])]);
 
-  onering_chart_g.append("g")
-    .call(d3.axisLeft(chart_y).tickFormat(function(d){
-      return d;
-    }).ticks(10))
-  
   onering_chart_g.selectAll(".bar")
     .data(data)
     .enter().append("rect")
@@ -61,7 +56,12 @@ function initYrOneRingChart(yr_lst, chart_name) {
     .delay(function (d, i) {
       return i * 50;
     });
-
+  
+  onering_chart_g.append("g")
+  .call(d3.axisLeft(chart_y).tickFormat(function(d){
+    return d;
+  }).ticks(10))
+  
   addMilestone(onering_chart_g, chart_width, chart_y, 'Shire', 0);
   addMilestone(onering_chart_g, chart_width, chart_y, 'Rivendell', RIVENDELL_DIST);
   addMilestone(onering_chart_g, chart_width, chart_y, 'Lothlorien', LOTHLORIEN_DIST);
