@@ -1,7 +1,7 @@
 var goals_data;
 var inner_goal_radius;
 var goal_radius;
-var graph_color = d3.scaleOrdinal(['#4daf4a','#377eb8','#ff7f00','#984ea3','#e41a1c']);  
+var graph_color = d3.scaleOrdinal(['#43d9b8','#377eb8','#ff7f00','#984ea3','#e41a1c']);  
 var curr_goal = {'complete':100, 'remaining':100};
 var debug_goals_data = [
   { description: "Run", goal: 1700, pct_comp: "0.1601352941176470588235294118", remaining: "1427.77", tot: "272.23", uom: "miles"}, 
