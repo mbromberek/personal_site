@@ -14,28 +14,15 @@ function initYrOneRingChart(yr_lst, chart_name) {
   onering_chart = d3.select('#' + chart_name), 
     margin = 200,
     chart_width = onering_chart.attr("width") - margin,
-    chart_height = onering_chart.attr("height") - 100;
-  // console.log('width: ' + chart_width + ' height: ' + chart_height);
+    chart_height = onering_chart.attr("height") - margin/2;
   
-  onering_chart.append("text")
-    .attr("transform", "translate(0,0)")
-    .attr("x", chart_width - 70)
-    .attr("y", 25)
-    .attr("font-size", "18px")
-    .text("Shire to Mount Doom");
-
-  onering_chart.append("text")
-    .attr("transform", "translate(0,0)")
-    .attr("x", chart_width - 30)
-    .attr("y", 50)
-    .attr("font-size", "16px")
-    .text(MOUNTDOOM_DIST + " miles");
-    
+  document.getElementById('onering_chart_desc').innerHTML = MOUNTDOOM_DIST + " miles";
+  
   chart_x = d3.scaleBand().range([0, chart_width]).padding(0.0),
   chart_y = d3.scaleLinear().range([chart_height, 0]);
   
   onering_chart_g = onering_chart.append("g")
-          .attr("transform", "translate(" + 75 + "," + 75 + ")");
+          .attr("transform", "translate(" + 85 + "," + 25 + ")");
   
   chart_x.domain(data.map(function(d) { return d.year; }));
   chart_y.domain([0, d3.max([INIT_MAX_CHART_HEIGHT, data[0].tot_dist])]);
