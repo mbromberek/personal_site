@@ -19,8 +19,14 @@
     {% include 'dashboard_widgets/_yearly_goal_widget.html' %}
     {% endif %}
 
+    {% if dash_lst_dict['long_run_splits'] %}
+    {% include 'dashboard_widgets/_long_run_widget.html' %}
+    {% endif %}
+    
     {% include 'dashboard_widgets/_yearly_goal_chart_widget.html' %}
 
+    {% include 'dashboard_widgets/_yearly_goal_one_ring_chart_widget.html' %}
+    
     {% if dash_lst_dict['wkly_mileage_lst'] %}
     {% include 'dashboard_widgets/_running_weekly_mileage_widget.html' %}
     {% endif %}
@@ -31,12 +37,10 @@
     {% endwith %}
     {% endif %}
 
+    {% include 'dashboard_widgets/_yearly_mileage_chart_widget.html' %}
+
     {% if dash_lst_dict['nxt_gear'] %}
     {% include 'dashboard_widgets/_next_gear_widget.html' %}
-    {% endif %}
-
-    {% if dash_lst_dict['long_run_splits'] %}
-    {% include 'dashboard_widgets/_long_run_widget.html' %}
     {% endif %}
     
     {% if dash_lst_dict['yrly_running_lst'] %}
@@ -69,8 +73,6 @@
     {% endwith %}
     {% endif %}
 
-    {% include 'dashboard_widgets/_yearly_mileage_chart_widget.html' %}
-    {% include 'dashboard_widgets/_yearly_goal_one_ring_chart_widget.html' %}
     
 
     <!-- <div style="overflow:auto; width:100%; ">
