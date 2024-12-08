@@ -67,12 +67,17 @@ function addMilestone(g, width, y, milestone_name, milestone_dist){
       .attr("fill", "black")
       .attr("font-size", "14px")
       .text(milestone_name);
+  let line_type = "dotted";
+  if (milestone_dist == 0){
+    line_type = "solid";
+  }
   g.append("g")
       .append("rect")
-      .attr("class","dotted")
+      .attr("class",line_type)
       .attr("stroke-width", "1px")
       .attr("width", width)
-      .attr("height", ".5px")
+      // .attr("height", ".5px")
+      .attr("height", "1px")
       .attr("y", y(milestone_dist))
       .style("opacity", 0.8)
   ;
