@@ -734,11 +734,11 @@ def workout():
 
                 map_dict['lat_lon'] = wrkt_df[['latitude', 'longitude']].dropna().values.tolist()
 
-                wrkt_df['altitude_ft'].fillna(method='ffill', inplace=True)
-                wrkt_df['altitude_ft'].fillna(method='bfill', inplace=True)
+                wrkt_df['altitude_ft'] = wrkt_df['altitude_ft'].ffill()
+                wrkt_df['altitude_ft'] = wrkt_df['altitude_ft'].bfill()
                 wrkt_df['ele_roll'] = wrkt_df['altitude_ft'].rolling(15).mean()
-                wrkt_df['hr'].fillna(method='ffill', inplace=True)
-                wrkt_df['hr'].fillna(method='bfill', inplace=True)
+                wrkt_df['hr'] = wrkt_df['hr'].ffill()
+                wrkt_df['hr'] = wrkt_df['hr'].bfill() #fill na/nan values
 
                 # Get Current pace in minutes with decimal for seconds
                 wrkt_df['dist_mi_diff'] = wrkt_df['dist_mi'].diff()
@@ -747,8 +747,8 @@ def workout():
                 wrkt_df['dur_sec_roll'] = wrkt_df['dur_sec_diff'].rolling(min_periods=1, window=11).sum()
                 wrkt_df['curr_pace_sec'] = wrkt_df['dur_sec_roll'] / wrkt_df['dist_mi_roll']
                 # Set infinite or NaN to 0
-                wrkt_df['curr_pace_sec'].replace(np.inf, 0, inplace=True)
-                wrkt_df['curr_pace_sec'].fillna(0, inplace=True)
+                wrkt_df['curr_pace_sec'] = wrkt_df['curr_pace_sec'].replace(np.inf, 0)
+                wrkt_df['curr_pace_sec'] = wrkt_df['curr_pace_sec'].fillna(0)
                 # If pace was slower than slowest pace set to that
                 wrkt_df['curr_pace_sec'].values[wrkt_df['curr_pace_sec'].values >const.SLOWEST_PACE] = const.SLOWEST_PACE 
                 # Set curr_pace_sec of first 10 records to pace for 11th record
