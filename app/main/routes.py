@@ -933,8 +933,8 @@ def dashboard():
     curr_yr_dict = {}
     yrly_goals_lst = []
     for idx, yr_workout_result in enumerate(yrly_results):
-        logger.debug(idx)
-        logger.debug(yr_workout_result)
+        # logger.debug(idx)
+        # logger.debug(yr_workout_result)
         if yr_workout_result.dt_year() == datetime.now().strftime('%Y'):
             goal = Yrly_goal.create_goal(yr_workout_result)
             if len(goal) >0:
@@ -967,7 +967,7 @@ def dashboard():
 
     curr_yr_total.duration = curr_yr_total.dur_str()
     yrly_workout_lst.append(curr_yr_total)
-    logger.debug(yrly_workout_lst)
+    # logger.debug(yrly_workout_lst)
     
     if len(yrly_workout_lst) > 0 and yrly_workout_lst[0].dt_year() == datetime.now().strftime('%Y'):
         goal = Yrly_goal.create_goal(yrly_workout_lst[0])
