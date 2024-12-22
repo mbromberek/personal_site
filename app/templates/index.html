@@ -128,6 +128,9 @@
             {% include 'dashboard_widgets/_yearly_goal_chart_widget.html' %}
             {% endif %}
         </div>
+        <div class="home_section_content">
+            {% include 'dashboard_widgets/_yearly_goal_one_ring_chart_widget.html' %}
+        </div>
 
     </div>
 
@@ -195,6 +198,7 @@
 #}
 <script>
     initGoalChart({{ dash_lst_dict['yrly_goals_dict_lst']|tojson|safe }});
+    initYrOneRingChart({{ dash_lst_dict['curr_year_run']|tojson|safe }}, 'yr_one_ring_chart'); 
 </script>
 
 {% endblock %}

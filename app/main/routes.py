@@ -88,7 +88,12 @@ def index():
         wrkt_sum.duration = wrkt_sum.dur_str()
         i = Wrkt_sum.getInsertPoint(wrkt_sum, wrkt_sum_lst)
         wrkt_sum_lst.insert(i,wrkt_sum)
+        if wrkt_sum.rng == 'Current Year':
+            curr_year_run = {'year':min_yrly_dt.strftime('%Y'), 'tot_dist':wrkt_sum.tot_dist}
+            dash_lst_dict['curr_year_run'] = curr_year_run
     dash_lst_dict['wrkt_sum_lst'] = wrkt_sum_lst
+    logger.debug('Year Running: ' + str(curr_year_run))
+    logger.debug(wrkt_sum_lst)
 
     books={}
     # Get Currently Reading books
