@@ -112,7 +112,8 @@
 <script>
     initGoalChart({{ dash_lst_dict['yrly_goals_dict_lst']|tojson|safe }});
     initYrMileageChart({{ dash_lst_dict['yrly_running_dict_lst']|tojson|safe }}, 'yr_mileage_chart'); 
-    initYrOneRingChart({{ dash_lst_dict['yrly_running_dict_lst']|tojson|safe }}, 'yr_one_ring_chart'); 
+    // initYrOneRingChart({{ dash_lst_dict['yrly_running_dict_lst']|tojson|safe }}, 'yr_one_ring_chart'); 
+    initYrOneRingChart({{ dash_lst_dict['yrly_running_dict_lst'][0]|tojson|safe }}, 'yr_one_ring_chart'); 
 </script>
 
 

@@ -5,12 +5,12 @@ const LOTHLORIEN_DIST = 920;
 const ROUROS_DIST = 1309;
 const MOUNTDOOM_DIST = 1779;
 
-function initYrOneRingChart(yr_lst, chart_name) {
+function initYrOneRingChart(yr, chart_name) {
   let chart_height, chart_width;
   let onering_onering_chart_g;
 
   console.log('initYrOneRingChart');
-  let data = [yr_lst[0]];
+  let data = [yr]; //need data to be a list
   onering_chart = d3.select('#' + chart_name), 
     margin = 200,
     chart_width = onering_chart.attr("width") - margin,
