@@ -953,6 +953,9 @@ td.dashboard_row_dtl{
 .onering_chart{
     padding-left:80px;
 }
+.onering_chart_thin{
+  padding-left:50px;
+}
 .dashboard_widget_goal{
     width:480px;
 }
@@ -1445,6 +1448,9 @@ td.dashboard_row_dtl{
     
     }
     .onering_chart{
+        padding-left:30px;
+    }
+    .onering_chart_thin{
         padding-left:30px;
     }
 

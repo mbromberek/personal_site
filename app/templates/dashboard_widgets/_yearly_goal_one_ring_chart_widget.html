@@ -1,12 +1,12 @@
-        <div class="dashboard_widget {% if destPage and destPage == 'home' %}dashboard_widget_thin{% endif %}" id="one_ring_run_chart_container" style="height:355px;">
+        <div class="dashboard_widget {% if destPage and destPage == 'home' %}dashboard_widget_thin{% endif %}" id="one_ring_run_chart_container" style="height:350px;">
             <div id="onering_run_chart_title">
                 Shire to Mount Doom
             </div>
             <div id="onering_chart_desc">
                 &nbsp;
             </div>
-            <div class="onering_chart">
-                <svg  id="yr_one_ring_chart" width="325" height="350" >
+            <div class=" {% if destPage and destPage == 'home' %}onering_chart_thin{% else %}onering_chart{% endif %}">
+                <svg  id="yr_one_ring_chart" width="325" height="345" >
                 </svg>
             </div>
         </div>
