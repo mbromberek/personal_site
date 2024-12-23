@@ -16,7 +16,7 @@ function initYrOneRingChart(yr, chart_name) {
     chart_width = onering_chart.attr("width") - margin,
     chart_height = onering_chart.attr("height") - margin/2;
   
-  document.getElementById('onering_chart_desc').innerHTML = "Ran " + data[0].tot_dist + " of " + MOUNTDOOM_DIST + " miles";
+  document.getElementById('onering_chart_desc').innerHTML = data[0].tot_dist + " of " + MOUNTDOOM_DIST + " miles";
   
   chart_x = d3.scaleBand().range([0, chart_width]).padding(0.0),
   chart_y = d3.scaleLinear().range([chart_height, 0]);
