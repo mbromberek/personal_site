@@ -516,8 +516,8 @@ def get_long_run_splits(usr_id, yr):
     long_run_splits['long_run_ct'] = long_run_ct
     long_run_splits['negative_split_ct'] = negative_split_ct
     long_run_splits['positive_split_ct'] = positive_split_ct
-    long_run_splits['negative_splits_pct'] = negative_split_ct / long_run_ct *100
-    long_run_splits['positive_splits_pct'] = positive_split_ct / long_run_ct *100
+    long_run_splits['negative_splits_pct'] = 0 if long_run_ct == 0 else negative_split_ct / long_run_ct *100 
+    long_run_splits['positive_splits_pct'] = 0 if long_run_ct == 0 else positive_split_ct / long_run_ct *100
     
     return long_run_splits
     
