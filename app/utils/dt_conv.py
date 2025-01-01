@@ -19,3 +19,6 @@ def get_date(s_date):
             pass
 
     raise ValueError("Entered date is not in valid format")
+
+def year_to_date(yr):
+    return datetime(int(yr), 1, 1)
