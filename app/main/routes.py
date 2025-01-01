@@ -920,10 +920,17 @@ def dashboard():
     # Sum up Count and Duration for all workouts by year
     min_yrly_dt = datetime(const.MIN_YR_COMP, 1, 1)
     query = Yrly_mileage.query.filter_by(user_id=current_user.id)
-    # query = query.filter(Yrly_mileage.type.in_(['Strength Training']))
     query = query.filter(Yrly_mileage.dt_by_yr >=min_yrly_dt)
-    # yrly_results = sorted(query, reverse=True)
+    
     yrly_results = sorted(query, key=lambda x: x.dt_by_yr, reverse=True)
+    # If current year is not in results or results are empty add it
+    if len(yrly_results) == 0 or \
+        not (yrly_results[0].type == 'Running' and yrly_results[0].dt_year() == datetime.now().strftime('%Y')):
+        default_yrly_run_mileage = Yrly_mileage.new_yr_default('Running', datetime.now().strftime('%Y'), current_user.id)
+        logger.debug('****** default year mileage ******')
+        logger.debug(default_yrly_run_mileage)
+        logger.debug('****** default year mileage ******')
+        yrly_results.insert(0, default_yrly_run_mileage)
     yrly_strength_lst = []
     yrly_running_lst = []
     yrly_cycling_lst = []
