@@ -1,7 +1,7 @@
 # Customer classes
 from app import logger
 from app import db
-from app.utils import tm_conv, const
+from app.utils import tm_conv, const, dt_conv
 
 class Yrly_mileage(db.Model):
     __table_args__ = {"schema": "fitness", 'comment':'summary of workouts by type and year'}
@@ -82,3 +82,15 @@ class Yrly_mileage(db.Model):
         for yr in yr_lst:
             yr_dict_lst.append(yr.to_dict())
         return yr_dict_lst
+    @staticmethod
+    def new_yr_default(type, yr, user_id):
+        yr_mileage = Yrly_mileage()
+        yr_mileage.type = type
+        yr_mileage.user_id = user_id
+        yr_mileage.nbr = 0
+        yr_mileage.dt_by_yr = dt_conv.year_to_date(yr)
+        yr_mileage.tot_dist = 0
+        yr_mileage.tot_sec = 0 
+        yr_mileage.dist_delta_pct = 0
+        yr_mileage.tm_delta_pct = 0
+        return yr_mileage
