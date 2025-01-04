@@ -61,11 +61,12 @@ class Yrly_goal(object):
         return goal_dict_lst
 
     @staticmethod
-    def create_goal(yr_mileage):
+    def create_goal(yr_mileage, newType=''):
+        type_to_use = yr_mileage.type if newType == '' else newType
         yr_goal = Yrly_goal()
         yrly_goals_lst = []
 
-        if yr_mileage.type == 'Running':
+        if type_to_use == 'Running':
             yr_goal.description = 'Run'
             yr_goal.goal = 1779
             yr_goal.tot = yr_mileage.tot_dist
@@ -77,7 +78,7 @@ class Yrly_goal(object):
             yr_goal.miles_needed_per_week = yr_goal.miles_per_day * 7
             yrly_goals_lst.append(yr_goal)
             run_set = True
-        elif yr_mileage.type == 'Cycling':
+        elif type_to_use == 'Cycling':
             yr_goal = Yrly_goal()
             yr_goal.goal = 300
             yr_goal.uom = 'miles'
@@ -102,7 +103,7 @@ class Yrly_goal(object):
             yr_goal.miles_needed_per_month = yr_goal.miles_per_day * 30
 
             yrly_goals_lst.append(yr_goal)
-        elif yr_mileage.type == 'Total':
+        elif type_to_use == 'Total':
             yr_goal.description = 'Total'
             yr_goal.goal = 2025
             yr_goal.tot = yr_mileage.tot_dist
