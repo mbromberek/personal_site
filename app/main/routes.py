@@ -72,7 +72,7 @@ def index():
         yr_mileage.pace = yr_mileage.pace_str()
         yrly_mileage_lst.append(yr_mileage)
     if curr_yr_total != '':
-        goal = Yrly_goal.create_goal(curr_yr_total)
+        goal = Yrly_goal.create_goal(curr_yr_total, 'Total')
         if len(goal) >0:
             yrly_goals_lst.extend(goal)
     yrly_goals_lst = Yrly_goal.generate_nonstarted_goals(yrly_goals_lst)
@@ -969,10 +969,11 @@ def dashboard():
             curr_yr_total = curr_yr_total + yr_workout_result
         curr_yr_dict[yr_workout_result.type] = idx
 
+    # Since loop is done add calculated Total mileage goal
     curr_yr_total.duration = curr_yr_total.dur_str()
     yrly_workout_lst.append(curr_yr_total)
     if len(yrly_workout_lst) > 0 and yrly_workout_lst[0].dt_year() == datetime.now().strftime('%Y'):
-        goal = Yrly_goal.create_goal(yrly_workout_lst[0])
+        goal = Yrly_goal.create_goal(yrly_workout_lst[0], 'Total')
         if len(goal) >0:
             yrly_goals_lst.extend(goal)
     
