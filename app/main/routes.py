@@ -927,9 +927,6 @@ def dashboard():
     if len(yrly_results) == 0 or \
         not (yrly_results[0].type == 'Running' and yrly_results[0].dt_year() == datetime.now().strftime('%Y')):
         default_yrly_run_mileage = Yrly_mileage.new_yr_default('Running', datetime.now().strftime('%Y'), current_user.id)
-        logger.debug('****** default year mileage ******')
-        logger.debug(default_yrly_run_mileage)
-        logger.debug('****** default year mileage ******')
         yrly_results.insert(0, default_yrly_run_mileage)
     yrly_strength_lst = []
     yrly_running_lst = []
@@ -941,7 +938,7 @@ def dashboard():
     yrly_goals_lst = []
     for idx, yr_workout_result in enumerate(yrly_results):
         # logger.debug(idx)
-        # logger.debug(yr_workout_result)
+        logger.debug(yr_workout_result)
         if yr_workout_result.dt_year() == datetime.now().strftime('%Y'):
             goal = Yrly_goal.create_goal(yr_workout_result)
             if len(goal) >0:
@@ -974,8 +971,6 @@ def dashboard():
 
     curr_yr_total.duration = curr_yr_total.dur_str()
     yrly_workout_lst.append(curr_yr_total)
-    # logger.debug(yrly_workout_lst)
-    
     if len(yrly_workout_lst) > 0 and yrly_workout_lst[0].dt_year() == datetime.now().strftime('%Y'):
         goal = Yrly_goal.create_goal(yrly_workout_lst[0])
         if len(goal) >0:
