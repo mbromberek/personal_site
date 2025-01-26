@@ -925,7 +925,7 @@ def dashboard():
     yrly_results = sorted(query, key=lambda x: x.dt_by_yr, reverse=True)
     # If current year is not in results or results are empty add it
     if len(yrly_results) == 0 or \
-        not (yrly_results[0].type == 'Running' and yrly_results[0].dt_year() == datetime.now().strftime('%Y')):
+        not (yrly_results[0].dt_year() == datetime.now().strftime('%Y')):
         default_yrly_run_mileage = Yrly_mileage.new_yr_default('Running', datetime.now().strftime('%Y'), current_user.id)
         yrly_results.insert(0, default_yrly_run_mileage)
     yrly_strength_lst = []
