@@ -1002,12 +1002,21 @@ class Moly_mileage(db.Model):
             'dist_delta_pct': self.dist_delta_pct,
             'tm_delta_pct': self.tm_delta_pct,
             'code': self.dt_by_mo.strftime('%Y-%m'),
-            'value': float(self.tot_dist),
+            'value': float(self.tot_dist) if self.tot_dist != None else 0,
             'max_dist': self.max_dist,
             'max_sec': self.max_sec
         }
         return data
-
+    
+    @staticmethod
+    def get_month_data(usr_id, year, month):
+        month_year_dt = datetime(year, month, 1)
+        month_year_fitness_dict = {}
+        query = Moly_mileage.query.filter_by(user_id=usr_id)
+        query = query.filter(Moly_mileage.dt_by_mo == month_year_dt)
+        for month_mileage in query:
+            month_year_fitness_dict[month_mileage.type] = month_mileage.to_dict()
+        return month_year_fitness_dict
 
 
 class Workout_zone(db.Model):
