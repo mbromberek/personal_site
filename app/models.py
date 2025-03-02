@@ -819,6 +819,7 @@ class Workout_type(db.Model):
     __table_args__ = {"schema": "fitness", 'comment':'Type of workout: Running, Cycling, Swimming, Indoor Running'}
     id = db.Column(db.Integer, primary_key=True)
     workouts = db.relationship('Workout', backref='type_det', lazy='dynamic')
+    goals = db.relationship('Goal', backref='workout_type_det', lazy='dynamic')
     nm = db.Column(db.String(50), index=True, nullable=False, unique=True)
     grp = db.Column(db.String(50), nullable=True)
     ordr = db.Column(db.Integer, nullable=False)
