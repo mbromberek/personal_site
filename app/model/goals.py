@@ -146,3 +146,52 @@ class Yrly_goal(object):
             yrly_goals_mod_lst.extend(Yrly_goal.create_goal(yr))
 
         return yrly_goals_mod_lst
+
+class Goal(db.Model):
+    __table_args__ = {"schema": "fitness", 'comment':'Stores goals for user'}
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('fitness.user.id'))
+    description = db.Column(db.String(100), nullable=False)
+    start_dt: db.Column(db.DateTime, index=False, nullable=False)
+    end_dt: db.Column(db.DateTime, index=False, nullable=False)
+    workout_type_id = db.Column(db.Integer, db.ForeignKey('fitness.workout_type.id'))
+    goal_type_id = db.Column(db.Integer, db.ForeignKey('fitness.goal_type.id'))
+    goal_total: db.Column(db.Numeric(8,2), nullable=False)
+    ordr = db.Column(db.Integer)
+    # public private(set) var currentTotal: Double
+    is_active = db.Column(db.Boolean(), nullable=False)
+    isrt_ts = db.Column(db.DateTime, nullable=False, index=True, default=datetime.utcnow)
+    
+    def __repr__(self):
+        return '<Goal {}: {}}>'.format(self.description, str(self.goalTotal))
+    
+    def to_dict(self):
+        d = {
+            'id': self.id,
+            'user_id': self.user_id,
+            'description':self.description,
+            'start_dt': self.start_dt.strftime('%Y-%m-%d'),
+            'end_dt': self.end_dt.strftime('%Y-%m-%d'),
+            'workout_type': self.type_det.grp,
+            'goal_type': self.goal_type_det.nm,
+            'goal_total':self.goalTotal,
+            'order': self.ordr,
+            'is_active': self.is_active
+        }
+        return d
+
+    @staticmethod 
+    def lst_to_dict(goal_lst):
+        goal_dict_lst = []
+        for goal in goal_lst:
+            logger.info(goal)
+            goal_dict_lst.append(goal.to_dict())
+        return goal_dict_lst
+
+    
+class Goal_type(db.Model):
+    __table_args__ = {"schema": "fitness", 'comment':'Type of Goal: distance, count, time'}
+    id = db.Column(db.Integer, primary_key=True)
+    goals = db.relationship('Goal', backref='goal_type_det', lazy='dynamic')
+    nm = db.Column(db.String(100), index=True, nullable=False, unique=True)
+    isrt_ts = db.Column(db.DateTime, nullable=False, index=True, default=datetime.utcnow)
