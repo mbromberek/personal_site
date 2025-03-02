@@ -152,13 +152,12 @@ class Goal(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('fitness.user.id'))
     description = db.Column(db.String(100), nullable=False)
-    start_dt: db.Column(db.DateTime, index=False, nullable=False)
-    end_dt: db.Column(db.DateTime, index=False, nullable=False)
+    start_dt = db.Column(db.DateTime, nullable=False)
+    end_dt = db.Column(db.DateTime, nullable=False)
     workout_type_id = db.Column(db.Integer, db.ForeignKey('fitness.workout_type.id'))
     goal_type_id = db.Column(db.Integer, db.ForeignKey('fitness.goal_type.id'))
-    goal_total: db.Column(db.Numeric(8,2), nullable=False)
+    goal_total = db.Column(db.Numeric(8,2), nullable=False)
     ordr = db.Column(db.Integer)
-    # public private(set) var currentTotal: Double
     is_active = db.Column(db.Boolean(), nullable=False)
     isrt_ts = db.Column(db.DateTime, nullable=False, index=True, default=datetime.utcnow)
     
