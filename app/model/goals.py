@@ -14,6 +14,7 @@ from app import db, login
 from app.utils import tm_conv, const
 from app import logger
 from app.model.yrly_mileage import Yrly_mileage
+from app.models import Workout_type
 
 class Yrly_goal(object):
     description = ''
@@ -162,7 +163,7 @@ class Goal(db.Model):
     isrt_ts = db.Column(db.DateTime, nullable=False, index=True, default=datetime.utcnow)
     
     def __repr__(self):
-        return '<Goal {}: {}}>'.format(self.description, str(self.goalTotal))
+        return '<Goal {}>'.format(self.description)
     
     def to_dict(self):
         d = {
@@ -171,9 +172,9 @@ class Goal(db.Model):
             'description':self.description,
             'start_dt': self.start_dt.strftime('%Y-%m-%d'),
             'end_dt': self.end_dt.strftime('%Y-%m-%d'),
-            'workout_type': self.type_det.grp,
+            'workout_type': self.workout_type_det.grp if self.workout_type_id != None else '',
             'goal_type': self.goal_type_det.nm,
-            'goal_total':self.goalTotal,
+            'goal_total':self.goal_total,
             'order': self.ordr,
             'is_active': self.is_active
         }
@@ -183,7 +184,7 @@ class Goal(db.Model):
     def lst_to_dict(goal_lst):
         goal_dict_lst = []
         for goal in goal_lst:
-            logger.info(goal)
+            # logger.info(goal)
             goal_dict_lst.append(goal.to_dict())
         return goal_dict_lst
 
