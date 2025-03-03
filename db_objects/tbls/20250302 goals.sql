@@ -29,8 +29,6 @@ CREATE TABLE fitness.goal (
 CREATE UNIQUE INDEX goal_description_idx ON fitness.goal(user_id int4_ops, description text_ops);
 CREATE INDEX goal_order_idx ON fitness.goal(user_id int4_ops, ordr int4_ops);
 
-insert into fitness.goal(user_id, description, start_dt, end_dt, workout_type_id, goal_type_id, goal_total, ordr) values (1, 'Total 2025 miles', to_date('2025-01-01','yyyy-mm-dd'), to_date('2025-12-31 23:59:59','yyyy-mm-dd hh24:mi:ss'), null, 1, 2025.0, 0);
-
 create or replace view fitness.goal_results as
   SELECT goal.id, goal.user_id, goal.description, goal.start_dt, goal.end_dt
     , goal.workout_type_id, workout_type_grp.grp
@@ -65,9 +63,14 @@ GRANT SELECT,INSERT,UPDATE,DELETE ON ALL TABLES IN SCHEMA FITNESS TO app_role;
 GRANT USAGE on SCHEMA FITNESS to app_role;
 GRANT USAGE, SELECT ON ALL SEQUENCES in SCHEMA FITNESS TO app_role;
 
-insert into fitness.goal(user_id, description, start_dt, end_dt, workout_type_id, goal_type_id, goal_total, ordr) values (1, 'Run 130 miles in March', to_date('2025-03-01','yyyy-mm-dd'), to_date('2025-31-31','yyyy-mm-dd hh24:mi:ss'), 1, 1, 130.0, 1);
-insert into fitness.goal(user_id, description, start_dt, end_dt, workout_type_id, goal_type_id, goal_total, ordr) values (1, 'Strength 3 times per week', to_date('2025-01-01','yyyy-mm-dd'), to_date('2025-12-31','yyyy-mm-dd hh24:mi:ss'), 1, 7, 156, 4);
+insert into fitness.goal(user_id, description, start_dt, end_dt, workout_type_id, goal_type_id, goal_total, ordr) values (1, 'Total 2025 miles', to_timestamp('2025-01-01','yyyy-mm-dd'), to_timestamp('2025-12-31 23:59:59','yyyy-mm-dd hh24:mi:ss'), null, 1, 2025.0, 0);
 
-
-"Strength 3 times per week", dateStart: yearStart, dateEnd: yearEnd, workoutType: .strength, goalType: .count, goalTotal: 156, order:4
+insert into fitness.goal(user_id, description, start_dt, end_dt, workout_type_id, goal_type_id, goal_total, ordr) values (1, 'Run 130 miles in March', to_timestamp('2025-03-01','yyyy-mm-dd'), to_timestamp('2025-03-31 23:59:59','yyyy-mm-dd hh24:mi:ss'), 1, 1, 130.0, 1);
+insert into fitness.goal(user_id, description, start_dt, end_dt, workout_type_id, goal_type_id, goal_total, ordr) values (1, 'Strength 3 times per week', to_timestamp('2025-01-01','yyyy-mm-dd'), to_timestamp('2025-12-31 23:59:59','yyyy-mm-dd hh24:mi:ss'), 7, 2, 156, 4);
+insert into fitness.goal(user_id, description, start_dt, end_dt, workout_type_id, goal_type_id, goal_total, ordr, is_active) values (1, 'Run 100 miles in January', to_timestamp('2025-01-01','yyyy-mm-dd'), to_timestamp('2025-01-31 23:59:59','yyyy-mm-dd hh24:mi:ss'), 1, 1, 100, 2, false);
+insert into fitness.goal(user_id, description, start_dt, end_dt, workout_type_id, goal_type_id, goal_total, ordr) values (1, 'Run 1300 miles Mar to Dec', to_timestamp('2025-03-01','yyyy-mm-dd'), to_timestamp('2025-12-31 23:59:59','yyyy-mm-dd hh24:mi:ss'), 1, 1, 1300, 3);
+insert into fitness.goal(user_id, description, start_dt, end_dt, workout_type_id, goal_type_id, goal_total, ordr) values (1, 'Cycle 300 miles', to_timestamp('2025-01-01','yyyy-mm-dd'), to_timestamp('2025-12-31 23:59:59','yyyy-mm-dd hh24:mi:ss'), 3, 1, 300, 5);
+insert into fitness.goal(user_id, description, start_dt, end_dt, workout_type_id, goal_type_id, goal_total, ordr) values (1, 'Cycle 25 times', to_timestamp('2025-01-01','yyyy-mm-dd'), to_timestamp('2025-12-31 23:59:59','yyyy-mm-dd hh24:mi:ss'), 3, 2, 25, 6);
+insert into fitness.goal(user_id, description, start_dt, end_dt, workout_type_id, goal_type_id, goal_total, ordr) values (1, 'Cycle 40 miles in March', to_timestamp('2025-03-01','yyyy-mm-dd'), to_timestamp('2025-03-31 23:59:59','yyyy-mm-dd hh24:mi:ss'), 3, 1, 40, 7);
+insert into fitness.goal(user_id, description, start_dt, end_dt, workout_type_id, goal_type_id, goal_total, ordr) values (1, 'Run 1779 miles', to_timestamp('2025-01-01','yyyy-mm-dd'), to_timestamp('2025-12-31 23:59:59','yyyy-mm-dd hh24:mi:ss'), 1, 1, 1779.0, 9);
 
