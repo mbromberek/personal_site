@@ -15,6 +15,7 @@ from app.utils import tm_conv, const
 from app import logger
 from app.model.yrly_mileage import Yrly_mileage
 from app.models import Workout_type
+from app.models import PaginatedAPIMixin
 
 class Yrly_goal(object):
     description = ''
@@ -148,7 +149,7 @@ class Yrly_goal(object):
 
         return yrly_goals_mod_lst
 
-class Goal(db.Model):
+class Goal(PaginatedAPIMixin, db.Model):
     __table_args__ = {"schema": "fitness", 'comment':'Stores goals for user'}
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('fitness.user.id'))
