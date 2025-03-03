@@ -46,7 +46,7 @@ def get_goals():
     page = request.args.get('page', 1, type=int)
     is_active = request.args.get('is_active')
     query = Goal.query.filter_by(user_id=usr_id)
-    if is_active != None and is_active != 'ALL':
+    if is_active != None and is_active.upper() != 'ALL':
         query = query.filter(Goal.is_active==is_active)
     goal_page = query.order_by(Goal.ordr).paginate(page=page, per_page=per_page)
     
