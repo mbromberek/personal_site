@@ -16,8 +16,8 @@ CREATE TABLE fitness.goal (
     id integer DEFAULT nextval('fitness.goal_id_seq'::regclass) PRIMARY KEY,
     user_id integer REFERENCES fitness."user"(id) NOT NULL,
     description character varying(100) NOT NULL,
-    start_dt date NOT NULL,
-    end_dt date NOT NULL,
+    start_dt timestamp without time zone NOT NULL,
+    end_dt timestamp without time zone NOT NULL,
     workout_type_id integer REFERENCES fitness.workout_type(id),
     goal_type_id integer NOT NULL REFERENCES fitness.goal_type(id),
     goal_total numeric(8,2) NOT NULL,
@@ -38,7 +38,7 @@ create or replace view fitness.goal_results as
     , sum(workout.dist_mi) total_distance_miles
     , count(workout.id) total_workouts
     , sum(workout.dur_sec) total_duration_seconds
-    , goal.ordr
+    , goal.ordr, goal.is_active
   FROM fitness.goal
   INNER JOIN fitness.goal_type
     on goal.goal_type_id = goal_type.id
