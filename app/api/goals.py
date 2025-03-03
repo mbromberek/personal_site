@@ -32,8 +32,8 @@ def get_goals():
     Get goals for calling user
     Optional arguments
         is_active: default all, values are Y|N|all
-        page: ?
-        per_page: ?
+        page: page of data to return. default to 1
+        per_page: number of records per page to return, max of 100
         workout_type: default all, possible values are all|run|cycle|swim|strength
         
     '''
