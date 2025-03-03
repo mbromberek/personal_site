@@ -16,13 +16,14 @@ from flask import jsonify, request, url_for, abort, current_app
 
 # Custom Classes
 from app import db
-from app.models import User
+from app.models import User, Workout_type
 from app.model.goals import Goal, Goal_type
 from app.api import bp
 from app.api.auth import token_auth
 from app.api.errors import bad_request
 from app import logger
 from app.utils import dt_conv
+from app.main import filtering
 
 @bp.route('/goals/', methods=['GET'])
 @token_auth.login_required
@@ -45,13 +46,23 @@ def get_goals():
     per_page = min(request.args.get('per_page', current_app.config['POSTS_PER_PAGE'], type=int), 100)
     page = request.args.get('page', 1, type=int)
     is_active = request.args.get('is_active')
+    workout_type = request.args.get('workout_type')
+    
     query = Goal.query.filter_by(user_id=usr_id)
     if is_active != None and is_active.upper() != 'ALL':
         query = query.filter(Goal.is_active==is_active)
+    
+    if workout_type != None and workout_type.upper() != 'ALL':
+        workout_type_lst = [workout_type.lower()]
+        workout_type_dict = {'type':workout_type_lst}
+        workout_type_filter = filtering.get_type_ids(workout_type_dict)
+        query = query.filter(Goal.workout_type_id.in_(workout_type_filter))
+    
     goal_page = query.order_by(Goal.ordr).paginate(page=page, per_page=per_page)
     
     kwargs = {}
     kwargs['is_active'] = is_active
+    kwargs['workout_type'] = workout_type
     
     meta_dict = {'page':  page,
         'next_page': goal_page.next_num,
