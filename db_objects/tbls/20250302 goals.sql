@@ -31,8 +31,9 @@ CREATE INDEX goal_order_idx ON fitness.goal(user_id int4_ops, ordr int4_ops);
 
 create or replace view fitness.goal_results as
   SELECT goal.id, goal.user_id, goal.description, goal.start_dt, goal.end_dt
-    , goal.workout_type_id, workout_type_grp.grp
-    , goal_type.nm, goal.goal_total
+--    , goal.workout_type_id
+    , workout_type_grp.grp as workout_type_grp
+    , goal_type.nm as goal_type_nm, goal.goal_total
     , sum(workout.dist_mi) total_distance_miles
     , count(workout.id) total_workouts
     , sum(workout.dur_sec) total_duration_seconds
@@ -53,10 +54,10 @@ create or replace view fitness.goal_results as
     and workout.user_id = goal.user_id
     and workout.wrkt_dttm between goal.start_dt and goal.end_dt
   group by goal.id, goal.user_id, goal.description, goal.start_dt, goal.end_dt
-    , goal.workout_type_id, workout_type_grp.grp
+    , workout_type_grp.grp
     , goal_type.nm, goal.goal_total
     , goal.ordr
-;
+ ;
 
 
 GRANT SELECT,INSERT,UPDATE,DELETE ON ALL TABLES IN SCHEMA FITNESS TO app_role;
