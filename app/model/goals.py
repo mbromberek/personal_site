@@ -196,3 +196,93 @@ class Goal_type(db.Model):
     goals = db.relationship('Goal', backref='goal_type_det', lazy='dynamic')
     nm = db.Column(db.String(100), index=True, nullable=False, unique=True)
     isrt_ts = db.Column(db.DateTime, nullable=False, index=True, default=datetime.utcnow)
+
+class Goal_results(PaginatedAPIMixin,db.Model):
+    __table_args__ = {"schema": "fitness", 'comment':'Stores goals and results for user'}
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('fitness.user.id'))
+    description = db.Column(db.String(100), nullable=False)
+    start_dt = db.Column(db.DateTime, nullable=False)
+    end_dt = db.Column(db.DateTime, nullable=False)
+    workout_type_grp = db.Column(db.String(50))
+    goal_type_nm = db.Column(db.String(50))
+    goal_total = db.Column(db.Numeric(8,2))
+    ordr = db.Column(db.Integer)
+    is_active = db.Column(db.Boolean(), nullable=False)
+    total_distance_miles = db.Column(db.Numeric(8,2))
+    total_workouts = db.Column(db.Numeric(8,2))
+    total_duration_seconds = db.Column(db.Numeric(8,2))
+
+    def __repr__(self):
+        return '<Goal Result {}>'.format(self.description)
+    
+    def get_completed_value(self):
+        completed_value = 0.0
+        if self.goal_type_nm == 'distance':
+            completed_value = self.total_distance_miles if self.total_distance_miles != None else 0.0
+        elif self.goal_type_nm == 'count':
+            completed_value = self.total_workouts
+        elif self.goal_type_nm == 'time':
+            completed_value = self.total_duration_seconds if self.total_duration_seconds != None else 0
+        return float(completed_value)
+            
+    def percent_complete(self):
+        completed_value = self.get_completed_value()
+        goal_total_float = float(self.goal_total)
+        return 1-((goal_total_float - completed_value) / goal_total_float)
+    
+    def unit_of_measure(self):
+        if self.goal_type_nm == 'distance':
+            return 'miles'
+        elif self.goal_type_nm == 'count':
+            return 'times'
+        elif self.goal_type_nm == 'time':
+            return 'seconds'
+            
+    def to_dict(self):
+        d = {
+            'id': self.id,
+            'user_id': self.user_id,
+            'description':self.description,
+            'start_dt': self.start_dt.strftime('%Y-%m-%d %H:%M:%S'),
+            'end_dt': self.end_dt.strftime('%Y-%m-%d %H:%M:%S'),
+            'workout_type_grp': self.workout_type_grp,
+            'goal_type_nm': self.goal_type_nm,
+            'goal_total':self.goal_total,
+            'order': self.ordr,
+            'is_active': self.is_active,
+            'total_distance_miles': self.total_distance_miles,
+            'total_workouts': self.total_workouts,
+            'total_duration_seconds': self.total_duration_seconds
+        }
+        return d
+    
+    def to_web_dict(self):
+        completed_value = self.get_completed_value()
+        percent_complete = self.percent_complete()
+        
+        d = {
+            'id': self.id,
+            'user_id': self.user_id,
+            'description':self.description,
+            'start_dt': self.start_dt.strftime('%Y-%m-%d %H:%M:%S'),
+            'end_dt': self.end_dt.strftime('%Y-%m-%d %H:%M:%S'),
+            'workout_type_grp': self.workout_type_grp,
+            'goal_total':self.goal_total,
+            'order': self.ordr,
+            'is_active': self.is_active,
+            'goal_type_nm': self.goal_type_nm,
+            'completed_value': completed_value,
+            'percent_complete': percent_complete*100,
+            'uom': self.unit_of_measure()
+        }
+        return d
+    
+    
+    @staticmethod 
+    def lst_to_dict(goal_result_lst):
+        goal_result_dict_lst = []
+        for goal_result in goal_result_lst:
+            # logger.info(goal)
+            goal_result_dict_lst.append(goal_result.to_dict())
+        return goal_result_dict_lst
