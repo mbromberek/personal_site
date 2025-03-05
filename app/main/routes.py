@@ -32,7 +32,7 @@ from app import logger, basedir
 from app.utils import wrkt_summary
 from app.utils import wrkt_split
 from app.main import export, filtering
-from app.model.goals import Yrly_goal
+from app.model.goals import Yrly_goal, Goal_results
 from app.model.workout_zones import Workout_zones
 from app.model.location import Location
 from app.model.yrly_mileage import Yrly_mileage
@@ -990,7 +990,7 @@ def dashboard():
     yrly_goals_lst = sorted(yrly_goals_lst)
     dash_lst_dict['yrly_goals_lst'] = yrly_goals_lst
     dash_lst_dict['yrly_goals_dict_lst'] = Yrly_goal.lst_to_dict(yrly_goals_lst)
-        
+    
     dash_lst_dict['yrly_workout_lst'] = {}
     dash_lst_dict['yrly_workout_lst']['header'] = 'Workouts'
     dash_lst_dict['yrly_workout_lst']['data'] = yrly_workout_lst
@@ -1013,6 +1013,18 @@ def dashboard():
 
     # End of Get total workouts by year
     
+    '''
+    Get Goals with Results
+    '''
+    query = Goal_results.query.filter_by(user_id=usr_id)
+    query = query.filter(Goal_results.is_active==True)
+    goal_result_page = query.order_by(Goal_results.ordr).paginate(page=1, per_page=100)
+    goal_result_lst = []
+    for goal_result in goal_result_page:
+        goal_result_dict = goal_result.to_web_dict()
+        # TODO Calculate avg needed and add to dictionary
+        goal_result_lst.append(goal_result_dict)
+    dash_lst_dict['goals_lst'] = goal_result_lst
 
     min_moly_dt = date.today() - timedelta((const.NBR_MO_COMP+1) * 31) # TODO probably not the best way to do this
     query = Moly_mileage.query.filter_by(user_id=current_user.id, type='Running')
