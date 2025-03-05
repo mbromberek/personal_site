@@ -1,0 +1,38 @@
+    <div class="dashboard_widget ">
+    <table class="gear_usage">
+        <tr class="gear_usage_hdr">
+            <td  class="gear_usage_hdr" colspan="5">
+                Fitness Goals
+            </td>
+        </tr>
+        <tr class="gear_usage_hdr">
+            <td class="gear_usage_hdr" style="width:225px;">
+                Goal
+            </td>
+            <td class="gear_usage_hdr">
+                Completed
+            </td>
+            {#<td class="gear_usage_hdr hide_mobile" >
+                Avg need<br>(day)
+            </td>
+            <td class="gear_usage_hdr hide_mobile" >
+                Avg need<br>(month)
+            </td>
+            <td class="gear_usage_hdr ">
+                Avg need<br>(week)
+            </td>#}
+        </tr>
+        {% for goal in dash_lst_dict['goals_lst'] %}
+        <tr >
+            <td class="dashboard_row_dtl">
+                {{ goal.description }}
+            </td>
+            <td class="dashboard_row_dtl" style="text-align:center;">
+                {{ '%0.0f' % goal.completed_value|float }} {{ goal.uom }}
+                <!-- <br> -->
+                ({{ '%0.2f' % goal.percent_complete|float }}%)
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>

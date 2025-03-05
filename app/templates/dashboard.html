@@ -15,8 +15,15 @@
 
 
     {# Fitness Goals for 2022 #}
+    {#
     {% if dash_lst_dict['yrly_goals_lst'] %}
     {% include 'dashboard_widgets/_yearly_goal_widget.html' %}
+    {% endif %}
+    #}
+
+    {# Fitness Goals #}
+    {% if dash_lst_dict['goals_lst'] %}
+    {% include 'dashboard_widgets/_goal_widget.html' %}
     {% endif %}
 
     {% if dash_lst_dict['long_run_splits'] %}
