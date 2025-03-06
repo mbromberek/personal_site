@@ -161,7 +161,8 @@ class Goal(PaginatedAPIMixin, db.Model):
     goal_total = db.Column(db.Numeric(8,2), nullable=False)
     ordr = db.Column(db.Integer)
     is_active = db.Column(db.Boolean(), nullable=False)
-    isrt_ts = db.Column(db.DateTime, nullable=False, index=True, default=datetime.utcnow)
+    isrt_ts = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    updt_ts = db.Column(db.DateTime, nullable=False, index=True, default=datetime.utcnow)
     
     def __repr__(self):
         return '<Goal {}>'.format(self.description)
@@ -177,7 +178,9 @@ class Goal(PaginatedAPIMixin, db.Model):
             'goal_type': self.goal_type_det.nm,
             'goal_total':self.goal_total,
             'order': self.ordr,
-            'is_active': self.is_active
+            'is_active': self.is_active,
+            'isrt_ts': self.isrt_ts.strftime('%Y-%m-%d %H:%M:%S'),
+            'updt_ts': self.updt_ts.strftime('%Y-%m-%d %H:%M:%S')
         }
         return d
 

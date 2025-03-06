@@ -23,7 +23,8 @@ CREATE TABLE fitness.goal (
     goal_total numeric(8,2) NOT NULL,
     ordr integer,
     is_active boolean NOT NULL DEFAULT true,
-    isrt_ts timestamp without time zone DEFAULT now() NOT NULL
+    isrt_ts timestamp without time zone DEFAULT now() NOT NULL,
+    updt_ts timestamp without time zone DEFAULT now() NOT NULL
 );
 
 CREATE UNIQUE INDEX goal_description_idx ON fitness.goal(user_id int4_ops, description text_ops);
