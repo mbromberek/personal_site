@@ -39,6 +39,7 @@ from app.model.yrly_mileage import Yrly_mileage
 from app.model.book import Book
 from app.model.book import CURR_READING_VAL, READ_VAL
 from app.model.tag import Workout_tag, Tag, Tag_usage
+from app.model.goals import Goal
 
 @bp.route('/')
 @bp.route('/index')
@@ -1395,8 +1396,19 @@ def settings():
         tag_form.nm.data = tag.nm
         tag_form.usage_count.data = tag.usage_count
         tag_lst.append(tag_form)
+    
+    '''
+    Get Goals
+    '''
+    query = Goal.query.filter_by(user_id=usr_id)
+    goal_page = query.order_by(Goal.ordr).paginate(page=1, per_page=100)
+    goal_lst = []
+    for goal in goal_page:
+        goal_dict = goal.to_dict()
+        goal_lst.append(goal_dict)
 
-    return render_template('settings.html', user_setting_form=setting_form, destPage = 'settings', gear_lst=gear_usage_lst, loc_lst=query_loc_lst, api_key_lst=api_key_lst, tag_lst=tag_lst)
+
+    return render_template('settings.html', user_setting_form=setting_form, destPage = 'settings', gear_lst=gear_usage_lst, loc_lst=query_loc_lst, api_key_lst=api_key_lst, tag_lst=tag_lst, goal_lst=goal_lst)
 
 @bp.route('/edit_gear', methods=['GET','POST'])
 @login_required
