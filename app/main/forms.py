@@ -266,7 +266,7 @@ class GoalForm(FlaskForm):
         end_dt = DateField('End Date', format='%Y-%m-%d %H:%M:%S',validators=[InputRequired()])
         workout_type = SelectField('Workout Type', validate_choice=True, coerce=int)
         goal_type = SelectField('Goal Type', validate_choice=True, coerce=int)
-        goal_total = DecimalField('Goal Total', validators=[Optional()], places=2, rounding=decimal.ROUND_UP, validators=[InputRequired()])
+        goal_total = DecimalField('Goal Total', validators=[InputRequired()], places=2, rounding=decimal.ROUND_UP)
         is_active = BooleanField("Active")
         order = IntegerField('Order', widget=h5widgets.NumberInput(min=0),
         default=0, validators=[InputRequired()])
