@@ -258,3 +258,21 @@ class TagForm(FlaskForm):
 
     def __repr__(self):
         return '<Tag {}, {}>'.format(self.id.data, self.nm.data)
+
+class GoalForm(FlaskForm):
+        id = HiddenField()
+        description = StringField('Description', validators=[InputRequired()])
+        start_dt = DateField('Start Date', format='%Y-%m-%d %H:%M:%S',validators=[InputRequired()])
+        end_dt = DateField('End Date', format='%Y-%m-%d %H:%M:%S',validators=[InputRequired()])
+        workout_type = SelectField('Workout Type', validate_choice=True, coerce=int)
+        goal_type = SelectField('Goal Type', validate_choice=True, coerce=int)
+        goal_total = DecimalField('Goal Total', validators=[Optional()], places=2, rounding=decimal.ROUND_UP, validators=[InputRequired()])
+        is_active = BooleanField("Active")
+        order = IntegerField('Order', widget=h5widgets.NumberInput(min=0),
+        default=0, validators=[InputRequired()])
+        
+        submit = SubmitField('Save')
+        cancel = SubmitField('Cancel')
+        def __repr__(self):
+            return '<Goal {}>'.format(self.description)
+
