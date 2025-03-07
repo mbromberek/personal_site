@@ -1306,16 +1306,16 @@ def settings():
             return redirect(url_for('main.settings'))
         elif tag_form_1.edit_tag.data:
             logger.info('tag_form edit')
-            logger.info(tag_form_1)
+            # logger.info(tag_form_1)
             if tag_form_1.id.data == '':
-                logger.info('create tag')
+                # logger.info('create tag')
                 tag = Tag()
                 tag.nm = tag_form_1.nm.data
                 tag.user_id = usr_id
                 db.session.add(tag)
             else:
                 tag = Tag.query.filter_by(id=tag_form_1.id.data, user_id=usr_id).first_or_404()
-                logger.info(tag)
+                # logger.info(tag)
                 tag.nm = tag_form_1.nm.data
             db.session.commit()
             return redirect(url_for('main.settings'))
@@ -1390,7 +1390,6 @@ def settings():
     tag_lst = []
     tag_lst.append(new_tag)
     for tag in tag_usage_lst:
-        logger.info(tag)
         tag_form = TagForm()
         tag_form.id.data = tag.id
         tag_form.nm.data = tag.nm
@@ -1408,7 +1407,6 @@ def settings():
         goal.workout_type = goal.workout_type_det.grp if goal.workout_type_id != None else ''
         goal.goal_type = goal.goal_type_det.nm
         goal_lst.append(goal)
-
 
     return render_template('settings.html', user_setting_form=setting_form, destPage = 'settings', gear_lst=gear_usage_lst, loc_lst=query_loc_lst, api_key_lst=api_key_lst, tag_lst=tag_lst, goal_lst=goal_lst)
 
