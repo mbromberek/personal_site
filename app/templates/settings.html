@@ -204,6 +204,99 @@
 
 </div>
 
+<!-- Goals -->
+<div style="overflow:auto; width:100%; margin-top:20px;">
+
+    <div class="dashboard_widget" style="width:900px; border:2px black solid;padding:10px;">
+        <div class="form-row setting_hdr" style="overflow:auto;">
+            <div style="margin-left:auto;margin-right:auto;">
+                Goal
+            </div>
+            <div style="margin-left:auto;margin-right:10px;font-size:12pt;">
+                <a class="setting_edit_lnk"  href="{{ url_for('main.edit_gear') }}">
+                    Create
+                </a>
+            </div>
+        </div>
+
+        <div class="form-group mt-3 mr-2" style="width:875px; height:400px;vertical-align:top;overflow-y:scroll;">
+
+            <table>
+                <tr style="font-weight:bold">
+                    <td class="setting_row setting_hdr" style="width:355px;">
+                        Description
+                    </td>
+                    <td class="setting_row setting_hdr" >
+                        Start Date
+                    </td>
+                    <td class="setting_row setting_hdr" >
+                        End Date
+                    </td>
+                    <td class="setting_row setting_hdr" >
+                        Workout Type
+                    </td>
+                    <td class="setting_row setting_hdr">
+                        Goal Type
+                    </td>
+                    <td class="setting_row setting_hdr hide_mobile">
+                        Is Active
+                    </td>
+                    <td class="setting_row setting_hdr ">
+                        Order
+                    </td>
+                </tr>
+
+            {% for goal in goal_lst %}
+                <tr>
+                    <td class="setting_row {% if goal.is_active==False %} retired {% endif %}" style="text-align:left;">
+                        <a class="setting_edit_lnk"  href="{{ url_for('main.edit_gear', gear=goal.id) }}">
+                            {{ goal.description }}
+                        </a>
+                    </td>
+                    <td class="setting_row {% if goal.is_active==False %} retired {% endif %}" >
+                        {{ goal.start_dt.strftime('%Y-%m-%d %H:%M:%S') }}
+                    </td>
+                    <td class="setting_row {% if goal.is_active==False %} retired {% endif %}" >
+                        {{ goal.end_dt.strftime('%Y-%m-%d %H:%M:%S') }}
+                        {#{% if gear.tot_dist != None %}
+                        {{ gear.tot_dist }}
+                        {% else %}
+                        0
+                        {% endif %}#}
+                    </td>
+                    <td class="setting_row {% if goal.is_active==False %} retired {% endif %}" >
+                        {{ goal.workout_type }}
+                    </td>
+                    <td class="setting_row {% if goal.is_active==False %} retired {% endif %}">
+                        {{ goal.goal_type }}
+                        {#{% if gear.latest_workout != None %}
+                        {{ gear.latest_workout.strftime('%Y-%m-%d') }}
+                        {% else %}
+                        &nbsp;
+                        {% endif %}#}
+                    </td>
+                    <td class="setting_row {% if goal.is_active==False %} retired {% endif %} hide_mobile"  >
+                        {% if goal.is_active == True %}
+                        Y
+                        {% else %}
+                        N
+                        {% endif %}
+                    </td>
+                    <td class="setting_row {% if goal.is_active==False %} retired {% endif %}">
+                        {{ goal.ordr }}
+                    </td>
+                </tr>
+            {% endfor %}
+
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<!-- End of Goals -->
+
+
 <div style="overflow:auto; width:100%; margin-top:20px;">
 
     <div class="dashboard_widget" style="width:900px; border:2px black solid;padding:10px;">

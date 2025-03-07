@@ -1404,8 +1404,10 @@ def settings():
     goal_page = query.order_by(Goal.ordr).paginate(page=1, per_page=100)
     goal_lst = []
     for goal in goal_page:
-        goal_dict = goal.to_dict()
-        goal_lst.append(goal_dict)
+        # goal_dict = goal.to_dict()
+        goal.workout_type = goal.workout_type_det.grp if goal.workout_type_id != None else ''
+        goal.goal_type = goal.goal_type_det.nm
+        goal_lst.append(goal)
 
 
     return render_template('settings.html', user_setting_form=setting_form, destPage = 'settings', gear_lst=gear_usage_lst, loc_lst=query_loc_lst, api_key_lst=api_key_lst, tag_lst=tag_lst, goal_lst=goal_lst)
