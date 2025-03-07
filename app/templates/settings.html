@@ -254,26 +254,17 @@
                         </a>
                     </td>
                     <td class="setting_row {% if goal.is_active==False %} retired {% endif %}" >
-                        {{ goal.start_dt.strftime('%Y-%m-%d %H:%M:%S') }}
+                        {{ goal.start_dt.strftime('%Y-%m-%d') }}
                     </td>
                     <td class="setting_row {% if goal.is_active==False %} retired {% endif %}" >
-                        {{ goal.end_dt.strftime('%Y-%m-%d %H:%M:%S') }}
-                        {#{% if gear.tot_dist != None %}
-                        {{ gear.tot_dist }}
-                        {% else %}
-                        0
-                        {% endif %}#}
+                        {{ goal.end_dt.strftime('%Y-%m-%d') }}
+                        {#{{ goal.end_dt.strftime('%Y-%m-%d %H:%M:%S') }}#}
                     </td>
                     <td class="setting_row {% if goal.is_active==False %} retired {% endif %}" >
                         {{ goal.workout_type }}
                     </td>
                     <td class="setting_row {% if goal.is_active==False %} retired {% endif %}">
                         {{ goal.goal_type }}
-                        {#{% if gear.latest_workout != None %}
-                        {{ gear.latest_workout.strftime('%Y-%m-%d') }}
-                        {% else %}
-                        &nbsp;
-                        {% endif %}#}
                     </td>
                     <td class="setting_row {% if goal.is_active==False %} retired {% endif %} hide_mobile"  >
                         {% if goal.is_active == True %}
