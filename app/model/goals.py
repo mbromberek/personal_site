@@ -199,6 +199,13 @@ class Goal_type(db.Model):
     goals = db.relationship('Goal', backref='goal_type_det', lazy='dynamic')
     nm = db.Column(db.String(100), index=True, nullable=False, unique=True)
     isrt_ts = db.Column(db.DateTime, nullable=False, index=True, default=datetime.utcnow)
+    
+    def __lt__(self, other):
+        return ((self.nm < other.nm))
+    
+    def __gt__(self, other):
+        return ((self.nm > other.nm))
+
 
 class Goal_results(PaginatedAPIMixin,db.Model):
     __table_args__ = {"schema": "fitness", 'comment':'Stores goals and results for user'}
