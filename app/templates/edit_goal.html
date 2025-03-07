@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+<div class="default_page" style="overflow:auto; width:100%; margin-top:20px;">
+
+    <h1>{{ label_val }}</h1>
+    <div class="row mb-5 dashboard_widget" style="margin-left:0px;">
+        <div class="col-md-12">
+            <form action="" method="post" novalidate>
+                {{ goal_form.hidden_tag() }}
+                <div class="form-row">
+                    <div class="form-group mr-4">
+                        {{ goal_form.description.label(class="workout_lbl") }}
+                        <br>
+                        {{ goal_form.description(size=31) }}<br>
+                        {% for error in goal_form.description.errors %}
+                        <span style="color: red;">
+                            [{{ error }}]
+                        </span>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group mr-3">
+                        {{ goal_form.workout_type_lst.label(class="workout_lbl") }}<br>
+                        {{ goal_form.workout_type_lst(style="width:150px;") }}<br>
+                        {% for error in goal_form.workout_type_lst.errors %}
+                        <span style="color: red;">
+                            [{{ error }}]
+                        </span>
+                        {% endfor %}
+                    </div>
+                    
+                    <div class="form-group mr-3">
+                        {{ goal_form.goal_type_lst.label(class="workout_lbl") }}<br>
+                        {{ goal_form.goal_type_lst(style="width:150px;") }}<br>
+                        {% for error in goal_form.goal_type_lst.errors %}
+                        <span style="color: red;">
+                            [{{ error }}]
+                        </span>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group mr-4">
+                        {{ goal_form.goal_total.label(class="workout_lbl") }}
+                        <br>
+                        {{ goal_form.goal_total(size=9) }}<br>
+                        {% for error in goal_form.goal_total.errors %}
+                        <span style="color: red;">
+                            [{{ error }}]
+                        </span>
+                        {% endfor %}
+                    </div>
+                    
+                    <div class="form-group mr-4">
+                        {{ goal_form.order.label(class="workout_lbl") }}
+                        <br>
+                        {{ goal_form.order(size=4) }}<br>
+                        {% for error in goal_form.order.errors %}
+                        <span style="color: red;">
+                            [{{ error }}]
+                        </span>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group mr-4">
+                        {{ goal_form.start_dt.label(class="workout_lbl") }}
+                        <br>
+                        {{ goal_form.start_dt() }}<br>
+                        {% for error in goal_form.start_dt.errors %}
+                        <span style="color: red;">
+                            [{{ error }}]
+                        </span>
+                        {% endfor %}
+                    </div>
+
+                    <div class="form-group mr-4">
+                        {{ goal_form.end_dt.label(class="workout_lbl") }}
+                        <br>
+                        {{ goal_form.end_dt() }}<br>
+                        {% for error in goal_form.end_dt.errors %}
+                        <span style="color: red;">
+                            [{{ error }}]
+                        </span>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group mr-5">
+                        {{ goal_form.is_active }} {{ goal_form.is_active.label }}
+                    </div>
+
+                </div>
+
+                <div>
+                    {{ goal_form.submit(class='mr-3') }}
+                    {{ goal_form.cancel(class='mr-3') }}
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+{#}
+    {% if gear_usage != None %}
+    <div class="dashboard_widget">
+        <fieldset class="wrkt_det pb-4">
+            <legend class="wrkt_det">
+                Usage
+            </legend>
+
+            <span style="font-weight:bold;font-size: 12pt;">
+                {{ gear_usage.nm }}
+            </span><br>
+            Used {{ gear_usage.usage_count }} times<br>
+            {{ gear_usage.tot_dist }} miles for {{ gear_usage.tot_dur }}<br>
+            Last Used:
+            {% if gear_usage.latest_workout != None %}
+            {{ gear_usage.latest_workout.strftime('%Y-%m-%d') }}
+            {% else %}
+            &nbsp;
+            {% endif %}<br>
+            First Use:
+            {% if gear_usage.latest_workout != None %}
+            {{ gear_usage.first_workout.strftime('%Y-%m-%d') }}
+            {% else %}
+            &nbsp;
+            {% endif %}<br>
+        </<fieldset>
+
+    </div>
+    {% endif %}
+#}
+</div>
+{% endblock %}
