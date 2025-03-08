@@ -6,21 +6,21 @@
             </td>
         </tr>
         <tr class="gear_usage_hdr">
-            <td class="gear_usage_hdr" style="width:225px;">
+            <td class="gear_usage_hdr" style="width:150px;">
                 Goal
             </td>
             <td class="gear_usage_hdr">
                 Completed
             </td>
-            {#<td class="gear_usage_hdr hide_mobile" >
+            <td class="gear_usage_hdr hide_mobile" >
                 Avg need<br>(day)
+            </td>
+            <td class="gear_usage_hdr ">
+                Avg need<br>(week)
             </td>
             <td class="gear_usage_hdr hide_mobile" >
                 Avg need<br>(month)
             </td>
-            <td class="gear_usage_hdr ">
-                Avg need<br>(week)
-            </td>#}
         </tr>
         {% for goal in dash_lst_dict['goals_lst'] %}
         <tr >
@@ -31,6 +31,16 @@
                 {{ '%0.0f' % goal.completed_value|float }} {{ goal.uom }}
                 <!-- <br> -->
                 ({{ '%0.2f' % goal.percent_complete|float }}%)
+            </td>
+            
+            <td class="dashboard_row_dtl hide_mobile" style="text-align:center;">
+                {{ '%0.2f' % goal.avg_need_per_day|round(2) }} {{ goal.uom }}
+            </td>
+            <td class="dashboard_row_dtl " style="text-align:center;">
+                {{ '%0.2f' % goal.avg_need_per_week|round(2) }} {{ goal.uom }}
+            </td>
+            <td class="dashboard_row_dtl hide_mobile" style="text-align:center;">
+                {{ '%0.2f' % goal.avg_need_per_month|round(2) }} {{ goal.uom }}
             </td>
         </tr>
         {% endfor %}
