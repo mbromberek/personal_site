@@ -106,35 +106,5 @@
 
         </div>
     </div>
-{#}
-    {% if gear_usage != None %}
-    <div class="dashboard_widget">
-        <fieldset class="wrkt_det pb-4">
-            <legend class="wrkt_det">
-                Usage
-            </legend>
-
-            <span style="font-weight:bold;font-size: 12pt;">
-                {{ gear_usage.nm }}
-            </span><br>
-            Used {{ gear_usage.usage_count }} times<br>
-            {{ gear_usage.tot_dist }} miles for {{ gear_usage.tot_dur }}<br>
-            Last Used:
-            {% if gear_usage.latest_workout != None %}
-            {{ gear_usage.latest_workout.strftime('%Y-%m-%d') }}
-            {% else %}
-            &nbsp;
-            {% endif %}<br>
-            First Use:
-            {% if gear_usage.latest_workout != None %}
-            {{ gear_usage.first_workout.strftime('%Y-%m-%d') }}
-            {% else %}
-            &nbsp;
-            {% endif %}<br>
-        </<fieldset>
-
-    </div>
-    {% endif %}
-#}
 </div>
 {% endblock %}
