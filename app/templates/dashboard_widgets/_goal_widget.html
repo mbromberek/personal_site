@@ -34,7 +34,11 @@
             </td>
             
             <td class="dashboard_row_dtl hide_mobile" style="text-align:center;">
+                {% if goal.avg_need_per_day < 1 %}
+                &nbsp;
+                {% else %}
                 {{ '%0.2f' % goal.avg_need_per_day|round(2) }} {{ goal.uom }}
+                {% endif %}
             </td>
             <td class="dashboard_row_dtl " style="text-align:center;">
                 {{ '%0.2f' % goal.avg_need_per_week|round(2) }} {{ goal.uom }}
