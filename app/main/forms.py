@@ -273,6 +273,7 @@ class GoalForm(FlaskForm):
         
         submit = SubmitField('Save')
         cancel = SubmitField('Cancel')
+        delete = SubmitField('Delete')
         def __repr__(self):
             return '<Goal {} description: {}, start date: {}>'.format(self.id, self.description, self.start_dt)
 
