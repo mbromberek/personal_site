@@ -240,6 +240,28 @@ class Goal_results(PaginatedAPIMixin,db.Model):
         completed_value = self.get_completed_value()
         goal_total_float = float(self.goal_total)
         return 1-((goal_total_float - completed_value) / goal_total_float)
+        
+    def total_remaining(self):
+        completed_value = self.get_completed_value()
+        if self.goal_total < completed_value:
+            return 0
+        else:
+            return float(self.goal_total) - completed_value
+    
+    def avg_need_per_day(self, current_dt = datetime.now()):
+        # If date pased is before the start date then use start date
+        dateValue = self.start_dt if current_dt < self.start_dt else current_dt
+        if dateValue > self.end_dt:
+            return 0
+        # days_remaining = (self.end_dt.date() - dateValue.date()) / const.SECONDS_IN_DAY
+        days_remaining = (self.end_dt.date() - dateValue.date()) / timedelta(days=1)
+        return self.total_remaining() / days_remaining
+    def avg_need_per_week(self, current_dt = datetime.now()):
+        curr_avg_need_per_day = self.avg_need_per_day(current_dt)
+        return curr_avg_need_per_day * 7
+    def avg_need_per_month(self, current_dt = datetime.now()):
+        curr_avg_need_per_day = self.avg_need_per_day(current_dt)
+        return curr_avg_need_per_day * 30
     
     def unit_of_measure(self):
         if self.goal_type_nm == 'distance':
@@ -263,7 +285,10 @@ class Goal_results(PaginatedAPIMixin,db.Model):
             'is_active': self.is_active,
             'total_distance_miles': self.total_distance_miles,
             'total_workouts': self.total_workouts,
-            'total_duration_seconds': self.total_duration_seconds
+            'total_duration_seconds': self.total_duration_seconds,
+            'avg_need_per_day': self.avg_need_per_day(),
+            'avg_need_per_week': self.avg_need_per_week(),
+            'avg_need_per_month': self.avg_need_per_month()
         }
         return d
     
@@ -284,7 +309,10 @@ class Goal_results(PaginatedAPIMixin,db.Model):
             'goal_type_nm': self.goal_type_nm,
             'completed_value': completed_value,
             'percent_complete': percent_complete*100,
-            'uom': self.unit_of_measure()
+            'uom': self.unit_of_measure(),
+            'avg_need_per_day': self.avg_need_per_day(),
+            'avg_need_per_week': self.avg_need_per_week(),
+            'avg_need_per_month': self.avg_need_per_month()
         }
         return d
     
