@@ -1530,6 +1530,17 @@ def edit_goal():
     elif request.method == 'POST' and goal_form.cancel.data:
         logger.info('edit_goal POST Cancel button pressed')
         return redirect(url_for('main.settings'))
+    elif request.method == 'POST' and goal_form.delete.data:
+        logger.info('edit_goal POST Delete button pressed')
+        try:
+            goal = Goal.query.filter_by(id=goal_id, user_id = usr_id).one()
+        except:
+            flash("Goal not found")
+            return redirect(url_for('main.settings'))
+        db.session.delete(goal)
+        db.session.commit()
+        flash("Goal deleted")
+        return redirect(url_for('main.settings'))
     elif request.method == 'POST':
         if not goal_form.validate_on_submit():
             # if goal_id is not None:
