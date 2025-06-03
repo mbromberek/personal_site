@@ -51,7 +51,35 @@ $ export FLASK_APP=p_site.py
 $ export FLASK_ENV=development
 $ flask run
 $ flask shell
+``` 
+## Update Packages
+1. In requirements.txt file change all == to >=
+2. Activate Virtual Environment, on server
+``` 
+source personal_site/bin/activate
 ```
+3. Update pip and packages
+```
+$ pip install --upgrade pip
+$ pip install --upgrade -r requirements.txt
+```
+4. Confirm packages are now at expected version numbers
+```
+pip freeze
+```
+5. Restart server
+```
+flask run or psite_start
+```
+6. Validate website is working
+  * Workouts page loads
+  * A Workout page loads, can see map details and run graph
+  * Dashboard and graphs load successfully
+  * Can upload a new workout
+7. Fix any bugs as needed
+8. After validations commit changes to github
+9. Pull requirements.txt and bug fixes to server
+10. Perform same steps 3 through 6
 
 ## Setup on server
 ```
