@@ -24,7 +24,7 @@ import NormalizeWorkout.parse.fitParse as fitParse
 import NormalizeWorkout.parse.hkParse as hkNorm
 import NormalizeWorkout.parse.rungapMetadata as rungapMeta
 import NormalizeWorkout.WrktSplits as wrktSplits
-import GenerateMapImage.gen_map_img as genMap
+# import GenerateMapImage.gen_map_img as genMap
 
 # Custom Classes
 from app import db
@@ -38,6 +38,7 @@ from app.model.location import Location
 from app.main import filtering
 from app.utils import wrkt_summary
 from app.model.tag import Workout_tag, Tag
+from app.utils import gen_map_img_2 as genMap
 
 
 @bp.route('/workout/<int:id>', methods=['GET'])

@@ -19,7 +19,8 @@ import pandas as pd
 import numpy as np
 
 # Custom classes from GitHub
-import GenerateMapImage.gen_map_img as genMap
+# import GenerateMapImage.gen_map_img as genMap
+from app.utils import gen_map_img_2 as genMap
 
 # Custom classes
 from app.main import bp
