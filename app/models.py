@@ -484,7 +484,8 @@ class Workout(PaginatedAPIMixin, db.Model):
                 db.session.add(new_gear)
                 db.session.commit()
                 self.gear_id = Gear.get_gear_id(data['gear'])
-
+        
+        logger.debug('from_dict type: ' + str(data['type']))
         if 'type' in data and data['type'] != None and data['type'] != '' :
             self.type_id = Workout_type.get_wrkt_type_id(data['type'])
         logger.debug('from_dict category: ' + str(data['category']))
@@ -831,6 +832,9 @@ class Workout_type(db.Model):
 
     @staticmethod
     def get_wrkt_type_id(wrkt_nm):
+        wrkt_type_name_replace = {'Lap Swimming':'Swimming'}
+        if wrkt_nm in wrkt_type_name_replace:
+            wrkt_nm = wrkt_type_name_replace[wrkt_nm]
         type_rec = Workout_type.query.filter_by(nm=wrkt_nm).first()
         if type_rec is None:
             return None

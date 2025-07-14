@@ -105,6 +105,7 @@ def create_workout():
         #     return bad_request('please use a different email address')
         workout = Workout()
         workout.from_dict(data, current_user_id)
+        logger.debug(workout)
         if workout.gear_id is None:
             logger.debug('no gear passed')
             predicted_gear = Gear.predict_gear(current_user_id, workout.category_id, workout.type_id)
