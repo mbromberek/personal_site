@@ -582,7 +582,10 @@ class Workout_interval(db.Model):
 
         for field in float_fields:
             if field in data:
-                setattr(self, field, float(data[field]))
+                logger.debug('interval from dict')
+                logger.debug(field + ': ' + data[field])
+                newVal = 0 if math.isnan(float(data[field])) else float(data[field])
+                setattr(self, field, newVal)
 
     def to_dict(self, include_calc_fields=False):
         data = {
