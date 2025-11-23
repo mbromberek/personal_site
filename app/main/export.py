@@ -13,6 +13,8 @@ import os
 import shutil
 from datetime import datetime
 import json
+import zipfile
+from pathlib import Path
 
 # Third party classes
 from flask import current_app
@@ -65,12 +67,12 @@ Returns directory that export was loaded into
 '''
 def wrkt_lst_to_json(wrkt_lst, user_id):
     wrkt_dict_lst = []
-    exportTmStr = datetime.now().strftime('%Y-%m-%d_%H%M%S') + '_' + 'export' + '_' + str(user_id)
-    exportDir = os.path.join(current_app.config['WRKT_FILE_DIR'], str(user_id), 'export', exportTmStr)
-    if not os.path.exists(exportDir):
-        # os.makedirs(os.path.join(current_app.config['WRKT_FILE_DIR'], str(user_id), 'export'), exportTmStr)
-        os.makedirs(exportDir)
-    # exportFile = os.path.join(exportDir, 'export.json')
+    exportDirectoryStr = 'Export_' + str(user_id) + '_' + datetime.now().strftime('%Y-%m-%d_%H.%M.%S')
+    exportFullDirectory = os.path.join(current_app.config['WRKT_FILE_DIR'], str(user_id), 'export', exportDirectoryStr)
+    if not os.path.exists(exportFullDirectory):
+        # os.makedirs(os.path.join(current_app.config['WRKT_FILE_DIR'], str(user_id), 'export'), exportDirectoryStr)
+        os.makedirs(exportFullDirectory)
+    # exportFile = os.path.join(exportFullDirectory, 'export.json')
     thumbDir = os.path.join(current_app.config['WRKT_FILE_DIR'], str(user_id), current_app.config['USER_THUMBNAIL_DIR'])
 
     for wrkt in wrkt_lst:
@@ -80,19 +82,42 @@ def wrkt_lst_to_json(wrkt_lst, user_id):
             wrkt_dict['intervals'].append(interval.to_dict())
         wrktYear = wrkt.wrkt_dttm.strftime('%Y')
         wrktId = wrkt.wrkt_dttm.strftime('%Y-%m-%d_%H%M%S') + '_' + wrkt.type_det.nm
-        wrktDir = os.path.join(exportDir, wrktYear, wrktId)
+        wrktDir = os.path.join(exportFullDirectory, wrktYear, wrktId)
         if not os.path.exists(wrktDir):
             os.makedirs(wrktDir)
         exportFileName = os.path.join(wrktDir, wrktId+'.json')
         with open(exportFileName, 'w') as fp:
             json.dump(wrkt_dict, fp)
+
         # Get .fit file to save in directory
-        # wrkt.wrkt_dir
+        if wrkt.wrkt_dir != None:
+            workoutFullDir = os.path.join(current_app.config['WRKT_FILE_DIR'], str(user_id), wrkt.wrkt_dir)
+            for file in os.listdir(workoutFullDir):
+                # Get and uncompress zip files
+                if file.lower().endswith('.zip'):
+                    folderName = Path(file).stem
+                    # print(folderName)
+                    z = zipfile.ZipFile(os.path.join(workoutFullDir,file), mode='r')
+                    z.extractall(path=os.path.join(workoutFullDir,folderName))
+                    # print(os.listdir(os.path.join(workoutFullDir,folderName)))
+                    copyFitFile(fromDirectory=os.path.join(workoutFullDir,folderName), toDirectory=wrktDir)
+                    deleteDirectory(os.path.join(workoutFullDir,folderName))
         
         # Get thumbnail to save in directory
         if wrkt.thumb_path != None:
-            logger.info(wrkt.thumb_path)
+            # logger.info(wrkt.thumb_path)
             shutil.copyfile(os.path.join(thumbDir, wrkt.thumb_path), os.path.join(wrktDir, wrkt.thumb_path))
+    
+    # Zip Export directory and remove directory that was zipped
+    shutil.make_archive(exportFullDirectory, 'zip', os.path.join(current_app.config['WRKT_FILE_DIR'], str(user_id), 'export'))
+    deleteDirectory(exportFullDirectory)
         
-        
-    return exportDir
+    return exportFullDirectory
+    
+def copyFitFile(fromDirectory, toDirectory):
+    for file in os.listdir(fromDirectory):
+        if file.lower().endswith('.fit'):
+            shutil.copyfile(os.path.join(fromDirectory, file), os.path.join(toDirectory, file))
+
+def deleteDirectory(directory):
+    shutil.rmtree(directory)
