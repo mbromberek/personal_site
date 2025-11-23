@@ -69,9 +69,12 @@ def wrkt_lst_to_json(wrkt_lst, user_id):
     if not os.path.exists(exportDir):
         # os.makedirs(os.path.join(current_app.config['WRKT_FILE_DIR'], str(user_id), 'export'), exportTmStr)
         os.makedirs(exportDir)
-    exportFile = os.path.join(exportDir, 'export.json')
+    # exportFile = os.path.join(exportDir, 'export.json')
     for wrkt in wrkt_lst:
         wrkt_dict = wrkt.to_dict(include_calc_fields=True)
+        wrkt_dict['intervals'] = []
+        for interval in wrkt.workout_intervals:
+            wrkt_dict['intervals'].append(interval.to_dict())
         wrktYear = wrkt.wrkt_dttm.strftime('%Y')
         wrktId = wrkt.wrkt_dttm.strftime('%Y-%m-%d_%H%M%S') + '_' + wrkt.type_det.nm
         wrktDir = os.path.join(exportDir, wrktYear, wrktId)
