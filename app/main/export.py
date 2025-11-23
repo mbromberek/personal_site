@@ -59,6 +59,9 @@ def wrkt_lst_to_csv(wrkt_lst, export_form):
 
     return mem
 
+'''
+Returns directory that export was loaded into
+'''
 def wrkt_lst_to_json(wrkt_lst, user_id):
     wrkt_dict_lst = []
     exportTmStr = datetime.now().strftime('%Y-%m-%d_%H%M%S') + '_' + 'export' + '_' + str(user_id)
@@ -68,7 +71,13 @@ def wrkt_lst_to_json(wrkt_lst, user_id):
         os.makedirs(exportDir)
     exportFile = os.path.join(exportDir, 'export.json')
     for wrkt in wrkt_lst:
-        wrkt_dict_lst.append(wrkt.to_dict(include_calc_fields=True))
-    with open(exportFile, 'w') as fp:
-        json.dump(wrkt_dict_lst, fp)
-    return exportFile
+        wrkt_dict = wrkt.to_dict(include_calc_fields=True)
+        wrktYear = wrkt.wrkt_dttm.strftime('%Y')
+        wrktId = wrkt.wrkt_dttm.strftime('%Y-%m-%d_%H%M%S') + '_' + wrkt.type_det.nm
+        wrktDir = os.path.join(exportDir, wrktYear, wrktId)
+        if not os.path.exists(wrktDir):
+            os.makedirs(wrktDir)
+        exportFileName = os.path.join(wrktDir, wrktId+'.json')
+        with open(exportFileName, 'w') as fp:
+            json.dump(wrkt_dict, fp)
+    return exportDir
