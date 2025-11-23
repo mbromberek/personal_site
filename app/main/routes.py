@@ -13,7 +13,9 @@ import os, math, json, csv
 
 # Third party classes
 from flask import render_template, flash, redirect, url_for, request, g, \
-    jsonify, current_app, send_file, send_from_directory
+    jsonify, current_app, send_file, send_from_directory, \
+    Response
+from werkzeug.wsgi import FileWrapper
 from flask_login import current_user, login_required
 import pandas as pd
 import numpy as np
@@ -264,8 +266,20 @@ def workouts():
             workout_list = query.paginate(page=0, per_page=wrkt_export_form.max_export_records.data, error_out=False).items
         else:
             workout_list = query.all()
-        export_file = export.wrkt_lst_to_json(workout_list, user_id = current_user.id)
-        logger.info(export_file)
+        (exportDirectory, exportZipFileStr) = export.wrkt_lst_to_json(workout_list, user_id = current_user.id)
+        '''
+        fileWrapper = FileWrapper(os.path.join(exportDirectory, exportZipFileStr))
+        headers = {
+            'Content-Disposition': 'attachment; filename="{}"'.format(exportZipFileStr)
+        }
+        response = Response(fileWrapper,
+                            mimetype='application/zip',
+                            direct_passthrough=True,
+                            headers=headers)
+        return response
+        '''
+        # return 
+        
         # export_file_nm = 'workouts.export.' + datetime.now().strftime('%Y%m%d_%H%M%S') + '.csv'
         
         # return send_file(export_file, as_attachment=True, mimetype='text/csv', download_name=export_file_nm)

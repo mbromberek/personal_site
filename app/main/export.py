@@ -63,11 +63,11 @@ def wrkt_lst_to_csv(wrkt_lst, export_form):
     return mem
 
 '''
-Returns directory that export was loaded into
+Returns directory export was created in and name of the zip file containing export data
 '''
 def wrkt_lst_to_json(wrkt_lst, user_id):
     wrkt_dict_lst = []
-    exportDirectoryStr = 'Export_' + str(user_id) + '_' + datetime.now().strftime('%Y-%m-%d_%H.%M.%S')
+    exportDirectoryStr = 'Export_' + str(user_id) + '_' + datetime.now().strftime('%Y-%m-%d_%H%M%S')
     exportFullDirectory = os.path.join(current_app.config['WRKT_FILE_DIR'], str(user_id), 'export', exportDirectoryStr)
     if not os.path.exists(exportFullDirectory):
         # os.makedirs(os.path.join(current_app.config['WRKT_FILE_DIR'], str(user_id), 'export'), exportDirectoryStr)
@@ -109,10 +109,24 @@ def wrkt_lst_to_json(wrkt_lst, user_id):
             shutil.copyfile(os.path.join(thumbDir, wrkt.thumb_path), os.path.join(wrktDir, wrkt.thumb_path))
     
     # Zip Export directory and remove directory that was zipped
-    shutil.make_archive(exportFullDirectory, 'zip', os.path.join(current_app.config['WRKT_FILE_DIR'], str(user_id), 'export'))
+    print(exportFullDirectory)
+    exportZipDesintationDirectory = os.path.join(current_app.config['WRKT_FILE_DIR'], str(user_id), 'export')
+    print(exportZipDesintationDirectory)
+    zipDirectory(exportFullDirectory, os.path.join(exportZipDesintationDirectory, exportDirectoryStr+'.zip'))
     deleteDirectory(exportFullDirectory)
+    
+    '''
+    exportZipDesintationDirectory = os.path.join(current_app.config['WRKT_FILE_DIR'], str(user_id), 'export')
+    print(exportFullDirectory)
+    print(exportZipDesintationDirectory)
+    shutil.make_archive(exportFullDirectory, 'zip', exportZipDesintationDirectory)
+    # deleteDirectory(exportFullDirectory)
+    print(exportFullDirectory)
+    
+    return (exportZipDesintationDirectory, exportDirectoryStr+'.zip')
+    '''
         
-    return exportFullDirectory
+    return exportFullDirectory, exportDirectoryStr+'.zip'
     
 def copyFitFile(fromDirectory, toDirectory):
     for file in os.listdir(fromDirectory):
@@ -121,3 +135,29 @@ def copyFitFile(fromDirectory, toDirectory):
 
 def deleteDirectory(directory):
     shutil.rmtree(directory)
+
+def zip_directory(folder_path, zip_path):
+    with zipfile.ZipFile(zip_path, mode='w', compression=zipfile.ZIP_DEFLATED) as zipf:
+        for root, _, files in os.walk(folder_path):
+            for file in files:
+                file_path = os.path.join(root, file)
+                # Arcname is the name in the zip file.
+                # We want to avoid storing the full path, so we use relative paths.
+                arcname = os.path.relpath(file_path, folder_path)
+                zipf.write(file_path, arcname)
+
+def zipDirectory(directory_to_zip, zip_path):
+    # Get the parent directory and the folder name
+    parent_dir = os.path.dirname(directory_to_zip)
+    folder_name = os.path.basename(directory_to_zip)
+    
+    with zipfile.ZipFile(zip_path, 'w', zipfile.ZIP_DEFLATED) as zipf:
+        # Walk through the directory
+        for root, dirs, files in os.walk(directory_to_zip):
+            # Create the archive name by taking the path relative to the parent directory
+            # This preserves the original folder name as the root in the zip
+            for file in files:
+                file_path = os.path.join(root, file)
+                # arcname is the path within the zip. This makes `folder_name` the root.
+                arcname = os.path.join(folder_name, os.path.relpath(file_path, directory_to_zip))
+                zipf.write(file_path, arcname)
