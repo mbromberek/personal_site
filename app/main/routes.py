@@ -255,6 +255,22 @@ def workouts():
 
         return send_file(export_file, as_attachment=True, mimetype='text/csv', download_name=export_file_nm)
 
+    if wrkt_export_form.download_json_btn.data:
+        logger.debug('Export as JSON Pressed')
+        query, usingSearch = filtering.get_workouts_from_filter(current_user.id, type_filter, category_filter, filterVal, wrkt_filter_form)
+        
+        query = query.order_by(Workout.wrkt_dttm.desc())
+        if wrkt_export_form.max_export_records.data != None:
+            workout_list = query.paginate(page=0, per_page=wrkt_export_form.max_export_records.data, error_out=False).items
+        else:
+            workout_list = query.all()
+        export_file = export.wrkt_lst_to_json(workout_list, user_id = current_user.id)
+        logger.info(export_file)
+        # export_file_nm = 'workouts.export.' + datetime.now().strftime('%Y%m%d_%H%M%S') + '.csv'
+        
+        # return send_file(export_file, as_attachment=True, mimetype='text/csv', download_name=export_file_nm)
+        # return 
+
     wrkts_data = filtering.get_workouts(current_user.id, page, current_app.config['POSTS_PER_PAGE'], filterVal, 'main.workout', wrkt_filter_form)
     usingSearch = wrkts_data['_meta']['using_extra_search_fields']
     logger.debug(filterVal['type'])

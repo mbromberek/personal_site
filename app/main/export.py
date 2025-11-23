@@ -10,6 +10,8 @@ All rights reserved.
 import csv
 import io
 import os
+from datetime import datetime
+import json
 
 # Third party classes
 from flask import current_app
@@ -56,3 +58,17 @@ def wrkt_lst_to_csv(wrkt_lst, export_form):
     output_string.close()
 
     return mem
+
+def wrkt_lst_to_json(wrkt_lst, user_id):
+    wrkt_dict_lst = []
+    exportTmStr = datetime.now().strftime('%Y-%m-%d_%H%M%S') + '_' + 'export' + '_' + str(user_id)
+    exportDir = os.path.join(current_app.config['WRKT_FILE_DIR'], str(user_id), 'export', exportTmStr)
+    if not os.path.exists(exportDir):
+        # os.makedirs(os.path.join(current_app.config['WRKT_FILE_DIR'], str(user_id), 'export'), exportTmStr)
+        os.makedirs(exportDir)
+    exportFile = os.path.join(exportDir, 'export.json')
+    for wrkt in wrkt_lst:
+        wrkt_dict_lst.append(wrkt.to_dict(include_calc_fields=True))
+    with open(exportFile, 'w') as fp:
+        json.dump(wrkt_dict_lst, fp)
+    return exportFile

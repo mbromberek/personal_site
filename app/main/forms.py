@@ -58,6 +58,7 @@ class WorkoutExportForm(FlaskForm):
     max_export_records = IntegerField('Max nbr of records', widget=h5widgets.NumberInput(),
         default='', validators=[Optional()])
     download_csv_btn = SubmitField(label='Export')
+    download_json_btn = SubmitField(label='Export JSON')
     duration_hms_chk = BooleanField("Duration h:m:s", default="checked")
     duration_sec_chk = BooleanField("Duration Seconds")
     distance_chk = BooleanField("Distance", default="checked")
