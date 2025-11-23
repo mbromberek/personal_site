@@ -13,6 +13,8 @@ import os
 import shutil
 from datetime import datetime
 import json
+import zipfile
+from pathlib import Path
 
 # Third party classes
 from flask import current_app
@@ -86,13 +88,33 @@ def wrkt_lst_to_json(wrkt_lst, user_id):
         exportFileName = os.path.join(wrktDir, wrktId+'.json')
         with open(exportFileName, 'w') as fp:
             json.dump(wrkt_dict, fp)
+
         # Get .fit file to save in directory
-        # wrkt.wrkt_dir
+        if wrkt.wrkt_dir != None:
+            workoutFullDir = os.path.join(current_app.config['WRKT_FILE_DIR'], str(user_id), wrkt.wrkt_dir)
+            for file in os.listdir(workoutFullDir):
+                # Get and uncompress zip files
+                if file.lower().endswith('.zip'):
+                    folderName = Path(file).stem
+                    # print(folderName)
+                    z = zipfile.ZipFile(os.path.join(workoutFullDir,file), mode='r')
+                    z.extractall(path=os.path.join(workoutFullDir,folderName))
+                    # print(os.listdir(os.path.join(workoutFullDir,folderName)))
+                    copyFitFile(fromDirectory=os.path.join(workoutFullDir,folderName), toDirectory=wrktDir)
+                    deleteDirectory(os.path.join(workoutFullDir,folderName))
         
         # Get thumbnail to save in directory
         if wrkt.thumb_path != None:
-            logger.info(wrkt.thumb_path)
+            # logger.info(wrkt.thumb_path)
             shutil.copyfile(os.path.join(thumbDir, wrkt.thumb_path), os.path.join(wrktDir, wrkt.thumb_path))
         
         
     return exportDir
+    
+def copyFitFile(fromDirectory, toDirectory):
+    for file in os.listdir(fromDirectory):
+        if file.lower().endswith('.fit'):
+            shutil.copyfile(os.path.join(fromDirectory, file), os.path.join(toDirectory, file))
+
+def deleteDirectory(directory):
+    shutil.rmtree(directory)
