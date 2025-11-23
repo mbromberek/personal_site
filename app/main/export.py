@@ -109,24 +109,19 @@ def wrkt_lst_to_json(wrkt_lst, user_id):
             shutil.copyfile(os.path.join(thumbDir, wrkt.thumb_path), os.path.join(wrktDir, wrkt.thumb_path))
     
     # Zip Export directory and remove directory that was zipped
-    print(exportFullDirectory)
+    print('exportFullDirectory:' + exportFullDirectory)
     exportZipDesintationDirectory = os.path.join(current_app.config['WRKT_FILE_DIR'], str(user_id), 'export')
     print(exportZipDesintationDirectory)
     zipDirectory(exportFullDirectory, os.path.join(exportZipDesintationDirectory, exportDirectoryStr+'.zip'))
     deleteDirectory(exportFullDirectory)
     
-    '''
-    exportZipDesintationDirectory = os.path.join(current_app.config['WRKT_FILE_DIR'], str(user_id), 'export')
-    print(exportFullDirectory)
-    print(exportZipDesintationDirectory)
-    shutil.make_archive(exportFullDirectory, 'zip', exportZipDesintationDirectory)
-    # deleteDirectory(exportFullDirectory)
-    print(exportFullDirectory)
-    
-    return (exportZipDesintationDirectory, exportDirectoryStr+'.zip')
-    '''
-        
-    return exportFullDirectory, exportDirectoryStr+'.zip'
+    # return os.path.join('..',current_app.config['WRKT_FILE_DIR'], str(user_id), 'export'), exportDirectoryStr+'.zip'
+    # read zip file into memory then delete zip file
+    exportZipFileFullPath = os.path.join(current_app.config['WRKT_FILE_DIR'], str(user_id), 'export', exportDirectoryStr+'.zip')
+    with open(exportZipFileFullPath, 'rb') as f:
+        zipContents = f.read()
+    os.remove(exportZipFileFullPath)
+    return zipContents, exportDirectoryStr+'.zip'
     
 def copyFitFile(fromDirectory, toDirectory):
     for file in os.listdir(fromDirectory):

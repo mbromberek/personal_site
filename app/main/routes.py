@@ -9,13 +9,13 @@ All rights reserved.
 # First party classes
 from datetime import datetime, timedelta, date, time
 import os, math, json, csv
+import io
 # from datetime import combine
 
 # Third party classes
 from flask import render_template, flash, redirect, url_for, request, g, \
-    jsonify, current_app, send_file, send_from_directory, \
-    Response
-from werkzeug.wsgi import FileWrapper
+    jsonify, current_app, send_file, send_from_directory
+
 from flask_login import current_user, login_required
 import pandas as pd
 import numpy as np
@@ -266,9 +266,17 @@ def workouts():
             workout_list = query.paginate(page=0, per_page=wrkt_export_form.max_export_records.data, error_out=False).items
         else:
             workout_list = query.all()
-        (exportDirectory, exportZipFileStr) = export.wrkt_lst_to_json(workout_list, user_id = current_user.id)
         '''
-        fileWrapper = FileWrapper(os.path.join(exportDirectory, exportZipFileStr))
+        (exportDirectory, exportZipFileStr) = export.wrkt_lst_to_json(workout_list, user_id = current_user.id)
+        
+        return send_file(os.path.join(exportDirectory, exportZipFileStr), as_attachment=True, mimetype='application/zip', download_name=exportZipFileStr)
+        '''
+        (exportZipContents, exportZipFileStr) = export.wrkt_lst_to_json(workout_list, user_id = current_user.id)
+        
+        return send_file(io.BytesIO(exportZipContents), as_attachment=True, mimetype='application/zip', download_name=exportZipFileStr)
+        
+        
+        '''
         headers = {
             'Content-Disposition': 'attachment; filename="{}"'.format(exportZipFileStr)
         }
