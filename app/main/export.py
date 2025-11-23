@@ -63,16 +63,16 @@ def wrkt_lst_to_csv(wrkt_lst, export_form):
     return mem
 
 '''
+wrkt_lst: list of workouts to export
+user_id: used for file name
 Returns directory export was created in and name of the zip file containing export data
 '''
 def wrkt_lst_to_json(wrkt_lst, user_id):
     wrkt_dict_lst = []
-    exportDirectoryStr = 'Export_' + str(user_id) + '_' + datetime.now().strftime('%Y-%m-%d_%H%M%S')
+    exportDirectoryStr = 'Export_' + str(user_id) + '_' + datetime.now().strftime('%Y-%m-%d_%H.%M.%S')
     exportFullDirectory = os.path.join(current_app.config['WRKT_FILE_DIR'], str(user_id), 'export', exportDirectoryStr)
     if not os.path.exists(exportFullDirectory):
-        # os.makedirs(os.path.join(current_app.config['WRKT_FILE_DIR'], str(user_id), 'export'), exportDirectoryStr)
         os.makedirs(exportFullDirectory)
-    # exportFile = os.path.join(exportFullDirectory, 'export.json')
     thumbDir = os.path.join(current_app.config['WRKT_FILE_DIR'], str(user_id), current_app.config['USER_THUMBNAIL_DIR'])
 
     for wrkt in wrkt_lst:
@@ -115,8 +115,6 @@ def wrkt_lst_to_json(wrkt_lst, user_id):
     zipDirectory(exportFullDirectory, os.path.join(exportZipDesintationDirectory, exportDirectoryStr+'.zip'))
     deleteDirectory(exportFullDirectory)
     
-    # return os.path.join('..',current_app.config['WRKT_FILE_DIR'], str(user_id), 'export'), exportDirectoryStr+'.zip'
-    # read zip file into memory then delete zip file
     exportZipFileFullPath = os.path.join(current_app.config['WRKT_FILE_DIR'], str(user_id), 'export', exportDirectoryStr+'.zip')
     with open(exportZipFileFullPath, 'rb') as f:
         zipContents = f.read()

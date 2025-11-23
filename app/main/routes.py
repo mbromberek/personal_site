@@ -266,32 +266,9 @@ def workouts():
             workout_list = query.paginate(page=0, per_page=wrkt_export_form.max_export_records.data, error_out=False).items
         else:
             workout_list = query.all()
-        '''
-        (exportDirectory, exportZipFileStr) = export.wrkt_lst_to_json(workout_list, user_id = current_user.id)
-        
-        return send_file(os.path.join(exportDirectory, exportZipFileStr), as_attachment=True, mimetype='application/zip', download_name=exportZipFileStr)
-        '''
         (exportZipContents, exportZipFileStr) = export.wrkt_lst_to_json(workout_list, user_id = current_user.id)
         
         return send_file(io.BytesIO(exportZipContents), as_attachment=True, mimetype='application/zip', download_name=exportZipFileStr)
-        
-        
-        '''
-        headers = {
-            'Content-Disposition': 'attachment; filename="{}"'.format(exportZipFileStr)
-        }
-        response = Response(fileWrapper,
-                            mimetype='application/zip',
-                            direct_passthrough=True,
-                            headers=headers)
-        return response
-        '''
-        # return 
-        
-        # export_file_nm = 'workouts.export.' + datetime.now().strftime('%Y%m%d_%H%M%S') + '.csv'
-        
-        # return send_file(export_file, as_attachment=True, mimetype='text/csv', download_name=export_file_nm)
-        # return 
 
     wrkts_data = filtering.get_workouts(current_user.id, page, current_app.config['POSTS_PER_PAGE'], filterVal, 'main.workout', wrkt_filter_form)
     usingSearch = wrkts_data['_meta']['using_extra_search_fields']
