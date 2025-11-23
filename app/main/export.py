@@ -10,6 +10,7 @@ All rights reserved.
 import csv
 import io
 import os
+import shutil
 from datetime import datetime
 import json
 
@@ -70,6 +71,8 @@ def wrkt_lst_to_json(wrkt_lst, user_id):
         # os.makedirs(os.path.join(current_app.config['WRKT_FILE_DIR'], str(user_id), 'export'), exportTmStr)
         os.makedirs(exportDir)
     # exportFile = os.path.join(exportDir, 'export.json')
+    thumbDir = os.path.join(current_app.config['WRKT_FILE_DIR'], str(user_id), current_app.config['USER_THUMBNAIL_DIR'])
+
     for wrkt in wrkt_lst:
         wrkt_dict = wrkt.to_dict(include_calc_fields=True)
         wrkt_dict['intervals'] = []
@@ -83,4 +86,13 @@ def wrkt_lst_to_json(wrkt_lst, user_id):
         exportFileName = os.path.join(wrktDir, wrktId+'.json')
         with open(exportFileName, 'w') as fp:
             json.dump(wrkt_dict, fp)
+        # Get .fit file to save in directory
+        # wrkt.wrkt_dir
+        
+        # Get thumbnail to save in directory
+        if wrkt.thumb_path != None:
+            logger.info(wrkt.thumb_path)
+            shutil.copyfile(os.path.join(thumbDir, wrkt.thumb_path), os.path.join(wrktDir, wrkt.thumb_path))
+        
+        
     return exportDir
