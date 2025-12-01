@@ -323,35 +323,33 @@ class Workout(PaginatedAPIMixin, db.Model):
             'dist_mi': str(self.dist_mi) if self.dist_mi != None else None,
             'pace': self.pace_str(),
             'pace_uom': self.pace_uom(),
-            'gear': gear_rec.nm if gear_rec != None else None,
             'clothes': self.clothes, 
-            'ele_up': str(self.ele_up),
-            'ele_down': str(self.ele_down),
-            'hr': str(self.hr),
+            'ele_up': str(self.ele_up) if self.ele_up != None else "0.0",
+            'ele_down': str(self.ele_down) if self.ele_down != None else "0.0",
+            'hr': str(self.hr) if self.hr != None else "0.0",
             'cal_burn': self.cal_burn,
             'category': self.category_det.nm if self.category_det != None else '',
             'location': self.location,
             'training_type': self.training_type,
             'weather_start': {
-                'temp': str(self.temp_strt),
-                'temp_feels_like': str(self.temp_feels_like_strt),
-                'wethr_cond': self.wethr_cond_strt,
-                'hmdty': str(self.hmdty_strt),
-                'wind_speed': str(self.wind_speed_strt),
-                'wind_gust': str(self.wind_gust_strt),
-                'dew_point' : str(self.dew_point_strt)
+                'temp': str(self.temp_strt) if self.temp_strt != None else "",
+                'temp_feels_like': str(self.temp_feels_like_strt) if self.temp_feels_like_strt != None else "",
+                'wethr_cond': self.wethr_cond_strt if self.wethr_cond_strt != None else "",
+                'hmdty': str(self.hmdty_strt/100) if self.hmdty_strt != None else "",
+                'wind_speed': str(self.wind_speed_strt) if self.wind_speed_strt != None else "",
+                'wind_gust': str(self.wind_gust_strt) if self.wind_gust_strt != None else "",
+                'dew_point' : str(self.dew_point_strt) if self.dew_point_strt != None else ""
             },
             'weather_end': {
-                'temp': str(self.temp_end),
-                'temp_feels_like': str(self.temp_feels_like_end),
-                'wethr_cond': self.wethr_cond_end,
-                'hmdty': str(self.hmdty_end),
-                'wind_speed': str(self.wind_speed_end),
-                'wind_gust': str(self.wind_gust_end),
-                'dew_point' : str(self.dew_point_end)
+                'temp': str(self.temp_end) if self.temp_end != None else "",
+                'temp_feels_like': str(self.temp_feels_like_end) if self.temp_feels_like_end != None else "",
+                'wethr_cond': self.wethr_cond_end if self.wethr_cond_end != None else "",
+                'hmdty': str(self.hmdty_end/100) if self.hmdty_end != None else "",
+                'wind_speed': str(self.wind_speed_end) if self.wind_speed_end != None else "",
+                'wind_gust': str(self.wind_gust_end) if self.wind_gust_end != None else "",
+                'dew_point' : str(self.dew_point_end) if self.dew_point_end != None else ""
             },
             'notes': self.notes if self.notes != None else '',
-
             'warm_up_tot_dist_mi': str(self.warm_up_tot_dist_mi),
             'warm_up_tot_tm_sec': str(self.warm_up_tot_tm_sec),
             'warm_up_pace': self.warm_up_pace_str(),
@@ -365,12 +363,12 @@ class Workout(PaginatedAPIMixin, db.Model):
             'intrvl_tot_ele_down': str(self.intrvl_tot_ele_down),
             'location_coordinates':{
                 'start':{
-                    'lat': str(self.lat_strt),
-                    'long': str(self.long_strt)
+                    'lat': str(self.lat_strt) if self.lat_strt != None else "",
+                    'long': str(self.long_strt) if self.long_strt != None else ""
                 },
                 'end':{
-                    'lat': str(self.lat_end),
-                    'long': str(self.long_end)
+                    'lat': str(self.lat_end) if self.lat_end != None else "",
+                    'long': str(self.long_end) if self.long_end != None else ""
                 }
             },
             'tags': workout_tag_nm_lst,
@@ -379,6 +377,8 @@ class Workout(PaginatedAPIMixin, db.Model):
                 'self': url_for('main.workout', workout=self.id, _external=True, _scheme=current_app.config['URL_SCHEME']) if for_web else url_for('api.get_workout', id=self.id),
             }
         }
+        if gear_rec != None:
+            data['gear'] = gear_rec.nm
         # logger.debug('for_web' + str(for_web))
         if for_web:
             data['_links']['edit'] = url_for('main.edit_workout', 
