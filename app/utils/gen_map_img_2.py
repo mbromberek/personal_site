@@ -64,7 +64,7 @@ def calc_zoom(lons: tuple, lats: tuple, projection: str='mercator',
         # print('Height ratio: ' + str(height_dim_ratio) + ' Width ratio: ' + str(width_dim_ratio))
         width_to_height = img_dim['width'] / img_dim['height']
         margin = 1.2
-        # margin=0.5
+        # margin=0.3
         height = (maxlat - minlat) * margin * width_to_height * height_dim_ratio
         width = (maxlon - minlon) * margin  * width_dim_ratio
         # print('Height: ' + str(height) + ' Width: ' + str(width))
@@ -93,11 +93,14 @@ def generate_map_img(df, img_dest, img_dim=IMG_DIM_DFT, img_name='image.png'):
 
     print('zoom: ' + str(map_zoom))
     print('center:' + str(map_center))
+    print('height:' + str(img_dim['height']) + ', width: ' + str(img_dim['width']))
 
-    run_line_map = px.line_mapbox(run_df, lat="latitude", lon="longitude", center=map_center, mapbox_style="open-street-map", zoom=map_zoom, height = img_dim['height'], width = img_dim['width'])
+    run_line_map = px.line_map(run_df, lat="latitude", lon="longitude", center=map_center, map_style="open-street-map", zoom=map_zoom, height = img_dim['height'], width = img_dim['width'])
+    
+    
     run_line_map.layout.margin = dict(t=0, b=0, l=0, r=0)
     run_line_map.update_traces(line=dict(color="Red", width=2))
-    run_line_map.write_image(os.path.join(img_dest, img_name))
+    run_line_map.write_image(os.path.join(img_dest, img_name), width = img_dim['width'], height = img_dim['height'])
 
 def main(argv):
     # print(argv[0])
