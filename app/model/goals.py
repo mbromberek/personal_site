@@ -107,7 +107,7 @@ class Yrly_goal(object):
             yrly_goals_lst.append(yr_goal)
         elif type_to_use == 'Total':
             yr_goal.description = 'Total'
-            yr_goal.goal = 2025
+            yr_goal.goal = 2026
             yr_goal.tot = yr_mileage.tot_dist
             yr_goal.uom = 'miles'
             yr_goal.pct_comp = yr_goal.calc_pct_comp() *100
