@@ -18,6 +18,13 @@ import plotly.io as pio
 THUMB_DIM = {'height':200, 'width':200}
 IMG_DIM_DFT = {'height':1500, 'width':1500}
 
+MAP_OPEN_STREET = "open-street-map"
+MAP_CARTO = "carto-voyager"
+MAP_BASIC = "basic"
+MAP_STREETS = "satellite-streets"
+MAP_SATELLITE = "satellite"
+MAP_OUTDOORS = "outdoors"
+
 def calc_center(lons: tuple, lats: tuple) -> (dict):
     lon_max, lon_min = max(lons), min(lons)
     lat_max, lat_min = max(lats), min(lats)
@@ -95,7 +102,7 @@ def generate_map_img(df, img_dest, img_dim=IMG_DIM_DFT, img_name='image.png'):
     print('center:' + str(map_center))
     print('height:' + str(img_dim['height']) + ', width: ' + str(img_dim['width']))
 
-    run_line_map = px.line_map(run_df, lat="latitude", lon="longitude", center=map_center, map_style="open-street-map", zoom=map_zoom, height = img_dim['height'], width = img_dim['width'])
+    run_line_map = px.line_map(run_df, lat="latitude", lon="longitude", center=map_center, map_style=MAP_SATELLITE, zoom=map_zoom, height = img_dim['height'], width = img_dim['width'])
     
     
     run_line_map.layout.margin = dict(t=0, b=0, l=0, r=0)
