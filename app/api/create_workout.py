@@ -46,7 +46,14 @@ from app.utils import gen_map_img_2 as genMap
 def create_workout_from_file():
     logger.info('create_workout_from_file')
     current_user_id = token_auth.current_user().id
-    dataLst = request.get_json() or [{}]
+    logger.info('Current User: ' + str(current_user_id))
+    # dataLst = request.get_json() or [{}]
+    logger.info(request.files)
+    if 'file' not in request.files:
+        logger.info('no file')
+        return jsonify("No file found"), 400
+    logger.info(str(request.files['file']))
+    logger.info('end')
 
     '''
     wrkt_list = []
@@ -94,8 +101,9 @@ def create_workout_from_file():
                     Workout_interval.from_intrvl_type_dict(data['intervals'][intrvl_type], current_user_id, workout.id, intrvl_type)
         wrkt_list.append(workout.to_dict())
     response = jsonify(wrkt_list)
-    '''
-    response = jsonify('Testing')
+    
     response.status_code = 201
     # response.headers['Location'] = url_for('api.get_workout', id=workout.id)
     return response
+    '''
+    return jsonify('testing'), 201
