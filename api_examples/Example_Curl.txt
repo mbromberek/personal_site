@@ -9,5 +9,5 @@ curl -i -X PUT -H "Authorization: Bearer "$token -H "Content-Type: multipart/for
 
 # Create workout from file
 token=''
-curl -i -X POST -H "Authorization: Bearer "$token -H "Content-Type: multipart/form-data" -F 'file=@Workout-2026-07-02_03-58-01.zip' http://127.0.0.1:5000/api/create_workout 
-
+curl -i -X POST -H "Authorization: Bearer "$token -H "Content-Type: multipart/form-data" -F 'file=@Fartlek_Workout_2026-07-02_03-58-01.zip' http://127.0.0.1:5000/api/create_workout
+curl -i -X POST -H "Authorization: Bearer "$token -H "Content-Type: multipart/form-data" -F 'file=@Workout-2026-07-02_03-58-01.zip' https://mikebromberek.com/api/create_workout
