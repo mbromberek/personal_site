@@ -10,6 +10,9 @@ All rights reserved.
 import os
 import datetime
 import string
+import re
+import zipfile
+import json
 
 # 3rd Party classes
 from flask import jsonify, request, url_for, abort, current_app, send_from_directory
@@ -45,14 +48,56 @@ from app.utils import gen_map_img_2 as genMap
 @token_auth.login_required
 def create_workout_from_file():
     logger.info('create_workout_from_file')
-    current_user_id = token_auth.current_user().id
-    logger.info('Current User: ' + str(current_user_id))
+    user_id = token_auth.current_user().id
+    logger.info('User ID: ' + str(user_id))
     # dataLst = request.get_json() or [{}]
     logger.info(request.files)
     if 'file' not in request.files:
         logger.info('no file')
         return jsonify("No file found"), 400
     logger.info(str(request.files['file']))
+    uploaded_file = request.files['file']
+    fname = secure_filename(uploaded_file.filename)
+    file_ext = os.path.splitext(fname)[-1]
+    if file_ext not in current_app.config['UPLOAD_EXTENSIONS']:
+        logger.info('{} is an invalid file extension'.format(file_ext))
+        abort(400)
+    
+    tempDir = os.path.join(current_app.config['WRKT_FILE_DIR'], str(user_id), 'temp')
+    workDir = os.path.join(current_app.config['WRKT_FILE_DIR'], str(user_id), 'work')
+    
+    if not os.path.exists(workDir):
+        os.makedirs(os.path.join(workDir))
+    else:
+        # TODO: should I remove this and just ensure files from this function get removed?
+        fao.clean_dir(workDir)
+    if not os.path.exists(tempDir):
+            os.makedirs(os.path.join(current_app.config['WRKT_FILE_DIR'], str(user_id), 'temp'))
+    
+    # If zip file
+    # fileExtension = file_ext(fname)
+    logger.info('Filename: ' + fname + ' extension ' + file_ext)
+    if file_ext == '.zip' and fname.split('_')[0] == 'Fartlek':
+      logger.info('Got export zip file from Fartlek app')
+      uploaded_file.save(os.path.join(tempDir, fname))
+      (zipFiles, directoriesToProcess) = uncompressToTemp(tempDir, workDir)
+      for directory in directoriesToProcess:
+        processFartlekData(directory)
+      
+    elif file_ext == '.fit':
+      logger.info('Fit file processing not enabled yet')
+      # uploaded_file.save(os.path.join(tempDir, fname))
+      fao.clean_dir(workDir)
+      fao.clean_dir(tempDir)
+      return jsonify("Fit file processing not enabled yet"), 400
+    else:
+      logger.info('No file to process')
+      fao.clean_dir(workDir)
+      fao.clean_dir(tempDir)
+      return jsonify("No valid files to process"), 400
+
+    # fao.extract_files(fname, workDir, tempDir)
+
     logger.info('end')
 
     '''
@@ -107,3 +152,63 @@ def create_workout_from_file():
     return response
     '''
     return jsonify('testing'), 201
+
+def uncompressToTemp(monitorDir: str, tempDir: str) -> ([str], [str]):
+    '''
+    Uncompress files from monitor directory into temp directory
+    '''
+    zipFiles = []
+    compressFileRegex = re.compile(r'(.zip|.gz)$')
+    for filename in os.listdir(monitorDir):
+        # Checks if compressed file
+        if compressFileRegex.search(filename):
+            z = zipfile.ZipFile(os.path.join(monitorDir, filename),mode='r')
+            z.extractall(path=tempDir)
+            zipFiles.append(os.path.join(monitorDir, filename))
+    unzippedFiles = os.listdir(monitorDir)
+    return (zipFiles, unzippedFiles)
+
+def processFartlekData(directory: str, userId: int):
+  logger.info('directory: ' + directory)
+  fullDirectoryPath = os.path.join(monitorDir, directory)
+  # Confirm this is a directory, if not return false
+  
+  thumbnailImageName = ''
+  fitFileName = ''
+  jsonFileName = ''
+  # Get list of files
+  files = os.listdir(fullDirectoryPath)
+  for filename in files:
+    if filename.endswith('Thumbnail-Light.png'):
+      thumbnailImageName = filename
+    elif filename.endswith('.json'):
+      jsonFileName = filename
+    elif filename.endswith('.fit'):
+      fitFileName = filename
+  workout = createWorkoutFromFartlekFiles(
+    userId, 
+    os.path.join(fullDirectoryPath, jsonFileName), 
+    os.path.join(fullDirectoryPath, fitFileName), 
+    os.path.join(fullDirectoryPath, thumbnailImageName)
+  )
+  # updateWorkoutFromFit(workout, os.path.join(fullDirectoryPath, fitFileName))
+  # Function to get weather using updated data
+  # Function generate workout thumbnail or use the one that was provided (assuming there was one)
+
+
+def createWorkoutFromFartlekFiles(userId: int, jsonFile: str, fitFile: str, thumbnailImage: str = '') -> Workout:
+  with open(jsonFile, 'r') as data_file:
+    workoutData = json.load(data_file)
+  req_fields = ['type', 'dateTime', 'duration']
+  for field in req_fields:
+    if field not in data:
+        return bad_request('must include ' + field + ' field')
+  
+  # Should I check if a request for specified workt_dttm already exists?
+  # if User.query.filter_by(username=data['username']).first():
+  #     return bad_request('please use a different email address')
+  workout = Workout()
+  workout.from_fartlek_dict(workoutData, userId)
+  logger.debug(workout)
+  return workout
+    
