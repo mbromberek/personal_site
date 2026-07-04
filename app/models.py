@@ -512,6 +512,64 @@ class Workout(PaginatedAPIMixin, db.Model):
                 if field in wethr_data:
                     setattr(self, field + '_end', wethr_data[field])
 
+    def from_fartlek_dict(self, data, user_id):
+        return 
+        str_fields = ['clothes', 'location', 'training_type', 'notes','t_zone']
+        int_fields = ['dur_sec','hr','cal_burn','warm_up_tot_tm_sec', 'cool_down_tot_tm_sec', 'intrvl_tot_tm_sec']
+        float_fields = ['dist_mi','ele_up','ele_down','warm_up_tot_dist_mi','cool_down_tot_dist_mi','intrvl_tot_dist_mi','intrvl_tot_ele_up','intrvl_tot_ele_down']
+        
+        setattr(self, 'user_id', user_id)
+        # TODO need to validate date format
+        if 'wrkt_dttm' in data:
+            self.wrkt_dttm = datetime.strptime(data['wrkt_dttm'], '%Y-%m-%dT%H:%M:%SZ')
+        
+        for field in str_fields:
+            if field in data:
+                setattr(self, field, data[field])
+        
+        for field in int_fields:
+            if field in data:
+                setattr(self, field, int(data[field]))
+        
+        for field in float_fields:
+            if field in data:
+                setattr(self, field, float(data[field]))
+        
+        if 'gear' in data and data['gear'] != None and data['gear'] != '' :
+            self.gear_id = Gear.get_gear_id(data['gear'])
+            if self.gear_id is None:
+                # Create gear
+                new_gear = Gear(nm=data['gear'], type='Shoe', user_id=user_id)
+                db.session.add(new_gear)
+                db.session.commit()
+                self.gear_id = Gear.get_gear_id(data['gear'])
+        
+        logger.debug('from_dict type: ' + str(data['type']))
+        if 'type' in data and data['type'] != None and data['type'] != '' :
+            self.type_id = Workout_type.get_wrkt_type_id(data['type'])
+        logger.debug('from_dict category: ' + str(data['category']))
+        if 'category' in data and data['category'] != None and data['category'] != '' :
+            self.category_id = Workout_category.get_wrkt_cat_id(data['category'])
+        
+        # Populate Weather data
+        wethr_float_fields = ['temp','temp_feels_like','hmdty', 'wind_speed','wind_gust','dew_point']
+        wethr_str_fields = ['wethr_cond']
+        if 'wethr_start' in data:
+            wethr_data = data['wethr_start']
+            for field in wethr_float_fields:
+                if field in wethr_data:
+                    setattr(self, field + '_strt', float(wethr_data[field]))
+            for field in wethr_str_fields:
+                if field in wethr_data:
+                    setattr(self, field + '_strt', wethr_data[field])
+        if 'wethr_end' in data:
+            wethr_data = data['wethr_end']
+            for field in wethr_float_fields:
+                if field in wethr_data:
+                    setattr(self, field + '_end', float(wethr_data[field]))
+            for field in wethr_str_fields:
+                if field in wethr_data:
+                    setattr(self, field + '_end', wethr_data[field])
 
     def update(self, updt_wrkt):
         merge_fields = ['type_id', 'wrkt_dttm', 'dur_sec', 'dist_mi', 'clothes', 'category_id', 'location', 'training_type', 'notes','hr','cal_burn','warm_up_tot_tm_sec', 'cool_down_tot_tm_sec', 'intrvl_tot_tm_sec','ele_up','ele_down','warm_up_tot_dist_mi','cool_down_tot_dist_mi','intrvl_tot_dist_mi','intrvl_tot_ele_up','intrvl_tot_ele_down', 'gear_id']
