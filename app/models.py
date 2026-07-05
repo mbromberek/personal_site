@@ -12,6 +12,7 @@ import math
 import re
 import os
 import base64
+from zoneinfo import ZoneInfo
 
 # Third party classes
 from flask_login import UserMixin
@@ -521,7 +522,12 @@ class Workout(PaginatedAPIMixin, db.Model):
         setattr(self, 'user_id', user_id)
         # TODO need to validate date format
         if 'dateTime' in data:
-            self.wrkt_dttm = datetime.strptime(data['dateTime'], '%Y-%m-%dT%H:%M:%SZ')
+            utc_dt = datetime.strptime(data['dateTime'], '%Y-%m-%dT%H:%M:%SZ')
+            utc_dt = utc_dt.replace(tzinfo=ZoneInfo("UTC"))
+            if 'timeZoneIdentifier' in data:
+                self.wrkt_dttm = utc_dt.astimezone(ZoneInfo(data['timeZoneIdentifier']))
+            else:
+                self.wrkt_dttm = utc_dt
         if 'distance' in data:
             self.dist_mi = data['distance'] * const.METERS_TO_MILES
         # if 'duration' in data:
