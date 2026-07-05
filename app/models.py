@@ -184,6 +184,10 @@ class Workout(PaginatedAPIMixin, db.Model):
     wind_speed_strt = db.Column(db.Numeric(8,2))
     wind_gust_strt = db.Column(db.Numeric(8,2))
     dew_point_strt = db.Column(db.Numeric(8,2))
+    wind_direction_strt = db.Column(db.String(50))
+    uv_index_strt = db.Column(db.Integer)
+    cloud_cover_strt = db.Column(db.Numeric(8,2))
+    weather_symbol_strt = db.Column(db.String(50))
 
     temp_end = db.Column(db.Numeric(8,2))
     temp_feels_like_end = db.Column(db.Numeric(8,2))
@@ -192,6 +196,10 @@ class Workout(PaginatedAPIMixin, db.Model):
     wind_speed_end = db.Column(db.Numeric(8,2))
     wind_gust_end = db.Column(db.Numeric(8,2))
     dew_point_end = db.Column(db.Numeric(8,2))
+    wind_direction_end = db.Column(db.String(50))
+    uv_index_end = db.Column(db.Integer)
+    cloud_cover_end = db.Column(db.Numeric(8,2))
+    weather_symbol_end = db.Column(db.String(50))
 
     notes = db.Column(db.Text())
 
@@ -587,15 +595,14 @@ class Workout(PaginatedAPIMixin, db.Model):
                         setattr(self, 'dew_point' + fieldPostFix, weatherConv.c2F(float(weatherData['dewPointCelcius'])))
                     if 'condition' in weatherData:
                         setattr(self, 'wethr_cond' + fieldPostFix, weatherData['condition'])
-    
-                    # if 'windDirection' in weatherData:
-                    #     setattr(self, 'wind_direction' + fieldPostFix, weatherData['windDirection'])
-                    # if 'uvIndex' in weatherData:
-                    #     setattr(self, 'uv_index' + fieldPostFix, weatherConv.c2F(float(weatherData['uvIndex'])))
-                    # if 'cloudCover' in weatherData:
-                    #     setattr(self, 'cloud_cover' + fieldPostFix, weatherConv.c2F(float(weatherData['cloudCover'])))
-                    # if 'weatherSymbol' in weatherData:
-                        # setattr(self, 'weather_symbol' + fieldPostFix, weatherData['weatherSymbol'])
+                    if 'windDirection' in weatherData:
+                        setattr(self, 'wind_direction' + fieldPostFix, weatherData['windDirection'])
+                    if 'uvIndex' in weatherData:
+                        setattr(self, 'uv_index' + fieldPostFix, weatherData['uvIndex'])
+                    if 'cloudCover' in weatherData:
+                        setattr(self, 'cloud_cover' + fieldPostFix, float(weatherData['cloudCover']))
+                    if 'weatherSymbol' in weatherData:
+                        setattr(self, 'weather_symbol' + fieldPostFix, weatherData['weatherSymbol'])
         
         if 'startCoordinate' in data:
             if 'latitude' in data['startCoordinate']:
