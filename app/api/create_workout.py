@@ -7,7 +7,7 @@ All rights reserved.
 '''
 
 # First party classes
-import os
+import os, glob, shutil
 import datetime
 import string
 import re
@@ -70,9 +70,10 @@ def create_workout_from_file():
         os.makedirs(os.path.join(workDir))
     else:
         # TODO: should I remove this and just ensure files from this function get removed?
-        fao.clean_dir(workDir)
+        # fao.clean_dir(workDir)
+        logger.info('should clean directorty')
     if not os.path.exists(tempDir):
-            os.makedirs(os.path.join(current_app.config['WRKT_FILE_DIR'], str(user_id), 'temp'))
+        os.makedirs(os.path.join(current_app.config['WRKT_FILE_DIR'], str(user_id), 'temp'))
     
     # If zip file
     # fileExtension = file_ext(fname)
@@ -82,18 +83,20 @@ def create_workout_from_file():
       uploaded_file.save(os.path.join(tempDir, fname))
       (zipFiles, directoriesToProcess) = uncompressToTemp(tempDir, workDir)
       for directory in directoriesToProcess:
-        processFartlekData(directory)
-      
+        processFartlekData(directory, user_id)
+      db.session.commit()
+      clean_dir(tempDir)
+      clean_dir(workDir)
     elif file_ext == '.fit':
       logger.info('Fit file processing not enabled yet')
       # uploaded_file.save(os.path.join(tempDir, fname))
-      fao.clean_dir(workDir)
-      fao.clean_dir(tempDir)
+      clean_dir(workDir)
+      clean_dir(tempDir)
       return jsonify("Fit file processing not enabled yet"), 400
     else:
       logger.info('No file to process')
-      fao.clean_dir(workDir)
-      fao.clean_dir(tempDir)
+      clean_dir(workDir)
+      clean_dir(tempDir)
       return jsonify("No valid files to process"), 400
 
     # fao.extract_files(fname, workDir, tempDir)
@@ -165,13 +168,16 @@ def uncompressToTemp(monitorDir: str, tempDir: str) -> ([str], [str]):
             z = zipfile.ZipFile(os.path.join(monitorDir, filename),mode='r')
             z.extractall(path=tempDir)
             zipFiles.append(os.path.join(monitorDir, filename))
-    unzippedFiles = os.listdir(monitorDir)
+    unzippedFiles = os.listdir(tempDir)
     return (zipFiles, unzippedFiles)
 
 def processFartlekData(directory: str, userId: int):
   logger.info('directory: ' + directory)
-  fullDirectoryPath = os.path.join(monitorDir, directory)
+  workDir = os.path.join(current_app.config['WRKT_FILE_DIR'], str(userId), 'work')
+  fullDirectoryPath = os.path.join(workDir, directory)
   # Confirm this is a directory, if not return false
+  if not os.path.isdir(fullDirectoryPath):
+    return
   
   thumbnailImageName = ''
   fitFileName = ''
@@ -191,6 +197,8 @@ def processFartlekData(directory: str, userId: int):
     os.path.join(fullDirectoryPath, fitFileName), 
     os.path.join(fullDirectoryPath, thumbnailImageName)
   )
+  db.session.add(workout)
+  
   # updateWorkoutFromFit(workout, os.path.join(fullDirectoryPath, fitFileName))
   # Function to get weather using updated data
   # Function generate workout thumbnail or use the one that was provided (assuming there was one)
@@ -201,14 +209,21 @@ def createWorkoutFromFartlekFiles(userId: int, jsonFile: str, fitFile: str, thum
     workoutData = json.load(data_file)
   req_fields = ['type', 'dateTime', 'duration']
   for field in req_fields:
-    if field not in data:
+    if field not in workoutData:
         return bad_request('must include ' + field + ' field')
   
   # Should I check if a request for specified workt_dttm already exists?
   # if User.query.filter_by(username=data['username']).first():
   #     return bad_request('please use a different email address')
   workout = Workout()
-  workout.from_fartlek_dict(workoutData, userId)
+  workout.from_dict_fartlek(workoutData, userId)
   logger.debug(workout)
   return workout
-    
+
+def clean_dir(dir):
+  files = glob.glob(dir + '/*')
+  for f in files:
+    if os.path.isdir(f):
+      shutil.rmtree(f)
+    else:
+      os.remove(f)
