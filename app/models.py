@@ -513,10 +513,10 @@ class Workout(PaginatedAPIMixin, db.Model):
                     setattr(self, field + '_end', wethr_data[field])
 
     def from_dict_fartlek(self, data, user_id):
-        str_fields = ['clothes', 'location', 'training_type', 'notes','t_zone']
-        int_fields = ['dur_sec','hr','cal_burn','warm_up_tot_tm_sec', 'cool_down_tot_tm_sec', 'intrvl_tot_tm_sec']
-        float_fields = ['dist_mi','ele_up','ele_down','warm_up_tot_dist_mi','cool_down_tot_dist_mi','intrvl_tot_dist_mi','intrvl_tot_ele_up','intrvl_tot_ele_down']
-        field_name_map: dict[str, str] = {'distance':'dist_mi', 'duration': 'dur_sec'}
+        str_fields = ['clothes', 'location', 'notes','timeZoneIdentifier']
+        int_fields = ['duration','averageHR','calories']
+        # float_fields = ['ele_up','ele_down','warm_up_tot_dist_mi','cool_down_tot_dist_mi','intrvl_tot_dist_mi','intrvl_tot_ele_up','intrvl_tot_ele_down']
+        field_name_map: dict[str, str] = {'averageHR': 'hr','duration':'dur_sec','calories':'cal_burn','timeZoneIdentifier':'t_zone'}
         
         setattr(self, 'user_id', user_id)
         # TODO need to validate date format
@@ -524,8 +524,12 @@ class Workout(PaginatedAPIMixin, db.Model):
             self.wrkt_dttm = datetime.strptime(data['dateTime'], '%Y-%m-%dT%H:%M:%SZ')
         if 'distance' in data:
             self.dist_mi = data['distance'] * const.METERS_TO_MILES
-        if 'duration' in data:
-            self.dur_sec = data['duration']
+        # if 'duration' in data:
+        #     self.dur_sec = data['duration']
+        if 'totalAscent' in data:
+            self.ele_up = data['totalAscent'] * const.METERS_TO_FEET
+        if 'totalDescent' in data:
+            self.ele_down = data['totalDescent'] * const.METERS_TO_FEET
 
         if 'type' in data and data['type'] != None and data['type'] != '' :
             isIndoor = False
@@ -534,6 +538,8 @@ class Workout(PaginatedAPIMixin, db.Model):
             logger.debug('from_dict type: ' + str(data['type']))
             # type_name_map = ['run':'Running', 'cycle':'Cycling', 'swim':'Swimming', 'strength':]
             self.type_id = Workout_type.get_wrkt_type_id_from_group(data['type'], isIndoor)
+        
+        # TODO: Category
 
         if 'gear' in data and data['gear'] != None and data['gear'] != '' :
             self.gear_id = Gear.get_gear_id(data['gear'])
@@ -543,16 +549,24 @@ class Workout(PaginatedAPIMixin, db.Model):
                 db.session.add(new_gear)
                 db.session.commit()
                 self.gear_id = Gear.get_gear_id(data['gear'])
-
-        return
         
+        # TODO: Weather
+        # TODO: coordinates
+        # lat_strt, long_strt, lat_end, long_end
+        # TODO: halfSplitType?
+        
+
         for field in str_fields:
             if field in data:
-                setattr(self, field, data[field])
-        
+                workoutFieldName = field_name_map.get(field, field)
+                setattr(self, workoutFieldName, data[field])
+                
         for field in int_fields:
             if field in data:
-                setattr(self, field, int(data[field]))
+                workoutFieldName = field_name_map.get(field, field)
+                setattr(self, workoutFieldName, int(data[field]))
+        
+        return
         
         for field in float_fields:
             if field in data:
