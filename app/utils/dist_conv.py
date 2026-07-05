@@ -28,3 +28,11 @@ def dist_to_miles(dist_orig, dist_orig_uom):
   elif dist_orig_uom.lower() in ['meter','meters']:
     return dist_float * METERS_TO_MILES
   raise ValueError('Invalid Source Unit of Measure')
+
+def kph_to_mph(kph: float) -> float:
+  return kph * 0.621371
+  
+  
+def mph_to_kph(mph: float) -> float:
+  return mph * 1.60934
+

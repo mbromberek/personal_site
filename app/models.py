@@ -22,7 +22,7 @@ from sqlalchemy import or_
 
 # Custom Classes
 from app import db, login
-from app.utils import tm_conv, const
+from app.utils import tm_conv, const, weatherConv, dist_conv
 from app.model.location import Location
 from app import logger
 from app.model.tag import Workout_tag
@@ -556,9 +556,42 @@ class Workout(PaginatedAPIMixin, db.Model):
                 db.session.commit()
                 self.gear_id = Gear.get_gear_id(data['gear'])
         
-        # TODO: Weather
-        # TODO: coordinates
-        # lat_strt, long_strt, lat_end, long_end
+        # Populate Weather data
+        wethr_float_fields = ['temp','temp_feels_like','hmdty', 'wind_speed','wind_gust','dew_point']
+        wethr_str_fields = ['wethr_cond']
+        if 'weatherLst' in data:
+            for weatherData in data['weatherLst']:
+                position = weatherData.get('positionInWorkout', '')
+                fieldPostFix = ''
+                if position == 'start':
+                    fieldPostFix = '_strt'
+                if position == 'end':
+                    fieldPostFix = '_end'
+                if fieldPostFix != '':
+                    if 'temperatureCelcius' in weatherData:
+                        setattr(self, 'temp' + fieldPostFix, weatherConv.c2F(float(weatherData['temperatureCelcius'])))
+                    if 'apparentTemperatureCelcius' in weatherData:
+                        setattr(self, 'temp_feels_like' + fieldPostFix, weatherConv.c2F(float(weatherData['apparentTemperatureCelcius'])))
+                    if 'humidity' in weatherData:
+                        setattr(self, 'hmdty' + fieldPostFix, (float(weatherData['humidity']))*100.0 )
+                    if 'windSpeedKPH' in weatherData:
+                        setattr(self, 'wind_speed' + fieldPostFix, dist_conv.kph_to_mph(float(weatherData['windSpeedKPH'])))
+                    if 'windGustKPH' in weatherData:
+                        setattr(self, 'wind_gust' + fieldPostFix, dist_conv.kph_to_mph(float(weatherData['windGustKPH'])))
+                    if 'dewPointCelcius' in weatherData:
+                        setattr(self, 'dew_point' + fieldPostFix, weatherConv.c2F(float(weatherData['dewPointCelcius'])))
+                    if 'condition' in weatherData:
+                        setattr(self, 'wethr_cond' + fieldPostFix, weatherData['condition'])
+    
+                    # if 'windDirection' in weatherData:
+                    #     setattr(self, 'wind_direction' + fieldPostFix, weatherData['windDirection'])
+                    # if 'uvIndex' in weatherData:
+                    #     setattr(self, 'uv_index' + fieldPostFix, weatherConv.c2F(float(weatherData['uvIndex'])))
+                    # if 'cloudCover' in weatherData:
+                    #     setattr(self, 'cloud_cover' + fieldPostFix, weatherConv.c2F(float(weatherData['cloudCover'])))
+                    # if 'weatherSymbol' in weatherData:
+                        # setattr(self, 'weather_symbol' + fieldPostFix, weatherData['weatherSymbol'])
+        
         if 'startCoordinate' in data:
             if 'latitude' in data['startCoordinate']:
                 self.lat_strt = data['startCoordinate']['latitude']
@@ -593,25 +626,6 @@ class Workout(PaginatedAPIMixin, db.Model):
         if 'category' in data and data['category'] != None and data['category'] != '' :
             self.category_id = Workout_category.get_wrkt_cat_id(data['category'])
         
-        # Populate Weather data
-        wethr_float_fields = ['temp','temp_feels_like','hmdty', 'wind_speed','wind_gust','dew_point']
-        wethr_str_fields = ['wethr_cond']
-        if 'wethr_start' in data:
-            wethr_data = data['wethr_start']
-            for field in wethr_float_fields:
-                if field in wethr_data:
-                    setattr(self, field + '_strt', float(wethr_data[field]))
-            for field in wethr_str_fields:
-                if field in wethr_data:
-                    setattr(self, field + '_strt', wethr_data[field])
-        if 'wethr_end' in data:
-            wethr_data = data['wethr_end']
-            for field in wethr_float_fields:
-                if field in wethr_data:
-                    setattr(self, field + '_end', float(wethr_data[field]))
-            for field in wethr_str_fields:
-                if field in wethr_data:
-                    setattr(self, field + '_end', wethr_data[field])
 
     def update(self, updt_wrkt):
         merge_fields = ['type_id', 'wrkt_dttm', 'dur_sec', 'dist_mi', 'clothes', 'category_id', 'location', 'training_type', 'notes','hr','cal_burn','warm_up_tot_tm_sec', 'cool_down_tot_tm_sec', 'intrvl_tot_tm_sec','ele_up','ele_down','warm_up_tot_dist_mi','cool_down_tot_dist_mi','intrvl_tot_dist_mi','intrvl_tot_ele_up','intrvl_tot_ele_down', 'gear_id']
