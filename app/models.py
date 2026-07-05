@@ -514,6 +514,9 @@ class Workout(PaginatedAPIMixin, db.Model):
                     setattr(self, field + '_end', wethr_data[field])
 
     def from_dict_fartlek(self, data, user_id):
+        '''
+        Convert Fartlek data to a Workout
+        '''
         str_fields = ['clothes', 'location', 'notes','timeZoneIdentifier']
         int_fields = ['duration','averageHR','calories']
         # float_fields = ['ele_up','ele_down','warm_up_tot_dist_mi','cool_down_tot_dist_mi','intrvl_tot_dist_mi','intrvl_tot_ele_up','intrvl_tot_ele_down']
@@ -545,7 +548,9 @@ class Workout(PaginatedAPIMixin, db.Model):
             # type_name_map = ['run':'Running', 'cycle':'Cycling', 'swim':'Swimming', 'strength':]
             self.type_id = Workout_type.get_wrkt_type_id_from_group(data['type'], isIndoor)
         
-        # TODO: Category
+        if 'category' in data and data['category'] != None and data['category'] != '' :
+            logger.debug('from_dict category: ' + str(data['category']))
+            self.category_id = Workout_category.get_wrkt_cat_id(data['category'], False)
 
         if 'gear' in data and data['gear'] != None and data['gear'] != '' :
             self.gear_id = Gear.get_gear_id(data['gear'])
@@ -622,9 +627,6 @@ class Workout(PaginatedAPIMixin, db.Model):
                 setattr(self, field, float(data[field]))
         
         
-        logger.debug('from_dict category: ' + str(data['category']))
-        if 'category' in data and data['category'] != None and data['category'] != '' :
-            self.category_id = Workout_category.get_wrkt_cat_id(data['category'])
         
 
     def update(self, updt_wrkt):
@@ -984,8 +986,14 @@ class Workout_category(db.Model):
         return '<Workout Category {}: id {}>'.format( self.nm, self.id)
 
     @staticmethod
-    def get_wrkt_cat_id(wrkt_nm):
-        type_rec = Workout_category.query.filter_by(nm=wrkt_nm).first()
+    def get_wrkt_cat_id(wrkt_nm, case_sensitive=True):
+        if case_sensitive:
+            type_rec = Workout_category.query.filter_by(nm=wrkt_nm).first()
+        else:
+            # type_rec = Workout_category.query.filter(func.lower(Workout_category.nm) == wrkt_nm.lower())
+            type_rec = Workout_category.query.filter(
+                Workout_category.nm.ilike(wrkt_nm)
+            ).first()
         if type_rec is None:
             return None
         return type_rec.id
