@@ -512,16 +512,39 @@ class Workout(PaginatedAPIMixin, db.Model):
                 if field in wethr_data:
                     setattr(self, field + '_end', wethr_data[field])
 
-    def from_fartlek_dict(self, data, user_id):
-        return 
+    def from_dict_fartlek(self, data, user_id):
         str_fields = ['clothes', 'location', 'training_type', 'notes','t_zone']
         int_fields = ['dur_sec','hr','cal_burn','warm_up_tot_tm_sec', 'cool_down_tot_tm_sec', 'intrvl_tot_tm_sec']
         float_fields = ['dist_mi','ele_up','ele_down','warm_up_tot_dist_mi','cool_down_tot_dist_mi','intrvl_tot_dist_mi','intrvl_tot_ele_up','intrvl_tot_ele_down']
+        field_name_map: dict[str, str] = {'distance':'dist_mi', 'duration': 'dur_sec'}
         
         setattr(self, 'user_id', user_id)
         # TODO need to validate date format
-        if 'wrkt_dttm' in data:
-            self.wrkt_dttm = datetime.strptime(data['wrkt_dttm'], '%Y-%m-%dT%H:%M:%SZ')
+        if 'dateTime' in data:
+            self.wrkt_dttm = datetime.strptime(data['dateTime'], '%Y-%m-%dT%H:%M:%SZ')
+        if 'distance' in data:
+            self.dist_mi = data['distance'] * const.METERS_TO_MILES
+        if 'duration' in data:
+            self.dur_sec = data['duration']
+
+        if 'type' in data and data['type'] != None and data['type'] != '' :
+            isIndoor = False
+            if 'isIndoor' in data and data['isIndoor'] == True:
+                isIndoor = True
+            logger.debug('from_dict type: ' + str(data['type']))
+            # type_name_map = ['run':'Running', 'cycle':'Cycling', 'swim':'Swimming', 'strength':]
+            self.type_id = Workout_type.get_wrkt_type_id_from_group(data['type'], isIndoor)
+
+        if 'gear' in data and data['gear'] != None and data['gear'] != '' :
+            self.gear_id = Gear.get_gear_id(data['gear'])
+            if self.gear_id is None:
+                # Create gear
+                new_gear = Gear(nm=data['gear'], type='Shoe', user_id=user_id)
+                db.session.add(new_gear)
+                db.session.commit()
+                self.gear_id = Gear.get_gear_id(data['gear'])
+
+        return
         
         for field in str_fields:
             if field in data:
@@ -535,18 +558,7 @@ class Workout(PaginatedAPIMixin, db.Model):
             if field in data:
                 setattr(self, field, float(data[field]))
         
-        if 'gear' in data and data['gear'] != None and data['gear'] != '' :
-            self.gear_id = Gear.get_gear_id(data['gear'])
-            if self.gear_id is None:
-                # Create gear
-                new_gear = Gear(nm=data['gear'], type='Shoe', user_id=user_id)
-                db.session.add(new_gear)
-                db.session.commit()
-                self.gear_id = Gear.get_gear_id(data['gear'])
         
-        logger.debug('from_dict type: ' + str(data['type']))
-        if 'type' in data and data['type'] != None and data['type'] != '' :
-            self.type_id = Workout_type.get_wrkt_type_id(data['type'])
         logger.debug('from_dict category: ' + str(data['category']))
         if 'category' in data and data['category'] != None and data['category'] != '' :
             self.category_id = Workout_category.get_wrkt_cat_id(data['category'])
@@ -897,6 +909,15 @@ class Workout_type(db.Model):
         if wrkt_nm in wrkt_type_name_replace:
             wrkt_nm = wrkt_type_name_replace[wrkt_nm]
         type_rec = Workout_type.query.filter_by(nm=wrkt_nm).first()
+        if type_rec is None:
+            return None
+        return type_rec.id
+    @staticmethod
+    def get_wrkt_type_id_from_group(grp_nm: str, indoor: bool):
+        # wrkt_type_name_replace = {'Lap Swimming':'Swimming'}
+        # if wrkt_nm in wrkt_type_name_replace:
+        #     wrkt_nm = wrkt_type_name_replace[wrkt_nm]
+        type_rec = Workout_type.query.filter_by(grp=grp_nm, indoor=indoor).first()
         if type_rec is None:
             return None
         return type_rec.id
