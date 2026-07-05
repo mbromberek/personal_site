@@ -10,6 +10,7 @@ All rights reserved.
 import os, glob, shutil
 import datetime
 import string
+import random
 import re
 import zipfile
 import json
@@ -30,7 +31,7 @@ import NormalizeWorkout.WrktSplits as wrktSplits
 
 # Custom Classes
 from app import db
-from app.models import Workout, User, Workout_interval, Gear, Wrkt_sum
+from app.models import Workout, User, Workout_interval, Gear, Wrkt_sum, Workout_type
 from app.api import bp
 from app.api.auth import token_auth
 from app.api.errors import bad_request
@@ -197,9 +198,9 @@ def processFartlekData(directory: str, userId: int):
     os.path.join(fullDirectoryPath, fitFileName), 
     os.path.join(fullDirectoryPath, thumbnailImageName)
   )
-  db.session.add(workout)
   
-  # updateWorkoutFromFit(workout, os.path.join(fullDirectoryPath, fitFileName))
+  # os.rename(os.path.join(tempDir, fname), os.path.join(wrktFullPath, fname))
+  
   # Function to get weather using updated data
   # Function generate workout thumbnail or use the one that was provided (assuming there was one)
 
@@ -217,9 +218,81 @@ def createWorkoutFromFartlekFiles(userId: int, jsonFile: str, fitFile: str, thum
   #     return bad_request('please use a different email address')
   workout = Workout()
   workout.from_dict_fartlek(workoutData, userId)
+  db.session.add(workout)
+  updateWorkoutFromFit(workout, fitFile, userId)
+  
   logger.debug(workout)
   return workout
 
+def updateWorkoutFromFit(workout, fitFile, userId):
+  workDir = os.path.join(current_app.config['WRKT_FILE_DIR'], str(userId), 'work')
+  tempDir = os.path.join(current_app.config['WRKT_FILE_DIR'], str(userId), 'temp')
+  lapsDf, pointsDf = fitParse.get_dataframes(fitFile)
+  actv_df = fitParse.normalize_laps_points(lapsDf, pointsDf)
+  
+  wrktStrtTm = workout.wrkt_dttm
+  wrktTypeId = workout.type_id
+  type = Workout_type.query.get(workout.type_id)
+  wrktType = type.nm.replace(' ','-').lower()
+  wrktSrc = 'com.mikebromberek.fartlek'
+  
+  # TODO Below not ready
+  # Create folder for long term storage of file
+  wrktDirNm = wrktStrtTm.strftime('%Y-%m-%d_%H%M%S') + '_' + wrktType + '_' + wrktSrc
+  wrktFullPath = os.path.join(current_app.config['WRKT_FILE_DIR'], str(userId), wrktStrtTm.strftime('%Y'), wrktStrtTm.strftime('%m'), wrktDirNm)
+  os.makedirs(wrktFullPath, exist_ok=True)
+  
+  tumbnailDir = os.path.join(current_app.config['WRKT_FILE_DIR'], str(userId), current_app.config['USER_THUMBNAIL_DIR'])
+  os.makedirs(tumbnailDir, exist_ok=True)
+  
+  # Move saved file from temp to new directory and export data frame as pickle to new directory.
+  # os.rename(os.path.join(tempDir, fname), os.path.join(wrktFullPath, fname))
+  fao.save_df(actv_df, wrktFullPath,'workout', frmt=['pickle'])
+  # fao.clean_dir(workDir)
+  
+  # Update workout passed in wrkt_id for user_id
+  # orig_workout = Workout.query.filter_by(id=wrkt_id, user_id=userId).first_or_404(wrkt_id)
+  orig_workout = workout
+  orig_workout.wrkt_dir = os.path.join(wrktStrtTm.strftime('%Y'), wrktStrtTm.strftime('%m'), wrktDirNm)
+  
+  logger.debug('workout ID: ' + str(workout.id))
+  auto_wrkt_tags = wrkt_summary.generate_workout_tags(actv_df)
+  logger.debug(auto_wrkt_tags)
+  for tag in auto_wrkt_tags:
+      new_workout_tag = Workout_tag()
+      new_workout_tag.user_id = userId
+      new_workout_tag.tag_id = tag
+      new_workout_tag.workout_id = workout.id
+      db.session.add(new_workout_tag)
+  
+  if 'latitude' in actv_df and 'longitude' in actv_df:
+      coord_df = actv_df[['latitude','longitude']].dropna()
+  else:
+      coord_df = pd.DataFrame()
+  if coord_df.shape[0] >1:
+      # strt_coord = actv_df[['latitude','longitude']].dropna().iloc[0]
+      # end_coord = actv_df[['latitude','longitude']].dropna().iloc[-1]
+      # orig_workout.lat_strt = np.float64(strt_coord['latitude']).item() # Need to convert from np.float64 to Python number
+      # orig_workout.long_strt = np.float64(strt_coord['longitude']).item()
+      # orig_workout.lat_end = np.float64(end_coord['latitude']).item()
+      # orig_workout.long_end = np.float64(end_coord['longitude']).item()
+      thumbnail_nm = 'thumb_200_200_' + ''.join(random.choices(string.ascii_uppercase + string.digits, k=50)) + '.png'
+      genMap.generate_map_img(actv_df, tumbnailDir, img_dim={'height':200, 'width':200}, img_name=thumbnail_nm)
+      orig_workout.thumb_path = thumbnail_nm
+      orig_workout.show_map_laps = True
+      if orig_workout.category_det != None and orig_workout.category_det.nm == 'Training':
+          orig_workout.show_map_miles = False
+      else:
+          orig_workout.show_map_miles = True
+  
+      if orig_workout.location == '' or orig_workout.location == None:
+          loc_lst = Location.query.filter_by(user_id=userId)
+          wrkt_loc = Location.closest_location(loc_lst, {'lat':orig_workout.lat_strt,'lon':orig_workout.long_strt})
+          if wrkt_loc != '':
+              orig_workout.location = wrkt_loc
+
+  return
+    
 def clean_dir(dir):
   files = glob.glob(dir + '/*')
   for f in files:
