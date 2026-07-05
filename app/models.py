@@ -559,6 +559,16 @@ class Workout(PaginatedAPIMixin, db.Model):
         # TODO: Weather
         # TODO: coordinates
         # lat_strt, long_strt, lat_end, long_end
+        if 'startCoordinate' in data:
+            if 'latitude' in data['startCoordinate']:
+                self.lat_strt = data['startCoordinate']['latitude']
+            if 'longitude' in data['startCoordinate']:
+                self.long_strt = data['startCoordinate']['longitude']
+        if 'endCoordinate' in data:
+                if 'latitude' in data['endCoordinate']:
+                    self.lat_end = data['endCoordinate']['latitude']
+                if 'longitude' in data['endCoordinate']:
+                    self.long_end = data['endCoordinate']['longitude']
         # TODO: halfSplitType?
         
 
