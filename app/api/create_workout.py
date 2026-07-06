@@ -227,10 +227,6 @@ def createWorkoutFromFartlekFiles(userId: int, jsonFile: str, fitFile: str, thum
       workoutInterval = Workout_interval()
       workoutInterval.from_dict_fartlek(split, userId, workout.id)
       db.session.add(workoutInterval)
-    # for intrvl_type in split_types:
-    #     if intrvl_type in data['intervals']:
-    #         Workout_interval.from_intrvl_type_dict(data['intervals'][intrvl_type], current_user_id, workout.id, intrvl_type)
-
   
   updateWorkoutFromFit(workout, fitFile, userId)
   
