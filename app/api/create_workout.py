@@ -8,12 +8,13 @@ All rights reserved.
 
 # First party classes
 import os, glob, shutil
-import datetime
+from datetime import datetime, timedelta, date
 import string
 import random
 import re
 import zipfile
 import json
+from zoneinfo import ZoneInfo
 
 # 3rd Party classes
 from flask import jsonify, request, url_for, abort, current_app, send_from_directory
@@ -173,41 +174,60 @@ def uncompressToTemp(monitorDir: str, tempDir: str) -> ([str], [str]):
     return (zipFiles, unzippedFiles)
 
 def processFartlekData(directory: str, userId: int):
-  logger.info('directory: ' + directory)
-  workDir = os.path.join(current_app.config['WRKT_FILE_DIR'], str(userId), 'work')
-  fullDirectoryPath = os.path.join(workDir, directory)
-  # Confirm this is a directory, if not return false
-  if not os.path.isdir(fullDirectoryPath):
-    return
+    logger.info('directory: ' + directory)
+    workDir = os.path.join(current_app.config['WRKT_FILE_DIR'], str(userId), 'work')
+    fullDirectoryPath = os.path.join(workDir, directory)
+    # Confirm this is a directory, if not return false
+    if not os.path.isdir(fullDirectoryPath):
+        return
   
-  thumbnailImageName = ''
-  fitFileName = ''
-  jsonFileName = ''
-  # Get list of files
-  files = os.listdir(fullDirectoryPath)
-  for filename in files:
-    if filename.endswith('Thumbnail-Light.png'):
-      thumbnailImageName = filename
-    elif filename.endswith('.json'):
-      jsonFileName = filename
-    elif filename.endswith('.fit'):
-      fitFileName = filename
-  workout = createWorkoutFromFartlekFiles(
-    userId, 
-    os.path.join(fullDirectoryPath, jsonFileName), 
-    os.path.join(fullDirectoryPath, fitFileName), 
-    os.path.join(fullDirectoryPath, thumbnailImageName)
-  )
-  
-  # os.rename(os.path.join(tempDir, fname), os.path.join(wrktFullPath, fname))
-  
-  # Function to get weather using updated data
-  # Function generate workout thumbnail or use the one that was provided (assuming there was one)
+    thumbnailImageName = ''
+    fitFileName = ''
+    jsonFileName = ''
+    # Get list of files
+    files = os.listdir(fullDirectoryPath)
+    for filename in files:
+        if filename.endswith('Thumbnail-Light.png'):
+            thumbnailImageName = filename
+        elif filename.endswith('.json'):
+            jsonFileName = filename
+        elif filename.endswith('.fit'):
+            fitFileName = filename
 
-
-def createWorkoutFromFartlekFiles(userId: int, jsonFile: str, fitFile: str, thumbnailImage: str = '') -> Workout:
+    jsonFile = os.path.join(fullDirectoryPath, jsonFileName)    
     with open(jsonFile, 'r') as data_file:
         workoutData = json.load(data_file)
+    
+    workout: Workout = None
+    if 'dateTime' in workoutData:
+        workoutDateTime = datetime.strptime(workoutData['dateTime'], '%Y-%m-%dT%H:%M:%SZ')
+        workoutDateTime = workoutDateTime.replace(tzinfo=ZoneInfo("UTC"))
+        if 'timeZoneIdentifier' in workoutData:
+            workoutDateTime = workoutDateTime.astimezone(ZoneInfo(workoutData['timeZoneIdentifier']))
+        workout = Workout.query.filter_by(user_id=userId, wrkt_dttm=workoutDateTime).first()
+    
+    if workout == None:
+        workout = createWorkoutFromFartlekFiles(
+            userId, 
+            workoutData, 
+            os.path.join(fullDirectoryPath, fitFileName), 
+            os.path.join(fullDirectoryPath, thumbnailImageName)
+        )
+    else:
+        updateWorkoutFromFartlekFiles(
+            userId, 
+            workout,
+            workoutData
+        )
+    
+    # os.rename(os.path.join(tempDir, fname), os.path.join(wrktFullPath, fname))
+    
+    # Function to get weather using updated data
+    # Function generate workout thumbnail or use the one that was provided (assuming there was one)
+
+
+def createWorkoutFromFartlekFiles(userId: int, workoutData, fitFile: str, thumbnailImage: str = '') -> Workout:
+    logger.debug('createWorkoutFromFartlekFiles')
     req_fields = ['type', 'dateTime', 'duration']
     for field in req_fields:
         if field not in workoutData:
@@ -319,9 +339,36 @@ def updateWorkoutFromFit(workout, fitFile, userId, generateMap: bool = True):
   return
     
 def clean_dir(dir):
-  files = glob.glob(dir + '/*')
-  for f in files:
-    if os.path.isdir(f):
-      shutil.rmtree(f)
-    else:
-      os.remove(f)
+    files = glob.glob(dir + '/*')
+    for f in files:
+        if os.path.isdir(f):
+            shutil.rmtree(f)
+        else:
+            os.remove(f)
+
+def updateWorkoutFromFartlekFiles(userId: int, workout: Workout, workoutData):
+    logger.debug('updateWorkoutFromFartlekFiles')
+    # Update Clothes if empty in workout
+    if (workout.clothes == None or workout.clothes == '') and 'clothes' in workoutData and workoutData['clothes'] != None and workoutData['clothes'] != '' :
+        workout.clothes = workoutData['clothes']
+        
+    # Update Gear (regardless if already populated)
+    if 'gear' in workoutData and workoutData['gear'] != None and workoutData['gear'] != '' :
+        workout.gear_id = Gear.get_gear_id(workoutData['gear'])
+        if workout.gear_id is None:
+            # Create gear
+            new_gear = Gear(nm=workoutData['gear'], type='Shoe', user_id=user_id)
+            db.session.add(new_gear)
+            db.session.commit()
+            workout.gear_id = Gear.get_gear_id(workoutData['gear'])
+
+    # Append to Notes
+    if 'notes' in workoutData and workoutData['notes'] != None and workoutData['notes'] != '':
+        if workout.notes == None:
+            workout.notes = workoutData['notes']
+        elif workout.notes != workoutData['notes']:
+            workout.notes = workout.notes + '\n\n' + workoutData['notes']
+    
+    # Update other fields?
+    # Add new Tags
+    return
