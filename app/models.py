@@ -629,11 +629,6 @@ class Workout(PaginatedAPIMixin, db.Model):
         
         return
         
-        for field in float_fields:
-            if field in data:
-                setattr(self, field, float(data[field]))
-        
-        
         
 
     def update(self, updt_wrkt):
@@ -710,6 +705,34 @@ class Workout_interval(db.Model):
                 newVal = 0 if math.isnan(float(data[field])) else float(data[field])
                 setattr(self, field, newVal)
 
+    def from_dict_fartlek(self, split, userId, workoutId):
+        self.user_id = userId
+        self.workout_id = workoutId
+        self.break_type = split['splitType']
+        self.interval_order = split['splitNumber']
+        if 'title' in split:
+            self.interval_desc = split['title']
+        if 'durationActive' in split:
+            self.dur_sec = int(split['durationActive'])
+        if 'distance' in split:
+            self.dist_mi = split['distance'] * const.METERS_TO_MILES
+        if 'averageHR' in split:
+            self.hr = int(split['averageHR'])
+        if 'totalAscent' in split:
+            self.ele_up = int(split['totalAscent']) * const.METERS_TO_FEET
+        if 'totalDescent' in split:
+            self.ele_down = int(split['totalDescent']) * const.METERS_TO_FEET
+        if 'notes' in split:
+            self.notes = split['notes']
+        if 'coordinateEnd' in split:
+            if 'latitude' in split['coordinateEnd']:
+                self.lat = str(split['coordinateEnd']['latitude'])
+            if 'longitude' in split['coordinateEnd']:
+                self.lon = str(split['coordinateEnd']['longitude'])
+
+
+
+        
     def to_dict(self, include_calc_fields=False):
         data = {
             'id': self.id,

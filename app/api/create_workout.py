@@ -220,6 +220,18 @@ def createWorkoutFromFartlekFiles(userId: int, jsonFile: str, fitFile: str, thum
   workout.from_dict_fartlek(workoutData, userId)
   db.session.add(workout)
   db.session.flush() # Send insert to DB but does not commit
+  
+  if 'splits' in workoutData:
+    # split_types = ['kilometer','pause','lap','mile']
+    for split in workoutData['splits']:
+      workoutInterval = Workout_interval()
+      workoutInterval.from_dict_fartlek(split, userId, workout.id)
+      db.session.add(workoutInterval)
+    # for intrvl_type in split_types:
+    #     if intrvl_type in data['intervals']:
+    #         Workout_interval.from_intrvl_type_dict(data['intervals'][intrvl_type], current_user_id, workout.id, intrvl_type)
+
+  
   updateWorkoutFromFit(workout, fitFile, userId)
   
   logger.debug(workout)
