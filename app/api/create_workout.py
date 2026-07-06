@@ -219,6 +219,7 @@ def createWorkoutFromFartlekFiles(userId: int, jsonFile: str, fitFile: str, thum
   workout = Workout()
   workout.from_dict_fartlek(workoutData, userId)
   db.session.add(workout)
+  db.session.flush() # Send insert to DB but does not commit
   updateWorkoutFromFit(workout, fitFile, userId)
   
   logger.debug(workout)
