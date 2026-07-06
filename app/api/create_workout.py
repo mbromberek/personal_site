@@ -206,34 +206,49 @@ def processFartlekData(directory: str, userId: int):
 
 
 def createWorkoutFromFartlekFiles(userId: int, jsonFile: str, fitFile: str, thumbnailImage: str = '') -> Workout:
-  with open(jsonFile, 'r') as data_file:
-    workoutData = json.load(data_file)
-  req_fields = ['type', 'dateTime', 'duration']
-  for field in req_fields:
-    if field not in workoutData:
-        return bad_request('must include ' + field + ' field')
-  
-  # Should I check if a request for specified workt_dttm already exists?
-  # if User.query.filter_by(username=data['username']).first():
-  #     return bad_request('please use a different email address')
-  workout = Workout()
-  workout.from_dict_fartlek(workoutData, userId)
-  db.session.add(workout)
-  db.session.flush() # Send insert to DB but does not commit
-  
-  if 'splits' in workoutData:
-    # split_types = ['kilometer','pause','lap','mile']
-    for split in workoutData['splits']:
-      workoutInterval = Workout_interval()
-      workoutInterval.from_dict_fartlek(split, userId, workout.id)
-      db.session.add(workoutInterval)
-  
-  updateWorkoutFromFit(workout, fitFile, userId)
-  
-  logger.debug(workout)
-  return workout
+    with open(jsonFile, 'r') as data_file:
+        workoutData = json.load(data_file)
+    req_fields = ['type', 'dateTime', 'duration']
+    for field in req_fields:
+        if field not in workoutData:
+            return bad_request('must include ' + field + ' field')
+    
+    # Should I check if a request for specified workt_dttm already exists?
+    # if User.query.filter_by(username=data['username']).first():
+    #     return bad_request('please use a different email address')
+    workout = Workout()
+    workout.from_dict_fartlek(workoutData, userId)
+    db.session.add(workout)
+    db.session.flush() # Send insert to DB but does not commit
+    
+    if 'splits' in workoutData:
+        # split_types = ['kilometer','pause','lap','mile']
+        for split in workoutData['splits']:
+            workoutInterval = Workout_interval()
+            workoutInterval.from_dict_fartlek(split, userId, workout.id)
+            db.session.add(workoutInterval)
+    
+    if thumbnailImage != '':
+        generateMap = False
+    
+    updateWorkoutFromFit(workout, fitFile, userId, generateMap=generateMap)
+    
+    if not generateMap:
+        tumbnailDir = os.path.join(current_app.config['WRKT_FILE_DIR'], str(userId), current_app.config['USER_THUMBNAIL_DIR'])
+        # tumbnailDir = os.path.join(current_app.config['WRKT_FILE_DIR'], str(userId), current_app.config['USER_THUMBNAIL_DIR'], workout.wrkt_dttm.strftime('%Y'))
+        #os.makedirs(tumbnailDir, exist_ok=True)
+        thumbnail_nm = 'thumb_200_200_' + ''.join(random.choices(string.ascii_uppercase + string.digits, k=50)) + '.png'
+        # genMap.generate_map_img(actv_df, tumbnailDir, img_dim={'height':200, 'width':200}, img_name=thumbnail_nm)
+        
+        # Move thumbnail image to folder, and rename it
+        os.rename(thumbnailImage, os.path.join(tumbnailDir, thumbnail_nm))
+        # Add thumbnail name to workout.thumb_path
+        workout.thumb_path = thumbnail_nm
+    
+    logger.debug(workout)
+    return workout
 
-def updateWorkoutFromFit(workout, fitFile, userId):
+def updateWorkoutFromFit(workout, fitFile, userId, generateMap: bool = True):
   workDir = os.path.join(current_app.config['WRKT_FILE_DIR'], str(userId), 'work')
   tempDir = os.path.join(current_app.config['WRKT_FILE_DIR'], str(userId), 'temp')
   lapsDf, pointsDf = fitParse.get_dataframes(fitFile)
@@ -285,9 +300,10 @@ def updateWorkoutFromFit(workout, fitFile, userId):
       # orig_workout.long_strt = np.float64(strt_coord['longitude']).item()
       # orig_workout.lat_end = np.float64(end_coord['latitude']).item()
       # orig_workout.long_end = np.float64(end_coord['longitude']).item()
-      thumbnail_nm = 'thumb_200_200_' + ''.join(random.choices(string.ascii_uppercase + string.digits, k=50)) + '.png'
-      genMap.generate_map_img(actv_df, tumbnailDir, img_dim={'height':200, 'width':200}, img_name=thumbnail_nm)
-      orig_workout.thumb_path = thumbnail_nm
+      if generateMap:
+        thumbnail_nm = 'thumb_200_200_' + ''.join(random.choices(string.ascii_uppercase + string.digits, k=50)) + '.png'
+        genMap.generate_map_img(actv_df, tumbnailDir, img_dim={'height':200, 'width':200}, img_name=thumbnail_nm)
+        orig_workout.thumb_path = thumbnail_nm
       orig_workout.show_map_laps = True
       if orig_workout.category_det != None and orig_workout.category_det.nm == 'Training':
           orig_workout.show_map_miles = False
