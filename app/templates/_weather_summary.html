@@ -17,12 +17,20 @@
     {% if workout.temp_feels_like_strt %}
         feels like {{ workout.temp_feels_like_strt|round|int }},
     {% endif %}
+    {% if workout.uv_index_strt or workout.uv_index_strt == 0 %}
+        uv: {{ workout.uv_index_strt }},
+    {% endif %}
     {% if workout.wind_speed_strt %}
-        wind speed {{ workout.wind_speed_strt|round|int }}mph,
+        wind speed {{ workout.wind_speed_strt|round|int }}mph
+        {% if workout.wind_direction_strt %}
+            {{ workout.wind_direction_strt }}
+        {% endif %}
+        ,
     {% endif %}
     {% if workout.wind_gust_strt %}
-        gust {{ workout.wind_gust_strt|round|int }}.
+        gust {{ workout.wind_gust_strt|round|int }}
     {% endif %}
+    
 </div>
 <div id='workout_weather_end'>
     End:
@@ -43,8 +51,16 @@
     {% if workout.temp_feels_like_end %}
         feels like {{ workout.temp_feels_like_end|round|int }},
     {% endif %}
+    {% if workout.uv_index_end or workout.uv_index_end == 0 %}
+        uv: {{ workout.uv_index_end }},
+    {% endif %}
     {% if workout.wind_speed_end %}
-        wind speed {{ workout.wind_speed_end|round|int }}mph,
+        wind speed {{ workout.wind_speed_end|round|int }}mph
+        {% if workout.wind_direction_end %}
+            {{ workout.wind_direction_end }}
+        {% endif %}
+        ,
+
     {% endif %}
     {% if workout.wind_gust_end %}
         gust {{ workout.wind_gust_end|round|int }}.
