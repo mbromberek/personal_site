@@ -248,10 +248,11 @@ def createWorkoutFromFartlekFiles(userId: int, workoutData, fitFile: str, thumbn
             workoutInterval.from_dict_fartlek(split, userId, workout.id)
             db.session.add(workoutInterval)
     
-    if thumbnailImage != '':
+    if thumbnailImage != '' and current_app.config['USE_FARTLEK_THUMBNAIL']:
         generateMap = False
     
-    updateWorkoutFromFit(workout, fitFile, userId, generateMap=generateMap)
+    if workoutData['type'] != 'strength':
+        updateWorkoutFromFit(workout, fitFile, userId, generateMap=generateMap)
     
     if not generateMap:
         tumbnailDir = os.path.join(current_app.config['WRKT_FILE_DIR'], str(userId), current_app.config['USER_THUMBNAIL_DIR'])
