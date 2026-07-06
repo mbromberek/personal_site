@@ -710,7 +710,7 @@ class Workout_interval(db.Model):
         self.workout_id = workoutId
         self.break_type = split['splitType']
         self.interval_order = int(split['splitNumber'])
-        if split['splitType'] == 'mile'  or split['splitType'] == 'kilometer'
+        if split['splitType'] == 'mile'  or split['splitType'] == 'kilometer':
             self.interval_order = self.interval_order - 1
         if 'title' in split:
             self.interval_desc = split['title']
