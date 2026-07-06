@@ -15,13 +15,15 @@ from app.utils import tm_conv
 from app.models import Workout, Workout_interval
 from app.model.tag import Tag
 
+def to_numeric_or_zero(series: pd.Series) -> pd.Series:
+    return pd.to_numeric(series, errors="coerce").fillna(0)
 
 def summarize_workout(df, sum_desc=''):
     df_edit = df.copy()
-    df_edit['dist_mi'] = pd.to_numeric(df_edit.dist_mi)
-    df_edit['ele_up'] = pd.to_numeric(df_edit.ele_up)
-    df_edit['ele_down'] = pd.to_numeric(df_edit.ele_down)
-    df_edit['hr'] = pd.to_numeric(df_edit.hr)
+    df_edit['dist_mi'] = to_numeric_or_zero(df_edit.dist_mi)
+    df_edit['ele_up'] = to_numeric_or_zero(df_edit.ele_up)
+    df_edit['ele_down'] = to_numeric_or_zero(df_edit.ele_down)
+    df_edit['hr'] = to_numeric_or_zero(df_edit.hr)
     grouped_df = (df_edit.groupby(
         ['workout_id','break_type'])
         .agg(dur_sec=('dur_sec','sum')
@@ -150,9 +152,9 @@ def get_mile_sum_from_df(wrkt_df):
 def get_sum_by_intrvl(df):
     df_edit = df.copy()
 
-    df_edit['dist_mi'] = pd.to_numeric(df_edit.dist_mi)
-    df_edit['ele_up'] = pd.to_numeric(df_edit.ele_up)
-    df_edit['ele_down'] = pd.to_numeric(df_edit.ele_down)
+    df_edit['dist_mi'] = to_numeric_or_zero(df_edit.dist_mi)
+    df_edit['ele_up'] = to_numeric_or_zero(df_edit['ele_up'])
+    df_edit['ele_down'] = to_numeric_or_zero(df_edit.ele_down)
     df_edit['hr'] = pd.to_numeric(df_edit.hr)
     grouped_df = (df_edit.groupby(
         ['workout_id','break_type','interval_desc'])

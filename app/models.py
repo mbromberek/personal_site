@@ -995,7 +995,10 @@ class Workout_type(db.Model):
         # wrkt_type_name_replace = {'Lap Swimming':'Swimming'}
         # if wrkt_nm in wrkt_type_name_replace:
         #     wrkt_nm = wrkt_type_name_replace[wrkt_nm]
-        type_rec = Workout_type.query.filter_by(grp=grp_nm, indoor=indoor).first()
+        if grp_nm == 'strength':
+            type_rec = Workout_type.query.filter_by(grp=grp_nm).first()
+        else:
+            type_rec = Workout_type.query.filter_by(grp=grp_nm, indoor=indoor).first()
         if type_rec is None:
             return None
         return type_rec.id
