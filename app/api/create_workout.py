@@ -248,7 +248,8 @@ def createWorkoutFromFartlekFiles(userId: int, workoutData, fitFile: str, thumbn
             workoutInterval.from_dict_fartlek(split, userId, workout.id)
             db.session.add(workoutInterval)
     
-    if thumbnailImage != '' and current_app.config['USE_FARTLEK_THUMBNAIL']:
+    generateMap = True
+    if thumbnailImage != '' and current_app.config['USE_FARTLEK_THUMBNAIL'] == 'Y':
         generateMap = False
     
     if workoutData['type'] != 'strength':
@@ -369,6 +370,9 @@ def updateWorkoutFromFartlekFiles(userId: int, workout: Workout, workoutData):
             workout.notes = workoutData['notes']
         elif workout.notes != workoutData['notes']:
             workout.notes = workout.notes + '\n\n' + workoutData['notes']
+    
+    if workoutData['type'] == 'strength' and 'title' in workoutData:
+        workout.training_type = workoutData['title']
     
     # Update other fields?
     # Add new Tags

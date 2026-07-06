@@ -556,6 +556,9 @@ class Workout(PaginatedAPIMixin, db.Model):
             # type_name_map = ['run':'Running', 'cycle':'Cycling', 'swim':'Swimming', 'strength':]
             self.type_id = Workout_type.get_wrkt_type_id_from_group(data['type'], isIndoor)
         
+        if data['type'] == 'strength' and 'title' in data:
+            self.training_type = data['title']
+        
         if 'category' in data and data['category'] != None and data['category'] != '' :
             logger.debug('from_dict category: ' + str(data['category']))
             self.category_id = Workout_category.get_wrkt_cat_id(data['category'], False)
