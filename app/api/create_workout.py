@@ -85,7 +85,7 @@ def create_workout_from_file():
       uploaded_file.save(os.path.join(tempDir, fname))
       (zipFiles, directoriesToProcess) = uncompressToTemp(tempDir, workDir)
       for directory in directoriesToProcess:
-        processFartlekData(directory, user_id)
+        workout = processFartlekData(directory, user_id)
       db.session.commit()
       clean_dir(tempDir)
       clean_dir(workDir)
@@ -101,62 +101,22 @@ def create_workout_from_file():
       clean_dir(tempDir)
       return jsonify("No valid files to process"), 400
 
-    # fao.extract_files(fname, workDir, tempDir)
+    responseDict = {}
+    responseDict['status'] = 'Success'
+    responseDict['workout_id'] = str(workout.id)
+    responseDict['link'] = url_for('main.workout', 
+        workout=workout.id, 
+        _external=True,
+        _scheme=current_app.config['URL_SCHEME']
+    )
+    responseDict['workout_datetime'] = workout.wrkt_dttm.isoformat(sep=' ') + 'Z'
+    
+    response = jsonify(responseDict)
+    response.status_code = 201
+    response.headers['Location'] = url_for('api.get_workout', id=workout.id)
 
     logger.info('end')
-
-    '''
-    wrkt_list = []
-    for data in dataLst:
-        # Make sure the required fields are in the data dict
-        req_fields = ['type', 'wrkt_dttm', 'dur_sec', 'dist_mi']
-        req_fields = ['type', 'wrkt_dttm', 'dur_sec']
-        for field in req_fields:
-            if field not in data:
-                return bad_request('must include ' + field + ' field')
-
-        # Should I check if a request for specified workt_dttm already exists?
-        # if User.query.filter_by(username=data['username']).first():
-        #     return bad_request('please use a different email address')
-        workout = Workout()
-        workout.from_dict(data, current_user_id)
-        logger.debug(workout)
-        if workout.gear_id is None:
-            logger.debug('no gear passed')
-            predicted_gear = Gear.predict_gear(current_user_id, workout.category_id, workout.type_id)
-            logger.debug('Gear predicted to be used: {}'.format(predicted_gear['nm']))
-            workout.gear_id = predicted_gear['id']
-        else:
-            logger.debug('Gear passed ({})'.format(workout.gear_id))
-        db.session.add(workout)
-        
-        if 'tags' in data:
-            logger.debug(data['tags'])
-            for tag in data['tags']:
-                new_workout_tag = Workout_tag()
-                new_workout_tag.user_id = current_user_id
-                new_workout_tag.tag_id = Tag.get_tag_id(tag)
-                new_workout_tag.workout_id = workout.id
-                db.session.add(new_workout_tag)
-        
-        db.session.commit()
-
-        if workout.location != None and workout.location != '' and workout.lat_strt != None and workout.lat_strt != '':
-            Location.create_loc_if_not_exist(workout.location, current_user_id, workout.lat_strt, workout.long_strt)
-        
-        if 'intervals' in data:
-            interval_types = ['lap','mile','resume','segment']
-            for intrvl_type in interval_types:
-                if intrvl_type in data['intervals']:
-                    Workout_interval.from_intrvl_type_dict(data['intervals'][intrvl_type], current_user_id, workout.id, intrvl_type)
-        wrkt_list.append(workout.to_dict())
-    response = jsonify(wrkt_list)
-    
-    response.status_code = 201
-    # response.headers['Location'] = url_for('api.get_workout', id=workout.id)
     return response
-    '''
-    return jsonify('testing'), 201
 
 def uncompressToTemp(monitorDir: str, tempDir: str) -> ([str], [str]):
     '''
@@ -173,7 +133,7 @@ def uncompressToTemp(monitorDir: str, tempDir: str) -> ([str], [str]):
     unzippedFiles = os.listdir(tempDir)
     return (zipFiles, unzippedFiles)
 
-def processFartlekData(directory: str, userId: int):
+def processFartlekData(directory: str, userId: int) -> Workout:
     logger.info('directory: ' + directory)
     workDir = os.path.join(current_app.config['WRKT_FILE_DIR'], str(userId), 'work')
     fullDirectoryPath = os.path.join(workDir, directory)
@@ -219,11 +179,7 @@ def processFartlekData(directory: str, userId: int):
             workout,
             workoutData
         )
-    
-    # os.rename(os.path.join(tempDir, fname), os.path.join(wrktFullPath, fname))
-    
-    # Function to get weather using updated data
-    # Function generate workout thumbnail or use the one that was provided (assuming there was one)
+    return workout
 
 
 def createWorkoutFromFartlekFiles(userId: int, workoutData, fitFile: str, thumbnailImage: str = '') -> Workout:
