@@ -167,12 +167,19 @@ def processFartlekData(directory: str, userId: int) -> Workout:
         workout = Workout.query.filter_by(user_id=userId, wrkt_dttm=workoutDateTime).first()
     
     if workout == None:
-        workout = createWorkoutFromFartlekFiles(
-            userId, 
-            workoutData, 
-            os.path.join(fullDirectoryPath, fitFileName), 
-            os.path.join(fullDirectoryPath, thumbnailImageName)
-        )
+        if thumbnailImageName == '':
+            workout = createWorkoutFromFartlekFiles(
+                userId, 
+                workoutData, 
+                os.path.join(fullDirectoryPath, fitFileName)
+            )  
+        else:
+            workout = createWorkoutFromFartlekFiles(
+                userId, 
+                workoutData, 
+                os.path.join(fullDirectoryPath, fitFileName), 
+                os.path.join(fullDirectoryPath, thumbnailImageName)
+            )
     else:
         updateWorkoutFromFartlekFiles(
             userId, 
@@ -211,7 +218,7 @@ def createWorkoutFromFartlekFiles(userId: int, workoutData, fitFile: str, thumbn
     if workoutData['type'] != 'strength':
         updateWorkoutFromFit(workout, fitFile, userId, generateMap=generateMap)
     
-    if not generateMap:
+    if not generateMap and thumbnailImage != '':
         tumbnailDir = os.path.join(current_app.config['WRKT_FILE_DIR'], str(userId), current_app.config['USER_THUMBNAIL_DIR'])
         # tumbnailDir = os.path.join(current_app.config['WRKT_FILE_DIR'], str(userId), current_app.config['USER_THUMBNAIL_DIR'], workout.wrkt_dttm.strftime('%Y'))
         #os.makedirs(tumbnailDir, exist_ok=True)
