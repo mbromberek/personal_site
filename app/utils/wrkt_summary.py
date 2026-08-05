@@ -116,6 +116,9 @@ def get_mile_sum(intrvl_lst):
 
 def generate_workout_tags(wrkt_df):
     tag_dict = []
+    if wrkt_df['dist_mi'].isna().all():
+        # If dist_mi is not populated return empty dictionary
+        return tag_dict
     split_type_map = {'Negative Splits':'Negative Splits ✅','Positive Splits':'Positive Splits 👍','Even Splits':'Even Splits 😮'}
     sum_mile = get_mile_sum_from_df(wrkt_df)
     for summary in sum_mile:
