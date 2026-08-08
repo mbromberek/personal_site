@@ -534,15 +534,11 @@ class Workout(PaginatedAPIMixin, db.Model):
         # TODO need to validate date format
         if 'dateTime' in data:
             utc_dt = datetime.strptime(data['dateTime'], '%Y-%m-%dT%H:%M:%SZ')
-            logger.info('⏲️ utc_dt: ')
-            logger.info(utc_dt)
             utc_dt = utc_dt.replace(tzinfo=ZoneInfo("UTC"))
             logger.info(utc_dt)
             if 'timeZoneIdentifier' in data:
-                logger.info('⏲️ Timezone: ' + data['timeZoneIdentifier'])
                 self.wrkt_dttm = utc_dt.astimezone(ZoneInfo(data['timeZoneIdentifier']))
             else:
-                logger.info('⏲️ TimeZone: none')
                 self.wrkt_dttm = utc_dt
             self.wrkt_dttm = self.wrkt_dttm.replace(tzinfo=None) # Remove timezone
             logger.info(self.wrkt_dttm)
