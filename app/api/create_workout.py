@@ -109,6 +109,8 @@ def create_workout_from_file():
         _external=True,
         _scheme=current_app.config['URL_SCHEME']
     )
+    logger.info('⏲️ ')
+    logger.info(workout.wrkt_dttm)
     responseDict['workout_datetime'] = workout.wrkt_dttm.isoformat(sep=' ') + 'Z'
     
     response = jsonify(responseDict)
