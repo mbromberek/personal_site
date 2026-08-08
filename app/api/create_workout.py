@@ -201,6 +201,8 @@ def createWorkoutFromFartlekFiles(userId: int, workoutData, fitFile: str, thumbn
     #     return bad_request('please use a different email address')
     workout = Workout()
     workout.from_dict_fartlek(workoutData, userId)
+    logger.info('⏲️ Workout Created:')
+    logger.info(workout.wrkt_dttm)
     db.session.add(workout)
     db.session.flush() # Send insert to DB but does not commit
     
