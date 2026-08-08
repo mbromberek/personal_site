@@ -170,6 +170,7 @@ def processFartlekData(directory: str, userId: int) -> Workout:
         workoutDateTime = workoutDateTime.replace(tzinfo=ZoneInfo("UTC"))
         if 'timeZoneIdentifier' in workoutData:
             workoutDateTime = workoutDateTime.astimezone(ZoneInfo(workoutData['timeZoneIdentifier']))
+        workoutDateTime = workoutDateTime.replace(tzinfo=None) # Remove timezone
         workout = Workout.query.filter_by(user_id=userId, wrkt_dttm=workoutDateTime).first()
     
     if workout == None:

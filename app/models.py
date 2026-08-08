@@ -544,6 +544,7 @@ class Workout(PaginatedAPIMixin, db.Model):
             else:
                 logger.info('⏲️ TimeZone: none')
                 self.wrkt_dttm = utc_dt
+            self.wrkt_dttm = self.wrkt_dttm.replace(tzinfo=None) # Remove timezone
             logger.info(self.wrkt_dttm)
         if 'distance' in data:
             self.dist_mi = data['distance'] * const.METERS_TO_MILES
