@@ -86,7 +86,11 @@ def create_workout_from_file():
       (zipFiles, directoriesToProcess) = uncompressToTemp(tempDir, workDir)
       for directory in directoriesToProcess:
         workout = processFartlekData(directory, user_id)
+        logger.info('⏲️1 ')
+        logger.info(workout.wrkt_dttm)
       db.session.commit()
+      logger.info('⏲️2 ')
+      logger.info(workout.wrkt_dttm)
       clean_dir(tempDir)
       clean_dir(workDir)
     elif file_ext == '.fit':
@@ -109,7 +113,7 @@ def create_workout_from_file():
         _external=True,
         _scheme=current_app.config['URL_SCHEME']
     )
-    logger.info('⏲️ ')
+    logger.info('⏲️9 ')
     logger.info(workout.wrkt_dttm)
     responseDict['workout_datetime'] = workout.wrkt_dttm.isoformat(sep=' ') + 'Z'
     
