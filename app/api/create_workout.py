@@ -49,6 +49,10 @@ from app.utils import gen_map_img_2 as genMap
 @bp.route('/create_workout', methods=['POST'])
 @token_auth.login_required
 def create_workout_from_file():
+    '''
+    Get workout file from Fartlek.app to create using JSON in the zip file and fit file data. 
+    Returns if success or not. 
+    '''
     logger.info('create_workout_from_file')
     user_id = token_auth.current_user().id
     logger.info('User ID: ' + str(user_id))
@@ -134,6 +138,9 @@ def uncompressToTemp(monitorDir: str, tempDir: str) -> ([str], [str]):
     return (zipFiles, unzippedFiles)
 
 def processFartlekData(directory: str, userId: int) -> Workout:
+    '''
+    Process data from Fartlek app to create a workout
+    '''
     logger.info('directory: ' + directory)
     workDir = os.path.join(current_app.config['WRKT_FILE_DIR'], str(userId), 'work')
     fullDirectoryPath = os.path.join(workDir, directory)
@@ -211,6 +218,25 @@ def createWorkoutFromFartlekFiles(userId: int, workoutData, fitFile: str, thumbn
             workoutInterval = Workout_interval()
             workoutInterval.from_dict_fartlek(split, userId, workout.id)
             db.session.add(workoutInterval)
+    
+    if 'tags' in workoutData:
+        for tagName in workoutData['tags']:
+            # Read tag from fitness.tags table 
+            tag_id = Tag.get_tag_id(tagName)
+            # if tag not exists on fitness.tags table, then create tag
+            if tag_id == None:
+                tag = Tag(userId, tagName)
+                db.session.add(tag)
+                db.session.flush() # Send insert to DB but does not commit
+                tag_id = tag.id
+            # after if insert tag relationship into fitness.workout_tags
+            new_workout_tag = Workout_tag()
+            new_workout_tag.user_id = userId
+            new_workout_tag.tag_id = tag_id
+            new_workout_tag.workout_id = workout.id
+            db.session.add(new_workout_tag)
+            
+            
     
     generateMap = True
     if thumbnailImage != '' and current_app.config['USE_FARTLEK_THUMBNAIL'] == 'Y':

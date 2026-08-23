@@ -23,6 +23,10 @@ class Tag(db.Model):
   isrt_ts = db.Column(db.DateTime, nullable=False, index=True, default=datetime.utcnow)
   workouts = db.relationship('Workout_tag', backref='workout_tag', lazy='dynamic')
   
+  def __init__(self, user_id, name):
+    self.user_id = user_id
+    self.nm = name
+
   def __repr__(self):
     return '<Tag {}: id {}>'.format( self.nm, self.id)
     
@@ -42,7 +46,6 @@ class Workout_tag(db.Model):
   
   def __repr__(self):
     return '<Workout {} Tag {}>'.format( self.workout_id, self.tag_id)
-
 
 class Tag_usage(db.Model):
   __table_args__ = {"schema": "fitness", 'comment':'Tag usage'}
