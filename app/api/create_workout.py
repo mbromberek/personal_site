@@ -89,7 +89,9 @@ def create_workout_from_file():
       uploaded_file.save(os.path.join(tempDir, fname))
       (zipFiles, directoriesToProcess) = uncompressToTemp(tempDir, workDir)
       for directory in directoriesToProcess:
-        workout = processFartlekData(directory, user_id)
+        workoutTemp = processFartlekData(directory, user_id)
+        if workoutTemp != None:
+            workout = workoutTemp
       db.session.commit()
       clean_dir(tempDir)
       clean_dir(workDir)
@@ -161,6 +163,10 @@ def processFartlekData(directory: str, userId: int) -> Workout:
         elif filename.endswith('.fit'):
             fitFileName = filename
 
+    logger.debug('jsonFileName: ' + jsonFileName)
+    logger.debug('fullDirectoryPath: ' + fullDirectoryPath)
+    if jsonFileName == '':
+        return
     jsonFile = os.path.join(fullDirectoryPath, jsonFileName)    
     with open(jsonFile, 'r') as data_file:
         workoutData = json.load(data_file)
@@ -219,25 +225,6 @@ def createWorkoutFromFartlekFiles(userId: int, workoutData, fitFile: str, thumbn
             workoutInterval.from_dict_fartlek(split, userId, workout.id)
             db.session.add(workoutInterval)
     
-    if 'tags' in workoutData:
-        for tagName in workoutData['tags']:
-            # Read tag from fitness.tags table 
-            tag_id = Tag.get_tag_id(tagName)
-            # if tag not exists on fitness.tags table, then create tag
-            if tag_id == None:
-                tag = Tag(userId, tagName)
-                db.session.add(tag)
-                db.session.flush() # Send insert to DB but does not commit
-                tag_id = tag.id
-            # after if insert tag relationship into fitness.workout_tags
-            new_workout_tag = Workout_tag()
-            new_workout_tag.user_id = userId
-            new_workout_tag.tag_id = tag_id
-            new_workout_tag.workout_id = workout.id
-            db.session.add(new_workout_tag)
-            
-            
-    
     generateMap = True
     if thumbnailImage != '' and current_app.config['USE_FARTLEK_THUMBNAIL'] == 'Y':
         generateMap = False
@@ -245,6 +232,9 @@ def createWorkoutFromFartlekFiles(userId: int, workoutData, fitFile: str, thumbn
     if workoutData['type'] != 'strength':
         updateWorkoutFromFit(workout, fitFile, userId, generateMap=generateMap)
     
+    if 'tags' in workoutData:
+        updateWorkoutTags(workoutData['tags'], workout, userId)
+        
     if not generateMap and thumbnailImage != '':
         tumbnailDir = os.path.join(current_app.config['WRKT_FILE_DIR'], str(userId), current_app.config['USER_THUMBNAIL_DIR'])
         # tumbnailDir = os.path.join(current_app.config['WRKT_FILE_DIR'], str(userId), current_app.config['USER_THUMBNAIL_DIR'], workout.wrkt_dttm.strftime('%Y'))
@@ -349,21 +339,46 @@ def updateWorkoutFromFartlekFiles(userId: int, workout: Workout, workoutData):
         workout.gear_id = Gear.get_gear_id(workoutData['gear'])
         if workout.gear_id is None:
             # Create gear
-            new_gear = Gear(nm=workoutData['gear'], type='Shoe', user_id=user_id)
+            new_gear = Gear(nm=workoutData['gear'], type='Shoe', user_id=userId)
             db.session.add(new_gear)
             db.session.commit()
             workout.gear_id = Gear.get_gear_id(workoutData['gear'])
 
-    # Append to Notes
+    # Replace Notes
     if 'notes' in workoutData and workoutData['notes'] != None and workoutData['notes'] != '':
         if workout.notes == None:
             workout.notes = workoutData['notes']
         elif workout.notes != workoutData['notes']:
-            workout.notes = workout.notes + '\n\n' + workoutData['notes']
+            # workout.notes = workout.notes + '\n\n' + workoutData['notes']
+            workout.notes = workoutData['notes']
     
     if workoutData['type'] == 'strength' and 'title' in workoutData:
         workout.training_type = workoutData['title']
     
     # Update other fields?
     # Add new Tags
+    if 'tags' in workoutData:
+        updateWorkoutTags(workoutData['tags'], workout, userId)
+    
     return
+
+def updateWorkoutTags(tagNames, workout, userId):
+    for tagName in tagNames:
+        # Read tag from fitness.tags table 
+        tag_id = Tag.get_tag_id(tagName)
+        
+        if Workout_tag.query.filter_by(tag_id=tag_id, user_id=userId, workout_id=workout.id).first() != None:
+            continue
+        
+        # if tag not exists on fitness.tags table, then create tag
+        if tag_id == None:
+            tag = Tag(userId, tagName)
+            db.session.add(tag)
+            db.session.flush() # Send insert to DB but does not commit
+            tag_id = tag.id
+        # after if insert tag relationship into fitness.workout_tags
+        new_workout_tag = Workout_tag()
+        new_workout_tag.user_id = userId
+        new_workout_tag.tag_id = tag_id
+        new_workout_tag.workout_id = workout.id
+        db.session.add(new_workout_tag)
