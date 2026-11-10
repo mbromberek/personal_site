@@ -150,11 +150,23 @@
             {% for book in books['current'] %}
                 <div class="book_detail" >
                     <div class="book_current_cover_img">
+                        {% if book.book_url is not none %}
+                        <a href="{{ book.book_url }}" target="_blank" class="projects_lnk">
+                            <img class="about" src="{{ book.cover_img_locl_path }}">
+                        </a>
+                        {% else %}
                         <img class="about" src="{{ book.cover_img_locl_path }}">
+                        {% endif %}
                     </div>
                     <div >
                         <div style="font-size:20px;">
+                            {% if book.book_url is not none %}
+                            <a href="{{book.book_url}}" target="_blank" class="projects_lnk">
+                                {{ book.title }}
+                            </a>
+                            {% else %}
                             {{ book.title }}
+                            {% endif %}
                         </div>
                         <div>
                             by {{ book.author }}
@@ -174,11 +186,23 @@
                 {% for book in books['read'] %}
                 <div class="book_detail" >
                     <div class="book_read_cover_img">
+                        {% if book.book_url is not none %}
+                        <a href="{{ book.book_url }}" target="_blank" class="projects_lnk">
+                            <img class="about" src="{{ book.cover_img_locl_path }}">
+                        </a>
+                        {% else %}
                         <img class="about" src="{{ book.cover_img_locl_path }}">
+                        {% endif %}
                     </div>
                     <div >
                         <div style="font-size:16px;">
-                        {{ book.title }}
+                            {% if book.book_url is not none %}
+                            <a href="{{book.book_url}}" target="_blank" class="projects_lnk">
+                                {{ book.title }}
+                            </a>
+                            {% else %}
+                            {{ book.title }}
+                            {% endif %}
                         </div>
                         by 
                         {% if book.author is not none %}
