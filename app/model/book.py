@@ -137,6 +137,10 @@ class Book(db.Model):
             book_dict['cover_img'] = 'N'
         else:
             book_dict['cover_img'] = 'Y'
+        
+        if self.book_url is not None and self.book_url != '':
+            book_dict['book_url'] = self.book_url
+        
         return book_dict
 
 
