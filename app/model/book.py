@@ -29,6 +29,7 @@ class Book(db.Model):
     cover_img_locl_path = db.Column(db.Text(), nullable=True)
     strt_reading_dt = db.Column(db.DateTime, nullable=True)
     finished_reading_dt = db.Column(db.DateTime, nullable=True)
+    book_url = db.Column(db.Text(), nullable=True)
     isrt_ts = db.Column(db.DateTime, nullable=False, index=True, default=datetime.utcnow)
 
     def __repr__(self):
@@ -149,5 +150,7 @@ class Book(db.Model):
         book.cover_img_locl_path = book_dict['cover_img_locl_path']
         book.strt_reading_dt = book_dict['strt_reading_dt']
         book.finished_reading_dt = book_dict['finished_reading_dt']
+        if 'book_url' in book_dict:
+            book.book_url = book_dict['book_url']
 
         return book
