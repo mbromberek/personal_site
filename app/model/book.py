@@ -80,6 +80,43 @@ class Book(db.Model):
         book_dict['already_exist'] = False
         return book_dict
     
+    '''
+    Convert passed in book received from Hardcover API into standardized dictionary
+    '''
+    @staticmethod
+    def hardcover_to_dict(hardcover_book, usr_id, status):
+        book_dict = {'status':status, 'user_id':usr_id, 'cover_img_locl_path':''}
+        
+        if 'cover_url' in hardcover_book:
+            book_dict['img_url'] = hardcover_book['cover_url']
+        
+        if 'date_started' in hardcover_book and hardcover_book['date_started'] != None:
+            book_dict['strt_reading_dt'] = \
+                datetime.strptime(hardcover_book['date_started'],dt_str_format).date()
+        else:
+            book_dict['strt_reading_dt'] = None
+        if 'date_finished' in hardcover_book and hardcover_book['date_finished'] != None:
+            book_dict['finished_reading_dt'] = \
+                datetime.strptime(hardcover_book['date_finished'],dt_str_format).date()
+        else:
+            book_dict['finished_reading_dt'] = None
+
+        if 'title' in hardcover_book and len(hardcover_book['title']) <500:
+            book_dict['title'] = hardcover_book['title']
+        if 'authors' in hardcover_book and len(hardcover_book['authors']) <500:
+            book_dict['author'] = hardcover_book['authors']
+        
+        if 'book_url' in hardcover_book:
+            book_dict['book_url'] = hardcover_book['book_url']
+        
+        if 'cover_url' in hardcover_book:
+            book_dict['cover_url'] = hardcover_book['cover_url']
+        else:
+            book_dict['cover_url'] = ''
+        
+        book_dict['already_exist'] = False
+        return book_dict
+    
     def to_dict(self):
         book_dict = {'status':self.status,
             'title':self.title, 
@@ -94,7 +131,7 @@ class Book(db.Model):
             book_dict['finished_reading_dt'] = self.finished_reading_dt.strftime(dt_str_format)
         else:
             book_dict['finished_reading_dt'] = ''
-
+        
         if self.cover_img_locl_path == '':
             book_dict['cover_img'] = 'N'
         else:

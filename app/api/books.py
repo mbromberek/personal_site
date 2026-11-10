@@ -23,6 +23,7 @@ from app.api import bp
 from app.api.auth import token_auth
 from app.api.errors import bad_request
 from app.model.book import Book
+from app.utils import hardcover_shelves
 
 @bp.route('/books/', methods=['GET'])
 @token_auth.login_required
@@ -44,9 +45,68 @@ def get_books():
 def refresh_book_status():
     logger.info('refresh_book_status')
     usr_id = token_auth.current_user().id
-    books, status = refresh_books(usr_id)
+    # books, status = refresh_books(usr_id)
+    books, status = refresh_books_hardcover(usr_id)
     logger.debug(books)
     return jsonify(books), status
+
+def refresh_books_hardcover(usr_id):
+    # If not original user do not perform refresh
+    if usr_id != 1:
+        return[]
+    curr_reading_val = 'reading'
+    read_val = 'read'
+    books = []
+    new_books = []
+
+    # Get books from Hardcover
+    hardcover_user_id = hardcover_shelves.get_my_user_id()
+    current_reading = hardcover_shelves.get_currently_reading(hardcover_user_id)
+    recently_finished = hardcover_shelves.get_recently_finished(hardcover_user_id, 2)
+    hardcover_books = current_reading + recently_finished
+    
+    # convert hardcover books to normalized book dictionary
+    for book in recently_finished:
+        # create db_book from hardcover_book
+        new_books.append(Book.hardcover_to_dict(book, usr_id, read_val))
+    for book in current_reading:
+        # create db_book from hardcover_book
+        new_books.append(Book.hardcover_to_dict(book, usr_id, curr_reading_val))
+    
+    # Get Books from DB
+    query = Book.query.filter_by(user_id=usr_id)
+    db_books = query.all()
+
+    # Remove books from dictionary
+    for db_book in db_books:
+        # Remove book from DB
+        if os.path.exists('./app/'+db_book.cover_img_locl_path):
+            os.remove('./app/'+db_book.cover_img_locl_path)
+        db.session.delete(db_book)
+        db.session.commit()
+    
+    # Download new book covers and insert new books into database
+    for new_book in new_books:
+        # Download book cover
+        book_img_title = ''
+        if 'cover_url' in new_book and new_book['cover_url'] != '':
+            img_data = requests.get(new_book['cover_url']).content
+            book_img_title = new_book['title'] + '_' + new_book['author'] + '_' + new_book['status'] + '.jpg'
+            book_img_title = book_img_title.replace(' ','_').replace('#','').replace(':','').replace('<','').replace('>','')
+            with open('./app/static/images/books/' + book_img_title, 'wb') as handler:
+                handler.write(img_data)
+        
+        book = Book.from_dict(new_book)
+        if book_img_title != '':
+            book.cover_img_locl_path = 'static/images/books/' + book_img_title
+        
+        db.session.add(book)
+        db.session.commit()
+        books.append(book.to_dict())
+    
+    # books = current_reading + recently_finished
+    
+    return books, 200
 
 def refresh_books(usr_id):
     # If not original user do not perform refresh
